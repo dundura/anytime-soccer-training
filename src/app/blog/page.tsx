@@ -53,12 +53,14 @@ function formatDate(dateStr: string): string {
 export default function BlogPage() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
-  const [showAll, setShowAll] = useState(false);
+  const [page, setPage] = useState(1);
+  const POSTS_PER_PAGE = 12;
 
   const posts = postsData as Post[];
   const categories = (categoriesData as string[]).sort();
 
   const filtered = useMemo(() => {
+    setPage(1);
     return posts.filter((p) => {
       if (category && !p.categories.includes(category)) return false;
       if (search) {
@@ -74,7 +76,8 @@ export default function BlogPage() {
     });
   }, [search, category, posts]);
 
-  const displayPosts = showAll ? filtered : filtered.slice(0, 12);
+  const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
+  const displayPosts = filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE);
 
   return (
     <>
@@ -110,15 +113,8 @@ export default function BlogPage() {
           {search && (
             <p className="text-white/60 text-sm mt-3">{filtered.length} result{filtered.length !== 1 ? 's' : ''} for &ldquo;{search}&rdquo;</p>
           )}
-          {filtered.length > 12 && (
-            <div className="mt-4">
-              <button
-                onClick={() => setShowAll(!showAll)}
-                className="text-sm font-semibold text-white/80 hover:text-white transition-colors"
-              >
-                {showAll ? '← Show Less' : 'View All Articles →'}
-              </button>
-            </div>
+          {filtered.length > POSTS_PER_PAGE && (
+            <p className="text-white/60 text-sm mt-3">Page {page} of {totalPages}</p>
           )}
         </div>
       </div>
@@ -130,64 +126,59 @@ export default function BlogPage() {
             <p className="text-4xl mb-4">&#128269;</p>
             <p className="text-gray text-lg">No articles match your filters.</p>
           </div>
-        ) : showAll ? (
-          <div className="divide-y divide-gray-200">
-            {filtered.map((post, i) => (
-              <Link
-                key={post.id}
-                href={`/blog/${post.slug}`}
-                className="group flex items-center gap-4 py-4 hover:bg-background/50 transition-colors -mx-2 px-2 rounded-lg"
-              >
-                <div
-                  className="w-20 h-14 rounded-lg shrink-0 hidden sm:block"
-                  style={{ backgroundColor: getCardColor(i) }}
-                />
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-bold text-white bg-red px-2 py-0.5 rounded">{post.categories[0]}</span>
-                    <span className="text-xs text-gray">{formatDate(post.date)}</span>
-                    <span className="text-xs text-gray">&middot;</span>
-                    <span className="text-xs text-gray">{getReadTime(post.content)}</span>
-                  </div>
-                  <h3 className="text-sm font-bold text-navy group-hover:text-red transition-colors truncate">
-                    {post.title}
-                  </h3>
-                  <p className="text-gray text-xs line-clamp-1 mt-0.5 hidden sm:block">{post.excerpt || getExcerpt(post.content)}</p>
-                </div>
-                <svg className="w-4 h-4 text-gray group-hover:text-red transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            ))}
-          </div>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {displayPosts.map((post, i) => (
-              <Link
-                key={post.id}
-                href={`/blog/${post.slug}`}
-                className="group block bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all"
-              >
-                <div
-                  className="relative h-44 flex flex-col justify-end p-4"
-                  style={{ backgroundColor: getCardColor(i) }}
+          <>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {displayPosts.map((post, i) => (
+                <Link
+                  key={post.id}
+                  href={`/blog/${post.slug}`}
+                  className="group block bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all"
                 >
-                  <span className="text-xs font-bold text-white bg-white/20 px-2 py-0.5 rounded w-fit">{post.categories[0]}</span>
-                  <h3 className="text-base font-bold mt-1.5 text-white leading-snug line-clamp-2">
-                    {post.title}
-                  </h3>
-                </div>
-                <div className="p-4 pt-3">
-                  <p className="text-gray text-sm line-clamp-2">{post.excerpt || getExcerpt(post.content)}</p>
-                  <div className="flex items-center gap-3 text-xs text-gray mt-2">
-                    <span>{formatDate(post.date)}</span>
-                    <span>&middot;</span>
-                    <span>{getReadTime(post.content)} read</span>
+                  <div
+                    className="relative h-44 flex flex-col justify-end p-4"
+                    style={{ backgroundColor: getCardColor((page - 1) * POSTS_PER_PAGE + i) }}
+                  >
+                    <span className="text-xs font-bold text-white bg-white/20 px-2 py-0.5 rounded w-fit">{post.categories[0]}</span>
+                    <h3 className="text-base font-bold mt-1.5 text-white leading-snug line-clamp-2">
+                      {post.title}
+                    </h3>
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+                  <div className="p-4 pt-3">
+                    <p className="text-gray text-sm line-clamp-2">{post.excerpt || getExcerpt(post.content)}</p>
+                    <div className="flex items-center gap-3 text-xs text-gray mt-2">
+                      <span>{formatDate(post.date)}</span>
+                      <span>&middot;</span>
+                      <span>{getReadTime(post.content)} read</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-3 mt-12">
+                <button
+                  onClick={() => { setPage(p => p - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  disabled={page === 1}
+                  className="px-5 py-2.5 rounded-full font-semibold text-sm border-2 border-navy text-navy hover:bg-navy hover:text-white transition-all disabled:opacity-30 disabled:pointer-events-none"
+                >
+                  &larr; Previous
+                </button>
+                <span className="text-sm font-medium text-navy">
+                  {page} / {totalPages}
+                </span>
+                <button
+                  onClick={() => { setPage(p => p + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  disabled={page === totalPages}
+                  className="px-5 py-2.5 rounded-full font-semibold text-sm border-2 border-navy text-navy hover:bg-navy hover:text-white transition-all disabled:opacity-30 disabled:pointer-events-none"
+                >
+                  Next &rarr;
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </>
