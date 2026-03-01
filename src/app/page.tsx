@@ -5,7 +5,7 @@ export default function HomePage() {
   return (
     <>
       {/* ===== HERO ===== */}
-      <section className="py-16 md:py-20 bg-gradient-to-b from-background to-white relative overflow-hidden">
+      <section className="py-16 md:py-20 bg-background relative overflow-hidden">
         <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.08)_0%,transparent_70%)] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -66,109 +66,115 @@ export default function HomePage() {
       </section>
 
       {/* ===== WHY TRAIN WITH AST ===== */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-4">
             <span className="text-red">Why Train With</span> Anytime Soccer Training
           </h2>
 
           {/* 7-Day Plan */}
-          <div className="grid md:grid-cols-2 gap-12 items-center mt-16">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">See Results in Just One Week</p>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">GET A FREE 7-DAY PLAN TO JUMPSTART YOUR PLAYER</h3>
-              <p className="text-gray mb-6">Not sure if your player will stick with it? Start here.</p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start gap-3">
-                  <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                  <strong className="text-navy">Short daily sessions your player can do in 10 minutes or less.</strong>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                  <strong className="text-navy">Build confidence fast with quick wins they can see right away.</strong>
-                </li>
-              </ul>
-              <Link href="/free-soccer-drills-for-kids" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
-                Sign Up Now &rarr;
-              </Link>
-            </div>
-            <div className="flex justify-center">
-              <img src="https://anytime-soccer.com/wp-content/themes/anytime/images/about/new-chalange-image.png" alt="7-Day Challenge" className="max-w-[80%] h-auto rounded-xl" />
+          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)] mt-16">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">See Results in Just One Week</p>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">GET A FREE 7-DAY PLAN TO JUMPSTART YOUR PLAYER</h3>
+                <p className="text-gray mb-6">Not sure if your player will stick with it? Start here.</p>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start gap-3">
+                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
+                    <strong className="text-navy">Short daily sessions your player can do in 10 minutes or less.</strong>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
+                    <strong className="text-navy">Build confidence fast with quick wins they can see right away.</strong>
+                  </li>
+                </ul>
+                <Link href="/free-soccer-drills-for-kids" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
+                  Sign Up Now &rarr;
+                </Link>
+              </div>
+              <div className="flex justify-center">
+                <img src="https://anytime-soccer.com/wp-content/themes/anytime/images/about/new-chalange-image.png" alt="7-Day Challenge" className="max-w-[80%] h-auto rounded-xl" />
+              </div>
             </div>
           </div>
 
           {/* Parent Section */}
-          <div className="grid md:grid-cols-2 gap-12 items-center mt-20">
-            <div className="md:order-1">
-              <div className="aspect-video rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)]">
-                <iframe
-                  src="https://www.youtube.com/embed/fkHIe88Cwqo?si=QZXV3FaXBdBwnTah"
-                  title="Parent training video"
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)] mt-10">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="md:order-1">
+                <div className="aspect-video rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)]">
+                  <iframe
+                    src="https://www.youtube.com/embed/fkHIe88Cwqo?si=QZXV3FaXBdBwnTah"
+                    title="Parent training video"
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
               </div>
-            </div>
-            <div className="md:order-2">
-              <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Tired of Watching From the Sidelines?</p>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">FINALLY, A WAY TO HELP YOUR PLAYER IMPROVE</h3>
-              <p className="text-gray mb-6">You don&apos;t need to be a coach. Just hit play.</p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start gap-3">
-                  <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                  <strong className="text-navy">5,000+ follow-along videos — your child trains, you cheer them on.</strong>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                  <strong className="text-navy">Clear progression from beginner to advanced so they never get stuck.</strong>
-                </li>
-              </ul>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
-                  Join for Free
-                </Link>
-                <Link href="/team-demo-request-anytime-soccer-training" className="border-2 border-navy text-navy hover:bg-navy hover:text-white px-8 py-4 rounded-full font-bold transition-all">
-                  Request Team Demo
-                </Link>
+              <div className="md:order-2">
+                <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Tired of Watching From the Sidelines?</p>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">FINALLY, A WAY TO HELP YOUR PLAYER IMPROVE</h3>
+                <p className="text-gray mb-6">You don&apos;t need to be a coach. Just hit play.</p>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start gap-3">
+                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
+                    <strong className="text-navy">5,000+ follow-along videos — your child trains, you cheer them on.</strong>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
+                    <strong className="text-navy">Clear progression from beginner to advanced so they never get stuck.</strong>
+                  </li>
+                </ul>
+                <div className="flex flex-wrap gap-4">
+                  <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
+                    Join for Free
+                  </Link>
+                  <Link href="/team-demo-request-anytime-soccer-training" className="border-2 border-navy text-navy hover:bg-navy hover:text-white px-8 py-4 rounded-full font-bold transition-all">
+                    Request Team Demo
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Coach Section */}
-          <div className="grid md:grid-cols-2 gap-12 items-center mt-20">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Your Players Aren&apos;t Improving Fast Enough</p>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">NOW YOU CAN FIX THAT — WITHOUT MORE PRACTICE TIME</h3>
-              <p className="text-gray mb-6">Give your team the extra reps they need. Track who actually does them.</p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start gap-3">
-                  <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                  <strong className="text-navy">Assign drills in seconds. Players train at home with follow-along videos.</strong>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                  <strong className="text-navy">Real-time tracking shows exactly who&apos;s putting in the work.</strong>
-                </li>
-              </ul>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
-                  Join for Free
-                </Link>
-                <Link href="/team-demo-request-anytime-soccer-training" className="border-2 border-navy text-navy hover:bg-navy hover:text-white px-8 py-4 rounded-full font-bold transition-all">
-                  Request Team Demo
-                </Link>
+          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)] mt-10">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Your Players Aren&apos;t Improving Fast Enough</p>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">NOW YOU CAN FIX THAT — WITHOUT MORE PRACTICE TIME</h3>
+                <p className="text-gray mb-6">Give your team the extra reps they need. Track who actually does them.</p>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start gap-3">
+                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
+                    <strong className="text-navy">Assign drills in seconds. Players train at home with follow-along videos.</strong>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
+                    <strong className="text-navy">Real-time tracking shows exactly who&apos;s putting in the work.</strong>
+                  </li>
+                </ul>
+                <div className="flex flex-wrap gap-4">
+                  <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
+                    Join for Free
+                  </Link>
+                  <Link href="/team-demo-request-anytime-soccer-training" className="border-2 border-navy text-navy hover:bg-navy hover:text-white px-8 py-4 rounded-full font-bold transition-all">
+                    Request Team Demo
+                  </Link>
+                </div>
               </div>
-            </div>
-            <div>
-              <div className="aspect-video rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)]">
-                <iframe
-                  src="https://www.youtube.com/embed/HsoTlfJn-RA?si=qaaiddui_N00_9rT"
-                  title="Coach training video"
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+              <div>
+                <div className="aspect-video rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)]">
+                  <iframe
+                    src="https://www.youtube.com/embed/HsoTlfJn-RA?si=qaaiddui_N00_9rT"
+                    title="Coach training video"
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -199,30 +205,32 @@ export default function HomePage() {
       </section>
 
       {/* ===== 30-DAY PLAN ===== */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f2642 0%, #1e3a5f 100%)', padding: '60px 40px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', minHeight: '300px' }}>
-              <div className="text-[42px] font-extrabold text-white leading-[1.1] mb-2.5">FREE <span className="text-red">30-DAY</span> TRAINING PLAN</div>
-              <div className="text-white/80 text-base tracking-[2px] uppercase">Learn. Train. Progress.</div>
-            </div>
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Not Sure Where to Start?</p>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">GET A FREE 30-DAY PLAN BUILT FOR YOUR PLAYER</h3>
-              <p className="text-gray mb-6">No guesswork. Just follow the plan and watch them improve.</p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start gap-3">
-                  <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                  <strong className="text-navy">A personalized training schedule based on your player&apos;s skill level.</strong>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                  <strong className="text-navy">Step-by-step videos delivered daily — just hit play and train.</strong>
-                </li>
-              </ul>
-              <Link href="/free-resource-hub" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
-                Get My Free Plan &rarr;
-              </Link>
+          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f2642 0%, #1e3a5f 100%)', padding: '60px 40px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', minHeight: '300px' }}>
+                <div className="text-[42px] font-extrabold text-white leading-[1.1] mb-2.5">FREE <span className="text-red">30-DAY</span> TRAINING PLAN</div>
+                <div className="text-white/80 text-base tracking-[2px] uppercase">Learn. Train. Progress.</div>
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Not Sure Where to Start?</p>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">GET A FREE 30-DAY PLAN BUILT FOR YOUR PLAYER</h3>
+                <p className="text-gray mb-6">No guesswork. Just follow the plan and watch them improve.</p>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start gap-3">
+                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
+                    <strong className="text-navy">A personalized training schedule based on your player&apos;s skill level.</strong>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
+                    <strong className="text-navy">Step-by-step videos delivered daily — just hit play and train.</strong>
+                  </li>
+                </ul>
+                <Link href="/free-resource-hub" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
+                  Get My Free Plan &rarr;
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -259,12 +267,12 @@ export default function HomePage() {
       </section>
 
       {/* ===== MUST-HAVE RESOURCES ===== */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-4">
             <span className="text-red">Must-Have Resources for</span> Serious Soccer Parents
           </h2>
-          <div className="grid md:grid-cols-2 gap-0 mt-12 rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)]">
+          <div className="grid md:grid-cols-2 gap-0 mt-12 rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)] bg-white">
             <div>
               <img src="https://anytime-soccer.com/wp-content/themes/anytime/images/home/bg-1.png" alt="In-home Soccer Training Guide" className="w-full h-full object-cover" />
             </div>
