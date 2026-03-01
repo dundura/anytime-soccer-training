@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import CoachFeatureCards from '@/components/CoachFeatureCards';
 
 export const metadata: Metadata = {
   title: 'For Coaches & Clubs',
@@ -118,6 +119,9 @@ export default function ForCoachesPage() {
           </div>
         </div>
       </section>
+
+      {/* FEATURE CARDS WITH VIDEOS */}
+      <CoachFeatureCards />
 
       {/* THE FACTS */}
       <section className="py-16 px-5 bg-gradient-to-b from-background to-white text-center">
