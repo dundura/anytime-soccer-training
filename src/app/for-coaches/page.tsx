@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import CoachFeatureCards from '@/components/CoachFeatureCards';
 import WhoIsItForTabs from '@/components/WhoIsItForTabs';
+import CoachBar from '@/components/CoachBar';
 
 export const metadata: Metadata = {
   title: 'For Coaches & Clubs',
@@ -88,6 +89,9 @@ export default function ForCoachesPage() {
           </div>
         </div>
       </section>
+
+      {/* COACH BAR */}
+      <CoachBar />
 
       {/* WHO IS IT FOR - TABBED */}
       <WhoIsItForTabs />
