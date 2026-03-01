@@ -17,7 +17,7 @@ export default function HeroHeadline() {
           className={phrase.color}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: i * 0.3, ease: 'easeOut' }}
+          transition={{ duration: 0.5, delay: i * 0.7, ease: 'easeOut' }}
         >
           {phrase.text}
         </motion.span>
