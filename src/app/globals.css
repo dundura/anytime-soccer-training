@@ -482,3 +482,60 @@ body {
 .ast-aerial-cta { text-align: center; }
 .ast-aerial-cta a { display: inline-block; background: var(--ast-red); color: white; padding: 16px 32px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: background 0.2s; }
 .ast-aerial-cta a:hover { background: #c42f35; }
+
+/* Rec Coach Superhero Ebook */
+.ast-ebook { --ast-navy: #0F3154; --ast-red: #DC373E; --ast-ice: #ECF1F7; --ast-gray: #6b7280; --ast-radius: 16px; font-family: 'DM Sans', sans-serif; background: var(--ast-ice); padding: 60px 24px; min-height: 100vh; }
+.ast-ebook * { box-sizing: border-box; }
+.ast-ebook-container { max-width: 1100px; margin: 0 auto; }
+.ast-ebook-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+@media (max-width: 800px) { .ast-ebook-grid { grid-template-columns: 1fr; } }
+.ast-ebook-left { display: flex; flex-direction: column; gap: 24px; }
+.ast-ebook-image img { width: 100%; border-radius: 16px; box-shadow: 0 24px 48px rgba(15,49,84,0.15); }
+.ast-ebook-content { background: #fff; border-radius: 16px; padding: 40px; box-shadow: 0 8px 24px rgba(15,49,84,0.08); }
+.ast-ebook-content h2 { font-size: 1.75rem; color: #0F3154; margin-bottom: 8px; line-height: 1.2; margin-top: 0; }
+.ast-ebook-content h2 span { color: #DC373E; }
+.ast-ebook-content .ast-subtitle { color: #6b7280; margin-bottom: 24px; font-size: 1rem; line-height: 1.5; }
+.ast-ebook-content .ast-benefits { list-style: none; margin-bottom: 24px; padding: 0; }
+.ast-ebook-content .ast-benefits li { padding: 8px 0; font-size: 0.9375rem; color: #0F3154; display: flex; align-items: center; gap: 10px; font-weight: 700; }
+.ast-ebook-content .ast-benefits li::before { content: "\2713"; font-weight: 700; color: #DC373E; }
+.ast-ebook-content .sib-form { background: transparent !important; }
+.ast-ebook-content #sib-container { background: transparent !important; border: none !important; padding: 0 !important; max-width: 100% !important; }
+.ast-ebook-content .sib-image-form-block { display: none !important; }
+.ast-ebook-content .input { width: 100%; padding: 14px 16px !important; border: 2px solid #ECF1F7 !important; border-radius: 8px !important; font-size: 1rem !important; }
+.ast-ebook-content .input:focus { outline: none; border-color: #0F3154 !important; }
+.ast-ebook-footer { text-align: center; margin-top: 16px; font-size: 0.8125rem; color: #6b7280; }
+.ast-ebook-reviews { display: flex; flex-direction: column; gap: 16px; }
+.ast-ebook-review { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(15,49,84,0.06); }
+.ast-ebook-review .ast-stars { color: #facc15; font-size: 1.125rem; margin-bottom: 8px; letter-spacing: 2px; }
+.ast-ebook-review p { font-size: 0.9375rem; color: #0F3154; line-height: 1.5; font-style: italic; margin-bottom: 8px; }
+.ast-ebook-review .ast-reviewer { font-size: 0.8125rem; color: #6b7280; font-weight: 500; }
+
+/* Free Team Access Landing Page */
+.ast-team-access { --ast-navy: #0F3154; --ast-red: #DC373E; --ast-ice: #ECF1F7; --ast-gray: #6b7280; --ast-radius: 16px; font-family: 'DM Sans', sans-serif; background: var(--ast-ice); padding: 60px 24px; min-height: 100vh; }
+.ast-team-access * { box-sizing: border-box; }
+.ast-team-access-container { max-width: 1100px; margin: 0 auto; }
+.ast-team-access-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+@media (max-width: 800px) { .ast-team-access-grid { grid-template-columns: 1fr; } }
+.ast-team-access-left { display: flex; flex-direction: column; gap: 24px; }
+.ast-team-access-hero { background: #fff; border-radius: 16px; padding: 40px; box-shadow: 0 24px 48px rgba(15,49,84,0.15); }
+.ast-team-access-badge { display: inline-block; background: #DC373E; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 6px 14px; border-radius: 100px; margin-bottom: 16px; }
+.ast-team-access-hero h1 { font-size: 2.25rem; color: #0F3154; line-height: 1.1; margin-bottom: 16px; margin-top: 0; }
+.ast-team-access-hero h1 span { color: #DC373E; }
+.ast-team-access-hero .lead { font-size: 1.125rem; color: #0F3154; line-height: 1.6; margin-bottom: 20px; }
+.ast-team-access-hero .highlight-box { background: #ECF1F7; border-left: 4px solid #DC373E; padding: 16px 20px; border-radius: 0 8px 8px 0; margin-bottom: 20px; }
+.ast-team-access-hero .highlight-box p { font-size: 0.9375rem; color: #0F3154; font-weight: 600; margin: 0; font-style: italic; }
+.ast-team-access-hero .description { font-size: 1rem; color: #6b7280; line-height: 1.6; margin-bottom: 16px; }
+.ast-team-access-hero .free-tag { display: inline-block; background: #0F3154; color: #fff; font-weight: 700; padding: 8px 16px; border-radius: 6px; font-size: 0.875rem; letter-spacing: 0.05em; }
+.ast-team-access-hero .closing { font-size: 1rem; color: #0F3154; line-height: 1.6; margin-top: 20px; }
+.ast-team-access-hero .cta-text { font-size: 1rem; color: #0F3154; font-weight: 600; font-style: italic; margin-top: 20px; }
+.ast-team-access-reviews { display: flex; flex-direction: column; gap: 16px; }
+.ast-team-access-review { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(15,49,84,0.06); }
+.ast-team-access-review .ast-stars { color: #facc15; font-size: 1.125rem; margin-bottom: 8px; letter-spacing: 2px; }
+.ast-team-access-review p { font-size: 0.9375rem; color: #0F3154; line-height: 1.5; font-style: italic; margin-bottom: 8px; }
+.ast-team-access-review .ast-reviewer { font-size: 0.8125rem; color: #6b7280; font-weight: 500; }
+.ast-team-access-form-section { background: #fff; border-radius: 16px; padding: 40px; box-shadow: 0 8px 24px rgba(15,49,84,0.08); }
+.ast-team-access-form-section h2 { font-size: 1.5rem; color: #0F3154; margin-bottom: 8px; line-height: 1.2; margin-top: 0; text-align: center; }
+.ast-team-access-form-section .form-subtitle { color: #6b7280; margin-bottom: 24px; font-size: 1rem; line-height: 1.5; text-align: center; }
+.ast-team-access-form-section .sib-form { background: transparent !important; }
+.ast-team-access-form-section #sib-container { background: transparent !important; border: none !important; padding: 0 !important; max-width: 100% !important; }
+.ast-team-access-footer { text-align: center; margin-top: 16px; font-size: 0.8125rem; color: #6b7280; }
