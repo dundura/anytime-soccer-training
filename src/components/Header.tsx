@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 
 const howItWorksDropdown = [
-  { href: '/how-it-works', label: 'How it Works' },
+  { href: '/how-it-works', label: 'For Players' },
   { href: '/for-coaches', label: 'For Coaches & Clubs' },
   { href: '/faq', label: 'FAQ' },
 ];
