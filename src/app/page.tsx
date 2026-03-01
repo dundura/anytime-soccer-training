@@ -141,6 +141,9 @@ export default function HomePage() {
       {/* ===== 30-DAY PLAN ===== */}
       <section className="pt-6 pb-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-4">
+            <span className="text-red">Must-Have Resources for</span> Serious Soccer Parents
+          </h2>
           <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f2642 0%, #1e3a5f 100%)', padding: '60px 40px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', minHeight: '300px' }}>
@@ -173,10 +176,7 @@ export default function HomePage() {
       {/* ===== MUST-HAVE RESOURCES ===== */}
       <section className="pt-0 pb-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-4">
-            <span className="text-red">Must-Have Resources for</span> Serious Soccer Parents
-          </h2>
-          <div className="grid md:grid-cols-2 gap-0 mt-12 rounded-3xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)] min-h-[480px]">
+          <div className="grid md:grid-cols-2 gap-0 mt-0 rounded-3xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)] min-h-[480px]">
             <div className="relative">
               <img src="https://anytime-soccer.com/wp-content/themes/anytime/images/home/bg-1.png" alt="In-home Soccer Training Guide" className="w-full h-full object-cover" />
             </div>
