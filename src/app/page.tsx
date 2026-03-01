@@ -255,18 +255,26 @@ export default function HomePage() {
           <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-4">
             <span className="text-red">Must-Have Resources for</span> Serious Soccer Parents
           </h2>
-          <div className="grid md:grid-cols-2 gap-0 mt-12 rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)] bg-white">
-            <div>
+          <div className="grid md:grid-cols-2 gap-0 mt-12 rounded-3xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)] min-h-[480px]">
+            <div className="relative">
               <img src="https://anytime-soccer.com/wp-content/themes/anytime/images/home/bg-1.png" alt="In-home Soccer Training Guide" className="w-full h-full object-cover" />
             </div>
-            <div className="bg-navy text-white p-10 md:p-12 flex flex-col justify-center">
-              <h3 className="text-2xl md:text-3xl font-bold mb-4">
-                <span className="text-red">The Must-Have Guide</span> to <span className="text-red">In-home</span> Soccer Training
+            <div className="bg-[#ECF1F7] p-10 md:p-14 lg:p-16 flex flex-col justify-center relative overflow-hidden">
+              {/* Decorative circles */}
+              <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full border-2 border-navy/10 pointer-events-none" />
+              <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full border-2 border-navy/5 pointer-events-none" />
+              <div className="absolute -bottom-12 -left-12 w-40 h-40 rounded-full border-2 border-navy/10 pointer-events-none" />
+              <div className="absolute -bottom-6 -left-6 w-24 h-24 rounded-full border-2 border-navy/5 pointer-events-none" />
+
+              <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold uppercase leading-tight mb-6 relative z-10">
+                <span className="text-navy">THE MUST-HAVE GUIDE </span>
+                <span className="text-red">TO IN-HOME SOCCER TRAINING</span>
               </h3>
-              <p className="text-white/80 mb-8">A free ebook packed with practical tips from a passionate soccer parent and coach.</p>
-              <div>
-                <a href="https://anytime-soccer.com/free-resource-hub/" target="_blank" rel="noopener noreferrer" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
-                  Download &darr;
+              <p className="text-navy/70 text-lg mb-8 relative z-10">A free ebook packed with practical tips from a passionate soccer parent and coach.</p>
+              <div className="relative z-10">
+                <a href="https://anytime-soccer.com/free-resource-hub/" target="_blank" rel="noopener noreferrer" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:-translate-y-0.5 inline-flex items-center gap-3">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download Free Guide
                 </a>
               </div>
             </div>
@@ -275,7 +283,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== THREE EBOOKS ===== */}
-      <section className="py-20 bg-background">
+      <section className="pt-0 pb-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-12">Three Ebooks Every Parent and Coach Should Read!</h2>
           <div className="grid md:grid-cols-3 gap-8">
