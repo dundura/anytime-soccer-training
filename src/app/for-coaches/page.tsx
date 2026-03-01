@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import CoachFeatureCards from '@/components/CoachFeatureCards';
 import WhoIsItForTabs from '@/components/WhoIsItForTabs';
 import CoachBar from '@/components/CoachBar';
+import CoachHeadline from '@/components/CoachHeadline';
 
 export const metadata: Metadata = {
   title: 'For Coaches & Clubs',
@@ -28,10 +29,7 @@ export default function ForCoachesPage() {
                 <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
                   <span>&#9889;</span> <span className="text-red">5,000+</span> Follow-Along Videos
                 </div>
-                <h1 className="text-[clamp(32px,5vw,48px)] font-extrabold leading-[1.1] mb-5">
-                  <span className="text-white">Your players want to improve.</span>{' '}
-                  <span className="text-red">Give them a system that works.</span>
-                </h1>
+                <CoachHeadline />
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
                   Team training alone isn&apos;t enough. Players need structured practice at home—but most clubs struggle to assign homework and track if it&apos;s actually getting done.
                 </p>
