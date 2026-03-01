@@ -31,17 +31,7 @@ export default function CoachTabbedSection() {
   return (
     <section className="pt-0 pb-20 bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Heading above the dark card */}
-        <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-3">
-            Your Players Are Going Home With <span className="text-red">No Plan</span>
-          </h2>
-          <p className="text-gray text-lg max-w-2xl mx-auto">
-            Give every player structured homework, real accountability, and a reason to train &mdash; without adding a single minute to your practice schedule.
-          </p>
-        </div>
-
-        {/* White card with tabbed layout */}
+        {/* White card with heading + tabbed layout */}
         <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
           <div className="flex flex-col md:flex-row gap-6 items-center justify-center max-w-5xl mx-auto">
             {/* Left - Vertical Tab List */}
@@ -68,8 +58,16 @@ export default function CoachTabbedSection() {
               ))}
             </div>
 
-            {/* Right - Video Player */}
+            {/* Right - Heading + Video Player */}
             <div className="flex-1 w-full max-w-[680px]">
+              <div className="text-center mb-6">
+                <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-3">
+                  Your Players Are Going Home With <span className="text-red">No Plan</span>
+                </h2>
+                <p className="text-gray text-lg max-w-xl mx-auto">
+                  Give every player structured homework, real accountability, and a reason to train &mdash; without adding a single minute to your practice schedule.
+                </p>
+              </div>
               <div className="aspect-video rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)]">
                 <iframe
                   key={tab.videoId + tab.start}
