@@ -53,7 +53,7 @@ export default function FreeChallengePopup() {
         {/* Right - Content */}
         <div className="md:w-[55%] p-8 md:p-10 flex flex-col justify-center">
           <p className="text-red text-xs font-bold uppercase tracking-[2px] mb-2">
-            7-Day Ball Mastery Challenge
+            7-Day Training Plan
           </p>
           <p className="text-red text-sm font-semibold mb-4">
             Seven Free Training Sessions Delivered Each Day!
