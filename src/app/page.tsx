@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import HeroVideo from '@/components/HeroVideo';
+import TabbedVideoSection from '@/components/TabbedVideoSection';
 
 export default function HomePage() {
   return (
@@ -68,6 +69,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ===== 7-DAY TABBED VIDEO ===== */}
+      <TabbedVideoSection />
+
       {/* ===== WHY TRAIN WITH AST ===== */}
       <section className="pt-6 pb-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -75,40 +79,7 @@ export default function HomePage() {
             <span className="text-red">Why Train With</span> Anytime Soccer Training
           </h2>
 
-          {/* 7-Day Plan */}
-          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)] mt-16">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">See Results in Just One Week</p>
-                <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">GET A FREE 7-DAY PLAN TO JUMPSTART YOUR PLAYER</h3>
-                <p className="text-gray mb-6">Not sure if your player will stick with it? Start here.</p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start gap-3">
-                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                    <strong className="text-navy">Short daily sessions your player can do in 10 minutes or less.</strong>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                    <strong className="text-navy">Build confidence fast with quick wins they can see right away.</strong>
-                  </li>
-                </ul>
-                <Link href="/free-soccer-drills-for-kids" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
-                  Sign Up Now &rarr;
-                </Link>
-              </div>
-              <div className="flex justify-center">
-                <div className="w-full max-w-[320px] aspect-[9/16] rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)]">
-                  <iframe
-                    src="https://www.youtube.com/embed/5f9wwWb2Nx4"
-                    title="7-Day Training Plan"
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* 7-Day Plan - moved to TabbedVideoSection below */}
 
           {/* Parent Section */}
           <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)] mt-10">
