@@ -18,7 +18,7 @@ const DEDICATED_ROUTES = new Set([
   'home-page',
   'pricing',
   'how-it-works',
-  'our-programs',
+  'club-partnership',
   'program-page', // ball mastery
   'juggling',
   'dribbling',

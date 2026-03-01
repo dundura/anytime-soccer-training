@@ -3,166 +3,287 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'How it Works',
-  description: 'Learn how Anytime Soccer Training works. Set your goal, pin your plan, press play.',
+  description: 'Learn how Anytime Soccer Training works. Set your goal, pin your plan, press play. 5,000+ follow-along training videos.',
 };
 
 export default function HowItWorksPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-navy text-white py-16 md:py-24">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Team Training Isn&apos;t Enough</h1>
-          <p className="text-xl text-white/80 mb-8">
-            Players need a clear system to follow at home. Set a goal, pin a plan, press play.
+      {/* HERO SECTION */}
+      <section className="bg-gradient-to-b from-background to-white py-16 md:py-20">
+        <div className="max-w-[1200px] mx-auto px-5 text-center">
+          <h1 className="text-[clamp(2.25rem,5vw,3.5rem)] font-bold text-navy leading-tight mb-5">
+            Team Training Isn&apos;t <span className="text-red">Enough</span>
+          </h1>
+          <p className="text-xl text-navy max-w-[650px] mx-auto mb-8">
+            Your player needs a clear system they can follow at home. We&apos;ve made it simple: set a goal, pin a plan, press play.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors">
-              Join for Free
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+            <Link
+              href="/pricing"
+              className="inline-block font-bold text-lg px-10 py-4 rounded-full bg-red text-white shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:bg-red-dark hover:-translate-y-0.5 transition-all"
+            >
+              Join for Free &rarr;
             </Link>
-            <Link href="/team-demo-request-anytime-soccer-training" className="border-2 border-white text-white hover:bg-white/10 px-8 py-3 rounded-lg font-semibold text-lg transition-colors">
+            <Link
+              href="/team-demo-request-anytime-soccer-training"
+              className="inline-block font-bold text-lg px-10 py-4 rounded-full bg-white text-navy border-2 border-navy hover:bg-navy hover:text-white transition-all"
+            >
               Request Team Demo
             </Link>
+            <a
+              href="#for-coaches"
+              className="inline-block font-bold text-lg px-10 py-4 rounded-full bg-white text-navy border-2 border-navy hover:bg-navy hover:text-white transition-all"
+            >
+              For Coaches &rarr;
+            </a>
+          </div>
+
+          <div className="max-w-[800px] mx-auto rounded-2xl overflow-hidden shadow-[0_25px_80px_rgba(15,49,84,0.15)]">
+            <iframe
+              src="https://www.youtube.com/embed/fkHIe88Cwqo?si=hzfBL7_ESUgywL0c"
+              className="w-full aspect-video block"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="How Anytime Soccer Training Works"
+            />
           </div>
         </div>
       </section>
 
-      {/* 3-Step System */}
-      <section className="py-16 md:py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-navy text-center mb-12">Three Simple Steps</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                step: '1',
-                title: 'Set Your Goal',
-                desc: 'Choose your improvement areas: ball mastery, juggling, dribbling, or comprehensive training.',
-                icon: (
-                  <svg className="w-8 h-8 text-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                ),
-              },
-              {
-                step: '2',
-                title: 'Pin Your Plan',
-                desc: 'Add sessions to your calendar with daily guidance on exactly what to practice.',
-                icon: (
-                  <svg className="w-8 h-8 text-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                ),
-              },
-              {
-                step: '3',
-                title: 'Press Play',
-                desc: 'Videos include demonstrations, instructions, music, and timers for follow-along training.',
-                icon: (
-                  <svg className="w-8 h-8 text-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                ),
-              },
-            ].map((item) => (
-              <div key={item.step} className="bg-white rounded-xl shadow-md p-8 text-center">
-                <div className="w-16 h-16 bg-red/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  {item.icon}
+      {/* HOW EASY IT IS - 3 STEPS */}
+      <section className="bg-background py-16 md:py-20">
+        <div className="max-w-[1200px] mx-auto px-5">
+          <div className="text-center mb-14">
+            <span className="text-[11px] font-bold uppercase tracking-[2px] text-red mb-4 block">IT&apos;S THIS SIMPLE</span>
+            <h2 className="text-[clamp(1.75rem,4vw,2.625rem)] font-bold text-navy">Three Steps to Better Training</h2>
+          </div>
+
+          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+              {/* LEFT: 3 STEPS */}
+              <div>
+                {[
+                  { step: '1', title: 'Set Your Goal', desc: 'Choose what you want to improve—ball mastery, juggling, dribbling, or all of it.' },
+                  { step: '2', title: 'Pin Your Plan', desc: 'Add training sessions to your calendar. The system tells you exactly what to do each day.' },
+                  { step: '3', title: 'Press Play', desc: 'Every video includes demonstrations, instructions, music, and timers. Just follow along.' },
+                ].map((item) => (
+                  <div key={item.step} className="mb-6">
+                    <h3 className="text-xl font-bold text-navy flex items-center gap-3 mb-2">
+                      <span className="inline-flex w-9 h-9 min-w-[36px] bg-red rounded-full items-center justify-center text-lg font-extrabold text-white flex-shrink-0">
+                        {item.step}
+                      </span>
+                      {item.title}
+                    </h3>
+                    <p className="text-[15px] text-navy ml-12">{item.desc}</p>
+                  </div>
+                ))}
+
+                <div className="flex flex-col sm:flex-row gap-4 mt-6">
+                  <Link
+                    href="/pricing"
+                    className="inline-block font-bold text-base px-8 py-4 rounded-full bg-red text-white shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:bg-red-dark hover:-translate-y-0.5 transition-all"
+                  >
+                    Start Training Free &rarr;
+                  </Link>
+                  <Link
+                    href="/team-demo-request-anytime-soccer-training"
+                    className="inline-block font-bold text-base px-8 py-4 rounded-full bg-white text-navy border-2 border-navy hover:bg-navy hover:text-white transition-all"
+                  >
+                    Request Team Demo
+                  </Link>
                 </div>
-                <div className="text-sm font-bold text-red mb-2">STEP {item.step}</div>
-                <h3 className="text-xl font-bold text-navy mb-3">{item.title}</h3>
-                <p className="text-gray">{item.desc}</p>
               </div>
-            ))}
-          </div>
-          <div className="text-center mt-10">
-            <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-block">
-              Start Training Free
-            </Link>
+
+              {/* RIGHT: VIDEO */}
+              <div>
+                <div className="rounded-2xl overflow-hidden shadow-[0_25px_80px_rgba(15,49,84,0.15)]">
+                  <iframe
+                    src="https://www.youtube.com/embed/R__kQPcB2EM?si=z9fBCg2ddkFX3BeB"
+                    className="w-full aspect-video block"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title="Three Steps to Better Training"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Training Categories */}
-      <section className="bg-white py-16 md:py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-navy text-center mb-12">What You&apos;ll Train</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* SKILL CATEGORIES */}
+      <section className="bg-background py-16 md:py-20">
+        <div className="max-w-[1200px] mx-auto px-5">
+          <div className="text-center mb-14">
+            <span className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-4 block">Training Categories</span>
+            <h2 className="text-[clamp(1.75rem,4vw,2.625rem)] font-bold text-navy">Master Every Aspect of the Game</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               {
-                title: 'Ball Mastery',
+                title: '⚽ Ball Mastery',
+                videoId: 'JRfulrCeTlM',
                 items: ['1,000 Touch Training', 'One Cone Drills', 'Two Cone Combinations', 'Lateral Movement', 'Dynamic Ball Control'],
-                href: '/programs/ball-mastery',
-                emoji: '\u26BD',
               },
               {
-                title: 'Juggling & Aerial',
-                items: ['Beginner to Advanced', 'Partner Juggling', 'Tennis Ball Training', 'Aerial Finishing', 'Ball Control in Air'],
-                href: '/programs/juggling',
-                emoji: '\uD83C\uDFAA',
+                title: '🎪 Juggling & Aerial Control',
+                videoId: 'tascEETaN8A',
+                items: ['Beginner to Advanced Progressions', 'Partner Juggling', 'Tennis Ball Training', 'Aerial Finishing', 'Ball Control in Air'],
               },
               {
-                title: 'Dribbling & 1v1',
+                title: '🏃 Dribbling & 1v1 Moves',
+                videoId: 'l5yHsvwNXfs',
                 items: ['Freestyle Moves', '1v1 Attack Patterns', 'Line Cone Drills', 'Running with Ball', 'Finishing Under Pressure'],
-                href: '/programs/dribbling',
-                emoji: '\uD83C\uDFC3',
               },
               {
-                title: 'Additional Content',
+                title: '📚 Thousands More Videos',
+                videoId: 'mKefeI8Efs0',
                 items: ['Wall Passing', 'Partner Passing', 'Soccer Games', 'Dynamic Warmups', 'Fitness & Conditioning'],
-                href: '/programs/wall-passing',
-                emoji: '\uD83D\uDCDA',
               },
             ].map((cat) => (
-              <Link key={cat.title} href={cat.href} className="bg-background rounded-xl p-6 hover:shadow-md transition-shadow block">
-                <div className="text-3xl mb-3">{cat.emoji}</div>
-                <h3 className="text-lg font-bold text-navy mb-3">{cat.title}</h3>
-                <ul className="space-y-1 text-sm text-gray">
+              <div
+                key={cat.videoId}
+                className="bg-white rounded-2xl p-6 md:p-8 shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all"
+              >
+                <h3 className="text-[clamp(1.25rem,3vw,1.75rem)] font-bold text-navy mb-3">{cat.title}</h3>
+                <div className="rounded-2xl overflow-hidden shadow-[0_25px_80px_rgba(15,49,84,0.15)] mb-6">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${cat.videoId}`}
+                    className="w-full aspect-video block"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title={cat.title}
+                  />
+                </div>
+                <ul className="space-y-3">
                   {cat.items.map((item) => (
-                    <li key={item} className="flex items-center gap-2">
-                      <span className="w-1 h-1 bg-red rounded-full flex-shrink-0" />
+                    <li key={item} className="pl-8 relative text-[15px] text-navy">
+                      <span className="absolute left-0 w-5 h-5 bg-emerald-500/15 text-emerald-500 rounded-full flex items-center justify-center text-xs font-bold">&#10003;</span>
                       {item}
                     </li>
                   ))}
                 </ul>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Coaches Section */}
+      {/* FEATURED TRAINING */}
       <section className="py-16 md:py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-navy mb-4">Give Your Team a Training System They&apos;ll Actually Use</h2>
-            <p className="text-lg text-gray">Just $6 per player annually</p>
+        <div className="max-w-[1200px] mx-auto px-5">
+          <div className="text-center mb-14">
+            <span className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-4 block">Featured Training</span>
+            <h2 className="text-[clamp(1.75rem,4vw,2.625rem)] font-bold text-navy">Training Session of the Month</h2>
           </div>
-          <div className="grid md:grid-cols-5 gap-4">
+
+          <div className="max-w-[800px] mx-auto">
+            <div className="rounded-2xl overflow-hidden shadow-[0_25px_80px_rgba(15,49,84,0.15)] mb-6">
+              <iframe
+                src="https://www.youtube.com/embed/zULXabRsxco"
+                className="w-full aspect-video block"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="Training Session of the Month"
+              />
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 md:p-8 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
+              <h3 className="text-[clamp(1.25rem,3vw,1.75rem)] font-bold text-navy mb-4">What&apos;s Included:</h3>
+              <ul className="space-y-3 mb-6">
+                {['100% Follow-along', 'Slow motion demo for every move', 'Autocompletion tracking', 'Every skill area'].map((item) => (
+                  <li key={item} className="pl-8 relative text-[15px] text-navy">
+                    <span className="absolute left-0 w-5 h-5 bg-emerald-500/15 text-emerald-500 rounded-full flex items-center justify-center text-xs font-bold">&#10003;</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/pricing"
+                className="block w-full text-center font-bold text-base px-8 py-4 rounded-full bg-red text-white shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:bg-red-dark hover:-translate-y-0.5 transition-all"
+              >
+                Start Training Today &rarr;
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FOR COACHES SECTION */}
+      <section id="for-coaches" className="bg-navy py-16 md:py-20 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-50 pointer-events-none" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }} />
+        <div className="max-w-[1200px] mx-auto px-5 text-center relative z-10">
+          <span className="text-[13px] font-bold uppercase tracking-[2px] text-white/90 mb-4 block">FOR COACHES & TEAMS</span>
+          <h2 className="text-[clamp(1.75rem,4vw,2.625rem)] font-bold text-white mb-4">
+            Give Your Team a Training System They&apos;ll Actually Use
+          </h2>
+          <p className="text-white/85 text-xl mb-10">
+            Team subscriptions: Just $6 per player per year.
+          </p>
+
+          <div className="max-w-[800px] mx-auto rounded-2xl overflow-hidden shadow-[0_25px_80px_rgba(15,49,84,0.15)] mb-10">
+            <iframe
+              src="https://www.youtube.com/embed/HsoTlfJn-RA?si=y3iWiz3lhzLkEBj2"
+              className="w-full aspect-video block"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="For Coaches & Teams"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 max-w-[1000px] mx-auto mb-10">
             {[
-              { step: '1', title: 'Assign Training', desc: '5,000+ videos to choose from' },
+              { step: '1', title: 'Assign Training', desc: '5,000+ follow-along videos' },
               { step: '2', title: 'Build Your Team', desc: 'Add players, set goals' },
-              { step: '3', title: 'Track Progress', desc: 'Automatic alerts & reports' },
-              { step: '4', title: 'Celebrate Wins', desc: 'Leaderboards & achievements' },
-              { step: '5', title: 'See the Value', desc: 'Cost-effective pricing' },
+              { step: '3', title: 'Track Progress', desc: 'Automatic alerts' },
+              { step: '4', title: 'Celebrate Wins', desc: 'Leaderboards' },
+              { step: '5', title: 'See the Value', desc: '$6 per player per year' },
             ].map((item) => (
-              <div key={item.step} className="bg-white rounded-xl shadow-sm p-6 text-center">
-                <div className="w-10 h-10 bg-red text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold">
+              <div
+                key={item.step}
+                className="bg-white rounded-2xl p-5 md:p-6 shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all"
+              >
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-red rounded-full flex items-center justify-center text-xl md:text-[28px] font-extrabold text-white mx-auto mb-3 md:mb-5 shadow-[0_4px_20px_rgba(220,55,62,0.35)]">
                   {item.step}
                 </div>
-                <h3 className="font-bold text-navy text-sm mb-1">{item.title}</h3>
-                <p className="text-gray text-xs">{item.desc}</p>
+                <h4 className="text-navy font-bold text-sm md:text-base mb-1 md:mb-2">{item.title}</h4>
+                <p className="text-slate-500 text-xs md:text-[13px]">{item.desc}</p>
               </div>
             ))}
           </div>
-          <div className="text-center mt-10">
-            <Link href="/team-demo-request-anytime-soccer-training" className="bg-red hover:bg-red-dark text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-block">
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/pricing"
+              className="inline-block font-bold text-base px-8 py-4 rounded-full bg-red text-white shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:bg-red-dark hover:-translate-y-0.5 transition-all"
+            >
+              Join Free &rarr;
+            </Link>
+            <Link
+              href="/team-demo-request-anytime-soccer-training"
+              className="inline-block font-bold text-base px-8 py-4 rounded-full border-2 border-white/50 text-white hover:bg-white/10 hover:border-white transition-all"
+            >
               Request Team Demo
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="bg-navy text-white py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Transform Training?</h2>
-          <p className="text-lg text-white/80 mb-8">50,000+ players in 80+ countries trust Anytime Soccer Training.</p>
-          <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors inline-block">
-            Start Training Free
+      {/* FINAL CTA */}
+      <section className="bg-gradient-to-b from-background to-white py-16 md:py-20 text-center">
+        <div className="max-w-[700px] mx-auto px-5">
+          <h2 className="text-[clamp(1.75rem,4vw,2.625rem)] font-bold text-navy mb-5">Ready to Transform Training?</h2>
+          <p className="text-xl text-slate-500 mb-8">
+            Join 50,000+ players in 80+ countries who train smarter, not harder.
+          </p>
+          <Link
+            href="/pricing"
+            className="inline-block font-bold text-lg px-10 py-4 rounded-full bg-red text-white shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:bg-red-dark hover:-translate-y-0.5 transition-all"
+          >
+            Start Training Free &rarr;
           </Link>
         </div>
       </section>

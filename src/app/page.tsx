@@ -255,13 +255,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* 20% OFF Banner */}
-          <div className="mt-16 bg-navy rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="text-white text-lg font-semibold text-center md:text-left">Request a Team Demo Today and Get 20% off your first team!</div>
-            <a href="https://a360f80d.sibforms.com/serve/MUIFAEaDOdl6ujx14otpRBHCVpH05Kley--cpWODsREmYrDwh13CbgWoM62mJRfEAAHCIV51PgInuTooTcaKXBnNlmbkMtbR3GkMhtbmJIcGX0JqVIi-rlfjIRqRpZzKKXQT9ieML53aMhYclXp-f9qyf9DpQyeNjvOL4LnLRbmC4uFcjomhj5NJ5OZrXxN4IdwfWRW5P11FASoZ" target="_blank" rel="noopener noreferrer" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] whitespace-nowrap">
-              20% OFF
-            </a>
-          </div>
         </div>
       </section>
 

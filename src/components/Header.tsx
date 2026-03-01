@@ -10,7 +10,7 @@ const howItWorksDropdown = [
 ];
 
 const navLinks = [
-  { href: '/our-programs', label: 'Programs' },
+  { href: '/pricing', label: 'Pricing' },
   { href: '/resources', label: 'Resources' },
   { href: '/blog', label: 'Blog' },
   { href: '/podcast', label: 'Podcast' },
