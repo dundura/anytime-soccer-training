@@ -14,11 +14,12 @@ export default function HomePage() {
                 <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
                   <span>&#9889;</span> <span className="text-red">5,000+</span> Follow-Along Videos
                 </div>
-                <h1 className="text-[clamp(40px,5vw,56px)] font-extrabold leading-[1.1] mb-5 text-white">
-                  Your Player Deserves <span className="text-red">Real Progress.</span>
+                <h1 className="text-[clamp(40px,5vw,56px)] font-extrabold leading-[1.1] mb-5">
+                  <span className="text-white">Stop Guessing.</span>{' '}
+                  <span className="text-red">Start Training.</span>
                 </h1>
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
-                  Stop guessing. Our step-by-step videos turn at-home training into real results&mdash;for players and coaches.
+                  Step-by-step soccer videos that turn backyard practice into real results.
                 </p>
                 <div className="flex flex-wrap gap-4 mb-10">
                   <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center gap-2">
