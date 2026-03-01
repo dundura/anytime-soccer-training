@@ -84,13 +84,18 @@ export default function HomePage() {
       {/* ===== COACH BAR ===== */}
       <div className="bg-background pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-navy rounded-2xl px-6 md:px-10 py-5 flex items-center justify-between gap-6 flex-wrap">
-            <p className="text-white/90 text-sm md:text-base m-0">
+          <div className="bg-navy rounded-2xl px-6 md:px-10 py-5 flex items-center gap-5 flex-wrap">
+            <img
+              src="https://anytime-soccer.com/wp-content/uploads/2026/03/pacific_quote_photo.png"
+              alt="Coach"
+              className="w-[50px] h-[50px] rounded-full object-cover flex-shrink-0"
+            />
+            <p className="text-white/90 text-sm md:text-base m-0 flex-1 min-w-0">
               &#127942; <strong className="text-white">Are you a coach or club?</strong> Give your entire team structured homework and track every rep. Only <strong className="text-[#22C55E]">$6 per player per year</strong> — coaches are always free.
             </p>
             <a
               href="/team-demo-request-anytime-soccer-training"
-              className="bg-red hover:bg-red-dark text-white px-6 py-3 rounded-full font-bold text-sm transition-all whitespace-nowrap flex-shrink-0"
+              className="bg-red hover:bg-red-dark text-white px-6 py-3 rounded-full font-bold text-sm transition-all whitespace-nowrap flex-shrink-0 ml-auto"
             >
               Request Team Demo &rarr;
             </a>
