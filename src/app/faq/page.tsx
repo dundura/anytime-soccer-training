@@ -11,7 +11,7 @@ const faqs = [
   { q: 'What age is this for?', a: 'Our training sessions are designed for players ages 6-19, from complete beginners to advanced players.' },
   { q: 'Do I need soccer experience to help my child?', a: 'Not at all. Every video is 100% follow-along — your child just presses play and trains. No coaching experience required.' },
   { q: 'What equipment do I need?', a: 'Just a soccer ball, a wall, and a small space. Some sessions use cones, goals, and agility equipment, but they are optional.' },
-  { q: 'How long are the training sessions?', a: 'Sessions range from 5 to 30 minutes. Most popular sessions are 10-15 minutes — perfect for daily training.' },
+  { q: 'How long are the training sessions?', a: 'The average session is just 5 minutes — short enough to fit into any schedule and easy to stay consistent. That means your player can train every single day without it feeling like a chore.' },
   { q: 'Can coaches assign homework to their team?', a: 'Yes! Coaches can assign training sessions, set goals, and track player progress automatically.' },
 ];
 
