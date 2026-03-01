@@ -46,7 +46,7 @@ export default function FreeChallengePopup() {
           <img
             src="https://anytime-soccer.com/wp-content/uploads/2026/03/simple_navigation_phone.png"
             alt="Anytime Soccer Training App"
-            className="w-full max-w-[260px]"
+            className="w-full max-w-[260px] -ml-5"
           />
         </div>
 
