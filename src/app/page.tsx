@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import HeroVideo from '@/components/HeroVideo';
-import InstagramEmbed from '@/components/InstagramEmbed';
 
 export default function HomePage() {
   return (
@@ -98,7 +97,15 @@ export default function HomePage() {
                 </Link>
               </div>
               <div className="flex justify-center">
-                <InstagramEmbed url="https://www.instagram.com/reel/DRutd9vkYel/" />
+                <div className="w-full max-w-[320px] aspect-[9/16] rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)]">
+                  <iframe
+                    src="https://www.youtube.com/embed/5f9wwWb2Nx4"
+                    title="7-Day Training Plan"
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
               </div>
             </div>
           </div>
