@@ -5,59 +5,61 @@ export default function HomePage() {
   return (
     <>
       {/* ===== HERO ===== */}
-      <section className="py-16 md:py-20 bg-background relative overflow-hidden">
-        <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.08)_0%,transparent_70%)] pointer-events-none" />
+      <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-full text-sm font-semibold mb-6">
-                <span>&#9889;</span> <span className="text-red">5,000+</span> Follow-Along Videos
-              </div>
-              <h1 className="text-[clamp(40px,5vw,56px)] font-extrabold leading-[1.1] mb-5 text-navy">
-                Your Player Deserves <span className="text-red">Real Progress.</span>
-              </h1>
-              <p className="text-xl text-navy mb-8 max-w-[480px]">
-                Stop guessing. Our step-by-step videos turn at-home training into real results&mdash;for players and coaches.
-              </p>
-              <div className="flex flex-wrap gap-4 mb-10">
-                <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center gap-2">
-                  Start Training Free <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
-                </Link>
-                <Link href="/team-demo-request-anytime-soccer-training" className="bg-transparent text-navy border-2 border-navy px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-navy hover:text-white inline-flex items-center gap-2">
-                  Request Team Demo
-                </Link>
-              </div>
-              <div className="flex items-center gap-5 pt-6 border-t border-gray-200 flex-wrap">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex gap-0.5">
-                    {[1,2,3,4].map((i) => (
-                      <span key={i} className="inline-flex items-center justify-center w-6 h-6 bg-[#00b67a] text-white text-xs rounded-[3px]">&#9733;</span>
-                    ))}
-                    <span className="inline-flex items-center justify-center w-6 h-6 bg-gradient-to-r from-[#00b67a] from-50% to-[#dcdce6] to-50% text-white text-xs rounded-[3px]">&#9733;</span>
+          <div className="bg-navy rounded-3xl px-6 py-16 md:px-12 md:py-20 relative overflow-hidden">
+            <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
+            <div className="grid md:grid-cols-2 gap-16 items-center">
+              <div className="relative z-10">
+                <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
+                  <span>&#9889;</span> <span className="text-red">5,000+</span> Follow-Along Videos
+                </div>
+                <h1 className="text-[clamp(40px,5vw,56px)] font-extrabold leading-[1.1] mb-5 text-white">
+                  Your Player Deserves <span className="text-red">Real Progress.</span>
+                </h1>
+                <p className="text-xl text-white/80 mb-8 max-w-[480px]">
+                  Stop guessing. Our step-by-step videos turn at-home training into real results&mdash;for players and coaches.
+                </p>
+                <div className="flex flex-wrap gap-4 mb-10">
+                  <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center gap-2">
+                    Start Training Free <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
+                  </Link>
+                  <Link href="/team-demo-request-anytime-soccer-training" className="bg-transparent text-white border-2 border-white/60 px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-flex items-center gap-2">
+                    Request Team Demo
+                  </Link>
+                </div>
+                <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex gap-0.5">
+                      {[1,2,3,4].map((i) => (
+                        <span key={i} className="inline-flex items-center justify-center w-6 h-6 bg-[#00b67a] text-white text-xs rounded-[3px]">&#9733;</span>
+                      ))}
+                      <span className="inline-flex items-center justify-center w-6 h-6 bg-gradient-to-r from-[#00b67a] from-50% to-[#dcdce6] to-50% text-white text-xs rounded-[3px]">&#9733;</span>
+                    </div>
+                    <span className="text-sm font-semibold text-white">4.9 (9,651)</span>
                   </div>
-                  <span className="text-sm font-semibold text-navy">4.9 (9,651)</span>
-                </div>
-                <div className="w-px h-8 bg-gray-200 hidden sm:block" />
-                <div className="text-sm text-gray">
-                  <strong className="text-navy block">Trusted by 50,000+ players</strong>
-                  in 80+ countries worldwide
-                </div>
-              </div>
-            </div>
-            <div className="relative">
-              {/* Assign Homework - above video */}
-              <div className="hidden lg:flex mb-4 justify-end">
-                <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(15,49,84,0.12)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s', animationDelay: '1.5s' }}>
-                  <div className="w-11 h-11 rounded-xl bg-[rgba(15,49,84,0.1)] flex items-center justify-center text-xl">&#128202;</div>
-                  <div className="text-sm text-gray"><strong className="text-navy block">Assign Homework</strong>Coaches monitor training</div>
+                  <div className="w-px h-8 bg-white/20 hidden sm:block" />
+                  <div className="text-sm text-white/60">
+                    <strong className="text-white block">Trusted by 50,000+ players</strong>
+                    in 80+ countries worldwide
+                  </div>
                 </div>
               </div>
-              <HeroVideo />
-              {/* Track Progress - below video */}
-              <div className="hidden lg:flex mt-4 justify-start">
-                <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(15,49,84,0.12)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
-                  <div className="w-11 h-11 rounded-xl bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-xl">&#10003;</div>
-                  <div className="text-sm text-gray"><strong className="text-navy block">Track Progress</strong>See every completed session</div>
+              <div className="relative">
+                {/* Assign Homework - above video */}
+                <div className="hidden lg:flex mb-4 justify-end">
+                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s', animationDelay: '1.5s' }}>
+                    <div className="w-11 h-11 rounded-xl bg-[rgba(15,49,84,0.1)] flex items-center justify-center text-xl">&#128202;</div>
+                    <div className="text-sm text-gray"><strong className="text-navy block">Assign Homework</strong>Coaches monitor training</div>
+                  </div>
+                </div>
+                <HeroVideo />
+                {/* Track Progress - below video */}
+                <div className="hidden lg:flex mt-4 justify-start">
+                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
+                    <div className="w-11 h-11 rounded-xl bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-xl">&#10003;</div>
+                    <div className="text-sm text-gray"><strong className="text-navy block">Track Progress</strong>See every completed session</div>
+                  </div>
                 </div>
               </div>
             </div>
