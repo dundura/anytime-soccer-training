@@ -65,7 +65,7 @@ export default function HowItWorksPage() {
               Request Team Demo
             </Link>
             <a
-              href="#for-coaches"
+              href="/for-coaches"
               className="inline-block font-bold text-lg px-10 py-[18px] rounded-full bg-white text-navy! no-underline border-2 border-navy hover:bg-navy hover:text-white! transition-all"
             >
               For Coaches →
