@@ -33,14 +33,14 @@ export default function TabbedVideoSection() {
             Get Your Free <span className="text-red">7-Day Training Plan</span>
           </h2>
           <p className="text-white/50 text-lg max-w-xl mx-auto">
-            One week. Five skills. Follow along and watch your player improve.
+            One week. Seven skills. Follow along and watch your player improve.
           </p>
         </div>
 
-        {/* Layout: sidebar tabs + video */}
-        <div className="flex flex-col md:flex-row gap-6 items-start">
+        {/* Layout: sidebar tabs + video, centered */}
+        <div className="flex flex-col md:flex-row gap-6 items-center justify-center max-w-5xl mx-auto">
           {/* Left - Vertical Tab List */}
-          <div className="flex md:flex-col gap-2 md:w-[260px] flex-shrink-0 overflow-x-auto md:overflow-visible pb-2 md:pb-0">
+          <div className="flex md:flex-col gap-2 md:w-[280px] flex-shrink-0 overflow-x-auto md:overflow-visible pb-2 md:pb-0">
             {TABS.map((t, i) => (
               <button
                 key={t.label}
@@ -53,7 +53,7 @@ export default function TabbedVideoSection() {
               >
                 <Thumbnail videoId={t.videoId} />
                 <span
-                  className={`font-bold text-sm whitespace-nowrap ${
+                  className={`font-bold text-base whitespace-nowrap ${
                     active === i ? "text-white" : "text-white/50"
                   }`}
                 >
@@ -64,7 +64,7 @@ export default function TabbedVideoSection() {
           </div>
 
           {/* Right - Video Player */}
-          <div className="flex-1 w-full">
+          <div className="flex-1 w-full max-w-[680px]">
             <div className="aspect-video rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
               <iframe
                 key={tab.videoId + tab.start}
