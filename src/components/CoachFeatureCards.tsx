@@ -13,7 +13,7 @@ const features = [
     icon: '📋',
     title: 'Build Your Roster',
     description: 'Add players and manage your lineup',
-    video: 'https://player.vimeo.com/progressive_redirect/playback/1169302940/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=d7ec2be5b7f101dc9ca09dc1ce2cf82f8134927a7c7506103375717d7168034b',
+    video: 'https://player.vimeo.com/progressive_redirect/playback/1169302955/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=397999004d244a61df927c2ecc56fbefcfb40b2e0b9ca3b6436cb16925f94dd4',
   },
   {
     icon: '📚',
