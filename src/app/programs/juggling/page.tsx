@@ -31,7 +31,7 @@ export default function JugglingPage() {
             ))}
           </div>
           <div className="text-center">
-            <Link href="https://app.anytimesoccertraining.com/register" className="bg-red hover:bg-red-dark text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors inline-block">
+            <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors inline-block">
               Start Juggling Training
             </Link>
           </div>

@@ -79,7 +79,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <div className="mt-12 bg-navy text-white rounded-xl p-8 text-center">
           <h3 className="text-xl font-bold mb-2">Ready to improve?</h3>
           <p className="text-white/80 mb-4">Access 5,000+ follow-along training videos.</p>
-          <Link href="https://app.anytimesoccertraining.com/register" className="bg-red hover:bg-red-dark text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-block">
+          <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-block">
             Join for Free
           </Link>
         </div>

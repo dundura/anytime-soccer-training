@@ -97,7 +97,7 @@ export default function OurProgramsPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Start Training Today</h2>
           <p className="text-lg text-white/90 mb-8">Access all programs with a free account. No credit card required.</p>
-          <Link href="https://app.anytimesoccertraining.com/register" className="bg-white text-red hover:bg-white/90 px-8 py-3 rounded-lg font-semibold text-lg transition-colors inline-block">
+          <Link href="/pricing" className="bg-white text-red hover:bg-white/90 px-8 py-3 rounded-lg font-semibold text-lg transition-colors inline-block">
             Join for Free
           </Link>
         </div>

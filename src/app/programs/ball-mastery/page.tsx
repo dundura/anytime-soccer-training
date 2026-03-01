@@ -55,7 +55,7 @@ export default function BallMasteryPage() {
           </div>
 
           <div className="text-center mt-12">
-            <Link href="https://app.anytimesoccertraining.com/register" className="bg-red hover:bg-red-dark text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors inline-block">
+            <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors inline-block">
               Start Ball Mastery Training
             </Link>
           </div>

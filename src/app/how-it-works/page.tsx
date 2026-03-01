@@ -17,7 +17,7 @@ export default function HowItWorksPage() {
             Players need a clear system to follow at home. Set a goal, pin a plan, press play.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="https://app.anytimesoccertraining.com/register" className="bg-red hover:bg-red-dark text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors">
+            <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors">
               Join for Free
             </Link>
             <Link href="/team-demo-request-anytime-soccer-training" className="border-2 border-white text-white hover:bg-white/10 px-8 py-3 rounded-lg font-semibold text-lg transition-colors">
@@ -69,7 +69,7 @@ export default function HowItWorksPage() {
             ))}
           </div>
           <div className="text-center mt-10">
-            <Link href="https://app.anytimesoccertraining.com/register" className="bg-red hover:bg-red-dark text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-block">
+            <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-block">
               Start Training Free
             </Link>
           </div>
@@ -161,7 +161,7 @@ export default function HowItWorksPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Transform Training?</h2>
           <p className="text-lg text-white/80 mb-8">50,000+ players in 80+ countries trust Anytime Soccer Training.</p>
-          <Link href="https://app.anytimesoccertraining.com/register" className="bg-red hover:bg-red-dark text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors inline-block">
+          <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors inline-block">
             Start Training Free
           </Link>
         </div>

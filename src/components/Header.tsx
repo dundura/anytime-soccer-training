@@ -11,7 +11,6 @@ const howItWorksDropdown = [
 
 const navLinks = [
   { href: '/our-programs', label: 'Programs' },
-  { href: '/pricing', label: 'Pricing' },
   { href: '/resources', label: 'Resources' },
   { href: '/blog', label: 'Blog' },
   { href: '/podcast', label: 'Podcast' },
@@ -79,13 +78,13 @@ export default function Header() {
               </Link>
             ))}
             <Link
-              href="https://app.anytimesoccertraining.com"
+              href="https://app.anytime-soccer.com/auth/login"
               className="text-white/90 hover:text-white text-sm font-medium"
             >
               Sign In
             </Link>
             <Link
-              href="https://app.anytimesoccertraining.com/register"
+              href="/pricing"
               className="bg-red hover:bg-red-dark text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
             >
               Join for Free
@@ -137,13 +136,13 @@ export default function Header() {
                 </Link>
               ))}
               <Link
-                href="https://app.anytimesoccertraining.com"
+                href="https://app.anytime-soccer.com/auth/login"
                 className="text-white/90 hover:text-white px-3 py-2 text-sm font-medium"
               >
                 Sign In
               </Link>
               <Link
-                href="https://app.anytimesoccertraining.com/register"
+                href="/pricing"
                 className="bg-red hover:bg-red-dark text-white mx-3 px-4 py-2 rounded-lg text-sm font-semibold text-center transition-colors"
               >
                 Join for Free

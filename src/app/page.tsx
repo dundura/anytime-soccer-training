@@ -35,7 +35,7 @@ export default function HomePage() {
               <h1 className="text-[clamp(40px,5vw,56px)] font-extrabold leading-[1.1] mb-5 text-navy">
                 Your Player Deserves <span className="text-red">Real Progress.</span>
               </h1>
-              <p className="text-xl text-gray mb-8 max-w-[480px]">
+              <p className="text-xl text-navy mb-8 max-w-[480px]">
                 Stop guessing. Our step-by-step videos turn at-home training into real results&mdash;for players and coaches.
               </p>
               <div className="flex flex-wrap gap-4 mb-10">
