@@ -30,6 +30,7 @@ const DEDICATED_ROUTES = new Set([
   'for-coaches',
   'merch',
   'homework',
+  'compare',
 ]);
 
 export function getAllPages(): WPPage[] {

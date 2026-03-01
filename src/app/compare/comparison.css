@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@600;700&display=swap');
+
+.ast-comparison {
+    --ast-navy: #0F3154;
+    --ast-red: #DC373E;
+    --ast-ice: #ECF1F7;
+    --ast-white: #ffffff;
+    --ast-gray: #6b7280;
+    --ast-green: #10b981;
+    font-family: 'DM Sans', sans-serif;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.ast-comparison-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.ast-comparison-header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    color: var(--ast-navy);
+    margin-bottom: 12px;
+}
+
+.ast-comparison-header p {
+    font-size: 1.1rem;
+    color: var(--ast-red);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.ast-comparison-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+    .ast-comparison-main {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ast-comparison-video {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+}
+
+.ast-comparison-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.ast-comparison-card {
+    background: var(--ast-white);
+    border: 2px solid var(--ast-ice);
+    border-radius: 12px;
+    padding: 24px;
+    height: 100%;
+}
+
+.ast-comparison-card.youtube {
+    border-top: 4px solid #ff0000;
+}
+
+.ast-comparison-card.ast {
+    border-top: 4px solid var(--ast-green);
+}
+
+.ast-comparison-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.25rem;
+    color: var(--ast-navy);
+    margin: 0 0 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ast-comparison-card ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.ast-comparison-card ul li {
+    margin-bottom: 10px;
+    font-size: 0.9375rem;
+    color: var(--ast-gray);
+}
+
+.ast-comparison-card.youtube ul li::marker {
+    color: #ff0000;
+}
+
+.ast-comparison-card.ast ul li::marker {
+    color: var(--ast-green);
+}
+
+.ast-comparison-card .video-title {
+    font-style: italic;
+    color: var(--ast-navy);
+}
+
+.ast-video-label {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    color: var(--ast-navy);
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.ast-comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+    .ast-comparison-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ast-comparison-cta {
+    text-align: center;
+}
+
+.ast-comparison-cta a {
+    display: inline-block;
+    background: var(--ast-red);
+    color: white;
+    padding: 16px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
+.ast-comparison-cta a:hover {
+    background: #c42f35;
+}
