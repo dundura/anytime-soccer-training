@@ -65,14 +65,16 @@ export default function HomePage() {
             </div>
             <div className="relative">
               <HeroVideo />
-              {/* Floating cards */}
-              <div className="hidden lg:flex absolute -bottom-5 -left-8 bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(15,49,84,0.12)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
-                <div className="w-11 h-11 rounded-xl bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-xl">&#10003;</div>
-                <div className="text-sm text-gray"><strong className="text-navy block">Track Progress</strong>See every completed session</div>
-              </div>
-              <div className="hidden lg:flex absolute top-5 -right-5 bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(15,49,84,0.12)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s', animationDelay: '1.5s' }}>
-                <div className="w-11 h-11 rounded-xl bg-[rgba(15,49,84,0.1)] flex items-center justify-center text-xl">&#128202;</div>
-                <div className="text-sm text-gray"><strong className="text-navy block">Assign Homework</strong>Coaches monitor training</div>
+              {/* Floating cards - positioned below video */}
+              <div className="hidden lg:flex mt-6 gap-4 justify-between">
+                <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(15,49,84,0.12)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
+                  <div className="w-11 h-11 rounded-xl bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-xl">&#10003;</div>
+                  <div className="text-sm text-gray"><strong className="text-navy block">Track Progress</strong>See every completed session</div>
+                </div>
+                <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(15,49,84,0.12)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s', animationDelay: '1.5s' }}>
+                  <div className="w-11 h-11 rounded-xl bg-[rgba(15,49,84,0.1)] flex items-center justify-center text-xl">&#128202;</div>
+                  <div className="text-sm text-gray"><strong className="text-navy block">Assign Homework</strong>Coaches monitor training</div>
+                </div>
               </div>
             </div>
           </div>
