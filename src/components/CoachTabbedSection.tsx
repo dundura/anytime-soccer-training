@@ -16,7 +16,7 @@ function TabIcon({ index, active }: { index: number; active: boolean }) {
   return (
     <div
       className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0 ${
-        active ? "bg-red text-white" : "bg-white/10 text-white/60"
+        active ? "bg-red text-white" : "bg-[#f5f7fa] text-gray"
       }`}
     >
       {icons[index]}
@@ -34,15 +34,15 @@ export default function CoachTabbedSection() {
         {/* Heading above the dark card */}
         <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-3">
-            Your Players Are Going Home With No Plan.
+            Your Players Are Going Home With <span className="text-red">No Plan</span>
           </h2>
           <p className="text-gray text-lg max-w-2xl mx-auto">
             Give every player structured homework, real accountability, and a reason to train &mdash; without adding a single minute to your practice schedule.
           </p>
         </div>
 
-        {/* Dark card with tabbed layout */}
-        <div className="bg-[#1a1a1a] rounded-2xl p-8 md:p-12">
+        {/* White card with tabbed layout */}
+        <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
           <div className="flex flex-col md:flex-row gap-6 items-center justify-center max-w-5xl mx-auto">
             {/* Left - Vertical Tab List */}
             <div className="flex md:flex-col gap-2 md:w-[280px] flex-shrink-0 overflow-x-auto md:overflow-visible pb-2 md:pb-0">
@@ -52,14 +52,14 @@ export default function CoachTabbedSection() {
                   onClick={() => setActive(i)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all flex-shrink-0 w-full ${
                     active === i
-                      ? "bg-white/10 border-l-4 border-red"
-                      : "bg-transparent border-l-4 border-transparent hover:bg-white/5"
+                      ? "bg-[#f5f7fa] border-l-4 border-red"
+                      : "bg-transparent border-l-4 border-transparent hover:bg-[#f5f7fa]"
                   }`}
                 >
                   <TabIcon index={i} active={active === i} />
                   <span
                     className={`font-bold text-base whitespace-nowrap ${
-                      active === i ? "text-white" : "text-white/50"
+                      active === i ? "text-navy" : "text-gray"
                     }`}
                   >
                     {t.label}
@@ -70,7 +70,7 @@ export default function CoachTabbedSection() {
 
             {/* Right - Video Player */}
             <div className="flex-1 w-full max-w-[680px]">
-              <div className="aspect-video rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.4)]">
+              <div className="aspect-video rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)]">
                 <iframe
                   key={tab.videoId + tab.start}
                   src={`https://www.youtube.com/embed/${tab.videoId}?si=qaaiddui_N00_9rT&start=${tab.start}`}
