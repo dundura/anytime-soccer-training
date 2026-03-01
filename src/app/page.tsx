@@ -96,7 +96,7 @@ export default function HomePage() {
                 <li className="text-white/90 text-sm">&#10004; Assign homework to every player</li>
                 <li className="text-white/90 text-sm">&#10004; Track progress in real time</li>
                 <li className="text-white/90 text-sm">&#10004; Create team competitions</li>
-                <li className="text-white/90 text-sm">&#10004; Only <strong className="text-[#22C55E]">$6 per player per year</strong> — coaches always free</li>
+                <li className="text-white/90 text-sm">&#10004; Only <strong className="text-[#22C55E]">$6 per player per year</strong></li>
               </ul>
             </div>
             <a
