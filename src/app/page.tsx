@@ -15,11 +15,11 @@ export default function HomePage() {
                   <span>&#9889;</span> <span className="text-red">5,000+</span> Follow-Along Videos
                 </div>
                 <h1 className="text-[clamp(40px,5vw,56px)] font-extrabold leading-[1.1] mb-5">
-                  <span className="text-white">Stop Guessing.</span>{' '}
+                  <span className="text-white">Stop Guessing. Stop Searching.</span>{' '}
                   <span className="text-red">Start Training.</span>
                 </h1>
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
-                  Step-by-step soccer videos that turn backyard practice into real results.
+                  5,000+ step-by-step follow-along soccer videos that turn backyard practice into real results.
                 </p>
                 <div className="flex flex-wrap gap-4 mb-10">
                   <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center gap-2">
@@ -185,7 +185,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== REVIEWS ===== */}
-      <section className="py-20 bg-background">
+      <section className="pt-6 pb-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-12">Our Reviews</h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -242,30 +242,31 @@ export default function HomePage() {
       {/* ===== LEADERBOARD ===== */}
       <section className="py-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Compete With Players Worldwide</p>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">SEE HOW YOU RANK ON THE LEADERBOARD</h3>
-              <p className="text-gray mb-6">Train hard. Climb the ranks. Get recognized.</p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start gap-3">
-                  <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                  <strong className="text-navy">Track your progress and compete with the top 100 Anytime players.</strong>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                  <strong className="text-navy">Earn your spot on the leaderboard — the more you train, the higher you climb.</strong>
-                </li>
-              </ul>
-              <a href="https://app.anytime-soccer.com/leaderboard" target="_blank" rel="noopener noreferrer" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
-                View Leaderboard &rarr;
-              </a>
-            </div>
-            <div className="flex justify-center">
-              <img src="https://anytime-soccer.com/wp-content/uploads/2025/11/anytime_top_100_leaderboard.png" alt="Anytime Top 100 Leaderboard" className="max-w-[90%] h-auto rounded-xl shadow-[0_10px_40px_rgba(15,49,84,0.12)]" />
+          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Compete With Players Worldwide</p>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">SEE HOW YOU RANK ON THE LEADERBOARD</h3>
+                <p className="text-gray mb-6">Train hard. Climb the ranks. Get recognized.</p>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start gap-3">
+                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
+                    <strong className="text-navy">Track your progress and compete with the top 100 Anytime players.</strong>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
+                    <strong className="text-navy">Earn your spot on the leaderboard — the more you train, the higher you climb.</strong>
+                  </li>
+                </ul>
+                <a href="https://app.anytime-soccer.com/leaderboard" target="_blank" rel="noopener noreferrer" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
+                  View Leaderboard &rarr;
+                </a>
+              </div>
+              <div className="flex justify-center">
+                <img src="https://anytime-soccer.com/wp-content/uploads/2025/11/anytime_top_100_leaderboard.png" alt="Anytime Top 100 Leaderboard" className="max-w-[90%] h-auto rounded-xl shadow-[0_10px_40px_rgba(15,49,84,0.12)]" />
+              </div>
             </div>
           </div>
-
         </div>
       </section>
 

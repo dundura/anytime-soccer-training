@@ -111,11 +111,14 @@ export default function ClubPartnershipPage() {
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
               <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-4 block">About the Founder</span>
-              <h2 className="text-[clamp(1.5rem,4vw,2.25rem)] font-bold text-navy mb-5">
+              <h2 className="text-[clamp(1.5rem,4vw,2.25rem)] font-bold text-navy mb-8">
                 I built this because <span className="text-red">I faced the same problem.</span>
               </h2>
               <p className="text-[17px] text-navy mb-4">
-                I&apos;m Neil Crawford&mdash;a soccer dad who watched kids who practiced at home become more confident and stay in the game longer. But I couldn&apos;t find a program that was affordable, structured, and easy to follow.
+                I&apos;m Neil Crawford&mdash;a soccer dad who watched kids who practiced at home become more confident and stay in the game longer.
+              </p>
+              <p className="text-[17px] text-navy mb-4">
+                But I couldn&apos;t find a program that was affordable, structured, and easy to follow.
               </p>
               <p className="text-[17px] text-navy mb-4">
                 As a coach, I had the same frustration: assigning homework with no way to track it. <strong>So I built Anytime Soccer Training:</strong>
@@ -123,7 +126,7 @@ export default function ClubPartnershipPage() {
               <ul className="space-y-2.5 mb-4">
                 {['5,000+ follow-along videos', 'Team tools that give coaches full visibility', 'Track player progress automatically'].map((item) => (
                   <li key={item} className="pl-6 relative text-[15px] text-navy before:content-['✓'] before:absolute before:left-0 before:text-emerald-500 before:font-bold before:text-sm">
-                    {item}
+                    <strong>{item}</strong>
                   </li>
                 ))}
               </ul>
