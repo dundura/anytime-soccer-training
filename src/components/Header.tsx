@@ -9,20 +9,28 @@ const howItWorksDropdown = [
   { href: '/faq', label: 'FAQ' },
 ];
 
-const navLinks = [
+const resourcesDropdown = [
   { href: '/blog', label: 'Blog' },
+  { href: '/free-resource-hub', label: 'Free Resources' },
+  { href: '/our-picks', label: 'Our Picks' },
+  { href: '/merch', label: 'Merch' },
   { href: '/podcast', label: 'Podcast' },
 ];
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const resourcesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setDropdownOpen(false);
+      }
+      if (resourcesRef.current && !resourcesRef.current.contains(e.target as Node)) {
+        setResourcesOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -66,15 +74,33 @@ export default function Header() {
               )}
             </div>
 
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-white/90 hover:text-white text-sm font-medium transition-colors"
+            {/* Resources dropdown */}
+            <div className="relative" ref={resourcesRef}>
+              <button
+                onClick={() => setResourcesOpen(!resourcesOpen)}
+                className="text-white/90 hover:text-white text-sm font-medium transition-colors flex items-center gap-1"
               >
-                {link.label}
-              </Link>
-            ))}
+                Resources
+                <svg className={`w-3.5 h-3.5 transition-transform ${resourcesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {resourcesOpen && (
+                <div className="absolute top-full left-0 mt-2 w-52 bg-white rounded-lg shadow-xl py-2 z-50">
+                  {resourcesDropdown.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block px-4 py-2.5 text-sm text-navy hover:bg-background hover:text-red transition-colors font-medium"
+                      onClick={() => setResourcesOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <Link
               href="https://app.anytime-soccer.com/auth/login"
               className="text-white/90 hover:text-white text-sm font-medium"
@@ -123,11 +149,12 @@ export default function Header() {
                 </Link>
               ))}
               <div className="border-t border-white/10 my-1" />
-              {navLinks.map((link) => (
+              <div className="px-3 py-1 text-xs text-white/50 uppercase tracking-wider">Resources</div>
+              {resourcesDropdown.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-white/90 hover:text-white px-3 py-2 text-sm font-medium"
+                  className="text-white/90 hover:text-white px-6 py-2 text-sm font-medium"
                   onClick={() => setMobileOpen(false)}
                 >
                   {link.label}
