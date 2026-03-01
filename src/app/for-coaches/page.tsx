@@ -27,17 +27,11 @@ export default function ForCoachesPage() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-[clamp(32px,5vw,48px)] font-bold text-navy leading-tight mb-5">
-                Your Player Wants to Get Better.<br />
-                <span className="text-red">Give Them a System That Works.</span>
+                Your players want to improve.<br />
+                <span className="text-red">Give them a system that works.</span>
               </h1>
-              <p className="text-lg mb-4">
-                Practice ends. Improvement doesn&apos;t have to.
-              </p>
-              <p className="text-base text-[#64748b] mb-4">
-                Most players go home with zero structure — no plan, no accountability, no way to track if the work is getting done. Coaches can&apos;t assign homework. Parents don&apos;t know what to do. Players fall behind.
-              </p>
-              <p className="text-base text-[#64748b] mb-8">
-                Anytime Soccer Training gives your player a proven daily system — follow-along videos, structured plans, and progress tracking — so every minute at home counts.
+              <p className="text-lg mb-8">
+                Team training alone isn&apos;t enough. Players need structured practice at home—but most clubs struggle to assign homework and track if it&apos;s actually getting done.
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
