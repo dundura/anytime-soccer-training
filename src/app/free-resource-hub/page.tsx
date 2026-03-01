@@ -11,7 +11,7 @@ const TRAINING_PLANS = [
     title: '7-Day Training Plan',
     description: 'See results in just one week. Short daily sessions your player can do in 10 minutes or less.',
     image: 'https://anytime-soccer.com/wp-content/themes/anytime/images/about/new-chalange-image.png',
-    href: 'https://anytime-soccer.com/free-soccer-drills-for-kids/',
+    href: '/blog/free-7-day-soccer-skills-challenge',
     cta: 'Get Free Plan',
   },
   {
@@ -19,7 +19,7 @@ const TRAINING_PLANS = [
     description: 'A personalized training schedule based on your player\'s skill level. Step-by-step videos delivered daily.',
     gradient: true,
     gradientContent: { big: 'FREE 30-DAY', small: 'Training Plan' },
-    href: 'https://anytime-soccer.com/free-30-day-training-plan/',
+    href: '/free-30-day-training-plan',
     cta: 'Get Free Plan',
   },
   {
@@ -27,7 +27,7 @@ const TRAINING_PLANS = [
     description: 'Curated YouTube drills organized by age group (U6–Advanced). Just click and train!',
     gradient: true,
     gradientContent: { big: '100+', small: 'YouTube Videos' },
-    href: 'https://anytime-soccer.com/free-soccer-training-videos-100-youtube-drills-by-age-group/',
+    href: '/free-soccer-training-videos-100-youtube-drills-by-age-group',
     cta: 'Download Free',
   },
 ];
@@ -37,50 +37,50 @@ const EBOOKS = [
     title: 'The Most Important Skill Never Taught',
     description: 'This powerful (yet simple) tip will change your child\'s game forever.',
     image: 'https://anytime-soccer.com/wp-content/uploads/2021/01/ast_facebook_image_3.jpg',
-    href: 'https://anytime-soccer.com/the-most-important-skill-in-youth-soccer/',
+    href: '/blog/the-most-important-skill-in-youth-soccer-never-taught',
   },
   {
     title: 'Must-Have Guide to In-Home Training',
     description: 'Everything you need to know to start training at home effectively.',
     image: 'https://anytime-soccer.com/wp-content/themes/anytime/images/home/bg-1.png',
-    href: 'https://anytime-soccer.com/must-have-guide-for-serious-soccer-parents/',
+    href: '/must-have-guide-for-serious-soccer-parents',
   },
   {
     title: '20 Questions for Every Club',
     description: 'Essential questions to ask before joining any youth soccer club.',
     image: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-1.png',
-    href: 'https://anytime-soccer.com/20-questions-every-parent-should-ask/',
+    href: '/20-questions-every-parent-should-ask',
   },
   {
     title: 'Become a Rec Coach SuperHero',
     description: 'Transform your rec coaching with practical tips and strategies.',
     image: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-2.png',
-    href: 'https://anytime-soccer.com/become-a-rec-coach-superhero/',
+    href: '/become-a-rec-coach-superhero',
     cta: 'Get Guide',
   },
   {
     title: 'Everything About Guest Playing',
     description: 'Navigate guest playing opportunities like a pro.',
     image: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-3.png',
-    href: 'https://anytime-soccer.com/everything-you-need-to-know-about-guest-playing/',
+    href: '/everything-you-need-to-know-about-guest-playing',
   },
   {
     title: 'Monopoly: Issues Facing US Youth Soccer',
     description: 'A candid look at what\'s holding back American soccer from one parent\'s perspective.',
     image: 'https://anytime-soccer.com/wp-content/uploads/2024/07/us_soccer-768x596.png',
-    href: 'https://anytime-soccer.com/monopoly-addressing-issues-facing-youth-soccer-ebook/',
+    href: '/monopoly-addressing-issues-facing-youth-soccer-ebook',
   },
   {
     title: 'The Parent Trainer\'s Playbook',
     description: '20 unconventional tips for raising a competitive soccer player from one soccer dad\'s journey.',
     image: 'https://anytime-soccer.com/wp-content/uploads/2024/08/the-playbook-20-unconventional-tips-for-raising-a-compeitive-soccer-player-thus-far-1024x789.png',
-    href: 'https://anytime-soccer.com/the-parent-trainers-playbook/',
+    href: '/the-parent-trainers-playbook',
   },
   {
     title: 'Player Cards Guide',
     description: 'Stay informed about eligibility requirements and avoid missed tournament opportunities.',
     image: 'https://anytime-soccer.com/wp-content/uploads/2024/11/pro-tips-for-college-showcases-1.png',
-    href: 'https://anytime-soccer.com/everything-you-need-to-know-about-player-cards/',
+    href: '/blog/everything-you-need-to-know-about-player-cards-in-youth-soccer',
   },
 ];
 
@@ -121,11 +121,9 @@ export default function FreeResourceHubPage() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {TRAINING_PLANS.map((plan) => (
-              <a
+              <Link
                 key={plan.title}
                 href={plan.href}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all flex flex-col text-center"
               >
                 <div className="w-full aspect-[16/10] rounded-xl overflow-hidden mb-5 bg-background">
@@ -147,7 +145,7 @@ export default function FreeResourceHubPage() {
                 <span className="bg-red hover:bg-red-dark text-white font-bold py-4 px-8 rounded-full text-base shadow-[0_4px_20px_rgba(220,55,62,0.35)] transition-all w-full text-center">
                   {plan.cta || 'Download'} &rarr;
                 </span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -156,10 +154,8 @@ export default function FreeResourceHubPage() {
       {/* ===== AGE CALCULATOR ===== */}
       <section className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <a
-            href="https://anytime-soccer.com/calculator/"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/calculator"
             className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all block"
           >
             <div className="grid md:grid-cols-[280px_1fr] gap-12 items-center p-10 md:p-14">
@@ -176,7 +172,7 @@ export default function FreeResourceHubPage() {
                 </span>
               </div>
             </div>
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -193,11 +189,9 @@ export default function FreeResourceHubPage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {EBOOKS.map((ebook) => (
-              <a
+              <Link
                 key={ebook.title}
                 href={ebook.href}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all flex flex-col text-center"
               >
                 <div className="w-full aspect-[16/10] rounded-xl overflow-hidden mb-5 bg-background">
@@ -208,7 +202,7 @@ export default function FreeResourceHubPage() {
                 <span className="bg-red text-white font-bold py-4 px-8 rounded-full text-base shadow-[0_4px_20px_rgba(220,55,62,0.35)] w-full text-center">
                   {ebook.cta || 'Download'} &rarr;
                 </span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
