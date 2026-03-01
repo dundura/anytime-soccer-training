@@ -87,16 +87,26 @@ export default function CoachTabbedSection() {
             </div>
 
             {/* Video Player */}
-            <div className="rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(15,49,84,0.15)] bg-navy">
-              <video
-                key={features[active].video}
-                src={features[active].video}
-                className="w-full aspect-video object-cover"
-                autoPlay
-                muted
-                loop
-                playsInline
-              />
+            <div>
+              <div className="rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(15,49,84,0.15)] bg-navy">
+                <video
+                  key={features[active].video}
+                  src={features[active].video}
+                  className="w-full aspect-video object-cover"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                />
+              </div>
+              <div className="text-center mt-6">
+                <a
+                  href="/team-demo-request-anytime-soccer-training"
+                  className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center gap-2"
+                >
+                  Request Team Demo &rarr;
+                </a>
+              </div>
             </div>
           </div>
         </div>
