@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import postsData from '@/data/posts.json';
+import HeroVideo from '@/components/HeroVideo';
 
 interface Post {
   id: string;
@@ -63,15 +64,7 @@ export default function HomePage() {
               </div>
             </div>
             <div className="relative">
-              <a href="https://vimeo.com/817761649" target="_blank" rel="noopener noreferrer" className="block bg-navy rounded-2xl shadow-[0_25px_80px_rgba(15,49,84,0.15)] overflow-hidden md:transform md:perspective-[1000px] md:rotate-y-[-5deg] hover:md:rotate-y-0 transition-transform duration-500 relative">
-                <div className="w-full aspect-video bg-gradient-to-br from-navy to-[#0a2340] flex flex-col items-center justify-center text-white">
-                  <div className="text-5xl mb-3">&#9917;</div>
-                  <div className="text-lg font-semibold opacity-90">Watch Demo Video</div>
-                </div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-red rounded-full flex items-center justify-center text-white text-3xl shadow-[0_8px_30px_rgba(220,55,62,0.5)] hover:scale-110 transition-transform">
-                  &#9654;
-                </div>
-              </a>
+              <HeroVideo />
               {/* Floating cards */}
               <div className="hidden lg:flex absolute -bottom-5 -left-8 bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(15,49,84,0.12)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
                 <div className="w-11 h-11 rounded-xl bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-xl">&#10003;</div>
