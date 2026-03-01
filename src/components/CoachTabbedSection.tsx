@@ -17,7 +17,7 @@ const features = [
   },
   {
     icon: "\u{1F3C6}",
-    title: "Team Leaderboard",
+    title: "Team Competition",
     description: "Drive friendly competition",
     video: "https://player.vimeo.com/progressive_redirect/playback/1169303020/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=5f7589b67658329b3c754291c49f3bc76b74ac990c214e0f5c9f5eeb6f15c5cf",
   },
