@@ -19,6 +19,19 @@ export default async function CatchAllPage({ params }: { params: Promise<{ slug:
   const page = getPageBySlug(slug);
   if (!page) notFound();
 
+  const hasOwnLayout = /class="ast-(ebook|team-access|aerial|profile|youth-soccer|showcase|recruiting|offball|pyramid)/.test(page.content);
+
+  if (hasOwnLayout) {
+    return (
+      <article>
+        <div
+          className="wp-content"
+          dangerouslySetInnerHTML={{ __html: page.content }}
+        />
+      </article>
+    );
+  }
+
   return (
     <article className="py-12">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">

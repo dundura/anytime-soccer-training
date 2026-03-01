@@ -175,7 +175,7 @@ export default function HomePage() {
           <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-12">Three Ebooks Every Parent and Coach Should Read!</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: '20 Questions For Every Club', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-1.png', cta: 'Download', href: '/free-resource-hub' },
+              { title: '20 Questions For Every Club', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-1.png', cta: 'Download', href: '/20-questions-every-parent-should-ask' },
               { title: 'Become a Rec Coach SuperHero', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-2.png', cta: 'Become', href: '/free-resource-hub' },
               { title: 'Everything About Guest Playing', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-3.png', cta: 'Download', href: '/free-resource-hub' },
             ].map((ebook) => (
