@@ -158,7 +158,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== 30-DAY PLAN ===== */}
-      <section className="py-20 bg-background">
+      <section className="pt-6 pb-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
             <div className="grid md:grid-cols-2 gap-12 items-center">
