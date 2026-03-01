@@ -80,6 +80,11 @@ body {
   text-decoration: underline;
 }
 
+/* Hide WordPress featured-image wrapper (causes empty whitespace) */
+.wp-content .post-image {
+  display: none;
+}
+
 /* Images */
 .wp-content img {
   max-width: 100%;

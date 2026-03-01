@@ -33,9 +33,19 @@ function getCardColor(index: number) {
 }
 
 function getExcerpt(content: string, maxLength = 140): string {
-  const stripped = content.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
-  if (stripped.length <= maxLength) return stripped;
-  return stripped.substring(0, maxLength).replace(/\s\S*$/, '') + '...';
+  const cleaned = content
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<noscript[\s\S]*?<\/noscript>/gi, '')
+    .replace(/\[[\w_]+[^\]]*\][\s\S]*?\[\/[\w_]+\]/g, '')
+    .replace(/\[[\w_]+[^\]]*\/?\]/g, '')
+    .replace(/\/\/<!\[CDATA\[[\s\S]*?\]\]>/g, '')
+    .replace(/<[^>]*>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (!cleaned) return '';
+  if (cleaned.length <= maxLength) return cleaned;
+  return cleaned.substring(0, maxLength).replace(/\s\S*$/, '') + '...';
 }
 
 function getReadTime(content: string): string {
@@ -65,7 +75,7 @@ export default function BlogPage() {
       if (category && !p.categories.includes(category)) return false;
       if (search) {
         const q = search.toLowerCase();
-        const excerpt = p.excerpt || getExcerpt(p.content);
+        const excerpt = getExcerpt(p.excerpt || p.content);
         if (
           !p.title.toLowerCase().includes(q) &&
           !excerpt.toLowerCase().includes(q) &&
@@ -145,7 +155,7 @@ export default function BlogPage() {
                     </h3>
                   </div>
                   <div className="p-4 pt-3">
-                    <p className="text-gray text-sm line-clamp-2">{post.excerpt || getExcerpt(post.content)}</p>
+                    <p className="text-gray text-sm line-clamp-2">{getExcerpt(post.excerpt || post.content) || post.title}</p>
                     <div className="flex items-center gap-3 text-xs text-gray mt-2">
                       <span>{formatDate(post.date)}</span>
                       <span>&middot;</span>

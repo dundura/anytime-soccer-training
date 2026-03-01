@@ -45,7 +45,17 @@ export function formatDate(dateStr: string): string {
 }
 
 export function getExcerpt(content: string, maxLength = 160): string {
-  const stripped = content.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
-  if (stripped.length <= maxLength) return stripped;
-  return stripped.substring(0, maxLength).replace(/\s\S*$/, '') + '...';
+  const cleaned = content
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<noscript[\s\S]*?<\/noscript>/gi, '')
+    .replace(/\[[\w_]+[^\]]*\][\s\S]*?\[\/[\w_]+\]/g, '')
+    .replace(/\[[\w_]+[^\]]*\/?\]/g, '')
+    .replace(/\/\/<!\[CDATA\[[\s\S]*?\]\]>/g, '')
+    .replace(/<[^>]*>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (!cleaned) return '';
+  if (cleaned.length <= maxLength) return cleaned;
+  return cleaned.substring(0, maxLength).replace(/\s\S*$/, '') + '...';
 }
