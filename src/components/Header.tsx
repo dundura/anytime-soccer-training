@@ -10,12 +10,12 @@ const howItWorksDropdown = [
 ];
 
 const resourcesDropdown = [
-  { href: '/blog', label: 'Blog' },
   { href: '/free-resource-hub', label: 'Free Resources' },
-  { href: 'https://app.anytime-soccer.com/leaderboard', label: 'Leaderboard' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/podcast', label: 'Podcast' },
   { href: '/our-picks', label: 'Our Picks' },
   { href: '/merch', label: 'Merch' },
-  { href: '/podcast', label: 'Podcast' },
+  { href: 'https://app.anytime-soccer.com/leaderboard', label: 'Leaderboard' },
 ];
 
 export default function Header() {
