@@ -48,7 +48,7 @@ export default function CoachFeatureCards() {
     <section className="py-16 px-5 bg-white">
       <div className="max-w-[1100px] mx-auto">
         <div className="text-center mb-10">
-          <span className="text-xs font-bold uppercase tracking-[2px] text-red block mb-3">The Problem</span>
+          <span className="text-xs font-bold uppercase tracking-[2px] text-red block mb-3">For Clubs and Teams</span>
           <h2 className="text-[clamp(24px,4vw,36px)] font-bold text-navy leading-tight max-w-3xl mx-auto">
             Your Players Are Going Home With <span className="text-red">No Plan</span>
           </h2>
