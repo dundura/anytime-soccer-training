@@ -42,44 +42,76 @@ export default function HowItWorksPage() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="bg-gradient-to-b from-background to-white py-16 md:py-20">
-        <div className="max-w-[1200px] mx-auto px-5 text-center">
-          <h1 className="text-[clamp(36px,5vw,56px)] font-bold text-navy leading-tight mb-5">
-            Team Training Isn&apos;t <span className="text-red">Enough</span>
-          </h1>
-          <p className="text-xl text-navy max-w-[650px] mx-auto mb-8">
-            Your player needs a clear system they can follow at home. We&apos;ve made it simple: set a goal, pin a plan, press play.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-            <Link
-              href="/pricing"
-              className="inline-block font-bold text-lg px-10 py-[18px] rounded-full bg-red text-white! no-underline shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:bg-red-dark hover:-translate-y-0.5 transition-all"
-            >
-              Join for Free →
-            </Link>
-            <Link
-              href="/team-demo-request-anytime-soccer-training"
-              className="inline-block font-bold text-lg px-10 py-[18px] rounded-full bg-white text-navy! no-underline border-2 border-navy hover:bg-navy hover:text-white! transition-all"
-            >
-              Request Team Demo
-            </Link>
-            <a
-              href="/for-coaches"
-              className="inline-block font-bold text-lg px-10 py-[18px] rounded-full bg-white text-navy! no-underline border-2 border-navy hover:bg-navy hover:text-white! transition-all"
-            >
-              For Coaches →
-            </a>
-          </div>
-
-          <div className="max-w-[800px] mx-auto rounded-[20px] overflow-hidden shadow-[0_25px_80px_rgba(15,49,84,0.15)]">
-            <iframe
-              src="https://www.youtube.com/embed/fkHIe88Cwqo?si=hzfBL7_ESUgywL0c"
-              className="w-full aspect-video block border-none"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              title="How Anytime Soccer Training Works"
-            />
+      <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-navy rounded-3xl px-6 py-16 md:px-12 md:py-20 relative overflow-hidden">
+            <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
+            <div className="grid md:grid-cols-2 gap-16 items-center">
+              <div className="relative z-10">
+                <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
+                  <span>&#9889;</span> <span className="text-red">5,000+</span> Follow-Along Videos
+                </div>
+                <h1 className="text-[clamp(40px,5vw,56px)] font-extrabold leading-[1.1] mb-5">
+                  <span className="text-white">Team Training Isn&apos;t</span>{' '}
+                  <span className="text-red">Enough</span>
+                </h1>
+                <p className="text-xl text-white/80 mb-8 max-w-[480px]">
+                  Your player needs a clear system they can follow at home. We&apos;ve made it simple: set a goal, pin a plan, press play.
+                </p>
+                <div className="flex flex-wrap gap-4 mb-10">
+                  <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center gap-2">
+                    Join for Free &rarr;
+                  </Link>
+                  <Link href="/team-demo-request-anytime-soccer-training" className="bg-transparent text-white border-2 border-white/60 px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-flex items-center gap-2">
+                    Request Team Demo
+                  </Link>
+                  <Link href="/for-coaches" className="bg-transparent text-white border-2 border-white/60 px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-flex items-center gap-2">
+                    For Coaches &rarr;
+                  </Link>
+                </div>
+                <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex gap-0.5">
+                      {[1,2,3,4].map((i) => (
+                        <span key={i} className="inline-flex items-center justify-center w-6 h-6 bg-[#00b67a] text-white text-xs rounded-[3px]">&#9733;</span>
+                      ))}
+                      <span className="inline-flex items-center justify-center w-6 h-6 bg-gradient-to-r from-[#00b67a] from-50% to-[#dcdce6] to-50% text-white text-xs rounded-[3px]">&#9733;</span>
+                    </div>
+                    <span className="text-sm font-semibold text-white">4.9 (9,651)</span>
+                  </div>
+                  <div className="w-px h-8 bg-white/20 hidden sm:block" />
+                  <div className="text-sm text-white/60">
+                    <strong className="text-white block">Trusted by 50,000+ players</strong>
+                    in 80+ countries worldwide
+                  </div>
+                </div>
+              </div>
+              <div className="relative">
+                {/* Assign Homework - above video */}
+                <div className="hidden lg:flex mb-4 justify-end">
+                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s', animationDelay: '1.5s' }}>
+                    <div className="w-11 h-11 rounded-xl bg-[rgba(15,49,84,0.1)] flex items-center justify-center text-xl">&#128202;</div>
+                    <div className="text-sm text-gray"><strong className="text-navy block">Assign Homework</strong>Coaches monitor training</div>
+                  </div>
+                </div>
+                <div className="block bg-navy rounded-2xl shadow-[0_25px_80px_rgba(15,49,84,0.15)] overflow-hidden">
+                  <iframe
+                    src="https://www.youtube.com/embed/fkHIe88Cwqo?si=hzfBL7_ESUgywL0c"
+                    className="w-full aspect-video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title="How Anytime Soccer Training Works"
+                  />
+                </div>
+                {/* Track Progress - below video */}
+                <div className="hidden lg:flex mt-4 justify-start">
+                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
+                    <div className="w-11 h-11 rounded-xl bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-xl">&#10003;</div>
+                    <div className="text-sm text-gray"><strong className="text-navy block">Track Progress</strong>See every completed session</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
