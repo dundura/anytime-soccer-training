@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import CoachFeatureCards from '@/components/CoachFeatureCards';
+import WhoIsItForTabs from '@/components/WhoIsItForTabs';
 
 export const metadata: Metadata = {
   title: 'For Coaches & Clubs',
@@ -88,31 +89,8 @@ export default function ForCoachesPage() {
         </div>
       </section>
 
-      {/* 3 VIDEO GRID */}
-      <section className="py-16 px-5 bg-background text-center">
-        <div className="max-w-[1000px] mx-auto">
-          <div className="grid md:grid-cols-3 gap-6 mt-8">
-            {[
-              { title: 'For Clubs', src: 'https://www.youtube.com/embed/HsoTlfJn-RA?si=CkvGY5nj_4FmNERN', benefit: 'Assign homework and track progress.' },
-              { title: 'For Players', src: 'https://www.youtube.com/embed/9f262gP1Bvw?si=EvUXGSicHrppE9j8', benefit: 'Thousands of follow-along sessions like this one.' },
-              { title: 'For Parents', src: 'https://www.youtube.com/embed/SWEwb1UVoFk?si=6z-Gr77Ibdy0QpEP', benefit: 'No soccer experience needed.' },
-            ].map((video) => (
-              <div key={video.title}>
-                <h3 className="text-lg font-bold text-navy mb-3">{video.title}</h3>
-                <div className="rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(15,49,84,0.15)]">
-                  <iframe
-                    src={video.src}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full aspect-video border-none block"
-                  />
-                </div>
-                <p className="text-sm text-red font-semibold mt-3">{video.benefit}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* WHO IS IT FOR - TABBED */}
+      <WhoIsItForTabs />
 
       {/* FEATURE CARDS WITH VIDEOS */}
       <CoachFeatureCards />
