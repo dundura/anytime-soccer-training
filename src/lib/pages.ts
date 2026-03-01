@@ -26,6 +26,7 @@ const DEDICATED_ROUTES = new Set([
   'wall-passing',
   'resources',
   'the-inside-scoop-podcast-youth-soccer-tips-for-parents-coaches',
+  'team-demo-request-anytime-soccer-training',
 ]);
 
 export function getAllPages(): WPPage[] {
