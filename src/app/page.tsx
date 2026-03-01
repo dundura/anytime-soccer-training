@@ -2,6 +2,7 @@ import Link from 'next/link';
 import HeroVideo from '@/components/HeroVideo';
 import HeroHeadline from '@/components/HeroHeadline';
 import TabbedVideoSection from '@/components/TabbedVideoSection';
+import FreeChallengePopup from '@/components/FreeChallengePopup';
 import postsData from '@/data/posts.json';
 
 const CARD_COLORS = [
@@ -17,6 +18,7 @@ function formatDate(dateStr: string): string {
 export default function HomePage() {
   return (
     <>
+      <FreeChallengePopup />
       {/* ===== HERO ===== */}
       <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
