@@ -1,10 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+
+const howItWorksDropdown = [
+  { href: '/how-it-works', label: 'How it Works' },
+  { href: '/for-coaches', label: 'For Coaches & Clubs' },
+  { href: '/free-resource-hub', label: 'Free Resources' },
+];
 
 const navLinks = [
-  { href: '/how-it-works', label: 'How it Works' },
   { href: '/our-programs', label: 'Programs' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/resources', label: 'Resources' },
@@ -14,18 +19,56 @@ const navLinks = [
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <header className="bg-navy sticky top-0 z-50 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
           <Link href="/" className="flex items-center gap-2 text-white font-bold text-lg">
             <span className="text-xl">Anytime Soccer Training</span>
           </Link>
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-6">
+            {/* How it Works dropdown */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="text-white/90 hover:text-white text-sm font-medium transition-colors flex items-center gap-1"
+              >
+                How it Works
+                <svg className={`w-3.5 h-3.5 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {dropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-52 bg-white rounded-lg shadow-xl py-2 z-50">
+                  {howItWorksDropdown.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block px-4 py-2.5 text-sm text-navy hover:bg-background hover:text-red transition-colors font-medium"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -71,6 +114,18 @@ export default function Header() {
         {mobileOpen && (
           <div className="md:hidden pb-4 border-t border-white/10">
             <nav className="flex flex-col gap-2 pt-4">
+              <div className="px-3 py-1 text-xs text-white/50 uppercase tracking-wider">How it Works</div>
+              {howItWorksDropdown.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-white/90 hover:text-white px-6 py-2 text-sm font-medium"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <div className="border-t border-white/10 my-1" />
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
