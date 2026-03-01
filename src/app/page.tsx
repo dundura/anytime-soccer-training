@@ -3,7 +3,6 @@ import HeroVideo from '@/components/HeroVideo';
 import HeroHeadline from '@/components/HeroHeadline';
 import TabbedVideoSection from '@/components/TabbedVideoSection';
 import CoachTabbedSection from '@/components/CoachTabbedSection';
-import WhoIsAstFor from '@/components/WhoIsAstFor';
 import FreeChallengePopup from '@/components/FreeChallengePopup';
 import postsData from '@/data/posts.json';
 
@@ -87,9 +86,6 @@ export default function HomePage() {
 
       {/* ===== COACHES TABBED SECTION ===== */}
       <CoachTabbedSection />
-
-      {/* ===== WHO IS AST FOR? ===== */}
-      <WhoIsAstFor />
 
       {/* ===== REVIEWS ===== */}
       <section className="pt-0 pb-20 bg-background">
