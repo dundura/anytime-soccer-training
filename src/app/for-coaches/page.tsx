@@ -7,12 +7,6 @@ export const metadata: Metadata = {
   description: 'Give your players a structured home training system. 5,000+ follow-along videos, team management tools, and progress tracking — starting at just $6 per player per year.',
 };
 
-const facts = [
-  { icon: '🎬', text: '5,000+ follow-along training sessions covering everything' },
-  { icon: '🆓', text: 'Free to join and access to free training sessions forever' },
-  { icon: '💰', text: 'Only $6 per player per year (coaches free) and only pay if parent activates account' },
-];
-
 const reviews = [
   { initials: 'TW', name: 'Tyler Wells', text: '"Affordable and easy to use, no parent supervision required. The library is huge and he can always find something to work on."' },
   { initials: 'JM', name: 'Joseph Marjamaa', text: '"My son was behind the other kids. I don\'t have a soccer background, so I scoured the internet—this was the answer."' },
@@ -122,25 +116,6 @@ export default function ForCoachesPage() {
 
       {/* FEATURE CARDS WITH VIDEOS */}
       <CoachFeatureCards />
-
-      {/* THE FACTS */}
-      <section className="py-16 px-5 bg-gradient-to-b from-background to-white text-center">
-        <div className="max-w-[900px] mx-auto">
-          <span className="text-xs font-bold uppercase tracking-[2px] text-red block mb-3">The Facts</span>
-          <h2 className="text-[clamp(24px,4vw,36px)] font-bold text-navy leading-tight">
-            Simple, affordable, <span className="text-red">comprehensive.</span>
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-6 mt-8">
-            {facts.map((fact) => (
-              <div key={fact.icon} className="bg-white rounded-xl p-6 shadow-[0_2px_12px_rgba(15,49,84,0.06)]">
-                <div className="text-[32px] mb-3">{fact.icon}</div>
-                <p className="text-[15px] text-navy m-0" dangerouslySetInnerHTML={{ __html: fact.text.replace(/^([^<]+?)\s/, '<strong>$1</strong> ') }} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ABOUT THE FOUNDER */}
       <section className="py-16 px-5 bg-background">
