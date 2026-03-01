@@ -24,7 +24,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   if (!post) notFound();
 
   return (
-    <article className="py-12 bg-background">
+    <article className="pt-4 pb-12 bg-background">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav className="mb-6 text-sm text-gray">
