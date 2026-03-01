@@ -44,9 +44,9 @@ export default function FreeChallengePopup() {
         {/* Left - Phone mockup */}
         <div className="md:w-[45%] bg-[#ECF1F7] flex items-center justify-center p-8 md:p-10">
           <img
-            src="https://anytime-soccer.com/wp-content/uploads/2026/01/microsoftteams-image.jpg"
+            src="https://anytime-soccer.com/wp-content/uploads/2026/03/simple_navigation_phone.png"
             alt="Anytime Soccer Training App"
-            className="w-full max-w-[260px] rounded-xl shadow-[0_10px_40px_rgba(15,49,84,0.15)]"
+            className="w-full max-w-[260px]"
           />
         </div>
 
@@ -59,16 +59,24 @@ export default function FreeChallengePopup() {
             Seven Free Training Sessions Delivered Each Day!
           </p>
           <div className="w-12 h-[3px] bg-red rounded-full mb-5" />
-          <h2 className="text-2xl md:text-[28px] font-extrabold text-navy leading-tight mb-6">
-            Get <span className="text-red">5,000 quality</span> touches per day
-            in less than five minutes.
+          <h2 className="text-2xl md:text-[28px] font-extrabold text-navy leading-tight mb-2">
+            Your Player Is Falling Behind.
           </h2>
+          <p className="text-gray text-[15px] mb-4">
+            Every day without structure is a day other players are pulling ahead.
+          </p>
+          <p className="text-navy font-bold text-[15px] mb-1">
+            Get <span className="text-red">5,000 quality</span> touches per day in less than 10 minutes.
+          </p>
+          <p className="text-gray text-sm mb-6">
+            No guessing. Just press play.
+          </p>
           <Link
             href="/free-soccer-drills-for-kids"
             onClick={dismiss}
             className="bg-red hover:bg-red-dark text-white text-center px-6 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)]"
           >
-            I want greater skill and more confidence
+            Start My Free 7-Day Plan &rarr;
           </Link>
         </div>
       </div>
