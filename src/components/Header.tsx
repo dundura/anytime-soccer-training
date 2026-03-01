@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from 'react';
 const howItWorksDropdown = [
   { href: '/how-it-works', label: 'How it Works' },
   { href: '/for-coaches', label: 'For Coaches & Clubs' },
-  { href: '/free-resource-hub', label: 'Free Resources' },
+  { href: '/faq', label: 'FAQ' },
 ];
 
 const navLinks = [
