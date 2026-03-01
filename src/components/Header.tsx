@@ -5,7 +5,6 @@ import { useState, useRef, useEffect } from 'react';
 
 const howItWorksDropdown = [
   { href: '/how-it-works', label: 'How it Works' },
-  { href: 'https://app.anytime-soccer.com/leaderboard', label: 'Leaderboard' },
   { href: '/for-coaches', label: 'For Coaches & Clubs' },
   { href: '/faq', label: 'FAQ' },
 ];
@@ -74,6 +73,13 @@ export default function Header() {
                 </div>
               )}
             </div>
+
+            <Link
+              href="https://app.anytime-soccer.com/leaderboard"
+              className="text-white/90 hover:text-white text-sm font-medium"
+            >
+              Leaderboard
+            </Link>
 
             {/* Resources dropdown */}
             <div className="relative" ref={resourcesRef}>
@@ -149,6 +155,13 @@ export default function Header() {
                   {link.label}
                 </Link>
               ))}
+              <Link
+                href="https://app.anytime-soccer.com/leaderboard"
+                className="text-white/90 hover:text-white px-3 py-2 text-sm font-medium"
+                onClick={() => setMobileOpen(false)}
+              >
+                Leaderboard
+              </Link>
               <div className="border-t border-white/10 my-1" />
               <div className="px-3 py-1 text-xs text-white/50 uppercase tracking-wider">Resources</div>
               {resourcesDropdown.map((link) => (
