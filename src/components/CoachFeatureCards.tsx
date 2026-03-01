@@ -19,7 +19,7 @@ const features = [
     icon: '📚',
     title: 'Assign Homework',
     description: 'Send structured training to every player',
-    video: 'https://player.vimeo.com/progressive_redirect/playback/1169303020/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=5f7589b67658329b3c754291c49f3bc76b74ac990c214e0f5c9f5eeb6f15c5cf',
+    video: 'https://player.vimeo.com/progressive_redirect/playback/1169302980/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=1538e99ab9202f4db963fdf9c231130c154ac8d11e90bc7e912c7c912881c5c6',
   },
   {
     icon: '🏆',
