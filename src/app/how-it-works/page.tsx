@@ -14,7 +14,7 @@ const skillCategories = [
     items: ['1,000 Touch Training', 'One Cone Drills', 'Two Cone Combinations', 'Lateral Movement', 'Dynamic Ball Control'],
   },
   {
-    title: '🎪 Juggling & Aerial Control',
+    title: '🏋️ Juggling & Aerial Control',
     videoId: 'tascEETaN8A',
     items: ['Beginner to Advanced Progressions', 'Partner Juggling', 'Tennis Ball Training', 'Aerial Finishing', 'Ball Control in Air'],
   },
@@ -24,7 +24,7 @@ const skillCategories = [
     items: ['Freestyle Moves', '1v1 Attack Patterns', 'Line Cone Drills', 'Running with Ball', 'Finishing Under Pressure'],
   },
   {
-    title: '📚 Thousands More Videos',
+    title: '🎬 Thousands More Videos',
     videoId: 'mKefeI8Efs0',
     items: ['Wall Passing', 'Partner Passing', 'Soccer Games', 'Dynamic Warmups', 'Fitness & Conditioning'],
   },
@@ -184,7 +184,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* FEATURED TRAINING */}
-      <section className="py-16 md:py-20">
+      <section className="pt-4 pb-16 md:pb-20">
         <div className="max-w-[1200px] mx-auto px-5">
           <div className="text-center mb-14">
             <span className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-4 block">Featured Training</span>
