@@ -17,16 +17,19 @@ interface Post {
   featuredImage: string;
 }
 
-const COVER_IMAGES = [
-  'https://anytime-soccer.com/wp-content/uploads/2026/02/news_soccer08_16-9-ratio.webp',
-  'https://anytime-soccer.com/wp-content/uploads/2026/02/ecln_boys.jpg',
-  'https://anytime-soccer.com/wp-content/uploads/2026/02/ecnl_girls.jpg',
-  'https://anytime-soccer.com/wp-content/uploads/2026/01/idf.webp',
-  'https://anytime-soccer.com/wp-content/uploads/2026/02/futsal-scaled.jpg',
+const CARD_COLORS = [
+  '#0F3154', // navy
+  '#DC373E', // red
+  '#1a4a7a', // navy-light
+  '#2d6a4f', // forest green
+  '#7b2d8e', // purple
+  '#b85c1f', // burnt orange
+  '#1b7a8a', // teal
+  '#8b1a2b', // burgundy
 ];
 
-function getCover(featuredImage: string | undefined, index: number) {
-  return featuredImage || COVER_IMAGES[index % COVER_IMAGES.length];
+function getCardColor(index: number) {
+  return CARD_COLORS[index % CARD_COLORS.length];
 }
 
 function getExcerpt(content: string, maxLength = 140): string {
@@ -129,20 +132,16 @@ export default function BlogPage() {
           </div>
         ) : showAll ? (
           <div className="divide-y divide-gray-200">
-            {filtered.map((post) => (
+            {filtered.map((post, i) => (
               <Link
                 key={post.id}
                 href={`/blog/${post.slug}`}
                 className="group flex items-center gap-4 py-4 hover:bg-background/50 transition-colors -mx-2 px-2 rounded-lg"
               >
-                {post.featuredImage && (
-                  <img
-                    src={post.featuredImage}
-                    alt={post.title}
-                    className="w-20 h-14 rounded-lg object-cover shrink-0 hidden sm:block"
-                    loading="lazy"
-                  />
-                )}
+                <div
+                  className="w-20 h-14 rounded-lg shrink-0 hidden sm:block"
+                  style={{ backgroundColor: getCardColor(i) }}
+                />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-xs font-bold text-white bg-red px-2 py-0.5 rounded">{post.categories[0]}</span>
@@ -169,20 +168,14 @@ export default function BlogPage() {
                 href={`/blog/${post.slug}`}
                 className="group block bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all"
               >
-                <div className="relative">
-                  <img
-                    src={getCover(post.featuredImage, i)}
-                    alt={post.title}
-                    className="w-full h-44 object-cover"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <span className="text-xs font-bold text-white bg-red px-2 py-0.5 rounded">{post.categories[0]}</span>
-                    <h3 className="text-base font-bold mt-1.5 text-white leading-snug line-clamp-2 drop-shadow-sm">
-                      {post.title}
-                    </h3>
-                  </div>
+                <div
+                  className="relative h-44 flex flex-col justify-end p-4"
+                  style={{ backgroundColor: getCardColor(i) }}
+                >
+                  <span className="text-xs font-bold text-white bg-white/20 px-2 py-0.5 rounded w-fit">{post.categories[0]}</span>
+                  <h3 className="text-base font-bold mt-1.5 text-white leading-snug line-clamp-2">
+                    {post.title}
+                  </h3>
                 </div>
                 <div className="p-4 pt-3">
                   <p className="text-gray text-sm line-clamp-2">{post.excerpt || getExcerpt(post.content)}</p>
