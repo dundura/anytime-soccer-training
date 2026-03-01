@@ -41,8 +41,8 @@ export default function TabbedVideoSection() {
           ))}
         </div>
 
-        {/* Video Player */}
-        <div className="aspect-video rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.4)] mb-10">
+        {/* Video Player - Portrait/Vertical for YouTube Shorts */}
+        <div className="max-w-[360px] mx-auto aspect-[9/16] rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.4)] mb-10">
           <iframe
             key={TABS[active].videoId}
             src={`https://www.youtube.com/embed/${TABS[active].videoId}?rel=0`}
