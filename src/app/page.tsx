@@ -82,18 +82,19 @@ export default function HomePage() {
       </section>
 
       {/* ===== COACH BAR ===== */}
-      <div className="bg-navy w-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-[60px] gap-4">
-          <div className="flex items-center gap-6 min-w-0">
-            <span className="text-white font-bold text-sm whitespace-nowrap">&#127942; Are you a coach or club?</span>
-            <span className="text-white/60 text-sm hidden sm:block">Give your entire team structured homework and track every rep.</span>
+      <div className="bg-background pb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-navy rounded-2xl px-6 md:px-10 py-5 flex items-center justify-between gap-6 flex-wrap">
+            <p className="text-white/90 text-sm md:text-base m-0">
+              &#127942; <strong className="text-white">Are you a coach or club?</strong> Give your entire team structured homework and track every rep. Only <strong className="text-[#22C55E]">$6 per player per year</strong> — coaches are always free.
+            </p>
+            <a
+              href="/team-demo-request-anytime-soccer-training"
+              className="bg-red hover:bg-red-dark text-white px-6 py-3 rounded-full font-bold text-sm transition-all whitespace-nowrap flex-shrink-0"
+            >
+              Request Team Demo &rarr;
+            </a>
           </div>
-          <a
-            href="/team-demo-request-anytime-soccer-training"
-            className="bg-red hover:bg-red-dark text-white px-5 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap flex-shrink-0"
-          >
-            Request Team Demo &rarr;
-          </a>
         </div>
       </div>
 
