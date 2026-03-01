@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 
 const howItWorksDropdown = [
   { href: '/how-it-works', label: 'How it Works' },
+  { href: 'https://app.anytime-soccer.com/leaderboard', label: 'Leaderboard' },
   { href: '/for-coaches', label: 'For Coaches & Clubs' },
   { href: '/faq', label: 'FAQ' },
 ];
