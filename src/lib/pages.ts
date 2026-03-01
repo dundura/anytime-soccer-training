@@ -29,6 +29,7 @@ const DEDICATED_ROUTES = new Set([
   'team-demo-request-anytime-soccer-training',
   'for-coaches',
   'merch',
+  'homework',
 ]);
 
 export function getAllPages(): WPPage[] {
