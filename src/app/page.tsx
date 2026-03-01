@@ -212,10 +212,10 @@ export default function HomePage() {
               </h3>
               <p className="text-navy/70 text-lg mb-8 relative z-10">A free ebook packed with practical tips from a passionate soccer parent and coach.</p>
               <div className="relative z-10">
-                <a href="https://anytime-soccer.com/free-resource-hub/" target="_blank" rel="noopener noreferrer" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:-translate-y-0.5 inline-flex items-center gap-3">
+                <Link href="/free-resource-hub" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:-translate-y-0.5 inline-flex items-center gap-3">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                   Download Free Guide
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -228,16 +228,16 @@ export default function HomePage() {
           <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-12">Three Ebooks Every Parent and Coach Should Read!</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: '20 Questions For Every Club', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-1.png', cta: 'Download', href: 'https://anytime-soccer.com/free-resource-hub/' },
-              { title: 'Become a Rec Coach SuperHero', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-2.png', cta: 'Become', href: 'https://anytime-soccer.com/free-resource-hub/' },
-              { title: 'Everything About Guest Playing', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-3.png', cta: 'Download', href: 'https://anytime-soccer.com/free-resource-hub/' },
+              { title: '20 Questions For Every Club', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-1.png', cta: 'Download', href: '/free-resource-hub' },
+              { title: 'Become a Rec Coach SuperHero', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-2.png', cta: 'Become', href: '/free-resource-hub' },
+              { title: 'Everything About Guest Playing', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-3.png', cta: 'Download', href: '/free-resource-hub' },
             ].map((ebook) => (
               <div key={ebook.title} className="bg-white rounded-2xl p-8 text-center shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all">
                 <img src={ebook.img} alt={ebook.title} className="w-full max-w-[200px] mx-auto mb-6" />
                 <h3 className="font-bold text-navy text-lg mb-4">{ebook.title}</h3>
-                <a href={ebook.href} target="_blank" rel="noopener noreferrer" className="bg-red hover:bg-red-dark text-white px-6 py-3 rounded-full font-bold transition-all inline-flex items-center gap-2">
+                <Link href={ebook.href} className="bg-red hover:bg-red-dark text-white px-6 py-3 rounded-full font-bold transition-all inline-flex items-center gap-2">
                   {ebook.cta} &rarr;
-                </a>
+                </Link>
               </div>
             ))}
           </div>
