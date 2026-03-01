@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 const TABS = [
-  { label: "Ball Mastery", videoId: "qL5twf5dycE", start: 28, end: 58 },
+  { label: "Ball Mastery", videoId: "qL5twf5dycE", start: 28, end: 58, mp4: "https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693" },
   { label: "Dribbling", videoId: "jKlUqKMDrK0", start: 56, end: 86, mp4: "https://player.vimeo.com/progressive_redirect/playback/1169251905/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=ee829d62eed3d0045bd4b11fc2ed7f144fa87439124fb5870a3db4c757dbed55" },
   { label: "Juggling", videoId: "89WWaQ46OcE", start: 33, end: 63, mp4: "https://player.vimeo.com/progressive_redirect/playback/1169251894/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=feae5ad2df7c4f5414d2e19c076b147e83708023db78c3184f4131122bb9c675" },
   { label: "Passing", videoId: "VITiT66kqb4", start: 51, end: 81, mp4: "https://player.vimeo.com/progressive_redirect/playback/1169251868/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=f4368d3f829c7e85e3250c6f4c27a1d1e827fe24261c1b6f59f031ae13b2841d" },
