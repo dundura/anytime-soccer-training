@@ -58,7 +58,7 @@ export default function FAQPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-gradient-to-b from-background to-white py-16 md:py-20 text-center">
+      <section className="bg-gradient-to-b from-background to-white py-8 md:py-10 text-center">
         <div className="max-w-[700px] mx-auto px-5">
           <h2 className="text-[clamp(28px,4vw,42px)] font-bold text-navy mb-5">Still Have Questions?</h2>
           <p className="text-xl text-[#64748b] mb-8">
