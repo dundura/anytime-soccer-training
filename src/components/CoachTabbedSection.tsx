@@ -100,6 +100,9 @@ export default function CoachTabbedSection() {
                 />
               </div>
               <div className="text-center mt-6">
+                <p className="italic text-navy font-semibold text-base mb-4">
+                  The best investment you can make in your player&rsquo;s development.
+                </p>
                 <a
                   href="/team-demo-request-anytime-soccer-training"
                   className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center gap-2"
