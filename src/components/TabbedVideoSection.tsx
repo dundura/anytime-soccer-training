@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const TABS = [
   { label: "Ball Mastery", videoId: "qL5twf5dycE", start: 28, end: 58 },
-  { label: "Dribbling", videoId: "jKlUqKMDrK0", start: 56, end: 86 },
+  { label: "Dribbling", videoId: "jKlUqKMDrK0", start: 56, end: 86, mp4: "https://player.vimeo.com/progressive_redirect/playback/1169251905/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=ee829d62eed3d0045bd4b11fc2ed7f144fa87439124fb5870a3db4c757dbed55" },
   { label: "Juggling", videoId: "89WWaQ46OcE", start: 33, end: 63, mp4: "https://player.vimeo.com/progressive_redirect/playback/1169251894/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=feae5ad2df7c4f5414d2e19c076b147e83708023db78c3184f4131122bb9c675" },
   { label: "Passing", videoId: "VITiT66kqb4", start: 51, end: 81 },
   { label: "1v1", videoId: "4cDchwSw1Ig", start: 109, end: 139, mp4: "https://player.vimeo.com/progressive_redirect/playback/1169251839/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=d830cba85f2636bc209aaca55ac8d7a5a30e6900934b27162223c7e9b497a829" },
