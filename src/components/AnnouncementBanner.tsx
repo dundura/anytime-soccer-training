@@ -12,7 +12,7 @@ export default function AnnouncementBanner() {
     <div className="bg-red text-white text-center py-2.5 px-12 relative">
       <Link
         href="/the-most-important-skill-in-youth-soccer"
-        className="text-white! no-underline font-bold text-sm md:text-base hover:underline"
+        className="text-white! no-underline font-bold text-base md:text-lg hover:underline"
       >
         ⬇ Download the FREE E-BOOK &ldquo;The Most Important Skill In Youth Soccer&rdquo;
       </Link>
