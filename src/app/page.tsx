@@ -87,6 +87,43 @@ export default function HomePage() {
       {/* ===== COACHES TABBED SECTION ===== */}
       <CoachTabbedSection />
 
+      {/* ===== WHO IS AST FOR? ===== */}
+      <section className="py-20 bg-background">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">Who Is Anytime Soccer Training For?</h2>
+            <p className="text-gray text-lg max-w-2xl mx-auto">Whether you&rsquo;re a club, a player, or a parent &mdash; we have a plan for you.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { title: 'For Clubs', videoId: 'HsoTlfJn-RA', caption: 'Assign homework and track progress.' },
+              { title: 'For Players', videoId: 'qL5twf5dycE', caption: 'Thousands of follow-along sessions like this one.' },
+              { title: 'For Parents', videoId: '89WWaQ46OcE', caption: 'No soccer experience needed.' },
+            ].map((card) => (
+              <div key={card.title} className="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all">
+                <div className="p-6 pb-0">
+                  <h3 className="text-xl font-bold text-navy mb-4">{card.title}</h3>
+                </div>
+                <div className="px-6">
+                  <div className="aspect-video rounded-xl overflow-hidden">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${card.videoId}`}
+                      title={card.title}
+                      className="w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+                <div className="p-6 pt-4">
+                  <p className="text-red font-semibold text-[15px]">{card.caption}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ===== REVIEWS ===== */}
       <section className="pt-0 pb-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
