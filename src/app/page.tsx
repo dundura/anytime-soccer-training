@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import HeroVideo from '@/components/HeroVideo';
+import HeroHeadline from '@/components/HeroHeadline';
 import TabbedVideoSection from '@/components/TabbedVideoSection';
 import postsData from '@/data/posts.json';
 
@@ -26,10 +27,7 @@ export default function HomePage() {
                 <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
                   <span>&#9889;</span> <span className="text-red">5,000+</span> Follow-Along Videos
                 </div>
-                <h1 className="text-[clamp(40px,5vw,56px)] font-extrabold leading-[1.1] mb-5">
-                  <span className="text-white">Stop Guessing. Stop Searching.</span>{' '}
-                  <span className="text-red">Start Training.</span>
-                </h1>
+                <HeroHeadline />
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
                   5,000+ step-by-step follow-along soccer videos that turn backyard practice into real results.
                 </p>
