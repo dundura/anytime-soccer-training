@@ -117,7 +117,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* HOW EASY IT IS - 3 STEPS */}
-      <section className="bg-background py-16 md:py-20">
+      <section className="bg-background pt-4 pb-16 md:pb-20">
         <div className="max-w-[1200px] mx-auto px-5">
           <div className="text-center mb-14">
             <span className="text-[11px] font-bold uppercase tracking-[2px] text-red mb-4 block">IT&apos;S THIS SIMPLE</span>
