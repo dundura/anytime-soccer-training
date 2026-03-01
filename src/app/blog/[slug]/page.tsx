@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Script from 'next/script';
 import type { Metadata } from 'next';
 import { getPostBySlug, getAllSlugs, formatDate, getExcerpt } from '@/lib/posts';
 
@@ -92,6 +93,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </Link>
         </div>
       </div>
+
+      {/* Instagram embed script for posts with Instagram embeds */}
+      <Script src="https://www.instagram.com/embed.js" strategy="lazyOnload" />
     </article>
   );
 }
