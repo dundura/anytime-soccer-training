@@ -53,7 +53,7 @@ export default function HowItWorksPage() {
                 </div>
                 <h1 className="text-[clamp(40px,5vw,56px)] font-extrabold leading-[1.1] mb-5">
                   <span className="text-white">Team Training Isn&apos;t</span>{' '}
-                  <span className="text-red">Enough</span>
+                  <span className="text-red animate-pulse" style={{ animationDuration: '2s' }}>Enough</span>
                 </h1>
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
                   Your player needs a clear system they can follow at home. We&apos;ve made it simple: set a goal, pin a plan, press play.
