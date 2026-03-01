@@ -2,6 +2,7 @@ import Link from 'next/link';
 import HeroVideo from '@/components/HeroVideo';
 import HeroHeadline from '@/components/HeroHeadline';
 import TabbedVideoSection from '@/components/TabbedVideoSection';
+import CoachTabbedSection from '@/components/CoachTabbedSection';
 import FreeChallengePopup from '@/components/FreeChallengePopup';
 import postsData from '@/data/posts.json';
 
@@ -83,56 +84,8 @@ export default function HomePage() {
       {/* ===== 7-DAY TABBED VIDEO ===== */}
       <TabbedVideoSection />
 
-      {/* ===== WHY TRAIN WITH AST ===== */}
-      <section className="pt-0 pb-6 bg-background">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-4">
-            <span className="text-red">Why Clubs Love</span> Anytime Soccer Training
-          </h2>
-
-          {/* 7-Day Plan - moved to TabbedVideoSection below */}
-
-          {/* Coach Section */}
-          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)] mt-10">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Your Players Aren&apos;t Improving Fast Enough</p>
-                <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">NOW YOU CAN FIX THAT — WITHOUT MORE PRACTICE TIME</h3>
-                <p className="text-gray mb-6">Give your team the extra reps they need. Track who actually does them.</p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start gap-3">
-                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                    <strong className="text-navy">Assign drills in seconds. Players train at home with follow-along videos.</strong>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                    <strong className="text-navy">Real-time tracking shows exactly who&apos;s putting in the work.</strong>
-                  </li>
-                </ul>
-                <div className="flex flex-wrap gap-4">
-                  <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
-                    Join for Free
-                  </Link>
-                  <Link href="/team-demo-request-anytime-soccer-training" className="border-2 border-navy text-navy hover:bg-navy hover:text-white px-8 py-4 rounded-full font-bold transition-all">
-                    Request Team Demo
-                  </Link>
-                </div>
-              </div>
-              <div>
-                <div className="aspect-video rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)]">
-                  <iframe
-                    src="https://www.youtube.com/embed/HsoTlfJn-RA?si=qaaiddui_N00_9rT"
-                    title="Coach training video"
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ===== COACHES TABBED SECTION ===== */}
+      <CoachTabbedSection />
 
       {/* ===== REVIEWS ===== */}
       <section className="pt-0 pb-20 bg-background">
