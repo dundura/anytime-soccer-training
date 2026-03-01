@@ -29,7 +29,7 @@ const features = [
   },
   {
     icon: "\u{1F4C4}",
-    title: "Team Reports",
+    title: "Fundraising",
     description: "Full visibility into team activity",
     video: "https://player.vimeo.com/progressive_redirect/playback/1169302963/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=687134569779f1635d1b4fb59172dc78d33ee3fba58ec743e581f70c887e2957",
   },
