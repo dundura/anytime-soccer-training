@@ -8,7 +8,7 @@ const TABS = [
   { label: "Dribbling", videoId: "jKlUqKMDrK0", start: 56, end: 86 },
   { label: "Juggling", videoId: "89WWaQ46OcE", start: 33, end: 63 },
   { label: "Passing", videoId: "VITiT66kqb4", start: 51, end: 81 },
-  { label: "1v1", videoId: "4cDchwSw1Ig", start: 109, end: 139 },
+  { label: "1v1", videoId: "4cDchwSw1Ig", start: 109, end: 139, mp4: "https://player.vimeo.com/progressive_redirect/playback/1169251839/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=d830cba85f2636bc209aaca55ac8d7a5a30e6900934b27162223c7e9b497a829" },
 ];
 
 function Thumbnail({ videoId }: { videoId: string }) {
@@ -66,16 +66,30 @@ export default function TabbedVideoSection() {
                 </p>
               </div>
               <div className="aspect-video rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)] relative">
-                <iframe
-                  key={tab.videoId + tab.start}
-                  src={`https://www.youtube.com/embed/${tab.videoId}?rel=0&autoplay=1&mute=1&loop=1&start=${tab.start}&end=${tab.end}&playlist=${tab.videoId}&modestbranding=1&controls=0&showinfo=0&disablekb=1&iv_load_policy=3`}
-                  title={tab.label}
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-                {/* Transparent overlay to block YouTube link clicks */}
-                <div className="absolute inset-0" />
+                {tab.mp4 ? (
+                  <video
+                    key={tab.label}
+                    src={tab.mp4}
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  />
+                ) : (
+                  <>
+                    <iframe
+                      key={tab.videoId + tab.start}
+                      src={`https://www.youtube.com/embed/${tab.videoId}?rel=0&autoplay=1&mute=1&loop=1&start=${tab.start}&end=${tab.end}&playlist=${tab.videoId}&modestbranding=1&controls=0&showinfo=0&disablekb=1&iv_load_policy=3`}
+                      title={tab.label}
+                      className="w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                    {/* Transparent overlay to block YouTube link clicks */}
+                    <div className="absolute inset-0" />
+                  </>
+                )}
               </div>
               {/* CTA */}
               <div className="text-center mt-8">
