@@ -31,7 +31,7 @@ const features = [
     icon: "\u{1F4CA}",
     title: "Track Progress",
     description: "See every completed session in real time",
-    video: "https://player.vimeo.com/progressive_redirect/playback/1169302963/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=687134569779f1635d1b4fb59172dc78d33ee3fba58ec743e581f70c887e2957",
+    video: "https://player.vimeo.com/progressive_redirect/playback/1169302940/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=d7ec2be5b7f101dc9ca09dc1ce2cf82f8134927a7c7506103375717d7168034b",
   },
   {
     icon: "\u{1F4B0}",
