@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 const TABS = [
-  { label: "Assign Homework", videoId: "HsoTlfJn-RA", start: 0 },
+  { label: "Create Teams", videoId: "HsoTlfJn-RA", start: 0 },
   { label: "Track Progress", videoId: "HsoTlfJn-RA", start: 30 },
   { label: "Team Leaderboard", videoId: "HsoTlfJn-RA", start: 60 },
   { label: "Auto Reminders", videoId: "HsoTlfJn-RA", start: 90 },
