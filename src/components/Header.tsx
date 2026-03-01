@@ -12,6 +12,7 @@ const howItWorksDropdown = [
 const resourcesDropdown = [
   { href: '/blog', label: 'Blog' },
   { href: '/free-resource-hub', label: 'Free Resources' },
+  { href: 'https://app.anytime-soccer.com/leaderboard', label: 'Leaderboard' },
   { href: '/our-picks', label: 'Our Picks' },
   { href: '/merch', label: 'Merch' },
   { href: '/podcast', label: 'Podcast' },
@@ -42,6 +43,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 text-white font-bold text-lg">
+            <img src="https://anytime-soccer.com/wp-content/uploads/2026/02/ast_logo_shield_only_blue.png" alt="Anytime Soccer Training" className="h-8 w-auto" />
             <span className="text-xl">Anytime Soccer Training</span>
           </Link>
 
@@ -73,13 +75,6 @@ export default function Header() {
                 </div>
               )}
             </div>
-
-            <Link
-              href="https://app.anytime-soccer.com/leaderboard"
-              className="text-white/90 hover:text-white text-sm font-medium"
-            >
-              Leaderboard
-            </Link>
 
             {/* Resources dropdown */}
             <div className="relative" ref={resourcesRef}>
@@ -155,13 +150,6 @@ export default function Header() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href="https://app.anytime-soccer.com/leaderboard"
-                className="text-white/90 hover:text-white px-3 py-2 text-sm font-medium"
-                onClick={() => setMobileOpen(false)}
-              >
-                Leaderboard
-              </Link>
               <div className="border-t border-white/10 my-1" />
               <div className="px-3 py-1 text-xs text-white/50 uppercase tracking-wider">Resources</div>
               {resourcesDropdown.map((link) => (
