@@ -32,7 +32,7 @@ export default function HomePage() {
                 </div>
                 <HeroHeadline />
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
-                  5,000+ step-by-step follow-along soccer videos that turn backyard practice into real results.
+                  Structured follow-along soccer videos for players who want to improve — and coaches who want to see it happen.
                 </p>
                 <div className="flex flex-wrap gap-4 mb-10">
                   <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center gap-2">
@@ -80,6 +80,22 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ===== COACH BAR ===== */}
+      <div className="bg-navy w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-[60px] gap-4">
+          <div className="flex items-center gap-6 min-w-0">
+            <span className="text-white font-bold text-sm whitespace-nowrap">&#127942; Are you a coach or club?</span>
+            <span className="text-white/60 text-sm hidden sm:block">Give your entire team structured homework and track every rep.</span>
+          </div>
+          <a
+            href="/team-demo-request-anytime-soccer-training"
+            className="bg-red hover:bg-red-dark text-white px-5 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap flex-shrink-0"
+          >
+            Request Team Demo &rarr;
+          </a>
+        </div>
+      </div>
 
       {/* ===== 7-DAY TABBED VIDEO ===== */}
       <TabbedVideoSection />
