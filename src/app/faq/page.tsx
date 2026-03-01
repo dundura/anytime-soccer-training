@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 const faqs = [
   { q: 'Is Anytime Soccer Training really free?', a: 'Yes! You can join for free and access free training sessions forever. Premium plans start at just $59.98/year for individuals and $6/player/year for teams.' },
-  { q: 'What age is this for?', a: 'Our training sessions are designed for players ages 4-18, from complete beginners to advanced players.' },
+  { q: 'What age is this for?', a: 'Our training sessions are designed for players ages 6-19, from complete beginners to advanced players.' },
   { q: 'Do I need soccer experience to help my child?', a: 'Not at all. Every video is 100% follow-along — your child just presses play and trains. No coaching experience required.' },
   { q: 'What equipment do I need?', a: 'Just a soccer ball and a small space. Some sessions use cones, but they are optional.' },
   { q: 'How long are the training sessions?', a: 'Sessions range from 5 to 30 minutes. Most popular sessions are 10-15 minutes — perfect for daily training.' },
