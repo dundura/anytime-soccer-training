@@ -442,3 +442,27 @@ body {
   .wp-content h1, .ast-success-widget h1 { font-size: 1.5em; }
   .wp-content h2, .ast-success-widget h2 { font-size: 1.3em; }
 }
+
+/* Player Profile Guide */
+.ast-profile { max-width: 1200px; margin: 0 auto; padding: 40px 20px; color: #0F3154; line-height: 1.6; }
+.ast-profile-header { text-align: center; margin-bottom: 40px; }
+.ast-profile-header h1 { font-size: 2.2rem; font-weight: 800; color: #0F3154; margin-bottom: 8px; }
+.ast-profile-header p { color: #DC373E; font-size: 1.1rem; font-weight: 600; }
+.ast-profile-wrapper { display: flex; flex-direction: column; gap: 40px; }
+.ast-profile-video { max-width: 800px; margin: 0 auto; width: 100%; }
+.ast-profile-video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 12px; overflow: hidden; background: #000; box-shadow: 0 4px 20px rgba(15,49,84,0.1); }
+.ast-profile-video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+.ast-profile-steps { background: #fff; border-radius: 16px; padding: 32px; box-shadow: 0 4px 20px rgba(15,49,84,0.08); }
+.ast-profile-step { margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid #ECF1F7; }
+.ast-profile-step:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.ast-profile-step-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.ast-profile-step-number { background: #DC373E; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+.ast-profile-step-title { font-size: 1.1rem; font-weight: 700; color: #0F3154; margin: 0; }
+.ast-profile-step-content { margin-left: 40px; color: #5a7089; font-size: 0.95rem; }
+.ast-profile-highlight { color: #DC373E; font-weight: 600; }
+.ast-profile-tip { background: rgba(220,55,62,0.08); border-left: 3px solid #DC373E; padding: 16px; border-radius: 0 8px 8px 0; margin-top: 12px; margin-left: 40px; }
+.ast-profile-tip p { color: #0F3154; font-size: 0.9rem; margin: 0; }
+.ast-profile-cta { text-align: center; margin-top: 32px; }
+.ast-profile-cta a { display: inline-block; background: #DC373E; color: #fff; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1rem; transition: background 0.2s, transform 0.2s; }
+.ast-profile-cta a:hover { background: #c42f35; transform: translateY(-2px); }
+@media (max-width: 900px) { .ast-profile-header h1 { font-size: 1.8rem; } }
