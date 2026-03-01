@@ -10,7 +10,6 @@ const howItWorksDropdown = [
 ];
 
 const navLinks = [
-  { href: '/resources', label: 'Resources' },
   { href: '/blog', label: 'Blog' },
   { href: '/podcast', label: 'Podcast' },
 ];
