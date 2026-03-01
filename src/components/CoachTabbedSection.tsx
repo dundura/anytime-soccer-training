@@ -4,33 +4,39 @@ import { useState } from "react";
 
 const features = [
   {
+    icon: "\u{1F3AF}",
+    title: "Create Teams",
+    description: "Set up your squad in seconds",
+    video: "https://player.vimeo.com/progressive_redirect/playback/1169303012/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=c734dc10fea1c8c23648cdce45060f9fa4a5c3b58d91e3d1166bea1336d6c6eb",
+  },
+  {
     icon: "\u{1F4CB}",
+    title: "Build Your Roster",
+    description: "Add players and manage your lineup",
+    video: "https://player.vimeo.com/progressive_redirect/playback/1169302940/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=d7ec2be5b7f101dc9ca09dc1ce2cf82f8134927a7c7506103375717d7168034b",
+  },
+  {
+    icon: "\u{1F4DA}",
     title: "Assign Homework",
     description: "Send structured training to every player",
-    video: "https://player.vimeo.com/progressive_redirect/playback/1169303012/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=c734dc10fea1c8c23648cdce45060f9fa4a5c3b58d91e3d1166bea1336d6c6eb",
+    video: "https://player.vimeo.com/progressive_redirect/playback/1169303020/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=5f7589b67658329b3c754291c49f3bc76b74ac990c214e0f5c9f5eeb6f15c5cf",
+  },
+  {
+    icon: "\u{1F3C6}",
+    title: "Create Competitions",
+    description: "Drive friendly competition across your team",
+    video: "https://player.vimeo.com/progressive_redirect/playback/1169302955/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=397999004d244a61df927c2ecc56fbefcfb40b2e0b9ca3b6436cb16925f94dd4",
   },
   {
     icon: "\u{1F4CA}",
     title: "Track Progress",
-    description: "See every completed session",
-    video: "https://player.vimeo.com/progressive_redirect/playback/1169302940/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=d7ec2be5b7f101dc9ca09dc1ce2cf82f8134927a7c7506103375717d7168034b",
+    description: "See every completed session in real time",
+    video: "https://player.vimeo.com/progressive_redirect/playback/1169302963/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=687134569779f1635d1b4fb59172dc78d33ee3fba58ec743e581f70c887e2957",
   },
   {
-    icon: "\u{1F3C6}",
-    title: "Team Competition",
-    description: "Drive friendly competition",
-    video: "https://player.vimeo.com/progressive_redirect/playback/1169303020/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=5f7589b67658329b3c754291c49f3bc76b74ac990c214e0f5c9f5eeb6f15c5cf",
-  },
-  {
-    icon: "\u{1F514}",
-    title: "Auto Reminders",
-    description: "Keep players on track automatically",
-    video: "https://player.vimeo.com/progressive_redirect/playback/1169302955/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=397999004d244a61df927c2ecc56fbefcfb40b2e0b9ca3b6436cb16925f94dd4",
-  },
-  {
-    icon: "\u{1F4C4}",
-    title: "Fundraising",
-    description: "Full visibility into team activity",
+    icon: "\u{1F4B0}",
+    title: "Raise Money",
+    description: "Fund your team through training subscriptions",
     video: "https://player.vimeo.com/progressive_redirect/playback/1169302963/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=687134569779f1635d1b4fb59172dc78d33ee3fba58ec743e581f70c887e2957",
   },
 ];
