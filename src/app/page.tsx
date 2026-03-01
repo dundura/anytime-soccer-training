@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import HeroVideo from '@/components/HeroVideo';
+import InstagramEmbed from '@/components/InstagramEmbed';
 
 export default function HomePage() {
   return (
@@ -97,7 +98,7 @@ export default function HomePage() {
                 </Link>
               </div>
               <div className="flex justify-center">
-                <img src="https://anytime-soccer.com/wp-content/themes/anytime/images/about/new-chalange-image.png" alt="7-Day Challenge" className="max-w-[80%] h-auto rounded-xl" />
+                <InstagramEmbed url="https://www.instagram.com/reel/DRutd9vkYel/" />
               </div>
             </div>
           </div>
