@@ -19,7 +19,7 @@ export default async function CatchAllPage({ params }: { params: Promise<{ slug:
   const page = getPageBySlug(slug);
   if (!page) notFound();
 
-  const hasOwnLayout = /class="ast-(ebook|team-access|aerial|profile|youth-soccer|showcase|recruiting|offball|pyramid|training-landing|dribbling|teamcode|onboarding|agenda|homework|account|team[ "]|7day|leadmagnet|yt-library|form-section)/.test(page.content);
+  const hasOwnLayout = /class="(ast-(ebook|team-access|aerial|profile|youth-soccer|showcase|recruiting|offball|pyramid|training-landing|dribbling|teamcode|onboarding|agenda|homework|account|team[ "]|7day|leadmagnet|yt-library|video-library|form-section)|checklist-container)/.test(page.content);
 
   if (hasOwnLayout) {
     return (
