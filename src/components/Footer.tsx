@@ -46,8 +46,6 @@ export default function Footer() {
               <li><Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
               <li><Link href="/terms-conditions" className="hover:text-white transition-colors">Terms & Conditions</Link></li>
               <li><Link href="/contact-us" className="hover:text-white transition-colors">Contact Us</Link></li>
-              <li><Link href="/employment" className="hover:text-white transition-colors">Employment</Link></li>
-              <li><Link href="/referrals" className="hover:text-white transition-colors">Referrals</Link></li>
             </ul>
             <div className="flex gap-4 mt-4">
               <a href="https://www.facebook.com/anytimesoccertraining" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors" aria-label="Facebook">
