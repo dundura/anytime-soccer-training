@@ -78,8 +78,9 @@ export default function FreeSoccerDrillsPage() {
 }
 
 .ast-7day-landing-graphic h3 {
-  font-family: 'Fraunces', serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 2.5rem;
+  font-weight: 700;
   color: var(--ast-navy);
   line-height: 1;
   margin-bottom: 4px;
@@ -195,8 +196,9 @@ export default function FreeSoccerDrillsPage() {
 }
 
 .ast-7day-landing-content h2 {
-  font-family: 'Fraunces', serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 1.75rem;
+  font-weight: 700;
   color: var(--ast-navy);
   margin-bottom: 8px;
   line-height: 1.2;
@@ -205,6 +207,7 @@ export default function FreeSoccerDrillsPage() {
 
 .ast-7day-landing-content h2 span {
   color: var(--ast-red);
+  font-family: inherit;
 }
 
 .ast-7day-landing-content .ast-subtitle {
