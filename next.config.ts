@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/how-much-soccer-training-does-your-child-really-need-a-soccer-dads-guide-to-getting-better-without-burning-out',
+        destination: '/blog/how-much-soccer-training-does-your-child-really-need-a-soccer-dads-guide-to-getting-better-without-burning-out',
+        permanent: true,
+      },
+      {
         source: '/wp-login.php',
         destination: 'https://media.anytime-soccer.com/wp-login.php',
         permanent: false,
