@@ -180,15 +180,16 @@ export default function Header() {
                   {link.label}
                 </Link>
               ))}
+              <div className="border-t border-white/10 my-1" />
               <Link
                 href="https://app.anytime-soccer.com/auth/login"
-                className="text-white/90 hover:text-white px-3 py-2 text-sm font-medium"
+                className="bg-red hover:bg-red-dark text-white mx-3 px-4 py-2 rounded-lg text-sm font-semibold text-center transition-colors"
               >
                 Sign In
               </Link>
               <Link
                 href="/pricing"
-                className="bg-red hover:bg-red-dark text-white mx-3 px-4 py-2 rounded-lg text-sm font-semibold text-center transition-colors"
+                className="text-white/90 hover:text-white mx-3 px-4 py-2 text-sm font-medium text-center"
               >
                 Join for Free
               </Link>
