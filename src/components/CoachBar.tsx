@@ -13,10 +13,10 @@ export default function CoachBar() {
           <div className="flex-1 min-w-0">
             <h3 className="text-white font-bold text-lg mb-2">&#127942; Built for Coaches &amp; Clubs</h3>
             <ul className="list-none p-0 m-0 grid sm:grid-cols-2 gap-x-6 gap-y-1">
-              <li className="text-white/90 text-sm"><span className="text-red">&#10004;</span> Assign homework to every player</li>
-              <li className="text-white/90 text-sm"><span className="text-red">&#10004;</span> Track progress in real time</li>
-              <li className="text-white/90 text-sm"><span className="text-red">&#10004;</span> Create team competitions</li>
-              <li className="text-white/90 text-sm"><span className="text-red">&#10004;</span> Only <strong className="text-[#22C55E]">$6 per player per year</strong> — coaches free</li>
+              <li className="text-white/90 text-sm"><span className="text-[#DC373E]">&#10004;</span> Assign homework to every player</li>
+              <li className="text-white/90 text-sm"><span className="text-[#DC373E]">&#10004;</span> Track progress in real time</li>
+              <li className="text-white/90 text-sm"><span className="text-[#DC373E]">&#10004;</span> Create team competitions</li>
+              <li className="text-white/90 text-sm"><span className="text-[#DC373E]">&#10004;</span> Only <strong className="text-[#22C55E]">$6 per player per year</strong> — coaches free</li>
             </ul>
           </div>
           <Link
