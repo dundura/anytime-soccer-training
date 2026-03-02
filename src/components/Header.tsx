@@ -22,6 +22,8 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
+  const [mobileHowOpen, setMobileHowOpen] = useState(false);
+  const [mobileResOpen, setMobileResOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const resourcesRef = useRef<HTMLDivElement>(null);
 
@@ -139,8 +141,16 @@ export default function Header() {
         {mobileOpen && (
           <div className="md:hidden pb-4 border-t border-white/10">
             <nav className="flex flex-col gap-2 pt-4">
-              <div className="px-3 py-1 text-xs text-white/50 uppercase tracking-wider">How it Works</div>
-              {howItWorksDropdown.map((link) => (
+              <button
+                onClick={() => setMobileHowOpen(!mobileHowOpen)}
+                className="px-3 py-1 text-xs text-white/50 uppercase tracking-wider flex items-center justify-between"
+              >
+                How it Works
+                <svg className={`w-3.5 h-3.5 transition-transform ${mobileHowOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {mobileHowOpen && howItWorksDropdown.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -151,8 +161,16 @@ export default function Header() {
                 </Link>
               ))}
               <div className="border-t border-white/10 my-1" />
-              <div className="px-3 py-1 text-xs text-white/50 uppercase tracking-wider">Resources</div>
-              {resourcesDropdown.map((link) => (
+              <button
+                onClick={() => setMobileResOpen(!mobileResOpen)}
+                className="px-3 py-1 text-xs text-white/50 uppercase tracking-wider flex items-center justify-between"
+              >
+                Resources
+                <svg className={`w-3.5 h-3.5 transition-transform ${mobileResOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {mobileResOpen && resourcesDropdown.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
