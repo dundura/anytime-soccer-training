@@ -51,13 +51,13 @@ export default function HowItWorksPage() {
                   Your player needs a clear system they can follow at home. We&apos;ve made it simple: set a goal, pin a plan, press play.
                 </p>
                 <div className="flex flex-wrap gap-4 mb-10">
-                  <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center gap-2">
+                  <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
                     Join for Free &rarr;
                   </Link>
-                  <Link href="/team-demo-request-anytime-soccer-training" className="bg-transparent text-white border-2 border-white/60 px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-flex items-center gap-2">
+                  <Link href="/team-demo-request-anytime-soccer-training" className="bg-transparent text-white border-2 border-white/60 px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
                     Request Team Demo
                   </Link>
-                  <Link href="/for-coaches" className="bg-transparent text-white border-2 border-white/60 px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-flex items-center gap-2">
+                  <Link href="/for-coaches" className="bg-transparent text-white border-2 border-white/60 px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
                     For Coaches &rarr;
                   </Link>
                 </div>
@@ -139,13 +139,13 @@ export default function HowItWorksPage() {
                 <div className="flex flex-col sm:flex-row gap-4 mt-6">
                   <Link
                     href="/pricing"
-                    className="inline-block font-bold text-base px-8 py-4 rounded-full bg-red text-white! no-underline shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:bg-red-dark hover:-translate-y-0.5 transition-all"
+                    className="inline-block font-bold text-base px-8 py-4 rounded-full bg-red text-white! no-underline shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:bg-red-dark hover:-translate-y-0.5 transition-all w-full sm:w-auto text-center"
                   >
                     Start Training Free →
                   </Link>
                   <Link
                     href="/team-demo-request-anytime-soccer-training"
-                    className="inline-block font-bold text-base px-8 py-4 rounded-full bg-white text-navy! no-underline border-2 border-navy hover:bg-navy hover:text-white! transition-all"
+                    className="inline-block font-bold text-base px-8 py-4 rounded-full bg-white text-navy! no-underline border-2 border-navy hover:bg-navy hover:text-white! transition-all w-full sm:w-auto text-center"
                   >
                     Request Team Demo
                   </Link>
