@@ -241,6 +241,7 @@ export default function FreeSoccerDrillsPage() {
   min-height: 500px;
   position: relative;
   margin-top: -40px;
+  overflow: hidden;
 }
 
 .ast-7day-landing-form-container iframe {
