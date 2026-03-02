@@ -16,7 +16,7 @@ export default function CoachBar() {
               <li className="text-white/90 text-sm"><span className="text-red">&#10004;</span> Assign homework to every player</li>
               <li className="text-white/90 text-sm"><span className="text-red">&#10004;</span> Track progress in real time</li>
               <li className="text-white/90 text-sm"><span className="text-red">&#10004;</span> Create team competitions</li>
-              <li className="text-white/90 text-sm"><span className="text-red">&#10004;</span> Only <strong className="text-[#22C55E]">$6 per player per year</strong> — coaches <span className="hidden md:inline">always </span>free</li>
+              <li className="text-white/90 text-sm"><span className="text-red">&#10004;</span> Only <strong className="text-[#22C55E]">$6 per player per year</strong> — coaches free</li>
             </ul>
           </div>
           <Link
