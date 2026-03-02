@@ -37,7 +37,7 @@ const EBOOKS = [
     title: 'The Most Important Skill Never Taught',
     description: 'This powerful (yet simple) tip will change your child\'s game forever.',
     image: 'https://anytime-soccer.com/wp-content/uploads/2021/01/ast_facebook_image_3.jpg',
-    href: '/blog/the-most-important-skill-in-youth-soccer-never-taught',
+    href: '/the-most-important-skill-in-youth-soccer',
   },
   {
     title: 'Must-Have Guide to In-Home Training',
