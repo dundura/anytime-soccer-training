@@ -80,7 +80,8 @@ export default function AdminTable({ entries, images }: { entries: AdminPageEntr
     return entries.filter((e) => {
       if (typeFilter !== 'All' && e.type !== typeFilter) return false;
       const isHidden = hiddenPages.has(e.url);
-      if (showHiddenPages ? !isHidden : isHidden) return false;
+      if (showHiddenPages && !isHidden) return false;
+      if (!showHiddenPages && isHidden) return false;
       if (search) {
         const q = search.toLowerCase();
         return e.title.toLowerCase().includes(q) || e.url.toLowerCase().includes(q);
@@ -125,7 +126,8 @@ export default function AdminTable({ entries, images }: { entries: AdminPageEntr
     return images.filter((img) => {
       if (imgDomainFilter !== 'All' && img.domain !== imgDomainFilter) return false;
       const isHidden = hiddenImages.has(img.url);
-      if (showHiddenImages ? !isHidden : isHidden) return false;
+      if (showHiddenImages && !isHidden) return false;
+      if (!showHiddenImages && isHidden) return false;
       if (imgSearch) {
         const q = imgSearch.toLowerCase();
         return img.url.toLowerCase().includes(q) || img.sources.some((s) => s.toLowerCase().includes(q));
