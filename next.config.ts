@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/free-7-day-soccer-skills-challenge',
+        destination: '/free-soccer-drills-for-kids',
+        permanent: true,
+      },
+      {
         source: '/how-much-soccer-training-does-your-child-really-need-a-soccer-dads-guide-to-getting-better-without-burning-out',
         destination: '/blog/how-much-soccer-training-does-your-child-really-need-a-soccer-dads-guide-to-getting-better-without-burning-out',
         permanent: true,
