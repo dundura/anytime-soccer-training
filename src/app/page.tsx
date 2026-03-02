@@ -130,7 +130,7 @@ export default function HomePage() {
                     <strong className="text-navy">Step-by-step videos delivered daily — just hit play and train.</strong>
                   </li>
                 </ul>
-                <Link href="/free-resource-hub" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
+                <Link href="/free-30-day-training-plan" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
                   Get My Free Plan &rarr;
                 </Link>
               </div>
