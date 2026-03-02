@@ -15,7 +15,7 @@ export default function GuestPlayingGuidePage() {
           {/* Left - Image + Reviews */}
           <div className="flex flex-col gap-6">
             <img
-              src="http://media.anytime-soccer.com/wp-content/uploads/2024/12/is-soccer-in-the-u.s.-really-that-expensive-.png"
+              src="https://media.anytime-soccer.com/wp-content/uploads/2024/12/is-soccer-in-the-u.s.-really-that-expensive-.png"
               alt="Everything You Need to Know About Guest Playing"
               className="w-full rounded-2xl shadow-[0_24px_48px_rgba(15,49,84,0.15)]"
             />

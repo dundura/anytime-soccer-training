@@ -43,7 +43,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 text-white font-bold text-lg">
-            <img src="http://media.anytime-soccer.com/wp-content/uploads/2026/02/ast_logo_shield_only_blue.png" alt="Anytime Soccer Training" className="h-8 w-auto" />
+            <img src="https://media.anytime-soccer.com/wp-content/uploads/2026/02/ast_logo_shield_only_blue.png" alt="Anytime Soccer Training" className="h-8 w-auto" />
             <span className="text-xl">Anytime Soccer Training</span>
           </Link>
 

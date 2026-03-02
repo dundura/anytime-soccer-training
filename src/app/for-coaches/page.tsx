@@ -103,7 +103,7 @@ export default function ForCoachesPage() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="text-center">
               <img
-                src="http://media.anytime-soccer.com/wp-content/uploads/2025/12/coach-scaled.jpg"
+                src="https://media.anytime-soccer.com/wp-content/uploads/2025/12/coach-scaled.jpg"
                 alt="Neil Crawford with his sons"
                 className="max-w-full rounded-2xl shadow-[0_20px_60px_rgba(15,49,84,0.15)]"
               />
@@ -211,7 +211,7 @@ export default function ForCoachesPage() {
               Join for Free
             </Link>
             <a
-              href="http://media.anytime-soccer.com/wp-content/uploads/2026/01/case_study_ebook.pdf"
+              href="https://media.anytime-soccer.com/wp-content/uploads/2026/01/case_study_ebook.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-navy text-white! font-bold text-base py-4 px-8 rounded-full no-underline hover:bg-navy-light transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(15,49,84,0.35)] inline-block"
