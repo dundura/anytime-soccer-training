@@ -35,14 +35,14 @@ export default function FreeChallengePopup() {
         {/* Close button */}
         <button
           onClick={dismiss}
-          className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-navy text-lg font-bold transition-colors cursor-pointer"
+          className="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-navy/10 hover:bg-navy/20 text-navy text-xl font-bold transition-colors cursor-pointer"
           aria-label="Close"
         >
           &times;
         </button>
 
-        {/* Left - Phone mockup */}
-        <div className="md:w-[45%] bg-[#ECF1F7] flex items-center justify-center p-8 md:p-10">
+        {/* Left - Phone mockup (hidden on mobile) */}
+        <div className="hidden md:flex md:w-[45%] bg-[#ECF1F7] items-center justify-center p-8 md:p-10">
           <img
             src="https://media.anytime-soccer.com/wp-content/uploads/2026/03/simple_navigation_phone.png"
             alt="Anytime Soccer Training App"
@@ -51,7 +51,7 @@ export default function FreeChallengePopup() {
         </div>
 
         {/* Right - Content */}
-        <div className="md:w-[55%] p-8 md:p-10 flex flex-col justify-center">
+        <div className="w-full md:w-[55%] p-8 md:p-10 flex flex-col justify-center">
           <p className="text-red text-xs font-bold uppercase tracking-[2px] mb-2">
             7-Day Training Plan
           </p>
