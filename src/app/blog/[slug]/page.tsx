@@ -50,10 +50,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <h1 className="text-3xl md:text-4xl font-bold text-navy mb-4">{post.title}</h1>
           <p className="text-gray mb-8">{formatDate(post.date)}</p>
 
-          {/* WordPress content — strip leading h1 to avoid duplicate title */}
+          {/* WordPress content — strip leading h1/h2 to avoid duplicate title */}
           <div
             className="wp-content prose max-w-none"
-            dangerouslySetInnerHTML={{ __html: post.content.replace(/^\s*<h1[^>]*>.*?<\/h1>\s*/i, '') }}
+            dangerouslySetInnerHTML={{ __html: post.content.replace(/^\s*<h[12][^>]*>.*?<\/h[12]>\s*/i, '') }}
           />
 
           {/* Tags */}
