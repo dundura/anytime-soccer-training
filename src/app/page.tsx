@@ -159,7 +159,7 @@ export default function HomePage() {
               </h3>
               <p className="text-navy/70 text-lg mb-8 relative z-10">A free ebook packed with practical tips from a passionate soccer parent and coach.</p>
               <div className="relative z-10">
-                <Link href="/free-resource-hub" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:-translate-y-0.5 inline-flex items-center gap-3">
+                <Link href="/must-have-guide-for-serious-soccer-parents" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:-translate-y-0.5 inline-flex items-center gap-3">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                   Download Free Guide
                 </Link>
