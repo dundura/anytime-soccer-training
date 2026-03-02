@@ -175,9 +175,9 @@ export default function HomePage() {
           <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-12">Three Ebooks Every Parent and Coach Should Read!</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: '20 Questions For Every Club', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-1.png', cta: 'Download', href: '/20-questions-every-parent-should-ask' },
-              { title: 'Become a Rec Coach SuperHero', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-2.png', cta: 'Become', href: '/free-resource-hub' },
-              { title: 'Everything About Guest Playing', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-3.png', cta: 'Download', href: '/free-resource-hub' },
+              { title: 'Is Your Club Failing Your Players? 20 Questions Every Parent Should Ask', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-1.png', cta: 'Download', href: '/20-questions-every-parent-should-ask' },
+              { title: 'Your Players Are Watching. Are You Ready?', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-2.png', cta: 'Show Me How', href: '/free-resource-hub' },
+              { title: "The Guest Player Loophole Most Families Don\u2019t Know About", img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-3.png', cta: 'Get the Guide', href: '/free-resource-hub' },
             ].map((ebook) => (
               <div key={ebook.title} className="bg-white rounded-2xl p-8 text-center shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all">
                 <img src={ebook.img} alt={ebook.title} className="w-full max-w-[200px] mx-auto mb-6" />
