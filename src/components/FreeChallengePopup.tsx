@@ -44,7 +44,7 @@ export default function FreeChallengePopup() {
         {/* Left - Phone mockup */}
         <div className="md:w-[45%] bg-[#ECF1F7] flex items-center justify-center p-8 md:p-10">
           <img
-            src="https://media.anytime-soccer.com/wp-content/uploads/2026/03/simple_navigation_phone.png"
+            src="http://media.anytime-soccer.com/wp-content/uploads/2026/03/simple_navigation_phone.png"
             alt="Anytime Soccer Training App"
             className="w-full max-w-[260px] -ml-5"
           />

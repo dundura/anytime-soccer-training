@@ -47,7 +47,7 @@ export default function PodcastPage() {
           {/* Cover Art */}
           <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
             <img
-              src="https://media.anytime-soccer.com/wp-content/uploads/2026/01/inside-scoop-mug.jpg"
+              src="http://media.anytime-soccer.com/wp-content/uploads/2026/01/inside-scoop-mug.jpg"
               alt="The Inside Scoop Podcast"
               className="w-full aspect-square object-cover"
             />
@@ -86,7 +86,7 @@ export default function PodcastPage() {
           {/* Hero Banner */}
           <div className="relative rounded-2xl overflow-hidden h-48 md:h-64">
             <img
-              src="https://media.anytime-soccer.com/wp-content/uploads/2024/12/dall%C2%B7e-2024-12-13-08.58.54-a-vibrant-podcast-thumbnail-in-red-white-and-blue-featuring-a-soccer-ball-prominently-in-the-center.-the-design-includes-dynamic-motion-lines-and-p.webp"
+              src="http://media.anytime-soccer.com/wp-content/uploads/2024/12/dall%C2%B7e-2024-12-13-08.58.54-a-vibrant-podcast-thumbnail-in-red-white-and-blue-featuring-a-soccer-ball-prominently-in-the-center.-the-design-includes-dynamic-motion-lines-and-p.webp"
               alt="The Inside Scoop Podcast"
               className="w-full h-full object-cover"
             />
