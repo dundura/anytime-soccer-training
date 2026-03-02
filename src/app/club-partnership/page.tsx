@@ -104,7 +104,7 @@ export default function ClubPartnershipPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-center">
               <img
-                src="https://anytime-soccer.com/wp-content/uploads/2025/12/coach-scaled.jpg"
+                src="https://media.anytime-soccer.com/wp-content/uploads/2025/12/coach-scaled.jpg"
                 alt="Neil Crawford with his sons"
                 className="w-full max-w-md mx-auto rounded-2xl shadow-[0_20px_60px_rgba(15,49,84,0.15)]"
               />
@@ -193,7 +193,7 @@ export default function ClubPartnershipPage() {
             </div>
             <div className="text-center">
               <img
-                src="https://anytime-soccer.com/wp-content/uploads/2026/01/microsoftteams-image.jpg"
+                src="https://media.anytime-soccer.com/wp-content/uploads/2026/01/microsoftteams-image.jpg"
                 alt="Anytime Soccer Training App"
                 className="max-w-[280px] mx-auto rounded-2xl shadow-[0_20px_60px_rgba(15,49,84,0.15)]"
               />
@@ -204,7 +204,7 @@ export default function ClubPartnershipPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-12">
             <div className="text-center order-2 lg:order-1">
               <img
-                src="https://anytime-soccer.com/wp-content/uploads/2026/01/microsoftteams-image-2.jpg"
+                src="https://media.anytime-soccer.com/wp-content/uploads/2026/01/microsoftteams-image-2.jpg"
                 alt="Anytime Soccer Training Step-by-Step Video Guides"
                 className="max-w-[280px] mx-auto rounded-2xl shadow-[0_20px_60px_rgba(15,49,84,0.15)]"
               />
@@ -323,7 +323,7 @@ export default function ClubPartnershipPage() {
               Join for Free
             </Link>
             <a
-              href="https://anytime-soccer.com/wp-content/uploads/2026/01/case_study_ebook.pdf"
+              href="https://media.anytime-soccer.com/wp-content/uploads/2026/01/case_study_ebook.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block font-bold text-base px-8 py-4 rounded-full bg-navy text-white shadow-[0_4px_20px_rgba(15,49,84,0.35)] hover:bg-navy-light hover:-translate-y-0.5 transition-all"

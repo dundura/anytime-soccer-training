@@ -6,17 +6,17 @@ export const metadata: Metadata = {
 };
 
 const featuredProducts = [
-  { title: 'ALL IN Hoodie | Anytime Soccer Training', price: '$38.98', img: 'https://anytime-soccer.com/wp-content/uploads/2026/01/all_in.jpg', href: 'https://my-store-10e385f.creator-spring.com/' },
-  { title: 'The Parent Trainer Tee | Anytime Soccer', price: '$23.99', img: 'https://anytime-soccer.com/wp-content/uploads/2026/01/the_parent_trainer_tee.jpg', href: 'https://my-store-10e385f.creator-spring.com/' },
-  { title: 'The Inside Scoop Mug | Podcast', price: '$15.99', img: 'https://anytime-soccer.com/wp-content/uploads/2026/01/inside-scoop-mug.jpg', href: 'https://my-store-10e385f.creator-spring.com/' },
-  { title: 'Best Coach Ever Hoodie | Anytime Soccer', price: '$38.98', img: 'https://anytime-soccer.com/wp-content/uploads/2026/01/best_coach_ever_hoodie.jpg', href: 'https://my-store-10e385f.creator-spring.com/' },
+  { title: 'ALL IN Hoodie | Anytime Soccer Training', price: '$38.98', img: 'https://media.anytime-soccer.com/wp-content/uploads/2026/01/all_in.jpg', href: 'https://my-store-10e385f.creator-spring.com/' },
+  { title: 'The Parent Trainer Tee | Anytime Soccer', price: '$23.99', img: 'https://media.anytime-soccer.com/wp-content/uploads/2026/01/the_parent_trainer_tee.jpg', href: 'https://my-store-10e385f.creator-spring.com/' },
+  { title: 'The Inside Scoop Mug | Podcast', price: '$15.99', img: 'https://media.anytime-soccer.com/wp-content/uploads/2026/01/inside-scoop-mug.jpg', href: 'https://my-store-10e385f.creator-spring.com/' },
+  { title: 'Best Coach Ever Hoodie | Anytime Soccer', price: '$38.98', img: 'https://media.anytime-soccer.com/wp-content/uploads/2026/01/best_coach_ever_hoodie.jpg', href: 'https://my-store-10e385f.creator-spring.com/' },
 ];
 
 const gripSocks = [
-  { title: 'Grip Socks - White 3 Pack', img: 'https://anytime-soccer.com/wp-content/uploads/2026/01/3_pack_grip_socks.jpg', href: 'https://amzn.to/4plDeBi' },
-  { title: 'Grip Socks - White', img: 'https://anytime-soccer.com/wp-content/uploads/2026/01/white_grip_socks.jpg', href: 'https://amzn.to/4qxbtGR' },
-  { title: 'Grip Socks - Black', img: 'https://anytime-soccer.com/wp-content/uploads/2026/01/black_grip_socks.jpg', href: 'https://amzn.to/45CUP0t' },
-  { title: 'Grip Socks - Navy', img: 'https://anytime-soccer.com/wp-content/uploads/2026/01/navy_grip_socks.jpg', href: 'https://amzn.to/45qamke' },
+  { title: 'Grip Socks - White 3 Pack', img: 'https://media.anytime-soccer.com/wp-content/uploads/2026/01/3_pack_grip_socks.jpg', href: 'https://amzn.to/4plDeBi' },
+  { title: 'Grip Socks - White', img: 'https://media.anytime-soccer.com/wp-content/uploads/2026/01/white_grip_socks.jpg', href: 'https://amzn.to/4qxbtGR' },
+  { title: 'Grip Socks - Black', img: 'https://media.anytime-soccer.com/wp-content/uploads/2026/01/black_grip_socks.jpg', href: 'https://amzn.to/45CUP0t' },
+  { title: 'Grip Socks - Navy', img: 'https://media.anytime-soccer.com/wp-content/uploads/2026/01/navy_grip_socks.jpg', href: 'https://amzn.to/45qamke' },
 ];
 
 export default function MerchPage() {

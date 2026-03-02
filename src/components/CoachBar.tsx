@@ -6,7 +6,7 @@ export default function CoachBar() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-navy rounded-2xl py-6 pl-8 pr-6 flex items-center gap-6 flex-wrap">
           <img
-            src="https://anytime-soccer.com/wp-content/uploads/2026/03/pacific_quote_photo.png"
+            src="https://media.anytime-soccer.com/wp-content/uploads/2026/03/pacific_quote_photo.png"
             alt="Coach"
             className="w-[70px] h-[70px] rounded-full object-cover flex-shrink-0"
           />

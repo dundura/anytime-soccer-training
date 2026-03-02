@@ -87,9 +87,9 @@ export default function HomePage() {
           <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-12">Our Reviews</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: 'Parent Reactions', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/home/review-1.png', href: 'https://www.instagram.com/reel/C0VSBMCr8a4/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==' },
-              { title: 'Coach Reactions', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/home/review-2.png', href: 'https://www.instagram.com/reel/C2U6xM6rLug/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==' },
-              { title: 'Club Reactions', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/home/review-3.png', href: 'https://www.facebook.com/reel/1273977504005434' },
+              { title: 'Parent Reactions', img: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/home/review-1.png', href: 'https://www.instagram.com/reel/C0VSBMCr8a4/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==' },
+              { title: 'Coach Reactions', img: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/home/review-2.png', href: 'https://www.instagram.com/reel/C2U6xM6rLug/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==' },
+              { title: 'Club Reactions', img: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/home/review-3.png', href: 'https://www.facebook.com/reel/1273977504005434' },
             ].map((review) => (
               <a key={review.title} href={review.href} target="_blank" rel="noopener noreferrer" className="relative rounded-2xl overflow-hidden group block bg-white shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all">
                 <img src={review.img} alt={review.title} className="w-full aspect-[4/5] object-cover" />
@@ -144,7 +144,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-0 mt-0 rounded-3xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)] min-h-[480px]">
             <div className="relative">
-              <img src="https://anytime-soccer.com/wp-content/themes/anytime/images/home/bg-1.png" alt="In-home Soccer Training Guide" className="w-full h-full object-cover" />
+              <img src="https://media.anytime-soccer.com/wp-content/themes/anytime/images/home/bg-1.png" alt="In-home Soccer Training Guide" className="w-full h-full object-cover" />
             </div>
             <div className="bg-[#ECF1F7] p-10 md:p-14 lg:p-16 flex flex-col justify-center relative overflow-hidden">
               {/* Decorative circles */}
@@ -175,9 +175,9 @@ export default function HomePage() {
           <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-12">Three Ebooks Every Parent and Coach Should Read!</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: 'Is Your Club Failing Your Players? 20 Questions Every Parent Should Ask', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-1.png', cta: 'Download', href: '/20-questions-every-parent-should-ask' },
-              { title: 'Your Players Are Watching. Are You Ready?', img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-2.png', cta: 'Show Me How', href: '/become-a-rec-coach-superhero' },
-              { title: "The Guest Player Loophole Most Families Don\u2019t Know About", img: 'https://anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-3.png', cta: 'Get the Guide', href: '/everything-you-need-to-know-about-guest-playing' },
+              { title: 'Is Your Club Failing Your Players? 20 Questions Every Parent Should Ask', img: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-1.png', cta: 'Download', href: '/20-questions-every-parent-should-ask' },
+              { title: 'Your Players Are Watching. Are You Ready?', img: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-2.png', cta: 'Show Me How', href: '/become-a-rec-coach-superhero' },
+              { title: "The Guest Player Loophole Most Families Don\u2019t Know About", img: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-3.png', cta: 'Get the Guide', href: '/everything-you-need-to-know-about-guest-playing' },
             ].map((ebook) => (
               <div key={ebook.title} className="bg-white rounded-2xl p-8 text-center shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all">
                 <img src={ebook.img} alt={ebook.title} className="w-full max-w-[200px] mx-auto mb-6" />
