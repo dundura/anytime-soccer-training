@@ -75,8 +75,11 @@ export default function HomeBlogSection() {
                 className="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all block group"
               >
                 <div
-                  className="w-full h-44 flex items-end p-4"
-                  style={{ backgroundColor: CARD_COLORS[i % CARD_COLORS.length] }}
+                  className="w-full h-44 flex items-end p-4 bg-cover bg-center"
+                  style={post.featuredImage
+                    ? { backgroundImage: `url(${post.featuredImage})` }
+                    : { backgroundColor: CARD_COLORS[i % CARD_COLORS.length] }
+                  }
                 >
                   {post.categories?.[0] && (
                     <span className="text-xs font-bold text-white bg-white/20 px-2 py-0.5 rounded">{post.categories[0]}</span>
