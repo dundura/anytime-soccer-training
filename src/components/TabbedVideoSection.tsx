@@ -29,6 +29,16 @@ export default function TabbedVideoSection() {
     <section className="pt-0 pb-20 bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
+          {/* Heading - shown above tabs on mobile */}
+          <div className="text-center mb-6 md:hidden">
+            <h2 className="text-3xl font-extrabold text-navy mb-3">
+              Get Your Free <span className="text-red">7-Day Training Plan</span>
+            </h2>
+            <p className="text-gray text-lg max-w-xl mx-auto">
+              One week. Seven skills. Follow along and watch your player improve.
+            </p>
+          </div>
+
           {/* Layout: sidebar tabs + (heading + video), centered */}
           <div className="flex flex-col md:flex-row gap-6 items-center justify-center max-w-5xl mx-auto">
             {/* Left - Vertical Tab List */}
@@ -57,7 +67,7 @@ export default function TabbedVideoSection() {
 
             {/* Right - Heading + Video Player */}
             <div className="flex-1 w-full max-w-[680px]">
-              <div className="text-center mb-6">
+              <div className="text-center mb-6 hidden md:block">
                 <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-3">
                   Get Your Free <span className="text-red">7-Day Training Plan</span>
                 </h2>
