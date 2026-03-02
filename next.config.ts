@@ -1,7 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return [
+      {
+        source: '/blog/free-7-day-soccer-skills-challenge',
+        destination: '/free-soccer-drills-for-kids',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
