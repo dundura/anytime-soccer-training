@@ -167,7 +167,7 @@ export default function FreeResourceHubPage() {
                 <span className="text-base font-bold uppercase tracking-[2px] text-red mb-4 block">CALCULATOR</span>
                 <h3 className="text-3xl md:text-[42px] font-extrabold text-navy mb-5 leading-tight">Free Age Group Calculator</h3>
                 <p className="text-xl md:text-[22px] text-gray mb-8 leading-relaxed">Find the correct U6, U8, U10 age group for any season. Get instant results for all three formation cycles.</p>
-                <span className="bg-red text-white font-bold py-5 px-12 rounded-full text-xl shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block">
+                <span className="bg-red text-white font-bold py-4 px-8 md:py-5 md:px-12 rounded-full text-base md:text-xl shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block">
                   Calculate Age Group &rarr;
                 </span>
               </div>
