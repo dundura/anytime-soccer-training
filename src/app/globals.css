@@ -539,3 +539,33 @@ body {
 .ast-team-access-form-section .sib-form { background: transparent !important; }
 .ast-team-access-form-section #sib-container { background: transparent !important; border: none !important; padding: 0 !important; max-width: 100% !important; }
 .ast-team-access-footer { text-align: center; margin-top: 16px; font-size: 0.8125rem; color: #6b7280; }
+
+/* 30-Day Training Plan Landing Page */
+.ast-training-landing { --navy-primary: #1e3a5f; --navy-dark: #0f2642; --red-primary: #e94560; --red-dark: #d63651; --light-gray: #f5f7fa; --text-dark: #2c3e50; --text-light: #6c7a89; margin: 0 !important; padding: 0 !important; width: 100% !important; }
+.ast-training-landing * { box-sizing: border-box; }
+.ast-landing-container { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; gap: 0; }
+.ast-left-panel { background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-primary) 100%); padding: 50px 40px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+.ast-left-panel::before { content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(233,69,96,0.15) 0%, transparent 70%); border-radius: 50%; }
+.ast-content-wrapper { max-width: 540px; position: relative; z-index: 2; }
+.ast-main-heading { font-size: 52px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 20px; }
+.ast-heading-highlight { color: var(--red-primary); display: block; font-size: 60px; text-shadow: 0 4px 12px rgba(233,69,96,0.3); }
+.ast-subtitle { font-size: 18px; color: rgba(255,255,255,0.9); margin-bottom: 30px; line-height: 1.6; }
+.ast-benefits-list { list-style: none; margin-bottom: 40px; padding: 0; }
+.ast-benefits-list li { color: #fff; font-size: 16px; margin-bottom: 16px; padding-left: 36px; position: relative; font-weight: 500; line-height: 1.5; }
+.ast-benefits-list li::before { content: '\2713'; position: absolute; left: 0; width: 26px; height: 26px; background: var(--red-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; top: -2px; }
+.ast-trust-badge { margin-top: 24px; color: rgba(255,255,255,0.7); font-size: 14px; }
+.ast-right-panel { background: #fff; display: flex; align-items: center; justify-content: center; padding: 50px 40px; position: relative; overflow: hidden; }
+.ast-right-panel::before { content: ''; position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: var(--light-gray); border-radius: 50%; z-index: 1; }
+.ast-form-container { position: relative; z-index: 2; max-width: 560px; width: 100%; background: #fff; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(30,58,95,0.15); border: 3px solid var(--navy-primary); }
+.ast-form-header { text-align: center; margin-bottom: 32px; }
+.ast-form-title { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, var(--navy-primary), var(--red-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; line-height: 1.2; }
+.ast-form-subtitle { font-size: 15px; color: var(--text-light); line-height: 1.5; }
+.ast-ghl-form-wrapper { min-height: 500px; position: relative; }
+.ast-ghl-form-wrapper iframe { width: 100% !important; min-height: 500px !important; border: none !important; border-radius: 8px !important; }
+.ast-form-benefits { margin-top: 24px; padding-top: 24px; border-top: 2px solid var(--light-gray); display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center; }
+.ast-form-benefit { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.ast-form-benefit-icon { font-size: 24px; margin-bottom: 4px; }
+.ast-form-benefit-text { font-size: 12px; color: var(--text-dark); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+@media (max-width: 1024px) { .ast-landing-container { grid-template-columns: 1fr; } .ast-main-heading { font-size: 46px; } .ast-heading-highlight { font-size: 54px; } .ast-left-panel { min-height: auto; padding-bottom: 60px; } }
+@media (max-width: 768px) { .ast-left-panel, .ast-right-panel { padding: 40px 24px; } .ast-main-heading { font-size: 38px; } .ast-heading-highlight { font-size: 46px; } .ast-form-container { padding: 30px 24px; } .ast-form-title { font-size: 26px; } .ast-form-benefits { grid-template-columns: 1fr; gap: 12px; } }
+@media (max-width: 480px) { .ast-main-heading { font-size: 32px; } .ast-heading-highlight { font-size: 38px; } .ast-subtitle { font-size: 16px; } .ast-benefits-list li { font-size: 14px; } .ast-form-container { padding: 24px 20px; } .ast-form-title { font-size: 24px; } }

@@ -19,7 +19,7 @@ export default async function CatchAllPage({ params }: { params: Promise<{ slug:
   const page = getPageBySlug(slug);
   if (!page) notFound();
 
-  const hasOwnLayout = /class="ast-(ebook|team-access|aerial|profile|youth-soccer|showcase|recruiting|offball|pyramid)/.test(page.content);
+  const hasOwnLayout = /class="ast-(ebook|team-access|aerial|profile|youth-soccer|showcase|recruiting|offball|pyramid|training-landing)/.test(page.content);
 
   if (hasOwnLayout) {
     return (
