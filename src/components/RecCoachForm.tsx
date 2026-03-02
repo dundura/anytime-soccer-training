@@ -5,13 +5,14 @@ import { useEffect } from "react";
 export default function RecCoachForm() {
   useEffect(() => {
     // Set Brevo globals
-    (window as Record<string, unknown>).REQUIRED_CODE_ERROR_MESSAGE = "Please choose a country code";
-    (window as Record<string, unknown>).LOCALE = "en";
-    (window as Record<string, unknown>).EMAIL_INVALID_MESSAGE = "The information provided is invalid. Please review the field format and try again.";
-    (window as Record<string, unknown>).SMS_INVALID_MESSAGE = "The information provided is invalid. Please review the field format and try again.";
-    (window as Record<string, unknown>).REQUIRED_ERROR_MESSAGE = "This field cannot be left blank. ";
-    (window as Record<string, unknown>).GENERIC_INVALID_MESSAGE = "The information provided is invalid. Please review the field format and try again.";
-    (window as Record<string, unknown>).translation = {
+    const w = window as unknown as Record<string, unknown>;
+    w.REQUIRED_CODE_ERROR_MESSAGE = "Please choose a country code";
+    w.LOCALE = "en";
+    w.EMAIL_INVALID_MESSAGE = "The information provided is invalid. Please review the field format and try again.";
+    w.SMS_INVALID_MESSAGE = "The information provided is invalid. Please review the field format and try again.";
+    w.REQUIRED_ERROR_MESSAGE = "This field cannot be left blank. ";
+    w.GENERIC_INVALID_MESSAGE = "The information provided is invalid. Please review the field format and try again.";
+    w.translation = {
       common: {
         selectedList: "{quantity} list selected",
         selectedLists: "{quantity} lists selected",
@@ -19,7 +20,7 @@ export default function RecCoachForm() {
         selectedOptions: "{quantity} selected",
       },
     };
-    (window as Record<string, unknown>).AUTOHIDE = false;
+    w.AUTOHIDE = false;
 
     // Load Brevo styles
     const link = document.createElement("link");
