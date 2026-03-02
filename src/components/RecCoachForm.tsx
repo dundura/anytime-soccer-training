@@ -41,7 +41,7 @@ export default function RecCoachForm() {
   }, []);
 
   return (
-    <div className="sib-form" style={{ textAlign: "center", background: "transparent" }}>
+    <div className="sib-form" style={{ textAlign: "center", background: "transparent", overflow: "hidden" }}>
       <div id="sib-form-container" className="sib-form-container">
         <div
           id="error-message"
