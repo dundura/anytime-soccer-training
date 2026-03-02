@@ -53,7 +53,7 @@ export default function TabbedVideoSection() {
                   }`}
                 >
                   <Thumbnail videoId={t.videoId} />
-                  <span className={`font-bold text-sm ${active === i ? "text-navy" : "text-gray"}`}>
+                  <span className={`font-bold text-xs ${active === i ? "text-navy" : "text-gray"}`}>
                     {t.label}
                   </span>
                 </button>
