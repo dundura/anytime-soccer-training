@@ -32,7 +32,7 @@ export default function TabbedVideoSection() {
           {/* Layout: sidebar tabs + (heading + video), centered */}
           <div className="flex flex-col md:flex-row gap-6 items-center justify-center max-w-5xl mx-auto">
             {/* Left - Vertical Tab List */}
-            <div className="flex md:flex-col gap-2 md:w-[280px] flex-shrink-0 overflow-x-auto md:overflow-visible pb-2 md:pb-0">
+            <div className="flex flex-col gap-2 md:w-[280px] flex-shrink-0">
               {TABS.map((t, i) => (
                 <button
                   key={t.label}
