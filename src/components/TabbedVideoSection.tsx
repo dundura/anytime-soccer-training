@@ -29,20 +29,42 @@ export default function TabbedVideoSection() {
     <section className="pt-0 pb-20 bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
-          {/* Heading - shown above tabs on mobile */}
-          <div className="text-center mb-6 md:hidden">
-            <h2 className="text-3xl font-extrabold text-navy mb-3">
-              Get Your Free <span className="text-red">7-Day Training Plan</span>
-            </h2>
-            <p className="text-gray text-lg max-w-xl mx-auto">
-              One week. Seven skills. Follow along and watch your player improve.
-            </p>
+          {/* Mobile: heading + 2-col grid tabs */}
+          <div className="md:hidden mb-6">
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-extrabold text-navy mb-3">
+                Get Your Free <span className="text-red">7-Day Training Plan</span>
+              </h2>
+              <p className="text-gray text-lg max-w-xl mx-auto">
+                One week. Seven skills. Follow along and watch your player improve.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {TABS.map((t, i) => (
+                <button
+                  key={t.label}
+                  onClick={() => setActive(i)}
+                  className={`flex items-center gap-2 px-3 py-3 rounded-xl text-left transition-all ${
+                    i === TABS.length - 1 ? "col-span-2 max-w-[50%] mx-auto w-full" : ""
+                  } ${
+                    active === i
+                      ? "bg-[#f5f7fa] border-2 border-red"
+                      : "bg-[#f5f7fa] border-2 border-transparent"
+                  }`}
+                >
+                  <Thumbnail videoId={t.videoId} />
+                  <span className={`font-bold text-sm ${active === i ? "text-navy" : "text-gray"}`}>
+                    {t.label}
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Layout: sidebar tabs + (heading + video), centered */}
           <div className="flex flex-col md:flex-row gap-6 items-center justify-center max-w-5xl mx-auto">
-            {/* Left - Vertical Tab List */}
-            <div className="flex flex-col gap-2 md:w-[280px] flex-shrink-0">
+            {/* Left - Vertical Tab List (desktop only) */}
+            <div className="hidden md:flex flex-col gap-2 md:w-[280px] flex-shrink-0">
               {TABS.map((t, i) => (
                 <button
                   key={t.label}
