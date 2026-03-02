@@ -38,28 +38,34 @@ const STATIC_ROUTES = [
   { title: 'Wall Passing', slug: '/programs/wall-passing' },
 ];
 
-interface AdminPageEntry {
-  type: 'Static' | 'Page' | 'Blog';
-  title: string;
-  url: string;
-  date: string;
+function extractImageUrls(html: string): string[] {
+  const urls: string[] = [];
+  const regex = /(?:src|poster)=["'](https?:\/\/[^"'\s]+\.(?:png|jpg|jpeg|gif|svg|webp))/gi;
+  let match;
+  while ((match = regex.exec(html)) !== null) {
+    urls.push(match[1]);
+  }
+  return urls;
 }
 
 export default function AdminPage() {
-  const entries: AdminPageEntry[] = [
+  const pages = pagesData as { title: string; slug: string; date: string; content: string; featuredImage: string }[];
+  const posts = postsData as { title: string; slug: string; date: string; content: string; featuredImage: string }[];
+
+  const entries = [
     ...STATIC_ROUTES.map((r) => ({
       type: 'Static' as const,
       title: r.title,
       url: r.slug,
       date: '',
     })),
-    ...(pagesData as { title: string; slug: string; date: string }[]).map((p) => ({
+    ...pages.map((p) => ({
       type: 'Page' as const,
       title: p.title,
       url: `/${p.slug}`,
       date: p.date || '',
     })),
-    ...(postsData as { title: string; slug: string; date: string }[]).map((p) => ({
+    ...posts.map((p) => ({
       type: 'Blog' as const,
       title: p.title,
       url: `/blog/${p.slug}`,
@@ -67,12 +73,42 @@ export default function AdminPage() {
     })),
   ];
 
+  // Extract all image URLs
+  const imageMap = new Map<string, Set<string>>();
+
+  const addImage = (url: string, source: string) => {
+    if (!imageMap.has(url)) imageMap.set(url, new Set());
+    imageMap.get(url)!.add(source);
+  };
+
+  for (const p of pages) {
+    const source = `/${p.slug}`;
+    if (p.featuredImage) addImage(p.featuredImage, source);
+    for (const imgUrl of extractImageUrls(p.content)) {
+      addImage(imgUrl, source);
+    }
+  }
+
+  for (const p of posts) {
+    const source = `/blog/${p.slug}`;
+    if (p.featuredImage) addImage(p.featuredImage, source);
+    for (const imgUrl of extractImageUrls(p.content)) {
+      addImage(imgUrl, source);
+    }
+  }
+
+  const images = Array.from(imageMap.entries()).map(([url, sources]) => ({
+    url,
+    sources: Array.from(sources),
+    domain: new URL(url).hostname,
+  }));
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-navy mb-2">All Pages</h1>
-        <p className="text-gray mb-6">{entries.length} total pages across the site</p>
-        <AdminTable entries={entries} />
+        <h1 className="text-3xl font-bold text-navy mb-2">Admin Dashboard</h1>
+        <p className="text-gray mb-6">{entries.length} pages &middot; {images.length} images</p>
+        <AdminTable entries={entries} images={images} />
       </div>
     </div>
   );
