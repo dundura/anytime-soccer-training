@@ -14,7 +14,7 @@ export default function GuestPlayingContent() {
   }, []);
 
   return (
-    <div className="w-full min-h-[500px] relative -mt-10">
+    <div className="w-full min-h-[500px] relative -mt-10 overflow-hidden">
       <iframe
         src="https://api.leadconnectorhq.com/widget/form/yLNAlo4U2OMrW3ROvWzU"
         style={{ width: "100%", height: "100%", border: "none", borderRadius: "3px", marginTop: "-60px" }}
