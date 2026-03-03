@@ -146,8 +146,11 @@ export default function BlogPage() {
                   className="group block bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all"
                 >
                   <div
-                    className="relative h-44 flex flex-col justify-end p-4"
-                    style={{ backgroundColor: getCardColor((page - 1) * POSTS_PER_PAGE + i) }}
+                    className="relative h-44 flex flex-col justify-end p-4 bg-cover bg-center"
+                    style={{
+                      backgroundImage: post.featuredImage ? `linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 100%), url(${post.featuredImage})` : undefined,
+                      backgroundColor: post.featuredImage ? undefined : getCardColor((page - 1) * POSTS_PER_PAGE + i),
+                    }}
                   >
                     <span className="text-xs font-bold text-white bg-white/20 px-2 py-0.5 rounded w-fit">{post.categories[0]}</span>
                     <h3 className="text-base font-bold mt-1.5 text-white leading-snug line-clamp-2">
