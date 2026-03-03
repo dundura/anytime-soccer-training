@@ -78,6 +78,16 @@ export default function Header() {
               )}
             </div>
 
+            {/* Summer Camp */}
+            <a
+              href="https://www.anytimecamps.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/90 hover:text-white text-sm font-medium transition-colors"
+            >
+              Summer Camp
+            </a>
+
             {/* Resources dropdown */}
             <div className="relative" ref={resourcesRef}>
               <button
@@ -180,6 +190,16 @@ export default function Header() {
                   {link.label}
                 </Link>
               ))}
+              <div className="border-t border-white/10 my-1" />
+              <a
+                href="https://www.anytimecamps.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/90 hover:text-white px-3 py-2 text-sm font-medium"
+                onClick={() => setMobileOpen(false)}
+              >
+                Summer Camp
+              </a>
               <div className="border-t border-white/10 my-1" />
               <Link
                 href="https://app.anytime-soccer.com/auth/login"
