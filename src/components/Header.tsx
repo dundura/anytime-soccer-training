@@ -116,6 +116,15 @@ export default function Header() {
             </div>
 
             <Link
+              href="/install"
+              className="text-white/90 hover:text-white text-sm font-medium transition-colors inline-flex items-center gap-1.5"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
+              </svg>
+              Install App
+            </Link>
+            <Link
               href="https://app.anytime-soccer.com/auth/login"
               className="text-white/90 hover:text-white text-sm font-medium"
             >
@@ -200,6 +209,17 @@ export default function Header() {
               >
                 Summer Camp
               </a>
+              <div className="border-t border-white/10 my-1" />
+              <Link
+                href="/install"
+                className="text-white/90 hover:text-white px-3 py-2 text-sm font-medium inline-flex items-center gap-1.5"
+                onClick={() => setMobileOpen(false)}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
+                </svg>
+                Install App
+              </Link>
               <div className="border-t border-white/10 my-1" />
               <Link
                 href="https://app.anytime-soccer.com/auth/login"
