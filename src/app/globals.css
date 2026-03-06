@@ -88,6 +88,14 @@ body {
   text-decoration: underline;
 }
 
+.wp-content .resource-link,
+.wp-content .resource-link:hover,
+.wp-content .contact-details a,
+.wp-content .contact-details a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
 /* Hide WordPress featured-image wrapper (causes empty whitespace) */
 .wp-content .post-image {
   display: none;
