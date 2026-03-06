@@ -8,8 +8,8 @@ const phrases = [
   { text: ' Start Training.', color: 'text-red' },
 ];
 
-// Total cycle: faster animation
-const CYCLE = 3;
+// Total cycle: 3s visible + 1s fade out + 0.5s pause = 4.5s loop
+const CYCLE = 4.5;
 
 export default function HeroHeadline() {
   return (
@@ -25,7 +25,7 @@ export default function HeroHeadline() {
           }}
           transition={{
             duration: CYCLE,
-            delay: i * 0.35,
+            delay: i * 0.5,
             times: [0, 0.1, 0.7, 0.85],
             repeat: Infinity,
             repeatDelay: 0,
