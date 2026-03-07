@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { AutoplayYouTube } from '@/components/AutoplayYouTube';
 import CoachFeatureCards from '@/components/CoachFeatureCards';
 import WhoIsItForTabs from '@/components/WhoIsItForTabs';
 import CoachBar from '@/components/CoachBar';
@@ -66,15 +67,7 @@ export default function ForCoachesPage() {
                     <div className="text-sm text-gray"><strong className="text-navy block">Assign Homework</strong>Coaches monitor training</div>
                   </div>
                 </div>
-                <div className="block bg-navy rounded-2xl shadow-[0_25px_80px_rgba(15,49,84,0.15)] overflow-hidden">
-                  <iframe
-                    src="https://www.youtube.com/embed/LOv6Jbk8Bac"
-                    className="w-full aspect-video"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    title="Coach AST Review"
-                  />
-                </div>
+                <AutoplayYouTube videoId="LOv6Jbk8Bac" title="Coach AST Review" />
                 {/* Track Progress - below video */}
                 <div className="hidden lg:flex mt-4 justify-start">
                   <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
