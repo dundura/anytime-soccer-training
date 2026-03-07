@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { AutoplayYouTube } from '@/components/AutoplayYouTube';
 
 export const metadata: Metadata = {
   title: 'How it Works',
@@ -86,15 +87,7 @@ export default function HowItWorksPage() {
                     <div className="text-sm text-gray"><strong className="text-navy block">Assign Homework</strong>Coaches monitor training</div>
                   </div>
                 </div>
-                <div className="block bg-navy rounded-2xl shadow-[0_25px_80px_rgba(15,49,84,0.15)] overflow-hidden">
-                  <iframe
-                    src="https://www.youtube.com/embed/fkHIe88Cwqo?si=hzfBL7_ESUgywL0c"
-                    className="w-full aspect-video"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    title="How Anytime Soccer Training Works"
-                  />
-                </div>
+                <AutoplayYouTube videoId="fkHIe88Cwqo" title="How Anytime Soccer Training Works" />
                 {/* Track Progress - below video */}
                 <div className="hidden lg:flex mt-4 justify-start">
                   <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
