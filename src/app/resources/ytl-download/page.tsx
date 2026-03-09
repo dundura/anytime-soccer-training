@@ -35,11 +35,13 @@ const htmlContent = `<style>
   font-size: clamp(32px, 6vw, 48px);
   letter-spacing: 3px;
   margin-bottom: 10px;
+  color: white;
 }
 
 .ast-video-library .page-header p {
   font-size: clamp(14px, 2vw, 18px);
   opacity: 0.9;
+  color: white;
 }
 
 .ast-video-library .section {
