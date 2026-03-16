@@ -1,4 +1,12 @@
 import type { NextConfig } from "next";
+import postsData from "./src/data/posts.json";
+
+// Generate redirects for old WordPress blog URLs (root-level) to /blog/slug
+const blogRedirects = (postsData as { slug: string }[]).map((post) => ({
+  source: `/${post.slug}`,
+  destination: `/blog/${post.slug}`,
+  permanent: true,
+}));
 
 const nextConfig: NextConfig = {
   async redirects() {
@@ -14,11 +22,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: '/how-much-soccer-training-does-your-child-really-need-a-soccer-dads-guide-to-getting-better-without-burning-out',
-        destination: '/blog/how-much-soccer-training-does-your-child-really-need-a-soccer-dads-guide-to-getting-better-without-burning-out',
-        permanent: true,
-      },
-      {
         source: '/wp-login.php',
         destination: 'https://media.anytime-soccer.com/wp-login.php',
         permanent: false,
@@ -28,6 +31,7 @@ const nextConfig: NextConfig = {
         destination: 'https://media.anytime-soccer.com/wp-admin/:path*',
         permanent: false,
       },
+      ...blogRedirects,
     ];
   },
 };
