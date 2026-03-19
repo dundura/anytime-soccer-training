@@ -27,6 +27,7 @@ const TEAM_PAGES = [
   { title: 'DHL United', slug: 'dhl-united-getting-started' },
   { title: 'Grasshoppers', slug: 'grasshoppers-getting-started' },
   { title: 'North Boise FC', slug: 'north-boise-fc-getting-started' },
+  { title: 'Royal Fox FC', slug: 'royal-fox-fc-getting-started' },
   { title: 'Pekin Pride 2013/14 Girls', slug: 'pekin-pride-2013-14-girls-getting-started' },
   { title: 'South Parkland Mutiny', slug: 'getting-started-south-parkland-mutiny' },
   { title: 'ULETE FC', slug: 'ulete-fc-getting-started' },
