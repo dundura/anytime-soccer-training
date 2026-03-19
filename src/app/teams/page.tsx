@@ -21,7 +21,7 @@ const GENERAL_GUIDES = [
 const TEAM_PAGES = [
   { title: '2015 Legacy Girls', slug: '2015-legacy-girls-getting-started' },
   { title: 'AFC', slug: 'getting-started-afc' },
-  { title: 'Brian Chongtoua | Private Soccer Specialist', slug: 'brian-chongtoua-getting-started' },
+  { title: 'Brian Chongtoua | Private Soccer Specialist', slug: 'bc-getting-started' },
   { title: 'Avalanche', slug: 'avalanche-getting-started' },
   { title: 'Carolina Velocity Academy', slug: 'carolina-velocity-academy-getting-started' },
   { title: 'DHL United', slug: 'dhl-united-getting-started' },
