@@ -24,6 +24,7 @@ export default function Header() {
   const [resourcesOpen, setResourcesOpen] = useState(false);
   const [mobileHowOpen, setMobileHowOpen] = useState(false);
   const [mobileResOpen, setMobileResOpen] = useState(false);
+  const [installOpen, setInstallOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const resourcesRef = useRef<HTMLDivElement>(null);
 
@@ -115,15 +116,15 @@ export default function Header() {
               )}
             </div>
 
-            <Link
-              href="/install"
+            <button
+              onClick={() => setInstallOpen(true)}
               className="text-white/90 hover:text-white text-sm font-medium transition-colors inline-flex items-center gap-1.5"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
               </svg>
               Install App
-            </Link>
+            </button>
             <Link
               href="https://app.anytime-soccer.com/auth/login"
               className="text-white/90 hover:text-white text-sm font-medium"
@@ -210,16 +211,15 @@ export default function Header() {
                 Summer Camp
               </a>
               <div className="border-t border-white/10 my-1" />
-              <Link
-                href="/install"
-                className="text-white/90 hover:text-white px-3 py-2 text-sm font-medium inline-flex items-center gap-1.5"
-                onClick={() => setMobileOpen(false)}
+              <button
+                onClick={() => { setMobileOpen(false); setInstallOpen(true); }}
+                className="text-white/90 hover:text-white px-3 py-2 text-sm font-medium inline-flex items-center gap-1.5 text-left"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
                 </svg>
                 Install App
-              </Link>
+              </button>
               <div className="border-t border-white/10 my-1" />
               <Link
                 href="https://app.anytime-soccer.com/auth/login"
@@ -237,6 +237,65 @@ export default function Header() {
           </div>
         )}
       </div>
+
+      {/* Install App Modal */}
+      {installOpen && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 px-4"
+          onClick={() => setInstallOpen(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setInstallOpen(false)}
+              className="absolute top-3 right-4 text-gray-400 hover:text-gray-600 text-2xl leading-none"
+              aria-label="Close"
+            >
+              &times;
+            </button>
+
+            <div className="text-center mb-6">
+              <div className="text-4xl mb-3">📲</div>
+              <h3 className="text-xl font-bold text-navy">Get the App</h3>
+              <p className="text-sm text-gray-500 mt-1">Train anytime, anywhere.</p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <a
+                href="https://apps.apple.com/us/app/anytime-soccer-training/id6755527349"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 bg-black text-white rounded-xl px-5 py-3.5 hover:bg-gray-800 transition-colors"
+              >
+                <svg className="w-7 h-7 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                </svg>
+                <div>
+                  <div className="text-[10px] uppercase tracking-wide opacity-80">Download on the</div>
+                  <div className="text-lg font-semibold leading-tight">App Store</div>
+                </div>
+              </a>
+
+              <a
+                href="https://play.google.com/store/apps/details?id=com.anytimesoccer&pcampaignid=web_share"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 bg-black text-white rounded-xl px-5 py-3.5 hover:bg-gray-800 transition-colors"
+              >
+                <svg className="w-7 h-7 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3.18 23.67c-.37-.2-.57-.52-.57-.93V1.26c0-.41.2-.73.57-.93l10.85 11.67L3.18 23.67zm1.44-22.37L15.93 12 4.62 22.7 14.25 13.5 4.62 1.3zm13.26 10.13l-2.22-1.2L18.7 12l-3.04 1.77 2.22 1.2 2.9-1.58c.4-.22.4-.56 0-.78l-2.9-1.58zm-2.22 1.2L5.87 22.37l9.79-9.74z" />
+                </svg>
+                <div>
+                  <div className="text-[10px] uppercase tracking-wide opacity-80">Get it on</div>
+                  <div className="text-lg font-semibold leading-tight">Google Play</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
