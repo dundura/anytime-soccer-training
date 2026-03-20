@@ -306,7 +306,28 @@
 .camps-cta p {
   font-size: 1.15rem;
   color: rgba(255,255,255,0.7);
-  margin-bottom: 32px;
+  margin-bottom: 16px;
+}
+.camps-cta-sub {
+  margin-bottom: 16px !important;
+}
+.camps-email-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+  display: inline-block;
+  text-align: left;
+}
+.camps-email-list li {
+  color: rgba(255,255,255,0.85);
+  font-size: 1.05rem;
+  padding: 4px 0;
+}
+.camps-email-list li::before {
+  content: "\2713";
+  color: #22c55e;
+  font-weight: 700;
+  margin-right: 10px;
 }
 
 /* Responsive */
