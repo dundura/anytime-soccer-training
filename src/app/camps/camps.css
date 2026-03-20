@@ -1,0 +1,342 @@
+/* Camps Sales Page */
+.camps-page {
+  font-family: "DM Sans", sans-serif;
+  color: #0F3154;
+}
+
+.camps-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Badge */
+.camps-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 100px;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+/* Hero */
+.camps-hero {
+  background: linear-gradient(135deg, #0F3154 0%, #1a4a7a 100%);
+  color: white;
+  padding: 80px 0 90px;
+  text-align: center;
+}
+.camps-hero-title {
+  font-family: "Fraunces", serif;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+.camps-hero-sub {
+  font-size: 1.2rem;
+  color: rgba(255,255,255,0.8);
+  max-width: 600px;
+  margin: 0 auto 32px;
+  line-height: 1.7;
+}
+.camps-hero-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.camps-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  border-radius: 100px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+.camps-btn-primary {
+  background: #DC373E;
+  color: white;
+}
+.camps-btn-primary:hover {
+  background: #c42f35;
+  transform: scale(1.02);
+}
+.camps-btn-outline {
+  background: transparent;
+  color: white;
+  border: 2px solid rgba(255,255,255,0.4);
+}
+.camps-btn-outline:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: white;
+}
+.camps-btn-white {
+  background: white;
+  color: #0F3154;
+}
+.camps-btn-white:hover {
+  background: #ECF1F7;
+  transform: scale(1.02);
+}
+.camps-btn-outline-white {
+  background: transparent;
+  color: white;
+  border: 2px solid rgba(255,255,255,0.4);
+}
+.camps-btn-outline-white:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: white;
+}
+.camps-btn-full {
+  width: 100%;
+}
+
+/* Sections */
+.camps-section {
+  padding: 80px 0;
+}
+.camps-section-alt {
+  background: #ECF1F7;
+}
+.camps-section-title {
+  font-family: "Fraunces", serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.camps-section-sub {
+  text-align: center;
+  color: #6b7d8e;
+  font-size: 1.1rem;
+  margin-bottom: 48px;
+}
+
+/* Steps */
+.camps-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.camps-step {
+  text-align: center;
+  padding: 32px 24px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(15,49,84,0.06);
+}
+.camps-step-num {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #DC373E;
+  color: white;
+  font-weight: 800;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+.camps-step h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.camps-step p {
+  color: #6b7d8e;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Features */
+.camps-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.camps-feature {
+  background: white;
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 2px 12px rgba(15,49,84,0.06);
+}
+.camps-feature-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+.camps-feature h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.camps-feature p {
+  color: #6b7d8e;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Director Cards */
+.camps-director-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+.camps-director-card {
+  background: #ECF1F7;
+  border-radius: 16px;
+  padding: 32px;
+}
+.camps-director-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.camps-director-card p {
+  color: #6b7d8e;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Use Case / Quote */
+.camps-usecase {
+  text-align: center;
+  max-width: 750px;
+  margin: 0 auto;
+}
+.camps-quote {
+  font-family: "Fraunces", serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  color: #0F3154;
+  line-height: 1.8;
+  border-left: 4px solid #DC373E;
+  padding: 20px 30px;
+  background: white;
+  border-radius: 0 12px 12px 0;
+  margin: 32px 0 12px;
+  text-align: left;
+}
+.camps-quote-attr {
+  font-size: 0.9rem;
+  color: #6b7d8e;
+  margin-bottom: 24px;
+}
+.camps-usecase-text {
+  font-size: 1.05rem;
+  color: #6b7d8e;
+  line-height: 1.7;
+}
+
+/* Pricing */
+.camps-pricing {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+.camps-price-card {
+  background: white;
+  border: 2px solid #0F3154;
+  border-radius: 20px;
+  padding: 48px 40px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 4px 24px rgba(15,49,84,0.1);
+}
+.camps-price-amount {
+  font-family: "Fraunces", serif;
+  font-size: 4rem;
+  font-weight: 800;
+  color: #0F3154;
+  line-height: 1;
+}
+.camps-price-per {
+  font-size: 1.1rem;
+  color: #6b7d8e;
+  margin-bottom: 28px;
+}
+.camps-price-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+  text-align: left;
+}
+.camps-price-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #ECF1F7;
+  font-size: 0.95rem;
+  padding-left: 28px;
+  position: relative;
+}
+.camps-price-list li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  color: #22c55e;
+  font-weight: 700;
+}
+
+/* Final CTA */
+.camps-cta {
+  background: linear-gradient(135deg, #0F3154 0%, #1a4a7a 100%);
+  color: white;
+  padding: 80px 0;
+  text-align: center;
+}
+.camps-cta h2 {
+  font-family: "Fraunces", serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.camps-cta p {
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 32px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .camps-hero {
+    padding: 50px 0 60px;
+  }
+  .camps-hero-title {
+    font-size: 2rem;
+  }
+  .camps-hero-sub {
+    font-size: 1rem;
+  }
+  .camps-section {
+    padding: 50px 0;
+  }
+  .camps-section-title {
+    font-size: 1.7rem;
+  }
+  .camps-steps,
+  .camps-features {
+    grid-template-columns: 1fr;
+  }
+  .camps-director-grid {
+    grid-template-columns: 1fr;
+  }
+  .camps-cta h2 {
+    font-size: 1.8rem;
+  }
+  .camps-price-card {
+    padding: 36px 28px;
+  }
+}
