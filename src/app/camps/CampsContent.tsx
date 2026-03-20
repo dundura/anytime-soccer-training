@@ -14,15 +14,12 @@ export default function CampsContent() {
             Give Your Campers the Best<br />Soccer Training Experience
           </h1>
           <p className="camps-hero-sub">
-            5,000+ follow-along training videos. Your campers train on their own. You manage the experience. <strong>$5 per player.</strong>
+            5,000+ follow-along training videos. Your campers get <strong>free access</strong> to train on their own. You manage the experience.
           </p>
           <div className="camps-hero-btns">
-            <a href="https://calendly.com/anytime-soccer" target="_blank" rel="noopener noreferrer" className="camps-btn camps-btn-primary">
-              Schedule a Call
+            <a href="mailto:programs@fusion-training.com?subject=Summer%20Camp%20Program%20Interest" className="camps-btn camps-btn-primary">
+              Join the Program
             </a>
-            <Link href="/pricing" className="camps-btn camps-btn-outline">
-              See Pricing
-            </Link>
           </div>
         </div>
       </section>
@@ -36,7 +33,7 @@ export default function CampsContent() {
             <div className="camps-step">
               <div className="camps-step-num">1</div>
               <h3>Sign Up Your Camp</h3>
-              <p>Get access at $5 per player. We handle all the setup and onboarding.</p>
+              <p>Email us to join. We handle all the setup and onboarding so your campers get free access.</p>
             </div>
             <div className="camps-step">
               <div className="camps-step-num">2</div>
@@ -105,8 +102,8 @@ export default function CampsContent() {
               <p>Logos, graphics, and messaging you can add to your website and camp materials to promote the program.</p>
             </div>
             <div className="camps-director-card">
-              <h3>Flexible Pricing</h3>
-              <p>$5 per player. Build it into your camp fees or offer it as a free bonus. Either way, your campers win.</p>
+              <h3>Free for Your Campers</h3>
+              <p>Your camp covers the cost. Your campers get full access at no charge. It is a value-add that sets your program apart.</p>
             </div>
             <div className="camps-director-card">
               <h3>Year-Round Value</h3>
@@ -134,14 +131,14 @@ export default function CampsContent() {
         </div>
       </section>
 
-      {/* Pricing */}
+      {/* What's Included */}
       <section className="camps-section">
         <div className="camps-container">
-          <h2 className="camps-section-title">Simple Pricing</h2>
+          <h2 className="camps-section-title">What&apos;s Included</h2>
           <div className="camps-pricing">
             <div className="camps-price-card">
-              <div className="camps-price-amount">$5</div>
-              <div className="camps-price-per">per player</div>
+              <div className="camps-price-amount">FREE</div>
+              <div className="camps-price-per">for your campers</div>
               <ul className="camps-price-list">
                 <li>Full platform access</li>
                 <li>5,000+ training videos</li>
@@ -150,8 +147,8 @@ export default function CampsContent() {
                 <li>Marketing resources and logos</li>
                 <li>Year-round access for players</li>
               </ul>
-              <a href="https://calendly.com/anytime-soccer" target="_blank" rel="noopener noreferrer" className="camps-btn camps-btn-primary camps-btn-full">
-                Get Started
+              <a href="mailto:programs@fusion-training.com?subject=Summer%20Camp%20Program%20Interest" className="camps-btn camps-btn-primary camps-btn-full">
+                Email to Join
               </a>
             </div>
           </div>
@@ -162,13 +159,10 @@ export default function CampsContent() {
       <section className="camps-cta">
         <div className="camps-container">
           <h2>Ready to Level Up Your Camp?</h2>
-          <p>Schedule a quick call and we will get you set up before summer starts.</p>
+          <p>Email us and we will get you set up before summer starts.</p>
           <div className="camps-hero-btns">
-            <a href="https://calendly.com/anytime-soccer" target="_blank" rel="noopener noreferrer" className="camps-btn camps-btn-white">
-              Schedule a Call
-            </a>
-            <a href="mailto:neil@anytime-soccer.com" className="camps-btn camps-btn-outline-white">
-              Email Us
+            <a href="mailto:programs@fusion-training.com?subject=Summer%20Camp%20Program%20Interest" className="camps-btn camps-btn-white">
+              Email programs@fusion-training.com
             </a>
           </div>
         </div>
