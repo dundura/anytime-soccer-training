@@ -106,11 +106,16 @@ export default function ReferralPage() {
         </div>
       </section>
 
-      {/* PRICING NOTE */}
+      {/* PRICING NOTE + REFERRAL OFFER */}
       <section className="py-12 px-5 bg-white">
         <div className="max-w-[600px] mx-auto text-center">
           <p className="text-lg text-navy font-semibold mb-2">Starting at just $6 per player per year.</p>
-          <p className="text-sm text-gray">Most clubs cover it. Families barely notice. And the impact on player development is immediate.</p>
+          <p className="text-sm text-gray mb-6">Most clubs cover it. Families barely notice. And the impact on player development is immediate.</p>
+          <div className="bg-red/[0.06] border-2 border-red/20 rounded-2xl p-6">
+            <p className="text-red font-bold text-lg mb-1">Mention the coach who sent you this</p>
+            <p className="text-navy font-extrabold text-2xl mb-2">Get 10% off your first year</p>
+            <p className="text-sm text-gray">Just tell us their name during your demo and the discount is applied automatically.</p>
+          </div>
         </div>
       </section>
 
