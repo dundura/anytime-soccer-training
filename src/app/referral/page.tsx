@@ -2,11 +2,11 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Share Anytime Soccer Training with a Fellow Coach',
-  description: 'You use it. Your players love it. Now share it with a coach you know. Help them give their players the same home training advantage.',
+  title: 'Our Team Uses Anytime Soccer Training — You Should Too',
+  description: 'A fellow coach shared this with you. See why their team uses Anytime Soccer Training for home training, homework, and player development.',
 };
 
-export default function ReferACoachPage() {
+export default function ReferralPage() {
   return (
     <>
       {/* HERO */}
@@ -16,46 +16,47 @@ export default function ReferACoachPage() {
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
             <div className="relative z-10 max-w-[640px] mx-auto">
               <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
-                <span>&#9889;</span> Coach-to-Coach
+                <span>&#9889;</span> Recommended by a Fellow Coach
               </div>
               <h1 className="text-[clamp(28px,5vw,44px)] font-extrabold leading-[1.1] text-white mb-4">
-                You use it. Your players love it.<br /><span className="text-red">Share it with a coach you know.</span>
+                Our team uses Anytime Soccer Training.<br /><span className="text-red">Yours should too.</span>
               </h1>
               <p className="text-lg text-white/70 mb-8">
-                Help a fellow coach give their players the same home training advantage yours already have.
+                A coach you know sent you this because it&apos;s working for their players. 5,000+ follow-along videos, team homework tools, and progress tracking — all in one place.
               </p>
               <a
                 href="https://anytime-soccer.com/team-demo-request-anytime-soccer-training/"
                 className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block no-underline"
               >
-                Send Them a Free Demo &rarr;
+                See How It Works — Free Demo &rarr;
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* WHY COACHES SHARE IT */}
+      {/* WHAT OUR TEAM GETS */}
       <section className="py-16 px-5 bg-background">
         <div className="max-w-[800px] mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-navy text-center mb-10">
-            Why coaches share Anytime Soccer Training
+          <h2 className="text-2xl md:text-3xl font-bold text-navy text-center mb-3">
+            Here&apos;s what our team gets from it
           </h2>
+          <p className="text-center text-gray mb-10">And why we think you&apos;d love it too.</p>
           <div className="grid sm:grid-cols-3 gap-6">
             <div className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(15,49,84,0.08)] text-center">
               <div className="text-3xl mb-3">&#9917;</div>
-              <h3 className="font-bold text-navy text-base mb-2">Players Actually Improve</h3>
-              <p className="text-sm text-gray">5,000+ follow-along videos they can do at home. No parent supervision needed.</p>
+              <h3 className="font-bold text-navy text-base mb-2">Our Players Train at Home</h3>
+              <p className="text-sm text-gray">5,000+ follow-along videos they actually do on their own. No parent supervision needed.</p>
             </div>
             <div className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(15,49,84,0.08)] text-center">
               <div className="text-3xl mb-3">&#128203;</div>
-              <h3 className="font-bold text-navy text-base mb-2">Coaches See Everything</h3>
-              <p className="text-sm text-gray">Assign homework, track who trained, and see progress — all from one dashboard.</p>
+              <h3 className="font-bold text-navy text-base mb-2">We Assign &amp; Track Homework</h3>
+              <p className="text-sm text-gray">We pin homework from the Coach&apos;s Board and see exactly who trained and for how long.</p>
             </div>
             <div className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(15,49,84,0.08)] text-center">
-              <div className="text-3xl mb-3">&#128176;</div>
-              <h3 className="font-bold text-navy text-base mb-2">Affordable for Everyone</h3>
-              <p className="text-sm text-gray">Starting at $6/player/year. Most clubs cover it — families barely notice.</p>
+              <div className="text-3xl mb-3">&#128200;</div>
+              <h3 className="font-bold text-navy text-base mb-2">Players Are More Prepared</h3>
+              <p className="text-sm text-gray">They show up to practice with more touches, more confidence, and better habits.</p>
             </div>
           </div>
         </div>
@@ -73,46 +74,54 @@ export default function ReferACoachPage() {
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
+      {/* HOW TO GET STARTED */}
       <section className="py-16 px-5 bg-background">
         <div className="max-w-[600px] mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-navy text-center mb-10">
-            How to share it
+            Getting your team set up is easy
           </h2>
           <div className="space-y-6">
             <div className="flex gap-4 items-start">
               <span className="w-8 h-8 bg-red text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">1</span>
               <div>
-                <h3 className="font-bold text-navy mb-1">Send them this page</h3>
-                <p className="text-sm text-gray">Forward the link or copy it — they&apos;ll see everything they need.</p>
+                <h3 className="font-bold text-navy mb-1">Request a free demo</h3>
+                <p className="text-sm text-gray">15 minutes. We&apos;ll walk you through everything and answer any questions.</p>
               </div>
             </div>
             <div className="flex gap-4 items-start">
               <span className="w-8 h-8 bg-red text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">2</span>
               <div>
-                <h3 className="font-bold text-navy mb-1">They request a free demo</h3>
-                <p className="text-sm text-gray">15 minutes. We show them how it works for their team. No pressure.</p>
+                <h3 className="font-bold text-navy mb-1">Set up your team</h3>
+                <p className="text-sm text-gray">Takes a few minutes. Share a team code with your players and they&apos;re in.</p>
               </div>
             </div>
             <div className="flex gap-4 items-start">
               <span className="w-8 h-8 bg-red text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">3</span>
               <div>
-                <h3 className="font-bold text-navy mb-1">Their players start training</h3>
-                <p className="text-sm text-gray">Setup takes minutes. Players can start the same day.</p>
+                <h3 className="font-bold text-navy mb-1">Start assigning homework</h3>
+                <p className="text-sm text-gray">Pick from 5,000+ videos. Your players train at home. You see the results.</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* PRICING NOTE */}
+      <section className="py-12 px-5 bg-white">
+        <div className="max-w-[600px] mx-auto text-center">
+          <p className="text-lg text-navy font-semibold mb-2">Starting at just $6 per player per year.</p>
+          <p className="text-sm text-gray">Most clubs cover it. Families barely notice. And the impact on player development is immediate.</p>
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="py-16 px-5 bg-white text-center">
+      <section className="py-16 px-5 bg-background text-center">
         <div className="max-w-[600px] mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-navy mb-4">
-            Know a coach who&apos;d benefit?
+            Ready to try it with your team?
           </h2>
           <p className="text-gray text-lg mb-8">
-            Share this page or have them request a demo directly. It takes 15 minutes and it&apos;s free.
+            The coach who sent you this page is already seeing the difference. A 15-minute demo is all it takes to see if it&apos;s right for your team.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a
@@ -125,7 +134,7 @@ export default function ReferACoachPage() {
               href="/for-coaches"
               className="bg-navy text-white font-bold text-base py-4 px-8 rounded-full no-underline hover:bg-navy-light transition-all hover:-translate-y-0.5 inline-block"
             >
-              Full Coaches Page
+              Learn More
             </Link>
           </div>
           <p className="text-sm text-gray mt-6">
