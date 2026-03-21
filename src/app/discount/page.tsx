@@ -21,7 +21,7 @@ export default function ReferralPage() {
                   <span>&#9889;</span> Recommended by a Fellow Coach
                 </div>
                 <h1 className="text-[clamp(28px,5vw,44px)] font-extrabold leading-[1.1] text-white mb-4">
-                  Our team uses Anytime Soccer Training.<br /><span className="text-red">Yours should too.</span>
+                  Our team uses Anytime Soccer Training.<br /><span className="text-red animate-pulse">Yours should too.</span>
                 </h1>
                 <p className="text-lg text-white/70 mb-8">
                   Our team is getting better because of this program, which made me think of you. Mention my name during your demo and get <span className="text-red font-bold">10% off your first year</span>.
