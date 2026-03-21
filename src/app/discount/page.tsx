@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { AutoplayYouTube } from '@/components/AutoplayYouTube';
+import CoachFeatureCards from '@/components/CoachFeatureCards';
 
 export const metadata: Metadata = {
   title: 'Our Team Uses Anytime Soccer Training — You Should Too',
@@ -47,50 +48,8 @@ export default function ReferralPage() {
         </div>
       </section>
 
-      {/* FOR CLUBS AND TEAMS */}
-      <section className="py-16 px-5 bg-white">
-        <div className="max-w-[900px] mx-auto text-center">
-          <span className="text-xs font-bold uppercase tracking-[2px] text-red block mb-3">For Clubs and Teams</span>
-          <h2 className="text-[clamp(24px,4vw,36px)] font-bold text-navy leading-tight mb-3">
-            Your Players Are Going Home With No Plan
-          </h2>
-          <p className="text-gray text-lg mb-12 max-w-[650px] mx-auto">
-            Give every player structured homework, real accountability, and a reason to train — without adding a single minute to your practice schedule.
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
-            <div className="bg-background rounded-2xl p-6 text-center">
-              <div className="text-3xl mb-3">&#127919;</div>
-              <h3 className="font-bold text-navy text-sm mb-1">Create Teams</h3>
-              <p className="text-xs text-gray">Set up your squad in seconds</p>
-            </div>
-            <div className="bg-background rounded-2xl p-6 text-center">
-              <div className="text-3xl mb-3">&#128203;</div>
-              <h3 className="font-bold text-navy text-sm mb-1">Build Your Roster</h3>
-              <p className="text-xs text-gray">Add players and manage your lineup</p>
-            </div>
-            <div className="bg-background rounded-2xl p-6 text-center">
-              <div className="text-3xl mb-3">&#128218;</div>
-              <h3 className="font-bold text-navy text-sm mb-1">Assign Homework</h3>
-              <p className="text-xs text-gray">Send structured training to every player</p>
-            </div>
-            <div className="bg-background rounded-2xl p-6 text-center">
-              <div className="text-3xl mb-3">&#127942;</div>
-              <h3 className="font-bold text-navy text-sm mb-1">Create Competitions</h3>
-              <p className="text-xs text-gray">Drive friendly competition across your team</p>
-            </div>
-            <div className="bg-background rounded-2xl p-6 text-center">
-              <div className="text-3xl mb-3">&#128200;</div>
-              <h3 className="font-bold text-navy text-sm mb-1">Track Progress</h3>
-              <p className="text-xs text-gray">See every completed session in real time</p>
-            </div>
-            <div className="bg-background rounded-2xl p-6 text-center">
-              <div className="text-3xl mb-3">&#128176;</div>
-              <h3 className="font-bold text-navy text-sm mb-1">Raise Money</h3>
-              <p className="text-xs text-gray">Fund your team through training subscriptions</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* FOR CLUBS AND TEAMS - identical to /for-coaches */}
+      <CoachFeatureCards />
 
       {/* A LOOK INSIDE THE PROGRAM */}
       <section className="py-16 px-5 bg-background">
