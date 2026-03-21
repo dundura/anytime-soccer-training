@@ -32,6 +32,12 @@ export default function ReferralPage() {
                 >
                   See How It Works — Free Demo &rarr;
                 </a>
+                <Link
+                  href="/for-coaches"
+                  className="bg-transparent border-2 border-white/60 text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-block no-underline ml-4"
+                >
+                  Learn More
+                </Link>
               </div>
               <div className="relative">
                 <AutoplayYouTube videoId="LOv6Jbk8Bac" title="Coach Review of Anytime Soccer Training" />
