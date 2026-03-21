@@ -21,7 +21,7 @@ function Thumbnail({ videoId }: { videoId: string }) {
   );
 }
 
-export default function TabbedVideoSection() {
+export default function TabbedVideoSection({ title, subtitle, hideCta }: { title?: string; subtitle?: string; hideCta?: boolean } = {}) {
   const [active, setActive] = useState(0);
   const tab = TABS[active];
 
@@ -33,11 +33,13 @@ export default function TabbedVideoSection() {
           <div className="md:hidden mb-6">
             <div className="text-center mb-6">
               <h2 className="text-3xl font-extrabold text-navy mb-3">
-                Get Your Free <span className="text-red">7-Day Training Plan</span>
+                {title || <>Get Your Free <span className="text-red">7-Day Training Plan</span></>}
               </h2>
-              <p className="text-gray text-lg max-w-xl mx-auto">
-                One week. Seven skills. Follow along and watch your player improve.
-              </p>
+              {subtitle !== undefined ? (
+                subtitle && <p className="text-gray text-lg max-w-xl mx-auto">{subtitle}</p>
+              ) : (
+                <p className="text-gray text-lg max-w-xl mx-auto">One week. Seven skills. Follow along and watch your player improve.</p>
+              )}
             </div>
             <div className="grid grid-cols-2 gap-2">
               {TABS.map((t, i) => (
@@ -91,11 +93,13 @@ export default function TabbedVideoSection() {
             <div className="flex-1 w-full max-w-[680px]">
               <div className="text-center mb-6 hidden md:block">
                 <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-3">
-                  Get Your Free <span className="text-red">7-Day Training Plan</span>
+                  {title || <>Get Your Free <span className="text-red">7-Day Training Plan</span></>}
                 </h2>
-                <p className="text-gray text-lg max-w-xl mx-auto">
-                  One week. Seven skills. Follow along and watch your player improve.
-                </p>
+                {subtitle !== undefined ? (
+                  subtitle && <p className="text-gray text-lg max-w-xl mx-auto">{subtitle}</p>
+                ) : (
+                  <p className="text-gray text-lg max-w-xl mx-auto">One week. Seven skills. Follow along and watch your player improve.</p>
+                )}
               </div>
               <div className="aspect-video rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)] relative">
                 {tab.mp4 ? (
@@ -124,14 +128,16 @@ export default function TabbedVideoSection() {
                 )}
               </div>
               {/* CTA */}
-              <div className="text-center mt-8">
-                <Link
-                  href="/free-soccer-drills-for-kids"
-                  className="bg-red hover:bg-red-dark text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center gap-2"
-                >
-                  Get the Free 7-Day Plan &rarr;
-                </Link>
-              </div>
+              {!hideCta && (
+                <div className="text-center mt-8">
+                  <Link
+                    href="/free-soccer-drills-for-kids"
+                    className="bg-red hover:bg-red-dark text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center gap-2"
+                  >
+                    Get the Free 7-Day Plan &rarr;
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
