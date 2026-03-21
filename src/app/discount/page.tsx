@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { AutoplayYouTube } from '@/components/AutoplayYouTube';
 
 export const metadata: Metadata = {
   title: 'Our Team Uses Anytime Soccer Training — You Should Too',
@@ -12,24 +13,29 @@ export default function ReferralPage() {
       {/* HERO */}
       <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-navy rounded-3xl px-6 py-16 md:px-12 md:py-20 relative overflow-hidden text-center">
+          <div className="bg-navy rounded-3xl px-6 py-16 md:px-12 md:py-20 relative overflow-hidden">
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
-            <div className="relative z-10 max-w-[640px] mx-auto">
-              <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
-                <span>&#9889;</span> Recommended by a Fellow Coach
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="relative z-10">
+                <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
+                  <span>&#9889;</span> Recommended by a Fellow Coach
+                </div>
+                <h1 className="text-[clamp(28px,5vw,44px)] font-extrabold leading-[1.1] text-white mb-4">
+                  Our team uses Anytime Soccer Training.<br /><span className="text-red">Yours should too.</span>
+                </h1>
+                <p className="text-lg text-white/70 mb-8">
+                  A coach you know sent you this because it&apos;s working for their players. 5,000+ follow-along videos, team homework tools, and progress tracking — all in one place.
+                </p>
+                <a
+                  href="https://anytime-soccer.com/team-demo-request-anytime-soccer-training/"
+                  className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block no-underline"
+                >
+                  See How It Works — Free Demo &rarr;
+                </a>
               </div>
-              <h1 className="text-[clamp(28px,5vw,44px)] font-extrabold leading-[1.1] text-white mb-4">
-                Our team uses Anytime Soccer Training.<br /><span className="text-red">Yours should too.</span>
-              </h1>
-              <p className="text-lg text-white/70 mb-8">
-                A coach you know sent you this because it&apos;s working for their players. 5,000+ follow-along videos, team homework tools, and progress tracking — all in one place.
-              </p>
-              <a
-                href="https://anytime-soccer.com/team-demo-request-anytime-soccer-training/"
-                className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block no-underline"
-              >
-                See How It Works — Free Demo &rarr;
-              </a>
+              <div className="relative">
+                <AutoplayYouTube videoId="LOv6Jbk8Bac" title="Coach Review of Anytime Soccer Training" />
+              </div>
             </div>
           </div>
         </div>
