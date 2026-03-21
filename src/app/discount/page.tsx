@@ -92,6 +92,41 @@ export default function ReferralPage() {
         </div>
       </section>
 
+      {/* A LOOK INSIDE THE PROGRAM */}
+      <section className="py-16 px-5 bg-background">
+        <div className="max-w-[900px] mx-auto text-center">
+          <h2 className="text-[clamp(24px,4vw,36px)] font-bold text-navy leading-tight mb-10">
+            A Look Inside the Program
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-12">
+            {[
+              { label: 'Ball Mastery', icon: '&#9917;' },
+              { label: 'Dribbling', icon: '&#127939;' },
+              { label: 'Juggling', icon: '&#129353;' },
+              { label: 'Passing', icon: '&#129349;' },
+              { label: '1v1', icon: '&#9889;' },
+            ].map((item) => (
+              <div key={item.label} className="bg-white rounded-2xl p-5 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
+                <div className="text-3xl mb-2" dangerouslySetInnerHTML={{ __html: item.icon }} />
+                <p className="font-bold text-navy text-sm">{item.label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Free 7-Day Plan CTA */}
+          <div className="bg-navy rounded-2xl p-8 md:p-10 text-center">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">Get Your Free 7-Day Training Plan</h3>
+            <p className="text-white/70 text-lg mb-6">One week. Seven skills. Follow along and watch your player improve.</p>
+            <Link
+              href="/free-soccer-drills-for-kids"
+              className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block no-underline"
+            >
+              Get the Free 7-Day Plan &rarr;
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* PRICING NOTE + REFERRAL OFFER */}
       <section className="py-12 px-5 bg-white">
         <div className="max-w-[600px] mx-auto text-center">
