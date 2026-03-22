@@ -21,7 +21,7 @@ export default function LCYSADiscountPage() {
                   <span>&#9917;</span> Exclusive for LCYSA Families
                 </div>
                 <LCYSAHeadline />
-                <p className="text-lg text-white/70 mb-8">
+                <p className="text-lg text-white mb-8">
                   LCYSA just partnered with <span className="text-red font-bold animate-pulse">Anytime Soccer Training</span>. Easy follow-along video sessions your player can do right at home — just a ball and the drive to improve.
                 </p>
                 <a
@@ -62,7 +62,7 @@ export default function LCYSADiscountPage() {
       </section>
 
       {/* DISCOUNT OFFER */}
-      <section className="py-16 px-5 bg-white">
+      <section className="py-10 px-5 bg-white">
         <div className="max-w-[600px] mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">Exclusive LCYSA Pricing</h2>
           <p className="text-gray text-lg mb-8">Your club has arranged a special rate for LCYSA families.</p>
@@ -83,7 +83,7 @@ export default function LCYSADiscountPage() {
       </section>
 
       {/* WHY PARENTS LOVE IT */}
-      <section className="py-16 px-5 bg-white">
+      <section className="py-10 px-5 bg-white">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-extrabold text-navy text-center mb-4">Why Parents Love It</h2>
           <p className="text-gray text-center text-lg mb-12 max-w-2xl mx-auto">Your player gets better. You don&apos;t have to be the coach at home.</p>
@@ -111,7 +111,7 @@ export default function LCYSADiscountPage() {
       <TabbedVideoSection title="A Look Inside the Program" subtitle="See what your player will be doing. Real sessions. Real results." hideCta />
 
       {/* CTA */}
-      <section className="py-16 px-5 bg-background text-center">
+      <section className="py-10 px-5 bg-background text-center">
         <div className="max-w-[600px] mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-navy mb-4">
             Give your player the extra edge.
