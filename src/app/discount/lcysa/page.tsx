@@ -22,7 +22,7 @@ export default function LCYSADiscountPage() {
                 </div>
                 <LCYSAHeadline />
                 <p className="text-lg text-white/70 mb-8">
-                  LCYSA just partnered with Anytime Soccer Training. Hundreds of follow-along video sessions — so your player can train anytime, anywhere, and actually get better.
+                  LCYSA just partnered with <span className="text-red font-bold animate-pulse">Anytime Soccer Training</span>. Hundreds of follow-along video sessions — so your player can train anytime, anywhere, and actually get better.
                 </p>
                 <a
                   href="https://www.anytime-soccer.com/pricing"
