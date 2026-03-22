@@ -17,8 +17,8 @@ export default function LCYSADiscountPage() {
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
-                  <span>&#9917;</span> Exclusive for LCYSA Families — Full Year Only $15
+                <div className="inline-flex items-center gap-2 bg-[#059669] px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
+                  <span>&#9917;</span> Exclusive for LCYSA Families — <span className="font-extrabold">Full Year Only $15</span>
                 </div>
                 <LCYSAHeadline />
                 <p className="text-lg text-white mb-8">
