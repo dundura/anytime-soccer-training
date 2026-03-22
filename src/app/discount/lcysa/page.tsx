@@ -5,6 +5,17 @@ import LCYSAHeadline from './LCYSAHeadline';
 export const metadata: Metadata = {
   title: 'LCYSA Members — Exclusive Discount on Anytime Soccer Training',
   description: 'Lower Columbia Youth Soccer Association members get an exclusive discount on Anytime Soccer Training. Help your player train at home with follow-along video sessions.',
+  openGraph: {
+    title: 'LCYSA Members — Exclusive Discount on Anytime Soccer Training',
+    description: 'LCYSA just partnered with Anytime Soccer Training. Easy follow-along video sessions your player can do right at home.',
+    images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1774188137866-rgte84.webp', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'LCYSA Members — Exclusive Discount on Anytime Soccer Training',
+    description: 'LCYSA just partnered with Anytime Soccer Training. Easy follow-along video sessions your player can do right at home.',
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1774188137866-rgte84.webp'],
+  },
 };
 
 export default function LCYSADiscountPage() {
