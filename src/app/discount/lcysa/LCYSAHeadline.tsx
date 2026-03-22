@@ -12,7 +12,7 @@ const CYCLE = 7;
 
 export default function LCYSAHeadline() {
   return (
-    <h1 className="text-[clamp(32px,6vw,56px)] font-extrabold leading-[1.1] mb-4">
+    <h1 className="text-[clamp(22px,4.5vw,56px)] font-extrabold leading-[1.1] mb-4">
       {phrases.map((phrase, i) => (
         <motion.span
           key={i}
