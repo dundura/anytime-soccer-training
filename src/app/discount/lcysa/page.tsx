@@ -77,7 +77,7 @@ export default function LCYSADiscountPage() {
             </div>
             <p className="text-red font-bold text-3xl mb-2">$15 / year per player</p>
             <p className="text-sm text-gray mb-1">That&apos;s just over $1/month for unlimited training sessions.</p>
-            <p className="text-sm text-gray">Use code <span className="font-bold text-navy bg-navy/10 px-2 py-1 rounded">LCYSA</span> at checkout.</p>
+            <p className="text-sm text-gray">Use code <span className="font-bold text-navy bg-navy/10 px-2 py-1 rounded">LCYSA2026</span> at checkout.</p>
           </div>
         </div>
       </section>
@@ -123,7 +123,7 @@ export default function LCYSADiscountPage() {
             href="https://www.anytime-soccer.com/pricing"
             className="bg-red text-white font-bold text-lg py-4 px-10 rounded-full no-underline hover:bg-red-dark transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block"
           >
-            Sign Up &amp; Use Code LCYSA &rarr;
+            Sign Up &amp; Use Code LCYSA2026 &rarr;
           </a>
           <p className="text-sm text-gray mt-6">
             Questions? <a href="mailto:neil@anytime-soccer.com" className="text-red font-semibold no-underline">neil@anytime-soccer.com</a> &middot; <a href="tel:803-431-1082" className="text-red font-semibold no-underline">803-431-1082</a>
