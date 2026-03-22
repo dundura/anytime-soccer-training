@@ -32,7 +32,7 @@ export default function ReferralPage() {
                   href="https://anytime-soccer.com/team-demo-request-anytime-soccer-training/"
                   className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block no-underline"
                 >
-                  See How It Works — Free Demo &rarr;
+                  Free Demo &rarr;
                 </a>
               </div>
               <div className="relative">
