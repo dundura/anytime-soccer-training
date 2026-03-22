@@ -36,7 +36,19 @@ export default function ReferralPage() {
                 </a>
               </div>
               <div className="relative">
+                <div className="hidden lg:flex mb-4 justify-end">
+                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s', animationDelay: '1.5s' }}>
+                    <div className="w-11 h-11 rounded-xl bg-[rgba(15,49,84,0.1)] flex items-center justify-center text-xl">&#128202;</div>
+                    <div className="text-sm text-gray"><strong className="text-navy block">Assign Homework</strong>Coaches monitor training</div>
+                  </div>
+                </div>
                 <AutoplayYouTube videoId="LOv6Jbk8Bac" title="Coach Review of Anytime Soccer Training" />
+                <div className="hidden lg:flex mt-4 justify-start">
+                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
+                    <div className="w-11 h-11 rounded-xl bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-xl">&#10003;</div>
+                    <div className="text-sm text-gray"><strong className="text-navy block">Track Progress</strong>See every completed session</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
