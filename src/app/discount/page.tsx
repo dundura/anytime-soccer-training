@@ -26,7 +26,7 @@ export default function ReferralPage() {
                   Our team uses Anytime Soccer Training.<br /><span className="text-red animate-pulse">Yours should too.</span>
                 </h1>
                 <p className="text-lg text-white/70 mb-8">
-                  Our team is getting better because of this program, which made me think of you. Mention my name during your demo and get <span className="text-red font-bold">10% off your first year</span>.
+                  Mention my name during your demo and get <span className="text-red font-bold">10% off your first year</span>.
                 </p>
                 <a
                   href="https://anytime-soccer.com/team-demo-request-anytime-soccer-training/"
