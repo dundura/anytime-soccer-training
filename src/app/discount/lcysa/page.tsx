@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import TabbedVideoSection from '@/components/TabbedVideoSection';
+import LCYSAHeadline from './LCYSAHeadline';
 
 export const metadata: Metadata = {
   title: 'LCYSA Members — Exclusive Discount on Anytime Soccer Training',
@@ -19,9 +20,7 @@ export default function LCYSADiscountPage() {
                 <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
                   <span>&#9917;</span> Exclusive for LCYSA Families
                 </div>
-                <h1 className="text-[clamp(26px,5vw,42px)] font-extrabold leading-[1.1] text-white mb-4">
-                  <span className="text-red">Big News.</span>
-                </h1>
+                <LCYSAHeadline />
                 <p className="text-lg text-white/70 mb-8">
                   LCYSA just partnered with Anytime Soccer Training. Hundreds of follow-along video sessions — so your player can train anytime, anywhere, and actually get better.
                 </p>
