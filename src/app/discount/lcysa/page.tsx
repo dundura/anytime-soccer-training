@@ -33,6 +33,13 @@ export default function LCYSADiscountPage() {
                 </a>
               </div>
               <div className="relative">
+                {/* Floating badge - above video */}
+                <div className="hidden lg:flex mb-4 justify-end">
+                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s', animationDelay: '1.5s' }}>
+                    <div className="w-11 h-11 rounded-xl bg-[rgba(220,55,62,0.1)] flex items-center justify-center text-xl">&#127942;</div>
+                    <div className="text-sm text-gray"><strong className="text-navy block">5,000+ Videos</strong>Ball mastery, dribbling &amp; more</div>
+                  </div>
+                </div>
                 <div className="rounded-2xl overflow-hidden shadow-2xl">
                   <iframe
                     src="https://www.youtube.com/embed/LOv6Jbk8Bac?autoplay=0&rel=0"
@@ -41,6 +48,13 @@ export default function LCYSADiscountPage() {
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
+                </div>
+                {/* Floating badge - below video */}
+                <div className="hidden lg:flex mt-4 justify-start">
+                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
+                    <div className="w-11 h-11 rounded-xl bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-xl">&#9989;</div>
+                    <div className="text-sm text-gray"><strong className="text-navy block">Used by 50,000+ Players</strong>Trusted in 80+ countries</div>
+                  </div>
                 </div>
               </div>
             </div>
