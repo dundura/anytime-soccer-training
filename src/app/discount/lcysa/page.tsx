@@ -20,7 +20,7 @@ export default function LCYSADiscountPage() {
                   <span>&#9917;</span> Exclusive for LCYSA Families
                 </div>
                 <h1 className="text-[clamp(26px,5vw,42px)] font-extrabold leading-[1.1] text-white mb-4">
-                  LCYSA players get<br /><span className="text-red">extra training at home.</span>
+                  Your player&apos;s secret weapon.<br /><span className="text-red">Train like a pro. Anytime. Anywhere.</span>
                 </h1>
                 <p className="text-lg text-white/70 mb-8">
                   Lower Columbia Youth Soccer Association has partnered with Anytime Soccer Training to give your player access to <span className="text-white font-semibold">hundreds of follow-along video sessions</span> they can do at home, in the backyard, or anywhere with a ball.
