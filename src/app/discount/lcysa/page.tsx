@@ -25,7 +25,7 @@ export default function LCYSADiscountPage() {
                   LCYSA just partnered with Anytime Soccer Training. Hundreds of follow-along video sessions — so your player can train anytime, anywhere, and actually get better.
                 </p>
                 <a
-                  href="https://app.anytime-soccer.com/auth/registration"
+                  href="https://www.anytime-soccer.com/pricing"
                   className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block no-underline"
                 >
                   Sign Up Now &rarr;
@@ -120,7 +120,7 @@ export default function LCYSADiscountPage() {
             Hundreds of LCYSA players are already training with Anytime Soccer. Sign up in under 2 minutes.
           </p>
           <a
-            href="https://app.anytime-soccer.com/auth/registration"
+            href="https://www.anytime-soccer.com/pricing"
             className="bg-red text-white font-bold text-lg py-4 px-10 rounded-full no-underline hover:bg-red-dark transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block"
           >
             Sign Up &amp; Use Code LCYSA &rarr;
