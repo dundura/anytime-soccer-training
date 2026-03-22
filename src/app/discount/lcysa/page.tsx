@@ -127,7 +127,7 @@ export default function LCYSADiscountPage() {
       <section className="py-4 px-5 bg-background text-center">
         <div className="max-w-[600px] mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-navy mb-4">
-            Join Thousands of Players
+            Give your player the extra edge.
           </h2>
           <p className="text-gray text-lg mb-8">
             Players all over the world are already training with Anytime Soccer. Sign up in under 2 minutes.
