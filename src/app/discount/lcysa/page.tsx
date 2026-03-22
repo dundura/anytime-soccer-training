@@ -89,6 +89,7 @@ export default function LCYSADiscountPage() {
             <p className="text-red font-bold text-3xl mb-2">$15 / year per player</p>
             <p className="text-sm text-gray mb-1">That&apos;s just over $1/month for unlimited training sessions.</p>
             <p className="text-sm text-gray">Use code <span className="font-bold text-navy bg-navy/10 px-2 py-1 rounded">LCYSA2026</span> at checkout.</p>
+            <p className="text-xs text-gray/70 mt-3 italic">Start with a free account — when you&apos;re ready to unlock the full program, just enter your code and the discount is applied instantly.</p>
           </div>
         </div>
       </section>
