@@ -16,19 +16,6 @@ export default function LCYSADiscountPage() {
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="relative z-10">
-                <div className="flex items-center gap-4 mb-8">
-                  <img
-                    src="https://static.wixstatic.com/media/179751_e13f4814cd5a4fbd90241a7459d7d51f~mv2.png/v1/fill/w_186,h_194,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/179751_e13f4814cd5a4fbd90241a7459d7d51f~mv2.png"
-                    alt="LCYSA Logo"
-                    className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-white p-1 object-contain"
-                  />
-                  <span className="text-white/60 text-3xl font-thin">+</span>
-                  <img
-                    src="https://anytime-soccer-logo-team.s3.amazonaws.com/photo_2022-07-07_13-42-46.jpg"
-                    alt="Anytime Soccer Training"
-                    className="w-16 h-16 md:w-20 md:h-20 rounded-xl object-contain"
-                  />
-                </div>
                 <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
                   <span>&#9917;</span> Exclusive for LCYSA Families
                 </div>
