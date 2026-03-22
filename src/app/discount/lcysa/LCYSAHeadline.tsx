@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 
 const lines = [
   { text: 'LCYSA Special Offer.', color: 'text-red' },
-  { text: 'Train Anytime. Anywhere.', color: 'text-white' },
-  { text: 'Watch Your Player Soar.', color: 'text-white' },
+  { text: 'Train Anytime. Anywhere.', color: 'text-red' },
+  { text: 'Watch Your Player Soar.', color: 'text-red' },
 ];
 
 export default function LCYSAHeadline() {
