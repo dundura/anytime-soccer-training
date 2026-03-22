@@ -130,7 +130,7 @@ export default function LCYSADiscountPage() {
             Give your player the extra edge.
           </h2>
           <p className="text-gray text-lg mb-8">
-            Players all over the world are already training with Anytime Soccer. Sign up in under 2 minutes.
+            Join thousands of players already training with Anytime Soccer. Sign up in under 2 minutes.
           </p>
           <a
             href="https://www.anytime-soccer.com/pricing"
