@@ -62,6 +62,27 @@ export default function LCYSADiscountPage() {
         </div>
       </section>
 
+      {/* DISCOUNT OFFER */}
+      <section className="py-16 px-5 bg-white">
+        <div className="max-w-[600px] mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">Exclusive LCYSA Pricing</h2>
+          <p className="text-gray text-lg mb-8">Your club has arranged a special rate for LCYSA families.</p>
+          <div className="bg-red/[0.06] border-2 border-red/20 rounded-2xl p-8">
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <img
+                src="https://static.wixstatic.com/media/179751_e13f4814cd5a4fbd90241a7459d7d51f~mv2.png/v1/fill/w_186,h_194,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/179751_e13f4814cd5a4fbd90241a7459d7d51f~mv2.png"
+                alt="LCYSA"
+                className="w-10 h-10 rounded-lg bg-white p-0.5 object-contain"
+              />
+              <p className="text-navy font-extrabold text-xl m-0">LCYSA Member Discount</p>
+            </div>
+            <p className="text-red font-bold text-3xl mb-2">$15 / year per player</p>
+            <p className="text-sm text-gray mb-1">That&apos;s just over $1/month for unlimited training sessions.</p>
+            <p className="text-sm text-gray">Use code <span className="font-bold text-navy bg-navy/10 px-2 py-1 rounded">LCYSA</span> at checkout.</p>
+          </div>
+        </div>
+      </section>
+
       {/* WHY PARENTS LOVE IT */}
       <section className="py-16 px-5 bg-white">
         <div className="max-w-5xl mx-auto">
@@ -89,27 +110,6 @@ export default function LCYSADiscountPage() {
 
       {/* A LOOK INSIDE THE PROGRAM */}
       <TabbedVideoSection title="A Look Inside the Program" subtitle="See what your player will be doing. Real sessions. Real results." hideCta />
-
-      {/* DISCOUNT OFFER */}
-      <section className="py-16 px-5 bg-white">
-        <div className="max-w-[600px] mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">Exclusive LCYSA Pricing</h2>
-          <p className="text-gray text-lg mb-8">Your club has arranged a special rate for LCYSA families.</p>
-          <div className="bg-red/[0.06] border-2 border-red/20 rounded-2xl p-8">
-            <div className="flex items-center justify-center gap-3 mb-3">
-              <img
-                src="https://static.wixstatic.com/media/179751_e13f4814cd5a4fbd90241a7459d7d51f~mv2.png/v1/fill/w_186,h_194,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/179751_e13f4814cd5a4fbd90241a7459d7d51f~mv2.png"
-                alt="LCYSA"
-                className="w-10 h-10 rounded-lg bg-white p-0.5 object-contain"
-              />
-              <p className="text-navy font-extrabold text-xl m-0">LCYSA Member Discount</p>
-            </div>
-            <p className="text-red font-bold text-3xl mb-2">$15 / year per player</p>
-            <p className="text-sm text-gray mb-1">That&apos;s just over $1/month for unlimited training sessions.</p>
-            <p className="text-sm text-gray">Use code <span className="font-bold text-navy bg-navy/10 px-2 py-1 rounded">LCYSA</span> at checkout.</p>
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="py-16 px-5 bg-background text-center">
