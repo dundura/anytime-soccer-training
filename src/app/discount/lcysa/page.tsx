@@ -20,10 +20,10 @@ export default function LCYSADiscountPage() {
                   <span>&#9917;</span> Exclusive for LCYSA Families
                 </div>
                 <h1 className="text-[clamp(26px,5vw,42px)] font-extrabold leading-[1.1] text-white mb-4">
-                  Big News.<br /><span className="text-red">LCYSA just partnered with Anytime Soccer Training.</span>
+                  <span className="text-red">Big News.</span>
                 </h1>
                 <p className="text-lg text-white/70 mb-8">
-                  Hundreds of follow-along video sessions — so your player can train anytime, anywhere, and actually get better.
+                  LCYSA just partnered with Anytime Soccer Training. Hundreds of follow-along video sessions — so your player can train anytime, anywhere, and actually get better.
                 </p>
                 <a
                   href="https://app.anytime-soccer.com/auth/registration"
