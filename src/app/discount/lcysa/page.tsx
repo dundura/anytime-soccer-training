@@ -35,6 +35,7 @@ export default function LCYSADiscountPage() {
                 <p className="text-lg text-white mb-8">
                   LCYSA just partnered with <span className="text-white font-bold">Anytime Soccer Training</span>.<br />Easy follow-along video sessions your player can do right at home — just a ball and the drive to improve.
                 </p>
+                <p className="text-white/60 text-sm mb-3">Free to join, annual upgrades only $15</p>
                 <a
                   href="https://www.anytime-soccer.com/pricing"
                   className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block no-underline"
