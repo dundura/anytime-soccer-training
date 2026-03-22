@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 const phrases = [
   { text: 'LCYSA Special Offer.', color: 'text-red' },
   { text: ' Train Anytime.', color: 'text-red' },
-  { text: ' Watch Your Player Soar.', color: 'text-red' },
+  { text: ' Your Player Gets Better.', color: 'text-red' },
 ];
 
 const CYCLE = 4.5;
