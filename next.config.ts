@@ -12,11 +12,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: '/best-soccer-coaching-apps-2025',
-        destination: '/blog/7-best-soccer-coaching-apps',
-        permanent: true,
-      },
-      {
         source: '/blog/free-7-day-soccer-skills-challenge',
         destination: '/free-soccer-drills-for-kids',
         permanent: true,
