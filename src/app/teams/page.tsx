@@ -33,6 +33,7 @@ const TEAM_PAGES = [
   { title: 'Royal Fox FC', slug: 'royal-fox-fc-getting-started' },
   { title: 'Pekin Pride 2013/14 Girls', slug: 'pekin-pride-2013-14-girls-getting-started' },
   { title: 'South Parkland Mutiny', slug: 'getting-started-south-parkland-mutiny' },
+  { title: 'UCSC Soccer', slug: 'ucsc-getting-started' },
   { title: 'ULETE FC', slug: 'ulete-fc-getting-started' },
 ];
 
