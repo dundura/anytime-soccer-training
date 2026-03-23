@@ -20,7 +20,7 @@ export default function ContactPage() {
 
         <p className="text-center text-sm text-gray mt-6">
           Or email us directly at{' '}
-          <a href="mailto:neil@anytime-soccer.com" className="text-red hover:underline">neil@anytime-soccer.com</a>
+          <a href="mailto:info@anytime-soccer.com" className="text-red hover:underline">info@anytime-soccer.com</a>
         </p>
       </div>
     </section>
