@@ -23,7 +23,7 @@ export default function ContactForm() {
       });
       setSubmitted(true);
     } catch {
-      alert('Something went wrong. Please try again or email us directly at neil@anytime-soccer.com');
+      alert('Something went wrong. Please try again or email us directly at info@anytime-soccer.com');
     } finally {
       setSubmitting(false);
     }
