@@ -80,7 +80,7 @@ const EBOOKS = [
     title: 'Player Cards Guide',
     description: 'Stay informed about eligibility requirements and avoid missed tournament opportunities.',
     image: 'https://media.anytime-soccer.com/wp-content/uploads/2024/11/pro-tips-for-college-showcases-1.png',
-    href: '/blog/everything-you-need-to-know-about-player-cards-in-youth-soccer',
+    href: '/everything-you-need-to-know-about-player-cards',
   },
 ];
 
