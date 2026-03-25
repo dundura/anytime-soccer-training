@@ -247,17 +247,21 @@ export default function BlogPage() {
                 >
                   &larr; Prev
                 </button>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                  <button
-                    key={p}
-                    onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                    className={`w-10 h-10 rounded-xl text-sm font-medium transition-colors ${
-                      p === page ? 'bg-navy text-white' : 'border border-gray-200 hover:bg-gray-100'
-                    }`}
-                  >
-                    {p}
-                  </button>
-                ))}
+                {(() => {
+                  const start = Math.max(1, Math.min(page - 4, totalPages - 9));
+                  const end = Math.min(totalPages, start + 9);
+                  return Array.from({ length: end - start + 1 }, (_, i) => start + i).map((p) => (
+                    <button
+                      key={p}
+                      onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                      className={`w-10 h-10 rounded-xl text-sm font-medium transition-colors ${
+                        p === page ? 'bg-navy text-white' : 'border border-gray-200 hover:bg-gray-100'
+                      }`}
+                    >
+                      {p}
+                    </button>
+                  ));
+                })()}
                 <button
                   onClick={() => { setPage(Math.min(totalPages, page + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   disabled={page === totalPages}
