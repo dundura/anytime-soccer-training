@@ -239,7 +239,7 @@ export default function BlogPage() {
 
             {/* ====== PAGINATION ====== */}
             {!viewAll && totalPages > 1 && (
-              <div className="flex items-center justify-center gap-2 mt-8">
+              <div className="flex items-center justify-center gap-2 mt-8 bg-white rounded-2xl p-4 shadow-sm">
                 <button
                   onClick={() => { setPage(Math.max(1, page - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   disabled={page === 1}
