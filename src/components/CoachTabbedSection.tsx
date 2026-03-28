@@ -50,7 +50,7 @@ export default function CoachTabbedSection() {
         <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
           <div className="text-center mb-10">
             <span className="text-xs font-bold uppercase tracking-[2px] text-red block mb-3">For Clubs and Teams</span>
-            <h2 className="text-[clamp(24px,4vw,36px)] font-bold text-navy leading-tight max-w-3xl mx-auto">
+            <h2 className="text-[clamp(24px,4vw,36px)] font-extrabold text-navy leading-tight max-w-3xl mx-auto uppercase tracking-tight">
               Your Players Are Going Home With <span className="text-red">No Plan</span>
             </h2>
             <p className="text-lg text-[#64748b] mt-4 max-w-2xl mx-auto">

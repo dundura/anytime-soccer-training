@@ -84,7 +84,7 @@ export default function HomePage() {
       {/* ===== REVIEWS ===== */}
       <section className="pt-0 pb-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-12">Our Reviews</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-navy text-center mb-12 uppercase tracking-tight">Our Reviews</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { title: 'Parent Reactions', img: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/home/review-1.png', href: 'https://www.instagram.com/reel/C0VSBMCr8a4/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==' },
@@ -107,7 +107,7 @@ export default function HomePage() {
       {/* ===== 30-DAY PLAN ===== */}
       <section className="pt-6 pb-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-4">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-navy text-center mb-4 uppercase tracking-tight">
             <span className="text-red">Must-Have Resources for</span> Serious Soccer Parents
           </h2>
           <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
@@ -172,7 +172,7 @@ export default function HomePage() {
       {/* ===== THREE EBOOKS ===== */}
       <section className="pt-0 pb-20 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-navy text-center mb-12">Three Ebooks Every Parent and Coach Should Read!</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-navy text-center mb-12 uppercase tracking-tight">Three Ebooks Every Parent and Coach Should Read!</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { title: 'Is Your Club Failing Your Players? 20 Questions Every Parent Should Ask', img: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-1.png', cta: 'Download', href: '/20-questions-every-parent-should-ask' },

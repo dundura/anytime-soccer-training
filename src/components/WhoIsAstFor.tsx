@@ -56,7 +56,7 @@ export default function WhoIsAstFor() {
             {/* Right - Heading + Video Player */}
             <div className="flex-1 w-full max-w-[680px]">
               <div className="text-center mb-6">
-                <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-3">
+                <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-3 uppercase tracking-tight">
                   Who Is Anytime Soccer Training <span className="text-red">For?</span>
                 </h2>
                 <p className="text-gray text-lg max-w-xl mx-auto">

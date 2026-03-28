@@ -32,7 +32,7 @@ export default function TabbedVideoSection({ title, subtitle, hideCta }: { title
           {/* Mobile: heading + 2-col grid tabs */}
           <div className="md:hidden mb-6">
             <div className="text-center mb-6">
-              <h2 className="text-3xl font-extrabold text-navy mb-3">
+              <h2 className="text-3xl font-extrabold text-navy mb-3 uppercase tracking-tight">
                 {title || <>Get Your Free <span className="text-red">7-Day Training Plan</span></>}
               </h2>
               {subtitle !== undefined ? (
@@ -92,7 +92,7 @@ export default function TabbedVideoSection({ title, subtitle, hideCta }: { title
             {/* Right - Heading + Video Player */}
             <div className="flex-1 w-full max-w-[680px]">
               <div className="text-center mb-6 hidden md:block">
-                <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-3">
+                <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-3 uppercase tracking-tight">
                   {title || <>Get Your Free <span className="text-red">7-Day Training Plan</span></>}
                 </h2>
                 {subtitle !== undefined ? (
