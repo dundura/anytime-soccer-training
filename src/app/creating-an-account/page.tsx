@@ -7,40 +7,28 @@ export const metadata: Metadata = {
 
 const steps = [
   {
-    title: 'Go to anytime-soccer.com',
+    title: 'Go to anytime-soccer.com & Join for Free',
     content: (
-      <>Visit <a href="https://anytime-soccer.com" target="_blank" rel="noopener noreferrer" className="text-red font-semibold no-underline hover:underline">anytime-soccer.com</a> to get started.</>
+      <>Visit <a href="https://anytime-soccer.com" target="_blank" rel="noopener noreferrer" className="text-red font-semibold no-underline hover:underline">anytime-soccer.com</a> and click <span className="text-red font-semibold">&ldquo;Join for Free&rdquo;</span> to create your account.</>
     ),
   },
   {
-    title: 'Click "Join for Free"',
+    title: 'Enter Your Team Code',
     content: (
-      <>Click the <span className="text-red font-semibold">&ldquo;Join for Free&rdquo;</span> button and fill out the registration form.</>
+      <>Apply your <span className="text-red font-semibold">team code</span> during signup. Check your email from your coach for the code.</>
     ),
   },
   {
-    title: 'Apply Your Team Code',
+    title: 'Verify Your Email',
     content: (
-      <>Enter your <span className="text-red font-semibold">team code</span> during signup. Check your email from your coach for the code.</>
-    ),
-  },
-  {
-    title: 'Open the Welcome Email',
-    content: (
-      <>Check your inbox for the <span className="text-red font-semibold">Welcome Email</span> from us.</>
+      <>Open the <span className="text-red font-semibold">Welcome Email</span> and click <span className="text-red font-semibold">&ldquo;Verify Address&rdquo;</span>.</>
     ),
     tip: "Don't see it? Check your spam or junk folder!",
   },
   {
-    title: 'Verify Your Email Address',
+    title: 'Log In & Start Training',
     content: (
-      <>Click the <span className="text-red font-semibold">&ldquo;Verify Address&rdquo;</span> button in your welcome email.</>
-    ),
-  },
-  {
-    title: 'Log In with Single Sign-On',
-    content: (
-      <>Log in using <span className="text-red font-semibold">Single Sign-On</span> with your email and password. You&apos;re all set!</>
+      <>Log in with <span className="text-red font-semibold">Single Sign-On</span> using your email and password. You&apos;re all set!</>
     ),
   },
 ];
@@ -78,20 +66,20 @@ export default function CreatingAnAccountPage() {
           </div>
 
           {/* Steps */}
-          <div className="bg-white rounded-2xl p-8 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
             {steps.map((step, i) => (
-              <div key={step.title} className={`${i < steps.length - 1 ? 'mb-7 pb-7 border-b border-[#ECF1F7]' : ''}`}>
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="w-7 h-7 bg-red text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+              <div key={step.title} className={`${i < steps.length - 1 ? 'mb-5 pb-5 border-b border-[#ECF1F7]' : ''}`}>
+                <div className="flex items-center gap-3 mb-1.5">
+                  <span className="w-6 h-6 bg-red text-white rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0">
                     {i + 1}
                   </span>
-                  <h3 className="text-lg font-bold text-navy m-0">{step.title}</h3>
+                  <h3 className="text-base font-bold text-navy m-0">{step.title}</h3>
                 </div>
-                <div className="ml-10 text-[#5a7089] text-[15px]">
+                <div className="ml-9 text-[#5a7089] text-sm">
                   {step.content}
                   {step.tip && (
-                    <div className="bg-red/[0.08] border-l-[3px] border-red py-4 px-4 rounded-r-lg mt-3">
-                      <p className="text-navy text-sm m-0">{step.tip}</p>
+                    <div className="bg-red/[0.08] border-l-[3px] border-red py-2.5 px-3 rounded-r-lg mt-2">
+                      <p className="text-navy text-xs m-0">{step.tip}</p>
                     </div>
                   )}
                 </div>
