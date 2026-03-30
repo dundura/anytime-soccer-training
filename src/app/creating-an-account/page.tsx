@@ -13,9 +13,9 @@ const steps = [
     ),
   },
   {
-    title: 'Enter Your Team Code',
+    title: 'Enter Your Team Code (Optional)',
     content: (
-      <>Apply your <span className="text-red font-semibold">team code</span> during signup. Check your email from your coach for the code.</>
+      <>If your coach gave you a <span className="text-red font-semibold">team code</span>, enter it during signup. No code? No problem — you can skip this step and join a team later.</>
     ),
   },
   {
