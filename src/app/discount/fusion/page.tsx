@@ -45,7 +45,7 @@ export default function FusionDiscountPage() {
               <h1 className="text-[32px] md:text-[36px] font-extrabold text-white leading-[1.15] uppercase tracking-wide mb-3">
                 Train Smarter.<br /><span className="text-[#7ec8e3]">Anytime.</span>
               </h1>
-              <p className="text-[15px] text-white/65 leading-relaxed mb-7 max-w-[520px]">
+              <p className="text-[15px] text-white leading-relaxed mb-7 max-w-[520px]">
                 Fusion Training Academy families get exclusive access to Anytime Soccer Training — 5,000+ follow-along videos designed to develop elite youth players at home, on their schedule.
               </p>
 
@@ -63,7 +63,7 @@ export default function FusionDiscountPage() {
                 ].map((perk) => (
                   <div key={perk} className="flex items-center gap-2.5 text-[13px] text-white/80">
                     <div className="w-2 h-2 rounded-full bg-[#7ec8e3] shrink-0" />
-                    {perk}
+                    <span className="text-white">{perk}</span>
                   </div>
                 ))}
               </div>
@@ -76,6 +76,7 @@ export default function FusionDiscountPage() {
                 >
                   Get Started Free
                 </a>
+                <span className="text-xs text-white/50">Free to join, annual upgrades only $15</span>
               </div>
             </div>
           </div>
