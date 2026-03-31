@@ -10,23 +10,23 @@ export const metadata: Metadata = {
   },
 };
 
-const steps = [
+const accountSteps = [
   {
-    title: 'Create Your Free Account',
+    title: 'Go to anytime-soccer.com & Join for Free',
     content: (
-      <>Go to <a href="https://anytime-soccer.com" target="_blank" rel="noopener noreferrer" className="text-red font-semibold no-underline hover:underline">anytime-soccer.com</a> and click <span className="text-red font-semibold">&ldquo;Join for Free&rdquo;</span> to create your account.</>
+      <>Visit <a href="https://anytime-soccer.com" target="_blank" rel="noopener noreferrer" className="text-red font-semibold no-underline hover:underline">anytime-soccer.com</a> and click <span className="text-red font-semibold">&ldquo;Join for Free&rdquo;</span> to create your account.</>
     ),
   },
   {
     title: 'Add a Player Profile',
     content: (
-      <>After signing up, add a <span className="text-red font-semibold">player profile</span> for your child. You can add up to 4 players per account.</>
+      <>Add a <span className="text-red font-semibold">player profile</span> for your child. You can add up to 4 players per account.</>
     ),
   },
   {
     title: 'Verify Your Email',
     content: (
-      <>Open the <span className="text-red font-semibold">Welcome Email</span> from us and click <span className="text-red font-semibold">&ldquo;Verify Address&rdquo;</span>.</>
+      <>Open the <span className="text-red font-semibold">Welcome Email</span> and click <span className="text-red font-semibold">&ldquo;Verify Address&rdquo;</span>.</>
     ),
     tip: "Don't see it? Check your spam or junk folder!",
   },
@@ -36,10 +36,25 @@ const steps = [
       <>Log in with <span className="text-red font-semibold">Single Sign-On</span> using your email and password.</>
     ),
   },
+];
+
+const teamSteps = [
   {
-    title: 'Join Your Team',
+    title: 'Go to My Teams',
     content: (
-      <>Go to <span className="text-red font-semibold">&ldquo;My Teams&rdquo;</span> from the dashboard, click <span className="text-red font-semibold">&ldquo;Join Team&rdquo;</span>, search for your team name, and send a join request.</>
+      <>From the dashboard, click on <span className="text-red font-semibold">&ldquo;My Teams&rdquo;</span> in the navigation menu.</>
+    ),
+  },
+  {
+    title: 'Click "Join Team"',
+    content: (
+      <>Click the <span className="text-red font-semibold">&ldquo;Join Team&rdquo;</span> button to search for your team.</>
+    ),
+  },
+  {
+    title: 'Search & Send a Join Request',
+    content: (
+      <>Type your team name in the search box, select it, and click <span className="text-red font-semibold">&ldquo;Request to Join&rdquo;</span>. Your coach will be notified.</>
     ),
     tip: "Can't find your team? Try searching part of the name, or ask your coach for the exact team name.",
   },
@@ -80,26 +95,65 @@ export default function GettingStartedPage() {
 
       {/* STEPS */}
       <section className="pb-12 bg-background">
-        <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+          {/* Section 1: Create Account */}
+          <details open className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden">
+            <summary className="p-6 md:p-8 pb-0 md:pb-0 cursor-pointer list-none flex items-center justify-between">
+              <h2 className="text-xl font-extrabold text-navy m-0">Step 1: Create Your Account</h2>
+              <span className="text-navy text-lg">&#9662;</span>
+            </summary>
+            <div className="p-6 md:p-8 pt-4 md:pt-4">
+              {accountSteps.map((step, i) => (
+                <div key={step.title} className={`${i < accountSteps.length - 1 ? 'mb-5 pb-5 border-b border-[#ECF1F7]' : ''}`}>
+                  <div className="flex items-center gap-3 mb-1.5">
+                    <span className="w-7 h-7 bg-red text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+                      {i + 1}
+                    </span>
+                    <h3 className="text-base font-bold text-navy m-0">{step.title}</h3>
+                  </div>
+                  <div className="ml-10 text-[#5a7089] text-sm">
+                    {step.content}
+                    {step.tip && (
+                      <div className="bg-red/[0.08] border-l-[3px] border-red py-2.5 px-3 rounded-r-lg mt-2">
+                        <p className="text-navy text-xs m-0">{step.tip}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          {/* Section 2: Join Your Team */}
+          <details open className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden">
+            <summary className="p-6 md:p-8 pb-0 md:pb-0 cursor-pointer list-none flex items-center justify-between">
+              <h2 className="text-xl font-extrabold text-navy m-0">Step 2: Join Your Team</h2>
+              <span className="text-navy text-lg">&#9662;</span>
+            </summary>
+            <div className="p-6 md:p-8 pt-4 md:pt-4">
+              {teamSteps.map((step, i) => (
+                <div key={step.title} className={`${i < teamSteps.length - 1 ? 'mb-5 pb-5 border-b border-[#ECF1F7]' : ''}`}>
+                  <div className="flex items-center gap-3 mb-1.5">
+                    <span className="w-7 h-7 bg-navy text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+                      {i + 1}
+                    </span>
+                    <h3 className="text-base font-bold text-navy m-0">{step.title}</h3>
+                  </div>
+                  <div className="ml-10 text-[#5a7089] text-sm">
+                    {step.content}
+                    {step.tip && (
+                      <div className="bg-red/[0.08] border-l-[3px] border-red py-2.5 px-3 rounded-r-lg mt-2">
+                        <p className="text-navy text-xs m-0">{step.tip}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          {/* CTA card */}
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
-            {steps.map((step, i) => (
-              <div key={step.title} className={`${i < steps.length - 1 ? 'mb-5 pb-5 border-b border-[#ECF1F7]' : ''}`}>
-                <div className="flex items-center gap-3 mb-1.5">
-                  <span className="w-7 h-7 bg-red text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
-                    {i + 1}
-                  </span>
-                  <h3 className="text-base font-bold text-navy m-0">{step.title}</h3>
-                </div>
-                <div className="ml-10 text-[#5a7089] text-sm">
-                  {step.content}
-                  {step.tip && (
-                    <div className="bg-red/[0.08] border-l-[3px] border-red py-2.5 px-3 rounded-r-lg mt-2">
-                      <p className="text-navy text-xs m-0">{step.tip}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
 
             {/* CTA */}
             <div className="text-center mt-8">
