@@ -140,6 +140,12 @@ export default function FusionDiscountPage() {
               <p className="text-sm text-gray">Hit play and follow along. Your player trains at their own pace.</p>
             </div>
           </div>
+          <div className="text-center mt-8">
+            <p className="text-[#1a2a3a] font-bold mb-3">Coaches, book a free demo and claim your discount.</p>
+            <a href="https://www.anytime-soccer.com/team-demo-request-anytime-soccer-training" className="inline-block bg-[#1a2a3a] text-white font-bold text-sm px-7 py-3 rounded-lg no-underline hover:bg-[#1a2a3a]/90 transition-colors">
+              Book Free Demo &rarr;
+            </a>
+          </div>
         </div>
       </section>
 
