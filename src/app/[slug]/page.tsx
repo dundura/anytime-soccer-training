@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getPageBySlug, getCatchAllSlugs } from '@/lib/pages';
+import { InlineScriptRunner } from '@/components/InlineScriptRunner';
 
 export async function generateStaticParams() {
   return getCatchAllSlugs().map((slug) => ({ slug }));
@@ -24,6 +25,7 @@ export default async function CatchAllPage({ params }: { params: Promise<{ slug:
   if (hasOwnLayout) {
     return (
       <article>
+        <InlineScriptRunner />
         <div
           className="wp-content"
           dangerouslySetInnerHTML={{ __html: page.content }}
