@@ -25,7 +25,7 @@ export default function FusionDiscountPage() {
           <div className="bg-[#1a2a3a] rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.25)]">
             {/* Top bar */}
             <div className="bg-[#7ec8e3] px-7 py-2.5 text-xs font-bold tracking-widest uppercase text-[#1a2a3a] flex items-center gap-2">
-              &#9917; Exclusive Member Offer — Fusion Training Academy
+              &#9917; Exclusive Member Offer — Fusion Training Academy &middot; <span className="font-extrabold">15% Off All Plans</span>
             </div>
 
             <div className="px-6 py-8 md:px-10 md:py-9">
