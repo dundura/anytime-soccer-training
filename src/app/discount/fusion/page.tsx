@@ -87,6 +87,36 @@ export default function FusionDiscountPage() {
         </div>
       </section>
 
+      {/* HOW IT WORKS */}
+      <section className="py-8 px-5 bg-[#e8f4f8]">
+        <div className="max-w-[800px] mx-auto">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-[#1a2a3a] text-center mb-8">How It Works</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="w-10 h-10 bg-[#7ec8e3] text-[#1a2a3a] rounded-full flex items-center justify-center font-extrabold text-lg mx-auto mb-3">1</div>
+              <h3 className="font-bold text-[#1a2a3a] mb-1">Create a Free Account</h3>
+              <p className="text-sm text-gray">Sign up at anytime-soccer.com — it&apos;s free to get started.</p>
+            </div>
+            <div className="text-center">
+              <div className="w-10 h-10 bg-[#7ec8e3] text-[#1a2a3a] rounded-full flex items-center justify-center font-extrabold text-lg mx-auto mb-3">2</div>
+              <h3 className="font-bold text-[#1a2a3a] mb-1">Enter Team Code</h3>
+              <p className="text-sm text-gray">Use code <span className="font-bold">FUSION2026</span> during registration to unlock your discount.</p>
+            </div>
+            <div className="text-center">
+              <div className="w-10 h-10 bg-[#7ec8e3] text-[#1a2a3a] rounded-full flex items-center justify-center font-extrabold text-lg mx-auto mb-3">3</div>
+              <h3 className="font-bold text-[#1a2a3a] mb-1">Start Training</h3>
+              <p className="text-sm text-gray">Hit play and follow along. Your player trains at their own pace.</p>
+            </div>
+          </div>
+          <div className="text-center mt-8">
+            <p className="text-[#1a2a3a] font-bold mb-3">Coaches, book a free demo and claim your discount.</p>
+            <a href="https://www.anytime-soccer.com/team-demo-request-anytime-soccer-training" className="inline-block bg-[#1a2a3a] text-white font-bold text-sm px-7 py-3 rounded-lg no-underline hover:bg-[#1a2a3a]/90 transition-colors">
+              Book Free Demo &rarr;
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* DISCOUNT OFFER */}
       <section className="py-2 px-5 bg-white">
         <div className="max-w-[800px] mx-auto text-center">
@@ -114,36 +144,6 @@ export default function FusionDiscountPage() {
               </div>
             </div>
             <p className="text-xs text-[#1a2a3a] font-bold mt-4">Start with a free account — when you&apos;re ready to upgrade, enter FUSION2026 at checkout.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* HOW IT WORKS */}
-      <section className="py-8 px-5 bg-[#e8f4f8]">
-        <div className="max-w-[800px] mx-auto">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-[#1a2a3a] text-center mb-8">How It Works</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="w-10 h-10 bg-[#7ec8e3] text-[#1a2a3a] rounded-full flex items-center justify-center font-extrabold text-lg mx-auto mb-3">1</div>
-              <h3 className="font-bold text-[#1a2a3a] mb-1">Create a Free Account</h3>
-              <p className="text-sm text-gray">Sign up at anytime-soccer.com — it&apos;s free to get started.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-10 h-10 bg-[#7ec8e3] text-[#1a2a3a] rounded-full flex items-center justify-center font-extrabold text-lg mx-auto mb-3">2</div>
-              <h3 className="font-bold text-[#1a2a3a] mb-1">Enter Team Code</h3>
-              <p className="text-sm text-gray">Use code <span className="font-bold">FUSION2026</span> during registration to unlock your discount.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-10 h-10 bg-[#7ec8e3] text-[#1a2a3a] rounded-full flex items-center justify-center font-extrabold text-lg mx-auto mb-3">3</div>
-              <h3 className="font-bold text-[#1a2a3a] mb-1">Start Training</h3>
-              <p className="text-sm text-gray">Hit play and follow along. Your player trains at their own pace.</p>
-            </div>
-          </div>
-          <div className="text-center mt-8">
-            <p className="text-[#1a2a3a] font-bold mb-3">Coaches, book a free demo and claim your discount.</p>
-            <a href="https://www.anytime-soccer.com/team-demo-request-anytime-soccer-training" className="inline-block bg-[#1a2a3a] text-white font-bold text-sm px-7 py-3 rounded-lg no-underline hover:bg-[#1a2a3a]/90 transition-colors">
-              Book Free Demo &rarr;
-            </a>
           </div>
         </div>
       </section>
