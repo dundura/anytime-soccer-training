@@ -120,12 +120,12 @@ export default function FusionDiscountPage() {
       <TabbedVideoSection title="A Look Inside the Program" subtitle="See what your player will be doing. Real sessions. Real results." hideCta />
 
       {/* CTA */}
-      <section className="py-2 px-5 bg-background text-center">
+      <section className="px-5 bg-background text-center">
         <div className="max-w-[600px] mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-navy mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-navy mb-2">
             Give your players the extra edge.
           </h2>
-          <p className="text-gray text-lg mb-8">
+          <p className="text-gray text-base mb-4">
             Join thousands of players already training with Anytime Soccer Training.
           </p>
           <a
