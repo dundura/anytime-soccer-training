@@ -16,7 +16,7 @@ export default function Footer() {
           <div className="md:col-span-5">
             <div className="flex items-center gap-3 mb-5">
               <Image
-                src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1774958366003-w9xngw.png"
+                src="https://media.anytime-soccer.com/wp-content/uploads/2026/02/ast_logo_shield_only_blue.png"
                 alt="Anytime Soccer Training"
                 width={44}
                 height={44}

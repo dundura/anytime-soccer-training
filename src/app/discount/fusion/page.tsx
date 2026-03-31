@@ -92,7 +92,7 @@ export default function FusionDiscountPage() {
           <p className="text-gray text-base mb-4">Fusion Soccer families get 15% off any plan — team or individual.</p>
           <div className="bg-[#e8f4f8] border-2 border-[#7ec8e3]/30 rounded-2xl p-8">
             <p className="text-[#1a2a3a] font-extrabold text-xl mb-3">15% Off All Plans</p>
-            <p className="text-[#7ec8e3] font-bold text-3xl mb-2">Use Code: FUSION2026</p>
+            <p className="text-[#7ec8e3] font-bold text-3xl mb-2">Use Team Code: FUSION2026</p>
             <p className="text-sm text-gray mb-4">Apply at checkout for 15% off monthly or annual plans.</p>
             <div className="grid sm:grid-cols-2 gap-4 mt-6">
               <div className="bg-white rounded-xl overflow-hidden text-center">
@@ -121,7 +121,7 @@ export default function FusionDiscountPage() {
       <TabbedVideoSection title="A Look Inside the Program" subtitle="See what your player will be doing. Real sessions. Real results." hideCta />
 
       {/* CTA */}
-      <section className="px-5 bg-background text-center">
+      <section className="px-5 pb-12 bg-background text-center">
         <div className="max-w-[800px] mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-navy mb-2">
             Give your players the extra edge.
