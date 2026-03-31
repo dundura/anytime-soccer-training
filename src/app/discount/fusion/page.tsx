@@ -15,13 +15,13 @@ export default function FusionDiscountPage() {
   return (
     <>
       {/* FREE TO JOIN BANNER */}
-      <div className="bg-[#059669] text-white text-center py-2.5 px-4 text-sm font-semibold">
+      <div className="bg-[#7ec8e3] text-[#1a2a3a] text-center py-2.5 px-4 text-sm font-semibold">
         Free to join &middot; 15% off annual upgrades with code <span className="font-extrabold">FUSION2026</span>
       </div>
 
       {/* HERO */}
       <section className="py-6 md:py-8 bg-[#f0f4f8]">
-        <div className="max-w-[700px] mx-auto px-4">
+        <div className="max-w-[900px] mx-auto px-4">
           <div className="bg-[#1a2a3a] rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.25)]">
             {/* Top bar */}
             <div className="bg-[#7ec8e3] px-7 py-2.5 text-xs font-bold tracking-widest uppercase text-[#1a2a3a] flex items-center gap-2">
@@ -86,14 +86,14 @@ export default function FusionDiscountPage() {
       </section>
 
       {/* DISCOUNT OFFER */}
-      <section className="py-2 px-5 bg-white">
-        <div className="max-w-[600px] mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-2">Exclusive Fusion Soccer Discount</h2>
-          <p className="text-gray text-base mb-4">Fusion Soccer families get 15% off any plan — team or individual.</p>
-          <div className="bg-red/[0.06] border-2 border-red/20 rounded-2xl p-8">
-            <p className="text-navy font-extrabold text-xl mb-3">15% Off All Plans</p>
-            <p className="text-red font-bold text-3xl mb-2">Use Code: FUSION2026</p>
-            <p className="text-sm text-gray mb-4">Apply at checkout for 15% off monthly or annual plans.</p>
+      <section className="py-2 px-5 bg-[#1a2a3a]">
+        <div className="max-w-[800px] mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">Exclusive Fusion Soccer Discount</h2>
+          <p className="text-white/60 text-base mb-4">Fusion Soccer families get 15% off any plan — team or individual.</p>
+          <div className="bg-white/[0.06] border-2 border-[#7ec8e3]/20 rounded-2xl p-8">
+            <p className="text-[#7ec8e3] font-extrabold text-xl mb-3">15% Off All Plans</p>
+            <p className="text-white font-bold text-3xl mb-2">Use Code: FUSION2026</p>
+            <p className="text-sm text-white/60 mb-4">Apply at checkout for 15% off monthly or annual plans.</p>
             <div className="grid sm:grid-cols-2 gap-4 mt-6">
               <div className="bg-white rounded-xl overflow-hidden text-center">
                 <img src="https://images.squarespace-cdn.com/content/v1/5e4a87984b1e7c77342e7371/1746821495147-NKBKSCPAM28BSNTF0Z4A/1098-DSC07129+%282%29.jpg?format=1000w" alt="Team Training" className="w-full h-40 object-cover" />
@@ -112,7 +112,7 @@ export default function FusionDiscountPage() {
                 </div>
               </div>
             </div>
-            <p className="text-xs text-red font-bold mt-4">Start with a free account — when you&apos;re ready to upgrade, enter FUSION2026 at checkout.</p>
+            <p className="text-xs text-[#7ec8e3] font-bold mt-4">Start with a free account — when you&apos;re ready to upgrade, enter FUSION2026 at checkout.</p>
           </div>
         </div>
       </section>
@@ -122,7 +122,7 @@ export default function FusionDiscountPage() {
 
       {/* CTA */}
       <section className="px-5 bg-background text-center">
-        <div className="max-w-[600px] mx-auto">
+        <div className="max-w-[800px] mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-navy mb-2">
             Give your players the extra edge.
           </h2>
