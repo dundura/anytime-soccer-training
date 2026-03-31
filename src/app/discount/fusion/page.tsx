@@ -48,7 +48,7 @@ export default function FusionDiscountPage() {
                 Train Smarter.<br /><span className="text-[#7ec8e3]">Anytime.</span>
               </h1>
               <p className="text-[15px] text-white leading-relaxed mb-7 max-w-[520px]">
-                Fusion Training Academy families get exclusive access to Anytime Soccer Training — 5,000+ follow-along videos designed to develop elite youth players at home, on their schedule.
+                Fusion Training Academy families get exclusive access to Anytime Soccer Training — 5,000+ follow-along videos designed to develop youth players at home, on their schedule.
               </p>
 
               <hr className="border-white/10 mb-6" />
