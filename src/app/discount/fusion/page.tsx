@@ -66,24 +66,28 @@ export default function FusionDiscountPage() {
         </div>
       </section>
 
-      {/* AFFILIATE / PARTNER INFO */}
+      {/* DISCOUNT OFFER */}
       <section className="py-4 px-5 bg-white">
         <div className="max-w-[600px] mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">For Teams &amp; Individual Players</h2>
-          <p className="text-gray text-lg mb-8">Whether you&apos;re a coach signing up your team or a parent looking for at-home training, we&apos;ve got you covered.</p>
-          <div className="grid sm:grid-cols-2 gap-6">
-            <div className="bg-background rounded-2xl p-6 text-center">
-              <div className="text-3xl mb-3">&#128101;</div>
-              <h3 className="text-lg font-bold text-navy mb-2">Team Plans</h3>
-              <p className="text-gray text-sm leading-relaxed mb-4">Coaches can assign homework, track progress, and run team training programs.</p>
-              <a href="https://www.anytime-soccer.com/pricing" className="text-red font-bold text-sm no-underline hover:underline">View Team Pricing &rarr;</a>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">Exclusive Fusion Soccer Discount</h2>
+          <p className="text-gray text-lg mb-8">Fusion Soccer families get 15% off any plan — team or individual.</p>
+          <div className="bg-red/[0.06] border-2 border-red/20 rounded-2xl p-8">
+            <p className="text-navy font-extrabold text-xl mb-3">15% Off All Plans</p>
+            <p className="text-red font-bold text-3xl mb-2">Use Code: FUSION2026</p>
+            <p className="text-sm text-gray mb-4">Apply at checkout for 15% off monthly or annual plans.</p>
+            <div className="grid sm:grid-cols-2 gap-4 mt-6">
+              <div className="bg-white rounded-xl p-4 text-center">
+                <div className="text-2xl mb-2">&#128101;</div>
+                <h3 className="text-sm font-bold text-navy mb-1">Team Plans</h3>
+                <p className="text-xs text-gray">Assign homework, track progress, run team training.</p>
+              </div>
+              <div className="bg-white rounded-xl p-4 text-center">
+                <div className="text-2xl mb-2">&#9917;</div>
+                <h3 className="text-sm font-bold text-navy mb-1">Individual Plans</h3>
+                <p className="text-xs text-gray">Unlimited videos, progress tracking, and badges.</p>
+              </div>
             </div>
-            <div className="bg-background rounded-2xl p-6 text-center">
-              <div className="text-3xl mb-3">&#9917;</div>
-              <h3 className="text-lg font-bold text-navy mb-2">Individual Plans</h3>
-              <p className="text-gray text-sm leading-relaxed mb-4">Players get unlimited access to all training videos, progress tracking, and badges.</p>
-              <a href="https://www.anytime-soccer.com/pricing" className="text-red font-bold text-sm no-underline hover:underline">View Player Pricing &rarr;</a>
-            </div>
+            <p className="text-xs text-red font-bold mt-4">Start with a free account — when you&apos;re ready to upgrade, enter FUSION2026 at checkout.</p>
           </div>
         </div>
       </section>
@@ -129,7 +133,7 @@ export default function FusionDiscountPage() {
             href="https://www.anytime-soccer.com/pricing"
             className="bg-red text-white font-bold text-lg py-4 px-10 rounded-full no-underline hover:bg-red-dark transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block"
           >
-            Get Started &rarr;
+            Sign Up &amp; Use Code FUSION2026 &rarr;
           </a>
           <p className="text-sm text-gray mt-6">
             Questions? <a href="mailto:info@anytime-soccer.com" className="text-red font-semibold no-underline">info@anytime-soccer.com</a> &middot; <a href="tel:803-431-1082" className="text-red font-semibold no-underline">803-431-1082</a>
