@@ -72,8 +72,6 @@ export default function TeamsPage() {
 
         {/* Team Pages */}
         <TeamSearch />
-          </div>
-        </div>
 
         {/* Parent Guides */}
         <div className="mb-10">
