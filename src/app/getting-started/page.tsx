@@ -43,12 +43,6 @@ const steps = [
     ),
     tip: "Can't find your team? Try searching part of the name, or ask your coach for the exact team name.",
   },
-  {
-    title: 'Start Training!',
-    content: (
-      <>Browse training videos, follow along, and start improving. Your coach may assign homework — check your <span className="text-red font-semibold">Homework</span> page for assigned training.</>
-    ),
-  },
 ];
 
 export default function GettingStartedPage() {
