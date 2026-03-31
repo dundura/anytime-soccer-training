@@ -38,9 +38,6 @@ export default function FusionDiscountPage() {
                 <div className="bg-white/[0.08] border border-white/[0.12] rounded-lg px-4 py-2.5 text-[13px] font-bold text-white tracking-wide uppercase">
                   Anytime Soccer Training
                 </div>
-                <div className="ml-auto bg-[rgba(126,200,227,0.12)] border border-[rgba(126,200,227,0.3)] rounded-full px-4 py-1.5 text-xs font-bold text-[#7ec8e3] uppercase tracking-wider hidden sm:block">
-                  Special Offer
-                </div>
               </div>
 
               {/* Headline */}
@@ -79,7 +76,6 @@ export default function FusionDiscountPage() {
                 >
                   Get Started Free
                 </a>
-                <span className="text-xs text-white/40">anytime-soccer.com</span>
               </div>
             </div>
           </div>
