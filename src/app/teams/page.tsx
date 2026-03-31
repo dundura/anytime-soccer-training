@@ -1,10 +1,9 @@
-import Link from 'next/link';
-import type { Metadata } from 'next';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Teams | Anytime Soccer Training',
-  description: 'Getting started guides for teams, coaches, and parents using Anytime Soccer Training.',
-};
+import Link from 'next/link';
+import { useState } from 'react';
+
+// metadata moved to layout or head
 
 const GENERAL_GUIDES = [
   { title: 'Getting Started with Anytime Soccer Training', slug: 'getting-started-with-anytime-soccer-training' },
@@ -21,7 +20,7 @@ const GENERAL_GUIDES = [
 const TEAM_PAGES = [
   { title: '2015 Legacy Girls', slug: '2015-legacy-girls-getting-started' },
   { title: 'Ambassadors Football Club 2012 Boys', slug: 'amfc-2012-boys-getting-started' },
-  { title: 'Ambassadors FC', slug: 'ambassadors-fc-girls-getting-started' },
+  { title: 'Ambassadors FC', slug: 'ambassadors-fc-girls-getting-started', aliases: ['Ambassadors 2012 Girls Blue', 'Ambassadors 2012 White'] },
   { title: 'AFC', slug: 'getting-started-afc' },
   { title: 'Brian Chongtoua | Private Soccer Specialist', slug: 'bc-getting-started' },
   { title: 'Avalanche', slug: 'avalanche-getting-started' },
@@ -72,19 +71,7 @@ export default function TeamsPage() {
         </div>
 
         {/* Team Pages */}
-        <div className="mb-10">
-          <h2 className="text-xl font-bold text-navy mb-4">Team Getting Started Pages</h2>
-          <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] divide-y divide-gray-100">
-            {TEAM_PAGES.map((page) => (
-              <Link
-                key={page.slug}
-                href={`/${page.slug}`}
-                className="flex items-center justify-between px-6 py-4 hover:bg-background/50 transition-colors group"
-              >
-                <span className="text-navy font-medium group-hover:text-red transition-colors">{page.title}</span>
-                <span className="text-gray group-hover:text-red transition-colors">&rarr;</span>
-              </Link>
-            ))}
+        <TeamSearch />
           </div>
         </div>
 
@@ -114,5 +101,47 @@ export default function TeamsPage() {
         </div>
       </div>
     </section>
+  );
+}
+
+function TeamSearch() {
+  const [query, setQuery] = useState('');
+  const q = query.toLowerCase();
+  const filtered = TEAM_PAGES.filter((page) => {
+    if (!q) return true;
+    if (page.title.toLowerCase().includes(q)) return true;
+    if ('aliases' in page && Array.isArray((page as { aliases?: string[] }).aliases)) {
+      return (page as { aliases: string[] }).aliases.some((a) => a.toLowerCase().includes(q));
+    }
+    return false;
+  });
+
+  return (
+    <div className="mb-10">
+      <h2 className="text-xl font-bold text-navy mb-4">Team Getting Started Pages</h2>
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search for your team..."
+        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-red/30 focus:border-red"
+      />
+      <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] divide-y divide-gray-100">
+        {filtered.length === 0 ? (
+          <div className="px-6 py-4 text-gray text-sm">No teams found matching &ldquo;{query}&rdquo;</div>
+        ) : (
+          filtered.map((page) => (
+            <Link
+              key={page.slug}
+              href={`/${page.slug}`}
+              className="flex items-center justify-between px-6 py-4 hover:bg-background/50 transition-colors group"
+            >
+              <span className="text-navy font-medium group-hover:text-red transition-colors">{page.title}</span>
+              <span className="text-gray group-hover:text-red transition-colors">&rarr;</span>
+            </Link>
+          ))
+        )}
+      </div>
+    </div>
   );
 }
