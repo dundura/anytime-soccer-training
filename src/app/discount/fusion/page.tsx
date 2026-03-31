@@ -97,14 +97,16 @@ export default function FusionDiscountPage() {
                 <img src="https://images.squarespace-cdn.com/content/v1/5e4a87984b1e7c77342e7371/1746821495147-NKBKSCPAM28BSNTF0Z4A/1098-DSC07129+%282%29.jpg?format=1000w" alt="Team Training" className="w-full h-40 object-cover" />
                 <div className="p-4">
                   <h3 className="text-sm font-bold text-navy mb-1">Team Plans</h3>
-                  <p className="text-xs text-gray">Assign homework, track progress, run team training.</p>
+                  <p className="text-xs text-gray mb-3">Assign homework, track progress, run team training.</p>
+                  <a href="https://www.anytime-soccer.com/team-demo-request-anytime-soccer-training" className="inline-block bg-navy text-white text-xs font-bold px-5 py-2 rounded-lg no-underline hover:bg-navy/90 transition-colors">Book Free Demo</a>
                 </div>
               </div>
               <div className="bg-white rounded-xl overflow-hidden text-center">
                 <img src="https://d2vm0l3c6tu9qp.cloudfront.net/Anytime-soccer-camp.webp" alt="Individual Training" className="w-full h-40 object-cover" />
                 <div className="p-4">
                   <h3 className="text-sm font-bold text-navy mb-1">Individual Plans</h3>
-                  <p className="text-xs text-gray">Unlimited videos, progress tracking, and badges.</p>
+                  <p className="text-xs text-gray mb-3">Unlimited videos, progress tracking, and badges.</p>
+                  <a href="https://www.anytime-soccer.com/pricing" className="inline-block bg-red text-white text-xs font-bold px-5 py-2 rounded-lg no-underline hover:bg-red-dark transition-colors">Join for Free</a>
                 </div>
               </div>
             </div>
