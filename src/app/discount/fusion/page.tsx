@@ -31,12 +31,14 @@ export default function FusionDiscountPage() {
             <div className="px-6 py-8 md:px-10 md:py-9">
               {/* Logos */}
               <div className="flex flex-wrap items-center gap-4 mb-7">
-                <div className="bg-white/[0.08] border border-white/[0.12] rounded-lg px-4 py-2.5 text-[13px] font-bold text-white tracking-wide uppercase">
-                  Fusion Training Academy
+                <div className="bg-white/[0.08] border border-white/[0.12] rounded-lg px-3 py-2 flex items-center gap-2.5">
+                  <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1774963705818-l5i0cc.png" alt="Fusion" className="w-7 h-7 rounded object-contain" />
+                  <span className="text-[13px] font-bold text-white tracking-wide uppercase">Fusion Training Academy</span>
                 </div>
                 <span className="text-lg text-white/30 font-light">&times;</span>
-                <div className="bg-white/[0.08] border border-white/[0.12] rounded-lg px-4 py-2.5 text-[13px] font-bold text-white tracking-wide uppercase">
-                  Anytime Soccer Training
+                <div className="bg-white/[0.08] border border-white/[0.12] rounded-lg px-3 py-2 flex items-center gap-2.5">
+                  <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1774958366003-w9xngw.png" alt="AST" className="w-7 h-7 rounded object-contain" />
+                  <span className="text-[13px] font-bold text-white tracking-wide uppercase">Anytime Soccer Training</span>
                 </div>
               </div>
 
