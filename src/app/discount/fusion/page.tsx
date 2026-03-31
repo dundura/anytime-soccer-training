@@ -22,7 +22,7 @@ export default function FusionDiscountPage() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="relative z-10">
                 <div className="inline-flex items-center gap-2 bg-[#059669] px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
-                  <span>&#9917;</span> Fusion Soccer Partner Offer
+                  <span>&#9917;</span> Fusion Soccer Exclusive — <span className="font-extrabold">15% Off All Plans</span>
                 </div>
                 <h1 className="text-[clamp(32px,5vw,56px)] font-extrabold leading-[1.1] text-white mb-6">
                   Train at Home.<br />
