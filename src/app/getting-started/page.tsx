@@ -24,12 +24,6 @@ const steps = [
     ),
   },
   {
-    title: 'Enter Your Team Code (Optional)',
-    content: (
-      <>If your coach gave you a <span className="text-red font-semibold">team code</span>, enter it during signup to automatically join your team. No code? You can search for and join your team from the dashboard.</>
-    ),
-  },
-  {
     title: 'Verify Your Email',
     content: (
       <>Open the <span className="text-red font-semibold">Welcome Email</span> from us and click <span className="text-red font-semibold">&ldquo;Verify Address&rdquo;</span>.</>
@@ -37,9 +31,22 @@ const steps = [
     tip: "Don't see it? Check your spam or junk folder!",
   },
   {
-    title: 'Log In & Start Training',
+    title: 'Log In',
     content: (
-      <>Log in with <span className="text-red font-semibold">Single Sign-On</span> using your email and password. Browse training videos, follow along, and start improving!</>
+      <>Log in with <span className="text-red font-semibold">Single Sign-On</span> using your email and password.</>
+    ),
+  },
+  {
+    title: 'Join Your Team',
+    content: (
+      <>If your coach gave you a <span className="text-red font-semibold">team code</span>, enter it during signup. Otherwise, go to <span className="text-red font-semibold">&ldquo;My Teams&rdquo;</span> from the dashboard, click <span className="text-red font-semibold">&ldquo;Join Team&rdquo;</span>, search for your team name, and send a join request.</>
+    ),
+    tip: "Can't find your team? Try searching part of the name, or ask your coach for the exact team name.",
+  },
+  {
+    title: 'Start Training!',
+    content: (
+      <>Browse training videos, follow along, and start improving. Your coach may assign homework — check your <span className="text-red font-semibold">Homework</span> page for assigned training.</>
     ),
   },
 ];
