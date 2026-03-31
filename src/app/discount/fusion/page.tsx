@@ -111,7 +111,7 @@ export default function FusionDiscountPage() {
             Sign Up &amp; Use Code FUSION2026 &rarr;
           </a>
           <p className="text-sm text-gray mt-6">
-            Questions? <a href="mailto:info@anytime-soccer.com" className="text-red font-semibold no-underline">info@anytime-soccer.com</a> &middot; <a href="tel:803-431-1082" className="text-red font-semibold no-underline">803-431-1082</a>
+            Questions? <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold no-underline">megan@anytime-soccer.com</a> &middot; <a href="tel:803-431-1082" className="text-red font-semibold no-underline">803-431-1082</a>
           </p>
         </div>
       </section>
