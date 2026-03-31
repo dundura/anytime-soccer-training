@@ -20,51 +20,66 @@ export default function FusionDiscountPage() {
       </div>
 
       {/* HERO */}
-      <section className="pt-6 pb-6 md:pt-8 md:pb-8 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-navy rounded-3xl px-6 py-16 md:px-12 md:py-20 relative overflow-hidden">
-            <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 bg-[#059669] px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
-                  <span>&#9917;</span> Fusion Soccer Exclusive — <span className="font-extrabold">15% Off All Plans</span>
+      <section className="py-6 md:py-8 bg-[#f0f4f8]">
+        <div className="max-w-[700px] mx-auto px-4">
+          <div className="bg-[#1a2a3a] rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.25)]">
+            {/* Top bar */}
+            <div className="bg-[#7ec8e3] px-7 py-2.5 text-xs font-bold tracking-widest uppercase text-[#1a2a3a] flex items-center gap-2">
+              &#9917; Exclusive Member Offer — Fusion Training Academy
+            </div>
+
+            <div className="px-6 py-8 md:px-10 md:py-9">
+              {/* Logos */}
+              <div className="flex flex-wrap items-center gap-4 mb-7">
+                <div className="bg-white/[0.08] border border-white/[0.12] rounded-lg px-4 py-2.5 text-[13px] font-bold text-white tracking-wide uppercase">
+                  Fusion Training Academy
                 </div>
-                <h1 className="text-[clamp(32px,5vw,56px)] font-extrabold leading-[1.1] text-white mb-6">
-                  Train at Home.<br />
-                  <span className="text-red">Get Better Every Day.</span>
-                </h1>
-                <p className="text-lg text-white mb-8">
-                  Fusion Soccer partnered with <span className="text-white font-bold">Anytime Soccer Training</span> to give your players access to 5,000+ follow-along video sessions they can do right at home — just a ball and the drive to improve.
-                </p>
+                <span className="text-lg text-white/30 font-light">&times;</span>
+                <div className="bg-white/[0.08] border border-white/[0.12] rounded-lg px-4 py-2.5 text-[13px] font-bold text-white tracking-wide uppercase">
+                  Anytime Soccer Training
+                </div>
+                <div className="ml-auto bg-[rgba(126,200,227,0.12)] border border-[rgba(126,200,227,0.3)] rounded-full px-4 py-1.5 text-xs font-bold text-[#7ec8e3] uppercase tracking-wider hidden sm:block">
+                  Special Offer
+                </div>
+              </div>
+
+              {/* Headline */}
+              <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#7ec8e3] mb-2.5">Exclusive Partnership Offer</p>
+              <h1 className="text-[32px] md:text-[36px] font-extrabold text-white leading-[1.15] uppercase tracking-wide mb-3">
+                Train Smarter.<br /><span className="text-[#7ec8e3]">Anytime.</span>
+              </h1>
+              <p className="text-[15px] text-white/65 leading-relaxed mb-7 max-w-[520px]">
+                Fusion Training Academy families get exclusive access to Anytime Soccer Training — 5,000+ follow-along videos designed to develop elite youth players at home, on their schedule.
+              </p>
+
+              <hr className="border-white/10 mb-6" />
+
+              {/* Perks */}
+              <div className="grid grid-cols-2 gap-2.5 mb-7">
+                {[
+                  '5,000+ training videos',
+                  'Ball mastery, finishing & more',
+                  'Personalized training plans',
+                  'Train anywhere, anytime',
+                  'Built for competitive players',
+                  'Ages 6–18',
+                ].map((perk) => (
+                  <div key={perk} className="flex items-center gap-2.5 text-[13px] text-white/80">
+                    <div className="w-2 h-2 rounded-full bg-[#7ec8e3] shrink-0" />
+                    {perk}
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div className="flex items-center gap-4">
                 <a
                   href="https://www.anytime-soccer.com/pricing"
-                  className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block no-underline"
+                  className="bg-[#7ec8e3] text-[#1a2a3a] text-sm font-extrabold uppercase tracking-wider px-7 py-3 rounded-lg no-underline hover:brightness-110 transition-all"
                 >
-                  Get Started &rarr;
+                  Get Started Free
                 </a>
-              </div>
-              <div className="relative">
-                <div className="hidden lg:flex mb-4 justify-end">
-                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s', animationDelay: '1.5s' }}>
-                    <div className="w-11 h-11 rounded-xl bg-[rgba(220,55,62,0.1)] flex items-center justify-center text-xl">&#9917;</div>
-                    <div className="text-sm text-gray"><strong className="text-navy block">Build Confidence</strong>Master skills at your own pace</div>
-                  </div>
-                </div>
-                <div className="rounded-2xl overflow-hidden shadow-2xl">
-                  <iframe
-                    src="https://www.youtube.com/embed/LOv6Jbk8Bac?autoplay=0&rel=0"
-                    title="Anytime Soccer Training Overview"
-                    className="w-full aspect-video"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-                <div className="hidden lg:flex mt-4 justify-start">
-                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
-                    <div className="w-11 h-11 rounded-xl bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-xl">&#128170;</div>
-                    <div className="text-sm text-gray"><strong className="text-navy block">Get More Touches</strong>Improve faster between practices</div>
-                  </div>
-                </div>
+                <span className="text-xs text-white/40">anytime-soccer.com</span>
               </div>
             </div>
           </div>
