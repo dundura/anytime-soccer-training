@@ -61,7 +61,7 @@ export default function FusionDiscountPage() {
                   'Ball mastery, finishing & more',
                   'Personalized training plans',
                   'Train anywhere, anytime',
-                  'Built for competitive players',
+                  'Built for all skill levels',
                   'Ages 6–18',
                 ].map((perk) => (
                   <div key={perk} className="flex items-center gap-2.5 text-[13px] text-white/80">
