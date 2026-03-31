@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Fusion Soccer — Partner Discount on Anytime Soccer Training',
     description: 'Fusion Soccer partnered with Anytime Soccer Training. Easy follow-along video sessions your player can do right at home.',
-    images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1774188137866-rgte84.webp', width: 1200, height: 630 }],
+    images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1774959685241-1scke0.png', width: 1200, height: 630 }],
   },
 };
 
