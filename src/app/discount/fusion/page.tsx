@@ -58,7 +58,7 @@ export default function FusionDiscountPage() {
               <div className="grid grid-cols-2 gap-2.5 mb-7">
                 {[
                   '5,000+ training videos',
-                  'Ball mastery, finishing & more',
+                  'Ball mastery, dribbling & more',
                   'Personalized training plans',
                   'Train anywhere, anytime',
                   'Built for all skill levels',
