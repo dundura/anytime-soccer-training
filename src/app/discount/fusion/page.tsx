@@ -54,7 +54,7 @@ export default function FusionDiscountPage() {
               <hr className="border-white/10 mb-6" />
 
               {/* Perks */}
-              <div className="grid grid-cols-2 gap-2.5 mb-7">
+              <div className="grid grid-cols-2 gap-1.5 mb-7">
                 {[
                   '5,000+ training videos',
                   'Ball mastery, dribbling & more',
@@ -62,9 +62,11 @@ export default function FusionDiscountPage() {
                   'Train anywhere, anytime',
                   'Built for all skill levels',
                   'Ages 6–18',
+                  'Coach homework tools',
+                  'Progress tracking & badges',
                 ].map((perk) => (
-                  <div key={perk} className="flex items-center gap-2.5 text-[13px] text-white/80">
-                    <div className="w-2 h-2 rounded-full bg-[#7ec8e3] shrink-0" />
+                  <div key={perk} className="flex items-center gap-2 text-[12px] text-white/80">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#7ec8e3] shrink-0" />
                     <span className="text-white">{perk}</span>
                   </div>
                 ))}
@@ -113,6 +115,30 @@ export default function FusionDiscountPage() {
               </div>
             </div>
             <p className="text-xs text-[#1a2a3a] font-bold mt-4">Start with a free account — when you&apos;re ready to upgrade, enter FUSION2026 at checkout.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section className="py-8 px-5 bg-[#e8f4f8]">
+        <div className="max-w-[800px] mx-auto">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-[#1a2a3a] text-center mb-8">How It Works</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="w-10 h-10 bg-[#7ec8e3] text-[#1a2a3a] rounded-full flex items-center justify-center font-extrabold text-lg mx-auto mb-3">1</div>
+              <h3 className="font-bold text-[#1a2a3a] mb-1">Create a Free Account</h3>
+              <p className="text-sm text-gray">Sign up at anytime-soccer.com — it&apos;s free to get started.</p>
+            </div>
+            <div className="text-center">
+              <div className="w-10 h-10 bg-[#7ec8e3] text-[#1a2a3a] rounded-full flex items-center justify-center font-extrabold text-lg mx-auto mb-3">2</div>
+              <h3 className="font-bold text-[#1a2a3a] mb-1">Enter Team Code</h3>
+              <p className="text-sm text-gray">Use code <span className="font-bold">FUSION2026</span> during registration to unlock your discount.</p>
+            </div>
+            <div className="text-center">
+              <div className="w-10 h-10 bg-[#7ec8e3] text-[#1a2a3a] rounded-full flex items-center justify-center font-extrabold text-lg mx-auto mb-3">3</div>
+              <h3 className="font-bold text-[#1a2a3a] mb-1">Start Training</h3>
+              <p className="text-sm text-gray">Hit play and follow along. Your player trains at their own pace.</p>
+            </div>
           </div>
         </div>
       </section>
