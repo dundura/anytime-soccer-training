@@ -92,31 +92,6 @@ export default function FusionDiscountPage() {
         </div>
       </section>
 
-      {/* WHY PARENTS LOVE IT */}
-      <section className="py-4 px-5 bg-white">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-navy text-center mb-4">Why Players &amp; Coaches Love It</h2>
-          <p className="text-gray text-center text-lg mb-12 max-w-2xl mx-auto">Your player gets better. You don&apos;t have to be the coach at home.</p>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-background rounded-2xl p-8 text-center">
-              <div className="text-4xl mb-4">&#127934;</div>
-              <h3 className="text-lg font-bold text-navy mb-2">Follow-Along Sessions</h3>
-              <p className="text-gray text-sm leading-relaxed">Your player hits play and follows along. Ball mastery, dribbling, passing, shooting — all broken down step by step.</p>
-            </div>
-            <div className="bg-background rounded-2xl p-8 text-center">
-              <div className="text-4xl mb-4">&#128197;</div>
-              <h3 className="text-lg font-bold text-navy mb-2">Train Anytime</h3>
-              <p className="text-gray text-sm leading-relaxed">No schedule needed. Before practice, after school, on weekends — your player trains when it works for your family.</p>
-            </div>
-            <div className="bg-background rounded-2xl p-8 text-center">
-              <div className="text-4xl mb-4">&#128200;</div>
-              <h3 className="text-lg font-bold text-navy mb-2">Real Progress</h3>
-              <p className="text-gray text-sm leading-relaxed">Track videos completed, time trained, and goals hit. You&apos;ll see the improvement on and off the field.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* A LOOK INSIDE THE PROGRAM */}
       <TabbedVideoSection title="A Look Inside the Program" subtitle="See what your player will be doing. Real sessions. Real results." hideCta />
 
