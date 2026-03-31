@@ -39,7 +39,7 @@ const steps = [
   {
     title: 'Join Your Team',
     content: (
-      <>If your coach gave you a <span className="text-red font-semibold">team code</span>, enter it during signup. Otherwise, go to <span className="text-red font-semibold">&ldquo;My Teams&rdquo;</span> from the dashboard, click <span className="text-red font-semibold">&ldquo;Join Team&rdquo;</span>, search for your team name, and send a join request.</>
+      <>Go to <span className="text-red font-semibold">&ldquo;My Teams&rdquo;</span> from the dashboard, click <span className="text-red font-semibold">&ldquo;Join Team&rdquo;</span>, search for your team name, and send a join request.</>
     ),
     tip: "Can't find your team? Try searching part of the name, or ask your coach for the exact team name.",
   },
