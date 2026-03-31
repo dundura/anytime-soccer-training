@@ -82,14 +82,14 @@ export default function FusionDiscountPage() {
             <p className="text-sm text-gray mb-4">Apply at checkout for 15% off monthly or annual plans.</p>
             <div className="grid sm:grid-cols-2 gap-4 mt-6">
               <div className="bg-white rounded-xl overflow-hidden text-center">
-                <img src="https://images.squarespace-cdn.com/content/v1/5e4a87984b1e7c77342e7371/1746821495147-NKBKSCPAM28BSNTF0Z4A/1098-DSC07129+%282%29.jpg?format=1000w" alt="Team Training" className="w-full h-32 object-cover" />
+                <img src="https://images.squarespace-cdn.com/content/v1/5e4a87984b1e7c77342e7371/1746821495147-NKBKSCPAM28BSNTF0Z4A/1098-DSC07129+%282%29.jpg?format=1000w" alt="Team Training" className="w-full h-32 object-cover object-bottom" />
                 <div className="p-4">
                   <h3 className="text-sm font-bold text-navy mb-1">Team Plans</h3>
                   <p className="text-xs text-gray">Assign homework, track progress, run team training.</p>
                 </div>
               </div>
               <div className="bg-white rounded-xl overflow-hidden text-center">
-                <img src="https://d2vm0l3c6tu9qp.cloudfront.net/Anytime-soccer-camp.webp" alt="Individual Training" className="w-full h-32 object-cover" />
+                <img src="https://d2vm0l3c6tu9qp.cloudfront.net/Anytime-soccer-camp.webp" alt="Individual Training" className="w-full h-32 object-cover object-bottom" />
                 <div className="p-4">
                   <h3 className="text-sm font-bold text-navy mb-1">Individual Plans</h3>
                   <p className="text-xs text-gray">Unlimited videos, progress tracking, and badges.</p>
