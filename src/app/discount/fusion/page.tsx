@@ -14,6 +14,11 @@ export const metadata: Metadata = {
 export default function FusionDiscountPage() {
   return (
     <>
+      {/* FREE TO JOIN BANNER */}
+      <div className="bg-[#059669] text-white text-center py-2.5 px-4 text-sm font-semibold">
+        Free to join &middot; 15% off annual upgrades with code <span className="font-extrabold">FUSION2026</span>
+      </div>
+
       {/* HERO */}
       <section className="pt-6 pb-6 md:pt-8 md:pb-8 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
