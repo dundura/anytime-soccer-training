@@ -76,7 +76,7 @@ export default function FusionDiscountPage() {
                 >
                   Get Started Free
                 </a>
-                <span className="text-xs text-white/50">Free to join, annual upgrades only $15</span>
+                <span className="text-xs text-white/50">Free to join, 15% off annual upgrades.</span>
               </div>
             </div>
           </div>
