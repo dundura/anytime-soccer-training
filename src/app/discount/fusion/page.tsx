@@ -15,7 +15,7 @@ export default function FusionDiscountPage() {
   return (
     <>
       {/* HERO */}
-      <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">
+      <section className="pt-6 pb-6 md:pt-8 md:pb-8 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-navy rounded-3xl px-6 py-16 md:px-12 md:py-20 relative overflow-hidden">
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
@@ -67,10 +67,10 @@ export default function FusionDiscountPage() {
       </section>
 
       {/* DISCOUNT OFFER */}
-      <section className="py-4 px-5 bg-white">
+      <section className="py-2 px-5 bg-white">
         <div className="max-w-[600px] mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">Exclusive Fusion Soccer Discount</h2>
-          <p className="text-gray text-lg mb-8">Fusion Soccer families get 15% off any plan — team or individual.</p>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-2">Exclusive Fusion Soccer Discount</h2>
+          <p className="text-gray text-base mb-4">Fusion Soccer families get 15% off any plan — team or individual.</p>
           <div className="bg-red/[0.06] border-2 border-red/20 rounded-2xl p-8">
             <p className="text-navy font-extrabold text-xl mb-3">15% Off All Plans</p>
             <p className="text-red font-bold text-3xl mb-2">Use Code: FUSION2026</p>
