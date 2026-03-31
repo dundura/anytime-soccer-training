@@ -93,7 +93,6 @@ export default function FusionDiscountPage() {
           <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-2">Exclusive Fusion Soccer Discount</h2>
           <p className="text-gray text-base mb-4">Fusion Soccer families get 15% off any plan — team or individual.</p>
           <div className="bg-[#e8f4f8] border-2 border-[#7ec8e3]/30 rounded-2xl p-8">
-            <p className="text-[#1a2a3a] font-extrabold text-xl mb-3">15% Off All Plans</p>
             <p className="text-[#1a2a3a] font-bold text-3xl mb-2">Use Team Code: FUSION2026</p>
             <p className="text-sm text-gray mb-4">Add Team Code during registration and we will email you the 15% off special offer.</p>
             <div className="grid sm:grid-cols-2 gap-4 mt-6">
