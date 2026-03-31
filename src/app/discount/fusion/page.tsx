@@ -86,14 +86,14 @@ export default function FusionDiscountPage() {
       </section>
 
       {/* DISCOUNT OFFER */}
-      <section className="py-2 px-5 bg-[#1a2a3a]">
+      <section className="py-2 px-5 bg-white">
         <div className="max-w-[800px] mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">Exclusive Fusion Soccer Discount</h2>
-          <p className="text-white/60 text-base mb-4">Fusion Soccer families get 15% off any plan — team or individual.</p>
-          <div className="bg-white/[0.06] border-2 border-[#7ec8e3]/20 rounded-2xl p-8">
-            <p className="text-[#7ec8e3] font-extrabold text-xl mb-3">15% Off All Plans</p>
-            <p className="text-white font-bold text-3xl mb-2">Use Code: FUSION2026</p>
-            <p className="text-sm text-white/60 mb-4">Apply at checkout for 15% off monthly or annual plans.</p>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-2">Exclusive Fusion Soccer Discount</h2>
+          <p className="text-gray text-base mb-4">Fusion Soccer families get 15% off any plan — team or individual.</p>
+          <div className="bg-[#e8f4f8] border-2 border-[#7ec8e3]/30 rounded-2xl p-8">
+            <p className="text-[#1a2a3a] font-extrabold text-xl mb-3">15% Off All Plans</p>
+            <p className="text-[#7ec8e3] font-bold text-3xl mb-2">Use Code: FUSION2026</p>
+            <p className="text-sm text-gray mb-4">Apply at checkout for 15% off monthly or annual plans.</p>
             <div className="grid sm:grid-cols-2 gap-4 mt-6">
               <div className="bg-white rounded-xl overflow-hidden text-center">
                 <img src="https://images.squarespace-cdn.com/content/v1/5e4a87984b1e7c77342e7371/1746821495147-NKBKSCPAM28BSNTF0Z4A/1098-DSC07129+%282%29.jpg?format=1000w" alt="Team Training" className="w-full h-40 object-cover" />
@@ -112,7 +112,7 @@ export default function FusionDiscountPage() {
                 </div>
               </div>
             </div>
-            <p className="text-xs text-[#7ec8e3] font-bold mt-4">Start with a free account — when you&apos;re ready to upgrade, enter FUSION2026 at checkout.</p>
+            <p className="text-xs text-[#1a2a3a] font-bold mt-4">Start with a free account — when you&apos;re ready to upgrade, enter FUSION2026 at checkout.</p>
           </div>
         </div>
       </section>
