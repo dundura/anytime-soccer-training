@@ -72,7 +72,7 @@ export default function GettingStartedPage() {
               <h1 className="text-[clamp(28px,5vw,44px)] font-extrabold leading-[1.1] text-white mb-4">
                 Getting Started with Anytime Soccer Training
               </h1>
-              <p className="text-lg text-white/80 max-w-2xl mx-auto">Follow these simple steps to create your account, join your team, and start your first training session.</p>
+              <p className="text-lg text-white/80 max-w-2xl mx-auto">Follow these simple steps to create your account and join your team.</p>
             </div>
           </div>
         </div>
