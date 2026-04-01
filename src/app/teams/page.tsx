@@ -36,6 +36,7 @@ const TEAM_PAGES = [
   { title: 'South Parkland Mutiny', slug: 'getting-started-south-parkland-mutiny' },
   { title: 'UCSC Soccer', slug: 'ucsc-getting-started' },
   { title: 'ULETE FC', slug: 'ulete-fc-getting-started' },
+  { title: 'NPSL', slug: 'getting-started-npsl' },
 ];
 
 const PARENT_GUIDES = [
