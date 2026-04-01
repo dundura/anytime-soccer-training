@@ -156,7 +156,7 @@ export default function GettingStartedPage() {
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
 
             {/* CTA */}
-            <div className="text-center mt-8">
+            <div className="text-center mt-4">
               <a
                 href="https://anytime-soccer.com"
                 target="_blank"
