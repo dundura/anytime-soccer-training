@@ -54,6 +54,19 @@ export default function TeamsPage() {
           <p className="text-gray text-lg">Getting started guides for coaches, parents, and teams</p>
         </div>
 
+        {/* Onboarding Checklist */}
+        <div className="mb-10">
+          <Link href="/anytime-soccer-training-onboarding-checklist" className="block bg-navy text-white rounded-2xl p-6 hover:bg-navy/90 transition-colors no-underline">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-lg font-bold mb-1">Onboarding Checklist</h2>
+                <p className="text-white/70 text-sm m-0">Quick reference for onboarding new teams and players</p>
+              </div>
+              <span className="text-white/50 text-xl">&rarr;</span>
+            </div>
+          </Link>
+        </div>
+
         {/* General Guides */}
         <div className="mb-10">
           <h2 className="text-xl font-bold text-navy mb-4">Getting Started Guides</h2>
