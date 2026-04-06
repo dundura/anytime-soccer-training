@@ -6,7 +6,7 @@ import { useState } from 'react';
 // metadata moved to layout or head
 
 const GENERAL_GUIDES = [
-  { title: 'Getting Started with Anytime Soccer Training', slug: 'getting-started-with-anytime-soccer-training' },
+  { title: 'Getting Started with Anytime Soccer Training', slug: 'getting-started' },
   { title: 'Getting Started Guide for Coaches', slug: 'getting-started-guide-for-coaches-anytime-soccer-training' },
   { title: 'Getting Started Guide for Parents', slug: 'getting-started-guide-for-parents' },
   { title: 'Creating an Anytime Soccer Training Team', slug: 'creating-an-anytime-soccer-training-team' },
