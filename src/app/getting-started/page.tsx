@@ -130,8 +130,8 @@ export default function GettingStartedPage() {
             <div>
               <p className="text-navy font-bold text-sm m-0 mb-1">Already have an account?</p>
               <p className="text-[#5a7089] text-sm m-0">
-                If you received a team code, you can apply it from your account. Log in, go to{' '}
-                <span className="text-navy font-semibold">Account Management</span>, and enter your team code there to join your team instantly.
+                If you received a team code, you can apply it to unlock access to all the training videos. Log in, go to{' '}
+                <span className="text-navy font-semibold">Account Management</span>, and enter your code there.
               </p>
             </div>
           </div>
