@@ -96,13 +96,13 @@ export default function GettingStartedPage() {
       {/* Already have an account callout */}
       <section className="pb-4 bg-background">
         <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-red rounded-2xl p-5 md:p-6 flex gap-4 items-start">
+          <div className="bg-[#dbeafe] rounded-2xl p-5 md:p-6 flex gap-4 items-start">
             <span className="text-2xl flex-shrink-0">&#128161;</span>
             <div>
-              <p className="text-white font-bold text-sm m-0 mb-1">Already have an account?</p>
-              <p className="text-white/85 text-sm m-0">
+              <p className="text-navy font-bold text-sm m-0 mb-1">Already have an account?</p>
+              <p className="text-navy/80 text-sm m-0">
                 If you received a team code, you can apply it to unlock access to all the training videos. Log in, go to{' '}
-                <span className="text-white font-semibold underline">Account Management</span>, and enter your code there.
+                <span className="text-navy font-semibold underline">Account Management</span>, and enter your code there.
               </p>
             </div>
           </div>
