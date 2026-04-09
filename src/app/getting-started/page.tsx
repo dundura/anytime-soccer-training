@@ -124,6 +124,18 @@ export default function GettingStartedPage() {
             </div>
           </details>
 
+          {/* Already have an account callout */}
+          <div className="bg-[#fffbeb] border border-[#fde68a] rounded-2xl p-5 md:p-6 flex gap-4 items-start">
+            <span className="text-2xl flex-shrink-0">&#128161;</span>
+            <div>
+              <p className="text-navy font-bold text-sm m-0 mb-1">Already have an account?</p>
+              <p className="text-[#5a7089] text-sm m-0">
+                If you received a team code, you can apply it from your account. Log in, go to{' '}
+                <span className="text-navy font-semibold">Account Management</span>, and enter your team code there to join your team instantly.
+              </p>
+            </div>
+          </div>
+
           {/* Section 2: Join Your Team */}
           <details open className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden">
             <summary className="p-6 md:p-8 pb-0 md:pb-0 cursor-pointer list-none flex items-center justify-between">
