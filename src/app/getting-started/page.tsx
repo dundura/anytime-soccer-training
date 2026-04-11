@@ -16,6 +16,7 @@ const accountSteps = [
     content: (
       <>Visit <a href="https://anytime-soccer.com" target="_blank" rel="noopener noreferrer" className="text-red font-semibold no-underline hover:underline">anytime-soccer.com</a> and click <span className="text-red font-semibold">&ldquo;Join for Free&rdquo;</span> to create your account.</>
     ),
+    tip: 'Have a team code? Make sure to enter it during registration to unlock your team\'s training videos.',
   },
   {
     title: 'Add a Player Profile',
@@ -131,7 +132,7 @@ export default function GettingStartedPage() {
                     {step.content}
                     {step.tip && (
                       <div className="bg-red/[0.08] border-l-[3px] border-red py-2.5 px-3 rounded-r-lg mt-2">
-                        <p className="text-navy text-xs m-0">{step.tip}</p>
+                        <p className="text-navy text-xs m-0">{step.tip}{(step as any).tipLink && <> <a href={(step as any).tipLink.href} className="text-red font-semibold no-underline hover:underline">{(step as any).tipLink.label}</a></>}</p>
                       </div>
                     )}
                   </div>
