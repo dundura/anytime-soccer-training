@@ -29,10 +29,6 @@ const sections: Section[] = [
         link: { href: "https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa", label: "Roster Template" },
       },
       { text: "Pay online invoice (sent via Stripe)" },
-      {
-        text: "Coach takes 1 minute survey",
-        link: { href: "https://anytime-soccer.com/anytime-soccer-training-demo-survey/", label: "Survey" },
-      },
     ],
   },
   {
