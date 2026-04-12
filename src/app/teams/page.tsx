@@ -21,6 +21,7 @@ const TEAM_PAGES = [
   { title: '2015 Legacy Girls', slug: '2015-legacy-girls-getting-started' },
   { title: 'Ambassadors Football Club 2012 Boys', slug: 'amfc-2012-boys-getting-started' },
   { title: 'Ambassadors FC', slug: 'ambassadors-fc-girls-getting-started', aliases: ['Ambassadors 2012 Girls Blue', 'Ambassadors 2012 White'] },
+  { title: 'AFC 2016 Silver', slug: 'afc2016silver', aliases: ['afc2016silver'] },
   { title: 'AFC', slug: 'getting-started-afc' },
   { title: 'Brian Chongtoua | Private Soccer Specialist', slug: 'bc-getting-started' },
   { title: 'Avalanche', slug: 'avalanche-getting-started' },
