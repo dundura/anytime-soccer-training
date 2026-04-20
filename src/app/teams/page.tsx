@@ -38,6 +38,8 @@ const TEAM_PAGES = [
   { title: 'UCSC Soccer', slug: 'ucsc-getting-started' },
   { title: 'ULETE FC', slug: 'ulete-fc-getting-started' },
   { title: 'NPSL', slug: 'getting-started-npsl' },
+  { title: 'Red Bluff FC', slug: 'red-bluff-fc-getting-started' },
+  { title: 'CFC Girls Academy (2013 & 2012)', slug: 'cfc-girls-academy-getting-started', aliases: ['2013 Girls Academy', '2012 Girls Academy', 'CFC 2013', 'CFC 2012'] },
 ];
 
 const PARENT_GUIDES = [
