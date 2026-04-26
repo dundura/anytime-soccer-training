@@ -59,7 +59,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           )}
 
           <h1 className="text-3xl md:text-4xl font-bold text-navy mb-4">{post.title}</h1>
-          <p className="text-gray mb-8">{formatDate(post.date)}</p>
+          <p className="text-gray mb-6">{formatDate(post.date)}</p>
+
+          {post.featuredImage && (
+            <img
+              src={post.featuredImage}
+              alt={post.title}
+              className="w-full rounded-xl mb-8 shadow-md object-cover"
+              style={{ maxHeight: '420px' }}
+            />
+          )}
 
           {/* WordPress content — strip leading h1/h2 to avoid duplicate title */}
           <div
