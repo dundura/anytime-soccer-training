@@ -97,7 +97,7 @@ export default function PricingContent() {
               <li><span className="ast-check">&#10003;</span> Cancel anytime</li>
             </ul>
             <a href="https://app.anytime-soccer.com/auth/registerFree" className="ast-btn ast-btn-primary">
-              Start Free Trial
+              Join for Free — Start Free Trial
             </a>
           </div>
 
