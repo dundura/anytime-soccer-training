@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: '/blog/15-minute-daily-soccer-routine',
+        destination: '/blog/the-15-minute-daily-soccer-routine-i-used-to-train-my-sons-rec-to-academy',
+        permanent: true,
+      },
+      {
         source: '/blog/free-7-day-soccer-skills-challenge',
         destination: '/free-soccer-drills-for-kids',
         permanent: true,

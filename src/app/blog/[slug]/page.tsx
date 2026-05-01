@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: post.title,
       description: getExcerpt(post.content, 160),
-      images: post.featuredImage ? [{ url: post.featuredImage }] : [],
+      images: post.featuredImage ? [{ url: post.featuredImage, width: 1200, height: 630, alt: post.title }] : [],
     },
     twitter: {
       card: 'summary_large_image',
