@@ -18,6 +18,7 @@ const GENERAL_GUIDES = [
 ];
 
 const TEAM_PAGES = [
+  { title: 'Synergy FC', slug: 'synergy-fc-getting-started' },
   { title: '2015 Legacy Girls', slug: '2015-legacy-girls-getting-started' },
   { title: 'Cheetahs', slug: 'cheetahs-getting-started' },
   { title: 'Ambassadors Football Club 2012 Boys', slug: 'amfc-2012-boys-getting-started' },
