@@ -59,6 +59,10 @@ export default function FreeTrainingPlanPage() {
       {/* For coaches CTA */}
       <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-3 block">For Coaches &amp; Clubs</span>
+            <h2 className="text-3xl md:text-4xl font-black text-navy">Take It to the Whole Team</h2>
+          </div>
           <div className="bg-navy rounded-3xl px-6 py-16 md:px-12 md:py-20 relative overflow-hidden">
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
             <div className="grid md:grid-cols-2 gap-16 items-center">
