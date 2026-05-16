@@ -17,11 +17,11 @@ export default function FreeTrainingPlanPage() {
             <span>🆓</span> Free — no account required
           </div>
           <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
-            Build Your Player&apos;s<br />
-            <span className="text-red">Free Training Plan</span>
+            Stop Guessing.<br />
+            <span className="text-red">Start Training.</span>
           </h1>
           <p className="text-white/70 text-lg max-w-xl mx-auto mb-8">
-            Pick the skill areas you want to develop, set the schedule, and we&apos;ll email you a personalized PDF plan — built from the same video library used by 50,000+ players worldwide.
+            A personalized plan for your player — free, in 60 seconds.
           </p>
         </div>
       </section>
