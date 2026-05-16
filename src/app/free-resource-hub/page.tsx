@@ -119,8 +119,48 @@ export default function FreeResourceHubPage() {
             </p>
           </div>
 
+          {/* 7-Day Plan — horizontal banner */}
+          <Link
+            href={TRAINING_PLANS[0].href}
+            className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all block mb-6"
+          >
+            <div className="grid md:grid-cols-[320px_1fr] gap-0 items-stretch">
+              <div className="aspect-[16/10] md:aspect-auto rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none overflow-hidden">
+                <img src={TRAINING_PLANS[0].image!} alt={TRAINING_PLANS[0].title} className="w-full h-full object-cover" />
+              </div>
+              <div className="p-8 md:p-10 flex flex-col justify-center">
+                <h3 className="text-2xl md:text-3xl font-bold text-navy mb-3">{TRAINING_PLANS[0].title}</h3>
+                <p className="text-gray text-base md:text-lg mb-6">{TRAINING_PLANS[0].description}</p>
+                <span className="bg-red hover:bg-red-dark text-white font-bold py-4 px-8 rounded-full text-base shadow-[0_4px_20px_rgba(220,55,62,0.35)] transition-all self-start">
+                  {TRAINING_PLANS[0].cta} &rarr;
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* Remaining plans — 3-column grid with plan builder first */}
           <div className="grid md:grid-cols-3 gap-6">
-            {TRAINING_PLANS.map((plan) => (
+            {/* Free Training Plan Builder */}
+            <Link
+              href="/free-training-plan"
+              className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all flex flex-col text-center"
+            >
+              <div className="w-full aspect-[16/10] rounded-xl overflow-hidden mb-5 bg-background">
+                <div className="w-full h-full bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] flex items-center justify-center">
+                  <div className="text-center text-white p-5">
+                    <div className="text-3xl font-extrabold leading-tight">FREE<br /><span className="text-red">PLAN</span></div>
+                    <div className="text-sm uppercase tracking-[2px] opacity-80 mt-1">Builder</div>
+                  </div>
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-navy mb-3">Personalized Training Plan</h3>
+              <p className="text-gray text-[15px] mb-5 flex-1">Pick your skill areas, set your schedule, and get a custom PDF plan emailed to you in 60 seconds.</p>
+              <span className="bg-red hover:bg-red-dark text-white font-bold py-4 px-8 rounded-full text-base shadow-[0_4px_20px_rgba(220,55,62,0.35)] transition-all w-full text-center">
+                Build Free Plan &rarr;
+              </span>
+            </Link>
+
+            {TRAINING_PLANS.slice(1).map((plan) => (
               <Link
                 key={plan.title}
                 href={plan.href}
