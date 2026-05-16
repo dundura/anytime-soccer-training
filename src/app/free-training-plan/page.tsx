@@ -19,7 +19,7 @@ export default function FreeTrainingPlanPage() {
             Stop Guessing.<br />
             <span className="text-red">Start Training.</span>
           </h1>
-          <p className="text-white/70 text-2xl md:text-3xl font-semibold max-w-2xl mx-auto mb-8">
+          <p className="text-white/70 text-lg md:text-xl font-semibold max-w-2xl mx-auto mb-8">
             A personalized plan for your player — free, in 60 seconds.
           </p>
         </div>
