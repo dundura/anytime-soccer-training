@@ -106,7 +106,9 @@ export default function TabbedVideoSection({ title, subtitle, hideCta, compact }
 
               {/* Compact: horizontal pill tabs above video */}
               {compact && (
-                <div className="hidden md:flex flex-wrap gap-2 justify-center mb-4">
+                <div className="hidden md:block mb-4">
+                  <h3 className="text-xl font-black text-navy mb-3 text-center">What&apos;s Inside</h3>
+                  <div className="flex flex-wrap gap-2 justify-center">
                   {TABS.map((t, i) => (
                     <button
                       key={t.label}
@@ -120,6 +122,7 @@ export default function TabbedVideoSection({ title, subtitle, hideCta, compact }
                       {t.label}
                     </button>
                   ))}
+                  </div>
                 </div>
               )}
               <div className="aspect-video rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)] relative">
