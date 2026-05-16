@@ -15,7 +15,9 @@ const trainingDropdown = [
 ];
 
 const resourcesDropdown = [
+  { href: '/free-training-plan', label: '🗓️ Free Training Plan' },
   { href: '/free-resource-hub', label: 'Free Resources' },
+  { href: 'https://www.soccer-near-me.com/', label: '📍 Soccer Near Me', external: true },
   { href: '/blog', label: 'Blog' },
   { href: '/podcast', label: 'Podcast' },
   { href: '/our-picks', label: 'Our Picks' },
@@ -132,7 +134,18 @@ export default function Header() {
               </button>
               {resourcesOpen && (
                 <div className="absolute top-full left-0 mt-2 w-52 bg-white rounded-lg shadow-xl py-2 z-50">
-                  {resourcesDropdown.map((item) => (
+                  {resourcesDropdown.map((item) => item.external ? (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block px-4 py-2.5 text-sm text-navy hover:bg-background hover:text-red transition-colors font-medium"
+                      onClick={() => setResourcesOpen(false)}
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
                     <Link
                       key={item.href}
                       href={item.href}
@@ -220,7 +233,18 @@ export default function Header() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              {mobileResOpen && resourcesDropdown.map((link) => (
+              {mobileResOpen && resourcesDropdown.map((link) => link.external ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/90 hover:text-white px-6 py-2 text-sm font-medium"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ) : (
                 <Link
                   key={link.href}
                   href={link.href}
