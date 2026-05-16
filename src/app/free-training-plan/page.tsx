@@ -13,11 +13,11 @@ export default function FreeTrainingPlanPage() {
       {/* Hero */}
       <section className="bg-navy py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-<h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight animate-pulse">
-            Stop Guessing. Stop Searching.<br />
+<h1 className="text-6xl md:text-8xl font-black text-white mb-6 leading-none animate-pulse">
+            Stop Guessing.<br />
             <span className="text-red">Start Training.</span>
           </h1>
-          <p className="text-white/70 text-lg max-w-xl mx-auto mb-8">
+          <p className="text-white/70 text-2xl md:text-3xl font-semibold max-w-2xl mx-auto mb-8">
             A personalized plan for your player — free, in 60 seconds.
           </p>
         </div>
