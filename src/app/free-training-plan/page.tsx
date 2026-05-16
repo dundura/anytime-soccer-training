@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import TrainingPlanBuilder from '@/components/TrainingPlanBuilder';
+import TabbedVideoSection from '@/components/TabbedVideoSection';
 
 export const metadata: Metadata = {
   title: 'Free Soccer Training Plan — Anytime Soccer Training',
   description: 'Build a personalized soccer training plan for your player in 60 seconds. Choose skill areas, set your schedule, and get a free PDF emailed to you instantly.',
 };
-
 
 export default function FreeTrainingPlanPage() {
   return (
@@ -13,7 +13,7 @@ export default function FreeTrainingPlanPage() {
       {/* Hero */}
       <section className="bg-navy py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-<h1 className="text-6xl md:text-8xl font-black text-white mb-6 leading-none animate-pulse">
+          <h1 className="text-6xl md:text-8xl font-black text-white mb-6 leading-none animate-pulse">
             Stop Guessing.<br />
             <span className="text-red">Start Training.</span>
           </h1>
@@ -33,46 +33,13 @@ export default function FreeTrainingPlanPage() {
               <TrainingPlanBuilder />
             </div>
 
-            {/* Right: what's in the PDF */}
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-black text-navy mb-2">What&apos;s in the PDF?</h2>
-                <p className="text-gray-500 text-sm">A professional training plan document your player can print or follow on their phone.</p>
-              </div>
-
-              <div className="space-y-4">
-                {[
-                  { icon: '📋', title: 'Cover page', desc: 'Player name, plan duration, sessions, and skill areas at a glance.' },
-                  { icon: '📅', title: 'Full week-by-week schedule', desc: 'Every training day mapped out with specific sessions for each skill area.' },
-                  { icon: '💡', title: 'How-to guide', desc: '7 tips for getting the most out of the plan, plus what equipment is needed.' },
-                  { icon: '🎯', title: 'Goals page', desc: 'Space to write short-term goals, long-term goals, and a commitment section.' },
-                  { icon: '🏆', title: 'Completion section', desc: 'A place to reflect at the end — what changed, what to work on next.' },
-                ].map(({ icon, title, desc }) => (
-                  <div key={title} className="flex gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-navy/5 flex items-center justify-center text-lg flex-shrink-0">
-                      {icon}
-                    </div>
-                    <div>
-                      <div className="font-bold text-navy text-sm">{title}</div>
-                      <div className="text-gray-500 text-sm mt-0.5">{desc}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* App pitch */}
-              <div className="bg-navy rounded-2xl p-6 text-white">
-                <div className="text-sm font-bold text-red mb-2 tracking-wider uppercase">Follow the plan inside the app</div>
-                <p className="text-white/80 text-sm leading-relaxed mb-4">
-                  Every session in your plan is a real follow-along video inside Anytime Soccer Training. Press play, train, and the app tracks your progress automatically.
-                </p>
-                <a
-                  href="https://app.anytime-soccer.com/auth/register"
-                  className="inline-flex items-center gap-2 bg-red text-white px-5 py-2.5 rounded-full font-bold text-sm hover:bg-red-dark transition-colors"
-                >
-                  Start Free Account →
-                </a>
-              </div>
+            {/* Right: tabbed video section */}
+            <div>
+              <TabbedVideoSection
+                title="Here's What Your Player Will Train"
+                subtitle="Every session in your plan is a real follow-along video. Just press play."
+                hideCta={true}
+              />
             </div>
 
           </div>
