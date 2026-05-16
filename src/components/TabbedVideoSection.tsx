@@ -107,8 +107,8 @@ export default function TabbedVideoSection({ title, subtitle, hideCta, compact }
               {/* Compact: horizontal pill tabs above video */}
               {compact && (
                 <div className="hidden md:block mb-4">
-                  <h3 className="text-xl font-black text-navy mb-3 text-center">What&apos;s Inside</h3>
-                  <div className="flex flex-wrap gap-2 justify-center">
+                  <h3 className="text-3xl font-black text-navy mb-3">What&apos;s Inside</h3>
+                  <div className="flex flex-wrap gap-2">
                   {TABS.map((t, i) => (
                     <button
                       key={t.label}
