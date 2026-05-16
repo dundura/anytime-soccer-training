@@ -84,6 +84,7 @@ export default function TrainingPlanBuilder() {
 
   return (
     <div className="max-w-xl mx-auto">
+      <h2 className="text-2xl font-black text-navy mb-6">Create Your Training Plan</h2>
       {/* Step indicators */}
       <div className="flex items-center gap-2 mb-8">
         {([1, 2, 3] as Step[]).map((s, i) => (
