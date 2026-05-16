@@ -13,7 +13,7 @@ export default function FreeTrainingPlanPage() {
   return (
     <main>
       {/* Hero */}
-      <section className="bg-navy py-16 md:py-20">
+      <section className="bg-navy pt-16 pb-8 md:pt-20 md:pb-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-6xl md:text-8xl font-black text-white mb-6 leading-none" style={{ animation: 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}>
             Stop Guessing.<br />
