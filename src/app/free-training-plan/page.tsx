@@ -28,6 +28,13 @@ export default function FreeTrainingPlanPage() {
       {/* Builder */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* Section header above both columns */}
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-black text-navy mb-3">Here&apos;s What Your Player Will Train</h2>
+            <p className="text-gray-500 text-lg">Every session in your plan is a real follow-along video. Just press play.</p>
+          </div>
+
           <div className="grid lg:grid-cols-2 gap-12 items-start">
 
             {/* Form card */}
@@ -38,8 +45,8 @@ export default function FreeTrainingPlanPage() {
             {/* Right: tabbed video section */}
             <div>
               <TabbedVideoSection
-                title="Here's What Your Player Will Train"
-                subtitle="Every session in your plan is a real follow-along video. Just press play."
+                title=""
+                subtitle=""
                 hideCta={true}
               />
             </div>
