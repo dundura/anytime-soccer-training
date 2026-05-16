@@ -70,7 +70,7 @@ export default function TrainingPlanBuilder() {
         <div className="text-5xl mb-4">📬</div>
         <h3 className="text-2xl font-bold text-navy mb-3">Check your inbox!</h3>
         <p className="text-gray-500 text-base max-w-md mx-auto leading-relaxed">
-          Your {weeks}-week training plan PDF is on its way to <strong>{email}</strong>. It includes your full schedule, tips, and a sample session from each skill area.
+          Your {weeks}-week training plan PDF is on its way to <strong>{email}</strong>. It includes your full schedule, tips, and a sample session.
         </p>
       </div>
     );
