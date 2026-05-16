@@ -153,7 +153,7 @@ export default function FreeResourceHubPage() {
                   </div>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-navy mb-3">Personalized Training Plan</h3>
+              <h3 className="text-xl font-bold text-navy mb-3">Free Training Plan Builder</h3>
               <p className="text-gray text-[15px] mb-5 flex-1">Pick your skill areas, set your schedule, and get a custom PDF plan emailed to you in 60 seconds.</p>
               <span className="bg-red hover:bg-red-dark text-white font-bold py-4 px-8 rounded-full text-base shadow-[0_4px_20px_rgba(220,55,62,0.35)] transition-all w-full text-center">
                 Build Free Plan &rarr;
