@@ -6,13 +6,6 @@ export const metadata: Metadata = {
   description: 'Build a personalized soccer training plan for your player in 60 seconds. Choose skill areas, set your schedule, and get a free PDF emailed to you instantly.',
 };
 
-const BENEFITS = [
-  { icon: '⚽', text: 'Built from 5,000+ real follow-along videos' },
-  { icon: '📅', text: 'Day-by-day schedule, ready to follow' },
-  { icon: '📄', text: 'Professional PDF — print or save it' },
-  { icon: '🎯', text: 'Personalized to your player\'s skill areas' },
-  { icon: '🆓', text: 'Completely free — no account needed' },
-];
 
 export default function FreeTrainingPlanPage() {
   return (
@@ -30,14 +23,6 @@ export default function FreeTrainingPlanPage() {
           <p className="text-white/70 text-lg max-w-xl mx-auto mb-8">
             Pick the skill areas you want to develop, set the schedule, and we&apos;ll email you a personalized PDF plan — built from the same video library used by 50,000+ players worldwide.
           </p>
-          <div className="flex flex-wrap justify-center gap-4 text-sm">
-            {BENEFITS.map(({ icon, text }) => (
-              <div key={text} className="flex items-center gap-2 text-white/70">
-                <span>{icon}</span>
-                <span>{text}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
