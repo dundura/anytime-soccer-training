@@ -52,7 +52,7 @@ export default function FreeTrainingPlanPage() {
             </div>
 
             {/* Right: tabbed video section */}
-            <div>
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
               <TabbedVideoSection
                 title=""
                 subtitle=""
