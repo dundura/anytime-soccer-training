@@ -14,7 +14,7 @@ const trainingDropdown = [
   { href: 'https://grupup.app/for-parents', label: '⚽ Group Sessions', external: true },
 ];
 
-const resourcesDropdown = [
+const resourcesDropdown: { href: string; label: string; external?: boolean }[] = [
   { href: '/free-resource-hub', label: 'Free Resources' },
   { href: '/blog', label: 'Blog' },
   { href: '/podcast', label: 'Podcast' },
