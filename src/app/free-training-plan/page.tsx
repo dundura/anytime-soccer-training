@@ -7,6 +7,15 @@ import { AutoplayYouTube } from '@/components/AutoplayYouTube';
 export const metadata: Metadata = {
   title: 'Free Soccer Training Plan — Anytime Soccer Training',
   description: 'Build a personalized soccer training plan for your player in 60 seconds. Choose skill areas, set your schedule, and get a free PDF emailed to you instantly.',
+  openGraph: {
+    title: 'Free Soccer Training Plan — Anytime Soccer Training',
+    description: 'Build a personalized soccer training plan for your player in 60 seconds. Free PDF emailed instantly.',
+    images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1778974402995-sa4a36.png' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1778974402995-sa4a36.png'],
+  },
 };
 
 export default function FreeTrainingPlanPage() {
