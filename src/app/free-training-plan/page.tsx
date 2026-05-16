@@ -17,7 +17,7 @@ export default function FreeTrainingPlanPage() {
             <span>🆓</span> Free — no account required
           </div>
           <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight animate-pulse">
-            Stop Guessing.<br />
+            Stop Guessing. Stop Searching.<br />
             <span className="text-red">Start Training.</span>
           </h1>
           <p className="text-white/70 text-lg max-w-xl mx-auto mb-8">
