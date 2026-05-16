@@ -26,7 +26,7 @@ export default function FreeTrainingPlanPage() {
       </section>
 
       {/* Builder */}
-      <section className="py-16 bg-gray-50">
+      <section className="pt-8 pb-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Section header above both columns */}
@@ -48,6 +48,7 @@ export default function FreeTrainingPlanPage() {
                 title=""
                 subtitle=""
                 hideCta={true}
+                compact={true}
               />
             </div>
 

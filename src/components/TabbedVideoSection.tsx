@@ -21,7 +21,7 @@ function Thumbnail({ videoId }: { videoId: string }) {
   );
 }
 
-export default function TabbedVideoSection({ title, subtitle, hideCta }: { title?: string; subtitle?: string; hideCta?: boolean } = {}) {
+export default function TabbedVideoSection({ title, subtitle, hideCta, compact }: { title?: string; subtitle?: string; hideCta?: boolean; compact?: boolean } = {}) {
   const [active, setActive] = useState(0);
   const tab = TABS[active];
 
@@ -31,16 +31,18 @@ export default function TabbedVideoSection({ title, subtitle, hideCta }: { title
         <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
           {/* Mobile: heading + 2-col grid tabs */}
           <div className="md:hidden mb-6">
-            <div className="text-center mb-6">
-              <h2 className="text-3xl font-extrabold text-navy mb-3 uppercase tracking-tight">
-                {title || <>Get Your Free <span className="text-red">7-Day Training Plan</span></>}
-              </h2>
-              {subtitle !== undefined ? (
-                subtitle && <p className="text-gray text-lg max-w-xl mx-auto">{subtitle}</p>
-              ) : (
-                <p className="text-gray text-lg max-w-xl mx-auto">One week. Seven skills. Follow along and watch your player improve.</p>
-              )}
-            </div>
+            {title !== '' && (
+              <div className="text-center mb-6">
+                <h2 className="text-3xl font-extrabold text-navy mb-3 uppercase tracking-tight">
+                  {title || <>Get Your Free <span className="text-red">7-Day Training Plan</span></>}
+                </h2>
+                {subtitle !== undefined ? (
+                  subtitle && <p className="text-gray text-lg max-w-xl mx-auto">{subtitle}</p>
+                ) : (
+                  <p className="text-gray text-lg max-w-xl mx-auto">One week. Seven skills. Follow along and watch your player improve.</p>
+                )}
+              </div>
+            )}
             <div className="grid grid-cols-2 gap-2">
               {TABS.map((t, i) => (
                 <button
@@ -64,43 +66,62 @@ export default function TabbedVideoSection({ title, subtitle, hideCta }: { title
           </div>
 
           {/* Layout: sidebar tabs + (heading + video), centered */}
-          <div className="flex flex-col md:flex-row gap-6 items-center justify-center max-w-5xl mx-auto">
-            {/* Left - Vertical Tab List (desktop only) */}
-            <div className="hidden md:flex flex-col gap-2 md:w-[280px] flex-shrink-0">
-              {TABS.map((t, i) => (
-                <button
-                  key={t.label}
-                  onClick={() => setActive(i)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all flex-shrink-0 w-full ${
-                    active === i
-                      ? "bg-[#f5f7fa] border-l-4 border-red"
-                      : "bg-transparent border-l-4 border-transparent hover:bg-[#f5f7fa]"
-                  }`}
-                >
-                  <Thumbnail videoId={t.videoId} />
-                  <span
-                    className={`font-bold text-base whitespace-nowrap ${
-                      active === i ? "text-navy" : "text-gray"
+          <div className={compact ? "max-w-5xl mx-auto" : "flex flex-col md:flex-row gap-6 items-center justify-center max-w-5xl mx-auto"}>
+            {/* Left - Vertical Tab List (desktop only, non-compact) */}
+            {!compact && (
+              <div className="hidden md:flex flex-col gap-2 md:w-[280px] flex-shrink-0">
+                {TABS.map((t, i) => (
+                  <button
+                    key={t.label}
+                    onClick={() => setActive(i)}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all flex-shrink-0 w-full ${
+                      active === i
+                        ? "bg-[#f5f7fa] border-l-4 border-red"
+                        : "bg-transparent border-l-4 border-transparent hover:bg-[#f5f7fa]"
                     }`}
                   >
-                    {t.label}
-                  </span>
-                </button>
-              ))}
-            </div>
+                    <Thumbnail videoId={t.videoId} />
+                    <span className={`font-bold text-base whitespace-nowrap ${active === i ? "text-navy" : "text-gray"}`}>
+                      {t.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
 
             {/* Right - Heading + Video Player */}
             <div className="flex-1 w-full max-w-[680px]">
-              <div className="text-center mb-6 hidden md:block">
-                <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-3 uppercase tracking-tight">
-                  {title || <>Get Your Free <span className="text-red">7-Day Training Plan</span></>}
-                </h2>
-                {subtitle !== undefined ? (
-                  subtitle && <p className="text-gray text-lg max-w-xl mx-auto">{subtitle}</p>
-                ) : (
-                  <p className="text-gray text-lg max-w-xl mx-auto">One week. Seven skills. Follow along and watch your player improve.</p>
-                )}
-              </div>
+              {title !== '' && (
+                <div className="text-center mb-6 hidden md:block">
+                  <h2 className="text-3xl md:text-4xl font-extrabold text-navy mb-3 uppercase tracking-tight">
+                    {title || <>Get Your Free <span className="text-red">7-Day Training Plan</span></>}
+                  </h2>
+                  {subtitle !== undefined ? (
+                    subtitle && <p className="text-gray text-lg max-w-xl mx-auto">{subtitle}</p>
+                  ) : (
+                    <p className="text-gray text-lg max-w-xl mx-auto">One week. Seven skills. Follow along and watch your player improve.</p>
+                  )}
+                </div>
+              )}
+
+              {/* Compact: horizontal pill tabs above video */}
+              {compact && (
+                <div className="hidden md:flex flex-wrap gap-2 justify-center mb-4">
+                  {TABS.map((t, i) => (
+                    <button
+                      key={t.label}
+                      onClick={() => setActive(i)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all border-2 ${
+                        active === i
+                          ? "border-red bg-red/5 text-navy"
+                          : "border-gray-200 text-gray-500 hover:border-gray-300"
+                      }`}
+                    >
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
+              )}
               <div className="aspect-video rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)] relative">
                 {tab.mp4 ? (
                   <video
