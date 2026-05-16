@@ -15,7 +15,6 @@ const trainingDropdown = [
 ];
 
 const resourcesDropdown = [
-  { href: '/free-training-plan', label: '🗓️ Free Training Plan' },
   { href: '/free-resource-hub', label: 'Free Resources' },
   { href: 'https://www.soccer-near-me.com/', label: '📍 Soccer Near Me', external: true },
   { href: '/blog', label: 'Blog' },
