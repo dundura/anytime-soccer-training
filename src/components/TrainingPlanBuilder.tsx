@@ -72,12 +72,6 @@ export default function TrainingPlanBuilder() {
         <p className="text-gray-500 text-base max-w-md mx-auto leading-relaxed">
           Your {weeks}-week training plan PDF is on its way to <strong>{email}</strong>. It includes your full schedule, tips, and a sample session from each skill area.
         </p>
-        <p className="text-sm text-gray-400 mt-4">
-          Want to actually follow the plan?{' '}
-          <a href="https://app.anytime-soccer.com/auth/register" className="text-red font-semibold underline">
-            Start your free account →
-          </a>
-        </p>
       </div>
     );
   }
