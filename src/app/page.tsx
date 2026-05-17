@@ -112,26 +112,20 @@ export default function HomePage() {
           </h2>
           <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
             <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f2642 0%, #1e3a5f 100%)', padding: '60px 40px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', minHeight: '300px' }}>
-                <div className="text-[42px] font-extrabold text-white leading-[1.1] mb-2.5">FREE <span className="text-red">30-DAY</span> TRAINING PLAN</div>
-                <div className="text-white/80 text-base tracking-[2px] uppercase">Learn. Train. Progress.</div>
+              <div className="rounded-2xl overflow-hidden relative" style={{ minHeight: '300px' }}>
+                <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1778974402995-sa4a36.png" alt="Free Plan Builder" className="w-full h-full object-cover absolute inset-0" />
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(15,38,66,0.65) 0%, rgba(30,58,95,0.55) 100%)' }} />
+                <div className="relative z-10 flex flex-col justify-center items-center text-center h-full" style={{ padding: '60px 40px' }}>
+                  <div className="text-[52px] font-extrabold text-white leading-[1.0] mb-1">FREE</div>
+                  <div className="text-[52px] font-extrabold text-white leading-[1.0] mb-1">PLAN</div>
+                  <div className="text-[28px] font-extrabold text-red leading-[1.1] uppercase tracking-wide">Builder</div>
+                </div>
               </div>
               <div>
-                <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Not Sure Where to Start?</p>
-                <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">GET A FREE 30-DAY PLAN BUILT FOR YOUR PLAYER</h3>
-                <p className="text-gray mb-6">No guesswork. Just follow the plan and watch them improve.</p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start gap-3">
-                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                    <strong className="text-navy">A personalized training schedule based on your player&apos;s skill level.</strong>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                    <strong className="text-navy">Step-by-step videos delivered daily — just hit play and train.</strong>
-                  </li>
-                </ul>
-                <Link href="/free-30-day-training-plan" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
-                  Get My Free Plan &rarr;
+                <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">Free Training Plan</h3>
+                <p className="text-gray mb-8">Pick your skill areas, set your schedule, and get a custom PDF plan emailed to you in 60 seconds.</p>
+                <Link href="/free-training-plan" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
+                  Build Free Plan &rarr;
                 </Link>
               </div>
             </div>
