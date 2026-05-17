@@ -112,8 +112,8 @@ export default function HomePage() {
           </h2>
           <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
             <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="rounded-2xl overflow-hidden relative" style={{ minHeight: '300px' }}>
-                <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1778974402995-sa4a36.png" alt="Free Plan Builder" className="w-full h-full object-cover absolute inset-0" />
+              <div className="rounded-2xl overflow-hidden">
+                <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1778974402995-sa4a36.png" alt="Free Plan Builder" className="w-full object-cover block max-h-[200px] md:max-h-[400px]" />
               </div>
               <div>
                 <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Not Sure Where to Start?</p>
