@@ -29,7 +29,7 @@ export default function FreeChallengePopup() {
 
       {/* Modal */}
       <div
-        className="relative bg-white rounded-2xl shadow-[0_25px_80px_rgba(0,0,0,0.3)] max-w-[820px] w-full overflow-hidden flex flex-col md:flex-row"
+        className="relative bg-white rounded-2xl shadow-[0_25px_80px_rgba(0,0,0,0.3)] max-w-[1020px] w-full overflow-hidden flex flex-col md:flex-row"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
