@@ -29,7 +29,7 @@ export default function PopupManager() {
       <div className="absolute inset-0 bg-black/60" />
 
       <div
-        className="relative bg-white rounded-2xl shadow-[0_25px_80px_rgba(0,0,0,0.3)] max-w-[820px] w-full overflow-hidden flex flex-col md:flex-row"
+        className="relative bg-white rounded-2xl shadow-[0_25px_80px_rgba(0,0,0,0.3)] max-w-[580px] w-full overflow-hidden flex flex-col md:flex-row"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -41,13 +41,13 @@ export default function PopupManager() {
         </button>
 
         {/* Left image */}
-        <div className="hidden md:flex md:w-[45%] items-center justify-center overflow-hidden">
+        <div className="hidden md:flex md:w-[40%] items-center justify-center overflow-hidden bg-gray-50">
           <img
             src={variant === '7day'
               ? 'https://d2vm0l3c6tu9qp.cloudfront.net/Anytime-soccer-camp.webp'
               : 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1778974402995-sa4a36.png'}
             alt={variant === '7day' ? 'Anytime Soccer Training' : 'Free Training Plan'}
-            className="w-full h-full object-cover"
+            className={`w-full h-full ${variant === '7day' ? 'object-cover' : 'object-contain'}`}
           />
         </div>
 
