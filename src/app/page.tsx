@@ -124,10 +124,6 @@ export default function HomePage() {
                     <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
                     <strong className="text-navy">A personalized training schedule based on your player&apos;s skill level.</strong>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                    <strong className="text-navy">Step-by-step videos delivered daily — just hit play and train.</strong>
-                  </li>
                 </ul>
                 <Link href="/free-training-plan" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
                   Build Free Plan &rarr;
