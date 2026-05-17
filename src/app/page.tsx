@@ -123,7 +123,7 @@ export default function HomePage() {
               </div>
               <div>
                 <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Not Sure Where to Start?</p>
-                <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">Free Training Plan</h3>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">GET A FREE CUSTOMIZED TRAINING PLAN FOR YOUR PLAYER</h3>
                 <p className="text-gray mb-8">Pick your skill areas, set your schedule, and get a custom PDF plan emailed to you in 60 seconds.</p>
                 <Link href="/free-training-plan" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
                   Build Free Plan &rarr;
