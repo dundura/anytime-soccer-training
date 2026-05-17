@@ -3,14 +3,14 @@ import HeroVideo from '@/components/HeroVideo';
 import HeroHeadline from '@/components/HeroHeadline';
 import TabbedVideoSection from '@/components/TabbedVideoSection';
 import CoachTabbedSection from '@/components/CoachTabbedSection';
-import FreeChallengePopup from '@/components/FreeChallengePopup';
+import PopupManager from '@/components/PopupManager';
 import CoachBar from '@/components/CoachBar';
 import HomeBlogSection from '@/components/HomeBlogSection';
 
 export default function HomePage() {
   return (
     <>
-      <FreeChallengePopup />
+      <PopupManager />
       {/* ===== HERO ===== */}
       <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
