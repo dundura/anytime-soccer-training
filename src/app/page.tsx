@@ -114,12 +114,6 @@ export default function HomePage() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="rounded-2xl overflow-hidden relative" style={{ minHeight: '300px' }}>
                 <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1778974402995-sa4a36.png" alt="Free Plan Builder" className="w-full h-full object-cover absolute inset-0" />
-                <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(15,38,66,0.65) 0%, rgba(30,58,95,0.55) 100%)' }} />
-                <div className="relative z-10 flex flex-col justify-center items-center text-center h-full" style={{ padding: '60px 40px' }}>
-                  <div className="text-[52px] font-extrabold text-white leading-[1.0] mb-1">FREE</div>
-                  <div className="text-[52px] font-extrabold text-white leading-[1.0] mb-1">PLAN</div>
-                  <div className="text-[28px] font-extrabold text-red leading-[1.1] uppercase tracking-wide">Builder</div>
-                </div>
               </div>
               <div>
                 <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Not Sure Where to Start?</p>
