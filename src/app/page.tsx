@@ -124,7 +124,17 @@ export default function HomePage() {
               <div>
                 <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Not Sure Where to Start?</p>
                 <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">GET A FREE CUSTOMIZED TRAINING PLAN FOR YOUR PLAYER</h3>
-                <p className="text-gray mb-8">Pick your skill areas, set your schedule, and get a custom PDF plan emailed to you in 60 seconds.</p>
+                <p className="text-gray mb-6">Pick your skill areas, set your schedule, and get a custom PDF plan emailed to you in 60 seconds.</p>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start gap-3">
+                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
+                    <strong className="text-navy">A personalized training schedule based on your player&apos;s skill level.</strong>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
+                    <strong className="text-navy">Step-by-step videos delivered daily — just hit play and train.</strong>
+                  </li>
+                </ul>
                 <Link href="/free-training-plan" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
                   Build Free Plan &rarr;
                 </Link>
