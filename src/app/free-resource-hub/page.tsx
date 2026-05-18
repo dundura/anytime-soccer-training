@@ -145,15 +145,8 @@ export default function FreeResourceHubPage() {
               href="/free-training-plan"
               className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all flex flex-col text-center"
             >
-              <div className="w-full aspect-[16/10] rounded-xl overflow-hidden mb-5 bg-background relative">
-                <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1778974402995-sa4a36.png" alt="Free Plan Builder" className="w-full h-full object-cover absolute inset-0" />
-                <div className="absolute inset-0 bg-[rgba(15,38,66,0.6)]" />
-                <div className="relative z-10 w-full h-full flex items-center justify-center">
-                  <div className="text-center text-white p-5">
-                    <div className="text-3xl font-extrabold leading-tight">FREE<br /><span className="text-red">PLAN</span></div>
-                    <div className="text-sm uppercase tracking-[2px] opacity-80 mt-1">Builder</div>
-                  </div>
-                </div>
+              <div className="w-full aspect-[16/10] rounded-xl overflow-hidden mb-5 bg-background">
+                <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1778974402995-sa4a36.png" alt="Free Plan Builder" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-xl font-bold text-navy mb-3">Free Training Plan</h3>
               <p className="text-gray text-[15px] mb-5 flex-1">Pick your skill areas, set your schedule, and get a custom PDF plan emailed to you in 60 seconds.</p>
