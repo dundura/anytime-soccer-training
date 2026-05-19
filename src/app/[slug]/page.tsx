@@ -12,7 +12,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const page = getPageBySlug(slug);
   if (!page) return { title: 'Page Not Found' };
-  return { title: page.title };
+  return {
+    title: page.title,
+    ...(page.featuredImage && {
+      openGraph: {
+        images: [{ url: page.featuredImage }],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        images: [page.featuredImage],
+      },
+    }),
+  };
 }
 
 export default async function CatchAllPage({ params }: { params: Promise<{ slug: string }> }) {
