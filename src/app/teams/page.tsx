@@ -140,6 +140,7 @@ export default function TeamsPage() {
         </div>
       </div>
     </section>
+    </>
   );
 }
 
