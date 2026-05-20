@@ -43,7 +43,7 @@ export default function ForCoachesLearnForm() {
         value={firstName}
         onChange={(e) => setFirstName(e.target.value)}
         required
-        className="w-full px-4 py-4 rounded-xl text-navy font-semibold text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red"
+        className="w-full px-4 py-4 rounded-xl bg-white text-navy font-semibold text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red"
       />
       <input
         type="email"
@@ -51,7 +51,7 @@ export default function ForCoachesLearnForm() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
-        className="w-full px-4 py-4 rounded-xl text-navy font-semibold text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red"
+        className="w-full px-4 py-4 rounded-xl bg-white text-navy font-semibold text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red"
       />
       <button
         type="submit"
