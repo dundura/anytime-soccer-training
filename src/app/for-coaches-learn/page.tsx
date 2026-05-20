@@ -32,12 +32,9 @@ export default function ForCoachesLearnPage() {
                   <span>&#9889;</span> <span className="text-red">5,000+</span> Follow-Along Videos
                 </div>
                 <h1 className="text-[clamp(28px,4vw,48px)] font-extrabold text-white leading-tight tracking-tight mb-5">
-                  Your players want to improve.<br />
-                  <span className="text-red">Give them a system that works.</span>
+                  Learn why coaches choose<br />
+                  <span className="text-red">Anytime Soccer Training.</span>
                 </h1>
-                <p className="text-xl text-white/80 mb-8 max-w-[480px]">
-                  Team training alone isn&apos;t enough. Players need structured practice at home — but most clubs struggle to assign homework and track if it&apos;s actually getting done.
-                </p>
 
                 <ForCoachesLearnForm />
 
