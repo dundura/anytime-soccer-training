@@ -183,7 +183,5 @@ function TeamSearch() {
         )}
       </div>
     </div>
-    </section>
-    </>
   );
 }
