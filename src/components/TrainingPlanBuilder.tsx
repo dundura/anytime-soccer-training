@@ -70,7 +70,7 @@ export default function TrainingPlanBuilder() {
         <div className="text-5xl mb-4">📬</div>
         <h3 className="text-2xl font-bold text-navy mb-3">Check your inbox!</h3>
         <p className="text-gray-500 text-base max-w-md mx-auto leading-relaxed">
-          Your {weeks}-week training plan PDF is on its way to <strong>{email}</strong>. It includes your full schedule, tips, and a sample session.
+          Your {weeks}-week weekly training plan PDF is on its way to <strong>{email}</strong>. It includes your full week-by-week schedule for each skill area.
         </p>
       </div>
     );
@@ -78,7 +78,7 @@ export default function TrainingPlanBuilder() {
 
   return (
     <div className="max-w-xl mx-auto">
-      <h2 className="text-2xl font-black text-navy mb-6">Create Your Training Plan</h2>
+      <h2 className="text-2xl font-black text-navy mb-6">Build Your Weekly Training Plan</h2>
       {/* Step indicators */}
       <div className="flex items-center gap-2 mb-8">
         {([1, 2, 3] as Step[]).map((s, i) => (
@@ -268,7 +268,7 @@ export default function TrainingPlanBuilder() {
 
           {/* Plan summary */}
           <div className="bg-navy/5 rounded-xl p-4 text-sm text-navy">
-            <div className="font-bold mb-1">📋 Your plan</div>
+            <div className="font-bold mb-1">📅 Your Weekly Plan</div>
             <div className="text-gray-600 space-y-0.5">
               <div>{weeks} weeks · {sessionsPerDay} session{sessionsPerDay > 1 ? 's' : ''}/day{restDays.length ? ` · Rest: ${restDays.map(d => d.slice(0, 3)).join(', ')}` : ''}</div>
               <div>{skillAreas.join(', ')}</div>
