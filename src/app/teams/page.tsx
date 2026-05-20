@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import ForCoachesLearnForm from '@/components/ForCoachesLearnForm';
 
 // metadata moved to layout or head
 
@@ -54,26 +53,6 @@ const PARENT_GUIDES = [
 export default function TeamsPage() {
   return (
     <>
-      {/* Coach explore form */}
-      <section className="bg-navy py-12 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-3">
-                Your players want to improve.<br />
-                <span className="text-red">Give them a system that works.</span>
-              </h2>
-              <p className="text-white/70 text-base leading-relaxed">
-                Enter your info and we&apos;ll walk you through everything — starting with a free team code.
-              </p>
-            </div>
-            <div>
-              <ForCoachesLearnForm />
-            </div>
-          </div>
-        </div>
-      </section>
-
     <section className="py-16 bg-background">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
