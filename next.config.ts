@@ -9,6 +9,14 @@ const blogRedirects = (postsData as { slug: string }[]).map((post) => ({
 }));
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'd2vm0l3c6tu9qp.cloudfront.net' },
+      { protocol: 'https', hostname: 'media.anytime-soccer.com' },
+      { protocol: 'https', hostname: 'img.mailinblue.com' },
+      { protocol: 'https', hostname: 'pacificfc.org' },
+    ],
+  },
   async redirects() {
     return [
       {
