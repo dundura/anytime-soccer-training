@@ -70,7 +70,7 @@ export default function SaleBannerStrip() {
               </div>
             </div>
             {/* Skills + Video — far right */}
-            <div className="hidden md:flex flex-shrink-0 items-center gap-4">
+            <div className="hidden md:flex flex-shrink-0 items-center gap-8">
               {/* Skill tags */}
               <div className="flex flex-col gap-1.5">
                 <p className="text-navy/50 text-[11px] font-bold uppercase tracking-wider mb-0.5">What&apos;s Inside</p>
