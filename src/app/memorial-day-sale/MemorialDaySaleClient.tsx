@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import TabbedVideoSection from '@/components/TabbedVideoSection';
 
 const SALE_END = new Date('2026-05-26T23:59:59-05:00');
-const SIGNUP_URL = 'https://app.anytime-soccer.com/auth/registerFree';
+const SIGNUP_URL = 'https://www.anytime-soccer.com/pricing';
 
 function useTimeLeft() {
   const [t, setT] = useState('');
