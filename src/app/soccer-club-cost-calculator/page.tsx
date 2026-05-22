@@ -10,12 +10,12 @@ export default function BudgetCalculatorPage() {
   return (
     <main>
       {/* Hero */}
-      <section className="py-10 md:py-14">
+      <section className="bg-[#0f2642] py-14 md:py-20">
         <div className="max-w-[680px] mx-auto px-5">
-          <div className="inline-flex items-center bg-[#DC373E] text-white text-[11px] font-bold tracking-widest uppercase rounded px-3 py-1 mb-3">
+          <div className="inline-flex items-center bg-[#DC373E] text-white text-[11px] font-bold tracking-widest uppercase rounded px-3 py-1 mb-6">
             Interactive Calculator
           </div>
-          <div className="bg-[#0f2642] rounded-2xl px-8 py-12 md:px-12">
+          <div>
 
           <h1 className="text-[clamp(28px,4vw,42px)] font-extrabold text-white leading-tight mb-5">
             The real cost of<br />
