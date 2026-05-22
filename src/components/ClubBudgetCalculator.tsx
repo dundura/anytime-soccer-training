@@ -353,7 +353,7 @@ export default function ClubBudgetCalculator() {
         {/* Tier column headers */}
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '0 0 6px', borderBottom: '1px solid #f0f0f0', marginBottom: '4px' }}>
           <div style={{ flex: 1, fontSize: '10px', color: '#9ca3af', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Program</div>
-          <div style={{ width: '64px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Players</div>
+          <div style={{ width: '64px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'left', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Players</div>
           <div style={{ width: '80px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>$/mo</div>
           <div style={{ width: '72px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Annual</div>
         </div>
