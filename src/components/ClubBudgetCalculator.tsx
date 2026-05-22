@@ -251,10 +251,16 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Coaching staff" open={coachingOpen} onToggle={() => setCoachingOpen(o => !o)} />
       {coachingOpen && <div style={cardStyle}>
-        <Row label="Head coach" sub="Number of coaches × monthly salary">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <NumInput value={numCoaches} onChange={setNumCoaches} />
-            <NumInput value={headCoach} onChange={setHeadCoach} prefix="$" />
+        <Row label="Head coach" sub="">
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <div>
+              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px' }}>#</div>
+              <NumInput value={numCoaches} onChange={setNumCoaches} />
+            </div>
+            <div>
+              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px' }}>Monthly Salary</div>
+              <NumInput value={headCoach} onChange={setHeadCoach} prefix="$" />
+            </div>
           </div>
         </Row>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
