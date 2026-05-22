@@ -61,7 +61,7 @@ export default function SaleBannerStrip() {
               </div>
             </div>
             {/* Video — far right */}
-            <div className="hidden md:block flex-shrink-0 rounded-2xl overflow-hidden h-40 w-28 shadow-lg">
+            <div className="hidden md:block flex-shrink-0 rounded-2xl overflow-hidden h-40 w-40 shadow-lg">
               <video
                 src="https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693"
                 className="w-full h-full object-cover"
