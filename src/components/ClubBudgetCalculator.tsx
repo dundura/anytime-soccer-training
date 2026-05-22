@@ -254,7 +254,7 @@ export default function ClubBudgetCalculator() {
         <Row label="Head coach" sub="">
           <div style={{ display: 'flex', gap: '10px' }}>
             <div>
-              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px' }}>#</div>
+              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px' }}># of Coaches</div>
               <NumInput value={numCoaches} onChange={setNumCoaches} />
             </div>
             <div>
