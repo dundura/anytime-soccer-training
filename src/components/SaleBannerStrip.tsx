@@ -46,7 +46,7 @@ export default function SaleBannerStrip() {
               </p>
             </div>
             {/* CTA — right side, vertically centered */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 text-center">
               <a
                 href={SIGNUP_URL}
                 target="_blank"
@@ -55,6 +55,7 @@ export default function SaleBannerStrip() {
               >
                 Join for Free →
               </a>
+              <p className="text-navy/50 text-xs mt-2">Free to join · Upgrades 50% off</p>
             </div>
           </div>
         </div>
