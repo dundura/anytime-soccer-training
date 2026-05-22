@@ -392,9 +392,7 @@ export default function ClubBudgetCalculator() {
           </button>
         )}
 
-        <Row label="Season length" sub="Months fees are collected">
-          <NumInput value={months} onChange={setMonths} />
-        </Row>
+
 
         <Row label="Other revenue" sub="Tournaments, events, sponsorships, donations">
           <NumInput value={fundraising} onChange={setFundraising} prefix="$" />
