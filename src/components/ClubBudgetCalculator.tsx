@@ -399,24 +399,6 @@ export default function ClubBudgetCalculator() {
         </div>
       )}
 
-      <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '14px 16px', marginTop: '16px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px' }}>
-          <div>
-            <div style={{ fontSize: '13px', fontWeight: '500', color: '#111' }}>Cost per training hour per player</div>
-            <div style={{ fontSize: '11px', color: '#9ca3af', marginTop: '2px' }}>The real unit you&apos;re buying</div>
-          </div>
-          <div style={{ textAlign: 'right' }}>
-            <span style={{ fontSize: '24px', fontWeight: '500', color: '#111' }}>{cph > 0 ? '$' + cph.toFixed(2) : '$—'}</span>
-            <div style={{ fontSize: '11px', color: '#9ca3af' }}>/ hour / player</div>
-          </div>
-        </div>
-        <div style={{ marginTop: '12px', fontSize: '12px', color: '#6b7280', display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
-          <span><strong>{Math.round(totalHrs)}</strong> total training hrs/yr</span>
-          <span><strong>{fmt(costPP)}</strong> cost per player/yr</span>
-          <span><strong>{fmt(fee * months)}</strong> fee per player/yr</span>
-        </div>
-      </div>
-
       <div style={{ borderLeft: `3px solid ${insightBorder}`, padding: '10px 14px', fontSize: '13px', lineHeight: '1.6', marginTop: '12px', background: insightBg, color: insightColor }}>
         {insightText}
       </div>
