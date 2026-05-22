@@ -84,6 +84,46 @@ function NumInput({ value, onChange, prefix, step, max }: { value: number; onCha
   );
 }
 
+function OpsRow({ label, sub, value, onChange, revenue }: { label: string; sub: string; value: number; onChange: (v: number) => void; revenue: number }) {
+  const pct = revenue > 0 ? +(value / revenue * 100).toFixed(1) : 0;
+  return (
+    <Row label={label} sub={sub}>
+      <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
+        <div>
+          <div style={{ fontSize: '10px', color: '#9ca3af', textAlign: 'right', marginBottom: '4px' }}>% of rev</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+            <input
+              type="number"
+              value={pct === 0 ? '' : pct}
+              placeholder="0"
+              min="0"
+              step="0.1"
+              style={{ width: '52px', textAlign: 'right', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 6px', background: '#fff', color: '#111' }}
+              onChange={(e) => onChange(Math.round(revenue * (parseFloat(e.target.value) || 0) / 100))}
+            />
+            <span style={{ fontSize: '12px', color: '#9ca3af' }}>%</span>
+          </div>
+        </div>
+        <div>
+          <div style={{ fontSize: '10px', color: '#9ca3af', textAlign: 'right', marginBottom: '4px' }}>$ amount</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span style={{ fontSize: '13px', color: '#666' }}>$</span>
+            <input
+              type="number"
+              value={value === 0 ? '' : value}
+              placeholder="0"
+              min="0"
+              step="1"
+              style={{ width: '80px', textAlign: 'right', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', background: '#fff', color: '#111' }}
+              onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
+            />
+          </div>
+        </div>
+      </div>
+    </Row>
+  );
+}
+
 function Row({ label, sub, children }: { label: string; sub?: string; children: React.ReactNode }) {
   return (
     <div style={rowStyle}>
@@ -127,9 +167,9 @@ export default function ClubBudgetCalculator() {
   const [weeks, setWeeks] = useState(40);
   const [gamesField, setGamesField] = useState(2400);
 
-  const [league, setLeague] = useState(4000);
-  const [insurance, setInsurance] = useState(2500);
-  const [equipment, setEquipment] = useState(3000);
+  const [league, setLeague] = useState(2400);      // ~8% of $30k
+  const [insurance, setInsurance] = useState(1200); // ~4% of $30k
+  const [equipment, setEquipment] = useState(1500); // ~5% of $30k
   const [admin, setAdmin] = useState(500);
   const [software, setSoftware] = useState(150);
   const [marketing, setMarketing] = useState(1200);
@@ -320,27 +360,13 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Operations & overhead" open={operationsOpen} onToggle={() => setOperationsOpen(o => !o)} />
       {operationsOpen && <div style={cardStyle}>
-        <Row label="League & tournament entry fees" sub="Annual registrations">
-          <NumInput value={league} onChange={setLeague} prefix="$" />
-        </Row>
-        <Row label="Player & club insurance" sub="Annual premium">
-          <NumInput value={insurance} onChange={setInsurance} prefix="$" />
-        </Row>
-        <Row label="Equipment" sub="Kits, balls, cones, goals — annual">
-          <NumInput value={equipment} onChange={setEquipment} prefix="$" />
-        </Row>
-        <Row label="Administrative staff" sub="Club director, registrar — monthly">
-          <NumInput value={admin} onChange={setAdmin} prefix="$" />
-        </Row>
-        <Row label="Software & platforms" sub="Scheduling, payments, comms — monthly">
-          <NumInput value={software} onChange={setSoftware} prefix="$" />
-        </Row>
-        <Row label="Marketing & communications" sub="Website, social, design — annual">
-          <NumInput value={marketing} onChange={setMarketing} prefix="$" />
-        </Row>
-        <Row label="Other" sub="Any additional operating costs">
-          <NumInput value={otherOps} onChange={setOtherOps} prefix="$" />
-        </Row>
+        <OpsRow label="League & tournament entry fees" sub="Annual registrations" value={league} onChange={setLeague} revenue={revenue} />
+        <OpsRow label="Player & club insurance" sub="Annual premium" value={insurance} onChange={setInsurance} revenue={revenue} />
+        <OpsRow label="Equipment" sub="Kits, balls, cones, goals — annual" value={equipment} onChange={setEquipment} revenue={revenue} />
+        <OpsRow label="Administrative staff" sub="Monthly — annualized" value={admin} onChange={setAdmin} revenue={revenue} />
+        <OpsRow label="Software & platforms" sub="Monthly — annualized" value={software} onChange={setSoftware} revenue={revenue} />
+        <OpsRow label="Marketing & communications" sub="Annual" value={marketing} onChange={setMarketing} revenue={revenue} />
+        <OpsRow label="Other" sub="Any additional operating costs" value={otherOps} onChange={setOtherOps} revenue={revenue} />
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
           <span>Total annual operations cost</span>
           <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(league + insurance + equipment + adminAnn + marketing + otherOps)}</span>
