@@ -257,7 +257,7 @@ export default function ClubBudgetCalculator() {
   const [numTiers, setNumTiers] = usePersist('calc_numTiers', 1);
   const [tier1Name, setTier1Name] = usePersist<string>('calc_tier1Name', 'Program 1');
   const [tier1Players, setTier1Players] = usePersist('calc_tier1Players', 16);
-  const [tier1Fee, setTier1Fee] = usePersist('calc_tier1Fee', 3000);
+  const [tier1Fee, setTier1Fee] = usePersist('calc_tier1Fee', 4000);
   const [tier2Name, setTier2Name] = usePersist<string>('calc_tier2Name', 'Program 2');
   const [tier2Players, setTier2Players] = usePersist('calc_tier2Players', 0);
   const [tier2Fee, setTier2Fee] = usePersist('calc_tier2Fee', 1500);
