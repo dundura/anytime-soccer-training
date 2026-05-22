@@ -232,7 +232,7 @@ export default function ClubBudgetCalculator() {
               <NumInput value={players} onChange={setPlayers} />
             </div>
             <div>
-              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px' }}># of Teams</div>
+              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px', textAlign: 'right' }}># of Teams</div>
               <NumInput value={numTeams} onChange={setNumTeams} />
             </div>
           </div>
