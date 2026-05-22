@@ -85,10 +85,10 @@ function NumInput({ value, onChange, prefix, step, max }: { value: number; onCha
 }
 
 function TierRow({ name, setName, pl, setPl, fee, setFee, rev, months }: { name: string; setName: (v: string) => void; pl: number; setPl: (v: number) => void; fee: number; setFee: (v: number) => void; rev: number; months: number }) {
-  // fee = annual per-player fee; rev = pl * fee; $/mo display = fee / months
+  // fee = annual per-player; rev = pl * fee; $/mo = fee / months (display only)
   const [seasonStr, setSeasonStr] = useState(rev > 0 ? String(rev) : '');
   const inputStyle = { textAlign: 'right' as const, fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 6px', background: '#fff', color: '#111' };
-  const moDisplay = months > 0 ? Math.round(fee / months) : 0;
+  const moDisplay = months > 0 && fee > 0 ? (fee / months).toFixed(0) : '—';
   return (
     <div style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #f0f0f0' }}>
       <input value={name} onChange={e => setName(e.target.value)}
@@ -101,12 +101,7 @@ function TierRow({ name, setName, pl, setPl, fee, setFee, rev, months }: { name:
           onBlur={() => { const v = parseFloat(seasonStr) || 0; const f = pl > 0 ? parseFloat((v / pl).toFixed(2)) : 0; setFee(f); setSeasonStr(v > 0 ? String(Math.round(f * pl)) : ''); }}
         />
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '3px', width: '92px' }}>
-        <span style={{ fontSize: '12px', color: '#888' }}>$</span>
-        <input type="number" value={moDisplay === 0 ? '' : moDisplay} placeholder="0" min="0" style={{ ...inputStyle, width: '80px' }}
-          onChange={e => { const v = parseFloat(e.target.value) || 0; setFee(v * months); setSeasonStr(v > 0 && pl > 0 ? String(Math.round(v * months * pl)) : ''); }}
-        />
-      </div>
+      <div style={{ width: '92px', textAlign: 'right', fontSize: '13px', color: '#9ca3af', padding: '5px 8px' }}>${moDisplay}/mo</div>
     </div>
   );
 }
@@ -227,7 +222,7 @@ export default function ClubBudgetCalculator() {
   const [numTiers, setNumTiers] = usePersist('calc_numTiers', 1);
   const [tier1Name, setTier1Name] = usePersist<string>('calc_tier1Name', 'Program 1');
   const [tier1Players, setTier1Players] = usePersist('calc_tier1Players', 16);
-  const [tier1Fee, setTier1Fee] = usePersist('calc_tier1Fee', 150);
+  const [tier1Fee, setTier1Fee] = usePersist('calc_tier1Fee', 1500);
   const [tier2Name, setTier2Name] = usePersist<string>('calc_tier2Name', 'Program 2');
   const [tier2Players, setTier2Players] = usePersist('calc_tier2Players', 0);
   const [tier2Fee, setTier2Fee] = usePersist('calc_tier2Fee', 0);
@@ -382,7 +377,7 @@ export default function ClubBudgetCalculator() {
           <div style={{ flex: 1, fontSize: '10px', color: '#9ca3af', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Program</div>
           <div style={{ width: '64px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'left', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Players</div>
           <div style={{ width: '83px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Season</div>
-          <div style={{ width: '92px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>$/mo</div>
+          <div style={{ width: '92px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>$/mo (calc)</div>
         </div>
 
         {/* Tier 1 */}
