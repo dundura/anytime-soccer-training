@@ -195,6 +195,7 @@ export default function ClubBudgetCalculator() {
   const [operationsOpen, setOperationsOpen] = usePersist('calc_operationsOpen', false);
   const [ledgerOpen, setLedgerOpen] = useState(false);
   const [breakdownOpen, setBreakdownOpen] = useState(false);
+  const [isNonprofit, setIsNonprofit] = usePersist('calc_isNonprofit', true);
 
   const [players, setPlayers] = usePersist('calc_players', 16);
   const [numTeams, setNumTeams] = usePersist('calc_numTeams', 1);
@@ -240,6 +241,8 @@ export default function ClubBudgetCalculator() {
     league + insurance + equipment + adminAnn + marketing + otherOps;
 
   const net = revenue - totalCosts;
+  const incomeTax = !isNonprofit && net > 0 ? Math.round(net * 0.26) : 0; // ~21% federal + ~5% state
+  const afterTaxNet = net - incomeTax;
   const totalHrs = sessions * hrs * weeks;
   const cph = totalHrs > 0 && totalPlayers > 0 ? totalCosts / totalPlayers / totalHrs : 0;
   const costPP = totalPlayers > 0 ? totalCosts / totalPlayers : 0;
@@ -276,13 +279,15 @@ export default function ClubBudgetCalculator() {
   const maxBar = Math.max(...barCategories.map((c) => c.val), 1);
 
   let insightBg: string, insightBorder: string, insightColor: string, insightText: string;
-  if (net > 0) {
+  if (afterTaxNet > 0) {
     insightBg = '#EAF3DE'; insightBorder = '#639922'; insightColor = '#27500A';
-    insightText = `Surplus of ${fmt(net)} — This club has margin to reinvest in facilities, coaching quality, or player scholarships. Ask where it goes.`;
-  } else if (net < -5000) {
+    insightText = isNonprofit
+      ? `Surplus of ${fmt(afterTaxNet)} — This club has margin to reinvest in facilities, coaching quality, or player scholarships. Ask where it goes.`
+      : `After-tax profit of ${fmt(afterTaxNet)} (${fmt(incomeTax)} estimated tax on ${fmt(net)} pre-tax income at 26%).`;
+  } else if (afterTaxNet < -5000) {
     insightBg = '#FCEBEB'; insightBorder = '#E24B4A'; insightColor = '#791F1F';
-    const shortfall = players > 0 ? Math.abs(net) / players / months : 0;
-    insightText = `Deficit of ${fmt(Math.abs(net))} — The current fee structure doesn't cover operating costs. Fees would need to increase by ${fmt(shortfall)}/player/month to break even.`;
+    const shortfall = totalPlayers > 0 ? Math.abs(net) / totalPlayers / months : 0;
+    insightText = `Deficit of ${fmt(Math.abs(afterTaxNet))} — The current fee structure doesn't cover operating costs. Fees would need to increase by ${fmt(shortfall)}/player/month to break even.`;
   } else {
     insightBg = '#FAEEDA'; insightBorder = '#BA7517'; insightColor = '#633806';
     insightText = 'Nearly balanced — This budget is close to break-even. A small change in player count or fee could tip it either direction.';
@@ -294,16 +299,21 @@ export default function ClubBudgetCalculator() {
       <div style={{ position: 'sticky', top: '64px', zIndex: 40, background: '#fff', margin: '0 -1rem', padding: '10px 1rem 12px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', marginBottom: '16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
           <p style={{ ...sectionLabelStyle, margin: 0 }}>Annual budget summary</p>
-          <div style={{ display: 'flex', gap: '6px' }}>
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', background: '#f0f0f0', borderRadius: '999px', padding: '2px' }}>
+              <button onClick={() => setIsNonprofit(true)} style={{ fontSize: '11px', fontWeight: '600', border: 'none', borderRadius: '999px', padding: '3px 10px', cursor: 'pointer', background: isNonprofit ? '#fff' : 'transparent', color: isNonprofit ? '#111' : '#9ca3af', boxShadow: isNonprofit ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.15s' }}>Nonprofit</button>
+              <button onClick={() => setIsNonprofit(false)} style={{ fontSize: '11px', fontWeight: '600', border: 'none', borderRadius: '999px', padding: '3px 10px', cursor: 'pointer', background: !isNonprofit ? '#fff' : 'transparent', color: !isNonprofit ? '#111' : '#9ca3af', boxShadow: !isNonprofit ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.15s' }}>For-profit</button>
+            </div>
             <button onClick={() => setLedgerOpen(true)} style={{ fontSize: '11px', fontWeight: '600', color: '#111', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '4px 12px', cursor: 'pointer' }}>📋 Full ledger</button>
             <button onClick={() => setBreakdownOpen(true)} style={{ fontSize: '11px', fontWeight: '600', color: '#111', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '4px 12px', cursor: 'pointer' }}>📊 Cost breakdown</button>
           </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '10px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${isNonprofit ? 3 : 4}, minmax(0,1fr))`, gap: '10px' }}>
           {[
             { label: 'Total revenue', val: fmt(revenue) },
             { label: 'Total costs', val: fmt(totalCosts) },
-            { label: 'Surplus / Deficit', val: (net >= 0 ? '+' : '') + fmt(net), color: net >= 0 ? '#3B6D11' : '#A32D2D', bg: net >= 0 ? '#EAF3DE' : '#FCEBEB' },
+            ...(!isNonprofit && net > 0 ? [{ label: 'Est. income tax (26%)', val: fmt(incomeTax), color: '#A32D2D' }] : []),
+            { label: isNonprofit ? 'Surplus / Deficit' : 'After-tax net', val: (afterTaxNet >= 0 ? '+' : '') + fmt(afterTaxNet), color: afterTaxNet >= 0 ? '#3B6D11' : '#A32D2D', bg: afterTaxNet >= 0 ? '#EAF3DE' : '#FCEBEB' },
           ].map((m) => (
             <div key={m.label} style={{ background: (m as {bg?: string}).bg || '#f9fafb', borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
               <span style={{ fontSize: '18px', fontWeight: '500', color: m.color || '#111', display: 'block' }}>{m.val}</span>
