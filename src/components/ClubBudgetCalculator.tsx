@@ -87,6 +87,7 @@ function Row({ label, sub, children }: { label: string; sub?: string; children: 
 }
 
 export default function ClubBudgetCalculator() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [sendStatus, setSendStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle');
 
@@ -94,6 +95,8 @@ export default function ClubBudgetCalculator() {
   const [coachingOpen, setCoachingOpen] = useState(false);
   const [facilitiesOpen, setFacilitiesOpen] = useState(false);
   const [operationsOpen, setOperationsOpen] = useState(false);
+  const [ledgerOpen, setLedgerOpen] = useState(false);
+  const [breakdownOpen, setBreakdownOpen] = useState(false);
 
   const [players, setPlayers] = useState(20);
   const [numTeams, setNumTeams] = useState(1);
@@ -147,7 +150,7 @@ export default function ClubBudgetCalculator() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email,
+          email, name,
           inputs: { players, numTeams, totalPlayers, fee, months, fundraising, numCoaches, headCoach, specialty, offseasonMonths, fieldHr, sessions, hrs, weeks, gamesField, league, insurance, equipment, admin, software, marketing },
           results: { revenue, playerFees, fundraising, coaching, offseason, specialtyAnn, fieldTraining, gamesField, league, insurance, equipment, adminAnn, marketing, totalCosts, net, cph, costPP, totalHrs },
         }),
@@ -187,7 +190,13 @@ export default function ClubBudgetCalculator() {
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '1rem 1rem 4rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
 
       <div style={{ position: 'sticky', top: '64px', zIndex: 40, background: '#fff', margin: '0 -1rem', padding: '10px 1rem 12px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', marginBottom: '16px' }}>
-        <p style={{ ...sectionLabelStyle, marginBottom: '8px' }}>Annual budget summary</p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+          <p style={{ ...sectionLabelStyle, margin: 0 }}>Annual budget summary</p>
+          <div style={{ display: 'flex', gap: '6px' }}>
+            <button onClick={() => setLedgerOpen(true)} style={{ fontSize: '11px', fontWeight: '600', color: '#fff', background: '#111', border: 'none', borderRadius: '999px', padding: '4px 12px', cursor: 'pointer' }}>Full ledger</button>
+            <button onClick={() => setBreakdownOpen(true)} style={{ fontSize: '11px', fontWeight: '600', color: '#111', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '4px 12px', cursor: 'pointer' }}>Cost breakdown</button>
+          </div>
+        </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '10px' }}>
           {[
             { label: 'Total revenue', val: fmt(revenue) },
@@ -297,44 +306,52 @@ export default function ClubBudgetCalculator() {
         </Row>
       </div>}
 
-      <p style={{ ...sectionLabelStyle, marginTop: '1.5rem' }}>Full ledger</p>
-
-      <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
-        {[
-          { label: 'Revenue', isHeader: true },
-          { label: 'Player fees', val: fmt(playerFees), green: true },
-          { label: 'Fundraising', val: fmt(fundraising), green: true },
-          { label: 'Total revenue', val: fmt(revenue), total: true, green: true },
-          { label: 'Expenses', isHeader: true },
-          { label: 'Coaching staff', val: fmt(coaching) },
-          { label: 'Off-season retention', val: fmt(offseason) },
-          { label: 'Specialty coaches', val: fmt(specialtyAnn) },
-          { label: 'Field rental (training)', val: fmt(fieldTraining) },
-          { label: 'Field rental (games)', val: fmt(gamesField) },
-          { label: 'League & tournaments', val: fmt(league) },
-          { label: 'Insurance', val: fmt(insurance) },
-          { label: 'Uniforms & equipment', val: fmt(equipment) },
-          { label: 'Admin & software', val: fmt(adminAnn) },
-          { label: 'Marketing & communications', val: fmt(marketing) },
-          { label: 'Total costs', val: fmt(totalCosts), total: true },
-          { label: 'Net', val: (net >= 0 ? '+' : '') + fmt(net), total: true, netColor: net >= 0 ? '#3B6D11' : '#A32D2D', big: true },
-        ].map((row, i) => (
-          <div key={i} style={{
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            padding: row.isHeader ? '8px 16px' : '10px 16px',
-            borderBottom: '1px solid #f0f0f0',
-            background: row.isHeader || row.total ? '#f9fafb' : '#fff',
-            fontSize: row.big ? '16px' : row.isHeader ? '11px' : '13px',
-            fontWeight: row.total || row.isHeader ? '500' : '400',
-            letterSpacing: row.isHeader ? '0.06em' : 'normal',
-            textTransform: row.isHeader ? 'uppercase' as const : 'none' as const,
-            color: row.isHeader ? '#9ca3af' : '#111',
-          }}>
-            <span>{row.label}</span>
-            {row.val && <span style={{ color: row.netColor || (row.green ? '#3B6D11' : '#111') }}>{row.val}</span>}
+      {ledgerOpen && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }} onClick={() => setLedgerOpen(false)}>
+          <div style={{ background: '#fff', borderRadius: '16px', width: '100%', maxWidth: '480px', maxHeight: '80vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }} onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', borderBottom: '1px solid #f0f0f0' }}>
+              <span style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>Full ledger</span>
+              <button onClick={() => setLedgerOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', color: '#9ca3af', lineHeight: 1 }}>✕</button>
+            </div>
+            <div style={{ overflowY: 'auto', flex: 1 }}>
+              {[
+                { label: 'Revenue', isHeader: true },
+                { label: 'Player fees', val: fmt(playerFees), green: true },
+                { label: 'Other revenue', val: fmt(fundraising), green: true },
+                { label: 'Total revenue', val: fmt(revenue), total: true, green: true },
+                { label: 'Expenses', isHeader: true },
+                { label: 'Coaching staff', val: fmt(coaching) },
+                { label: 'Off-season retention', val: fmt(offseason) },
+                { label: 'Specialty coaches', val: fmt(specialtyAnn) },
+                { label: 'Field rental (training)', val: fmt(fieldTraining) },
+                { label: 'Field rental (games)', val: fmt(gamesField) },
+                { label: 'League & tournaments', val: fmt(league) },
+                { label: 'Insurance', val: fmt(insurance) },
+                { label: 'Uniforms & equipment', val: fmt(equipment) },
+                { label: 'Admin & software', val: fmt(adminAnn) },
+                { label: 'Marketing & communications', val: fmt(marketing) },
+                { label: 'Total costs', val: fmt(totalCosts), total: true },
+                { label: 'Net', val: (net >= 0 ? '+' : '') + fmt(net), total: true, netColor: net >= 0 ? '#3B6D11' : '#A32D2D', big: true },
+              ].map((row, i) => (
+                <div key={i} style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  padding: row.isHeader ? '8px 20px' : '10px 20px',
+                  borderBottom: '1px solid #f0f0f0',
+                  background: row.isHeader || row.total ? '#f9fafb' : '#fff',
+                  fontSize: row.big ? '16px' : row.isHeader ? '11px' : '13px',
+                  fontWeight: row.total || row.isHeader ? '500' : '400',
+                  letterSpacing: row.isHeader ? '0.06em' : 'normal',
+                  textTransform: row.isHeader ? 'uppercase' as const : 'none' as const,
+                  color: row.isHeader ? '#9ca3af' : '#111',
+                }}>
+                  <span>{row.label}</span>
+                  {row.val && <span style={{ color: (row as {netColor?: string}).netColor || ((row as {green?: boolean}).green ? '#3B6D11' : '#111') }}>{row.val}</span>}
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
 
       <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '14px 16px', marginTop: '16px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px' }}>
@@ -358,20 +375,29 @@ export default function ClubBudgetCalculator() {
         {insightText}
       </div>
 
-      <p style={{ ...sectionLabelStyle, marginTop: '1.5rem' }}>Cost breakdown</p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        {barCategories.map((c) => (
-          <div key={c.label}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>
-              <span>{c.label}</span>
-              <span style={{ fontWeight: '500', color: '#111' }}>{fmt(c.val)}</span>
+      {breakdownOpen && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }} onClick={() => setBreakdownOpen(false)}>
+          <div style={{ background: '#fff', borderRadius: '16px', width: '100%', maxWidth: '480px', maxHeight: '80vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }} onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', borderBottom: '1px solid #f0f0f0' }}>
+              <span style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>Cost breakdown</span>
+              <button onClick={() => setBreakdownOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', color: '#9ca3af', lineHeight: 1 }}>✕</button>
             </div>
-            <div style={{ background: '#f0f0f0', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
-              <div style={{ height: '100%', borderRadius: '4px', background: c.color, width: `${Math.round(c.val / maxBar * 100)}%`, transition: 'width 0.3s ease' }} />
+            <div style={{ overflowY: 'auto', flex: 1, padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {barCategories.map((c) => (
+                <div key={c.label}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#374151', marginBottom: '6px' }}>
+                    <span>{c.label}</span>
+                    <span style={{ fontWeight: '600', color: '#111' }}>{fmt(c.val)}</span>
+                  </div>
+                  <div style={{ background: '#f0f0f0', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
+                    <div style={{ height: '100%', borderRadius: '4px', background: c.color, width: `${Math.round(c.val / maxBar * 100)}%` }} />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
 
       <div style={{ marginTop: '28px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '20px' }}>
         <div style={{ fontSize: '14px', fontWeight: '500', color: '#111', marginBottom: '4px' }}>Get a PDF copy of these results</div>
@@ -381,18 +407,27 @@ export default function ClubBudgetCalculator() {
             Sent! Check your inbox for the report.
           </div>
         ) : (
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            <input
-              type="email"
-              placeholder="your@email.com"
-              value={email}
-              onChange={(e) => { setEmail(e.target.value); if (sendStatus === 'error') setSendStatus('idle'); }}
-              style={{ flex: '1', minWidth: '200px', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '9px 12px', background: '#fff', color: '#111' }}
-            />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <input
+                type="text"
+                placeholder="Your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                style={{ flex: '1', minWidth: '140px', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '9px 12px', background: '#fff', color: '#111' }}
+              />
+              <input
+                type="email"
+                placeholder="your@email.com"
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); if (sendStatus === 'error') setSendStatus('idle'); }}
+                style={{ flex: '1', minWidth: '180px', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '9px 12px', background: '#fff', color: '#111' }}
+              />
+            </div>
             <button
               onClick={handleSendPdf}
               disabled={!email || sendStatus === 'loading'}
-              style={{ fontSize: '14px', fontWeight: '600', background: sendStatus === 'loading' ? '#9ca3af' : '#111', color: '#fff', border: 'none', borderRadius: '8px', padding: '9px 20px', cursor: !email || sendStatus === 'loading' ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' }}
+              style={{ fontSize: '14px', fontWeight: '600', background: sendStatus === 'loading' ? '#9ca3af' : '#111', color: '#fff', border: 'none', borderRadius: '8px', padding: '9px 20px', cursor: !email || sendStatus === 'loading' ? 'not-allowed' : 'pointer', alignSelf: 'flex-start' }}
             >
               {sendStatus === 'loading' ? 'Sending…' : 'Send PDF'}
             </button>
