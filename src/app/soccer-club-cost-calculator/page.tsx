@@ -12,11 +12,10 @@ export default function BudgetCalculatorPage() {
       {/* Hero */}
       <section className="py-10 md:py-14">
         <div className="max-w-[680px] mx-auto px-5">
-          <div className="bg-[#0f2642] rounded-2xl px-8 py-12 md:px-12">
-
-          <div className="inline-flex items-center gap-2 bg-white/10 text-white/70 text-[11px] font-semibold tracking-widest uppercase rounded-full px-4 py-1.5 mb-6">
+          <div className="inline-flex items-center bg-[#DC373E] text-white text-[11px] font-bold tracking-widest uppercase rounded px-3 py-1 mb-3">
             Interactive Calculator
           </div>
+          <div className="bg-[#0f2642] rounded-2xl px-8 py-12 md:px-12">
 
           <h1 className="text-[clamp(28px,4vw,42px)] font-extrabold text-white leading-tight mb-5">
             The real cost of<br />
@@ -24,7 +23,7 @@ export default function BudgetCalculatorPage() {
           </h1>
 
           <p className="text-white/75 text-[16px] leading-relaxed mb-6 max-w-[560px]">
-            Everyone has an opinion on pay-to-play. But before you weigh in, do you actually know what it costs to run a youth soccer club? Most people don&apos;t. This calculator walks through the real numbers — coaching, field time, insurance, admin — so you can see exactly where the money goes and what you&apos;re paying per hour of training.
+            Before you weigh in on pay-to-play, do you actually know what it costs to run a youth soccer club? This calculator walks through the real numbers — coaching, field time, insurance, admin — so you can see exactly where the money goes.
           </p>
 
           <a
