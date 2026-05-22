@@ -6,15 +6,11 @@ import CoachTabbedSection from '@/components/CoachTabbedSection';
 import PopupManager from '@/components/PopupManager';
 import CoachBar from '@/components/CoachBar';
 import HomeBlogSection from '@/components/HomeBlogSection';
-import SaleBannerStrip from '@/components/SaleBannerStrip';
 
 export default function HomePage() {
   return (
     <>
       <PopupManager />
-
-      {/* ===== MEMORIAL DAY SALE STRIP (auto-hides after May 26) ===== */}
-      <SaleBannerStrip />
 
       {/* ===== HERO ===== */}
       <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">

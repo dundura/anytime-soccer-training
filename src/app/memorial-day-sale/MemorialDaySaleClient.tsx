@@ -68,15 +68,6 @@ export default function MemorialDaySaleClient() {
   return (
     <div className="pb-20">
 
-      {/* ── Announcement Bar (below header, above hero) ── */}
-      <div className="bg-red text-white py-2.5 px-4 text-center text-sm md:text-base font-bold">
-        {saleActive ? (
-          <>🎉 MEMORIAL DAY SALE — UP TO 50% OFF | ENDS IN <CountdownInline time={time} /></>
-        ) : (
-          <>Sale has ended — join anytime at app.anytime-soccer.com</>
-        )}
-      </div>
-
       {/* ── Hero ── */}
       <section className="bg-navy relative overflow-hidden py-20 md:py-28 px-4 text-center">
         {/* Radial glow */}
@@ -216,37 +207,6 @@ export default function MemorialDaySaleClient() {
         </div>
       </section>
 
-      {/* ── What you get ── */}
-      <section className="py-16 md:py-20 px-4 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="text-red text-xs font-bold uppercase tracking-[0.15em] mb-3">What&apos;s included</div>
-            <h2 className="text-3xl md:text-4xl font-black text-navy">Everything You Need to Level Up</h2>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {[
-              { emoji: '🎥', title: '5,000+ Videos', desc: 'Follow-along training for every skill area and position' },
-              { emoji: '🏠', title: 'Train Anywhere', desc: 'At home, in the backyard — no field or team needed' },
-              { emoji: '👧👦', title: 'Any Age & Level', desc: 'Beginner to advanced, ages 5 to adult' },
-              { emoji: '📅', title: 'Weekly Plans', desc: 'Structured plans that advance week by week automatically' },
-            ].map(({ emoji, title, desc }) => (
-              <div key={title} className="text-center p-6 rounded-2xl bg-background">
-                <div className="text-4xl mb-3">{emoji}</div>
-                <div className="font-bold text-navy text-base mb-1.5">{title}</div>
-                <div className="text-gray text-sm leading-relaxed">{desc}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <a href={SIGNUP_URL}
-              className="inline-flex items-center gap-2 bg-red hover:bg-red-dark text-white px-10 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_22px_rgba(220,55,62,0.38)]">
-              {saleActive ? 'Claim 50% Off Now →' : 'Start Training Free →'}
-            </a>
-            <p className="text-gray text-sm mt-3">Trusted by 50,000+ players in 80+ countries</p>
-          </div>
-        </div>
-      </section>
 
       {/* ── Sticky Urgency Bar ── */}
       {saleActive && (
