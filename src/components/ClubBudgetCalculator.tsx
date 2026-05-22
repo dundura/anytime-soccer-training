@@ -94,6 +94,11 @@ function FeeRow({ fee, setFee, months }: { fee: number; setFee: (v: number) => v
     <Row label="Fees per Player" sub="Average">
       <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
         <div>
+          <div style={{ fontSize: '10px', color: '#9ca3af', textAlign: 'right', marginBottom: '4px' }}>Months</div>
+          <div style={{ fontSize: '14px', color: '#9ca3af', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '6px', padding: '5px 10px', textAlign: 'right', minWidth: '40px' }}>{months}</div>
+        </div>
+        <div style={{ fontSize: '14px', color: '#d1d5db', paddingBottom: '7px' }}>×</div>
+        <div>
           <div style={{ fontSize: '10px', color: '#9ca3af', textAlign: 'right', marginBottom: '4px' }}>Annual</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             <span style={{ fontSize: '13px', color: '#666' }}>$</span>
@@ -326,7 +331,7 @@ export default function ClubBudgetCalculator() {
           <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{totalPlayers} players</span>
         </div>
         <FeeRow fee={fee} setFee={setFee} months={months} />
-        <Row label="Season length (months)" sub="Months fees are collected">
+        <Row label="Season length (months)" sub={`Months fees are collected · ${fmt(fee * months)} per player / season`}>
           <NumInput value={months} onChange={setMonths} />
         </Row>
         <Row label="Other revenue" sub="Tournaments, events, sponsorships, donations">
