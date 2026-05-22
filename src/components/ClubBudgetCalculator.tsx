@@ -273,9 +273,7 @@ export default function ClubBudgetCalculator() {
         <Row label="Specialty coaches (GK, fitness, etc.)" sub="Monthly cost total">
           <NumInput value={specialty} onChange={setSpecialty} prefix="$" />
         </Row>
-        <Row label="Off-season coach retainer (months)" sub="Months retained at reduced pay (÷2 rate)">
-          <NumInput value={offseasonMonths} onChange={setOffseasonMonths} />
-        </Row>
+
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
           <span>Total annual coaching cost</span>
           <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(coaching + offseason + assistantAnn + specialtyAnn)}</span>
