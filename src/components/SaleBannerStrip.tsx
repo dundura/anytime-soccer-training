@@ -29,19 +29,29 @@ export default function SaleBannerStrip() {
   return (
     <div className="bg-background pt-4 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-center gap-3 bg-navy text-white py-3.5 px-6 rounded-2xl">
-          <span className="text-sm md:text-base font-bold">
-            Memorial Day Weekend Sale — <span className="text-red">50% off</span> · Ends May 26
-            {timeStr && <span className="tabular-nums text-white/70"> · {timeStr}</span>}
-          </span>
-          <a
-            href={SIGNUP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-red hover:bg-red-dark text-white text-xs font-bold px-3 py-1 rounded-full transition-colors whitespace-nowrap"
-          >
-            Join for Free →
-          </a>
+        <div className="bg-navy rounded-3xl px-8 py-10 md:py-14 text-center relative overflow-hidden">
+          {/* subtle glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(220,55,62,0.15)_0%,transparent_70%)] pointer-events-none" />
+          <div className="relative z-10">
+            <p className="text-red text-sm font-bold uppercase tracking-widest mb-3">Limited Time</p>
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-2 leading-tight">
+              Memorial Day Weekend Sale
+            </h2>
+            <p className="text-xl md:text-2xl font-bold text-white/80 mb-6">
+              50% off — Ends May 26
+              {timeStr && (
+                <span className="ml-3 tabular-nums text-red">{timeStr}</span>
+              )}
+            </p>
+            <a
+              href={SIGNUP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-red hover:bg-red-dark text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_24px_rgba(220,55,62,0.4)]"
+            >
+              Join for Free →
+            </a>
+          </div>
         </div>
       </div>
     </div>
