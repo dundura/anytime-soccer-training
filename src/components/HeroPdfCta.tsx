@@ -28,7 +28,7 @@ export default function HeroPdfCta() {
 
   if (status === 'sent') {
     return (
-      <div className="mt-6 text-white/80 text-[14px]">
+      <div className="mt-6 text-white text-[14px] font-medium">
         ✓ Check your inbox — we sent a sample report.
       </div>
     );
