@@ -14,13 +14,11 @@ export default function SaleBannerStrip() {
     function tick() {
       const diff = SALE_END.getTime() - Date.now();
       if (diff <= 0) { setTimeStr(''); return; }
-      const h = Math.floor(diff / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      setTimeStr(`${pad(h)}:${pad(m)}:${pad(s)}`);
+      const days = Math.ceil(diff / 86400000);
+      setTimeStr(`${days} day${days !== 1 ? 's' : ''} left`);
     }
     tick();
-    const t = setInterval(tick, 1000);
+    const t = setInterval(tick, 60000);
     return () => clearInterval(t);
   }, []);
 
@@ -38,7 +36,7 @@ export default function SaleBannerStrip() {
             <p className="text-xl md:text-2xl font-bold text-white/80 mb-6">
               50% off — Ends May 26
               {timeStr && (
-                <span className="ml-3 tabular-nums text-red">{timeStr}</span>
+                <span className="ml-3 font-black text-white">{timeStr}</span>
               )}
             </p>
             <a
