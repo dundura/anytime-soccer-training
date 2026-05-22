@@ -84,21 +84,20 @@ function NumInput({ value, onChange, prefix, step, max }: { value: number; onCha
   );
 }
 
-function TierRow({ name, setName, pl, setPl, fee, setFee, rev, months }: { name: string; setName: (v: string) => void; pl: number; setPl: (v: number) => void; fee: number; setFee: (v: number) => void; rev: number; months: number }) {
-  // fee = annual per-player; rev = pl * fee; $/mo = fee / months (display only)
-  const [seasonStr, setSeasonStr] = useState(rev > 0 ? String(rev) : '');
+function TierRow({ name, setName, pl, setPl, fee, setFee, rev }: { name: string; setName: (v: string) => void; pl: number; setPl: (v: number) => void; fee: number; setFee: (v: number) => void; rev: number; months: number }) {
+  // fee = annual per-player; rev = pl * fee
+  const [feeStr, setFeeStr] = useState(fee > 0 ? String(fee) : '');
   const inputStyle = { textAlign: 'right' as const, fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 6px', background: '#fff', color: '#111' };
-  const moDisplay = months > 0 && fee > 0 ? (fee / months).toFixed(0) : '—';
   return (
     <div style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #f0f0f0' }}>
       <input value={name} onChange={e => setName(e.target.value)}
         style={{ flex: 1, fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', color: '#111', background: '#fff' }} />
-      <NumInput value={pl} onChange={v => { setPl(v); setSeasonStr(v > 0 && fee > 0 ? String(Math.round(v * fee)) : ''); }} />
+      <NumInput value={pl} onChange={v => setPl(v)} />
       <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
         <span style={{ fontSize: '12px', color: '#888' }}>$</span>
-        <input type="number" value={seasonStr} placeholder="0" min="0" style={{ ...inputStyle, width: '72px', fontWeight: '600', color: '#3B6D11' }}
-          onChange={e => { setSeasonStr(e.target.value); const v = parseFloat(e.target.value); if (!isNaN(v) && pl > 0) setFee(parseFloat((v / pl).toFixed(2))); }}
-          onBlur={() => { const v = parseFloat(seasonStr) || 0; const f = pl > 0 ? parseFloat((v / pl).toFixed(2)) : 0; setFee(f); setSeasonStr(v > 0 ? String(Math.round(f * pl)) : ''); }}
+        <input type="number" value={feeStr} placeholder="0" min="0" style={{ ...inputStyle, width: '72px' }}
+          onChange={e => { setFeeStr(e.target.value); const v = parseFloat(e.target.value); if (!isNaN(v)) setFee(v); }}
+          onBlur={() => { const v = parseFloat(feeStr) || 0; setFee(v); setFeeStr(v > 0 ? String(v) : ''); }}
         />
       </div>
       <div style={{ width: '92px', textAlign: 'right', fontSize: '13px', fontWeight: '600', color: '#3B6D11', padding: '5px 8px' }}>{rev > 0 ? fmt(rev) : '—'}</div>
