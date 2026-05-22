@@ -72,6 +72,7 @@ function NumInput({ value, onChange, prefix, step, max }: { value: number; onCha
       {prefix && <span style={prefixStyle}>{prefix}</span>}
       <input
         type="number"
+        inputMode="numeric"
         style={inputStyle}
         value={value === 0 ? '' : value}
         placeholder="0"

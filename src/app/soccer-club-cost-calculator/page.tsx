@@ -1,5 +1,4 @@
 import ClubBudgetCalculator from '@/components/ClubBudgetCalculator';
-import HeroPdfCta from '@/components/HeroPdfCta';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -33,8 +32,6 @@ export default function BudgetCalculatorPage() {
           <p className="text-white/75 text-[16px] leading-relaxed mb-6 max-w-[560px]">
             Thinking about starting a club? Already running one? Or just tired of hearing parents complain about fees? Plug in your numbers and see exactly what it actually costs — coaching, field time, insurance, admin — all of it.
           </p>
-
-          <HeroPdfCta />
 
           </div>
         </div>
