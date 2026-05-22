@@ -213,11 +213,11 @@ export default function ClubBudgetCalculator() {
           {[
             { label: 'Total revenue', val: fmt(revenue) },
             { label: 'Total costs', val: fmt(totalCosts) },
-            { label: 'Surplus / Deficit', val: (net >= 0 ? '+' : '') + fmt(net), color: net >= 0 ? '#3B6D11' : '#A32D2D' },
+            { label: 'Surplus / Deficit', val: (net >= 0 ? '+' : '') + fmt(net), color: net >= 0 ? '#3B6D11' : '#A32D2D', bg: net >= 0 ? '#EAF3DE' : '#FCEBEB' },
           ].map((m) => (
-            <div key={m.label} style={{ background: '#f9fafb', borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
+            <div key={m.label} style={{ background: (m as {bg?: string}).bg || '#f9fafb', borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
               <span style={{ fontSize: '18px', fontWeight: '500', color: m.color || '#111', display: 'block' }}>{m.val}</span>
-              <div style={{ fontSize: '11px', color: '#9ca3af', marginTop: '3px' }}>{m.label}</div>
+              <div style={{ fontSize: '11px', color: (m as {bg?: string}).bg ? m.color : '#9ca3af', marginTop: '3px', opacity: 0.7 }}>{m.label}</div>
             </div>
           ))}
         </div>
