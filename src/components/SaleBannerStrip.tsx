@@ -33,26 +33,32 @@ export default function SaleBannerStrip() {
         <div className="bg-white rounded-3xl px-8 py-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(220,55,62,0.06)_0%,transparent_70%)] pointer-events-none" />
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Text + CTA — left side */}
-            <div className="text-center md:text-left">
-              <h2 className="text-3xl md:text-5xl font-black text-navy mb-2 leading-tight">
-                Memorial Day<br />Weekend Sale
-              </h2>
-              <p className="text-xl md:text-2xl font-bold text-navy/70 mb-5">
-                50% off — Ends May 26
-                {timeStr && (
-                  <span className="ml-3 font-black text-red">{timeStr}</span>
-                )}
-              </p>
-              <a
-                href={SIGNUP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-red hover:bg-red-dark text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_24px_rgba(220,55,62,0.4)]"
-              >
-                Join for Free →
-              </a>
-              <p className="text-navy/50 text-xs mt-2">Free to join · Upgrades 50% off</p>
+            {/* Text + CTA side by side */}
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              {/* Copy */}
+              <div className="text-center md:text-left flex-shrink-0">
+                <h2 className="text-3xl md:text-5xl font-black text-navy mb-2 leading-tight">
+                  Memorial Day<br />Weekend Sale
+                </h2>
+                <p className="text-xl md:text-2xl font-bold text-navy/70">
+                  50% off — Ends May 26
+                  {timeStr && (
+                    <span className="ml-3 font-black text-red">{timeStr}</span>
+                  )}
+                </p>
+              </div>
+              {/* CTA */}
+              <div className="flex-shrink-0 text-center">
+                <a
+                  href={SIGNUP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-red hover:bg-red-dark text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_24px_rgba(220,55,62,0.4)]"
+                >
+                  Join for Free →
+                </a>
+                <p className="text-navy/50 text-xs mt-2">Free to join · Upgrades 50% off</p>
+              </div>
             </div>
             {/* Video — far right */}
             <div className="hidden md:block flex-shrink-0 rounded-2xl overflow-hidden h-40 w-28 shadow-lg">
