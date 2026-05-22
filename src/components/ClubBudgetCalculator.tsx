@@ -178,7 +178,7 @@ export default function ClubBudgetCalculator() {
     { label: 'Coaching staff', val: coaching + offseason + assistantAnn + specialtyAnn, color: '#1D9E75' },
     { label: 'Field & facilities', val: fieldTraining, color: '#378ADD' },
     { label: 'League & tournaments', val: league, color: '#7F77DD' },
-    { label: 'Uniforms & equipment', val: equipment, color: '#EF9F27' },
+    { label: 'Equipment', val: equipment, color: '#EF9F27' },
     { label: 'Insurance', val: insurance, color: '#D85A30' },
     { label: 'Admin & software', val: adminAnn, color: '#888780' },
     { label: 'Marketing', val: marketing, color: '#97C459' },
@@ -325,7 +325,7 @@ export default function ClubBudgetCalculator() {
         <Row label="Player & club insurance" sub="Annual premium">
           <NumInput value={insurance} onChange={setInsurance} prefix="$" />
         </Row>
-        <Row label="Uniforms & equipment" sub="Kits, balls, cones, goals — annual">
+        <Row label="Equipment" sub="Kits, balls, cones, goals — annual">
           <NumInput value={equipment} onChange={setEquipment} prefix="$" />
         </Row>
         <Row label="Administrative staff" sub="Club director, registrar — monthly">
@@ -360,7 +360,7 @@ export default function ClubBudgetCalculator() {
                 { label: 'Field rental (training)', val: fmt(fieldTraining) },
                 { label: 'League & tournaments', val: fmt(league) },
                 { label: 'Insurance', val: fmt(insurance) },
-                { label: 'Uniforms & equipment', val: fmt(equipment) },
+                { label: 'Equipment', val: fmt(equipment) },
                 { label: 'Admin & software', val: fmt(adminAnn) },
                 { label: 'Marketing & communications', val: fmt(marketing) },
                 { label: 'Total costs', val: fmt(totalCosts), total: true },
