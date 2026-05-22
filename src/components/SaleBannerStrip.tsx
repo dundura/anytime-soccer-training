@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 const SALE_END = new Date('2026-05-26T23:59:59-05:00');
 const SIGNUP_URL = 'https://app.anytime-soccer.com/auth/registerFree';
@@ -58,14 +59,12 @@ export default function SaleBannerStrip() {
               </div>
               {/* CTA */}
               <div className="flex-shrink-0 text-center md:ml-14">
-                <a
-                  href={SIGNUP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href="/memorial-day-sale"
                   className="inline-flex items-center gap-2 bg-red hover:bg-red-dark text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_24px_rgba(220,55,62,0.4)]"
                 >
                   Join for Free →
-                </a>
+                </Link>
                 <p className="text-navy/50 text-xs mt-2">Free to join · <span className="text-red font-bold">Upgrades 50% off</span></p>
               </div>
             </div>
