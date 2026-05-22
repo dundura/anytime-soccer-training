@@ -39,7 +39,6 @@ export default function MemorialDaySaleClient() {
             {/* Accent bar */}
             <div className="bg-red px-7 py-2.5 text-xs font-bold tracking-widest uppercase text-white flex items-center gap-2">
               ⚽ Memorial Day Weekend Sale &middot; <span className="font-extrabold">50% Off All Plans</span>
-              {timeLeft && <span className="ml-auto font-mono font-normal tracking-normal normal-case text-white/70">{timeLeft}</span>}
             </div>
 
             <div className="px-6 py-8 md:px-10 md:py-9 grid md:grid-cols-[1fr_auto] gap-8 items-start">
