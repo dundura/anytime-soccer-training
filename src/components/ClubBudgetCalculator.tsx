@@ -115,6 +115,7 @@ export default function ClubBudgetCalculator() {
 
   const [numCoaches, setNumCoaches] = useState(2);
   const [headCoach, setHeadCoach] = useState(850);
+  const [numAssistants, setNumAssistants] = useState(0);
   const [assistantCoach, setAssistantCoach] = useState(0);
   const [specialty, setSpecialty] = useState(800);
   const [offseasonMonths, setOffseasonMonths] = useState(2);
@@ -139,7 +140,7 @@ export default function ClubBudgetCalculator() {
 
   const coaching = monthlyPayroll * months;
   const offseason = monthlyPayroll * offseasonMonths * 0.5;
-  const assistantAnn = assistantCoach * months;
+  const assistantAnn = numAssistants * assistantCoach * months;
   const specialtyAnn = specialty * months;
   const fieldTraining = fieldHr * sessions * hrs * weeks;
   const adminAnn = (admin + software) * months;
@@ -267,8 +268,17 @@ export default function ClubBudgetCalculator() {
           <span>Monthly coaching payroll</span>
           <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{fmt(monthlyPayroll)} / month</span>
         </div>
-        <Row label="Assistant coaches" sub="Monthly cost total">
-          <NumInput value={assistantCoach} onChange={setAssistantCoach} prefix="$" />
+        <Row label="Assistant coaches" sub="">
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <div>
+              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px' }}># of Coaches</div>
+              <NumInput value={numAssistants} onChange={setNumAssistants} />
+            </div>
+            <div>
+              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px' }}>Monthly Salary</div>
+              <NumInput value={assistantCoach} onChange={setAssistantCoach} prefix="$" />
+            </div>
+          </div>
         </Row>
         <Row label="Specialty coaches (GK, fitness, etc.)" sub="Monthly cost total">
           <NumInput value={specialty} onChange={setSpecialty} prefix="$" />
