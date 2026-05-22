@@ -9,12 +9,12 @@ export default function AnnouncementBanner() {
   if (dismissed) return null;
 
   return (
-    <div className="bg-navy text-white text-center py-2.5 px-12 relative">
+    <div className="bg-red text-white text-center py-2.5 px-12 relative">
       <Link
-        href="/memorial-day-sale"
-        className="text-white! no-underline font-bold text-sm md:text-base hover:underline"
+        href="/the-most-important-skill-in-youth-soccer"
+        className="text-white! no-underline font-bold text-base md:text-lg hover:underline"
       >
-        🇺🇸 <span className="text-red">MEMORIAL DAY SALE</span> — Up to 50% off · Ends May 26 →
+        ⬇ Download the FREE E-BOOK &ldquo;The Most Important Skill In Youth Soccer&rdquo;
       </Link>
       <button
         onClick={() => setDismissed(true)}
