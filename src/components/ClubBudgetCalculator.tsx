@@ -308,16 +308,16 @@ export default function ClubBudgetCalculator() {
             <button onClick={() => setBreakdownOpen(true)} style={{ fontSize: '11px', fontWeight: '600', color: '#111', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '4px 12px', cursor: 'pointer' }}>📊 Cost breakdown</button>
           </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${isNonprofit ? 3 : 4}, minmax(0,1fr))`, gap: '10px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '10px' }}>
           {[
             { label: 'Total revenue', val: fmt(revenue) },
             { label: 'Total costs', val: fmt(totalCosts) },
-            ...(!isNonprofit && net > 0 ? [{ label: 'Est. income tax (26%)', val: fmt(incomeTax), color: '#A32D2D' }] : []),
-            { label: isNonprofit ? 'Surplus / Deficit' : 'After-tax net', val: (afterTaxNet >= 0 ? '+' : '') + fmt(afterTaxNet), color: afterTaxNet >= 0 ? '#3B6D11' : '#A32D2D', bg: afterTaxNet >= 0 ? '#EAF3DE' : '#FCEBEB' },
+            { label: isNonprofit ? 'Surplus / Deficit' : 'After-tax net', val: (afterTaxNet >= 0 ? '+' : '') + fmt(afterTaxNet), color: afterTaxNet >= 0 ? '#3B6D11' : '#A32D2D', bg: afterTaxNet >= 0 ? '#EAF3DE' : '#FCEBEB', sub: !isNonprofit && incomeTax > 0 ? `${fmt(incomeTax)} tax on ${fmt(net)}` : undefined },
           ].map((m) => (
             <div key={m.label} style={{ background: (m as {bg?: string}).bg || '#f9fafb', borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
               <span style={{ fontSize: '18px', fontWeight: '500', color: m.color || '#111', display: 'block' }}>{m.val}</span>
               <div style={{ fontSize: '11px', color: (m as {bg?: string}).bg ? m.color : '#9ca3af', marginTop: '3px', opacity: 0.7 }}>{m.label}</div>
+              {(m as {sub?: string}).sub && <div style={{ fontSize: '10px', color: m.color, marginTop: '2px', opacity: 0.6 }}>{(m as {sub?: string}).sub}</div>}
             </div>
           ))}
         </div>
