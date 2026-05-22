@@ -18,8 +18,8 @@ export default function BudgetCalculatorPage() {
           <div>
 
           <h1 className="text-[clamp(28px,4vw,42px)] font-extrabold text-white leading-tight mb-5">
-            Do you know what it actually costs<br />
-            <span className="text-[#DC373E]">to run a soccer club?</span>
+            Do you know the real cost<br />
+            <span className="text-[#DC373E]">of running a soccer club?</span>
           </h1>
 
           <p className="text-white/75 text-[16px] leading-relaxed mb-6 max-w-[560px]">
