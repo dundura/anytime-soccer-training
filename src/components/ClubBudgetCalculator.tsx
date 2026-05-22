@@ -457,7 +457,6 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Coaching staff" open={coachingOpen} onToggle={() => setCoachingOpen(o => !o)} />
       {coachingOpen && <div style={cardStyle}>
-        {!unlocked ? <GateCard name={name} setName={setName} email={email} setEmail={setEmail} onUnlock={() => { setUnlocked(true); }} /> : <>
         <Row label="Head coach" sub="Count × monthly salary × months">
           <div style={{ display: 'flex', gap: '10px' }}>
             <div>
@@ -502,12 +501,10 @@ export default function ClubBudgetCalculator() {
           <span>Total annual coaching cost</span>
           <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(coaching + assistantAnn + specialtyAnn)}</span>
         </div>
-        </>}
       </div>}
 
       <SectionHeader label="Facilities" open={facilitiesOpen} onToggle={() => setFacilitiesOpen(o => !o)} />
       {facilitiesOpen && <div style={cardStyle}>
-        {!unlocked ? <GateCard name={name} setName={setName} email={email} setEmail={setEmail} onUnlock={() => { setUnlocked(true); }} /> : <>
         <Row label="Field rental" sub="Cost/hr × sessions/wk × hrs/session">
           <div style={{ display: 'flex', gap: '10px' }}>
             <div>
@@ -537,12 +534,10 @@ export default function ClubBudgetCalculator() {
           <span>Total annual field cost{revenue > 0 && <span style={{ marginLeft: '6px' }}>({Math.round(fieldTraining / revenue * 100)}% of revenue)</span>}</span>
           <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(fieldTraining)}</span>
         </div>
-        </>}
       </div>}
 
       <SectionHeader label="Operations & overhead" open={operationsOpen} onToggle={() => setOperationsOpen(o => !o)} />
       {operationsOpen && <div style={cardStyle}>
-        {!unlocked ? <GateCard name={name} setName={setName} email={email} setEmail={setEmail} onUnlock={() => { setUnlocked(true); }} /> : <>
         <OpsRow label="League & tournament entry fees" sub="Annual registrations" value={league} onChange={setLeague} revenue={revenue} />
         <OpsRow label="Player & club insurance" sub="Annual premium" value={insurance} onChange={setInsurance} revenue={revenue} />
         <OpsRow label="Equipment" sub="Kits, balls, cones, goals — annual" value={equipment} onChange={setEquipment} revenue={revenue} />
@@ -554,7 +549,6 @@ export default function ClubBudgetCalculator() {
           <span>Total annual operations cost{revenue > 0 && <span style={{ marginLeft: '6px', fontWeight: '400' }}>({Math.round((league + insurance + equipment + adminAnn + marketing + otherOps) / revenue * 100)}% of revenue)</span>}</span>
           <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(league + insurance + equipment + adminAnn + marketing + otherOps)}</span>
         </div>
-        </>}
       </div>}
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#0f2642', borderRadius: '10px', padding: '12px 16px', margin: '4px 0 16px' }}>
