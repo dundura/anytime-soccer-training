@@ -52,7 +52,7 @@ export default function MemorialDaySaleClient() {
                   <span className="text-red" style={{ animation: 'fadeUp 0.9s ease both', display: 'inline-block' }}>to Get Ready for the Season.</span>
                 </h1>
                 <p className="text-[15px] text-white/80 leading-relaxed mb-7 max-w-[520px]">
-                  The players who show up to tryouts ahead of everyone else trained all summer. Give your player 5,000+ follow-along sessions they can do right at home — no coach, no field, just a ball and the drive to get better.
+                  Train all summer, show up ready to play — and leave tryouts in the past. Just a ball, 20 minutes, and 5,000+ follow-along sessions at home.
                 </p>
 
                 <hr className="border-white/10 mb-6" />
