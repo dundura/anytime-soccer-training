@@ -226,7 +226,7 @@ export default function ClubBudgetCalculator() {
   const coaching = monthlyPayroll * headCoachMonths;
   const assistantAnn = numAssistants * assistantCoach * assistantMonths;
   const specialtyAnn = specialty * months;
-  const fieldTraining = fieldHr * sessions * hrs * weeks;
+  const fieldTraining = fieldHr * sessions * hrs * weeks + numHomeGames * 2 * fieldHr;
   const adminAnn = (admin + software) * months;
 
   const totalCosts =
@@ -400,7 +400,7 @@ export default function ClubBudgetCalculator() {
         <Row label="Training weeks per year" sub="Auto: season months × 4.33">
           <span style={{ fontSize: '14px', color: '#9ca3af', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '6px', padding: '5px 12px' }}>{weeks}</span>
         </Row>
-        <Row label="Number of home games" sub="Auto: 3 games/mo, half home">
+        <Row label="Number of home games" sub={`Auto: 3/mo, half home — adds ${fmt(numHomeGames * 2 * fieldHr)} for game field rental`}>
           <span style={{ fontSize: '14px', color: '#9ca3af', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '6px', padding: '5px 12px' }}>{numHomeGames}</span>
         </Row>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
