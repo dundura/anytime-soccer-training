@@ -213,19 +213,21 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Revenue" open={revenueOpen} onToggle={() => setRevenueOpen(o => !o)} />
       {revenueOpen && <div style={cardStyle}>
-        <Row label="Players on roster" sub="Average team size">
-          <NumInput value={players} onChange={setPlayers} />
-        </Row>
-        <Row label="Number of teams" sub="Total teams in the club">
-          <NumInput value={numTeams} onChange={setNumTeams} />
-        </Row>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
-          <span>Total players</span>
-          <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{totalPlayers} players</span>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', paddingBottom: '12px', borderBottom: '1px solid #f0f0f0', marginBottom: '4px' }}>
+          {[
+            { label: 'Players per team', value: players, onChange: setPlayers, prefix: undefined },
+            { label: 'Number of teams', value: numTeams, onChange: setNumTeams, prefix: undefined },
+            { label: 'Monthly fee', value: fee, onChange: setFee, prefix: '$' },
+          ].map(({ label, value, onChange, prefix }) => (
+            <div key={label}>
+              <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '6px', fontWeight: '500' }}>{label}</div>
+              <NumInput value={value} onChange={onChange} prefix={prefix} />
+            </div>
+          ))}
         </div>
-        <Row label="Monthly fee per player" sub="What each family pays">
-          <NumInput value={fee} onChange={setFee} prefix="$" />
-        </Row>
+        <div style={{ fontSize: '12px', color: '#9ca3af', padding: '6px 0 4px' }}>
+          Total players: <strong style={{ color: '#111' }}>{totalPlayers}</strong>
+        </div>
         <Row label="Season length (months)" sub="Months fees are collected">
           <NumInput value={months} onChange={setMonths} />
         </Row>
