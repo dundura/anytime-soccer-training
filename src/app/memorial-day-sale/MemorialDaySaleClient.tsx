@@ -48,8 +48,8 @@ export default function MemorialDaySaleClient() {
                 <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}`}</style>
                 <h1 className="text-[32px] md:text-[42px] font-extrabold text-white leading-[1.15] uppercase tracking-wide mb-3"
                   style={{ animation: 'fadeUp 0.6s ease both' }}>
-                  The Best Summer Training Program<br />
-                  <span className="text-red" style={{ animation: 'fadeUp 0.9s ease both', display: 'inline-block' }}>to Get Ready for the Season.</span>
+                  Your Best Season<br />
+                  <span className="text-red" style={{ animation: 'fadeUp 0.9s ease both', display: 'inline-block' }}>Starts at Home This Summer.</span>
                 </h1>
                 <p className="text-[15px] text-white/80 leading-relaxed mb-7 max-w-[520px]">
                   Train all summer, show up ready to play — and leave tryouts in the past. Just a ball, 20 minutes, and 5,000+ follow-along sessions at home.
