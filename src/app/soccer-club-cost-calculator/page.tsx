@@ -10,7 +10,7 @@ export default function BudgetCalculatorPage() {
   return (
     <main>
       {/* Hero */}
-      <section className="bg-[#0f2642] py-14 md:py-20">
+      <section className="bg-[#0f2642] py-8 md:py-12">
         <div className="max-w-[680px] mx-auto px-5">
           <div className="inline-flex items-center bg-[#DC373E] text-white text-[11px] font-bold tracking-widest uppercase rounded px-3 py-1 mb-6">
             Interactive Calculator

@@ -164,7 +164,7 @@ export default function ClubBudgetCalculator() {
   }
 
   return (
-    <div style={{ maxWidth: '680px', margin: '0 auto', padding: '2rem 1rem 4rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div style={{ maxWidth: '680px', margin: '0 auto', padding: '1rem 1rem 4rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
 
       <p style={sectionLabelStyle}>Revenue</p>
       <div style={cardStyle}>
