@@ -30,11 +30,11 @@ export default function SaleBannerStrip() {
   return (
     <div className="bg-background pt-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-3xl px-8 py-7 md:py-10 relative overflow-hidden">
+        <div className="bg-white rounded-3xl px-8 py-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(220,55,62,0.06)_0%,transparent_70%)] pointer-events-none" />
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Text — centered */}
-            <div className="text-center">
+            {/* Text — centered on left */}
+            <div className="text-center flex-shrink-0">
               <h2 className="text-3xl md:text-5xl font-black text-navy mb-2 leading-tight">
                 Memorial Day<br />Weekend Sale
               </h2>
@@ -45,8 +45,8 @@ export default function SaleBannerStrip() {
                 )}
               </p>
             </div>
-            {/* CTA — right side, vertically centered */}
-            <div className="flex-shrink-0 text-center mr-8 md:mr-16">
+            {/* CTA — center */}
+            <div className="flex-shrink-0 text-center">
               <a
                 href={SIGNUP_URL}
                 target="_blank"
@@ -56,6 +56,17 @@ export default function SaleBannerStrip() {
                 Join for Free →
               </a>
               <p className="text-navy/50 text-xs mt-2">Free to join · Upgrades 50% off</p>
+            </div>
+            {/* Video — far right */}
+            <div className="hidden md:block flex-shrink-0 rounded-2xl overflow-hidden h-40 w-28 shadow-lg">
+              <video
+                src="https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693"
+                className="w-full h-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+              />
             </div>
           </div>
         </div>
