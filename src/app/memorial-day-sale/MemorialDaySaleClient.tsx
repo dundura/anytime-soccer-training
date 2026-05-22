@@ -99,7 +99,6 @@ export default function MemorialDaySaleClient() {
                   <div className="text-xl font-black text-red tabular-nums tracking-tight">
                     :{timeLeft.split(':').slice(2).join(':')}
                   </div>
-                  <p className="text-[10px] text-white/30 mt-2">DD:HH · MM:SS</p>
                 </div>
               )}
             </div>
