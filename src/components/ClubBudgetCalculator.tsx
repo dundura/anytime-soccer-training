@@ -214,7 +214,7 @@ export default function ClubBudgetCalculator() {
   const [fieldHr, setFieldHr] = usePersist('calc_fieldHr', 120);
   const [sessions, setSessions] = usePersist('calc_sessions', 2);
   const [hrs, setHrs] = usePersist('calc_hrs', 1.5);
-  const [weeks, setWeeks] = usePersist('calc_weeks', Math.round(months * 4.33));
+  const [weeks, setWeeks] = usePersist('calc_weeks', 40);
   const [numHomeGames, setNumHomeGames] = usePersist('calc_numHomeGames', Math.round(months * 1.5));
 
   const [league, setLeague] = usePersist('calc_league', 960);
