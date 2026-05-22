@@ -193,8 +193,8 @@ export default function ClubBudgetCalculator() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
           <p style={{ ...sectionLabelStyle, margin: 0 }}>Annual budget summary</p>
           <div style={{ display: 'flex', gap: '6px' }}>
-            <button onClick={() => setLedgerOpen(true)} style={{ fontSize: '11px', fontWeight: '600', color: '#fff', background: '#111', border: 'none', borderRadius: '999px', padding: '4px 12px', cursor: 'pointer' }}>Full ledger</button>
-            <button onClick={() => setBreakdownOpen(true)} style={{ fontSize: '11px', fontWeight: '600', color: '#111', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '4px 12px', cursor: 'pointer' }}>Cost breakdown</button>
+            <button onClick={() => setLedgerOpen(true)} style={{ fontSize: '11px', fontWeight: '600', color: '#111', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '4px 12px', cursor: 'pointer' }}>📋 Full ledger</button>
+            <button onClick={() => setBreakdownOpen(true)} style={{ fontSize: '11px', fontWeight: '600', color: '#111', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '4px 12px', cursor: 'pointer' }}>📊 Cost breakdown</button>
           </div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '10px' }}>
