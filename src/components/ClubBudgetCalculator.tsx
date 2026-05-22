@@ -380,14 +380,12 @@ export default function ClubBudgetCalculator() {
           </button>
         )}
 
-        {/* Months row */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
-          <span>Season length</span>
+        <Row label="Season length" sub="Months fees are collected">
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <NumInput value={months} onChange={setMonths} />
             <span style={{ fontSize: '12px', color: '#9ca3af' }}>months</span>
           </div>
-        </div>
+        </Row>
 
         <Row label="Other revenue" sub="Tournaments, events, sponsorships, donations">
           <NumInput value={fundraising} onChange={setFundraising} prefix="$" />
