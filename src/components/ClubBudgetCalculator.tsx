@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-const fmt = (n) => '$' + Math.round(n).toLocaleString();
+const fmt = (n: number) => '$' + Math.round(n).toLocaleString();
 
 const inputStyle = {
   width: '92px',
