@@ -15,7 +15,7 @@ export default function AnnouncementBanner() {
     return (
       <div className="bg-red text-white text-center py-2.5 px-12 relative">
         <span className="font-bold text-sm md:text-base">
-          Free to join &middot; 50% off upgrades with code <span className="font-extrabold">MDAY2026</span> &middot; Ends May 26
+          Free to join &middot; 50% off upgrades with code <span className="font-extrabold">MDAY2026</span>
         </span>
         <button
           onClick={() => setDismissed(true)}

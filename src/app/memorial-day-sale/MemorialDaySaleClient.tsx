@@ -46,8 +46,11 @@ export default function MemorialDaySaleClient() {
               {/* Left: text + perks + CTA */}
               <div>
                 <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-red mb-2.5">Exclusive Offer</p>
-                <h1 className="text-[32px] md:text-[42px] font-extrabold text-white leading-[1.15] uppercase tracking-wide mb-3">
-                  Train Smarter.<br /><span className="text-red">Anytime.</span>
+                <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}`}</style>
+                <h1 className="text-[32px] md:text-[42px] font-extrabold text-white leading-[1.15] uppercase tracking-wide mb-3"
+                  style={{ animation: 'fadeUp 0.6s ease both' }}>
+                  Train Smarter.<br />
+                  <span className="text-red" style={{ animation: 'fadeUp 0.9s ease both', display: 'inline-block' }}>Anytime.</span>
                 </h1>
                 <p className="text-[15px] text-white/80 leading-relaxed mb-7 max-w-[520px]">
                   Easy follow-along video sessions your player can do right at home — just a ball and the drive to improve. 5,000+ Training Sessions, any age, any level.
@@ -86,9 +89,9 @@ export default function MemorialDaySaleClient() {
 
               {/* Right: countdown */}
               {saleActive && timeLeft && (
-                <div className="hidden md:flex flex-col items-center justify-center bg-white/5 border border-white/10 rounded-xl px-6 py-6 min-w-[160px] text-center">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-3">Sale Ends In</p>
-                  <div className="text-4xl font-black text-white tabular-nums tracking-tight leading-none mb-1">
+                <div className="hidden md:flex flex-col items-center justify-center bg-white rounded-xl px-6 py-6 min-w-[160px] text-center shadow-sm">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-navy/40 mb-3">Sale Ends In</p>
+                  <div className="text-4xl font-black text-navy tabular-nums tracking-tight leading-none mb-1">
                     {timeLeft.split(':').slice(0,2).join(':')}
                   </div>
                   <div className="text-xl font-black text-red tabular-nums tracking-tight">
