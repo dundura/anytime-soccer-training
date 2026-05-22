@@ -203,7 +203,7 @@ function GateCard({ name, setName, email, setEmail, onUnlock }: { name: string; 
     fetch('/api/ghl-contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, tags: ['Budget Calculator'] }),
+      body: JSON.stringify({ name, email, tags: ['budget'] }),
     }).catch(() => {});
     onUnlock();
   };
