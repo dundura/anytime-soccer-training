@@ -51,7 +51,8 @@ function NumInput({ value, onChange, prefix, step }: { value: number; onChange: 
       <input
         type="number"
         style={inputStyle}
-        value={value}
+        value={value === 0 ? '' : value}
+        placeholder="0"
         min="0"
         step={step || 1}
         onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
@@ -176,9 +177,13 @@ export default function ClubBudgetCalculator() {
         <Row label="Season length (months)" sub="Months fees are collected">
           <NumInput value={months} onChange={setMonths} />
         </Row>
-        <Row label="Fundraising (annual)" sub="Tournaments, events, sponsorships, donations">
+        <Row label="Other revenue" sub="Tournaments, events, sponsorships, donations">
           <NumInput value={fundraising} onChange={setFundraising} prefix="$" />
         </Row>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
+          <span>Total annual revenue</span>
+          <span style={{ fontWeight: '600', fontSize: '14px', color: '#3B6D11' }}>{fmt(revenue)}</span>
+        </div>
       </div>
 
       <p style={sectionLabelStyle}>Coaching staff</p>
