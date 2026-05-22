@@ -156,8 +156,10 @@ export default function ClubBudgetCalculator() {
 
   const [numCoaches, setNumCoaches] = useState(1);
   const [headCoach, setHeadCoach] = useState(850);
+  const [headCoachMonths, setHeadCoachMonths] = useState(10);
   const [numAssistants, setNumAssistants] = useState(0);
   const [assistantCoach, setAssistantCoach] = useState(0);
+  const [assistantMonths, setAssistantMonths] = useState(10);
   const [specialty, setSpecialty] = useState(0);
 
   const [fieldHr, setFieldHr] = useState(120);
@@ -179,15 +181,14 @@ export default function ClubBudgetCalculator() {
   const playerFees = totalPlayers * fee * months;
   const revenue = playerFees + fundraising;
 
-  const coaching = monthlyPayroll * months;
-  const offseason = monthlyPayroll * offseasonMonths * 0.5;
-  const assistantAnn = numAssistants * assistantCoach * months;
+  const coaching = monthlyPayroll * headCoachMonths;
+  const assistantAnn = numAssistants * assistantCoach * assistantMonths;
   const specialtyAnn = specialty * months;
   const fieldTraining = fieldHr * sessions * hrs * weeks;
   const adminAnn = (admin + software) * months;
 
   const totalCosts =
-    coaching + offseason + assistantAnn + specialtyAnn + fieldTraining +
+    coaching + assistantAnn + specialtyAnn + fieldTraining +
     league + insurance + equipment + adminAnn + marketing + otherOps;
 
   const net = revenue - totalCosts;
@@ -204,8 +205,8 @@ export default function ClubBudgetCalculator() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email, name,
-          inputs: { players, numTeams, totalPlayers, fee, months, fundraising, numCoaches, headCoach, specialty, offseasonMonths, fieldHr, sessions, hrs, weeks, gamesField, league, insurance, equipment, admin, software, marketing },
-          results: { revenue, playerFees, fundraising, coaching, offseason, specialtyAnn, fieldTraining, gamesField, league, insurance, equipment, adminAnn, marketing, totalCosts, net, cph, costPP, totalHrs },
+          inputs: { players, numTeams, totalPlayers, fee, months, fundraising, numCoaches, headCoach, headCoachMonths, specialty, fieldHr, sessions, hrs, weeks, league, insurance, equipment, admin, software, marketing },
+          results: { revenue, playerFees, fundraising, coaching, assistantAnn, specialtyAnn, fieldTraining, league, insurance, equipment, adminAnn, marketing, totalCosts, net, cph, costPP, totalHrs },
         }),
       });
       setSendStatus(res.ok ? 'sent' : 'error');
@@ -215,7 +216,7 @@ export default function ClubBudgetCalculator() {
   };
 
   const barCategories = [
-    { label: 'Coaching staff', val: coaching + offseason + assistantAnn + specialtyAnn, color: '#1D9E75' },
+    { label: 'Coaching staff', val: coaching + assistantAnn + specialtyAnn, color: '#1D9E75' },
     { label: 'Field & facilities', val: fieldTraining, color: '#378ADD' },
     { label: 'League & tournaments', val: league, color: '#7F77DD' },
     { label: 'Equipment', val: equipment, color: '#EF9F27' },
@@ -299,7 +300,7 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Coaching staff" open={coachingOpen} onToggle={() => setCoachingOpen(o => !o)} />
       {coachingOpen && <div style={cardStyle}>
-        <Row label="Head coach" sub="Count × monthly salary">
+        <Row label="Head coach" sub="Count × monthly salary × months">
           <div style={{ display: 'flex', gap: '10px' }}>
             <div>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}># of Coaches</div>
@@ -309,13 +310,17 @@ export default function ClubBudgetCalculator() {
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}>Monthly Salary</div>
               <NumInput value={headCoach} onChange={setHeadCoach} prefix="$" />
             </div>
+            <div>
+              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}>Months</div>
+              <NumInput value={headCoachMonths} onChange={setHeadCoachMonths} max={12} />
+            </div>
           </div>
         </Row>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
           <span>Monthly coaching payroll</span>
           <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{fmt(monthlyPayroll)} / month</span>
         </div>
-        <Row label="Assistant coaches" sub="Count × monthly salary">
+        <Row label="Assistant coaches" sub="Count × monthly salary × months">
           <div style={{ display: 'flex', gap: '10px' }}>
             <div>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}># of Coaches</div>
@@ -325,6 +330,10 @@ export default function ClubBudgetCalculator() {
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}>Monthly Salary</div>
               <NumInput value={assistantCoach} onChange={setAssistantCoach} prefix="$" />
             </div>
+            <div>
+              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}>Months</div>
+              <NumInput value={assistantMonths} onChange={setAssistantMonths} max={12} />
+            </div>
           </div>
         </Row>
         <Row label="Specialty coaches (GK, fitness, etc.)" sub="Monthly cost total">
@@ -333,7 +342,7 @@ export default function ClubBudgetCalculator() {
 
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
           <span>Total annual coaching cost</span>
-          <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(coaching + offseason + assistantAnn + specialtyAnn)}</span>
+          <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(coaching + assistantAnn + specialtyAnn)}</span>
         </div>
       </div>}
 
@@ -392,7 +401,7 @@ export default function ClubBudgetCalculator() {
                 { label: 'Total revenue', val: fmt(revenue), total: true, green: true },
                 { label: 'Expenses', isHeader: true },
                 { label: 'Coaching staff', val: fmt(coaching) },
-                { label: 'Off-season retention', val: fmt(offseason) },
+                { label: 'Assistant coaches', val: fmt(assistantAnn) },
                 { label: 'Assistant coaches', val: fmt(assistantAnn) },
                 { label: 'Specialty coaches', val: fmt(specialtyAnn) },
                 { label: 'Field rental (training)', val: fmt(fieldTraining) },
