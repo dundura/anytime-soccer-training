@@ -193,6 +193,33 @@ function OpsRow({ label, sub, value, onChange, revenue }: { label: string; sub: 
   );
 }
 
+function GateCard({ name, setName, email, setEmail, onUnlock }: { name: string; setName: (v: string) => void; email: string; setEmail: (v: string) => void; onUnlock: () => void }) {
+  const [err, setErr] = useState(false);
+  const submit = () => {
+    if (!email.includes('@')) { setErr(true); return; }
+    onUnlock();
+  };
+  return (
+    <div style={{ padding: '24px 16px', textAlign: 'center' }}>
+      <div style={{ fontSize: '20px', marginBottom: '6px' }}>🔓</div>
+      <div style={{ fontSize: '15px', fontWeight: '600', color: '#111', marginBottom: '6px' }}>See how your costs stack up</div>
+      <div style={{ fontSize: '13px', color: '#6b7280', marginBottom: '18px', lineHeight: '1.5' }}>Enter your email to unlock cost modeling<br />and get a free PDF of your results.</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '300px', margin: '0 auto' }}>
+        <input type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)}
+          style={{ fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '9px 12px', outline: 'none', color: '#111' }} />
+        <input type="email" placeholder="your@email.com" value={email} onChange={e => { setEmail(e.target.value); setErr(false); }}
+          onKeyDown={e => e.key === 'Enter' && submit()}
+          style={{ fontSize: '14px', border: `1px solid ${err ? '#ef4444' : '#d1d5db'}`, borderRadius: '8px', padding: '9px 12px', outline: 'none', color: '#111' }} />
+        {err && <div style={{ fontSize: '12px', color: '#ef4444', textAlign: 'left' }}>Please enter a valid email.</div>}
+        <button onClick={submit}
+          style={{ fontSize: '14px', fontWeight: '600', background: '#111', color: '#fff', border: 'none', borderRadius: '8px', padding: '10px', cursor: 'pointer' }}>
+          Unlock cost modeling →
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function Row({ label, sub, children }: { label: string; sub?: string; children: React.ReactNode }) {
   return (
     <div style={rowStyle}>
@@ -206,8 +233,9 @@ function Row({ label, sub, children }: { label: string; sub?: string; children: 
 }
 
 export default function ClubBudgetCalculator() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = usePersist<string>('calc_name', '');
+  const [email, setEmail] = usePersist<string>('calc_email', '');
+  const [unlocked, setUnlocked] = usePersist('calc_unlocked', false);
   const [sendStatus, setSendStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle');
 
   const [revenueOpen, setRevenueOpen] = usePersist('calc_revenueOpen', true);
@@ -287,7 +315,7 @@ export default function ClubBudgetCalculator() {
   const costPP = totalPlayers > 0 ? totalCosts / totalPlayers : 0;
 
   const handleReset = () => {
-    const keys = ['calc_numTiers','calc_tier1Name','calc_tier1Players','calc_tier1Fee','calc_tier2Name','calc_tier2Players','calc_tier2Fee','calc_tier3Name','calc_tier3Players','calc_tier3Fee','calc_players','calc_numTeams','calc_fee','calc_months','calc_fundraising','calc_otherRevenue','calc_numCoaches','calc_headCoach','calc_headCoachMonths','calc_numAssistants','calc_assistantCoach','calc_assistantMonths','calc_specialty','calc_fieldHr','calc_sessions','calc_hrs','calc_weeks','calc_numHomeGames','calc_winterFacility','calc_league','calc_insurance','calc_equipment','calc_admin','calc_software','calc_marketing','calc_otherOps','calc_isNonprofit','calc_revenueOpen','calc_coachingOpen','calc_facilitiesOpen','calc_operationsOpen'];
+    const keys = ['calc_numTiers','calc_tier1Name','calc_tier1Players','calc_tier1Fee','calc_tier2Name','calc_tier2Players','calc_tier2Fee','calc_tier3Name','calc_tier3Players','calc_tier3Fee','calc_players','calc_numTeams','calc_fee','calc_months','calc_fundraising','calc_otherRevenue','calc_name','calc_email','calc_unlocked','calc_numCoaches','calc_headCoach','calc_headCoachMonths','calc_numAssistants','calc_assistantCoach','calc_assistantMonths','calc_specialty','calc_fieldHr','calc_sessions','calc_hrs','calc_weeks','calc_numHomeGames','calc_winterFacility','calc_league','calc_insurance','calc_equipment','calc_admin','calc_software','calc_marketing','calc_otherOps','calc_isNonprofit','calc_revenueOpen','calc_coachingOpen','calc_facilitiesOpen','calc_operationsOpen'];
     keys.forEach(k => localStorage.removeItem(k));
     window.location.reload();
   };
@@ -367,6 +395,19 @@ export default function ClubBudgetCalculator() {
             </div>
           ))}
         </div>
+        <div style={{ display: 'flex', gap: '8px', marginTop: '8px', flexWrap: 'wrap' }}>
+          {[
+            { label: 'Avg fee', val: totalPlayers > 0 ? fmt(playerFees / totalPlayers) + '/player' : '—' },
+            { label: 'Season length', val: `${months} months` },
+            { label: 'Practices/week', val: `${sessions}×/wk` },
+            { label: 'Total players', val: `${totalPlayers} players` },
+          ].map(s => (
+            <div key={s.label} style={{ background: '#f0f0f0', borderRadius: '999px', padding: '3px 10px', fontSize: '11px', color: '#6b7280', display: 'flex', gap: '4px', alignItems: 'center' }}>
+              <span style={{ color: '#9ca3af' }}>{s.label}:</span>
+              <span style={{ fontWeight: '600', color: '#374151' }}>{s.val}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
       <SectionHeader label="Revenue" open={revenueOpen} onToggle={() => setRevenueOpen(o => !o)} />
@@ -408,6 +449,7 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Coaching staff" open={coachingOpen} onToggle={() => setCoachingOpen(o => !o)} />
       {coachingOpen && <div style={cardStyle}>
+        {!unlocked ? <GateCard name={name} setName={setName} email={email} setEmail={setEmail} onUnlock={() => { setUnlocked(true); }} /> : <>
         <Row label="Head coach" sub="Count × monthly salary × months">
           <div style={{ display: 'flex', gap: '10px' }}>
             <div>
@@ -452,10 +494,12 @@ export default function ClubBudgetCalculator() {
           <span>Total annual coaching cost</span>
           <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(coaching + assistantAnn + specialtyAnn)}</span>
         </div>
+        </>}
       </div>}
 
       <SectionHeader label="Facilities" open={facilitiesOpen} onToggle={() => setFacilitiesOpen(o => !o)} />
       {facilitiesOpen && <div style={cardStyle}>
+        {!unlocked ? <GateCard name={name} setName={setName} email={email} setEmail={setEmail} onUnlock={() => { setUnlocked(true); }} /> : <>
         <Row label="Field rental" sub="Cost/hr × sessions/wk × hrs/session">
           <div style={{ display: 'flex', gap: '10px' }}>
             <div>
@@ -485,10 +529,12 @@ export default function ClubBudgetCalculator() {
           <span>Total annual field cost{revenue > 0 && <span style={{ marginLeft: '6px' }}>({Math.round(fieldTraining / revenue * 100)}% of revenue)</span>}</span>
           <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(fieldTraining)}</span>
         </div>
+        </>}
       </div>}
 
       <SectionHeader label="Operations & overhead" open={operationsOpen} onToggle={() => setOperationsOpen(o => !o)} />
       {operationsOpen && <div style={cardStyle}>
+        {!unlocked ? <GateCard name={name} setName={setName} email={email} setEmail={setEmail} onUnlock={() => { setUnlocked(true); }} /> : <>
         <OpsRow label="League & tournament entry fees" sub="Annual registrations" value={league} onChange={setLeague} revenue={revenue} />
         <OpsRow label="Player & club insurance" sub="Annual premium" value={insurance} onChange={setInsurance} revenue={revenue} />
         <OpsRow label="Equipment" sub="Kits, balls, cones, goals — annual" value={equipment} onChange={setEquipment} revenue={revenue} />
@@ -500,6 +546,7 @@ export default function ClubBudgetCalculator() {
           <span>Total annual operations cost{revenue > 0 && <span style={{ marginLeft: '6px', fontWeight: '400' }}>({Math.round((league + insurance + equipment + adminAnn + marketing + otherOps) / revenue * 100)}% of revenue)</span>}</span>
           <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(league + insurance + equipment + adminAnn + marketing + otherOps)}</span>
         </div>
+        </>}
       </div>}
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#0f2642', borderRadius: '10px', padding: '12px 16px', margin: '4px 0 16px' }}>
