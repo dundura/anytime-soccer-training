@@ -375,11 +375,21 @@ export default function ClubBudgetCalculator() {
   }
 
   return (
+    <style>{`
+      @media (max-width: 600px) {
+        .calc-summary-label-desktop { display: none !important; }
+        .calc-summary-label-mobile { display: block !important; }
+        .calc-pills-wrap { margin-left: -4px; }
+      }
+      @media (min-width: 601px) {
+        .calc-summary-label-mobile { display: none !important; }
+      }
+    `}</style>
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '1rem 1rem 4rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
 
       <div style={{ position: 'sticky', top: '64px', zIndex: 40, background: '#fff', margin: '0 -1rem', padding: '10px 1rem 12px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', marginBottom: '16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <p style={{ ...sectionLabelStyle, margin: 0 }}>Annual budget summary</p>
+          <p className="calc-summary-label-desktop" style={{ ...sectionLabelStyle, margin: 0 }}>Annual budget summary</p>
           <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
             <div style={{ display: 'flex', background: '#f0f0f0', borderRadius: '999px', padding: '2px' }}>
               <button onClick={() => setIsNonprofit(true)} style={{ fontSize: '11px', fontWeight: '600', border: 'none', borderRadius: '999px', padding: '3px 10px', cursor: 'pointer', background: isNonprofit ? '#fff' : 'transparent', color: isNonprofit ? '#111' : '#9ca3af', boxShadow: isNonprofit ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.15s' }}>Nonprofit</button>
@@ -390,7 +400,8 @@ export default function ClubBudgetCalculator() {
             <button onClick={handleReset} style={{ fontSize: '11px', fontWeight: '600', color: '#9ca3af', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '4px 12px', cursor: 'pointer' }}>↺ Reset</button>
           </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '10px' }}>
+        <p className="calc-summary-label-mobile" style={{ ...sectionLabelStyle, margin: '0 0 8px' }}>Annual budget summary</p>
+        <div className="calc-pills-wrap" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '10px' }}>
           {[
             { label: 'Total revenue', val: fmt(revenue) },
             { label: 'Total costs', val: fmt(totalCosts) },
