@@ -249,18 +249,15 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Coaching staff" open={coachingOpen} onToggle={() => setCoachingOpen(o => !o)} />
       {coachingOpen && <div style={cardStyle}>
-        <div style={{ padding: '10px 0', borderBottom: '1px solid #f0f0f0' }}>
-          <div style={{ fontSize: '14px', color: '#111', marginBottom: '8px' }}>
-            Head coach
-            <div style={{ fontSize: '12px', color: '#888', marginTop: '2px' }}>Head + assistants on payroll</div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-            <NumInput value={numCoaches} onChange={setNumCoaches} />
-            <span style={{ fontSize: '13px', color: '#9ca3af' }}>coaches ×</span>
-            <NumInput value={headCoach} onChange={setHeadCoach} prefix="$" />
-            <span style={{ fontSize: '13px', color: '#9ca3af' }}>/mo =</span>
-            <span style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>{fmt(monthlyPayroll)}<span style={{ fontSize: '12px', fontWeight: '400', color: '#9ca3af' }}>/mo</span></span>
-          </div>
+        <Row label="Number of paid coaches" sub="Head + assistants on payroll">
+          <NumInput value={numCoaches} onChange={setNumCoaches} />
+        </Row>
+        <Row label="Head coach monthly salary" sub="Paid coaches, not volunteers">
+          <NumInput value={headCoach} onChange={setHeadCoach} prefix="$" />
+        </Row>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
+          <span>Monthly coaching payroll</span>
+          <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{fmt(monthlyPayroll)} / month</span>
         </div>
         <Row label="Specialty coaches (GK, fitness, etc.)" sub="Monthly cost total">
           <NumInput value={specialty} onChange={setSpecialty} prefix="$" />
