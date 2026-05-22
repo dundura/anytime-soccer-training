@@ -6,22 +6,15 @@ import CoachTabbedSection from '@/components/CoachTabbedSection';
 import PopupManager from '@/components/PopupManager';
 import CoachBar from '@/components/CoachBar';
 import HomeBlogSection from '@/components/HomeBlogSection';
+import SaleBannerStrip from '@/components/SaleBannerStrip';
 
 export default function HomePage() {
   return (
     <>
       <PopupManager />
 
-      {/* ===== MEMORIAL DAY SALE STRIP ===== */}
-      <Link href="/memorial-day-sale" target="_blank" rel="noopener noreferrer"
-        className="flex items-center justify-center gap-3 bg-navy hover:bg-navy-light text-white py-3 px-4 text-center transition-colors group no-underline">
-        <span className="text-sm md:text-base font-bold">
-          🇺🇸 Memorial Day Sale — <span className="text-red">50% off</span> · Ends May 26
-        </span>
-        <span className="bg-red text-white text-xs font-bold px-3 py-1 rounded-full group-hover:bg-red-dark transition-colors whitespace-nowrap">
-          Shop the Sale →
-        </span>
-      </Link>
+      {/* ===== MEMORIAL DAY SALE STRIP (auto-hides after May 26) ===== */}
+      <SaleBannerStrip />
 
       {/* ===== HERO ===== */}
       <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">
