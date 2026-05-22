@@ -243,13 +243,7 @@ function Row({ label, sub, children }: { label: string; sub?: string; children: 
 export default function ClubBudgetCalculator() {
   const [name, setName] = usePersist<string>('calc_name', '');
   const [email, setEmail] = usePersist<string>('calc_email', '');
-  const [unlocked, setUnlocked] = usePersist('calc_unlocked', false);
-
-  useEffect(() => {
-    if (new URLSearchParams(window.location.search).get('unlocked') === '1') {
-      setUnlocked(true);
-    }
-  }, []);
+  const unlocked = true;
   const [sendStatus, setSendStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle');
 
   const [revenueOpen, setRevenueOpen] = usePersist('calc_revenueOpen', true);
