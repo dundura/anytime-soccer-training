@@ -84,7 +84,7 @@ function NumInput({ value, onChange, prefix, step, max }: { value: number; onCha
   );
 }
 
-function FeeRow({ fee, setFee, months }: { fee: number; setFee: (v: number) => void; months: number }) {
+function FeeRow({ fee, setFee, months, setMonths }: { fee: number; setFee: (v: number) => void; months: number; setMonths: (v: number) => void }) {
   const [annualStr, setAnnualStr] = useState(fee > 0 ? String(fee * months) : '');
   const [monthlyStr, setMonthlyStr] = useState(fee > 0 ? String(fee) : '');
 
@@ -95,7 +95,8 @@ function FeeRow({ fee, setFee, months }: { fee: number; setFee: (v: number) => v
       <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
         <div>
           <div style={{ fontSize: '10px', color: '#9ca3af', textAlign: 'right', marginBottom: '4px' }}>Months</div>
-          <div style={{ fontSize: '14px', color: '#9ca3af', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '6px', padding: '5px 10px', textAlign: 'right', minWidth: '40px' }}>{months}</div>
+          <input type="number" value={months === 0 ? '' : months} placeholder="0" min="1" max="12" style={{ width: '48px', textAlign: 'right', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', background: '#fff', color: '#111' }}
+            onChange={(e) => { const v = parseFloat(e.target.value) || 0; setMonths(v); setAnnualStr(v ? String(Math.round(fee * v)) : ''); }} />
         </div>
         <div style={{ fontSize: '14px', color: '#d1d5db', paddingBottom: '7px' }}>×</div>
         <div>
@@ -330,10 +331,7 @@ export default function ClubBudgetCalculator() {
           <span>Total players</span>
           <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{totalPlayers} players</span>
         </div>
-        <FeeRow fee={fee} setFee={setFee} months={months} />
-        <Row label="Season length (months)" sub={`Months fees are collected · ${fmt(fee * months)} per player / season`}>
-          <NumInput value={months} onChange={setMonths} />
-        </Row>
+        <FeeRow fee={fee} setFee={setFee} months={months} setMonths={setMonths} />
         <Row label="Other revenue" sub="Tournaments, events, sponsorships, donations">
           <NumInput value={fundraising} onChange={setFundraising} prefix="$" />
         </Row>
