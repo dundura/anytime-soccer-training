@@ -68,10 +68,10 @@ export default function MemorialDaySaleClient() {
               </div>
 
               {/* Right: video */}
-              <div className="hidden md:block flex-shrink-0 rounded-2xl overflow-hidden shadow-lg" style={{ width: 280, height: 158 }}>
+              <div className="hidden md:block flex-shrink-0 rounded-2xl overflow-hidden shadow-lg mt-8 self-end" style={{ width: 420, height: 236 }}>
                 <iframe
-                  width="280"
-                  height="158"
+                  width="420"
+                  height="236"
                   src="https://www.youtube.com/embed/CGY_9U5qI-c?si=qfiN5d4L4R0ygmQ-&autoplay=1&mute=1&loop=1&playlist=CGY_9U5qI-c&controls=0&modestbranding=1"
                   title="Anytime Soccer Training"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
