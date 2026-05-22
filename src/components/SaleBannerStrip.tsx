@@ -14,11 +14,14 @@ export default function SaleBannerStrip() {
     function tick() {
       const diff = SALE_END.getTime() - Date.now();
       if (diff <= 0) { setTimeStr(''); return; }
-      const days = Math.ceil(diff / 86400000);
-      setTimeStr(`${days} day${days !== 1 ? 's' : ''} left`);
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      setTimeStr(`${pad(d)}:${pad(h)}:${pad(m)}:${pad(s)}`);
     }
     tick();
-    const t = setInterval(tick, 60000);
+    const t = setInterval(tick, 1000);
     return () => clearInterval(t);
   }, []);
 
