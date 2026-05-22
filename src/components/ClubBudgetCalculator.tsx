@@ -88,15 +88,10 @@ function FeeRow({ fee, setFee, months }: { fee: number; setFee: (v: number) => v
   const [annualStr, setAnnualStr] = useState(fee > 0 ? String(fee * months) : '');
   const [monthlyStr, setMonthlyStr] = useState(fee > 0 ? String(fee) : '');
 
-  useEffect(() => {
-    setAnnualStr(fee > 0 ? String(fee * months) : '');
-    setMonthlyStr(fee > 0 ? String(fee) : '');
-  }, [fee, months]);
-
   const inputStyle2 = { textAlign: 'right' as const, fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', background: '#fff', color: '#111' };
 
   return (
-    <Row label="Monthly fee per player" sub="Average">
+    <Row label="Fees per Player" sub="Average">
       <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
         <div>
           <div style={{ fontSize: '10px', color: '#9ca3af', textAlign: 'right', marginBottom: '4px' }}>Annual</div>
