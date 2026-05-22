@@ -34,7 +34,7 @@ export default function MemorialDaySaleClient() {
     <>
       {/* HERO */}
       <section className="py-6 md:py-8 bg-background">
-        <div className="max-w-[900px] mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-navy rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.25)]">
             {/* Accent bar */}
             <div className="bg-red px-7 py-2.5 text-xs font-bold tracking-widest uppercase text-white flex items-center gap-2">
