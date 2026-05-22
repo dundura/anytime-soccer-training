@@ -115,6 +115,7 @@ export default function ClubBudgetCalculator() {
 
   const [numCoaches, setNumCoaches] = useState(2);
   const [headCoach, setHeadCoach] = useState(850);
+  const [assistantCoach, setAssistantCoach] = useState(0);
   const [specialty, setSpecialty] = useState(800);
   const [offseasonMonths, setOffseasonMonths] = useState(2);
 
@@ -138,12 +139,13 @@ export default function ClubBudgetCalculator() {
 
   const coaching = monthlyPayroll * months;
   const offseason = monthlyPayroll * offseasonMonths * 0.5;
+  const assistantAnn = assistantCoach * months;
   const specialtyAnn = specialty * months;
   const fieldTraining = fieldHr * sessions * hrs * weeks;
   const adminAnn = (admin + software) * months;
 
   const totalCosts =
-    coaching + offseason + specialtyAnn + fieldTraining + gamesField +
+    coaching + offseason + assistantAnn + specialtyAnn + fieldTraining + gamesField +
     league + insurance + equipment + adminAnn + marketing;
 
   const net = revenue - totalCosts;
@@ -171,7 +173,7 @@ export default function ClubBudgetCalculator() {
   };
 
   const barCategories = [
-    { label: 'Coaching staff', val: coaching + offseason + specialtyAnn, color: '#1D9E75' },
+    { label: 'Coaching staff', val: coaching + offseason + assistantAnn + specialtyAnn, color: '#1D9E75' },
     { label: 'Field & facilities', val: fieldTraining + gamesField, color: '#378ADD' },
     { label: 'League & tournaments', val: league, color: '#7F77DD' },
     { label: 'Uniforms & equipment', val: equipment, color: '#EF9F27' },
@@ -225,7 +227,7 @@ export default function ClubBudgetCalculator() {
         <Row label="Players on roster" sub="Average team size">
           <NumInput value={players} onChange={setPlayers} />
         </Row>
-        <Row label="# of teams" sub="Total teams in the club">
+        <Row label="Number of teams" sub="Total teams in the club">
           <NumInput value={numTeams} onChange={setNumTeams} />
         </Row>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
@@ -249,7 +251,7 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Coaching staff" open={coachingOpen} onToggle={() => setCoachingOpen(o => !o)} />
       {coachingOpen && <div style={cardStyle}>
-        <Row label="Number of paid coaches" sub="Head + assistants on payroll">
+        <Row label="Head coach" sub="Number of paid coaches">
           <NumInput value={numCoaches} onChange={setNumCoaches} />
         </Row>
         <Row label="Head coach monthly salary" sub="Paid coaches, not volunteers">
@@ -259,6 +261,9 @@ export default function ClubBudgetCalculator() {
           <span>Monthly coaching payroll</span>
           <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{fmt(monthlyPayroll)} / month</span>
         </div>
+        <Row label="Assistant coaches" sub="Monthly cost total">
+          <NumInput value={assistantCoach} onChange={setAssistantCoach} prefix="$" />
+        </Row>
         <Row label="Specialty coaches (GK, fitness, etc.)" sub="Monthly cost total">
           <NumInput value={specialty} onChange={setSpecialty} prefix="$" />
         </Row>
@@ -267,7 +272,7 @@ export default function ClubBudgetCalculator() {
         </Row>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
           <span>Total annual coaching cost</span>
-          <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(coaching + offseason + specialtyAnn)}</span>
+          <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(coaching + offseason + assistantAnn + specialtyAnn)}</span>
         </div>
       </div>}
 
@@ -328,6 +333,7 @@ export default function ClubBudgetCalculator() {
                 { label: 'Expenses', isHeader: true },
                 { label: 'Coaching staff', val: fmt(coaching) },
                 { label: 'Off-season retention', val: fmt(offseason) },
+                { label: 'Assistant coaches', val: fmt(assistantAnn) },
                 { label: 'Specialty coaches', val: fmt(specialtyAnn) },
                 { label: 'Field rental (training)', val: fmt(fieldTraining) },
                 { label: 'Field rental (games)', val: fmt(gamesField) },
