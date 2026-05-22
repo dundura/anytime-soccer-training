@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 
+const SAMPLE_INPUTS = { players: 16, numTeams: 1, totalPlayers: 16, fee: 4000, months: 10, fundraising: 0, numCoaches: 1, headCoach: 850, headCoachMonths: 10, specialty: 0, fieldHr: 120, sessions: 2, hrs: 1.5, weeks: 40, league: 4000, insurance: 1920, equipment: 2400, admin: 960, software: 960, marketing: 1440 };
+const SAMPLE_RESULTS = { revenue: 64000, playerFees: 64000, fundraising: 0, otherRevenue: 0, coaching: 8500, assistantAnn: 0, specialtyAnn: 0, fieldTraining: 18000, league: 4000, insurance: 1920, equipment: 2400, adminAnn: 19200, marketing: 1440, totalCosts: 55460, net: 8540, cph: 17.27, costPP: 3466, totalHrs: 120 };
+
 export default function HeroPdfCta() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -11,14 +14,24 @@ export default function HeroPdfCta() {
     if (!email || status === 'loading') return;
     setStatus('loading');
     try {
+      // Try to use real calculator data from localStorage snapshot
+      let inputs = SAMPLE_INPUTS;
+      let results = SAMPLE_RESULTS;
+      try {
+        const snap = localStorage.getItem('calc_snapshot');
+        if (snap) {
+          const parsed = JSON.parse(snap);
+          if (parsed.inputs && parsed.results) {
+            inputs = parsed.inputs;
+            results = parsed.results;
+          }
+        }
+      } catch {}
+
       const res = await fetch('/api/send-budget-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email, name,
-          inputs: { players: 20, numTeams: 1, totalPlayers: 20, fee: 150, months: 10, fundraising: 0, numCoaches: 2, headCoach: 3000, specialty: 800, offseasonMonths: 2, fieldHr: 120, sessions: 3, hrs: 1.5, weeks: 40, gamesField: 2400, league: 4000, insurance: 2500, equipment: 3000, admin: 500, software: 150, marketing: 1200 },
-          results: { revenue: 30000, playerFees: 30000, fundraising: 0, coaching: 60000, offseason: 6000, specialtyAnn: 8000, fieldTraining: 21600, gamesField: 2400, league: 4000, insurance: 2500, equipment: 3000, adminAnn: 6500, marketing: 1200, totalCosts: 115200, net: -85200, cph: 320, costPP: 5760, totalHrs: 180 },
-        }),
+        body: JSON.stringify({ email, name, inputs, results }),
       });
       setStatus(res.ok ? 'sent' : 'error');
     } catch {
@@ -29,7 +42,7 @@ export default function HeroPdfCta() {
   if (status === 'sent') {
     return (
       <div className="mt-6 text-white text-[14px] font-medium">
-        ✓ Check your inbox — we sent a sample report.
+        ✓ Check your inbox — your report is on its way.
       </div>
     );
   }
