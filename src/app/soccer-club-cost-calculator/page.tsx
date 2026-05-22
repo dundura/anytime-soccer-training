@@ -18,12 +18,12 @@ export default function BudgetCalculatorPage() {
           <div>
 
           <h1 className="text-[clamp(28px,4vw,42px)] font-extrabold text-white leading-tight mb-5">
-            The real cost of<br />
-            <span className="text-[#DC373E]">running a soccer club</span>
+            Do you know what it actually costs<br />
+            <span className="text-[#DC373E]">to run a soccer club?</span>
           </h1>
 
           <p className="text-white/75 text-[16px] leading-relaxed mb-6 max-w-[560px]">
-            Before you weigh in on pay-to-play, do you actually know what it costs to run a youth soccer club? This calculator walks through the real numbers — coaching, field time, insurance, admin — so you can see exactly where the money goes.
+            Thinking about starting a club? Already running one? Or just tired of hearing parents complain about fees? Plug in your numbers and see exactly what it actually costs — coaching, field time, insurance, admin — all of it.
           </p>
 
           <a
