@@ -213,7 +213,7 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Revenue" open={revenueOpen} onToggle={() => setRevenueOpen(o => !o)} />
       {revenueOpen && <div style={cardStyle}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', paddingBottom: '12px', borderBottom: '1px solid #f0f0f0', marginBottom: '4px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', paddingBottom: '12px', borderBottom: '1px solid #f0f0f0' }}>
           {[
             { label: 'Players per team', value: players, onChange: setPlayers, prefix: undefined },
             { label: 'Number of teams', value: numTeams, onChange: setNumTeams, prefix: undefined },
@@ -224,19 +224,24 @@ export default function ClubBudgetCalculator() {
               <NumInput value={value} onChange={onChange} prefix={prefix} />
             </div>
           ))}
+          <div>
+            <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '6px', fontWeight: '500' }}>Annual fees</div>
+            <div style={{ fontSize: '14px', fontWeight: '600', color: '#3B6D11', padding: '5px 0' }}>{fmt(playerFees)}</div>
+          </div>
         </div>
-        <div style={{ fontSize: '12px', color: '#9ca3af', padding: '6px 0 4px' }}>
-          Total players: <strong style={{ color: '#111' }}>{totalPlayers}</strong>
-        </div>
-        <Row label="Season length (months)" sub="Months fees are collected">
-          <NumInput value={months} onChange={setMonths} />
-        </Row>
-        <Row label="Other revenue" sub="Tournaments, events, sponsorships, donations">
-          <NumInput value={fundraising} onChange={setFundraising} prefix="$" />
-        </Row>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
-          <span>Total annual revenue</span>
-          <span style={{ fontWeight: '600', fontSize: '14px', color: '#3B6D11' }}>{fmt(revenue)}</span>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', paddingTop: '10px' }}>
+          <div>
+            <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '6px', fontWeight: '500' }}>Season (months)</div>
+            <NumInput value={months} onChange={setMonths} />
+          </div>
+          <div>
+            <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '6px', fontWeight: '500' }}>Other revenue</div>
+            <NumInput value={fundraising} onChange={setFundraising} prefix="$" />
+          </div>
+          <div>
+            <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '6px', fontWeight: '500' }}>Total revenue</div>
+            <div style={{ fontSize: '14px', fontWeight: '600', color: '#3B6D11', padding: '5px 0' }}>{fmt(revenue)}</div>
+          </div>
         </div>
       </div>}
 
