@@ -36,7 +36,7 @@ export default function SaleBannerStrip() {
             {/* Text + CTA side by side */}
             <div className="flex flex-col md:flex-row items-center gap-8">
               {/* Copy */}
-              <div className="text-center md:text-left flex-shrink-0">
+              <div className="text-center flex-shrink-0 md:ml-8">
                 <h2 className="text-3xl md:text-5xl font-black text-navy mb-2 leading-tight">
                   Memorial Day<br />Weekend Sale
                 </h2>
