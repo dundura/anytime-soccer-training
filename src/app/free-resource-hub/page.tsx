@@ -4,6 +4,13 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Free Resources — Anytime Soccer Training',
   description: 'Free training plans, ebooks, calculators, and community groups for soccer players, parents, and coaches.',
+  openGraph: {
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779461643370-zk99k2.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779461643370-zk99k2.png'],
+  },
 };
 
 const TRAINING_PLANS = [
@@ -197,9 +204,8 @@ export default function FreeResourceHubPage() {
               className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all block"
             >
               <div className="flex flex-col items-center p-8 md:p-10 text-center h-full">
-                <div className="bg-gradient-to-br from-navy to-[#1a4270] rounded-xl w-full aspect-[16/9] flex flex-col items-center justify-center p-8 mb-6">
-                  <span className="text-[72px] mb-3 block leading-none">📊</span>
-                  <span className="text-white text-[22px] font-bold leading-tight text-center">Club Budget<br /><span className="text-red">Calculator</span></span>
+                <div className="w-full aspect-[16/9] rounded-xl overflow-hidden mb-6">
+                  <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779461643370-zk99k2.png" alt="Club Budget Calculator" className="w-full h-full object-cover" />
                 </div>
                 <span className="text-sm font-bold uppercase tracking-[2px] text-red mb-3 block">CALCULATOR</span>
                 <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4 leading-tight">Free Club Budget Calculator</h3>
