@@ -85,7 +85,7 @@ function NumInput({ value, onChange, prefix, step, max }: { value: number; onCha
   );
 }
 
-function TierRow({ name, setName, pl, setPl, fee, setFee, rev }: { name: string; setName: (v: string) => void; pl: number; setPl: (v: number) => void; fee: number; setFee: (v: number) => void; rev: number; months: number }) {
+function TierRow({ name, setName, pl, setPl, fee, setFee, rev, showPlayers }: { name: string; setName: (v: string) => void; pl: number; setPl: (v: number) => void; fee: number; setFee: (v: number) => void; rev: number; months: number; showPlayers?: boolean }) {
   // fee = annual per-player; rev = pl * fee
   const [feeStr, setFeeStr] = useState(fee > 0 ? String(fee) : '');
   const inputStyle = { textAlign: 'right' as const, fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 6px', background: '#fff', color: '#111' };
@@ -93,6 +93,11 @@ function TierRow({ name, setName, pl, setPl, fee, setFee, rev }: { name: string;
     <div style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #f0f0f0' }}>
       <input value={name} onChange={e => setName(e.target.value)}
         style={{ flex: 1, fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', color: '#111', background: '#fff' }} />
+      {showPlayers && (
+        <input type="number" inputMode="numeric" value={pl === 0 ? '' : pl} placeholder="0" min="0"
+          onChange={e => setPl(parseFloat(e.target.value) || 0)}
+          style={{ ...inputStyle, width: '56px' }} />
+      )}
       <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
         <span style={{ fontSize: '12px', color: '#888' }}>$</span>
         <input type="number" value={feeStr} placeholder="0" min="0" style={{ ...inputStyle, width: '80px' }}
@@ -498,14 +503,15 @@ export default function ClubBudgetCalculator() {
         {/* Tier column headers */}
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '0 0 6px', borderBottom: '1px solid #f0f0f0', marginBottom: '4px' }}>
           <div style={{ flex: 1, fontSize: '10px', color: '#9ca3af', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Program</div>
+          {numTiers >= 2 && <div style={{ width: '56px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Players</div>}
           <div style={{ width: '88px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Season fee</div>
           <div style={{ width: '92px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Revenue</div>
         </div>
 
-        {/* Tier 1 */}
-        <TierRow name={tier1Name} setName={setTier1Name} pl={tier1Players} setPl={setTier1Players} fee={tier1Fee} setFee={setTier1Fee} rev={tier1Revenue} months={months} />
-        {numTiers >= 2 && <TierRow name={tier2Name} setName={setTier2Name} pl={tier2Players} setPl={setTier2Players} fee={tier2Fee} setFee={setTier2Fee} rev={tier2Revenue} months={months} />}
-        {numTiers >= 3 && <TierRow name={tier3Name} setName={setTier3Name} pl={tier3Players} setPl={setTier3Players} fee={tier3Fee} setFee={setTier3Fee} rev={tier3Revenue} months={months} />}
+        {/* Tier 1 — players set via quick estimate */}
+        <TierRow name={tier1Name} setName={setTier1Name} pl={tier1Players} setPl={setTier1Players} fee={tier1Fee} setFee={setTier1Fee} rev={tier1Revenue} months={months} showPlayers={false} />
+        {numTiers >= 2 && <TierRow name={tier2Name} setName={setTier2Name} pl={tier2Players} setPl={setTier2Players} fee={tier2Fee} setFee={setTier2Fee} rev={tier2Revenue} months={months} showPlayers />}
+        {numTiers >= 3 && <TierRow name={tier3Name} setName={setTier3Name} pl={tier3Players} setPl={setTier3Players} fee={tier3Fee} setFee={setTier3Fee} rev={tier3Revenue} months={months} showPlayers />}
 
         {numTiers < 3 && (
           <button onClick={() => setNumTiers(n => Math.min(n + 1, 3))}
