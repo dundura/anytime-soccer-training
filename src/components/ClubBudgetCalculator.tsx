@@ -84,6 +84,53 @@ function NumInput({ value, onChange, prefix, step, max }: { value: number; onCha
   );
 }
 
+function FeeRow({ fee, setFee, months }: { fee: number; setFee: (v: number) => void; months: number }) {
+  const [annualStr, setAnnualStr] = useState(fee > 0 ? String(fee * months) : '');
+  const [monthlyStr, setMonthlyStr] = useState(fee > 0 ? String(fee) : '');
+
+  useEffect(() => {
+    setAnnualStr(fee > 0 ? String(fee * months) : '');
+    setMonthlyStr(fee > 0 ? String(fee) : '');
+  }, [fee, months]);
+
+  const inputStyle2 = { textAlign: 'right' as const, fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', background: '#fff', color: '#111' };
+
+  return (
+    <Row label="Monthly fee per player" sub="Average">
+      <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
+        <div>
+          <div style={{ fontSize: '10px', color: '#9ca3af', textAlign: 'right', marginBottom: '4px' }}>Annual</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span style={{ fontSize: '13px', color: '#666' }}>$</span>
+            <input type="number" value={annualStr} placeholder="0" min="0" style={{ ...inputStyle2, width: '80px' }}
+              onChange={(e) => {
+                setAnnualStr(e.target.value);
+                const v = parseFloat(e.target.value);
+                if (!isNaN(v) && months > 0) { const mo = Math.round(v / months); setFee(mo); setMonthlyStr(String(mo)); }
+              }}
+              onBlur={() => { const v = parseFloat(annualStr) || 0; const mo = months > 0 ? Math.round(v / months) : 0; setFee(mo); setAnnualStr(v ? String(v) : ''); setMonthlyStr(mo ? String(mo) : ''); }}
+            />
+          </div>
+        </div>
+        <div>
+          <div style={{ fontSize: '10px', color: '#9ca3af', textAlign: 'right', marginBottom: '4px' }}>Monthly</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span style={{ fontSize: '13px', color: '#666' }}>$</span>
+            <input type="number" value={monthlyStr} placeholder="0" min="0" style={{ ...inputStyle2, width: '72px' }}
+              onChange={(e) => {
+                setMonthlyStr(e.target.value);
+                const v = parseFloat(e.target.value);
+                if (!isNaN(v)) { setFee(v); setAnnualStr(String(Math.round(v * months))); }
+              }}
+              onBlur={() => { const v = parseFloat(monthlyStr) || 0; setFee(v); setMonthlyStr(v ? String(v) : ''); setAnnualStr(v ? String(Math.round(v * months)) : ''); }}
+            />
+          </div>
+        </div>
+      </div>
+    </Row>
+  );
+}
+
 function OpsRow({ label, sub, value, onChange, revenue }: { label: string; sub: string; value: number; onChange: (v: number) => void; revenue: number }) {
   const pct = revenue > 0 ? +(value / revenue * 100).toFixed(1) : 0;
   return (
@@ -148,33 +195,32 @@ export default function ClubBudgetCalculator() {
   const [ledgerOpen, setLedgerOpen] = useState(false);
   const [breakdownOpen, setBreakdownOpen] = useState(false);
 
-  const [players, setPlayers] = useState(16);
-  const [numTeams, setNumTeams] = useState(1);
-  const [fee, setFee] = useState(150);
-  const [months, setMonths] = useState(10);
-  const [fundraising, setFundraising] = useState(0);
+  const [players, setPlayers] = usePersist('calc_players', 16);
+  const [numTeams, setNumTeams] = usePersist('calc_numTeams', 1);
+  const [fee, setFee] = usePersist('calc_fee', 150);
+  const [months, setMonths] = usePersist('calc_months', 10);
+  const [fundraising, setFundraising] = usePersist('calc_fundraising', 0);
 
-  const [numCoaches, setNumCoaches] = useState(1);
-  const [headCoach, setHeadCoach] = useState(850);
-  const [headCoachMonths, setHeadCoachMonths] = useState(10);
-  const [numAssistants, setNumAssistants] = useState(0);
-  const [assistantCoach, setAssistantCoach] = useState(0);
-  const [assistantMonths, setAssistantMonths] = useState(10);
-  const [specialty, setSpecialty] = useState(0);
+  const [numCoaches, setNumCoaches] = usePersist('calc_numCoaches', 1);
+  const [headCoach, setHeadCoach] = usePersist('calc_headCoach', 850);
+  const [headCoachMonths, setHeadCoachMonths] = usePersist('calc_headCoachMonths', 10);
+  const [numAssistants, setNumAssistants] = usePersist('calc_numAssistants', 0);
+  const [assistantCoach, setAssistantCoach] = usePersist('calc_assistantCoach', 0);
+  const [assistantMonths, setAssistantMonths] = usePersist('calc_assistantMonths', 10);
+  const [specialty, setSpecialty] = usePersist('calc_specialty', 0);
 
-  const [fieldHr, setFieldHr] = useState(120);
-  const [sessions, setSessions] = useState(3);
-  const [hrs, setHrs] = useState(1.5);
-  const [weeks, setWeeks] = useState(40);
-  const [gamesField, setGamesField] = useState(2400);
+  const [fieldHr, setFieldHr] = usePersist('calc_fieldHr', 120);
+  const [sessions, setSessions] = usePersist('calc_sessions', 3);
+  const [hrs, setHrs] = usePersist('calc_hrs', 1.5);
+  const [weeks, setWeeks] = usePersist('calc_weeks', 40);
 
-  const [league, setLeague] = useState(2400);      // ~8% of $30k
-  const [insurance, setInsurance] = useState(1200); // ~4% of $30k
-  const [equipment, setEquipment] = useState(1500); // ~5% of $30k
-  const [admin, setAdmin] = useState(600);
-  const [software, setSoftware] = useState(150);
-  const [marketing, setMarketing] = useState(300);
-  const [otherOps, setOtherOps] = useState(0);
+  const [league, setLeague] = usePersist('calc_league', 2400);
+  const [insurance, setInsurance] = usePersist('calc_insurance', 1200);
+  const [equipment, setEquipment] = usePersist('calc_equipment', 1500);
+  const [admin, setAdmin] = usePersist('calc_admin', 600);
+  const [software, setSoftware] = usePersist('calc_software', 150);
+  const [marketing, setMarketing] = usePersist('calc_marketing', 300);
+  const [otherOps, setOtherOps] = usePersist('calc_otherOps', 0);
 
   const totalPlayers = players * numTeams;
   const monthlyPayroll = numCoaches * headCoach;
@@ -283,28 +329,7 @@ export default function ClubBudgetCalculator() {
           <span>Total players</span>
           <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{totalPlayers} players</span>
         </div>
-        <Row label="Monthly fee per player" sub="Average">
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
-            <div>
-              <div style={{ fontSize: '10px', color: '#9ca3af', textAlign: 'right', marginBottom: '4px' }}>Annual</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <span style={{ fontSize: '13px', color: '#666' }}>$</span>
-                <input type="number" value={fee * months === 0 ? '' : fee * months} placeholder="0" min="0" step="1"
-                  style={{ width: '80px', textAlign: 'right', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', background: '#fff', color: '#111' }}
-                  onChange={(e) => setFee(months > 0 ? Math.round((parseFloat(e.target.value) || 0) / months) : 0)} />
-              </div>
-            </div>
-            <div>
-              <div style={{ fontSize: '10px', color: '#9ca3af', textAlign: 'right', marginBottom: '4px' }}>Monthly</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <span style={{ fontSize: '13px', color: '#666' }}>$</span>
-                <input type="number" value={fee === 0 ? '' : fee} placeholder="0" min="0" step="1"
-                  style={{ width: '72px', textAlign: 'right', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', background: '#fff', color: '#111' }}
-                  onChange={(e) => setFee(parseFloat(e.target.value) || 0)} />
-              </div>
-            </div>
-          </div>
-        </Row>
+        <FeeRow fee={fee} setFee={setFee} months={months} />
         <Row label="Season length (months)" sub="Months fees are collected">
           <NumInput value={months} onChange={setMonths} />
         </Row>
