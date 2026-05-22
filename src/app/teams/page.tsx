@@ -60,6 +60,19 @@ export default function TeamsPage() {
           <p className="text-gray text-lg">Getting started guides for coaches, parents, and teams</p>
         </div>
 
+        {/* Explore the App */}
+        <div className="mb-6">
+          <Link href="/for-coaches-learn" className="block bg-red text-white rounded-2xl p-6 hover:bg-red-dark transition-colors no-underline">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-lg font-bold mb-1">Explore the App — Coach Overview</h2>
+                <p className="text-white/80 text-sm m-0">See everything coaches can do: homework, tournaments, leaderboards & more</p>
+              </div>
+              <span className="text-white/70 text-xl">&rarr;</span>
+            </div>
+          </Link>
+        </div>
+
         {/* Onboarding Checklist */}
         <div className="mb-10">
           <Link href="/anytime-soccer-training-onboarding-checklist" className="block bg-navy text-white rounded-2xl p-6 hover:bg-navy/90 transition-colors no-underline">
