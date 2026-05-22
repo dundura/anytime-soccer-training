@@ -228,7 +228,7 @@ export default function ClubBudgetCalculator() {
         <Row label="Players on roster" sub="">
           <div style={{ display: 'flex', gap: '10px' }}>
             <div>
-              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px' }}>Per Team</div>
+              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px', textAlign: 'right' }}>Per Team</div>
               <NumInput value={players} onChange={setPlayers} />
             </div>
             <div>
