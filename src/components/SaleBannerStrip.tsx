@@ -33,7 +33,6 @@ export default function SaleBannerStrip() {
           {/* subtle glow */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(220,55,62,0.15)_0%,transparent_70%)] pointer-events-none" />
           <div className="relative z-10">
-            <p className="text-red text-sm font-bold uppercase tracking-widest mb-3">Limited Time</p>
             <h2 className="text-3xl md:text-5xl font-black text-white mb-2 leading-tight">
               Memorial Day Weekend Sale
             </h2>
