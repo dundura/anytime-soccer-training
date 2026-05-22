@@ -32,7 +32,7 @@ export default function SaleBannerStrip() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-3xl px-8 py-7 md:py-10 relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(220,55,62,0.06)_0%,transparent_70%)] pointer-events-none" />
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10">
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Text — centered */}
             <div className="text-center">
               <h2 className="text-3xl md:text-5xl font-black text-navy mb-2 leading-tight">
