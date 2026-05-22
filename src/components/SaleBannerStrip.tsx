@@ -33,20 +33,17 @@ export default function SaleBannerStrip() {
         <div className="bg-white rounded-3xl px-8 py-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(220,55,62,0.06)_0%,transparent_70%)] pointer-events-none" />
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Text — centered on left */}
-            <div className="text-center flex-shrink-0">
+            {/* Text + CTA — left side */}
+            <div className="text-center md:text-left">
               <h2 className="text-3xl md:text-5xl font-black text-navy mb-2 leading-tight">
                 Memorial Day<br />Weekend Sale
               </h2>
-              <p className="text-xl md:text-2xl font-bold text-navy/70">
+              <p className="text-xl md:text-2xl font-bold text-navy/70 mb-5">
                 50% off — Ends May 26
                 {timeStr && (
                   <span className="ml-3 font-black text-red">{timeStr}</span>
                 )}
               </p>
-            </div>
-            {/* CTA — center */}
-            <div className="flex-shrink-0 text-center">
               <a
                 href={SIGNUP_URL}
                 target="_blank"
