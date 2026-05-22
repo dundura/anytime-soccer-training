@@ -474,9 +474,9 @@ export default function ClubBudgetCalculator() {
         <Row label="Other revenue" sub="Tournaments, sponsorships">
           <NumInput value={otherRevenue} onChange={setOtherRevenue} prefix="$" />
         </Row>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
-          <span>Total annual revenue · {totalPlayers} players</span>
-          <span style={{ fontWeight: '600', fontSize: '14px', color: '#3B6D11' }}>{fmt(revenue)}</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '4px', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
+          <span>Total revenue · {totalPlayers} players</span>
+          <span style={{ fontWeight: '600', fontSize: '14px', color: '#3B6D11', whiteSpace: 'nowrap' }}>{fmt(revenue)}</span>
         </div>
       </div>}
 
