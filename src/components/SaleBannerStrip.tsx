@@ -86,7 +86,7 @@ export default function SaleBannerStrip() {
                 ))}
               </div>
               {/* Video — switches on skill click */}
-              <div className="rounded-2xl overflow-hidden h-28 w-28 shadow-lg flex-shrink-0">
+              <div className="rounded-2xl overflow-hidden h-36 w-36 shadow-lg flex-shrink-0">
                 <video
                   key={activeSkill}
                   src={SKILLS[activeSkill].video}
