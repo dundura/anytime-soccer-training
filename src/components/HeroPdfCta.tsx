@@ -43,14 +43,14 @@ export default function HeroPdfCta() {
           placeholder="Your name"
           value={name}
           onChange={e => setName(e.target.value)}
-          className="flex-1 min-w-[130px] text-[14px] rounded-lg px-3 py-2 bg-white/10 border border-white/20 text-white placeholder-white/40 outline-none focus:border-white/50"
+          className="flex-1 min-w-[130px] text-[14px] rounded-lg px-3 py-2 bg-white border border-white/20 text-[#111] placeholder-gray-400 outline-none"
         />
         <input
           type="email"
           placeholder="your@email.com"
           value={email}
           onChange={e => { setEmail(e.target.value); if (status === 'error') setStatus('idle'); }}
-          className="flex-1 min-w-[180px] text-[14px] rounded-lg px-3 py-2 bg-white/10 border border-white/20 text-white placeholder-white/40 outline-none focus:border-white/50"
+          className="flex-1 min-w-[180px] text-[14px] rounded-lg px-3 py-2 bg-white border border-white/20 text-[#111] placeholder-gray-400 outline-none"
         />
         <button
           onClick={handleSend}
