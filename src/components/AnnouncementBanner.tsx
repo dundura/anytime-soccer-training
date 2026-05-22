@@ -2,11 +2,31 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function AnnouncementBanner() {
   const [dismissed, setDismissed] = useState(false);
+  const pathname = usePathname();
+  const isSalePage = pathname === '/memorial-day-sale';
 
   if (dismissed) return null;
+
+  if (isSalePage) {
+    return (
+      <div className="bg-red text-white text-center py-2.5 px-12 relative">
+        <span className="font-bold text-sm md:text-base">
+          Free to join &middot; 50% off upgrades with code <span className="font-extrabold">MDAY2026</span> &middot; Ends May 26
+        </span>
+        <button
+          onClick={() => setDismissed(true)}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-white/80 hover:text-white text-lg font-bold bg-transparent border-none cursor-pointer p-1 leading-none"
+          aria-label="Dismiss banner"
+        >
+          ✕
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-red text-white text-center py-2.5 px-12 relative">
