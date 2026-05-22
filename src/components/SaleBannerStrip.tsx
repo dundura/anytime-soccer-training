@@ -5,10 +5,19 @@ import { useState, useEffect } from 'react';
 const SALE_END = new Date('2026-05-26T23:59:59-05:00');
 const SIGNUP_URL = 'https://app.anytime-soccer.com/auth/registerFree';
 
+const SKILLS = [
+  { label: 'Ball Mastery', video: 'https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693' },
+  { label: 'Dribbling',    video: 'https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693' },
+  { label: 'Juggling',     video: 'https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693' },
+  { label: 'Passing',      video: 'https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693' },
+  { label: '1v1',          video: 'https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693' },
+];
+
 function pad(n: number) { return String(n).padStart(2, '0'); }
 
 export default function SaleBannerStrip() {
   const [timeStr, setTimeStr] = useState('');
+  const [activeSkill, setActiveSkill] = useState(0);
 
   useEffect(() => {
     function tick() {
@@ -64,16 +73,22 @@ export default function SaleBannerStrip() {
             <div className="hidden md:flex flex-shrink-0 items-center gap-4">
               {/* Skill tags */}
               <div className="flex flex-col gap-1.5">
-                {['Ball Mastery', 'Dribbling', 'Juggling', 'Passing', '1v1'].map(skill => (
-                  <span key={skill} className="bg-navy/8 text-navy text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap">
-                    {skill}
-                  </span>
+                {SKILLS.map((skill, i) => (
+                  <button key={skill.label} onClick={() => setActiveSkill(i)}
+                    className={`text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap text-left transition-colors cursor-pointer border-none ${
+                      activeSkill === i
+                        ? 'bg-navy text-white'
+                        : 'bg-navy/8 text-navy hover:bg-navy/15'
+                    }`}>
+                    {skill.label}
+                  </button>
                 ))}
               </div>
-              {/* Video */}
+              {/* Video — switches on skill click */}
               <div className="rounded-2xl overflow-hidden h-40 w-40 shadow-lg flex-shrink-0">
                 <video
-                  src="https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693"
+                  key={activeSkill}
+                  src={SKILLS[activeSkill].video}
                   className="w-full h-full object-cover"
                   autoPlay
                   muted
