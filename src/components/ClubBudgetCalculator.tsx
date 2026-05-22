@@ -447,7 +447,10 @@ export default function ClubBudgetCalculator() {
         <OpsRow label="Other" sub="Any additional operating costs" value={otherOps} onChange={setOtherOps} revenue={revenue} />
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
           <span>Total annual operations cost</span>
-          <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(league + insurance + equipment + adminAnn + marketing + otherOps)}</span>
+          <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>
+            {fmt(league + insurance + equipment + adminAnn + marketing + otherOps)}
+            {revenue > 0 && <span style={{ fontWeight: '400', fontSize: '11px', color: '#9ca3af', marginLeft: '6px' }}>({Math.round((league + insurance + equipment + adminAnn + marketing + otherOps) / revenue * 100)}% of revenue)</span>}
+          </span>
         </div>
       </div>}
 
