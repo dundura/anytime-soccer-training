@@ -404,13 +404,14 @@ export default function ClubBudgetCalculator() {
           ))}
         </div>
         <p style={{ ...sectionLabelStyle, margin: '10px 0 6px' }}>Quick estimate</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0,1fr))', gap: '8px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, minmax(0,1fr))', gap: '8px' }}>
           {[
             { label: 'Players', suffix: '', value: tier1Players, onChange: (v: number) => setTier1Players(v) },
             { label: 'Season fee / player', prefix: '$', value: tier1Fee, onChange: (v: number) => setTier1Fee(v), step: 100 },
             { label: 'Season length', suffix: 'mo', value: months, onChange: (v: number) => setMonths(v), max: 12 },
             { label: 'Practices / week', suffix: '/wk', value: sessions, onChange: (v: number) => setSessions(v), max: 7 },
             { label: 'Coach salary / mo', prefix: '$', value: headCoach, onChange: (v: number) => setHeadCoach(v), step: 50 },
+            { label: 'Field rental / hr', prefix: '$', value: fieldHr, onChange: (v: number) => setFieldHr(v), step: 10 },
           ].map(f => (
             <div key={f.label} style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '6px 10px' }}>
               <div style={{ fontSize: '10px', color: '#9ca3af', marginBottom: '3px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.label}</div>
