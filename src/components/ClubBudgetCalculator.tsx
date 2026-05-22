@@ -186,6 +186,20 @@ export default function ClubBudgetCalculator() {
   return (
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '1rem 1rem 4rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
 
+      <p style={{ ...sectionLabelStyle, marginBottom: '8px' }}>Annual budget summary</p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '10px', marginBottom: '20px' }}>
+        {[
+          { label: 'Total revenue', val: fmt(revenue) },
+          { label: 'Total costs', val: fmt(totalCosts) },
+          { label: 'Surplus / Deficit', val: (net >= 0 ? '+' : '') + fmt(net), color: net >= 0 ? '#3B6D11' : '#A32D2D' },
+        ].map((m) => (
+          <div key={m.label} style={{ background: '#f9fafb', borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
+            <span style={{ fontSize: '18px', fontWeight: '500', color: m.color || '#111', display: 'block' }}>{m.val}</span>
+            <div style={{ fontSize: '11px', color: '#9ca3af', marginTop: '3px' }}>{m.label}</div>
+          </div>
+        ))}
+      </div>
+
       <SectionHeader label="Revenue" open={revenueOpen} onToggle={() => setRevenueOpen(o => !o)} />
       {revenueOpen && <div style={cardStyle}>
         <Row label="Players on roster" sub="Average team size">
@@ -281,19 +295,7 @@ export default function ClubBudgetCalculator() {
         </Row>
       </div>}
 
-      <p style={{ ...sectionLabelStyle, marginTop: '1.5rem' }}>Annual budget summary</p>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '10px', marginBottom: '16px' }}>
-        {[
-          { label: 'Total revenue', val: fmt(revenue) },
-          { label: 'Total costs', val: fmt(totalCosts) },
-          { label: 'Surplus / Deficit', val: (net >= 0 ? '+' : '') + fmt(net), color: net >= 0 ? '#3B6D11' : '#A32D2D' },
-        ].map((m) => (
-          <div key={m.label} style={{ background: '#f9fafb', borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
-            <span style={{ fontSize: '18px', fontWeight: '500', color: m.color || '#111', display: 'block' }}>{m.val}</span>
-            <div style={{ fontSize: '11px', color: '#9ca3af', marginTop: '3px' }}>{m.label}</div>
-          </div>
-        ))}
-      </div>
+      <p style={{ ...sectionLabelStyle, marginTop: '1.5rem' }}>Full ledger</p>
 
       <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
         {[
