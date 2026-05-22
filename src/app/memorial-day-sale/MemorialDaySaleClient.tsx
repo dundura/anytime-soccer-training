@@ -1,229 +1,228 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import TabbedVideoSection from '@/components/TabbedVideoSection';
 
 const SALE_END = new Date('2026-05-26T23:59:59-05:00');
 const SIGNUP_URL = 'https://app.anytime-soccer.com/auth/registerFree';
 
-interface TimeLeft { d: number; h: number; m: number; s: number }
-
-function calcTime(): TimeLeft | null {
-  const diff = SALE_END.getTime() - Date.now();
-  if (diff <= 0) return null;
-  return {
-    d: Math.floor(diff / 86400000),
-    h: Math.floor((diff % 86400000) / 3600000),
-    m: Math.floor((diff % 3600000) / 60000),
-    s: Math.floor((diff % 60000) / 1000),
-  };
-}
-
-function pad(n: number) { return String(n).padStart(2, '0'); }
-
-function CountdownLarge({ time }: { time: TimeLeft | null }) {
-  if (!time) return <p className="text-white/50 text-base font-semibold">Sale has ended</p>;
-  const units = [
-    ...(time.d > 0 ? [{ v: time.d, l: 'Days' }] : []),
-    { v: time.h, l: 'Hrs' },
-    { v: time.m, l: 'Min' },
-    { v: time.s, l: 'Sec' },
-  ];
-  return (
-    <div className="flex items-end justify-center gap-1.5">
-      {units.map(({ v, l }, i) => (
-        <div key={l} className="flex items-end gap-1.5">
-          {i > 0 && <span className="text-white/30 text-3xl font-light pb-5">:</span>}
-          <div className="text-center">
-            <div className="bg-white/10 border border-white/10 rounded-xl px-3 py-2.5 text-4xl md:text-5xl font-black tabular-nums text-white min-w-[68px] md:min-w-[80px]">
-              {pad(v)}
-            </div>
-            <div className="text-[10px] text-white/40 uppercase tracking-[0.15em] mt-1.5">{l}</div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function CountdownInline({ time }: { time: TimeLeft | null }) {
-  if (!time) return <span>—</span>;
-  return (
-    <span className="tabular-nums font-bold">
-      {time.d > 0 ? `${time.d}d ` : ''}{pad(time.h)}:{pad(time.m)}:{pad(time.s)}
-    </span>
-  );
+function useTimeLeft() {
+  const [t, setT] = useState('');
+  useEffect(() => {
+    function tick() {
+      const diff = SALE_END.getTime() - Date.now();
+      if (diff <= 0) { setT(''); return; }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      const pad = (n: number) => String(n).padStart(2, '0');
+      setT(`${pad(d)}:${pad(h)}:${pad(m)}:${pad(s)}`);
+    }
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+  return t;
 }
 
 export default function MemorialDaySaleClient() {
-  const [time, setTime] = useState<TimeLeft | null>(null);
-
-  useEffect(() => {
-    setTime(calcTime());
-    const t = setInterval(() => setTime(calcTime()), 1000);
-    return () => clearInterval(t);
-  }, []);
-
-  const saleActive = time !== null;
+  const timeLeft = useTimeLeft();
+  const saleActive = SALE_END.getTime() > Date.now();
 
   return (
-    <div className="pb-20">
+    <>
+      {/* TOP BAR */}
+      <div className="bg-navy text-white text-center py-2.5 px-4 text-sm font-semibold">
+        Free to join &middot; <span className="font-extrabold text-red">50% off upgrades</span> with code <span className="font-extrabold">MDAY2026</span> &middot; Ends May 26
+        {timeLeft && <span className="ml-2 tabular-nums text-white/60">{timeLeft}</span>}
+      </div>
 
-      {/* ── Hero ── */}
-      <section className="bg-navy relative overflow-hidden py-20 md:py-28 px-4 text-center">
-        {/* Radial glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(220,55,62,0.18)_0%,transparent_70%)] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      {/* HERO */}
+      <section className="py-6 md:py-8 bg-background">
+        <div className="max-w-[900px] mx-auto px-4">
+          <div className="bg-navy rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.25)]">
+            {/* Accent bar */}
+            <div className="bg-red px-7 py-2.5 text-xs font-bold tracking-widest uppercase text-white flex items-center gap-2">
+              ⚽ Memorial Day Weekend Sale &middot; <span className="font-extrabold">50% Off All Plans</span>
+              {timeLeft && <span className="ml-auto font-mono font-normal tracking-normal normal-case text-white/70">{timeLeft}</span>}
+            </div>
 
-        <div className="max-w-3xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 bg-red/20 border border-red/25 text-red px-4 py-1.5 rounded-full text-sm font-bold mb-7">
-            🇺🇸 Memorial Day Weekend Sale
-          </div>
+            <div className="px-6 py-8 md:px-10 md:py-9 grid md:grid-cols-[1fr_auto] gap-8 items-start">
+              {/* Left: text + perks + CTA */}
+              <div>
+                <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-red mb-2.5">Offer</p>
+                <h1 className="text-[32px] md:text-[42px] font-extrabold text-white leading-[1.15] uppercase tracking-wide mb-3">
+                  Train Smarter.<br /><span className="text-red">Anytime.</span>
+                </h1>
+                <p className="text-[15px] text-white/80 leading-relaxed mb-7 max-w-[520px]">
+                  Easy follow-along video sessions your player can do right at home — just a ball and the drive to improve. 5,000+ Training Sessions, any age, any level.
+                </p>
 
-          <h1 className="text-4xl md:text-6xl font-black text-white mb-5 leading-[1.05] tracking-tight">
-            Memorial Day<br />
-            <span className="text-red">Weekend Sale</span>
-          </h1>
+                <hr className="border-white/10 mb-6" />
 
-          <p className="text-lg md:text-xl text-white/70 mb-10 max-w-xl mx-auto leading-relaxed">
-            Join free and get 50% off your upgrade — monthly or annual. The biggest sale of the year, for one weekend only.
-          </p>
+                {/* Perks */}
+                <div className="grid grid-cols-2 gap-1.5 mb-7">
+                  {[
+                    '5,000+ Training Sessions',
+                    'Ball mastery, dribbling & more',
+                    'Personalized training plans',
+                    'Train anywhere, anytime',
+                    'Built for all skill levels',
+                    'Ages 6–18+',
+                    'Coach homework tools',
+                    'Progress tracking & badges',
+                  ].map((perk) => (
+                    <div key={perk} className="flex items-center gap-2 text-[12px] text-white/80">
+                      <div className="w-1.5 h-1.5 rounded-full bg-red shrink-0" />
+                      <span className="text-white">{perk}</span>
+                    </div>
+                  ))}
+                </div>
 
-          <div className="mb-10">
-            <p className="text-xs text-white/40 uppercase tracking-[0.15em] mb-5">
-              {saleActive ? 'Sale ends in' : 'Sale has ended'}
-            </p>
-            <CountdownLarge time={time} />
-          </div>
+                {/* CTA */}
+                <div className="flex items-center gap-4 flex-wrap">
+                  <a href={SIGNUP_URL} target="_blank" rel="noopener noreferrer"
+                    className="bg-red text-white text-sm font-extrabold uppercase tracking-wider px-7 py-3 rounded-lg no-underline hover:bg-red-dark transition-all">
+                    {saleActive ? 'Join for Free →' : 'Join Anytime →'}
+                  </a>
+                  <span className="text-xs text-white/50">Free to join · 50% off upgrades.</span>
+                </div>
+              </div>
 
-          {saleActive ? (
-            <a href={SIGNUP_URL}
-              className="inline-flex items-center gap-2 bg-red hover:bg-red-dark text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_28px_rgba(220,55,62,0.45)]">
-              Join for Free →
-            </a>
-          ) : (
-            <a href={SIGNUP_URL}
-              className="inline-flex items-center gap-2 bg-red hover:bg-red-dark text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_28px_rgba(220,55,62,0.45)]">
-              Join Anytime →
-            </a>
-          )}
-
-          <p className="text-white/35 text-sm mt-4">No credit card required · Cancel anytime</p>
-        </div>
-      </section>
-
-      {/* ── Plans ── */}
-      <section className="py-16 md:py-20 px-4 bg-background">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-black text-navy mb-2">Choose Your Plan</h2>
-            <p className="text-gray text-base">
-              {saleActive
-                ? 'Sign up free — 50% off automatically applied when you upgrade.'
-                : 'Start free and upgrade anytime.'}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-5">
-
-            {/* Monthly */}
-            <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
-              <div className="font-bold text-navy text-lg mb-0.5">Monthly</div>
-              <div className="text-gray text-sm mb-5">Flexible — cancel anytime</div>
-              {saleActive ? (
-                <>
-                  <div className="flex items-baseline gap-2 mb-1">
-                    <span className="text-5xl font-black text-navy">$4.95</span>
-                    <span className="text-gray text-base">/month</span>
+              {/* Right: countdown */}
+              {saleActive && timeLeft && (
+                <div className="hidden md:flex flex-col items-center justify-center bg-white/5 border border-white/10 rounded-xl px-6 py-6 min-w-[160px] text-center">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-3">Sale Ends In</p>
+                  <div className="text-4xl font-black text-white tabular-nums tracking-tight leading-none mb-1">
+                    {timeLeft.split(':').slice(0,2).join(':')}
                   </div>
-                  <div className="flex items-center gap-2 mb-7">
-                    <span className="text-gray/60 line-through text-sm">$9.89/month</span>
-                    <span className="bg-red text-white text-[11px] font-bold px-2 py-0.5 rounded-full tracking-wide">50% OFF</span>
+                  <div className="text-xl font-black text-red tabular-nums tracking-tight">
+                    :{timeLeft.split(':').slice(2).join(':')}
                   </div>
-                </>
-              ) : (
-                <div className="flex items-baseline gap-2 mb-7">
-                  <span className="text-5xl font-black text-navy">$9.89</span>
-                  <span className="text-gray text-base">/month</span>
+                  <p className="text-[10px] text-white/30 mt-2">DD:HH · MM:SS</p>
                 </div>
               )}
-              <ul className="space-y-2 mb-7 text-sm text-gray">
-                {['5,000+ training videos', 'Weekly structured plans', 'All skill areas', 'Cancel anytime'].map(f => (
-                  <li key={f} className="flex items-center gap-2">
-                    <span className="text-red font-bold">✓</span> {f}
-                  </li>
-                ))}
-              </ul>
-              <a href={SIGNUP_URL}
-                className="block w-full text-center bg-navy hover:bg-navy-light text-white px-6 py-3.5 rounded-full font-bold text-base transition-all hover:-translate-y-0.5">
-                Join for Free
-              </a>
-            </div>
-
-            {/* Annual */}
-            <div className="bg-navy rounded-2xl p-8 relative overflow-hidden shadow-lg">
-              <div className="absolute top-5 right-5 bg-red text-white text-[11px] font-bold px-3 py-1 rounded-full tracking-wide">
-                Best Value
-              </div>
-              <div className="font-bold text-white text-lg mb-0.5">Annual</div>
-              <div className="text-white/55 text-sm mb-5">Best savings — billed once a year</div>
-              {saleActive ? (
-                <>
-                  <div className="flex items-baseline gap-2 mb-1">
-                    <span className="text-5xl font-black text-white">$29.99</span>
-                    <span className="text-white/55 text-base">/year</span>
-                  </div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-white/35 line-through text-sm">$59.98/year</span>
-                    <span className="bg-red text-white text-[11px] font-bold px-2 py-0.5 rounded-full tracking-wide">50% OFF</span>
-                  </div>
-                  <div className="text-white/40 text-xs mb-7">Just $2.50/month — save over $60</div>
-                </>
-              ) : (
-                <>
-                  <div className="flex items-baseline gap-2 mb-1">
-                    <span className="text-5xl font-black text-white">$59.98</span>
-                    <span className="text-white/55 text-base">/year</span>
-                  </div>
-                  <div className="text-white/40 text-xs mb-7">Just $5.00/month billed annually</div>
-                </>
-              )}
-              <ul className="space-y-2 mb-7 text-sm text-white/70">
-                {['5,000+ training videos', 'Weekly structured plans', 'All skill areas', 'Priority support'].map(f => (
-                  <li key={f} className="flex items-center gap-2">
-                    <span className="text-red font-bold">✓</span> {f}
-                  </li>
-                ))}
-              </ul>
-              <a href={SIGNUP_URL}
-                className="block w-full text-center bg-red hover:bg-red-dark text-white px-6 py-3.5 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_18px_rgba(220,55,62,0.4)]">
-                Join for Free
-              </a>
             </div>
           </div>
+        </div>
+      </section>
 
-          <p className="text-center text-gray text-sm mt-6">
-            Start free — 50% off applied automatically when you upgrade.
+      {/* HOW IT WORKS */}
+      <section className="py-8 px-5 bg-[#e8f0f8]">
+        <div className="max-w-[800px] mx-auto">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-navy text-center mb-8">How It Works</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="w-10 h-10 bg-red text-white rounded-full flex items-center justify-center font-extrabold text-lg mx-auto mb-3">1</div>
+              <h3 className="font-bold text-navy mb-1">Create a Free Account</h3>
+              <p className="text-sm text-gray">Sign up at anytime-soccer.com — it&apos;s completely free to start.</p>
+            </div>
+            <div className="text-center">
+              <div className="w-10 h-10 bg-red text-white rounded-full flex items-center justify-center font-extrabold text-lg mx-auto mb-3">2</div>
+              <h3 className="font-bold text-navy mb-1">Explore the App</h3>
+              <p className="text-sm text-gray">Browse 5,000+ videos, follow training plans, and track progress.</p>
+            </div>
+            <div className="text-center">
+              <div className="w-10 h-10 bg-red text-white rounded-full flex items-center justify-center font-extrabold text-lg mx-auto mb-3">3</div>
+              <h3 className="font-bold text-navy mb-1">Upgrade at 50% Off</h3>
+              <p className="text-sm text-gray">Use code <span className="font-bold">MDAY2026</span> at checkout before May 26 to lock in 50% off.</p>
+            </div>
+          </div>
+          <div className="text-center mt-8">
+            <a href={SIGNUP_URL} target="_blank" rel="noopener noreferrer"
+              className="inline-block bg-navy text-white font-bold text-sm px-7 py-3 rounded-lg no-underline hover:bg-navy-light transition-colors">
+              Get Started Free &rarr;
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section className="py-8 px-5 bg-white">
+        <div className="max-w-[800px] mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-2">Memorial Day Sale Pricing</h2>
+          <p className="text-gray text-base mb-6">50% off all upgrades — join free and save before May 26.</p>
+          <div className="bg-background border-2 border-red/20 rounded-2xl p-8">
+            <div className="grid sm:grid-cols-2 gap-5">
+              {/* Monthly */}
+              <div className="bg-white rounded-xl p-6 text-center shadow-sm">
+                <div className="text-navy font-bold text-base mb-1">Monthly</div>
+                <div className="text-gray text-xs mb-4">Cancel anytime</div>
+                <div className="flex items-baseline justify-center gap-2 mb-1">
+                  <span className="text-4xl font-black text-navy">$4.95</span>
+                  <span className="text-gray text-sm">/month</span>
+                </div>
+                <div className="flex items-center justify-center gap-2 mb-5">
+                  <span className="text-gray/60 line-through text-xs">$9.89/month</span>
+                  <span className="bg-red text-white text-[10px] font-bold px-2 py-0.5 rounded-full">50% OFF</span>
+                </div>
+                <a href={SIGNUP_URL} target="_blank" rel="noopener noreferrer"
+                  className="inline-block bg-navy text-white text-xs font-bold px-5 py-2 rounded-lg no-underline hover:bg-navy-light transition-colors">
+                  Join for Free
+                </a>
+              </div>
+              {/* Annual */}
+              <div className="bg-navy rounded-xl p-6 text-center shadow-lg relative overflow-hidden">
+                <div className="absolute top-3 right-3 bg-red text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Best Value</div>
+                <div className="text-white font-bold text-base mb-1">Annual</div>
+                <div className="text-white/50 text-xs mb-4">Billed once a year</div>
+                <div className="flex items-baseline justify-center gap-2 mb-1">
+                  <span className="text-4xl font-black text-white">$29.99</span>
+                  <span className="text-white/50 text-sm">/year</span>
+                </div>
+                <div className="flex items-center justify-center gap-2 mb-1">
+                  <span className="text-white/35 line-through text-xs">$59.98/year</span>
+                  <span className="bg-red text-white text-[10px] font-bold px-2 py-0.5 rounded-full">50% OFF</span>
+                </div>
+                <div className="text-white/40 text-[11px] mb-5">Just $2.50/month</div>
+                <a href={SIGNUP_URL} target="_blank" rel="noopener noreferrer"
+                  className="inline-block bg-red text-white text-xs font-bold px-5 py-2 rounded-lg no-underline hover:bg-red-dark transition-colors">
+                  Join for Free
+                </a>
+              </div>
+            </div>
+            <p className="text-xs text-navy font-bold mt-5">Start free — use code <span className="text-red">MDAY2026</span> at checkout before May 26 to get 50% off.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* A LOOK INSIDE */}
+      <TabbedVideoSection title="A Look Inside the Program" subtitle="Real sessions. Real results. Just hit play and follow along." hideCta />
+
+      {/* FINAL CTA */}
+      <section className="px-5 pb-12 bg-background text-center">
+        <div className="max-w-[800px] mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-navy mb-2">
+            {saleActive ? 'Sale ends May 26 — don\'t miss it.' : 'Give your players the extra edge.'}
+          </h2>
+          <p className="text-gray text-base mb-4">
+            Join thousands of players already training with Anytime Soccer Training.
+          </p>
+          <a href={SIGNUP_URL} target="_blank" rel="noopener noreferrer"
+            className="bg-red text-white font-bold text-lg py-4 px-10 rounded-full no-underline hover:bg-red-dark transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block">
+            {saleActive ? 'Join for Free — 50% Off →' : 'Join Anytime →'}
+          </a>
+          <p className="text-sm text-gray mt-6">
+            Questions? <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold no-underline">megan@anytime-soccer.com</a> &middot; <a href="tel:803-431-1082" className="text-red font-semibold no-underline">803-431-1082</a>
           </p>
         </div>
       </section>
 
-
-      {/* ── Sticky Urgency Bar ── */}
+      {/* STICKY BAR */}
       {saleActive && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-navy border-t border-white/8 shadow-[0_-4px_24px_rgba(0,0,0,0.25)]">
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-navy border-t border-white/10 shadow-[0_-4px_24px_rgba(0,0,0,0.2)]">
           <div className="max-w-4xl mx-auto flex items-center justify-between gap-4 py-3 px-4">
-            <p className="text-white text-sm font-semibold leading-tight">
-              <span className="hidden sm:inline">⚡ Sale ends May 26 — </span>
-              <span className="text-red"><CountdownInline time={time} /></span>
-              <span className="hidden sm:inline text-white/60"> remaining</span>
+            <p className="text-white text-sm font-semibold">
+              ⚡ Sale ends May 26{timeLeft && <span className="text-red tabular-nums ml-2">{timeLeft}</span>}
             </p>
-            <a href={SIGNUP_URL}
-              className="bg-red hover:bg-red-dark text-white px-6 py-2.5 rounded-full font-bold text-sm transition-all whitespace-nowrap shadow-[0_2px_14px_rgba(220,55,62,0.45)] hover:-translate-y-0.5">
-              Join for Free
+            <a href={SIGNUP_URL} target="_blank" rel="noopener noreferrer"
+              className="bg-red hover:bg-red-dark text-white px-6 py-2.5 rounded-full font-bold text-sm transition-all whitespace-nowrap">
+              Join for Free →
             </a>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
