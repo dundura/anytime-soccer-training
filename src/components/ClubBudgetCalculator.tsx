@@ -284,7 +284,26 @@ export default function ClubBudgetCalculator() {
           <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{totalPlayers} players</span>
         </div>
         <Row label="Monthly fee per player" sub="Average">
-          <NumInput value={fee} onChange={setFee} prefix="$" />
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
+            <div>
+              <div style={{ fontSize: '10px', color: '#9ca3af', textAlign: 'right', marginBottom: '4px' }}>Monthly</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <span style={{ fontSize: '13px', color: '#666' }}>$</span>
+                <input type="number" value={fee === 0 ? '' : fee} placeholder="0" min="0" step="1"
+                  style={{ width: '72px', textAlign: 'right', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', background: '#fff', color: '#111' }}
+                  onChange={(e) => setFee(parseFloat(e.target.value) || 0)} />
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: '10px', color: '#9ca3af', textAlign: 'right', marginBottom: '4px' }}>Annual</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <span style={{ fontSize: '13px', color: '#666' }}>$</span>
+                <input type="number" value={fee * months === 0 ? '' : fee * months} placeholder="0" min="0" step="1"
+                  style={{ width: '80px', textAlign: 'right', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', background: '#fff', color: '#111' }}
+                  onChange={(e) => setFee(months > 0 ? Math.round((parseFloat(e.target.value) || 0) / months) : 0)} />
+              </div>
+            </div>
+          </div>
         </Row>
         <Row label="Season length (months)" sub="Months fees are collected">
           <NumInput value={months} onChange={setMonths} />
