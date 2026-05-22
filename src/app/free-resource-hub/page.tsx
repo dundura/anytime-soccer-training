@@ -5,11 +5,11 @@ export const metadata: Metadata = {
   title: 'Free Resources — Anytime Soccer Training',
   description: 'Free training plans, ebooks, calculators, and community groups for soccer players, parents, and coaches.',
   openGraph: {
-    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779461643370-zk99k2.png'],
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779488251663-ogh4p5.png'],
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779461643370-zk99k2.png'],
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779488251663-ogh4p5.png'],
   },
 };
 
@@ -24,8 +24,7 @@ const TRAINING_PLANS = [
   {
     title: '30-Day Training Plan',
     description: 'A personalized training schedule based on your player\'s skill level. Step-by-step videos delivered daily.',
-    gradient: true,
-    gradientContent: { big: 'FREE 30-DAY', small: 'Training Plan' },
+    image: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779488251663-ogh4p5.png',
     href: '/free-30-day-training-plan',
     cta: 'Get Free Plan',
   },
