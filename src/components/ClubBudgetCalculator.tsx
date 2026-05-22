@@ -197,9 +197,22 @@ export default function ClubBudgetCalculator() {
   const [breakdownOpen, setBreakdownOpen] = useState(false);
   const [isNonprofit, setIsNonprofit] = usePersist('calc_isNonprofit', true);
 
-  const [players, setPlayers] = usePersist('calc_players', 16);
-  const [numTeams, setNumTeams] = usePersist('calc_numTeams', 1);
-  const [fee, setFee] = usePersist('calc_fee', 150);
+  const [numTiers, setNumTiers] = usePersist('calc_numTiers', 1);
+  const [tier1Name, setTier1Name] = usePersist<string>('calc_tier1Name', 'Program 1');
+  const [tier1Players, setTier1Players] = usePersist('calc_tier1Players', 16);
+  const [tier1Fee, setTier1Fee] = usePersist('calc_tier1Fee', 150);
+  const [tier2Name, setTier2Name] = usePersist<string>('calc_tier2Name', 'Program 2');
+  const [tier2Players, setTier2Players] = usePersist('calc_tier2Players', 0);
+  const [tier2Fee, setTier2Fee] = usePersist('calc_tier2Fee', 0);
+  const [tier3Name, setTier3Name] = usePersist<string>('calc_tier3Name', 'Program 3');
+  const [tier3Players, setTier3Players] = usePersist('calc_tier3Players', 0);
+  const [tier3Fee, setTier3Fee] = usePersist('calc_tier3Fee', 0);
+  // keep legacy refs for FeeRow / totalPlayers
+  const players = tier1Players;
+  const setPlayers = setTier1Players;
+  const fee = tier1Fee;
+  const setFee = setTier1Fee;
+  const numTeams = 1;
   const [months, setMonths] = usePersist('calc_months', 10);
   const [fundraising, setFundraising] = usePersist('calc_fundraising', 0);
 
@@ -217,23 +230,27 @@ export default function ClubBudgetCalculator() {
   const [weeks, setWeeks] = usePersist('calc_weeks', 40);
   const [numHomeGames, setNumHomeGames] = usePersist('calc_numHomeGames', Math.round(months * 1.5));
 
+  const [winterFacility, setWinterFacility] = usePersist('calc_winterFacility', 3000);
   const [league, setLeague] = usePersist('calc_league', 960);
   const [insurance, setInsurance] = usePersist('calc_insurance', 480);
   const [equipment, setEquipment] = usePersist('calc_equipment', 720);
   const [admin, setAdmin] = usePersist('calc_admin', 240);
   const [software, setSoftware] = usePersist('calc_software', 264);
   const [marketing, setMarketing] = usePersist('calc_marketing', 240);
-  const [otherOps, setOtherOps] = usePersist('calc_otherOps', 0);
+  const [otherOps, setOtherOps] = usePersist('calc_otherOps', 240);
 
-  const totalPlayers = players * numTeams;
+  const tier1Revenue = tier1Players * tier1Fee * months;
+  const tier2Revenue = numTiers >= 2 ? tier2Players * tier2Fee * months : 0;
+  const tier3Revenue = numTiers >= 3 ? tier3Players * tier3Fee * months : 0;
+  const totalPlayers = tier1Players + (numTiers >= 2 ? tier2Players : 0) + (numTiers >= 3 ? tier3Players : 0);
   const monthlyPayroll = numCoaches * headCoach;
-  const playerFees = totalPlayers * fee * months;
+  const playerFees = tier1Revenue + tier2Revenue + tier3Revenue;
   const revenue = playerFees + fundraising;
 
   const coaching = monthlyPayroll * headCoachMonths;
   const assistantAnn = numAssistants * assistantCoach * assistantMonths;
   const specialtyAnn = specialty * months;
-  const fieldTraining = fieldHr * sessions * hrs * weeks + numHomeGames * 2 * fieldHr;
+  const fieldTraining = fieldHr * sessions * hrs * weeks + numHomeGames * 2 * fieldHr + winterFacility;
   const adminAnn = (admin + software) * months;
 
   const totalCosts =
@@ -248,7 +265,7 @@ export default function ClubBudgetCalculator() {
   const costPP = totalPlayers > 0 ? totalCosts / totalPlayers : 0;
 
   const handleReset = () => {
-    const keys = ['calc_players','calc_numTeams','calc_fee','calc_months','calc_fundraising','calc_numCoaches','calc_headCoach','calc_headCoachMonths','calc_numAssistants','calc_assistantCoach','calc_assistantMonths','calc_specialty','calc_fieldHr','calc_sessions','calc_hrs','calc_weeks','calc_numHomeGames','calc_league','calc_insurance','calc_equipment','calc_admin','calc_software','calc_marketing','calc_otherOps','calc_isNonprofit','calc_revenueOpen','calc_coachingOpen','calc_facilitiesOpen','calc_operationsOpen'];
+    const keys = ['calc_numTiers','calc_tier1Name','calc_tier1Players','calc_tier1Fee','calc_tier2Name','calc_tier2Players','calc_tier2Fee','calc_tier3Name','calc_tier3Players','calc_tier3Fee','calc_players','calc_numTeams','calc_fee','calc_months','calc_fundraising','calc_numCoaches','calc_headCoach','calc_headCoachMonths','calc_numAssistants','calc_assistantCoach','calc_assistantMonths','calc_specialty','calc_fieldHr','calc_sessions','calc_hrs','calc_weeks','calc_numHomeGames','calc_winterFacility','calc_league','calc_insurance','calc_equipment','calc_admin','calc_software','calc_marketing','calc_otherOps','calc_isNonprofit','calc_revenueOpen','calc_coachingOpen','calc_facilitiesOpen','calc_operationsOpen'];
     keys.forEach(k => localStorage.removeItem(k));
     window.location.reload();
   };
@@ -288,7 +305,7 @@ export default function ClubBudgetCalculator() {
   if (afterTaxNet > 0) {
     insightBg = '#EAF3DE'; insightBorder = '#639922'; insightColor = '#27500A';
     insightText = isNonprofit
-      ? `Surplus of ${fmt(afterTaxNet)} — This club has margin to reinvest in facilities, coaching quality, or player scholarships. Ask where it goes.`
+      ? `Surplus of ${fmt(afterTaxNet)} — Available for cash reserves, capital projects, or reinvestment in facilities and coaching quality.`
       : `After-tax profit of ${fmt(afterTaxNet)} (${fmt(incomeTax)} estimated tax on ${fmt(net)} pre-tax income at 26%).`;
   } else if (afterTaxNet < -5000) {
     insightBg = '#FCEBEB'; insightBorder = '#E24B4A'; insightColor = '#791F1F';
@@ -332,28 +349,51 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Revenue" open={revenueOpen} onToggle={() => setRevenueOpen(o => !o)} />
       {revenueOpen && <div style={cardStyle}>
-        <Row label="Players on roster" sub="Per team × number of teams">
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <div>
-              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px', textAlign: 'right' }}>Per Team</div>
-              <NumInput value={players} onChange={setPlayers} />
-            </div>
-            <div>
-              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px', textAlign: 'right' }}># of Teams</div>
-              <NumInput value={numTeams} onChange={setNumTeams} />
-            </div>
-          </div>
-        </Row>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
-          <span>Total players</span>
-          <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{totalPlayers} players</span>
+
+        {/* Tier column headers */}
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '0 0 6px', borderBottom: '1px solid #f0f0f0', marginBottom: '4px' }}>
+          <div style={{ flex: 1, fontSize: '10px', color: '#9ca3af', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Program</div>
+          <div style={{ width: '64px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Players</div>
+          <div style={{ width: '80px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>$/mo</div>
+          <div style={{ width: '72px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Annual</div>
         </div>
-        <FeeRow fee={fee} setFee={setFee} months={months} setMonths={setMonths} />
+
+        {/* Tier 1 */}
+        {[
+          { name: tier1Name, setName: setTier1Name, pl: tier1Players, setPl: setTier1Players, f: tier1Fee, setF: setTier1Fee, rev: tier1Revenue, show: true },
+          { name: tier2Name, setName: setTier2Name, pl: tier2Players, setPl: setTier2Players, f: tier2Fee, setF: setTier2Fee, rev: tier2Revenue, show: numTiers >= 2 },
+          { name: tier3Name, setName: setTier3Name, pl: tier3Players, setPl: setTier3Players, f: tier3Fee, setF: setTier3Fee, rev: tier3Revenue, show: numTiers >= 3 },
+        ].filter(t => t.show).map((t, i) => (
+          <div key={i} style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #f0f0f0' }}>
+            <input value={t.name} onChange={e => t.setName(e.target.value)}
+              style={{ flex: 1, fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', color: '#111', background: '#fff' }} />
+            <NumInput value={t.pl} onChange={t.setPl} />
+            <NumInput value={t.f} onChange={t.setF} prefix="$" />
+            <div style={{ width: '72px', textAlign: 'right', fontSize: '13px', fontWeight: '600', color: '#3B6D11' }}>{fmt(t.rev)}</div>
+          </div>
+        ))}
+
+        {numTiers < 3 && (
+          <button onClick={() => setNumTiers(n => Math.min(n + 1, 3))}
+            style={{ marginTop: '8px', fontSize: '12px', color: '#6b7280', background: 'none', border: '1px dashed #d1d5db', borderRadius: '6px', padding: '5px 12px', cursor: 'pointer', width: '100%' }}>
+            + Add program
+          </button>
+        )}
+
+        {/* Months row */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
+          <span>Season length</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <NumInput value={months} onChange={setMonths} />
+            <span style={{ fontSize: '12px', color: '#9ca3af' }}>months</span>
+          </div>
+        </div>
+
         <Row label="Other revenue" sub="Tournaments, events, sponsorships, donations">
           <NumInput value={fundraising} onChange={setFundraising} prefix="$" />
         </Row>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
-          <span>Total annual revenue</span>
+          <span>Total annual revenue · {totalPlayers} players</span>
           <span style={{ fontWeight: '600', fontSize: '14px', color: '#3B6D11' }}>{fmt(revenue)}</span>
         </div>
       </div>}
@@ -430,6 +470,9 @@ export default function ClubBudgetCalculator() {
         <Row label="Number of home games" sub={`Per season — adds ${fmt(numHomeGames * 2 * fieldHr)} for game field rental`}>
           <NumInput value={numHomeGames} onChange={setNumHomeGames} />
         </Row>
+        <Row label="Winter / indoor facility" sub="Annual flat cost — gym, dome, etc.">
+          <NumInput value={winterFacility} onChange={setWinterFacility} prefix="$" />
+        </Row>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
           <span>Total annual field cost</span>
           <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(fieldTraining)}</span>
@@ -446,11 +489,8 @@ export default function ClubBudgetCalculator() {
         <OpsRow label="Marketing & communications" sub="Annual" value={marketing} onChange={setMarketing} revenue={revenue} />
         <OpsRow label="Other" sub="Any additional operating costs" value={otherOps} onChange={setOtherOps} revenue={revenue} />
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
-          <span>Total annual operations cost</span>
-          <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>
-            {fmt(league + insurance + equipment + adminAnn + marketing + otherOps)}
-            {revenue > 0 && <span style={{ fontWeight: '400', fontSize: '11px', color: '#9ca3af', marginLeft: '6px' }}>({Math.round((league + insurance + equipment + adminAnn + marketing + otherOps) / revenue * 100)}% of revenue)</span>}
-          </span>
+          <span>Total annual operations cost{revenue > 0 && <span style={{ marginLeft: '6px', fontWeight: '400' }}>({Math.round((league + insurance + equipment + adminAnn + marketing + otherOps) / revenue * 100)}% of revenue)</span>}</span>
+          <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(league + insurance + equipment + adminAnn + marketing + otherOps)}</span>
         </div>
       </div>}
 
