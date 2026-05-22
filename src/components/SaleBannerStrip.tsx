@@ -73,6 +73,7 @@ export default function SaleBannerStrip() {
             <div className="hidden md:flex flex-shrink-0 items-center gap-4">
               {/* Skill tags */}
               <div className="flex flex-col gap-1.5">
+                <p className="text-navy/50 text-[11px] font-bold uppercase tracking-wider mb-0.5">What&apos;s Inside</p>
                 {SKILLS.map((skill, i) => (
                   <button key={skill.label} onClick={() => setActiveSkill(i)}
                     className={`text-[11px] font-bold px-2.5 py-1 rounded-full whitespace-nowrap text-left transition-colors cursor-pointer border-none ${
