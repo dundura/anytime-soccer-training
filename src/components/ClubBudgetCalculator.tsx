@@ -228,11 +228,11 @@ function GateCard({ name, setName, email, setEmail, onUnlock }: { name: string; 
   );
 }
 
-function Row({ label, sub, children }: { label: string; sub?: string; children: React.ReactNode }) {
+function Row({ label, sub, children, noWrap }: { label: string; sub?: string; children: React.ReactNode; noWrap?: boolean }) {
   return (
     <div style={rowStyle}>
       <div style={labelStyle}>
-        {label}
+        <span style={noWrap ? { whiteSpace: 'nowrap' as const } : undefined}>{label}</span>
         {sub && <div style={subStyle}>{sub}</div>}
       </div>
       {children}
@@ -484,7 +484,7 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Coaching staff" open={coachingOpen} onToggle={() => setCoachingOpen(o => !o)} />
       {coachingOpen && <div style={cardStyle}>
-        <Row label="Head coach" sub="Count × monthly salary × months">
+        <Row label="Head coach" sub="Count × monthly salary × months" noWrap>
           <div style={{ display: 'flex', gap: '10px' }}>
             <div>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}># of Coaches</div>
@@ -504,7 +504,7 @@ export default function ClubBudgetCalculator() {
           <span>Monthly coaching payroll</span>
           <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{fmt(monthlyPayroll)} / month</span>
         </div>
-        <Row label="Assistant coaches" sub="Count × monthly salary × months">
+        <Row label="Assistant coaches" sub="Count × monthly salary × months" noWrap>
           <div style={{ display: 'flex', gap: '10px' }}>
             <div>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}># of Coaches</div>
