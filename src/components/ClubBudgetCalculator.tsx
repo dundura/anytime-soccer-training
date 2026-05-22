@@ -101,7 +101,7 @@ function TierRow({ name, setName, pl, setPl, fee, setFee, rev, months }: { name:
           onBlur={() => { const v = parseFloat(seasonStr) || 0; const f = pl > 0 ? parseFloat((v / pl).toFixed(2)) : 0; setFee(f); setSeasonStr(v > 0 ? String(Math.round(f * pl)) : ''); }}
         />
       </div>
-      <div style={{ width: '92px', textAlign: 'right', fontSize: '13px', color: '#9ca3af', padding: '5px 8px' }}>${moDisplay}/mo</div>
+      <div style={{ width: '92px', textAlign: 'right', fontSize: '13px', fontWeight: '600', color: '#3B6D11', padding: '5px 8px' }}>{rev > 0 ? fmt(rev) : '—'}</div>
     </div>
   );
 }
@@ -237,6 +237,7 @@ export default function ClubBudgetCalculator() {
   const numTeams = 1;
   const [months, setMonths] = usePersist('calc_months', 10);
   const [fundraising, setFundraising] = usePersist('calc_fundraising', 0);
+  const [otherRevenue, setOtherRevenue] = usePersist('calc_otherRevenue', 0);
 
   const [numCoaches, setNumCoaches] = usePersist('calc_numCoaches', 1);
   const [headCoach, setHeadCoach] = usePersist('calc_headCoach', 850);
@@ -267,7 +268,7 @@ export default function ClubBudgetCalculator() {
   const totalPlayers = tier1Players + (numTiers >= 2 ? tier2Players : 0) + (numTiers >= 3 ? tier3Players : 0);
   const monthlyPayroll = numCoaches * headCoach;
   const playerFees = tier1Revenue + tier2Revenue + tier3Revenue;
-  const revenue = playerFees + fundraising;
+  const revenue = playerFees + fundraising + otherRevenue;
 
   const coaching = monthlyPayroll * headCoachMonths;
   const assistantAnn = numAssistants * assistantCoach * assistantMonths;
@@ -287,7 +288,7 @@ export default function ClubBudgetCalculator() {
   const costPP = totalPlayers > 0 ? totalCosts / totalPlayers : 0;
 
   const handleReset = () => {
-    const keys = ['calc_numTiers','calc_tier1Name','calc_tier1Players','calc_tier1Fee','calc_tier2Name','calc_tier2Players','calc_tier2Fee','calc_tier3Name','calc_tier3Players','calc_tier3Fee','calc_players','calc_numTeams','calc_fee','calc_months','calc_fundraising','calc_numCoaches','calc_headCoach','calc_headCoachMonths','calc_numAssistants','calc_assistantCoach','calc_assistantMonths','calc_specialty','calc_fieldHr','calc_sessions','calc_hrs','calc_weeks','calc_numHomeGames','calc_winterFacility','calc_league','calc_insurance','calc_equipment','calc_admin','calc_software','calc_marketing','calc_otherOps','calc_isNonprofit','calc_revenueOpen','calc_coachingOpen','calc_facilitiesOpen','calc_operationsOpen'];
+    const keys = ['calc_numTiers','calc_tier1Name','calc_tier1Players','calc_tier1Fee','calc_tier2Name','calc_tier2Players','calc_tier2Fee','calc_tier3Name','calc_tier3Players','calc_tier3Fee','calc_players','calc_numTeams','calc_fee','calc_months','calc_fundraising','calc_otherRevenue','calc_numCoaches','calc_headCoach','calc_headCoachMonths','calc_numAssistants','calc_assistantCoach','calc_assistantMonths','calc_specialty','calc_fieldHr','calc_sessions','calc_hrs','calc_weeks','calc_numHomeGames','calc_winterFacility','calc_league','calc_insurance','calc_equipment','calc_admin','calc_software','calc_marketing','calc_otherOps','calc_isNonprofit','calc_revenueOpen','calc_coachingOpen','calc_facilitiesOpen','calc_operationsOpen'];
     keys.forEach(k => localStorage.removeItem(k));
     window.location.reload();
   };
@@ -302,7 +303,7 @@ export default function ClubBudgetCalculator() {
         body: JSON.stringify({
           email, name,
           inputs: { players, numTeams, totalPlayers, fee, months, fundraising, numCoaches, headCoach, headCoachMonths, specialty, fieldHr, sessions, hrs, weeks, league, insurance, equipment, admin, software, marketing },
-          results: { revenue, playerFees, fundraising, coaching, assistantAnn, specialtyAnn, fieldTraining, league, insurance, equipment, adminAnn, marketing, totalCosts, net, cph, costPP, totalHrs },
+          results: { revenue, playerFees, fundraising, otherRevenue, coaching, assistantAnn, specialtyAnn, fieldTraining, league, insurance, equipment, adminAnn, marketing, totalCosts, net, cph, costPP, totalHrs },
         }),
       });
       setSendStatus(res.ok ? 'sent' : 'error');
@@ -377,7 +378,7 @@ export default function ClubBudgetCalculator() {
           <div style={{ flex: 1, fontSize: '10px', color: '#9ca3af', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Program</div>
           <div style={{ width: '64px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'left', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Players</div>
           <div style={{ width: '83px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Season</div>
-          <div style={{ width: '92px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>$/mo (calc)</div>
+          <div style={{ width: '92px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Revenue</div>
         </div>
 
         {/* Tier 1 */}
@@ -394,8 +395,11 @@ export default function ClubBudgetCalculator() {
 
 
 
-        <Row label="Other revenue" sub="Tournaments, events, sponsorships, donations">
+        <Row label="Fundraising" sub="Events, grants, donations">
           <NumInput value={fundraising} onChange={setFundraising} prefix="$" />
+        </Row>
+        <Row label="Other revenue" sub="Tournaments, sponsorships">
+          <NumInput value={otherRevenue} onChange={setOtherRevenue} prefix="$" />
         </Row>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
           <span>Total annual revenue · {totalPlayers} players</span>
@@ -515,11 +519,11 @@ export default function ClubBudgetCalculator() {
               {[
                 { label: 'Revenue', isHeader: true },
                 { label: 'Player fees', val: fmt(playerFees), green: true },
-                { label: 'Other revenue', val: fmt(fundraising), green: true },
+                { label: 'Fundraising', val: fmt(fundraising), green: true },
+                { label: 'Other revenue', val: fmt(otherRevenue), green: true },
                 { label: 'Total revenue', val: fmt(revenue), total: true, green: true },
                 { label: 'Expenses', isHeader: true },
                 { label: 'Coaching staff', val: fmt(coaching) },
-                { label: 'Assistant coaches', val: fmt(assistantAnn) },
                 { label: 'Assistant coaches', val: fmt(assistantAnn) },
                 { label: 'Specialty coaches', val: fmt(specialtyAnn) },
                 { label: 'Field rental (training)', val: fmt(fieldTraining) },
