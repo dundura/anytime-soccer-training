@@ -247,6 +247,12 @@ export default function ClubBudgetCalculator() {
   const cph = totalHrs > 0 && totalPlayers > 0 ? totalCosts / totalPlayers / totalHrs : 0;
   const costPP = totalPlayers > 0 ? totalCosts / totalPlayers : 0;
 
+  const handleReset = () => {
+    const keys = ['calc_players','calc_numTeams','calc_fee','calc_months','calc_fundraising','calc_numCoaches','calc_headCoach','calc_headCoachMonths','calc_numAssistants','calc_assistantCoach','calc_assistantMonths','calc_specialty','calc_fieldHr','calc_sessions','calc_hrs','calc_weeks','calc_numHomeGames','calc_league','calc_insurance','calc_equipment','calc_admin','calc_software','calc_marketing','calc_otherOps','calc_isNonprofit','calc_revenueOpen','calc_coachingOpen','calc_facilitiesOpen','calc_operationsOpen'];
+    keys.forEach(k => localStorage.removeItem(k));
+    window.location.reload();
+  };
+
   const handleSendPdf = async () => {
     if (!email || sendStatus === 'loading') return;
     setSendStatus('loading');
@@ -306,6 +312,7 @@ export default function ClubBudgetCalculator() {
             </div>
             <button onClick={() => setLedgerOpen(true)} style={{ fontSize: '11px', fontWeight: '600', color: '#111', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '4px 12px', cursor: 'pointer' }}>📋 Full ledger</button>
             <button onClick={() => setBreakdownOpen(true)} style={{ fontSize: '11px', fontWeight: '600', color: '#111', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '4px 12px', cursor: 'pointer' }}>📊 Cost breakdown</button>
+            <button onClick={handleReset} style={{ fontSize: '11px', fontWeight: '600', color: '#9ca3af', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '4px 12px', cursor: 'pointer' }}>↺ Reset</button>
           </div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '10px' }}>
