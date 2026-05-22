@@ -58,25 +58,6 @@ export default function MemorialDaySaleClient() {
 
                 <hr className="border-white/10 mb-6" />
 
-                {/* Perks */}
-                <div className="grid grid-cols-2 gap-1.5 mb-7">
-                  {[
-                    '5,000+ Training Sessions',
-                    'Ball mastery, dribbling & more',
-                    'Personalized training plans',
-                    'Train anywhere, anytime',
-                    'Built for all skill levels',
-                    'Ages 6–18+',
-                    'Coach homework tools',
-                    'Progress tracking & badges',
-                  ].map((perk) => (
-                    <div key={perk} className="flex items-center gap-2 text-[12px] text-white/80">
-                      <div className="w-1.5 h-1.5 rounded-full bg-red shrink-0" />
-                      <span className="text-white">{perk}</span>
-                    </div>
-                  ))}
-                </div>
-
                 {/* CTA */}
                 <div className="flex items-center gap-4 flex-wrap">
                   <a href={SIGNUP_URL} target="_blank" rel="noopener noreferrer"
