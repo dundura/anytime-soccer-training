@@ -66,7 +66,7 @@ export default function SaleBannerStrip() {
                 >
                   Join for Free →
                 </a>
-                <p className="text-navy/50 text-xs mt-2">Free to join · Upgrades 50% off</p>
+                <p className="text-navy/50 text-xs mt-2">Free to join · <span className="text-red font-bold">Upgrades 50% off</span></p>
               </div>
             </div>
             {/* Skills + Video — far right */}
