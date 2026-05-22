@@ -297,6 +297,23 @@ export default function ClubBudgetCalculator() {
   const [marketing, setMarketing] = usePersist('calc_marketing', 1440);
   const [otherOps, setOtherOps] = usePersist('calc_otherOps', 240);
 
+  // Other / optional expenses
+  const [otherOpen, setOtherOpen] = usePersist('calc_otherOpen', false);
+  const [fieldLights, setFieldLights] = usePersist('calc_fieldLights', 0);
+  const [portaPotties, setPortaPotties] = usePersist('calc_portaPotties', 0);
+  const [backupField, setBackupField] = usePersist('calc_backupField', 0);
+  const [fieldMaintenance, setFieldMaintenance] = usePersist('calc_fieldMaintenance', 0);
+  const [utilities, setUtilities] = usePersist('calc_utilities', 0);
+  const [emergencyFundPct, setEmergencyFundPct] = usePersist('calc_emergencyFundPct', 0);
+  const [coachTraining, setCoachTraining] = usePersist('calc_coachTraining', 0);
+  const [repairReplacement, setRepairReplacement] = usePersist('calc_repairReplacement', 0);
+  const [concessions, setConcessions] = usePersist('calc_concessions', 0);
+  const [coachingGear, setCoachingGear] = usePersist('calc_coachingGear', 0);
+  const [trainingJerseys, setTrainingJerseys] = usePersist('calc_trainingJerseys', 0);
+  const [preseasonEvent, setPreseasonEvent] = usePersist('calc_preseasonEvent', 0);
+  const [postseasonEvent, setPostseasonEvent] = usePersist('calc_postseasonEvent', 0);
+  const [otherEvents, setOtherEvents] = usePersist('calc_otherEvents', 0);
+
   const tier1Revenue = tier1Players * tier1Fee;
   const tier2Revenue = numTiers >= 2 ? tier2Players * tier2Fee : 0;
   const tier3Revenue = numTiers >= 3 ? tier3Players * tier3Fee : 0;
@@ -311,9 +328,12 @@ export default function ClubBudgetCalculator() {
   const fieldTraining = fieldHr * sessions * hrs * weeks + numHomeGames * 2 * fieldHr + winterFacility;
   const adminAnn = (admin + software) * months;
 
+  const emergencyFund = Math.round(revenue * emergencyFundPct / 100);
+  const otherExpensesTotal = fieldLights + portaPotties + backupField + fieldMaintenance + utilities + emergencyFund + coachTraining + repairReplacement + concessions + coachingGear + trainingJerseys + preseasonEvent + postseasonEvent + otherEvents;
+
   const totalCosts =
     coaching + assistantAnn + specialtyAnn + fieldTraining +
-    league + insurance + equipment + adminAnn + marketing + otherOps;
+    league + insurance + equipment + adminAnn + marketing + otherOps + otherExpensesTotal;
 
   const net = revenue - totalCosts;
   const incomeTax = !isNonprofit && net > 0 ? Math.round(net * 0.26) : 0; // ~21% federal + ~5% state
@@ -332,7 +352,7 @@ export default function ClubBudgetCalculator() {
   }, [revenue, totalCosts, net, playerFees, coaching, assistantAnn, specialtyAnn, fieldTraining, adminAnn, cph, costPP, totalHrs, otherRevenue, fundraising, players, totalPlayers, fee, months, numCoaches, headCoach, headCoachMonths, specialty, fieldHr, sessions, hrs, weeks, league, insurance, equipment, admin, software, marketing]);
 
   const handleReset = () => {
-    const keys = ['calc_snapshot','calc_numTiers','calc_tier1Name','calc_tier1Players','calc_tier1Fee','calc_tier2Name','calc_tier2Players','calc_tier2Fee','calc_tier3Name','calc_tier3Players','calc_tier3Fee','calc_players','calc_numTeams','calc_fee','calc_months','calc_fundraising','calc_otherRevenue','calc_name','calc_email','calc_unlocked','calc_numCoaches','calc_headCoach','calc_headCoachMonths','calc_numAssistants','calc_assistantCoach','calc_assistantMonths','calc_specialty','calc_fieldHr','calc_sessions','calc_hrs','calc_weeks','calc_numHomeGames','calc_winterFacility','calc_league','calc_insurance','calc_equipment','calc_admin','calc_software','calc_marketing','calc_otherOps','calc_isNonprofit','calc_revenueOpen','calc_coachingOpen','calc_facilitiesOpen','calc_operationsOpen'];
+    const keys = ['calc_snapshot','calc_otherOpen','calc_fieldLights','calc_portaPotties','calc_backupField','calc_fieldMaintenance','calc_utilities','calc_emergencyFundPct','calc_coachTraining','calc_repairReplacement','calc_concessions','calc_coachingGear','calc_trainingJerseys','calc_preseasonEvent','calc_postseasonEvent','calc_otherEvents','calc_numTiers','calc_tier1Name','calc_tier1Players','calc_tier1Fee','calc_tier2Name','calc_tier2Players','calc_tier2Fee','calc_tier3Name','calc_tier3Players','calc_tier3Fee','calc_players','calc_numTeams','calc_fee','calc_months','calc_fundraising','calc_otherRevenue','calc_name','calc_email','calc_unlocked','calc_numCoaches','calc_headCoach','calc_headCoachMonths','calc_numAssistants','calc_assistantCoach','calc_assistantMonths','calc_specialty','calc_fieldHr','calc_sessions','calc_hrs','calc_weeks','calc_numHomeGames','calc_winterFacility','calc_league','calc_insurance','calc_equipment','calc_admin','calc_software','calc_marketing','calc_otherOps','calc_isNonprofit','calc_revenueOpen','calc_coachingOpen','calc_facilitiesOpen','calc_operationsOpen'];
     keys.forEach(k => localStorage.removeItem(k));
     window.location.reload();
   };
@@ -584,6 +604,47 @@ export default function ClubBudgetCalculator() {
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
           <span>Total annual operations cost{revenue > 0 && <span style={{ marginLeft: '6px', fontWeight: '400' }}>({Math.round((league + insurance + equipment + adminAnn + marketing + otherOps) / revenue * 100)}% of revenue)</span>}</span>
           <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(league + insurance + equipment + adminAnn + marketing + otherOps)}</span>
+        </div>
+      </div>}
+
+      <SectionHeader label="Other expenses (optional)" open={otherOpen} onToggle={() => setOtherOpen(o => !o)} />
+      {otherOpen && <div style={cardStyle}>
+        <div style={{ fontSize: '12px', color: '#9ca3af', marginBottom: '12px', lineHeight: '1.6', padding: '8px 10px', background: '#f9fafb', borderRadius: '6px' }}>
+          Real clubs have costs beyond the basics. Add any that apply to your situation — all are optional.
+        </div>
+        <p style={sectionLabelStyle}>Field & facilities</p>
+        <Row label="Field lighting rental" sub="Portable lights or powered field lights"><NumInput value={fieldLights} onChange={setFieldLights} prefix="$" /></Row>
+        <Row label="Port-a-potties" sub="Rental for home games or practices"><NumInput value={portaPotties} onChange={setPortaPotties} prefix="$" /></Row>
+        <Row label="Emergency / backup field space" sub="Rain-outs, snow-outs, field conflicts"><NumInput value={backupField} onChange={setBackupField} prefix="$" /></Row>
+        <Row label="Field maintenance" sub="Seed, fertilizer, turf beads, lining"><NumInput value={fieldMaintenance} onChange={setFieldMaintenance} prefix="$" /></Row>
+        <Row label="Utility bills" sub="Electric, water, etc. if club owns/manages facility"><NumInput value={utilities} onChange={setUtilities} prefix="$" /></Row>
+
+        <p style={{ ...sectionLabelStyle, marginTop: '12px' }}>People & development</p>
+        <Row label="Coach training & education" sub="Licenses, clinics, travel"><NumInput value={coachTraining} onChange={setCoachTraining} prefix="$" /></Row>
+        <Row label="Coaching gear" sub="Coats, training apparel for staff"><NumInput value={coachingGear} onChange={setCoachingGear} prefix="$" /></Row>
+        <Row label="Training jerseys" sub="If club provides (not parent-paid)"><NumInput value={trainingJerseys} onChange={setTrainingJerseys} prefix="$" /></Row>
+
+        <p style={{ ...sectionLabelStyle, marginTop: '12px' }}>Events & miscellaneous</p>
+        <Row label="Concessions" sub="Supplies, equipment, permits"><NumInput value={concessions} onChange={setConcessions} prefix="$" /></Row>
+        <Row label="Repairs & replacements" sub="Broken goals, nets, facility damage"><NumInput value={repairReplacement} onChange={setRepairReplacement} prefix="$" /></Row>
+        <Row label="Pre-season event / party" sub="Training camp, kickoff event"><NumInput value={preseasonEvent} onChange={setPreseasonEvent} prefix="$" /></Row>
+        <Row label="Post-season party / event" sub="End-of-year celebration"><NumInput value={postseasonEvent} onChange={setPostseasonEvent} prefix="$" /></Row>
+        <Row label="Other events" sub="Tournaments hosted, fundraising events"><NumInput value={otherEvents} onChange={setOtherEvents} prefix="$" /></Row>
+
+        <p style={{ ...sectionLabelStyle, marginTop: '12px' }}>Emergency fund</p>
+        <Row label="Emergency fund contribution" sub="% of annual revenue held in reserve">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <input type="number" value={emergencyFundPct === 0 ? '' : emergencyFundPct} placeholder="0" min="0" max="30" step="0.5"
+              onChange={e => setEmergencyFundPct(parseFloat(e.target.value) || 0)}
+              style={{ width: '60px', textAlign: 'right', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', background: '#fff', color: '#111' }} />
+            <span style={{ fontSize: '13px', color: '#9ca3af' }}>%</span>
+            {emergencyFundPct > 0 && <span style={{ fontSize: '12px', color: '#6b7280', marginLeft: '4px' }}>{fmt(emergencyFund)}</span>}
+          </div>
+        </Row>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '4px', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
+          <span>Total other expenses</span>
+          <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(otherExpensesTotal)}</span>
         </div>
       </div>}
 
