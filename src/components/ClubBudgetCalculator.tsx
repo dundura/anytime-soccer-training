@@ -133,6 +133,7 @@ export default function ClubBudgetCalculator() {
   const [admin, setAdmin] = useState(500);
   const [software, setSoftware] = useState(150);
   const [marketing, setMarketing] = useState(1200);
+  const [otherOps, setOtherOps] = useState(0);
 
   const totalPlayers = players * numTeams;
   const monthlyPayroll = numCoaches * headCoach;
@@ -148,7 +149,7 @@ export default function ClubBudgetCalculator() {
 
   const totalCosts =
     coaching + offseason + assistantAnn + specialtyAnn + fieldTraining +
-    league + insurance + equipment + adminAnn + marketing;
+    league + insurance + equipment + adminAnn + marketing + otherOps;
 
   const net = revenue - totalCosts;
   const totalHrs = sessions * hrs * weeks;
@@ -337,6 +338,13 @@ export default function ClubBudgetCalculator() {
         <Row label="Marketing & communications" sub="Website, social, design — annual">
           <NumInput value={marketing} onChange={setMarketing} prefix="$" />
         </Row>
+        <Row label="Other" sub="Any additional operating costs">
+          <NumInput value={otherOps} onChange={setOtherOps} prefix="$" />
+        </Row>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
+          <span>Total annual operations cost</span>
+          <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(league + insurance + equipment + adminAnn + marketing + otherOps)}</span>
+        </div>
       </div>}
 
       {ledgerOpen && (
