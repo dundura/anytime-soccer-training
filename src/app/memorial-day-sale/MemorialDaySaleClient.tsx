@@ -63,7 +63,7 @@ export default function MemorialDaySaleClient() {
                     className="bg-red text-white text-sm font-extrabold uppercase tracking-wider px-7 py-3 rounded-lg no-underline hover:bg-red-dark transition-all">
                     {saleActive ? 'Join for Free →' : 'Join Anytime →'}
                   </a>
-                  <span className="text-xs text-white/50">Free to join · 50% off upgrades.</span>
+                  <span className="text-xs text-white/50">Free to join · 50% off upgrades with code <span className="font-bold text-white/70">MDAY2026</span></span>
                 </div>
               </div>
 
