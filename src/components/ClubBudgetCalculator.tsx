@@ -30,7 +30,8 @@ const prefixStyle = { fontSize: '13px', color: '#666' };
 const cardStyle = {
   background: '#fff',
   border: '1px solid #e5e7eb',
-  borderRadius: '12px',
+  borderTop: 'none',
+  borderRadius: '0 0 12px 12px',
   padding: '1.25rem',
   marginBottom: '12px',
 };
@@ -48,9 +49,9 @@ function SectionHeader({ label, open, onToggle }: { label: string; open: boolean
   return (
     <button
       onClick={onToggle}
-      style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', background: 'none', border: 'none', cursor: 'pointer', padding: '12px 0 6px', textAlign: 'left' }}
+      style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', background: '#fff', border: '1px solid #e5e7eb', borderRadius: open ? '12px 12px 0 0' : '12px', cursor: 'pointer', padding: '12px 16px', textAlign: 'left', marginBottom: open ? '0' : '12px' }}
     >
-      <span style={{ fontSize: '11px', fontWeight: '600', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9ca3af' }}>{label}</span>
+      <span style={{ fontSize: '11px', fontWeight: '600', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6b7280' }}>{label}</span>
       <span style={{ fontSize: '14px', color: '#9ca3af', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s', display: 'inline-block' }}>▾</span>
     </button>
   );
