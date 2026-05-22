@@ -73,6 +73,9 @@ function Row({ label, sub, children }: { label: string; sub?: string; children: 
 }
 
 export default function ClubBudgetCalculator() {
+  const [email, setEmail] = useState('');
+  const [sendStatus, setSendStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle');
+
   const [players, setPlayers] = useState(20);
   const [fee, setFee] = useState(450);
   const [months, setMonths] = useState(10);
@@ -114,6 +117,25 @@ export default function ClubBudgetCalculator() {
   const totalHrs = sessions * hrs * weeks;
   const cph = totalHrs > 0 && players > 0 ? totalCosts / players / totalHrs : 0;
   const costPP = players > 0 ? totalCosts / players : 0;
+
+  const handleSendPdf = async () => {
+    if (!email || sendStatus === 'loading') return;
+    setSendStatus('loading');
+    try {
+      const res = await fetch('/api/send-budget-pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          inputs: { players, fee, months, fundraising, numCoaches, headCoach, specialty, offseasonMonths, fieldHr, sessions, hrs, weeks, gamesField, league, insurance, equipment, admin, software, marketing },
+          results: { revenue, playerFees, fundraising, coaching, offseason, specialtyAnn, fieldTraining, gamesField, league, insurance, equipment, adminAnn, marketing, totalCosts, net, cph, costPP, totalHrs },
+        }),
+      });
+      setSendStatus(res.ok ? 'sent' : 'error');
+    } catch {
+      setSendStatus('error');
+    }
+  };
 
   const barCategories = [
     { label: 'Coaching staff', val: coaching + offseason + specialtyAnn, color: '#1D9E75' },
@@ -306,6 +328,36 @@ export default function ClubBudgetCalculator() {
             </div>
           </div>
         ))}
+      </div>
+
+      <div style={{ marginTop: '28px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '20px' }}>
+        <div style={{ fontSize: '14px', fontWeight: '500', color: '#111', marginBottom: '4px' }}>Get a PDF copy of these results</div>
+        <div style={{ fontSize: '12px', color: '#9ca3af', marginBottom: '14px' }}>Enter your email and we'll send a clean one-page report.</div>
+        {sendStatus === 'sent' ? (
+          <div style={{ fontSize: '14px', color: '#3B6D11', background: '#EAF3DE', border: '1px solid #639922', borderRadius: '8px', padding: '10px 14px' }}>
+            Sent! Check your inbox for the report.
+          </div>
+        ) : (
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            <input
+              type="email"
+              placeholder="your@email.com"
+              value={email}
+              onChange={(e) => { setEmail(e.target.value); if (sendStatus === 'error') setSendStatus('idle'); }}
+              style={{ flex: '1', minWidth: '200px', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '9px 12px', background: '#fff', color: '#111' }}
+            />
+            <button
+              onClick={handleSendPdf}
+              disabled={!email || sendStatus === 'loading'}
+              style={{ fontSize: '14px', fontWeight: '600', background: sendStatus === 'loading' ? '#9ca3af' : '#111', color: '#fff', border: 'none', borderRadius: '8px', padding: '9px 20px', cursor: !email || sendStatus === 'loading' ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' }}
+            >
+              {sendStatus === 'loading' ? 'Sending…' : 'Send PDF'}
+            </button>
+          </div>
+        )}
+        {sendStatus === 'error' && (
+          <div style={{ fontSize: '12px', color: '#A32D2D', marginTop: '8px' }}>Something went wrong — please try again.</div>
+        )}
       </div>
 
     </div>
