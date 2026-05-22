@@ -170,9 +170,9 @@ export default function ClubBudgetCalculator() {
   const [league, setLeague] = useState(2400);      // ~8% of $30k
   const [insurance, setInsurance] = useState(1200); // ~4% of $30k
   const [equipment, setEquipment] = useState(1500); // ~5% of $30k
-  const [admin, setAdmin] = useState(500);
+  const [admin, setAdmin] = useState(600);
   const [software, setSoftware] = useState(150);
-  const [marketing, setMarketing] = useState(1200);
+  const [marketing, setMarketing] = useState(300);
   const [otherOps, setOtherOps] = useState(0);
 
   const totalPlayers = players * numTeams;
