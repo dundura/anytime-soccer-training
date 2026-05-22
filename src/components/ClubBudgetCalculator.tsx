@@ -105,7 +105,7 @@ export default function ClubBudgetCalculator() {
   const [fundraising, setFundraising] = useState(0);
 
   const [numCoaches, setNumCoaches] = useState(2);
-  const [headCoach, setHeadCoach] = useState(3000);
+  const [headCoach, setHeadCoach] = useState(850);
   const [specialty, setSpecialty] = useState(800);
   const [offseasonMonths, setOffseasonMonths] = useState(2);
 
@@ -213,35 +213,20 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Revenue" open={revenueOpen} onToggle={() => setRevenueOpen(o => !o)} />
       {revenueOpen && <div style={cardStyle}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', paddingBottom: '12px', borderBottom: '1px solid #f0f0f0' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 16px' }}>
           {[
-            { label: 'Players per team', value: players, onChange: setPlayers, prefix: undefined },
-            { label: '# of teams', value: numTeams, onChange: setNumTeams, prefix: undefined },
-            { label: 'Monthly fee', value: fee, onChange: setFee, prefix: '$' },
-          ].map(({ label, value, onChange, prefix }) => (
+            { label: 'Players per team', node: <NumInput value={players} onChange={setPlayers} /> },
+            { label: '# of teams', node: <NumInput value={numTeams} onChange={setNumTeams} /> },
+            { label: 'Monthly fee', node: <NumInput value={fee} onChange={setFee} prefix="$" /> },
+            { label: 'Season (months)', node: <NumInput value={months} onChange={setMonths} /> },
+            { label: 'Other revenue', node: <NumInput value={fundraising} onChange={setFundraising} prefix="$" /> },
+            { label: 'Total revenue', node: <span style={{ fontSize: '15px', fontWeight: '600', color: '#3B6D11' }}>{fmt(revenue)}</span> },
+          ].map(({ label, node }) => (
             <div key={label}>
-              <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '6px', fontWeight: '500' }}>{label}</div>
-              <NumInput value={value} onChange={onChange} prefix={prefix} />
+              <div style={{ fontSize: '11px', color: '#9ca3af', fontWeight: '500', marginBottom: '5px' }}>{label}</div>
+              {node}
             </div>
           ))}
-          <div>
-            <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '6px', fontWeight: '500' }}>Annual fees</div>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: '#3B6D11', padding: '5px 0' }}>{fmt(playerFees)}</div>
-          </div>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', paddingTop: '10px' }}>
-          <div>
-            <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '6px', fontWeight: '500' }}>Season (months)</div>
-            <NumInput value={months} onChange={setMonths} />
-          </div>
-          <div>
-            <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '6px', fontWeight: '500' }}>Other revenue</div>
-            <NumInput value={fundraising} onChange={setFundraising} prefix="$" />
-          </div>
-          <div>
-            <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '6px', fontWeight: '500' }}>Total revenue</div>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: '#3B6D11', padding: '5px 0' }}>{fmt(revenue)}</div>
-          </div>
         </div>
       </div>}
 
