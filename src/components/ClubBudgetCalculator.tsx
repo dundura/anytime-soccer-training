@@ -32,7 +32,7 @@ const cardStyle = {
   border: '1px solid #e5e7eb',
   borderTop: 'none',
   borderRadius: '0 0 12px 12px',
-  padding: '1.25rem',
+  padding: '0.75rem 1rem',
   marginBottom: '12px',
 };
 
