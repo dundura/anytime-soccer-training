@@ -67,18 +67,18 @@ export default function MemorialDaySaleClient() {
                 </div>
               </div>
 
-              {/* Right: countdown */}
-              {saleActive && timeLeft && (
-                <div className="hidden md:flex flex-col items-center justify-center bg-white rounded-xl px-6 py-6 min-w-[160px] text-center shadow-sm">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-navy/40 mb-3">Sale Ends In</p>
-                  <div className="text-4xl font-black text-navy tabular-nums tracking-tight leading-none mb-1">
-                    {timeLeft.split(':').slice(0,2).join(':')}
-                  </div>
-                  <div className="text-xl font-black text-red tabular-nums tracking-tight">
-                    :{timeLeft.split(':').slice(2).join(':')}
-                  </div>
-                </div>
-              )}
+              {/* Right: video */}
+              <div className="hidden md:block flex-shrink-0 rounded-2xl overflow-hidden shadow-lg" style={{ width: 280, height: 158 }}>
+                <iframe
+                  width="280"
+                  height="158"
+                  src="https://www.youtube.com/embed/CGY_9U5qI-c?si=qfiN5d4L4R0ygmQ-&autoplay=1&mute=1&loop=1&playlist=CGY_9U5qI-c&controls=0&modestbranding=1"
+                  title="Anytime Soccer Training"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{ border: 'none', display: 'block' }}
+                />
+              </div>
             </div>
           </div>
         </div>
