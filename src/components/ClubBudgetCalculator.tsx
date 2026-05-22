@@ -91,15 +91,15 @@ function TierRow({ name, setName, pl, setPl, fee, setFee, rev, months }: { name:
     <div style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #f0f0f0' }}>
       <input value={name} onChange={e => setName(e.target.value)}
         style={{ flex: 1, fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', color: '#111', background: '#fff' }} />
-      <NumInput value={pl} onChange={v => { setPl(v); setAnnualStr(v > 0 && fee > 0 ? String(v * fee * months) : ''); }} />
+      <NumInput value={pl} onChange={v => { setPl(v); setAnnualStr(v > 0 && fee > 0 ? String(Math.round(v * fee * months)) : ''); }} />
       <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
         <span style={{ fontSize: '12px', color: '#888' }}>$</span>
         <input type="number" value={annualStr} placeholder="0" min="0" style={{ ...inputStyle, width: '72px', fontWeight: '600', color: '#3B6D11' }}
-          onChange={e => { setAnnualStr(e.target.value); const v = parseFloat(e.target.value); if (!isNaN(v) && pl > 0 && months > 0) setFee(Math.round(v / pl / months)); }}
-          onBlur={() => { const v = parseFloat(annualStr) || 0; const mo = pl > 0 && months > 0 ? Math.round(v / pl / months) : 0; setFee(mo); setAnnualStr(mo * pl * months > 0 ? String(mo * pl * months) : ''); }}
+          onChange={e => { setAnnualStr(e.target.value); const v = parseFloat(e.target.value); if (!isNaN(v) && pl > 0 && months > 0) setFee(parseFloat((v / pl / months).toFixed(2))); }}
+          onBlur={() => { const v = parseFloat(annualStr) || 0; const mo = pl > 0 && months > 0 ? parseFloat((v / pl / months).toFixed(2)) : 0; setFee(mo); setAnnualStr(v > 0 ? String(Math.round(mo * pl * months)) : ''); }}
         />
       </div>
-      <NumInput value={fee} onChange={v => { setFee(v); setAnnualStr(v > 0 && pl > 0 ? String(v * pl * months) : ''); }} prefix="$" />
+      <NumInput value={fee} onChange={v => { setFee(v); setAnnualStr(v > 0 && pl > 0 ? String(Math.round(v * pl * months)) : ''); }} prefix="$" />
     </div>
   );
 }
@@ -374,7 +374,7 @@ export default function ClubBudgetCalculator() {
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '0 0 6px', borderBottom: '1px solid #f0f0f0', marginBottom: '4px' }}>
           <div style={{ flex: 1, fontSize: '10px', color: '#9ca3af', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Program</div>
           <div style={{ width: '64px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'left', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Players</div>
-          <div style={{ width: '83px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Annual</div>
+          <div style={{ width: '83px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Season</div>
           <div style={{ width: '92px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>$/mo</div>
         </div>
 
