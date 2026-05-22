@@ -186,28 +186,50 @@ export default function FreeResourceHubPage() {
         </div>
       </section>
 
-      {/* ===== AGE CALCULATOR ===== */}
+      {/* ===== CALCULATORS ===== */}
       <section className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link
-            href="/calculator"
-            className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all block"
-          >
-            <div className="grid md:grid-cols-[280px_1fr] gap-12 items-center p-10 md:p-14">
-              <div className="bg-gradient-to-br from-navy to-[#1a4270] rounded-xl aspect-square flex flex-col items-center justify-center p-10 max-w-[280px] mx-auto w-full">
-                <span className="text-[96px] mb-5 block leading-none">&#9917;</span>
-                <span className="text-white text-[28px] font-bold leading-tight text-center">Age Group<br /><span className="text-red">Calculator</span></span>
+          <div className="grid md:grid-cols-2 gap-6">
+
+            {/* Club Budget Calculator */}
+            <Link
+              href="/soccer-club-cost-calculator"
+              className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all block"
+            >
+              <div className="flex flex-col items-center p-8 md:p-10 text-center h-full">
+                <div className="bg-gradient-to-br from-navy to-[#1a4270] rounded-xl w-full aspect-[16/9] flex flex-col items-center justify-center p-8 mb-6">
+                  <span className="text-[72px] mb-3 block leading-none">📊</span>
+                  <span className="text-white text-[22px] font-bold leading-tight text-center">Club Budget<br /><span className="text-red">Calculator</span></span>
+                </div>
+                <span className="text-sm font-bold uppercase tracking-[2px] text-red mb-3 block">CALCULATOR</span>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4 leading-tight">Free Club Budget Calculator</h3>
+                <p className="text-base md:text-lg text-gray mb-6 flex-1">Find out exactly what it costs to run a youth soccer club — coaching, facilities, insurance, and more. Get a free PDF report.</p>
+                <span className="bg-red text-white font-bold py-4 px-8 rounded-full text-base shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block w-full text-center">
+                  Open Calculator &rarr;
+                </span>
               </div>
-              <div className="text-center md:text-left">
-                <span className="text-base font-bold uppercase tracking-[2px] text-red mb-4 block">CALCULATOR</span>
-                <h3 className="text-3xl md:text-[42px] font-extrabold text-navy mb-5 leading-tight">Free Age Group Calculator</h3>
-                <p className="text-xl md:text-[22px] text-gray mb-8 leading-relaxed">Find the correct U6, U8, U10 age group for any season. Get instant results for all three formation cycles.</p>
-                <span className="bg-red text-white font-bold py-4 px-8 md:py-5 md:px-12 rounded-full text-base md:text-xl shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block">
+            </Link>
+
+            {/* Age Group Calculator */}
+            <Link
+              href="/calculator"
+              className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all block"
+            >
+              <div className="flex flex-col items-center p-8 md:p-10 text-center h-full">
+                <div className="bg-gradient-to-br from-navy to-[#1a4270] rounded-xl w-full aspect-[16/9] flex flex-col items-center justify-center p-8 mb-6">
+                  <span className="text-[72px] mb-3 block leading-none">&#9917;</span>
+                  <span className="text-white text-[22px] font-bold leading-tight text-center">Age Group<br /><span className="text-red">Calculator</span></span>
+                </div>
+                <span className="text-sm font-bold uppercase tracking-[2px] text-red mb-3 block">CALCULATOR</span>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4 leading-tight">Free Age Group Calculator</h3>
+                <p className="text-base md:text-lg text-gray mb-6 flex-1">Find the correct U6, U8, U10 age group for any season. Get instant results for all three formation cycles.</p>
+                <span className="bg-red text-white font-bold py-4 px-8 rounded-full text-base shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block w-full text-center">
                   Calculate Age Group &rarr;
                 </span>
               </div>
-            </div>
-          </Link>
+            </Link>
+
+          </div>
         </div>
       </section>
 
