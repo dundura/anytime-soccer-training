@@ -472,7 +472,7 @@ export default function ClubBudgetCalculator() {
           <NumInput value={winterFacility} onChange={setWinterFacility} prefix="$" />
         </Row>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
-          <span>Total annual field cost</span>
+          <span>Total annual field cost{revenue > 0 && <span style={{ marginLeft: '6px' }}>({Math.round(fieldTraining / revenue * 100)}% of revenue)</span>}</span>
           <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(fieldTraining)}</span>
         </div>
       </div>}
