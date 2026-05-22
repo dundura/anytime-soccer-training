@@ -18,21 +18,13 @@ export default function BudgetCalculatorPage() {
           <div>
 
           <h1 className="text-[clamp(28px,4vw,42px)] font-extrabold text-white leading-tight mb-5">
-            Do you know what it actually costs<br />
-            <span className="text-[#DC373E]">to run a soccer club?</span>
+            The Soccer Club<br />
+            <span className="text-[#DC373E]">Cost Calculator</span>
           </h1>
 
           <p className="text-white/75 text-[16px] leading-relaxed mb-6 max-w-[560px]">
             Thinking about starting a club? Already running one? Or just tired of hearing parents complain about fees? Plug in your numbers and see exactly what it actually costs — coaching, field time, insurance, admin — all of it.
           </p>
-
-          <a
-            href="https://www.anytime-soccer.com/blog/stop-complaining-about-pay-to-play-before-you-answer-these-questions"
-            className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 text-[13px] transition-colors"
-          >
-            <span className="border-b border-white/20 pb-px">Related: Stop Complaining About Pay-to-Play Before You Answer These Questions</span>
-            <span>&rarr;</span>
-          </a>
 
           {/* Quick stats */}
           <div className="grid grid-cols-3 gap-3 mt-10">
