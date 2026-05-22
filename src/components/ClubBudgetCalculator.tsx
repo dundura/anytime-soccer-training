@@ -117,7 +117,7 @@ export default function ClubBudgetCalculator() {
   const [headCoach, setHeadCoach] = useState(850);
   const [numAssistants, setNumAssistants] = useState(0);
   const [assistantCoach, setAssistantCoach] = useState(0);
-  const [specialty, setSpecialty] = useState(800);
+  const [specialty, setSpecialty] = useState(0);
   const [offseasonMonths, setOffseasonMonths] = useState(2);
 
   const [fieldHr, setFieldHr] = useState(120);
