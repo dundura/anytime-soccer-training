@@ -35,7 +35,6 @@ export default function MemorialDaySaleClient() {
       {/* TOP BAR */}
       <div className="bg-navy text-white text-center py-2.5 px-4 text-sm font-semibold">
         Free to join &middot; <span className="font-extrabold text-red">50% off upgrades</span> with code <span className="font-extrabold">MDAY2026</span> &middot; Ends May 26
-        {timeLeft && <span className="ml-2 tabular-nums text-white/60">{timeLeft}</span>}
       </div>
 
       {/* HERO */}
@@ -51,7 +50,7 @@ export default function MemorialDaySaleClient() {
             <div className="px-6 py-8 md:px-10 md:py-9 grid md:grid-cols-[1fr_auto] gap-8 items-start">
               {/* Left: text + perks + CTA */}
               <div>
-                <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-red mb-2.5">Offer</p>
+                <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-red mb-2.5">Exclusive Offer</p>
                 <h1 className="text-[32px] md:text-[42px] font-extrabold text-white leading-[1.15] uppercase tracking-wide mb-3">
                   Train Smarter.<br /><span className="text-red">Anytime.</span>
                 </h1>
