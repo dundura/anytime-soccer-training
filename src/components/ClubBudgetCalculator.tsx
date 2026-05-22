@@ -207,7 +207,7 @@ export default function ClubBudgetCalculator() {
   const [fieldHr, setFieldHr] = usePersist('calc_fieldHr', 120);
   const [sessions, setSessions] = usePersist('calc_sessions', 3);
   const [hrs, setHrs] = usePersist('calc_hrs', 1.5);
-  const weeks = months * 4;
+  const weeks = Math.round(months * 4.33);
   const numHomeGames = Math.round(months * 1.5);
 
   const [league, setLeague] = usePersist('calc_league', 960);
@@ -397,7 +397,7 @@ export default function ClubBudgetCalculator() {
         <Row label="Hours per session" sub="Length of each practice">
           <NumInput value={hrs} onChange={setHrs} step={0.5} />
         </Row>
-        <Row label="Training weeks per year" sub="Auto: season months × 4">
+        <Row label="Training weeks per year" sub="Auto: season months × 4.33">
           <span style={{ fontSize: '14px', color: '#9ca3af', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '6px', padding: '5px 12px' }}>{weeks}</span>
         </Row>
         <Row label="Number of home games" sub="Auto: 3 games/mo, half home">
