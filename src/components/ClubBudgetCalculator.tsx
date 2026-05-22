@@ -225,14 +225,14 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Revenue" open={revenueOpen} onToggle={() => setRevenueOpen(o => !o)} />
       {revenueOpen && <div style={cardStyle}>
-        <Row label="Players on roster" sub="">
+        <Row label="Players on roster" sub="Per team × number of teams">
           <div style={{ display: 'flex', gap: '10px' }}>
             <div>
-              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px', textAlign: 'right' }}>Per Team</div>
+              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px', textAlign: 'right' }}>Per Team</div>
               <NumInput value={players} onChange={setPlayers} />
             </div>
             <div>
-              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px', textAlign: 'right' }}># of Teams</div>
+              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px', textAlign: 'right' }}># of Teams</div>
               <NumInput value={numTeams} onChange={setNumTeams} />
             </div>
           </div>
@@ -258,14 +258,14 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Coaching staff" open={coachingOpen} onToggle={() => setCoachingOpen(o => !o)} />
       {coachingOpen && <div style={cardStyle}>
-        <Row label="Head coach" sub="">
+        <Row label="Head coach" sub="Count × monthly salary">
           <div style={{ display: 'flex', gap: '10px' }}>
             <div>
-              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px' }}># of Coaches</div>
+              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}># of Coaches</div>
               <NumInput value={numCoaches} onChange={setNumCoaches} />
             </div>
             <div>
-              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px' }}>Monthly Salary</div>
+              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}>Monthly Salary</div>
               <NumInput value={headCoach} onChange={setHeadCoach} prefix="$" />
             </div>
           </div>
@@ -274,14 +274,14 @@ export default function ClubBudgetCalculator() {
           <span>Monthly coaching payroll</span>
           <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{fmt(monthlyPayroll)} / month</span>
         </div>
-        <Row label="Assistant coaches" sub="">
+        <Row label="Assistant coaches" sub="Count × monthly salary">
           <div style={{ display: 'flex', gap: '10px' }}>
             <div>
-              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px' }}># of Coaches</div>
+              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}># of Coaches</div>
               <NumInput value={numAssistants} onChange={setNumAssistants} />
             </div>
             <div>
-              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px' }}>Monthly Salary</div>
+              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}>Monthly Salary</div>
               <NumInput value={assistantCoach} onChange={setAssistantCoach} prefix="$" />
             </div>
           </div>
