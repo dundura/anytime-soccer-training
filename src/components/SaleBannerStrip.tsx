@@ -33,7 +33,7 @@ export default function SaleBannerStrip() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(0,0,0,0.1)_0%,transparent_70%)] pointer-events-none" />
           <div className="relative z-10">
             <h2 className="text-3xl md:text-5xl font-black text-white mb-2 leading-tight">
-              Memorial Day Weekend Sale
+              Memorial Day<br />Weekend Sale
             </h2>
             <p className="text-xl md:text-2xl font-bold text-white/80 mb-6">
               50% off — Ends May 26
