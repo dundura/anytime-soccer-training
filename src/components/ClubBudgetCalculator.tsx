@@ -403,7 +403,8 @@ export default function ClubBudgetCalculator() {
             </div>
           ))}
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0,1fr))', gap: '8px', marginTop: '8px' }}>
+        <p style={{ ...sectionLabelStyle, margin: '10px 0 6px' }}>Quick estimate</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0,1fr))', gap: '8px' }}>
           {[
             { label: 'Players', suffix: '', value: tier1Players, onChange: (v: number) => setTier1Players(v) },
             { label: 'Season fee / player', prefix: '$', value: tier1Fee, onChange: (v: number) => setTier1Fee(v), step: 100 },
