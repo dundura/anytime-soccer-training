@@ -216,7 +216,7 @@ export default function ClubBudgetCalculator() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', paddingBottom: '12px', borderBottom: '1px solid #f0f0f0' }}>
           {[
             { label: 'Players per team', value: players, onChange: setPlayers, prefix: undefined },
-            { label: 'Number of teams', value: numTeams, onChange: setNumTeams, prefix: undefined },
+            { label: '# of teams', value: numTeams, onChange: setNumTeams, prefix: undefined },
             { label: 'Monthly fee', value: fee, onChange: setFee, prefix: '$' },
           ].map(({ label, value, onChange, prefix }) => (
             <div key={label}>
