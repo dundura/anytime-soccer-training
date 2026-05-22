@@ -84,6 +84,26 @@ function NumInput({ value, onChange, prefix, step, max }: { value: number; onCha
   );
 }
 
+function TierRow({ name, setName, pl, setPl, fee, setFee, rev, months }: { name: string; setName: (v: string) => void; pl: number; setPl: (v: number) => void; fee: number; setFee: (v: number) => void; rev: number; months: number }) {
+  const [annualStr, setAnnualStr] = useState(rev > 0 ? String(rev) : '');
+  const inputStyle = { textAlign: 'right' as const, fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 6px', background: '#fff', color: '#111' };
+  return (
+    <div style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #f0f0f0' }}>
+      <input value={name} onChange={e => setName(e.target.value)}
+        style={{ flex: 1, fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', color: '#111', background: '#fff' }} />
+      <NumInput value={pl} onChange={v => { setPl(v); setAnnualStr(v > 0 && fee > 0 ? String(v * fee * months) : ''); }} />
+      <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+        <span style={{ fontSize: '12px', color: '#888' }}>$</span>
+        <input type="number" value={annualStr} placeholder="0" min="0" style={{ ...inputStyle, width: '72px', fontWeight: '600', color: '#3B6D11' }}
+          onChange={e => { setAnnualStr(e.target.value); const v = parseFloat(e.target.value); if (!isNaN(v) && pl > 0 && months > 0) setFee(Math.round(v / pl / months)); }}
+          onBlur={() => { const v = parseFloat(annualStr) || 0; const mo = pl > 0 && months > 0 ? Math.round(v / pl / months) : 0; setFee(mo); setAnnualStr(mo * pl * months > 0 ? String(mo * pl * months) : ''); }}
+        />
+      </div>
+      <NumInput value={fee} onChange={v => { setFee(v); setAnnualStr(v > 0 && pl > 0 ? String(v * pl * months) : ''); }} prefix="$" />
+    </div>
+  );
+}
+
 function FeeRow({ fee, setFee, months, setMonths }: { fee: number; setFee: (v: number) => void; months: number; setMonths: (v: number) => void }) {
   const [annualStr, setAnnualStr] = useState(fee > 0 ? String(fee * months) : '');
   const [monthlyStr, setMonthlyStr] = useState(fee > 0 ? String(fee) : '');
@@ -359,25 +379,9 @@ export default function ClubBudgetCalculator() {
         </div>
 
         {/* Tier 1 */}
-        {[
-          { name: tier1Name, setName: setTier1Name, pl: tier1Players, setPl: setTier1Players, f: tier1Fee, setF: setTier1Fee, rev: tier1Revenue, show: true },
-          { name: tier2Name, setName: setTier2Name, pl: tier2Players, setPl: setTier2Players, f: tier2Fee, setF: setTier2Fee, rev: tier2Revenue, show: numTiers >= 2 },
-          { name: tier3Name, setName: setTier3Name, pl: tier3Players, setPl: setTier3Players, f: tier3Fee, setF: setTier3Fee, rev: tier3Revenue, show: numTiers >= 3 },
-        ].filter(t => t.show).map((t, i) => (
-          <div key={i} style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #f0f0f0' }}>
-            <input value={t.name} onChange={e => t.setName(e.target.value)}
-              style={{ flex: 1, fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', color: '#111', background: '#fff' }} />
-            <NumInput value={t.pl} onChange={t.setPl} />
-            <div style={{ display: 'flex', alignItems: 'center', gap: '3px', width: '80px' }}>
-              <span style={{ fontSize: '12px', color: '#888' }}>$</span>
-              <input type="number" value={t.rev === 0 ? '' : t.rev} placeholder="0" min="0"
-                style={{ width: '72px', textAlign: 'right', fontSize: '13px', fontWeight: '600', color: '#3B6D11', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 6px', background: '#fff' }}
-                onChange={e => { const v = parseFloat(e.target.value) || 0; const mo = t.pl > 0 && months > 0 ? Math.round(v / t.pl / months) : 0; t.setF(mo); }}
-              />
-            </div>
-            <NumInput value={t.f} onChange={t.setF} prefix="$" />
-          </div>
-        ))}
+        <TierRow name={tier1Name} setName={setTier1Name} pl={tier1Players} setPl={setTier1Players} fee={tier1Fee} setFee={setTier1Fee} rev={tier1Revenue} months={months} />
+        {numTiers >= 2 && <TierRow name={tier2Name} setName={setTier2Name} pl={tier2Players} setPl={setTier2Players} fee={tier2Fee} setFee={setTier2Fee} rev={tier2Revenue} months={months} />}
+        {numTiers >= 3 && <TierRow name={tier3Name} setName={setTier3Name} pl={tier3Players} setPl={setTier3Players} fee={tier3Fee} setFee={setTier3Fee} rev={tier3Revenue} months={months} />}
 
         {numTiers < 3 && (
           <button onClick={() => setNumTiers(n => Math.min(n + 1, 3))}
