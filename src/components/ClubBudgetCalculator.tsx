@@ -283,7 +283,7 @@ export default function ClubBudgetCalculator() {
           <span>Total players</span>
           <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{totalPlayers} players</span>
         </div>
-        <Row label="Monthly fee per player" sub="What each family pays">
+        <Row label="Monthly fee per player" sub="Average">
           <NumInput value={fee} onChange={setFee} prefix="$" />
         </Row>
         <Row label="Season length (months)" sub="Months fees are collected">
