@@ -195,8 +195,16 @@ function OpsRow({ label, sub, value, onChange, revenue }: { label: string; sub: 
 
 function GateCard({ name, setName, email, setEmail, onUnlock }: { name: string; setName: (v: string) => void; email: string; setEmail: (v: string) => void; onUnlock: () => void }) {
   const [err, setErr] = useState(false);
-  const submit = () => {
+  const [loading, setLoading] = useState(false);
+  const submit = async () => {
     if (!email.includes('@')) { setErr(true); return; }
+    setLoading(true);
+    // Submit to GHL in background — don't block unlock on failure
+    fetch('/api/ghl-contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, tags: ['Budget Calculator'] }),
+    }).catch(() => {});
     onUnlock();
   };
   return (
@@ -211,9 +219,9 @@ function GateCard({ name, setName, email, setEmail, onUnlock }: { name: string; 
           onKeyDown={e => e.key === 'Enter' && submit()}
           style={{ fontSize: '14px', border: `1px solid ${err ? '#ef4444' : '#d1d5db'}`, borderRadius: '8px', padding: '9px 12px', outline: 'none', color: '#111' }} />
         {err && <div style={{ fontSize: '12px', color: '#ef4444', textAlign: 'left' }}>Please enter a valid email.</div>}
-        <button onClick={submit}
+        <button onClick={submit} disabled={loading}
           style={{ fontSize: '14px', fontWeight: '600', background: '#111', color: '#fff', border: 'none', borderRadius: '8px', padding: '10px', cursor: 'pointer' }}>
-          Unlock cost modeling →
+          {loading ? 'Unlocking…' : 'Unlock cost modeling →'}
         </button>
       </div>
     </div>
@@ -281,7 +289,7 @@ export default function ClubBudgetCalculator() {
   const [numHomeGames, setNumHomeGames] = usePersist('calc_numHomeGames', Math.round(months * 1.5));
 
   const [winterFacility, setWinterFacility] = usePersist('calc_winterFacility', 0);
-  const [league, setLeague] = usePersist('calc_league', 3840);
+  const [league, setLeague] = usePersist('calc_league', 4000);
   const [insurance, setInsurance] = usePersist('calc_insurance', 1920);
   const [equipment, setEquipment] = usePersist('calc_equipment', 2400);
   const [admin, setAdmin] = usePersist('calc_admin', 960);
@@ -395,16 +403,16 @@ export default function ClubBudgetCalculator() {
             </div>
           ))}
         </div>
-        <div style={{ display: 'flex', gap: '8px', marginTop: '8px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: '6px', marginTop: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
           {[
-            { label: 'Avg fee', val: totalPlayers > 0 ? fmt(playerFees / totalPlayers) + '/player' : '—' },
-            { label: 'Season length', val: `${months} months` },
-            { label: 'Practices/week', val: `${sessions}×/wk` },
-            { label: 'Total players', val: `${totalPlayers} players` },
+            { label: 'Avg fee', val: totalPlayers > 0 ? fmt(playerFees / totalPlayers) + '/player' : '—', bg: '#EAF3DE', color: '#3B6D11' },
+            { label: 'Season', val: `${months} months`, bg: '#EBF4FF', color: '#1D5FAD' },
+            { label: 'Practices/wk', val: `${sessions}×/wk`, bg: '#F3EEFF', color: '#5B3DB5' },
+            { label: 'Players', val: `${totalPlayers}`, bg: '#FFF4E5', color: '#A05A00' },
           ].map(s => (
-            <div key={s.label} style={{ background: '#f0f0f0', borderRadius: '999px', padding: '3px 10px', fontSize: '11px', color: '#6b7280', display: 'flex', gap: '4px', alignItems: 'center' }}>
-              <span style={{ color: '#9ca3af' }}>{s.label}:</span>
-              <span style={{ fontWeight: '600', color: '#374151' }}>{s.val}</span>
+            <div key={s.label} style={{ background: s.bg, borderRadius: '999px', padding: '3px 12px', fontSize: '11px', display: 'flex', gap: '4px', alignItems: 'center' }}>
+              <span style={{ color: s.color, opacity: 0.7 }}>{s.label}:</span>
+              <span style={{ fontWeight: '700', color: s.color }}>{s.val}</span>
             </div>
           ))}
         </div>
