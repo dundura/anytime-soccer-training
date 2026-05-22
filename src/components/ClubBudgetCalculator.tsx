@@ -352,10 +352,10 @@ export default function ClubBudgetCalculator() {
 
         {/* Tier column headers */}
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '0 0 6px', borderBottom: '1px solid #f0f0f0', marginBottom: '4px' }}>
-          <div style={{ flex: 1, fontSize: '10px', color: '#9ca3af', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Program</div>
+          <div style={{ width: '90px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Program</div>
           <div style={{ width: '64px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'left', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Players</div>
-          <div style={{ width: '80px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>$/mo</div>
-          <div style={{ width: '72px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Annual</div>
+          <div style={{ width: '83px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Annual</div>
+          <div style={{ width: '92px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>$/mo</div>
         </div>
 
         {/* Tier 1 */}
@@ -366,10 +366,16 @@ export default function ClubBudgetCalculator() {
         ].filter(t => t.show).map((t, i) => (
           <div key={i} style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #f0f0f0' }}>
             <input value={t.name} onChange={e => t.setName(e.target.value)}
-              style={{ flex: 1, fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', color: '#111', background: '#fff' }} />
+              style={{ width: '90px', fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', color: '#111', background: '#fff' }} />
             <NumInput value={t.pl} onChange={t.setPl} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '3px', width: '80px' }}>
+              <span style={{ fontSize: '12px', color: '#888' }}>$</span>
+              <input type="number" value={t.rev === 0 ? '' : t.rev} placeholder="0" min="0"
+                style={{ width: '72px', textAlign: 'right', fontSize: '13px', fontWeight: '600', color: '#3B6D11', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 6px', background: '#fff' }}
+                onChange={e => { const v = parseFloat(e.target.value) || 0; const mo = t.pl > 0 && months > 0 ? Math.round(v / t.pl / months) : 0; t.setF(mo); }}
+              />
+            </div>
             <NumInput value={t.f} onChange={t.setF} prefix="$" />
-            <div style={{ width: '72px', textAlign: 'right', fontSize: '13px', fontWeight: '600', color: '#3B6D11' }}>{fmt(t.rev)}</div>
           </div>
         ))}
 
@@ -381,10 +387,7 @@ export default function ClubBudgetCalculator() {
         )}
 
         <Row label="Season length" sub="Months fees are collected">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <NumInput value={months} onChange={setMonths} />
-            <span style={{ fontSize: '12px', color: '#9ca3af' }}>months</span>
-          </div>
+          <NumInput value={months} onChange={setMonths} />
         </Row>
 
         <Row label="Other revenue" sub="Tournaments, events, sponsorships, donations">
