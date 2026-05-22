@@ -1,4 +1,5 @@
 import ClubBudgetCalculator from '@/components/ClubBudgetCalculator';
+import HeroPdfCta from '@/components/HeroPdfCta';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -26,19 +27,7 @@ export default function BudgetCalculatorPage() {
             Thinking about starting a club? Already running one? Or just tired of hearing parents complain about fees? Plug in your numbers and see exactly what it actually costs — coaching, field time, insurance, admin — all of it.
           </p>
 
-          {/* Quick stats */}
-          <div className="grid grid-cols-3 gap-3 mt-10">
-            {[
-              { val: '$5K–$15K', label: 'Avg. annual fee per player' },
-              { val: '$30–$80', label: 'True cost per training hour' },
-              { val: '40%+', label: 'Of budget goes to coaching' },
-            ].map((s) => (
-              <div key={s.label} className="bg-white/8 border border-white/10 rounded-xl p-4 text-center" style={{ background: 'rgba(255,255,255,0.06)' }}>
-                <div className="text-white font-bold text-[18px] mb-1">{s.val}</div>
-                <div className="text-white/50 text-[11px] leading-snug">{s.label}</div>
-              </div>
-            ))}
-          </div>
+          <HeroPdfCta />
 
           </div>
         </div>
