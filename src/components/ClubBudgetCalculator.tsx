@@ -374,6 +374,7 @@ export default function ClubBudgetCalculator() {
   }
 
   return (
+    <>
     <style>{`
       @media (max-width: 600px) {
         .calc-summary-label-desktop { display: none !important; }
@@ -719,5 +720,6 @@ export default function ClubBudgetCalculator() {
       </div>
 
     </div>
+    </>
   );
 }
