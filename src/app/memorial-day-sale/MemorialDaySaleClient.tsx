@@ -68,7 +68,7 @@ export default function MemorialDaySaleClient() {
               </div>
 
               {/* Right: video */}
-              <div className="hidden md:block flex-shrink-0 rounded-2xl overflow-hidden shadow-lg mt-8 self-end" style={{ width: 420, height: 236 }}>
+              <div className="hidden md:block flex-shrink-0 rounded-2xl overflow-hidden shadow-lg mt-4 self-center" style={{ width: 420, height: 236 }}>
                 <iframe
                   width="420"
                   height="236"
