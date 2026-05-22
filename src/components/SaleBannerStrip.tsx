@@ -60,16 +60,27 @@ export default function SaleBannerStrip() {
                 <p className="text-navy/50 text-xs mt-2">Free to join · Upgrades 50% off</p>
               </div>
             </div>
-            {/* Video — far right */}
-            <div className="hidden md:block flex-shrink-0 rounded-2xl overflow-hidden h-40 w-40 shadow-lg">
-              <video
-                src="https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693"
-                className="w-full h-full object-cover"
-                autoPlay
-                muted
-                loop
-                playsInline
-              />
+            {/* Skills + Video — far right */}
+            <div className="hidden md:flex flex-shrink-0 items-center gap-4">
+              {/* Skill tags */}
+              <div className="flex flex-col gap-1.5">
+                {['Ball Mastery', 'Dribbling', 'Juggling', 'Passing', '1v1'].map(skill => (
+                  <span key={skill} className="bg-navy/8 text-navy text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+              {/* Video */}
+              <div className="rounded-2xl overflow-hidden h-40 w-40 shadow-lg flex-shrink-0">
+                <video
+                  src="https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693"
+                  className="w-full h-full object-cover"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                />
+              </div>
             </div>
           </div>
         </div>
