@@ -1,6 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+function usePersist<T>(key: string, defaultValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
+  const [value, setValue] = useState<T>(() => {
+    if (typeof window === 'undefined') return defaultValue;
+    try { const s = localStorage.getItem(key); return s !== null ? JSON.parse(s) : defaultValue; } catch { return defaultValue; }
+  });
+  useEffect(() => { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} }, [key, value]);
+  return [value, setValue];
+}
 
 const fmt = (n: number) => '$' + Math.round(n).toLocaleString();
 
@@ -91,10 +100,10 @@ export default function ClubBudgetCalculator() {
   const [email, setEmail] = useState('');
   const [sendStatus, setSendStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle');
 
-  const [revenueOpen, setRevenueOpen] = useState(true);
-  const [coachingOpen, setCoachingOpen] = useState(false);
-  const [facilitiesOpen, setFacilitiesOpen] = useState(false);
-  const [operationsOpen, setOperationsOpen] = useState(false);
+  const [revenueOpen, setRevenueOpen] = usePersist('calc_revenueOpen', true);
+  const [coachingOpen, setCoachingOpen] = usePersist('calc_coachingOpen', false);
+  const [facilitiesOpen, setFacilitiesOpen] = usePersist('calc_facilitiesOpen', false);
+  const [operationsOpen, setOperationsOpen] = usePersist('calc_operationsOpen', false);
   const [ledgerOpen, setLedgerOpen] = useState(false);
   const [breakdownOpen, setBreakdownOpen] = useState(false);
 
