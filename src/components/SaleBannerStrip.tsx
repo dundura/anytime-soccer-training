@@ -7,10 +7,10 @@ const SIGNUP_URL = 'https://app.anytime-soccer.com/auth/registerFree';
 
 const SKILLS = [
   { label: 'Ball Mastery', video: 'https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693' },
-  { label: 'Dribbling',    video: 'https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693' },
-  { label: 'Juggling',     video: 'https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693' },
-  { label: 'Passing',      video: 'https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693' },
-  { label: '1v1',          video: 'https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693' },
+  { label: 'Dribbling',    video: 'https://player.vimeo.com/progressive_redirect/playback/1169251905/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=ee829d62eed3d0045bd4b11fc2ed7f144fa87439124fb5870a3db4c757dbed55' },
+  { label: 'Juggling',     video: 'https://player.vimeo.com/progressive_redirect/playback/1169251894/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=feae5ad2df7c4f5414d2e19c076b147e83708023db78c3184f4131122bb9c675' },
+  { label: 'Passing',      video: 'https://player.vimeo.com/progressive_redirect/playback/1169251868/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=f4368d3f829c7e85e3250c6f4c27a1d1e827fe24261c1b6f59f031ae13b2841d' },
+  { label: '1v1',          video: 'https://player.vimeo.com/progressive_redirect/playback/1169251839/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=d830cba85f2636bc209aaca55ac8d7a5a30e6900934b27162223c7e9b497a829' },
 ];
 
 function pad(n: number) { return String(n).padStart(2, '0'); }
@@ -75,7 +75,7 @@ export default function SaleBannerStrip() {
               <div className="flex flex-col gap-1.5">
                 {SKILLS.map((skill, i) => (
                   <button key={skill.label} onClick={() => setActiveSkill(i)}
-                    className={`text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap text-left transition-colors cursor-pointer border-none ${
+                    className={`text-[11px] font-bold px-2.5 py-1 rounded-full whitespace-nowrap text-left transition-colors cursor-pointer border-none ${
                       activeSkill === i
                         ? 'bg-navy text-white'
                         : 'bg-navy/8 text-navy hover:bg-navy/15'
