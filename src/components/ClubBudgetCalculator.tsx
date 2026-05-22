@@ -209,12 +209,12 @@ export default function ClubBudgetCalculator() {
   const [hrs, setHrs] = usePersist('calc_hrs', 1.5);
   const [weeks, setWeeks] = usePersist('calc_weeks', 40);
 
-  const [league, setLeague] = usePersist('calc_league', 2400);
-  const [insurance, setInsurance] = usePersist('calc_insurance', 1200);
-  const [equipment, setEquipment] = usePersist('calc_equipment', 1500);
-  const [admin, setAdmin] = usePersist('calc_admin', 600);
-  const [software, setSoftware] = usePersist('calc_software', 150);
-  const [marketing, setMarketing] = usePersist('calc_marketing', 300);
+  const [league, setLeague] = usePersist('calc_league', 960);
+  const [insurance, setInsurance] = usePersist('calc_insurance', 480);
+  const [equipment, setEquipment] = usePersist('calc_equipment', 720);
+  const [admin, setAdmin] = usePersist('calc_admin', 240);
+  const [software, setSoftware] = usePersist('calc_software', 264);
+  const [marketing, setMarketing] = usePersist('calc_marketing', 240);
   const [otherOps, setOtherOps] = usePersist('calc_otherOps', 0);
 
   const totalPlayers = players * numTeams;
