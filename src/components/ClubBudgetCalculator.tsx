@@ -44,6 +44,18 @@ const sectionLabelStyle = {
   margin: '0 0 10px',
 };
 
+function SectionHeader({ label, open, onToggle }: { label: string; open: boolean; onToggle: () => void }) {
+  return (
+    <button
+      onClick={onToggle}
+      style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', background: 'none', border: 'none', cursor: 'pointer', padding: '12px 0 6px', textAlign: 'left' }}
+    >
+      <span style={{ fontSize: '11px', fontWeight: '600', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9ca3af' }}>{label}</span>
+      <span style={{ fontSize: '14px', color: '#9ca3af', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s', display: 'inline-block' }}>▾</span>
+    </button>
+  );
+}
+
 function NumInput({ value, onChange, prefix, step }: { value: number; onChange: (v: number) => void; prefix?: string; step?: number }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -77,7 +89,13 @@ export default function ClubBudgetCalculator() {
   const [email, setEmail] = useState('');
   const [sendStatus, setSendStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle');
 
+  const [revenueOpen, setRevenueOpen] = useState(true);
+  const [coachingOpen, setCoachingOpen] = useState(false);
+  const [facilitiesOpen, setFacilitiesOpen] = useState(false);
+  const [operationsOpen, setOperationsOpen] = useState(false);
+
   const [players, setPlayers] = useState(20);
+  const [numTeams, setNumTeams] = useState(1);
   const [fee, setFee] = useState(450);
   const [months, setMonths] = useState(10);
   const [fundraising, setFundraising] = useState(0);
@@ -100,8 +118,9 @@ export default function ClubBudgetCalculator() {
   const [software, setSoftware] = useState(150);
   const [marketing, setMarketing] = useState(1200);
 
+  const totalPlayers = players * numTeams;
   const monthlyPayroll = numCoaches * headCoach;
-  const playerFees = players * fee * months;
+  const playerFees = totalPlayers * fee * months;
   const revenue = playerFees + fundraising;
 
   const coaching = monthlyPayroll * months;
@@ -116,8 +135,8 @@ export default function ClubBudgetCalculator() {
 
   const net = revenue - totalCosts;
   const totalHrs = sessions * hrs * weeks;
-  const cph = totalHrs > 0 && players > 0 ? totalCosts / players / totalHrs : 0;
-  const costPP = players > 0 ? totalCosts / players : 0;
+  const cph = totalHrs > 0 && totalPlayers > 0 ? totalCosts / totalPlayers / totalHrs : 0;
+  const costPP = totalPlayers > 0 ? totalCosts / totalPlayers : 0;
 
   const handleSendPdf = async () => {
     if (!email || sendStatus === 'loading') return;
@@ -128,7 +147,7 @@ export default function ClubBudgetCalculator() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email,
-          inputs: { players, fee, months, fundraising, numCoaches, headCoach, specialty, offseasonMonths, fieldHr, sessions, hrs, weeks, gamesField, league, insurance, equipment, admin, software, marketing },
+          inputs: { players, numTeams, totalPlayers, fee, months, fundraising, numCoaches, headCoach, specialty, offseasonMonths, fieldHr, sessions, hrs, weeks, gamesField, league, insurance, equipment, admin, software, marketing },
           results: { revenue, playerFees, fundraising, coaching, offseason, specialtyAnn, fieldTraining, gamesField, league, insurance, equipment, adminAnn, marketing, totalCosts, net, cph, costPP, totalHrs },
         }),
       });
@@ -166,11 +185,18 @@ export default function ClubBudgetCalculator() {
   return (
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '1rem 1rem 4rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
 
-      <p style={sectionLabelStyle}>Revenue</p>
-      <div style={cardStyle}>
-        <Row label="Players in the club" sub="How many players pay fees">
+      <SectionHeader label="Revenue" open={revenueOpen} onToggle={() => setRevenueOpen(o => !o)} />
+      {revenueOpen && <div style={cardStyle}>
+        <Row label="Players on roster" sub="Average team size">
           <NumInput value={players} onChange={setPlayers} />
         </Row>
+        <Row label="Number of teams" sub="Total teams in the club">
+          <NumInput value={numTeams} onChange={setNumTeams} />
+        </Row>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
+          <span>Total players</span>
+          <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{totalPlayers} players</span>
+        </div>
         <Row label="Monthly fee per player" sub="What each family pays">
           <NumInput value={fee} onChange={setFee} prefix="$" />
         </Row>
@@ -184,10 +210,10 @@ export default function ClubBudgetCalculator() {
           <span>Total annual revenue</span>
           <span style={{ fontWeight: '600', fontSize: '14px', color: '#3B6D11' }}>{fmt(revenue)}</span>
         </div>
-      </div>
+      </div>}
 
-      <p style={sectionLabelStyle}>Coaching staff</p>
-      <div style={cardStyle}>
+      <SectionHeader label="Coaching staff" open={coachingOpen} onToggle={() => setCoachingOpen(o => !o)} />
+      {coachingOpen && <div style={cardStyle}>
         <div style={{ padding: '10px 0', borderBottom: '1px solid #f0f0f0' }}>
           <div style={{ fontSize: '14px', color: '#111', marginBottom: '8px' }}>
             Head coach
@@ -207,10 +233,14 @@ export default function ClubBudgetCalculator() {
         <Row label="Off-season coach retainer (months)" sub="Months retained at reduced pay (÷2 rate)">
           <NumInput value={offseasonMonths} onChange={setOffseasonMonths} />
         </Row>
-      </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
+          <span>Total annual coaching cost</span>
+          <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(coaching + offseason + specialtyAnn)}</span>
+        </div>
+      </div>}
 
-      <p style={sectionLabelStyle}>Facilities</p>
-      <div style={cardStyle}>
+      <SectionHeader label="Facilities" open={facilitiesOpen} onToggle={() => setFacilitiesOpen(o => !o)} />
+      {facilitiesOpen && <div style={cardStyle}>
         <Row label="Field rental cost per hour" sub="Market rate even if club owns">
           <NumInput value={fieldHr} onChange={setFieldHr} prefix="$" />
         </Row>
@@ -226,10 +256,10 @@ export default function ClubBudgetCalculator() {
         <Row label="Tournament field rental (yearly)" sub="Games + tournament days">
           <NumInput value={gamesField} onChange={setGamesField} prefix="$" />
         </Row>
-      </div>
+      </div>}
 
-      <p style={sectionLabelStyle}>Operations & overhead</p>
-      <div style={cardStyle}>
+      <SectionHeader label="Operations & overhead" open={operationsOpen} onToggle={() => setOperationsOpen(o => !o)} />
+      {operationsOpen && <div style={cardStyle}>
         <Row label="League & tournament entry fees" sub="Annual registrations">
           <NumInput value={league} onChange={setLeague} prefix="$" />
         </Row>
@@ -248,7 +278,7 @@ export default function ClubBudgetCalculator() {
         <Row label="Marketing & communications" sub="Website, social, design — annual">
           <NumInput value={marketing} onChange={setMarketing} prefix="$" />
         </Row>
-      </div>
+      </div>}
 
       <p style={{ ...sectionLabelStyle, marginTop: '1.5rem' }}>Annual budget summary</p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '10px', marginBottom: '16px' }}>
