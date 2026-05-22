@@ -393,14 +393,21 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Facilities" open={facilitiesOpen} onToggle={() => setFacilitiesOpen(o => !o)} />
       {facilitiesOpen && <div style={cardStyle}>
-        <Row label="Field rental cost per hour" sub="Market rate even if club owns">
-          <NumInput value={fieldHr} onChange={setFieldHr} prefix="$" />
-        </Row>
-        <Row label="Training sessions per week" sub="Number of weekly practices">
-          <NumInput value={sessions} onChange={setSessions} />
-        </Row>
-        <Row label="Hours per session" sub="Length of each practice">
-          <NumInput value={hrs} onChange={setHrs} step={0.5} />
+        <Row label="Field rental" sub="Cost/hr × sessions/wk × hrs/session">
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <div>
+              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}>$/hr</div>
+              <NumInput value={fieldHr} onChange={setFieldHr} prefix="$" />
+            </div>
+            <div>
+              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}>Sessions/wk</div>
+              <NumInput value={sessions} onChange={setSessions} />
+            </div>
+            <div>
+              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}>Hrs/session</div>
+              <NumInput value={hrs} onChange={setHrs} step={0.1} />
+            </div>
+          </div>
         </Row>
         <Row label="Training weeks per year" sub="Weeks actually on field">
           <NumInput value={weeks} onChange={setWeeks} max={52} />
