@@ -6,12 +6,13 @@ import CoachTabbedSection from '@/components/CoachTabbedSection';
 import PopupManager from '@/components/PopupManager';
 import CoachBar from '@/components/CoachBar';
 import HomeBlogSection from '@/components/HomeBlogSection';
+import SaleBannerStrip from '@/components/SaleBannerStrip';
 
 export default function HomePage() {
   return (
     <>
       <PopupManager />
-
+      <SaleBannerStrip />
       {/* ===== HERO ===== */}
       <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
