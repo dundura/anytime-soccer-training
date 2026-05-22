@@ -36,7 +36,7 @@ export default function HeroPdfCta() {
 
   return (
     <div className="mt-6">
-      <div className="text-white/50 text-[12px] mb-2 uppercase tracking-wider font-semibold">Get a PDF of your results</div>
+      <div className="text-white/50 text-[12px] mb-2 uppercase tracking-wider font-semibold">Get a sample PDF report</div>
       <div className="flex flex-wrap gap-2">
         <input
           type="text"
