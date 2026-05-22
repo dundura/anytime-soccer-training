@@ -444,34 +444,51 @@ export default function ClubBudgetCalculator() {
             </div>
           ))}
         </div>
-        <p style={{ ...sectionLabelStyle, margin: '10px 0 6px' }}>Quick estimate</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, minmax(0,1fr))', gap: '8px' }}>
-          {[
-            { label: 'Players', suffix: '', value: tier1Players, onChange: (v: number) => setTier1Players(v) },
-            { label: 'Season fee / player', prefix: '$', value: tier1Fee, onChange: (v: number) => setTier1Fee(v), step: 100 },
-            { label: 'Season length', suffix: 'mo', value: months, onChange: (v: number) => setMonths(v), max: 12 },
-            { label: 'Practices / week', suffix: '/wk', value: sessions, onChange: (v: number) => setSessions(v), max: 7 },
-            { label: 'Coach salary / mo', prefix: '$', value: headCoach, onChange: (v: number) => setHeadCoach(v), step: 50 },
-            { label: 'Field rental / hr', prefix: '$', value: fieldHr, onChange: (v: number) => setFieldHr(v), step: 10 },
-          ].map(f => (
-            <div key={f.label} style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '6px 10px' }}>
-              <div style={{ fontSize: '10px', color: '#9ca3af', marginBottom: '3px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.label}</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
-                {f.prefix && <span style={{ fontSize: '12px', color: '#6b7280' }}>{f.prefix}</span>}
-                <input
-                  type="number"
-                  value={f.value === 0 ? '' : f.value}
-                  placeholder="0"
-                  min="0"
-                  max={f.max}
-                  step={f.step || 1}
-                  onChange={e => f.onChange(parseFloat(e.target.value) || 0)}
-                  style={{ width: '100%', fontSize: '14px', fontWeight: '600', color: '#111', border: 'none', background: 'transparent', outline: 'none', padding: 0, minWidth: 0 }}
-                />
-                {f.suffix && <span style={{ fontSize: '12px', color: '#9ca3af', whiteSpace: 'nowrap' }}>{f.suffix}</span>}
-              </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '10px' }}>
+          {/* Revenue Inputs */}
+          <div>
+            <p style={{ ...sectionLabelStyle, margin: '0 0 6px', color: '#3B6D11' }}>Revenue inputs</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '6px' }}>
+              {[
+                { label: 'Players', value: tier1Players, onChange: (v: number) => setTier1Players(v) },
+                { label: 'Season fee / player', prefix: '$', value: tier1Fee, onChange: (v: number) => setTier1Fee(v), step: 100 },
+                { label: 'Season length', suffix: 'mo', value: months, onChange: (v: number) => setMonths(v), max: 12 },
+              ].map(f => (
+                <div key={f.label} style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '8px', padding: '6px 10px' }}>
+                  <div style={{ fontSize: '10px', color: '#3B6D11', marginBottom: '3px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.label}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+                    {f.prefix && <span style={{ fontSize: '12px', color: '#3B6D11' }}>{f.prefix}</span>}
+                    <input type="number" inputMode="numeric" value={f.value === 0 ? '' : f.value} placeholder="0" min="0" max={f.max} step={f.step || 1}
+                      onChange={e => f.onChange(parseFloat(e.target.value) || 0)}
+                      style={{ width: '100%', fontSize: '14px', fontWeight: '600', color: '#111', border: 'none', background: 'transparent', outline: 'none', padding: 0, minWidth: 0 }} />
+                    {f.suffix && <span style={{ fontSize: '12px', color: '#3B6D11', whiteSpace: 'nowrap' }}>{f.suffix}</span>}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+          {/* Expense Inputs */}
+          <div>
+            <p style={{ ...sectionLabelStyle, margin: '0 0 6px', color: '#A05A00' }}>Expense inputs</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '6px' }}>
+              {[
+                { label: 'Practices / week', suffix: '/wk', value: sessions, onChange: (v: number) => setSessions(v), max: 7 },
+                { label: 'Coach salary / mo', prefix: '$', value: headCoach, onChange: (v: number) => setHeadCoach(v), step: 50 },
+                { label: 'Field rental / hr', prefix: '$', value: fieldHr, onChange: (v: number) => setFieldHr(v), step: 10 },
+              ].map(f => (
+                <div key={f.label} style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '8px', padding: '6px 10px' }}>
+                  <div style={{ fontSize: '10px', color: '#A05A00', marginBottom: '3px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.label}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+                    {f.prefix && <span style={{ fontSize: '12px', color: '#A05A00' }}>{f.prefix}</span>}
+                    <input type="number" inputMode="numeric" value={f.value === 0 ? '' : f.value} placeholder="0" min="0" max={f.max} step={f.step || 1}
+                      onChange={e => f.onChange(parseFloat(e.target.value) || 0)}
+                      style={{ width: '100%', fontSize: '14px', fontWeight: '600', color: '#111', border: 'none', background: 'transparent', outline: 'none', padding: 0, minWidth: 0 }} />
+                    {f.suffix && <span style={{ fontSize: '12px', color: '#A05A00', whiteSpace: 'nowrap' }}>{f.suffix}</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
