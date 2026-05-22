@@ -5,11 +5,11 @@ export const metadata: Metadata = {
   title: 'Free Resources — Anytime Soccer Training',
   description: 'Free training plans, ebooks, calculators, and community groups for soccer players, parents, and coaches.',
   openGraph: {
-    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779488251663-ogh4p5.png'],
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779488664768-rftb48.png'],
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779488251663-ogh4p5.png'],
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779488664768-rftb48.png'],
   },
 };
 
@@ -222,7 +222,7 @@ export default function FreeResourceHubPage() {
             >
               <div className="flex flex-col items-center p-8 md:p-10 text-center h-full">
                 <div className="w-full aspect-[16/9] rounded-xl overflow-hidden mb-6">
-                  <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779479187840-js2usr.png" alt="Age Group Calculator" className="w-full h-full object-cover" />
+                  <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779488664768-rftb48.png" alt="Age Group Calculator" className="w-full h-full object-cover" />
                 </div>
                 <span className="text-sm font-bold uppercase tracking-[2px] text-red mb-3 block">CALCULATOR</span>
                 <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4 leading-tight">Free Age Group Calculator</h3>
