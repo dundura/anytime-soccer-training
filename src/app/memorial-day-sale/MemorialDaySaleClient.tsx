@@ -32,11 +32,6 @@ export default function MemorialDaySaleClient() {
 
   return (
     <>
-      {/* TOP BAR */}
-      <div className="bg-navy text-white text-center py-2.5 px-4 text-sm font-semibold">
-        Free to join &middot; <span className="font-extrabold text-red">50% off upgrades</span> with code <span className="font-extrabold">MDAY2026</span> &middot; Ends May 26
-      </div>
-
       {/* HERO */}
       <section className="py-6 md:py-8 bg-background">
         <div className="max-w-[900px] mx-auto px-4">
