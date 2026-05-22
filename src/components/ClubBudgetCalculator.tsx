@@ -225,11 +225,17 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Revenue" open={revenueOpen} onToggle={() => setRevenueOpen(o => !o)} />
       {revenueOpen && <div style={cardStyle}>
-        <Row label="Players on roster" sub="Average team size">
-          <NumInput value={players} onChange={setPlayers} />
-        </Row>
-        <Row label="Number of teams" sub="Total teams in the club">
-          <NumInput value={numTeams} onChange={setNumTeams} />
+        <Row label="Players on roster" sub="">
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <div>
+              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px' }}>Per Team</div>
+              <NumInput value={players} onChange={setPlayers} />
+            </div>
+            <div>
+              <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '500', marginBottom: '4px' }}># of Teams</div>
+              <NumInput value={numTeams} onChange={setNumTeams} />
+            </div>
+          </div>
         </Row>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
           <span>Total players</span>
