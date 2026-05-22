@@ -222,20 +222,28 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Revenue" open={revenueOpen} onToggle={() => setRevenueOpen(o => !o)} />
       {revenueOpen && <div style={cardStyle}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 16px' }}>
-          {[
-            { label: 'Players per team', node: <NumInput value={players} onChange={setPlayers} /> },
-            { label: '# of teams', node: <NumInput value={numTeams} onChange={setNumTeams} /> },
-            { label: 'Monthly fee', node: <NumInput value={fee} onChange={setFee} prefix="$" /> },
-            { label: 'Season (months)', node: <NumInput value={months} onChange={setMonths} /> },
-            { label: 'Other revenue', node: <NumInput value={fundraising} onChange={setFundraising} prefix="$" /> },
-            { label: 'Total revenue', node: <span style={{ fontSize: '15px', fontWeight: '600', color: '#3B6D11' }}>{fmt(revenue)}</span> },
-          ].map(({ label, node }) => (
-            <div key={label}>
-              <div style={{ fontSize: '11px', color: '#9ca3af', fontWeight: '500', marginBottom: '5px' }}>{label}</div>
-              {node}
-            </div>
-          ))}
+        <Row label="Players on roster" sub="Average team size">
+          <NumInput value={players} onChange={setPlayers} />
+        </Row>
+        <Row label="# of teams" sub="Total teams in the club">
+          <NumInput value={numTeams} onChange={setNumTeams} />
+        </Row>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
+          <span>Total players</span>
+          <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{totalPlayers} players</span>
+        </div>
+        <Row label="Monthly fee per player" sub="What each family pays">
+          <NumInput value={fee} onChange={setFee} prefix="$" />
+        </Row>
+        <Row label="Season length (months)" sub="Months fees are collected">
+          <NumInput value={months} onChange={setMonths} />
+        </Row>
+        <Row label="Other revenue" sub="Tournaments, events, sponsorships, donations">
+          <NumInput value={fundraising} onChange={setFundraising} prefix="$" />
+        </Row>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
+          <span>Total annual revenue</span>
+          <span style={{ fontWeight: '600', fontSize: '14px', color: '#3B6D11' }}>{fmt(revenue)}</span>
         </div>
       </div>}
 
