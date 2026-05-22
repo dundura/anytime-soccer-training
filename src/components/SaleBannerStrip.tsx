@@ -29,9 +29,8 @@ export default function SaleBannerStrip() {
   return (
     <div className="bg-background pt-4 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-navy rounded-3xl px-8 py-10 md:py-14 text-center relative overflow-hidden">
-          {/* subtle glow */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(220,55,62,0.15)_0%,transparent_70%)] pointer-events-none" />
+        <div className="bg-red rounded-3xl px-8 py-7 md:py-10 text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(0,0,0,0.1)_0%,transparent_70%)] pointer-events-none" />
           <div className="relative z-10">
             <h2 className="text-3xl md:text-5xl font-black text-white mb-2 leading-tight">
               Memorial Day Weekend Sale
@@ -46,7 +45,7 @@ export default function SaleBannerStrip() {
               href={SIGNUP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-red hover:bg-red-dark text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_24px_rgba(220,55,62,0.4)]"
+              className="inline-flex items-center gap-2 bg-white hover:bg-gray-100 text-red px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_24px_rgba(0,0,0,0.2)]"
             >
               Join for Free →
             </a>
