@@ -92,10 +92,9 @@ function TierRow({ name, setName, pl, setPl, fee, setFee, rev }: { name: string;
     <div style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #f0f0f0' }}>
       <input value={name} onChange={e => setName(e.target.value)}
         style={{ flex: 1, fontSize: '13px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '5px 8px', color: '#111', background: '#fff' }} />
-      <NumInput value={pl} onChange={v => setPl(v)} />
       <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
         <span style={{ fontSize: '12px', color: '#888' }}>$</span>
-        <input type="number" value={feeStr} placeholder="0" min="0" style={{ ...inputStyle, width: '72px' }}
+        <input type="number" value={feeStr} placeholder="0" min="0" style={{ ...inputStyle, width: '80px' }}
           onChange={e => { setFeeStr(e.target.value); const v = parseFloat(e.target.value); if (!isNaN(v)) setFee(v); }}
           onBlur={() => { const v = parseFloat(feeStr) || 0; setFee(v); setFeeStr(v > 0 ? String(v) : ''); }}
         />
@@ -451,8 +450,7 @@ export default function ClubBudgetCalculator() {
         {/* Tier column headers */}
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '0 0 6px', borderBottom: '1px solid #f0f0f0', marginBottom: '4px' }}>
           <div style={{ flex: 1, fontSize: '10px', color: '#9ca3af', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Program</div>
-          <div style={{ width: '64px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'left', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Players</div>
-          <div style={{ width: '83px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Season</div>
+          <div style={{ width: '88px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Season fee</div>
           <div style={{ width: '92px', fontSize: '10px', color: '#9ca3af', fontWeight: '600', textAlign: 'right', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Revenue</div>
         </div>
 
