@@ -148,7 +148,7 @@ export default function ClubBudgetCalculator() {
   const [ledgerOpen, setLedgerOpen] = useState(false);
   const [breakdownOpen, setBreakdownOpen] = useState(false);
 
-  const [players, setPlayers] = useState(20);
+  const [players, setPlayers] = useState(16);
   const [numTeams, setNumTeams] = useState(1);
   const [fee, setFee] = useState(150);
   const [months, setMonths] = useState(10);
