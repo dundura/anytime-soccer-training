@@ -57,7 +57,7 @@ export default function SaleBannerStrip() {
                 </p>
               </div>
               {/* CTA */}
-              <div className="flex-shrink-0 text-center md:ml-20">
+              <div className="flex-shrink-0 text-center md:ml-14">
                 <a
                   href={SIGNUP_URL}
                   target="_blank"
