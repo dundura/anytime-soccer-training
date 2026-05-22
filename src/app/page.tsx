@@ -13,7 +13,7 @@ export default function HomePage() {
       <PopupManager />
 
       {/* ===== MEMORIAL DAY SALE STRIP ===== */}
-      <Link href="/memorial-day-sale"
+      <Link href="/memorial-day-sale" target="_blank" rel="noopener noreferrer"
         className="flex items-center justify-center gap-3 bg-navy hover:bg-navy-light text-white py-3 px-4 text-center transition-colors group no-underline">
         <span className="text-sm md:text-base font-bold">
           🇺🇸 Memorial Day Sale — <span className="text-red">50% off</span> · Ends May 26
