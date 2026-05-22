@@ -208,7 +208,7 @@ export default function ClubBudgetCalculator() {
   const [sessions, setSessions] = usePersist('calc_sessions', 3);
   const [hrs, setHrs] = usePersist('calc_hrs', 1.5);
   const weeks = months * 4;
-  const [numHomeGames, setNumHomeGames] = usePersist('calc_numHomeGames', 8);
+  const numHomeGames = Math.round(months * 1.5);
 
   const [league, setLeague] = usePersist('calc_league', 960);
   const [insurance, setInsurance] = usePersist('calc_insurance', 480);
@@ -400,8 +400,8 @@ export default function ClubBudgetCalculator() {
         <Row label="Training weeks per year" sub="Auto: season months × 4">
           <span style={{ fontSize: '14px', color: '#9ca3af', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '6px', padding: '5px 12px' }}>{weeks}</span>
         </Row>
-        <Row label="Number of home games" sub="Per season">
-          <NumInput value={numHomeGames} onChange={setNumHomeGames} />
+        <Row label="Number of home games" sub="Auto: 3 games/mo, half home">
+          <span style={{ fontSize: '14px', color: '#9ca3af', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '6px', padding: '5px 12px' }}>{numHomeGames}</span>
         </Row>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
           <span>Total annual field cost</span>
