@@ -66,7 +66,7 @@ function SectionHeader({ label, open, onToggle }: { label: string; open: boolean
   );
 }
 
-function NumInput({ value, onChange, prefix, step }: { value: number; onChange: (v: number) => void; prefix?: string; step?: number }) {
+function NumInput({ value, onChange, prefix, step, max }: { value: number; onChange: (v: number) => void; prefix?: string; step?: number; max?: number }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
       {prefix && <span style={prefixStyle}>{prefix}</span>}
@@ -76,8 +76,9 @@ function NumInput({ value, onChange, prefix, step }: { value: number; onChange: 
         value={value === 0 ? '' : value}
         placeholder="0"
         min="0"
+        max={max}
         step={step || 1}
-        onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
+        onChange={(e) => { const v = parseFloat(e.target.value) || 0; onChange(max !== undefined ? Math.min(v, max) : v); }}
       />
     </div>
   );
@@ -146,7 +147,7 @@ export default function ClubBudgetCalculator() {
   const adminAnn = (admin + software) * months;
 
   const totalCosts =
-    coaching + offseason + assistantAnn + specialtyAnn + fieldTraining + gamesField +
+    coaching + offseason + assistantAnn + specialtyAnn + fieldTraining +
     league + insurance + equipment + adminAnn + marketing;
 
   const net = revenue - totalCosts;
@@ -175,7 +176,7 @@ export default function ClubBudgetCalculator() {
 
   const barCategories = [
     { label: 'Coaching staff', val: coaching + offseason + assistantAnn + specialtyAnn, color: '#1D9E75' },
-    { label: 'Field & facilities', val: fieldTraining + gamesField, color: '#378ADD' },
+    { label: 'Field & facilities', val: fieldTraining, color: '#378ADD' },
     { label: 'League & tournaments', val: league, color: '#7F77DD' },
     { label: 'Uniforms & equipment', val: equipment, color: '#EF9F27' },
     { label: 'Insurance', val: insurance, color: '#D85A30' },
@@ -308,11 +309,12 @@ export default function ClubBudgetCalculator() {
           <NumInput value={hrs} onChange={setHrs} step={0.5} />
         </Row>
         <Row label="Training weeks per year" sub="Weeks actually on field">
-          <NumInput value={weeks} onChange={setWeeks} />
+          <NumInput value={weeks} onChange={setWeeks} max={52} />
         </Row>
-        <Row label="Tournament field rental (yearly)" sub="Games + tournament days">
-          <NumInput value={gamesField} onChange={setGamesField} prefix="$" />
-        </Row>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
+          <span>Total annual field cost</span>
+          <span style={{ fontWeight: '600', fontSize: '14px', color: '#111' }}>{fmt(fieldTraining)}</span>
+        </div>
       </div>}
 
       <SectionHeader label="Operations & overhead" open={operationsOpen} onToggle={() => setOperationsOpen(o => !o)} />
@@ -356,7 +358,6 @@ export default function ClubBudgetCalculator() {
                 { label: 'Assistant coaches', val: fmt(assistantAnn) },
                 { label: 'Specialty coaches', val: fmt(specialtyAnn) },
                 { label: 'Field rental (training)', val: fmt(fieldTraining) },
-                { label: 'Field rental (games)', val: fmt(gamesField) },
                 { label: 'League & tournaments', val: fmt(league) },
                 { label: 'Insurance', val: fmt(insurance) },
                 { label: 'Uniforms & equipment', val: fmt(equipment) },
