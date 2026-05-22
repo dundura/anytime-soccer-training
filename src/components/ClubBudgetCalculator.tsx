@@ -347,6 +347,11 @@ export default function ClubBudgetCalculator() {
         </div>
       </div>}
 
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#0f2642', borderRadius: '10px', padding: '12px 16px', margin: '4px 0 16px' }}>
+        <span style={{ fontSize: '13px', fontWeight: '600', color: '#fff' }}>Total annual costs</span>
+        <span style={{ fontSize: '18px', fontWeight: '700', color: '#fff' }}>{fmt(totalCosts)}</span>
+      </div>
+
       {ledgerOpen && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }} onClick={() => setLedgerOpen(false)}>
           <div style={{ background: '#fff', borderRadius: '16px', width: '100%', maxWidth: '480px', maxHeight: '80vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }} onClick={e => e.stopPropagation()}>
@@ -418,23 +423,46 @@ export default function ClubBudgetCalculator() {
 
       {breakdownOpen && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }} onClick={() => setBreakdownOpen(false)}>
-          <div style={{ background: '#fff', borderRadius: '16px', width: '100%', maxWidth: '480px', maxHeight: '80vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }} onClick={e => e.stopPropagation()}>
+          <div style={{ background: '#fff', borderRadius: '16px', width: '100%', maxWidth: '480px', maxHeight: '85vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }} onClick={e => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', borderBottom: '1px solid #f0f0f0' }}>
-              <span style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>Cost breakdown</span>
+              <div>
+                <div style={{ fontSize: '14px', fontWeight: '600', color: '#111' }}>Cost breakdown</div>
+                <div style={{ fontSize: '12px', color: '#9ca3af', marginTop: '2px' }}>Total costs: <strong style={{ color: '#111' }}>{fmt(totalCosts)}</strong></div>
+              </div>
               <button onClick={() => setBreakdownOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', color: '#9ca3af', lineHeight: 1 }}>✕</button>
             </div>
             <div style={{ overflowY: 'auto', flex: 1, padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              {barCategories.map((c) => (
-                <div key={c.label}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#374151', marginBottom: '6px' }}>
-                    <span>{c.label}</span>
-                    <span style={{ fontWeight: '600', color: '#111' }}>{fmt(c.val)}</span>
+              {barCategories.map((c) => {
+                const pct = totalCosts > 0 ? Math.round(c.val / totalCosts * 100) : 0;
+                return (
+                  <div key={c.label}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#374151', marginBottom: '6px' }}>
+                      <span>{c.label}</span>
+                      <span style={{ fontWeight: '600', color: '#111' }}>{fmt(c.val)} <span style={{ fontWeight: '400', color: '#9ca3af' }}>({pct}%)</span></span>
+                    </div>
+                    <div style={{ background: '#f0f0f0', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
+                      <div style={{ height: '100%', borderRadius: '4px', background: c.color, width: `${Math.round(c.val / maxBar * 100)}%` }} />
+                    </div>
                   </div>
-                  <div style={{ background: '#f0f0f0', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
-                    <div style={{ height: '100%', borderRadius: '4px', background: c.color, width: `${Math.round(c.val / maxBar * 100)}%` }} />
+                );
+              })}
+              <div style={{ borderTop: '1px solid #f0f0f0', paddingTop: '16px', marginTop: '4px', background: '#f9fafb', borderRadius: '10px', padding: '14px 16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px' }}>
+                  <div>
+                    <div style={{ fontSize: '13px', fontWeight: '500', color: '#111' }}>Cost per training hour per player</div>
+                    <div style={{ fontSize: '11px', color: '#9ca3af', marginTop: '2px' }}>The real unit you&apos;re buying</div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <span style={{ fontSize: '22px', fontWeight: '600', color: '#111' }}>{cph > 0 ? '$' + cph.toFixed(2) : '$—'}</span>
+                    <div style={{ fontSize: '11px', color: '#9ca3af' }}>/ hour / player</div>
                   </div>
                 </div>
-              ))}
+                <div style={{ marginTop: '10px', fontSize: '12px', color: '#6b7280', display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                  <span><strong>{Math.round(totalHrs)}</strong> training hrs/yr</span>
+                  <span><strong>{fmt(costPP)}</strong> cost per player/yr</span>
+                  <span><strong>{fmt(fee * months)}</strong> fee per player/yr</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
