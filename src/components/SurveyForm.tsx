@@ -123,7 +123,7 @@ export default function SurveyForm() {
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '1.5rem 1rem 4rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
 
       {/* Train */}
-      <SectionHeader label="Train — hours per week" />
+      <SectionHeader label="Training — hours per week" />
       <div style={cardStyle}>
         <HrsRow label="Team training" sub="Any organized team sessions — outdoor, indoor turf, bubble, etc." value={outdoor} onChange={setOutdoor} />
         <HrsRow label="Futsal" sub="Futsal sessions or league" value={futsal} onChange={setFutsal} />
