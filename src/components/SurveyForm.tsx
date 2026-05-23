@@ -52,7 +52,7 @@ function HrsRow({ label, sub, value, onChange }: { label: string; sub?: string; 
 
 function DaysHrsRow({ label, sub, days, hrs, onDaysChange, onHrsChange }: { label: string; sub?: string; days: string; hrs: string; onDaysChange: (v: string) => void; onHrsChange: (v: string) => void }) {
   const total = (parseFloat(days) || 0) * (parseFloat(hrs) || 0);
-  const numStyle = { width: '58px', textAlign: 'right' as const, fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '6px 8px', background: '#fff', color: '#111', outline: 'none' };
+  const baseInput = { textAlign: 'right' as const, fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '6px 8px', background: '#fff', color: '#111', outline: 'none' };
   const capStyle = { fontSize: '12px', color: '#9ca3af', whiteSpace: 'nowrap' as const };
   return (
     <div style={rowStyle}>
@@ -62,10 +62,10 @@ function DaysHrsRow({ label, sub, days, hrs, onDaysChange, onHrsChange }: { labe
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '5px', flexShrink: 0 }}>
         <input type="number" inputMode="decimal" value={days} placeholder="0" min="0" max="7" step="1"
-          onChange={e => onDaysChange(e.target.value)} style={numStyle} />
+          onChange={e => onDaysChange(e.target.value)} style={{ ...baseInput, width: '46px' }} />
         <span style={capStyle}>days ×</span>
         <input type="number" inputMode="decimal" value={hrs} placeholder="0" min="0" max="8" step="0.5"
-          onChange={e => onHrsChange(e.target.value)} style={numStyle} />
+          onChange={e => onHrsChange(e.target.value)} style={{ ...baseInput, width: '58px' }} />
         <span style={capStyle}>hrs =</span>
         <span style={{ fontSize: '13px', fontWeight: '600', color: '#0f2642', minWidth: '36px', textAlign: 'right' as const }}>{total.toFixed(1)}</span>
         <span style={capStyle}>hrs/wk</span>
