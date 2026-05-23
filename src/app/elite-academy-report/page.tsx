@@ -252,7 +252,30 @@ const css = `
   }
 
   /* ACADEMY ROWS */
-  .ast-academy-grid { display: grid; gap: 10px; }
+  .ast-academy-details {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 4px;
+  }
+
+  .ast-academy-details > summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background: #f8faf9;
+    border-bottom: none;
+  }
+
+  .ast-academy-details > summary::-webkit-details-marker { display: none; }
+  .ast-academy-details[open] > summary { border-bottom: 1px solid #e5e7eb; }
+
+  .ast-academy-grid { display: grid; gap: 0; }
 
   .ast-academy-row {
     background: #fff;
@@ -688,22 +711,23 @@ export default function EliteAcademyReport() {
 
         {/* ── ACADEMY PHILOSOPHIES ── */}
         <div className="ast-section-title">Academy Philosophies</div>
-        <div className="ast-academy-grid">
-          {[
-            { name: 'La Masia', country: '// Barcelona · Spain', desc: <span>Heaviest emphasis on <strong>technical/ball mastery</strong> at all ages. Tactics built entirely around possession. Produced Messi, Xavi, Iniesta.</span> },
-            { name: 'Ajax Academy', country: '// Netherlands', desc: <span><strong>TIPS Model</strong> — Technique, Intelligence, Personality, Speed. Cognitive development and decision-making emphasized from early ages.</span> },
-            { name: 'Red Bull', country: '// Leipzig & Salzburg', desc: <span>Highest <strong>conditioning load</strong> of any academy. Pressing and athleticism prioritized above technical finesse. Produces high-energy, physically dominant players.</span> },
-            { name: 'Clairefontaine', country: '// France · INF', desc: <span>Very <strong>balanced approach</strong>. Strong emphasis on individual technique before group tactics. Produced Mbappé, Zidane.</span> },
-          ].map(({ name, country, desc }) => (
-            <div key={name} className="ast-academy-row">
+        {[
+          { name: 'La Masia', country: '// Barcelona · Spain', desc: <span>Heaviest emphasis on <strong>technical/ball mastery</strong> at all ages. Tactics built entirely around possession. Produced Messi, Xavi, Iniesta.</span> },
+          { name: 'Ajax Academy', country: '// Netherlands', desc: <span><strong>TIPS Model</strong> — Technique, Intelligence, Personality, Speed. Cognitive development and decision-making emphasized from early ages.</span> },
+          { name: 'Red Bull', country: '// Leipzig & Salzburg', desc: <span>Highest <strong>conditioning load</strong> of any academy. Pressing and athleticism prioritized above technical finesse. Produces high-energy, physically dominant players.</span> },
+          { name: 'Clairefontaine', country: '// France · INF', desc: <span>Very <strong>balanced approach</strong>. Strong emphasis on individual technique before group tactics. Produced Mbappé, Zidane.</span> },
+        ].map(({ name, country, desc }) => (
+          <details key={name} className="ast-academy-details">
+            <summary>
               <div>
                 <div className="ast-academy-name">{name}</div>
                 <div className="ast-academy-country">{country}</div>
               </div>
-              <div className="ast-academy-desc">{desc}</div>
-            </div>
-          ))}
-        </div>
+              <span className="ast-toggle-icon">▾</span>
+            </summary>
+            <div className="ast-academy-desc" style={{ padding: '16px 18px' }}>{desc}</div>
+          </details>
+        ))}
 
         {/* ── BOTTOM LINE ── */}
         <div className="ast-section-title">Bottom Line</div>
