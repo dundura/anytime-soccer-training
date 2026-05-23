@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'How does your child\'s training compare to the world\'s elite?',
     description: 'Take our free 2-minute survey and get a personalized PDF showing how your child compares to players their age.',
-    images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779542288249-667nkw.png' }],
+    images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779542941898-68z4qs.png' }],
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779542288249-667nkw.png'],
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779542941898-68z4qs.png'],
   },
 };
 
