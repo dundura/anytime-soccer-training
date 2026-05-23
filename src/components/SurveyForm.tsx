@@ -30,7 +30,7 @@ const STEPS = [
   { id: 'contact',         type: 'contact'  as const, label: 'Get your personalized report', sub: "We'll email you a PDF showing how your child compares to others their age." },
 ];
 
-type Answers = Record<string, number | string | boolean>;
+type Answers = Record<string, number | string | boolean | null>;
 
 function SliderStep({ step, value, onChange }: { step: typeof STEPS[0]; value: number; onChange: (v: number) => void }) {
   const display = value === 0 ? 'None' : value === 20 ? '20+ hrs/wk' : `${value} hr${value === 1 ? '' : 's'}/wk`;
