@@ -7,56 +7,66 @@ export const metadata: Metadata = {
 
 const css = `
   .ast-report {
-    background: #071524;
-    color: #d8e8f8;
+    background: #f8faf9;
+    color: #1f2937;
     font-family: var(--font-geist-sans), system-ui, sans-serif;
     font-size: 14px;
     line-height: 1.6;
-    padding: 32px 20px 80px;
-    max-width: 820px;
-    margin: 0 auto;
+    padding: 0 0 80px;
   }
 
-  .ast-report .tag {
-    font-family: 'Courier New', monospace;
+  .ast-hero {
+    background: linear-gradient(135deg, #0f2642 0%, #1a3a5c 100%);
+    padding: 48px 24px 44px;
+    text-align: center;
+  }
+
+  .ast-hero .tag {
+    display: inline-block;
     font-size: 10px;
-    color: #DC373E;
-    letter-spacing: 0.2em;
+    font-weight: 700;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    margin-bottom: 10px;
+    color: #DC373E;
+    background: rgba(220,55,62,0.12);
+    border: 1px solid rgba(220,55,62,0.3);
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
   }
 
-  .ast-report h1 {
+  .ast-hero h1 {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(38px, 8vw, 68px);
-    color: #eef5ff;
+    font-size: clamp(40px, 8vw, 72px);
+    color: #fff;
     line-height: 0.93;
     letter-spacing: 0.02em;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
 
-  .ast-report h1 span { color: #DC373E; }
+  .ast-hero h1 span { color: #DC373E; }
 
-  .ast-report .subtitle {
-    color: #5a7a9a;
-    font-size: 13px;
-    font-weight: 300;
-    max-width: 580px;
+  .ast-hero .subtitle {
+    color: rgba(255,255,255,0.65);
+    font-size: 15px;
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.6;
   }
 
-  .ast-header {
-    border-bottom: 1px solid #1a3050;
-    padding-bottom: 24px;
-    margin-bottom: 36px;
+  .ast-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 20px;
   }
 
   /* SECTION HEADERS */
   .ast-section-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px;
-    color: #DC373E;
-    letter-spacing: 0.12em;
-    margin: 44px 0 16px;
+    font-size: 22px;
+    color: #0f2642;
+    letter-spacing: 0.1em;
+    margin: 48px 0 18px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -65,18 +75,19 @@ const css = `
   .ast-section-title::after {
     content: '';
     flex: 1;
-    height: 1px;
-    background: #1a3050;
+    height: 2px;
+    background: #e5e7eb;
   }
 
   /* AGE CARDS */
   .ast-age-card {
-    background: #0c1e30;
-    border: 1px solid #1a3050;
-    border-left: 3px solid #22c55e;
-    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-left: 4px solid #22c55e;
+    border-radius: 12px;
     padding: 20px 22px;
     margin-bottom: 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
   }
 
   .ast-age-card:nth-child(2) { border-left-color: #16a34a; }
@@ -95,31 +106,25 @@ const css = `
   .ast-age-label {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 20px;
-    color: #eef5ff;
-    letter-spacing: 0.05em;
+    color: #0f2642;
+    letter-spacing: 0.04em;
   }
 
   .ast-badge {
-    font-family: 'Courier New', monospace;
     font-size: 11px;
-    background: rgba(34,197,94,0.09);
-    border: 1px solid rgba(34,197,94,0.22);
-    color: #22c55e;
-    padding: 4px 10px;
-    border-radius: 3px;
+    font-weight: 600;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #15803d;
+    padding: 3px 10px;
+    border-radius: 20px;
     white-space: nowrap;
   }
 
   .ast-badge.red {
-    background: rgba(220,55,62,0.1);
-    border-color: rgba(220,55,62,0.28);
+    background: #fff1f2;
+    border-color: #fecdd3;
     color: #DC373E;
-  }
-
-  .ast-badge.blue {
-    background: rgba(8,145,178,0.1);
-    border-color: rgba(8,145,178,0.28);
-    color: #38bdf8;
   }
 
   /* BARS */
@@ -131,37 +136,32 @@ const css = `
   }
 
   .ast-training-label {
-    font-size: 11px;
-    color: #5a7a9a;
+    font-size: 12px;
+    color: #6b7280;
     width: 150px;
     flex-shrink: 0;
-    font-family: 'Courier New', monospace;
   }
 
   .ast-bar-wrap {
     flex: 1;
-    background: rgba(255,255,255,0.05);
-    border-radius: 2px;
-    height: 6px;
+    background: #f3f4f6;
+    border-radius: 4px;
+    height: 8px;
     overflow: hidden;
   }
 
-  .ast-bar {
-    height: 100%;
-    border-radius: 2px;
-  }
-
+  .ast-bar { height: 100%; border-radius: 4px; }
   .ast-bar.green  { background: #22c55e; }
-  .ast-bar.blue   { background: #38bdf8; }
+  .ast-bar.blue   { background: #0891b2; }
   .ast-bar.red    { background: #DC373E; }
-  .ast-bar.purple { background: #a78bfa; }
-  .ast-bar.yellow { background: #fbbf24; }
-  .ast-bar.teal   { background: #2dd4bf; }
+  .ast-bar.purple { background: #8b5cf6; }
+  .ast-bar.yellow { background: #f59e0b; }
+  .ast-bar.teal   { background: #0d9488; }
 
   .ast-bar-hrs {
-    font-family: 'Courier New', monospace;
-    font-size: 11px;
-    color: #eef5ff;
+    font-size: 12px;
+    font-weight: 600;
+    color: #0f2642;
     width: 44px;
     text-align: right;
     flex-shrink: 0;
@@ -170,9 +170,9 @@ const css = `
   .ast-outside-note {
     margin-top: 14px;
     padding-top: 12px;
-    border-top: 1px solid #1a3050;
+    border-top: 1px solid #f3f4f6;
     font-size: 12px;
-    color: #5a7a9a;
+    color: #9ca3af;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -180,7 +180,7 @@ const css = `
     gap: 6px;
   }
 
-  .ast-outside-note strong { color: #d8e8f8; }
+  .ast-outside-note strong { color: #374151; }
 
   /* LEGEND */
   .ast-legend {
@@ -189,23 +189,23 @@ const css = `
     gap: 14px;
     margin-bottom: 30px;
     padding: 14px 18px;
-    background: #0c1e30;
-    border: 1px solid #1a3050;
-    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
 
   .ast-legend-item {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 11px;
-    color: #5a7a9a;
-    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #6b7280;
   }
 
   .ast-legend-dot {
-    width: 8px; height: 8px;
-    border-radius: 2px;
+    width: 10px; height: 10px;
+    border-radius: 3px;
     flex-shrink: 0;
   }
 
@@ -213,45 +213,40 @@ const css = `
   .ast-insight-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
   }
 
-  @media (max-width: 480px) {
-    .ast-insight-grid { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 480px) { .ast-insight-grid { grid-template-columns: 1fr; } }
 
   .ast-insight-card {
-    background: #0c1e30;
-    border: 1px solid #1a3050;
-    border-radius: 6px;
-    padding: 18px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
 
   .ast-insight-num {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 38px;
+    font-size: 42px;
     color: #22c55e;
     line-height: 1;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
 
   .ast-insight-num.red { color: #DC373E; }
 
-  .ast-insight-label {
-    font-size: 12px;
-    color: #5a7a9a;
-    line-height: 1.4;
-  }
+  .ast-insight-label { font-size: 13px; color: #6b7280; line-height: 1.5; }
 
   /* QUOTE */
   .ast-quote {
-    border-left: 3px solid #22c55e;
-    padding: 14px 20px;
-    background: rgba(34,197,94,0.05);
-    border-radius: 0 6px 6px 0;
-    margin: 22px 0;
-    font-size: 13px;
-    color: #d8e8f8;
+    border-left: 4px solid #DC373E;
+    padding: 16px 20px;
+    background: #fff8f8;
+    border-radius: 0 10px 10px 0;
+    margin: 24px 0;
+    font-size: 14px;
+    color: #374151;
     font-style: italic;
     line-height: 1.7;
   }
@@ -260,79 +255,67 @@ const css = `
   .ast-academy-grid { display: grid; gap: 10px; }
 
   .ast-academy-row {
-    background: #0c1e30;
-    border: 1px solid #1a3050;
-    border-radius: 6px;
-    padding: 14px 18px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px 18px;
     display: grid;
     grid-template-columns: 160px 1fr;
-    gap: 12px;
+    gap: 14px;
     align-items: start;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
 
-  @media (max-width: 500px) {
-    .ast-academy-row { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 500px) { .ast-academy-row { grid-template-columns: 1fr; } }
 
   .ast-academy-name {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 17px;
-    color: #eef5ff;
-    letter-spacing: 0.05em;
+    color: #0f2642;
+    letter-spacing: 0.04em;
   }
 
-  .ast-academy-country {
-    font-size: 10px;
-    color: #5a7a9a;
-    font-family: 'Courier New', monospace;
-    letter-spacing: 0.1em;
-    margin-top: 2px;
-  }
-
-  .ast-academy-desc { font-size: 12px; color: #5a7a9a; line-height: 1.6; }
-  .ast-academy-desc strong { color: #22c55e; }
+  .ast-academy-country { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+  .ast-academy-desc { font-size: 13px; color: #6b7280; line-height: 1.6; }
+  .ast-academy-desc strong { color: #15803d; }
 
   /* BOTTOM CARD */
   .ast-bottom-card {
-    background: #0c1e30;
-    border: 1px solid #1a3050;
-    border-radius: 6px;
-    padding: 20px 22px;
-    font-size: 13px;
-    line-height: 1.9;
-    color: #d8e8f8;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 22px 24px;
+    font-size: 14px;
+    line-height: 1.85;
+    color: #374151;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
 
   /* ── BENCHMARK TABLES ─────────────────────────── */
-
   .ast-table-block {
-    background: #0c1e30;
-    border: 1px solid #1a3050;
-    border-radius: 8px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
     overflow: hidden;
     margin-bottom: 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   }
 
   .ast-table-head {
-    padding: 16px 20px 12px;
-    border-bottom: 1px solid #1a3050;
-    background: #091828;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f8faf9;
   }
 
   .ast-table-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-    color: #eef5ff;
-    letter-spacing: 0.06em;
+    font-size: 20px;
+    color: #0f2642;
+    letter-spacing: 0.05em;
     margin-bottom: 4px;
   }
 
-  .ast-table-sub {
-    font-size: 11px;
-    color: #5a7a9a;
-    font-family: 'Courier New', monospace;
-    line-height: 1.5;
-  }
+  .ast-table-sub { font-size: 12px; color: #9ca3af; line-height: 1.5; }
 
   .ast-schedule-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
@@ -344,23 +327,22 @@ const css = `
   }
 
   .ast-schedule th {
-    background: #071524;
-    color: #5a7a9a;
-    font-family: 'Courier New', monospace;
-    font-weight: 500;
+    background: #f3f4f6;
+    color: #374151;
     font-size: 10px;
+    font-weight: 700;
     letter-spacing: 0.1em;
-    padding: 8px 10px;
+    text-transform: uppercase;
+    padding: 9px 10px;
     text-align: center;
-    border-bottom: 1px solid #1a3050;
     white-space: nowrap;
   }
 
   .ast-schedule th:first-child { text-align: left; min-width: 80px; }
 
   .ast-schedule td {
-    padding: 7px 8px;
-    border-bottom: 1px solid #0f2a40;
+    padding: 8px 8px;
+    border-bottom: 1px solid #f3f4f6;
     vertical-align: middle;
     text-align: center;
   }
@@ -368,160 +350,115 @@ const css = `
   .ast-schedule td:first-child {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 14px;
-    color: #eef5ff;
-    letter-spacing: 0.05em;
+    color: #0f2642;
+    letter-spacing: 0.04em;
     text-align: left;
-    padding-left: 12px;
+    padding-left: 14px;
     white-space: nowrap;
   }
 
   .ast-schedule tr:last-child td { border-bottom: none; }
-  .ast-schedule tr:nth-child(even) td { background: rgba(255,255,255,0.018); }
+  .ast-schedule tr:nth-child(even) td { background: #fafafa; }
 
-  .ast-cell {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-  }
-
-  .ast-cell-label {
-    font-size: 10px;
-    line-height: 1.2;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-
+  .ast-cell { display: inline-flex; flex-direction: column; align-items: center; gap: 3px; }
+  .ast-cell-label { font-size: 10px; line-height: 1.2; font-weight: 700; white-space: nowrap; }
   .ast-cell-badge {
-    font-family: 'Courier New', monospace;
     font-size: 8px;
     padding: 1px 5px;
-    border-radius: 2px;
+    border-radius: 3px;
     letter-spacing: 0.05em;
     font-weight: 700;
     white-space: nowrap;
   }
 
-  .ast-cell.club .ast-cell-label   { color: #22c55e; }
-  .ast-cell.futsal .ast-cell-label { color: #38bdf8; }
-  .ast-cell.baby .ast-cell-label   { color: #7dd3fc; }
+  .ast-cell.club .ast-cell-label   { color: #15803d; }
+  .ast-cell.futsal .ast-cell-label { color: #0369a1; }
+  .ast-cell.baby .ast-cell-label   { color: #0284c7; }
   .ast-cell.match .ast-cell-label  { color: #DC373E; }
-  .ast-cell.rest .ast-cell-label   { color: #374151; }
-  .ast-cell.empty .ast-cell-label  { color: #1e3550; }
+  .ast-cell.rest .ast-cell-label   { color: #d1d5db; }
+  .ast-cell.empty .ast-cell-label  { color: #e5e7eb; }
 
-  .badge-5v5   { background: rgba(220,55,62,0.15); color: #DC373E; border: 1px solid rgba(220,55,62,0.3); }
-  .badge-7v7   { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
-  .badge-9v9   { background: rgba(167,139,250,0.12); color: #a78bfa; border: 1px solid rgba(167,139,250,0.3); }
-  .badge-11v11 { background: rgba(34,197,94,0.1); color: #22c55e; border: 1px solid rgba(34,197,94,0.25); }
+  .badge-5v5   { background: #fee2e2; color: #DC373E; }
+  .badge-7v7   { background: #fef3c7; color: #b45309; }
+  .badge-9v9   { background: #ede9fe; color: #7c3aed; }
+  .badge-11v11 { background: #dcfce7; color: #15803d; }
 
   /* UEFA DATA TABLE */
   .ast-data-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 700px; }
 
   .ast-data-table th {
-    background: #071524;
-    color: #5a7a9a;
-    font-family: 'Courier New', monospace;
+    background: #f3f4f6;
+    color: #374151;
     font-size: 10px;
+    font-weight: 700;
     letter-spacing: 0.08em;
-    font-weight: 500;
-    padding: 9px 12px;
+    text-transform: uppercase;
+    padding: 10px 14px;
     text-align: left;
-    border-bottom: 1px solid #1a3050;
     white-space: nowrap;
   }
 
   .ast-data-table td {
-    padding: 9px 12px;
-    border-bottom: 1px solid #0f2a40;
-    color: #d8e8f8;
+    padding: 10px 14px;
+    border-bottom: 1px solid #f3f4f6;
+    color: #374151;
     vertical-align: top;
   }
 
   .ast-data-table tr:last-child td { border-bottom: none; }
-  .ast-data-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .ast-data-table tr:nth-child(even) td { background: #fafafa; }
 
   .ast-data-table td:nth-child(3),
   .ast-data-table td:nth-child(4),
-  .ast-data-table td:nth-child(5) {
-    font-family: 'Courier New', monospace;
-    font-size: 11px;
-    white-space: nowrap;
-  }
+  .ast-data-table td:nth-child(5) { font-size: 12px; font-weight: 600; white-space: nowrap; }
 
-  .ast-hrs-high { color: #22c55e; font-weight: 700; }
-  .ast-hrs-mid  { color: #fbbf24; font-weight: 600; }
-  .ast-hrs-low  { color: #5a7a9a; }
+  .ast-hrs-high { color: #15803d; }
+  .ast-hrs-mid  { color: #b45309; }
+  .ast-hrs-low  { color: #9ca3af; }
 
-  .ast-club-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 15px;
-    color: #eef5ff;
-    letter-spacing: 0.05em;
-    display: block;
-  }
-
-  .ast-club-country {
-    font-size: 10px;
-    color: #3a5a7a;
-    font-family: 'Courier New', monospace;
-  }
-
-  .ast-note-text { font-size: 11px; color: #5a7a9a; line-height: 1.5; }
+  .ast-club-name { font-family: 'Bebas Neue', sans-serif; font-size: 15px; color: #0f2642; letter-spacing: 0.04em; display: block; }
+  .ast-club-country { font-size: 11px; color: #9ca3af; }
+  .ast-note-text { font-size: 12px; color: #6b7280; line-height: 1.5; }
   .ast-note-text strong { color: #DC373E; }
 
   /* KEY FINDINGS */
   .ast-findings {
-    background: #091828;
-    border: 1px solid #1a3050;
-    border-left: 3px solid #DC373E;
-    border-radius: 0 8px 8px 0;
-    padding: 20px 22px;
-    margin-top: 6px;
+    background: #fff8f8;
+    border: 1px solid #fecdd3;
+    border-left: 4px solid #DC373E;
+    border-radius: 0 12px 12px 0;
+    padding: 22px 24px;
+    margin-top: 8px;
   }
 
   .ast-findings-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     color: #DC373E;
     letter-spacing: 0.1em;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
   }
 
-  .ast-findings ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  .ast-findings ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
 
   .ast-findings li {
     display: flex;
     gap: 10px;
     font-size: 13px;
-    color: #8aaac8;
-    line-height: 1.5;
+    color: #6b7280;
+    line-height: 1.6;
   }
 
-  .ast-findings li::before {
-    content: '→';
-    color: #DC373E;
-    font-family: 'Courier New', monospace;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .ast-findings li strong { color: #d8e8f8; }
+  .ast-findings li::before { content: '→'; color: #DC373E; flex-shrink: 0; margin-top: 1px; }
+  .ast-findings li strong { color: #111827; }
 
   /* FOOTER */
   .ast-footer {
     margin-top: 48px;
     padding-top: 20px;
-    border-top: 1px solid #1a3050;
-    font-size: 11px;
-    color: #3a5a7a;
-    font-family: 'Courier New', monospace;
+    border-top: 1px solid #e5e7eb;
+    font-size: 12px;
+    color: #9ca3af;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -558,29 +495,31 @@ export default function EliteAcademyReport() {
       <style>{css}</style>
       <div className="ast-report">
 
-        {/* ── HEADER ── */}
-        <div className="ast-header">
+        {/* ── HERO ── */}
+        <div className="ast-hero">
           <div className="tag">// Cliff Notes Report · Elite Youth Development</div>
           <h1>Soccer Academy<br /><span>Training Hours</span></h1>
           <p className="subtitle">A breakdown of training load, session types, and outside hours across age groups at the world&rsquo;s top academies.</p>
         </div>
 
+        <div className="ast-inner">
+
         {/* ── PERSONAL STORY ── */}
-        <div style={{ background: '#0c1e30', border: '1px solid #1a3050', borderLeft: '3px solid #DC373E', borderRadius: '0 8px 8px 0', padding: '22px 24px', marginBottom: '36px' }}>
-          <div style={{ fontFamily: 'Courier New, monospace', fontSize: '10px', color: '#DC373E', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '10px' }}>// From Neil Crawford · Founder, Anytime Soccer Training</div>
-          <p style={{ fontSize: '14px', lineHeight: '1.85', color: '#d8e8f8', marginBottom: '14px' }}>
+        <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #DC373E', borderRadius: '0 12px 12px 0', padding: '22px 24px', marginBottom: '36px', marginTop: '32px', boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}>
+          <div style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#DC373E', marginBottom: '10px' }}>From Neil Crawford · Founder, Anytime Soccer Training</div>
+          <p style={{ fontSize: '14px', lineHeight: '1.85', color: '#374151', marginBottom: '14px' }}>
             I spent years obsessing over how the world&rsquo;s best academies develop players — not just as a researcher, but as a dad training my own two sons in the backyard, on turf, anywhere we could find time.
           </p>
-          <p style={{ fontSize: '14px', lineHeight: '1.85', color: '#d8e8f8', marginBottom: '14px' }}>
-            I broke down schedules from Buenos Aires clubs, São Paulo academies, Ajax, Barcelona, Chelsea — tracking what they did by age, by session type, by week. I wanted to know: <strong style={{ color: '#eef5ff' }}>what does it actually take, hour by hour, to develop an elite player?</strong>
+          <p style={{ fontSize: '14px', lineHeight: '1.85', color: '#374151', marginBottom: '14px' }}>
+            I broke down schedules from Buenos Aires clubs, São Paulo academies, Ajax, Barcelona, Chelsea — tracking what they did by age, by session type, by week. I wanted to know: <strong style={{ color: '#111827' }}>what does it actually take, hour by hour, to develop an elite player?</strong>
           </p>
-          <p style={{ fontSize: '14px', lineHeight: '1.85', color: '#d8e8f8', marginBottom: '14px' }}>
-            Today, my older son trains with <strong style={{ color: '#22c55e' }}>CLT Academy</strong>. My younger son is in their <strong style={{ color: '#22c55e' }}>Discovery Program</strong>. None of that happened by accident — it happened because we understood the game differently than most families around us.
+          <p style={{ fontSize: '14px', lineHeight: '1.85', color: '#374151', marginBottom: '14px' }}>
+            Today, my older son trains with <strong style={{ color: '#DC373E' }}>CLT Academy</strong>. My younger son is in their <strong style={{ color: '#DC373E' }}>CLT Discovery Program</strong>. None of that happened by accident — it happened because we understood the game differently than most families around us.
           </p>
-          <p style={{ fontSize: '14px', lineHeight: '1.85', color: '#8aaac8' }}>
+          <p style={{ fontSize: '14px', lineHeight: '1.85', color: '#6b7280' }}>
             This report is everything I wish I had when we started. I hope it helps you.
           </p>
-          <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid #1a3050', fontSize: '12px', color: '#5a7a9a', fontFamily: 'Courier New, monospace' }}>
+          <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid #e5e7eb', fontSize: '12px', color: '#9ca3af' }}>
             — Neil Crawford &nbsp;·&nbsp; neil@anytime-soccer.com
           </div>
         </div>
@@ -818,7 +757,7 @@ export default function EliteAcademyReport() {
               </tbody>
             </table>
           </div>
-          <div style={{ padding: '10px 16px', borderTop: '1px solid #1a3050', display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+          <div style={{ padding: '10px 16px', borderTop: '1px solid #e5e7eb', display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
             <div className="ast-legend-item"><div className="ast-legend-dot" style={{ background: '#22c55e' }} />Club Training</div>
             <div className="ast-legend-item"><div className="ast-legend-dot" style={{ background: '#38bdf8' }} />Indoor Futsal (5v5)</div>
             <div className="ast-legend-item"><div className="ast-legend-dot" style={{ background: '#7dd3fc' }} />Indoor Baby (5v5)</div>
@@ -868,7 +807,7 @@ export default function EliteAcademyReport() {
               </tbody>
             </table>
           </div>
-          <div style={{ padding: '10px 16px', borderTop: '1px solid #1a3050', fontSize: '11px', color: '#5a7a9a', fontFamily: 'Courier New, monospace' }}>
+          <div style={{ padding: '10px 16px', borderTop: '1px solid #e5e7eb', fontSize: '11px', color: '#9ca3af' }}>
             * ~50% of U15–U17 players independently play unofficial Futsal away from club on Saturdays
           </div>
         </div>
@@ -913,9 +852,9 @@ export default function EliteAcademyReport() {
                       <span className="ast-club-name">{club}</span>
                       <span className="ast-club-country">{country}</span>
                     </td>
-                    <td style={{ color: '#8aaac8', fontSize: '12px', whiteSpace: 'nowrap' }}>{age}</td>
+                    <td style={{ color: '#6b7280', fontSize: '12px', whiteSpace: 'nowrap' }}>{age}</td>
                     <td className={`ast-hrs-${hrsClass}`}>{hrs}</td>
-                    <td style={{ color: '#8aaac8' }}>{games}</td>
+                    <td style={{ color: '#6b7280' }}>{games}</td>
                     <td className={hrsClass === 'high' ? 'ast-hrs-high' : hrsClass === 'low' ? 'ast-hrs-low' : 'ast-hrs-mid'}>{total}</td>
                     <td className="ast-note-text">{notes}</td>
                   </tr>
@@ -944,6 +883,7 @@ export default function EliteAcademyReport() {
           <span>Compiled 2026</span>
         </div>
 
+        </div>{/* end ast-inner */}
       </div>
     </>
   );
