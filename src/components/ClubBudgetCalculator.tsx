@@ -233,7 +233,7 @@ function GateCard({ name, setName, email, setEmail, onUnlock }: { name: string; 
   );
 }
 
-function Row({ label, sub, children, noWrap }: { label: string; sub?: string; children: React.ReactNode; noWrap?: boolean }) {
+function Row({ label, sub, children, noWrap }: { label: React.ReactNode; sub?: string; children: React.ReactNode; noWrap?: boolean }) {
   return (
     <div style={rowStyle}>
       <div style={labelStyle}>
@@ -276,6 +276,7 @@ export default function ClubBudgetCalculator() {
   const setFee = setTier1Fee;
   const numTeams = 1;
   const [months, setMonths] = usePersist('calc_months', 10);
+  const [tournamentRevenue, setTournamentRevenue] = usePersist('calc_tournamentRevenue', 0);
   const [fundraising, setFundraising] = usePersist('calc_fundraising', 0);
   const [otherRevenue, setOtherRevenue] = usePersist('calc_otherRevenue', 0);
 
@@ -318,6 +319,7 @@ export default function ClubBudgetCalculator() {
   const [preseasonEvent, setPreseasonEvent] = usePersist('calc_preseasonEvent', 0);
   const [postseasonEvent, setPostseasonEvent] = usePersist('calc_postseasonEvent', 0);
   const [otherEvents, setOtherEvents] = usePersist('calc_otherEvents', 0);
+  const [tournamentExpense, setTournamentExpense] = usePersist('calc_tournamentExpense', 0);
 
   const tier1Revenue = tier1Players * tier1Fee;
   const tier2Revenue = numTiers >= 2 ? tier2Players * tier2Fee : 0;
@@ -325,7 +327,7 @@ export default function ClubBudgetCalculator() {
   const totalPlayers = tier1Players + (numTiers >= 2 ? tier2Players : 0) + (numTiers >= 3 ? tier3Players : 0);
   const monthlyPayroll = numCoaches * headCoach;
   const playerFees = tier1Revenue + tier2Revenue + tier3Revenue;
-  const revenue = playerFees + fundraising + otherRevenue;
+  const revenue = playerFees + tournamentRevenue + fundraising + otherRevenue;
 
   const coaching = monthlyPayroll * headCoachMonths;
   const assistantAnn = numAssistants * assistantCoach * assistantMonths;
@@ -334,7 +336,7 @@ export default function ClubBudgetCalculator() {
   const adminAnn = (admin + software) * months;
 
   const emergencyFund = Math.round(revenue * emergencyFundPct / 100);
-  const otherExpensesTotal = fieldLights + portaPotties + backupField + fieldMaintenance + utilities + emergencyFund + coachTraining + repairReplacement + concessions + coachingGear + trainingJerseys + preseasonEvent + postseasonEvent + otherEvents;
+  const otherExpensesTotal = fieldLights + portaPotties + backupField + fieldMaintenance + utilities + emergencyFund + coachTraining + repairReplacement + concessions + coachingGear + trainingJerseys + preseasonEvent + postseasonEvent + otherEvents + tournamentExpense;
 
   const totalCosts =
     coaching + assistantAnn + specialtyAnn + fieldTraining +
@@ -357,7 +359,7 @@ export default function ClubBudgetCalculator() {
   }, [revenue, totalCosts, net, playerFees, coaching, assistantAnn, specialtyAnn, fieldTraining, adminAnn, cph, costPP, totalHrs, otherRevenue, fundraising, players, totalPlayers, fee, months, numCoaches, headCoach, headCoachMonths, specialty, fieldHr, sessions, hrs, weeks, league, insurance, equipment, admin, software, marketing]);
 
   const handleReset = () => {
-    const keys = ['calc_snapshot','calc_otherOpen','calc_fieldLights','calc_portaPotties','calc_backupField','calc_fieldMaintenance','calc_utilities','calc_emergencyFundPct','calc_coachTraining','calc_repairReplacement','calc_concessions','calc_coachingGear','calc_trainingJerseys','calc_preseasonEvent','calc_postseasonEvent','calc_otherEvents','calc_numTiers','calc_tier1Name','calc_tier1Players','calc_tier1Fee','calc_tier2Name','calc_tier2Players','calc_tier2Fee','calc_tier3Name','calc_tier3Players','calc_tier3Fee','calc_players','calc_numTeams','calc_fee','calc_months','calc_fundraising','calc_otherRevenue','calc_name','calc_email','calc_unlocked','calc_numCoaches','calc_headCoach','calc_headCoachMonths','calc_numAssistants','calc_assistantCoach','calc_assistantMonths','calc_specialty','calc_fieldHr','calc_sessions','calc_hrs','calc_weeks','calc_numHomeGames','calc_winterFacility','calc_league','calc_insurance','calc_equipment','calc_admin','calc_software','calc_marketing','calc_otherOps','calc_isNonprofit','calc_revenueOpen','calc_coachingOpen','calc_facilitiesOpen','calc_operationsOpen'];
+    const keys = ['calc_snapshot','calc_tournamentRevenue','calc_tournamentExpense','calc_otherOpen','calc_fieldLights','calc_portaPotties','calc_backupField','calc_fieldMaintenance','calc_utilities','calc_emergencyFundPct','calc_coachTraining','calc_repairReplacement','calc_concessions','calc_coachingGear','calc_trainingJerseys','calc_preseasonEvent','calc_postseasonEvent','calc_otherEvents','calc_numTiers','calc_tier1Name','calc_tier1Players','calc_tier1Fee','calc_tier2Name','calc_tier2Players','calc_tier2Fee','calc_tier3Name','calc_tier3Players','calc_tier3Fee','calc_players','calc_numTeams','calc_fee','calc_months','calc_fundraising','calc_otherRevenue','calc_name','calc_email','calc_unlocked','calc_numCoaches','calc_headCoach','calc_headCoachMonths','calc_numAssistants','calc_assistantCoach','calc_assistantMonths','calc_specialty','calc_fieldHr','calc_sessions','calc_hrs','calc_weeks','calc_numHomeGames','calc_winterFacility','calc_league','calc_insurance','calc_equipment','calc_admin','calc_software','calc_marketing','calc_otherOps','calc_isNonprofit','calc_revenueOpen','calc_coachingOpen','calc_facilitiesOpen','calc_operationsOpen'];
     keys.forEach(k => localStorage.removeItem(k));
     window.location.reload();
   };
@@ -522,6 +524,9 @@ export default function ClubBudgetCalculator() {
 
 
 
+        <Row label={<span>Tournament revenue <a href="/tournament-budget-worksheet" target="_blank" rel="noopener noreferrer" style={{ fontSize: '11px', color: '#DC373E', fontWeight: '600', marginLeft: '6px', textDecoration: 'none' }}>Worksheet →</a></span>} sub="Hosting fees, gate, concessions">
+          <NumInput value={tournamentRevenue} onChange={setTournamentRevenue} prefix="$" />
+        </Row>
         <Row label="Fundraising" sub="Events, grants, donations">
           <NumInput value={fundraising} onChange={setFundraising} prefix="$" />
         </Row>
@@ -648,6 +653,7 @@ export default function ClubBudgetCalculator() {
         <Row label="Training jerseys" sub="If club provides (not parent-paid)"><NumInput value={trainingJerseys} onChange={setTrainingJerseys} prefix="$" /></Row>
 
         <p style={{ ...sectionLabelStyle, marginTop: '12px' }}>Events & miscellaneous</p>
+        <Row label="Tournament expenses" sub="Entry fees, refs, sanctioning, logistics"><NumInput value={tournamentExpense} onChange={setTournamentExpense} prefix="$" /></Row>
         <Row label="Concessions" sub="Supplies, equipment, permits"><NumInput value={concessions} onChange={setConcessions} prefix="$" /></Row>
         <Row label="Repairs & replacements" sub="Broken goals, nets, facility damage"><NumInput value={repairReplacement} onChange={setRepairReplacement} prefix="$" /></Row>
         <Row label="Pre-season event / party" sub="Training camp, kickoff event"><NumInput value={preseasonEvent} onChange={setPreseasonEvent} prefix="$" /></Row>
