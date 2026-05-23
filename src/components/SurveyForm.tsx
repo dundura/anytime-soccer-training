@@ -188,7 +188,7 @@ export default function SurveyForm() {
           </button>
           {status === 'error' && <p style={{ fontSize: '12px', color: '#DC373E' }}>Something went wrong — please try again.</p>}
         </div>
-      </div>
+      </div>}
 
     </div>
   );
