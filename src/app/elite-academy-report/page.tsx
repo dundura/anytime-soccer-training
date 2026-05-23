@@ -597,20 +597,6 @@ export default function EliteAcademyReport() {
           <div className="tag">// Cliff Notes Report · Elite Youth Development</div>
           <h1>Soccer Academy<br /><span>Training Hours</span></h1>
           <p className="subtitle">A breakdown of training load, session types, and outside hours across age groups at the world&rsquo;s top academies.</p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px', marginTop: '24px' }}>
-            {[
-              { icon: '⏱', stat: '4 → 30 hrs/wk', label: 'Ages 6 to 18' },
-              { icon: '🎯', stat: '10,000 hrs', label: 'To reach mastery' },
-              { icon: '📍', stat: 'Ages 6–13', label: 'Critical technical window' },
-              { icon: '🌍', stat: '14 academies', label: 'Across 8 countries' },
-            ].map(({ icon, stat, label }) => (
-              <div key={stat} style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '30px', padding: '8px 18px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '14px' }}>{icon}</span>
-                <span style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>{stat}</span>
-                <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>{label}</span>
-              </div>
-            ))}
-          </div>
         </div>
 
         <div className="ast-inner">
@@ -635,25 +621,26 @@ export default function EliteAcademyReport() {
           </div>
         </div>
 
-        {/* ── LEGEND ── */}
-        <div className="ast-legend">
+        {/* ── QUICK NAV ── */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '32px' }}>
+          <span style={{ fontSize: '11px', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9ca3af', alignSelf: 'center', marginRight: '4px' }}>Jump to</span>
           {[
-            { color: '#22c55e', label: 'Ball Mastery' },
-            { color: '#38bdf8', label: 'Tactical' },
-            { color: '#DC373E', label: 'Strength & Conditioning' },
-            { color: '#a78bfa', label: 'Video Analysis' },
-            { color: '#fbbf24', label: 'Recovery' },
-            { color: '#2dd4bf', label: 'Athletic Movement' },
-          ].map(({ color, label }) => (
-            <div key={label} className="ast-legend-item">
-              <div className="ast-legend-dot" style={{ background: color }} />
+            { label: 'Ball Mastery', href: '#age-breakdown' },
+            { label: 'Tactical', href: '#philosophies' },
+            { label: 'Strength & Conditioning', href: '#benchmarks' },
+            { label: 'Video Analysis', href: '#key-numbers' },
+            { label: 'Recovery', href: '#bottom-line' },
+            { label: 'Athletic Movement', href: '#key-findings' },
+          ].map(({ label, href }) => (
+            <a key={label} href={href} style={{ fontSize: '12px', fontWeight: '600', color: '#0f2642', background: '#f3f4f6', border: '1px solid #e5e7eb', borderRadius: '20px', padding: '5px 14px', textDecoration: 'none', whiteSpace: 'nowrap', transition: 'background 0.15s' }}>
               {label}
-            </div>
+            </a>
           ))}
         </div>
+        <script dangerouslySetInnerHTML={{ __html: `document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(){var t=document.querySelector(a.getAttribute('href'));if(t&&t.tagName==='DETAILS'){t.open=true;}});});` }} />
 
         {/* ── AGE GROUP BREAKDOWN ── */}
-        <details className="ast-section-collapse" open>
+        <details id="age-breakdown" className="ast-section-collapse" open>
           <summary>
             Age Group Breakdown
             <span className="ast-section-line" />
@@ -746,7 +733,7 @@ export default function EliteAcademyReport() {
         </details>
 
         {/* ── KEY NUMBERS ── */}
-        <details className="ast-section-collapse">
+        <details id="key-numbers" className="ast-section-collapse">
           <summary>
             Key Numbers
             <span className="ast-section-line" />
@@ -766,14 +753,19 @@ export default function EliteAcademyReport() {
               </div>
             ))}
           </div>
+
+          <div className="ast-quote">
+            &ldquo;Ajax and Barcelona credit unstructured play outside sessions as irreplaceable — it builds creativity and decision-making that coached sessions alone cannot replicate.&rdquo;
+          </div>
         </details>
 
-        <div className="ast-quote">
-          &ldquo;Ajax and Barcelona credit unstructured play outside sessions as irreplaceable — it builds creativity and decision-making that coached sessions alone cannot replicate.&rdquo;
-        </div>
-
         {/* ── ACADEMY PHILOSOPHIES ── */}
-        <div className="ast-section-title">Academy Philosophies</div>
+        <details id="philosophies" className="ast-section-collapse" open>
+          <summary>
+            Academy Philosophies
+            <span className="ast-section-line" />
+            <span className="ast-section-toggle">▾</span>
+          </summary>
         {[
           { name: 'La Masia', country: '// Barcelona · Spain', desc: <span>Heaviest emphasis on <strong>technical/ball mastery</strong> at all ages. Tactics built entirely around possession. Produced Messi, Xavi, Iniesta.</span> },
           { name: 'Ajax Academy', country: '// Netherlands', desc: <span><strong>TIPS Model</strong> — Technique, Intelligence, Personality, Speed. Cognitive development and decision-making emphasized from early ages.</span> },
@@ -791,18 +783,30 @@ export default function EliteAcademyReport() {
             <div className="ast-academy-desc" style={{ padding: '16px 18px' }}>{desc}</div>
           </details>
         ))}
+        </details>
 
         {/* ── BOTTOM LINE ── */}
-        <div className="ast-section-title">Bottom Line</div>
+        <details id="bottom-line" className="ast-section-collapse" open>
+          <summary>
+            Bottom Line
+            <span className="ast-section-line" />
+            <span className="ast-section-toggle">▾</span>
+          </summary>
         <div className="ast-bottom-card">
           Over-coaching tactics too early stunts creativity. The world&rsquo;s elite academies protect the <strong style={{ color: '#22c55e' }}>technical/ball mastery window between ages 6–13</strong> as sacred. Tactics, strength, and video analysis scale up sharply from 13 onward — but without a strong technical foundation, they mean little.<br /><br />
           The true separator between good and great players is <strong style={{ color: '#DC373E' }}>what they do outside of scheduled sessions</strong> — obsessive ball work, self-analysis, and physical discipline. Every elite player at every top academy shares this trait.
         </div>
+        </details>
 
         {/* ════════════════════════════════════════════
             ELITE ACADEMY TRAINING BENCHMARKS
         ════════════════════════════════════════════ */}
-        <div className="ast-section-title" style={{ marginTop: '60px' }}>Elite Academy Training Benchmarks</div>
+        <details id="benchmarks" className="ast-section-collapse" open>
+          <summary>
+            Elite Academy Training Benchmarks
+            <span className="ast-section-line" />
+            <span className="ast-section-toggle">▾</span>
+          </summary>
 
         {/* ── TABLE 1: ARGENTINA ── */}
         <div className="ast-table-block">
@@ -1003,10 +1007,16 @@ export default function EliteAcademyReport() {
           </div>
           </details>
         </div>
+        </details>
 
         {/* ── KEY FINDINGS ── */}
+        <details id="key-findings" className="ast-section-collapse" open>
+          <summary>
+            Key Findings
+            <span className="ast-section-line" />
+            <span className="ast-section-toggle">▾</span>
+          </summary>
         <div className="ast-findings">
-          <div className="ast-findings-title">Key Findings</div>
           <table className="ast-findings-table">
             <tbody>
               {[
@@ -1025,6 +1035,7 @@ export default function EliteAcademyReport() {
             </tbody>
           </table>
         </div>
+        </details>
 
         {/* ── FOOTER ── */}
         <div className="ast-footer">
