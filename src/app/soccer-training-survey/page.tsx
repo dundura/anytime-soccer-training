@@ -32,9 +32,9 @@ export default function SurveyPage() {
             </h1>
           </div>
 
-          {/* Bottom: copy left, image right */}
+          {/* Bottom: copy left, image right (mobile: image above copy) */}
           <div className="flex flex-col md:flex-row items-start gap-10">
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 order-2 md:order-1">
               <div className="bg-white/10 border border-white/20 rounded-xl px-5 py-5 mb-5">
                 <p className="text-white text-[16px] leading-relaxed mb-4">
                   We studied <strong>how much players at top academies around the world train</strong> — MLS Next, ECNL, Manchester City Academy, and more — broken down by age group and training type.
@@ -52,7 +52,7 @@ export default function SurveyPage() {
               <p className="text-white/40 text-[12px]">All submissions are anonymous.</p>
             </div>
 
-            <div className="w-full md:w-[520px] flex-shrink-0 rounded-2xl overflow-hidden shadow-2xl">
+            <div className="w-full md:w-[520px] flex-shrink-0 rounded-2xl overflow-hidden shadow-2xl order-1 md:order-2">
               <img
                 src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779541227299-xijein.png"
                 alt="Youth academy players training"
