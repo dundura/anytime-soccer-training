@@ -41,27 +41,27 @@ function SectionLabel({ children }: { children: string }) {
 }
 
 export default function TournamentWorksheet() {
-  // Revenue
-  const [numTeams, setNumTeams] = usePersist('tw_numTeams', 0);
-  const [entryFee, setEntryFee] = usePersist('tw_entryFee', 0);
-  const [spectatorFee, setSpectatorFee] = usePersist('tw_spectatorFee', 0);
-  const [spectatorCount, setSpectatorCount] = usePersist('tw_spectatorCount', 0);
-  const [concessionRev, setConcessionRev] = usePersist('tw_concessionRev', 0);
-  const [sponsorships, setSponsorships] = usePersist('tw_sponsorships', 0);
+  // Revenue — defaults based on a typical 50-team weekend tournament
+  const [numTeams, setNumTeams] = usePersist('tw_numTeams', 50);
+  const [entryFee, setEntryFee] = usePersist('tw_entryFee', 700);
+  const [spectatorFee, setSpectatorFee] = usePersist('tw_spectatorFee', 5);
+  const [spectatorCount, setSpectatorCount] = usePersist('tw_spectatorCount', 400);
+  const [concessionRev, setConcessionRev] = usePersist('tw_concessionRev', 1500);
+  const [sponsorships, setSponsorships] = usePersist('tw_sponsorships', 1000);
   const [otherRev, setOtherRev] = usePersist('tw_otherRev', 0);
 
-  // Expenses
-  const [fieldRental, setFieldRental] = usePersist('tw_fieldRental', 0);
-  const [refs, setRefs] = usePersist('tw_refs', 0);
-  const [sanctioning, setSanctioning] = usePersist('tw_sanctioning', 0);
-  const [trophiesMedals, setTrophiesMedals] = usePersist('tw_trophiesMedals', 0);
-  const [insurance, setInsurance] = usePersist('tw_insurance', 0);
-  const [staffVolunteer, setStaffVolunteer] = usePersist('tw_staffVolunteer', 0);
-  const [marketing, setMarketing] = usePersist('tw_marketing', 0);
-  const [concessionExp, setConcessionExp] = usePersist('tw_concessionExp', 0);
-  const [portaPotties, setPortaPotties] = usePersist('tw_portaPotties', 0);
+  // Expenses — typical 50-team tournament costs
+  const [fieldRental, setFieldRental] = usePersist('tw_fieldRental', 4500);
+  const [refs, setRefs] = usePersist('tw_refs', 7000);
+  const [sanctioning, setSanctioning] = usePersist('tw_sanctioning', 1200);
+  const [trophiesMedals, setTrophiesMedals] = usePersist('tw_trophiesMedals', 2500);
+  const [insurance, setInsurance] = usePersist('tw_insurance', 600);
+  const [staffVolunteer, setStaffVolunteer] = usePersist('tw_staffVolunteer', 1000);
+  const [marketing, setMarketing] = usePersist('tw_marketing', 750);
+  const [concessionExp, setConcessionExp] = usePersist('tw_concessionExp', 600);
+  const [portaPotties, setPortaPotties] = usePersist('tw_portaPotties', 500);
   const [fieldLights, setFieldLights] = usePersist('tw_fieldLights', 0);
-  const [firstAid, setFirstAid] = usePersist('tw_firstAid', 0);
+  const [firstAid, setFirstAid] = usePersist('tw_firstAid', 400);
   const [otherExp, setOtherExp] = usePersist('tw_otherExp', 0);
 
   const totalRevenue = numTeams * entryFee + spectatorFee * spectatorCount + concessionRev + sponsorships + otherRev;
@@ -75,6 +75,8 @@ export default function TournamentWorksheet() {
     keys.forEach(k => localStorage.removeItem(k));
     window.location.reload();
   };
+
+  const handleBack = () => { if (typeof window !== 'undefined') window.history.back(); };
 
   return (
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '1.5rem 1rem 4rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
@@ -165,7 +167,8 @@ export default function TournamentWorksheet() {
         <span style={{ fontSize: '22px', fontWeight: '800', color: netColor }}>{(net >= 0 ? '+' : '') + fmt(net)}</span>
       </div>
 
-      <div style={{ textAlign: 'right' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <button onClick={handleBack} style={{ fontSize: '12px', color: '#6b7280', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '5px 14px', cursor: 'pointer' }}>← Back</button>
         <button onClick={handleReset} style={{ fontSize: '12px', color: '#9ca3af', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '5px 14px', cursor: 'pointer' }}>↺ Reset</button>
       </div>
 
