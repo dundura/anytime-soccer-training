@@ -4,6 +4,13 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Tournament Budget Worksheet | Anytime Soccer Training',
   description: 'Plan your soccer tournament finances — estimate revenue from entry fees and expenses like fields, refs, and prizes. Get a quick net profit view.',
+  openGraph: {
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779461643370-zk99k2.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779461643370-zk99k2.png'],
+  },
 };
 
 export default function TournamentWorksheetPage() {
