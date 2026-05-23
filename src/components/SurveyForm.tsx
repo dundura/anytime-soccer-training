@@ -127,27 +127,7 @@ export default function SurveyForm() {
       <div style={cardStyle}>
         <HrsRow label="Team training" sub="Any organized team sessions — outdoor, indoor turf, bubble, etc." value={outdoor} onChange={setOutdoor} />
         <HrsRow label="Futsal" sub="Futsal sessions or league" value={futsal} onChange={setFutsal} />
-        <div style={{ ...rowStyle, flexWrap: 'wrap', gap: '8px' }}>
-          <div style={labelStyle}>
-            <div>Private training</div>
-            <div style={subStyle}>Individual or small group sessions with a trainer</div>
-          </div>
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexShrink: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span style={{ fontSize: '11px', color: '#9ca3af' }}>1-on-1</span>
-              <input type="number" inputMode="decimal" value={priv} placeholder="0" min="0" max="40" step="0.5"
-                onChange={e => setPriv(e.target.value)}
-                style={{ width: '56px', textAlign: 'right', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '6px 8px', background: '#fff', color: '#111', outline: 'none' }} />
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span style={{ fontSize: '11px', color: '#9ca3af' }}>Group</span>
-              <input type="number" inputMode="decimal" value={privateGroup} placeholder="0" min="0" max="40" step="0.5"
-                onChange={e => setPrivateGroup(e.target.value)}
-                style={{ width: '56px', textAlign: 'right', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '6px 8px', background: '#fff', color: '#111', outline: 'none' }} />
-            </div>
-            <span style={{ fontSize: '12px', color: '#9ca3af', whiteSpace: 'nowrap' }}>hrs/wk</span>
-          </div>
-        </div>
+        <HrsRow label="Private training" sub="1-on-1 or small group sessions with a trainer" value={priv} onChange={setPriv} />
         <HrsRow label="Self-training at home" sub="Solo ball work, wall passing, juggling" value={self} onChange={setSelf} />
         <HrsRow label="Gym / Fitness / Speed & Agility" sub="Weight training, conditioning, speed & agility sessions" value={indoor} onChange={setIndoor} />
       </div>
