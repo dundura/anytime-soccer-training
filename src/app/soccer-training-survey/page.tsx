@@ -4,6 +4,15 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'How Much Does Your Child Train? | Anytime Soccer Training',
   description: 'Take our free 2-minute survey and find out how your child\'s soccer training compares to other players their age. Get a personalized PDF report.',
+  openGraph: {
+    title: 'How does your child\'s training compare to the world\'s elite?',
+    description: 'Take our free 2-minute survey and get a personalized PDF showing how your child compares to players their age.',
+    images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779542288249-667nkw.png' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779542288249-667nkw.png'],
+  },
 };
 
 export default function SurveyPage() {
