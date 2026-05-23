@@ -16,11 +16,20 @@ const labelStyle = { flex: 1, fontSize: '14px', color: '#111' };
 const subStyle = { fontSize: '12px', color: '#888', marginTop: '2px' };
 const sectionLabelStyle = { fontSize: '11px', fontWeight: '600' as const, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: '#9ca3af', margin: '0 0 8px' };
 
-function SectionHeader({ label }: { label: string }) {
+function SectionHeader({ label, open, onToggle }: { label: string; open?: boolean; onToggle?: () => void }) {
+  if (!onToggle) {
+    return (
+      <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px 12px 0 0', padding: '12px 16px', marginBottom: 0 }}>
+        <span style={{ fontSize: '11px', fontWeight: '600', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6b7280' }}>{label}</span>
+      </div>
+    );
+  }
   return (
-    <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px 12px 0 0', padding: '12px 16px', marginBottom: 0 }}>
+    <button onClick={onToggle}
+      style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', background: '#fff', border: '1px solid #e5e7eb', borderRadius: open ? '12px 12px 0 0' : '12px', cursor: 'pointer', padding: '12px 16px', textAlign: 'left', marginBottom: open ? '0' : '12px' }}>
       <span style={{ fontSize: '11px', fontWeight: '600', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6b7280' }}>{label}</span>
-    </div>
+      <span style={{ fontSize: '14px', color: '#9ca3af', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s', display: 'inline-block' }}>▾</span>
+    </button>
   );
 }
 
@@ -78,6 +87,10 @@ export default function SurveyForm() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle');
 
+  const [playOpen, setPlayOpen] = useState(false);
+  const [questionsOpen, setQuestionsOpen] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
+
   const canSubmit = email.includes('@') && !!name;
 
   const submit = async () => {
@@ -121,15 +134,15 @@ export default function SurveyForm() {
       </div>
 
       {/* Play */}
-      <SectionHeader label="Play — hours per week" />
-      <div style={cardStyle}>
+      <SectionHeader label="Play — hours per week" open={playOpen} onToggle={() => setPlayOpen(o => !o)} />
+      {playOpen && <div style={cardStyle}>
         <HrsRow label="Games" sub="Competitive matches — league, tournament, friendly" value={games} onChange={setGames} />
         <HrsRow label="Free play" sub="Pick-up, backyard, street soccer — no coaching" value={freePlay} onChange={setFreePlay} />
-      </div>
+      </div>}
 
       {/* Questions */}
-      <SectionHeader label="A few more questions" />
-      <div style={cardStyle}>
+      <SectionHeader label="A few more questions" open={questionsOpen} onToggle={() => setQuestionsOpen(o => !o)} />
+      {questionsOpen && <div style={cardStyle}>
         <YesNoRow label="Does your child ever train before school?" value={beforeSchool} onChange={setBeforeSchool} />
         <YesNoRow label="Does your child ever train before team practice?" value={beforePractice} onChange={setBeforePractice} />
         <YesNoRow label="Is your child homeschooled?" value={homeschooled} onChange={setHomeschooled} />
@@ -158,11 +171,11 @@ export default function SurveyForm() {
             ))}
           </select>
         </div>
-      </div>
+      </div>}
 
       {/* Email capture */}
-      <SectionHeader label="Get your free report" />
-      <div style={cardStyle}>
+      <SectionHeader label="Get your free report" open={reportOpen} onToggle={() => setReportOpen(o => !o)} />
+      {reportOpen && <div style={cardStyle}>
         <p style={{ fontSize: '13px', color: '#6b7280', marginBottom: '12px' }}>
           Enter your name and email — we'll send a free PDF showing how your child compares to other players their age.
         </p>
