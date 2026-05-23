@@ -18,8 +18,8 @@ export default function SurveyPage() {
               Free Training Report
             </div>
             <h1 className="text-[clamp(26px,3.5vw,44px)] font-extrabold text-white leading-tight mb-6">
-              How much does your child train —<br />
-              <span className="text-[#DC373E]">and how does that compare to the best?</span>
+              How does your child&rsquo;s training compare to<br />
+              <span className="text-[#DC373E]">the world&rsquo;s elite?</span>
             </h1>
             <div className="bg-white/10 border border-white/20 rounded-xl px-5 py-5 mb-5">
               <p className="text-white text-[16px] leading-relaxed mb-4">
