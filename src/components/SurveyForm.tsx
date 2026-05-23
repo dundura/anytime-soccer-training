@@ -37,7 +37,7 @@ function SliderStep({ step, value, onChange }: { step: typeof STEPS[0]; value: n
   return (
     <div>
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <div style={{ fontSize: '13px', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#DC373E', marginBottom: '12px' }}>{step.section}</div>
+        {'section' in step && <div style={{ fontSize: '13px', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#DC373E', marginBottom: '12px' }}>{step.section}</div>}
         <h2 style={{ fontSize: 'clamp(22px,4vw,32px)', fontWeight: '800', color: '#0f2642', marginBottom: '8px', lineHeight: 1.2 }}>{step.label}</h2>
         {step.sub && <p style={{ fontSize: '15px', color: '#6b7280' }}>{step.sub}</p>}
       </div>
