@@ -84,10 +84,15 @@ export default function TournamentWorksheet() {
     window.location.reload();
   };
 
-  const handleBack = () => { if (typeof window !== 'undefined') window.history.back(); };
 
   return (
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '1.5rem 1rem 4rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+
+      {/* Top controls */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+        <a href="/soccer-club-cost-calculator" style={{ fontSize: '12px', color: '#6b7280', background: '#f0f0f0', borderRadius: '999px', padding: '5px 14px', textDecoration: 'none', fontWeight: '500' }}>← Back to Calculator</a>
+        <button onClick={handleReset} style={{ fontSize: '12px', color: '#9ca3af', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '5px 14px', cursor: 'pointer' }}>↺ Reset</button>
+      </div>
 
       {/* Summary */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '10px', marginBottom: '20px' }}>
@@ -175,10 +180,6 @@ export default function TournamentWorksheet() {
         <span style={{ fontSize: '22px', fontWeight: '800', color: netColor }}>{(net >= 0 ? '+' : '') + fmt(net)}</span>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <button onClick={handleBack} style={{ fontSize: '12px', color: '#6b7280', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '5px 14px', cursor: 'pointer' }}>← Back</button>
-        <button onClick={handleReset} style={{ fontSize: '12px', color: '#9ca3af', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '5px 14px', cursor: 'pointer' }}>↺ Reset</button>
-      </div>
 
       <div style={{ marginTop: '20px', fontSize: '13px', color: '#6b7280', textAlign: 'center' }}>
         Want to model your full club budget?{' '}

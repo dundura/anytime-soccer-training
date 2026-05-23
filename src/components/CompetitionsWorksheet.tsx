@@ -91,6 +91,12 @@ export default function CompetitionsWorksheet() {
   return (
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '1.5rem 1rem 4rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
 
+      {/* Top controls */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+        <a href="/soccer-club-cost-calculator" style={{ fontSize: '12px', color: '#6b7280', background: '#f0f0f0', borderRadius: '999px', padding: '5px 14px', textDecoration: 'none', fontWeight: '500' }}>← Back to Calculator</a>
+        <button onClick={handleReset} style={{ fontSize: '12px', color: '#9ca3af', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '5px 14px', cursor: 'pointer' }}>↺ Reset</button>
+      </div>
+
       {/* Total summary */}
       <div style={{ background: '#0f2642', borderRadius: '12px', padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <span style={{ fontSize: '13px', fontWeight: '600', color: '#fff' }}>Total competitions & leagues</span>
@@ -196,10 +202,6 @@ export default function CompetitionsWorksheet() {
         ✓ This total auto-syncs to your <a href="/soccer-club-cost-calculator" style={{ fontWeight: '600', color: '#3B6D11' }}>Club Budget Calculator</a> — no need to type it in again.
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <button onClick={() => window.history.back()} style={{ fontSize: '12px', color: '#6b7280', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '5px 14px', cursor: 'pointer' }}>← Back</button>
-        <button onClick={handleReset} style={{ fontSize: '12px', color: '#9ca3af', background: '#f0f0f0', border: 'none', borderRadius: '999px', padding: '5px 14px', cursor: 'pointer' }}>↺ Reset</button>
-      </div>
     </div>
   );
 }
