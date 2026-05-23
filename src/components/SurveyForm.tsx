@@ -114,7 +114,8 @@ export default function SurveyForm() {
       <div style={{ maxWidth: '680px', margin: '60px auto', padding: '3rem 1.5rem', textAlign: 'center', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
         <div style={{ fontSize: '56px', marginBottom: '16px' }}>✅</div>
         <h2 style={{ fontSize: '26px', fontWeight: '800', color: '#0f2642', marginBottom: '10px' }}>Report on its way!</h2>
-        <p style={{ fontSize: '15px', color: '#6b7280' }}>Check your inbox — we've sent your personalized training comparison PDF.</p>
+        <p style={{ fontSize: '15px', color: '#6b7280', marginBottom: '24px' }}>Check your inbox — we've sent your personalized training comparison PDF.</p>
+        <a href="/soccer-training-survey" style={{ display: 'inline-block', fontSize: '14px', fontWeight: '700', color: '#DC373E', border: '2px solid #DC373E', borderRadius: '10px', padding: '10px 24px', textDecoration: 'none' }}>← Back to Survey</a>
       </div>
     );
   }
