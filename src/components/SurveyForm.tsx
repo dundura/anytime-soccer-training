@@ -125,8 +125,27 @@ export default function SurveyForm() {
       {/* Train */}
       <SectionHeader label="Train — hours per week" />
       <div style={cardStyle}>
-        <HrsRow label="Team training (outdoor)" sub="Organized sessions on an outdoor field" value={outdoor} onChange={setOutdoor} />
-        <HrsRow label="Team training (indoor)" sub="Gym, indoor turf, or bubble" value={indoor} onChange={setIndoor} />
+        <div style={{ ...rowStyle, flexWrap: 'wrap', gap: '8px' }}>
+          <div style={{ ...labelStyle }}>
+            <div>Team training</div>
+            <div style={subStyle}>Organized team sessions</div>
+          </div>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexShrink: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ fontSize: '11px', color: '#9ca3af' }}>Outdoor</span>
+              <input type="number" inputMode="decimal" value={outdoor} placeholder="0" min="0" max="40" step="0.5"
+                onChange={e => setOutdoor(e.target.value)}
+                style={{ width: '56px', textAlign: 'right', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '6px 8px', background: '#fff', color: '#111', outline: 'none' }} />
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ fontSize: '11px', color: '#9ca3af' }}>Indoor</span>
+              <input type="number" inputMode="decimal" value={indoor} placeholder="0" min="0" max="40" step="0.5"
+                onChange={e => setIndoor(e.target.value)}
+                style={{ width: '56px', textAlign: 'right', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '6px 8px', background: '#fff', color: '#111', outline: 'none' }} />
+            </div>
+            <span style={{ fontSize: '12px', color: '#9ca3af', whiteSpace: 'nowrap' }}>hrs/wk</span>
+          </div>
+        </div>
         <HrsRow label="Futsal" sub="Futsal sessions or league" value={futsal} onChange={setFutsal} />
         <HrsRow label="Private / 1-on-1 coaching" sub="Individual sessions with a trainer" value={priv} onChange={setPriv} />
         <HrsRow label="Private group training" sub="Small group sessions (2–8 players)" value={privateGroup} onChange={setPrivateGroup} />
