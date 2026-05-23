@@ -67,6 +67,14 @@ export default function TournamentWorksheet() {
   const totalRevenue = numTeams * entryFee + spectatorFee * spectatorCount + concessionRev + sponsorships + otherRev;
   const totalExpenses = fieldRental + refs + sanctioning + trophiesMedals + insurance + staffVolunteer + marketing + concessionExp + portaPotties + fieldLights + firstAid + otherExp;
   const net = totalRevenue - totalExpenses;
+
+  // Sync totals to club calculator so both sheets stay in agreement
+  useEffect(() => {
+    try {
+      localStorage.setItem('calc_tournamentRevenue', JSON.stringify(totalRevenue));
+      localStorage.setItem('calc_tournamentExpense', JSON.stringify(totalExpenses));
+    } catch {}
+  }, [totalRevenue, totalExpenses]);
   const netColor = net >= 0 ? '#3B6D11' : '#A32D2D';
   const netBg = net >= 0 ? '#EAF3DE' : '#FCEBEB';
 
