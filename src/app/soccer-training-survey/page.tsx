@@ -21,9 +21,13 @@ export default function SurveyPage() {
           <p className="text-white/75 text-[16px] leading-relaxed mb-4 max-w-[560px]">
             It&rsquo;s one of the most common questions we get from parents — and honestly, there&rsquo;s no single right answer. So we decided to collect the data.
           </p>
-          <p className="text-white/75 text-[16px] leading-relaxed max-w-[560px]">
+          <p className="text-white/75 text-[16px] leading-relaxed mb-4 max-w-[560px]">
             Fill in your child&rsquo;s training hours below. We&rsquo;ll send you a free PDF showing exactly how they compare to other players their age — broken down by training type.
           </p>
+          <p className="text-white/75 text-[16px] leading-relaxed mb-5 max-w-[560px]">
+            The more parents who respond, the more accurate and useful the comparison becomes — so share it with your team.
+          </p>
+          <p className="text-white/40 text-[12px] max-w-[560px]">All submissions are anonymous.</p>
         </div>
       </section>
       <SurveyForm />
