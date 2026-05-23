@@ -423,12 +423,12 @@ const css = `
 
   /* KEY FINDINGS */
   .ast-findings {
-    background: #fff8f8;
-    border: 1px solid #fecdd3;
-    border-left: 4px solid #DC373E;
-    border-radius: 0 12px 12px 0;
-    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
     margin-top: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   }
 
   .ast-findings-title {
@@ -436,21 +436,59 @@ const css = `
     font-size: 18px;
     color: #DC373E;
     letter-spacing: 0.1em;
-    margin-bottom: 16px;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f8faf9;
+    margin: 0;
   }
 
-  .ast-findings ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+  .ast-findings-table { width: 100%; border-collapse: collapse; }
 
-  .ast-findings li {
-    display: flex;
-    gap: 10px;
+  .ast-findings-table tr { border-bottom: 1px solid #f3f4f6; }
+  .ast-findings-table tr:last-child { border-bottom: none; }
+  .ast-findings-table tr:nth-child(even) td { background: #fafafa; }
+
+  .ast-findings-table td {
+    padding: 12px 16px;
     font-size: 13px;
-    color: #6b7280;
+    vertical-align: top;
     line-height: 1.6;
   }
 
-  .ast-findings li::before { content: '→'; color: #DC373E; flex-shrink: 0; margin-top: 1px; }
-  .ast-findings li strong { color: #111827; }
+  .ast-findings-table td:first-child {
+    font-weight: 700;
+    color: #0f2642;
+    width: 38%;
+    border-right: 1px solid #f3f4f6;
+  }
+
+  .ast-findings-table td:last-child { color: #6b7280; }
+
+  /* COLLAPSIBLE TABLES */
+  .ast-table-block details { display: block; }
+
+  .ast-table-block summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 18px 20px 14px;
+    background: #f8faf9;
+  }
+
+  .ast-table-block summary::-webkit-details-marker { display: none; }
+  .ast-table-block details[open] summary { border-bottom: 1px solid #e5e7eb; }
+
+  .ast-toggle-icon {
+    font-size: 16px;
+    color: #9ca3af;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: transform 0.2s;
+  }
+
+  .ast-table-block details[open] .ast-toggle-icon { transform: rotate(180deg); }
 
   /* FOOTER */
   .ast-footer {
@@ -681,10 +719,14 @@ export default function EliteAcademyReport() {
 
         {/* ── TABLE 1: ARGENTINA ── */}
         <div className="ast-table-block">
-          <div className="ast-table-head">
-            <div className="ast-table-title">🇦🇷 Argentina — Buenos Aires Clubs</div>
-            <div className="ast-table-sub">Atletico Huracan · Argentinos Juniors · Vélez Sarsfield · Independiente · San Lorenzo · River Plate · Boca Juniors · Racing Club</div>
-          </div>
+          <details>
+          <summary>
+            <div>
+              <div className="ast-table-title">🇦🇷 Argentina — Buenos Aires Clubs</div>
+              <div className="ast-table-sub">Atletico Huracan · Argentinos Juniors · Vélez Sarsfield · Independiente · San Lorenzo · River Plate · Boca Juniors · Racing Club</div>
+            </div>
+            <span className="ast-toggle-icon">▾</span>
+          </summary>
           <div className="ast-schedule-wrap">
             <table className="ast-schedule">
               <thead>
@@ -763,14 +805,19 @@ export default function EliteAcademyReport() {
             <div className="ast-legend-item"><div className="ast-legend-dot" style={{ background: '#7dd3fc' }} />Indoor Baby (5v5)</div>
             <div className="ast-legend-item"><div className="ast-legend-dot" style={{ background: '#DC373E' }} />Official Match</div>
           </div>
+          </details>
         </div>
 
         {/* ── TABLE 2: BRAZIL ── */}
         <div className="ast-table-block">
-          <div className="ast-table-head">
-            <div className="ast-table-title">🇧🇷 Brazil — São Paulo Clubs</div>
-            <div className="ast-table-sub">Corinthians FC · Santos Academy · AC Juventus · Red Bull Bragantino &nbsp;·&nbsp; Note: U7–U10 Futsal via private pay-to-play schools</div>
-          </div>
+          <details>
+          <summary>
+            <div>
+              <div className="ast-table-title">🇧🇷 Brazil — São Paulo Clubs</div>
+              <div className="ast-table-sub">Corinthians FC · Santos Academy · AC Juventus · Red Bull Bragantino &nbsp;·&nbsp; Note: U7–U10 Futsal via private pay-to-play schools</div>
+            </div>
+            <span className="ast-toggle-icon">▾</span>
+          </summary>
           <div className="ast-schedule-wrap">
             <table className="ast-schedule">
               <thead>
@@ -810,14 +857,19 @@ export default function EliteAcademyReport() {
           <div style={{ padding: '10px 16px', borderTop: '1px solid #e5e7eb', fontSize: '11px', color: '#9ca3af' }}>
             * ~50% of U15–U17 players independently play unofficial Futsal away from club on Saturdays
           </div>
+          </details>
         </div>
 
         {/* ── TABLE 3: UEFA GLOBAL ── */}
         <div className="ast-table-block">
-          <div className="ast-table-head">
-            <div className="ast-table-title">🌍 Global Elite — UEFA Academy Training Hours</div>
-            <div className="ast-table-sub">Source: R. Russell, UEFA Football Development Consultant</div>
-          </div>
+          <details>
+          <summary>
+            <div>
+              <div className="ast-table-title">🌍 Global Elite — UEFA Academy Training Hours</div>
+              <div className="ast-table-sub">Source: R. Russell, UEFA Football Development Consultant</div>
+            </div>
+            <span className="ast-toggle-icon">▾</span>
+          </summary>
           <div className="ast-schedule-wrap">
             <table className="ast-data-table">
               <thead>
@@ -862,19 +914,29 @@ export default function EliteAcademyReport() {
               </tbody>
             </table>
           </div>
+          </details>
         </div>
 
         {/* ── KEY FINDINGS ── */}
         <div className="ast-findings">
-          <div className="ast-findings-title">// KEY FINDINGS</div>
-          <ul>
-            <li><strong>Small-sided games are the global standard through age 12.</strong> Every nation studied uses 5v5 (U7–U10) and 7v7 (U11–U12) before transitioning to 11v11 — maximizing ball touches per player.</li>
-            <li><strong>Training hours scale dramatically with age.</strong> Expect ~4–6 hrs/wk at U8, ~8–12 hrs/wk at U12, ~16–20 hrs/wk at U16, and 20+ hrs/wk at U18 elite level.</li>
-            <li><strong>São Paulo FC leads all clubs</strong> at an estimated 7,000+ total hours by age 19, logging 20 hrs/week — driven by year-round Futsal integration alongside club training.</li>
-            <li><strong>Argentina uniquely embeds Futsal (Indoor Baby/Futsal) into the weekly schedule</strong> from U7 through U13, running it in parallel with club training rather than as a separate program.</li>
-            <li><strong>English academies lose 10–12 weeks/year to school holidays</strong> vs. roughly 4 weeks in Argentina, Brazil, and Spain — a compounding gap that can total 1,000+ fewer training hours by age 18.</li>
-            <li><strong>Partner and nursery club networks</strong> (Ajax, Bolton, Fulham, Chelsea) extend each club&rsquo;s identification reach and give younger players structured development pathways before formal academy entry.</li>
-          </ul>
+          <div className="ast-findings-title">Key Findings</div>
+          <table className="ast-findings-table">
+            <tbody>
+              {[
+                ['Small-sided games are the global standard through age 12', 'Every nation studied uses 5v5 (U7–U10) and 7v7 (U11–U12) before transitioning to 11v11 — maximizing ball touches per player.'],
+                ['Training hours scale dramatically with age', 'Expect ~4–6 hrs/wk at U8, ~8–12 hrs/wk at U12, ~16–20 hrs/wk at U16, and 20+ hrs/wk at U18 elite level.'],
+                ['São Paulo FC leads all clubs in estimated total hours', 'An estimated 7,000+ hrs by age 19, logging 20 hrs/week — driven by year-round Futsal integration alongside club training.'],
+                ['Argentina uniquely embeds Futsal into the weekly schedule', 'From U7 through U13, Indoor Baby/Futsal runs in parallel with club training rather than as a separate program.'],
+                ['English academies lose 10–12 weeks/year to school holidays', 'vs. roughly 4 weeks in Argentina, Brazil, and Spain — a compounding gap that can total 1,000+ fewer training hours by age 18.'],
+                ['Partner and nursery club networks extend identification reach', 'Ajax, Bolton, Fulham, and Chelsea use partner networks to give younger players structured development pathways before formal academy entry.'],
+              ].map(([title, detail]) => (
+                <tr key={title}>
+                  <td>{title}</td>
+                  <td>{detail}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
         {/* ── FOOTER ── */}
