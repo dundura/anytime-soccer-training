@@ -24,7 +24,7 @@ export default function SurveyPage() {
           </div>
 
           {/* Bottom: copy left, image right */}
-          <div className="flex flex-col md:flex-row items-center gap-10">
+          <div className="flex flex-col md:flex-row items-start gap-10">
             <div className="flex-1 min-w-0">
               <div className="bg-white/10 border border-white/20 rounded-xl px-5 py-5 mb-5">
                 <p className="text-white text-[16px] leading-relaxed mb-4">
