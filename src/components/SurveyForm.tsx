@@ -109,6 +109,7 @@ export default function SurveyForm() {
   const [age, setAge] = useState(10);
   const [level, setLevel] = useState('');
   const [name, setName] = useState('');
+  const [playerName, setPlayerName] = useState('');
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle');
 
@@ -116,7 +117,7 @@ export default function SurveyForm() {
   const [questionsOpen, setQuestionsOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
 
-  const canSubmit = email.includes('@') && !!name;
+  const canSubmit = email.includes('@') && !!name && !!playerName;
 
   const submit = async () => {
     if (!canSubmit || status === 'loading') return;
@@ -126,7 +127,7 @@ export default function SurveyForm() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name, email,
+          name, playerName, email,
           answers: { outdoor: (parseFloat(outdoorDays)||0)*(parseFloat(outdoorHrs)||0), indoor: parseFloat(indoor)||0, futsal: parseFloat(futsal)||0, private: parseFloat(priv)||0, privateGroup: parseFloat(privateGroup)||0, self: parseFloat(self)||0, games: parseFloat(games)||0, freePlay: parseFloat(freePlay)||0, beforeSchool, beforePractice, homeschooled, age, level },
         }),
       });
@@ -212,7 +213,8 @@ export default function SurveyForm() {
           Enter your name and email — we'll send a free PDF showing how your child compares to other players their age.
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <input type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)} style={inputStyle} />
+          <input type="text" placeholder="Your name (parent)" value={name} onChange={e => setName(e.target.value)} style={inputStyle} />
+          <input type="text" placeholder="Player's name" value={playerName} onChange={e => setPlayerName(e.target.value)} style={inputStyle} />
           <input type="email" placeholder="your@email.com" value={email} onChange={e => { setEmail(e.target.value); if (status === 'error') setStatus('idle'); }} style={inputStyle} />
           <button onClick={submit} disabled={!canSubmit || status === 'loading'}
             style={{ fontSize: '15px', fontWeight: '700', background: canSubmit ? '#DC373E' : '#d1d5db', color: '#fff', border: 'none', borderRadius: '10px', padding: '12px', cursor: canSubmit ? 'pointer' : 'not-allowed', transition: 'background 0.15s', alignSelf: 'flex-start', minWidth: '180px' }}>
