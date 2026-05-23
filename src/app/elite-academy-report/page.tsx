@@ -602,11 +602,12 @@ export default function EliteAcademyReport() {
         <div className="ast-inner">
 
         {/* ── ABOUT THIS REPORT ── */}
-        <div style={{ marginTop: '32px', marginBottom: '36px' }}>
-          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '22px', color: '#0f2642', letterSpacing: '0.1em', display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px' }}>
+        <details className="ast-section-collapse" style={{ marginTop: '32px', marginBottom: '36px' }}>
+          <summary>
             About This Report
-            <span style={{ flex: 1, height: '2px', background: '#e5e7eb', display: 'block' }} />
-          </div>
+            <span className="ast-section-line" />
+            <span className="ast-section-toggle">▾</span>
+          </summary>
           <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #DC373E', borderRadius: '0 12px 12px 0', padding: '22px 24px', boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}>
             <div style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#DC373E', marginBottom: '10px' }}>Methodology · Anytime Soccer Training</div>
             <p style={{ fontSize: '14px', lineHeight: '1.85', color: '#374151', marginBottom: '14px' }}>
@@ -619,7 +620,7 @@ export default function EliteAcademyReport() {
               Data reflects known published schedules and coach interviews as of 2025–2026. Estimates include both structured sessions and documented outside training norms at each academy.
             </p>
           </div>
-        </div>
+        </details>
 
         {/* ── QUICK NAV ── */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '32px' }}>
