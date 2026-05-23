@@ -151,7 +151,7 @@ export default function SurveyForm() {
       {/* Train */}
       <SectionHeader label="Training — hours per week" />
       <div style={cardStyle}>
-        <DaysHrsRow label="Team training" days={outdoorDays} hrs={outdoorHrs} onDaysChange={setOutdoorDays} onHrsChange={setOutdoorHrs} />
+        <DaysHrsRow label="Team training" sub="Any organized team sessions" days={outdoorDays} hrs={outdoorHrs} onDaysChange={setOutdoorDays} onHrsChange={setOutdoorHrs} />
         <HrsRow label="Futsal" sub="Futsal sessions or league" value={futsal} onChange={setFutsal} />
         <HrsRow label="Private / 1-on-1" sub="1-on-1 sessions with a trainer" value={priv} onChange={setPriv} />
         <HrsRow label="Private group" sub="Small group sessions with a trainer" value={privateGroup} onChange={setPrivateGroup} />
