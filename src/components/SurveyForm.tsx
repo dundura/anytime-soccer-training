@@ -130,6 +130,12 @@ export default function SurveyForm() {
         <HrsRow label="Private training" sub="1-on-1 or small group sessions with a trainer" value={priv} onChange={setPriv} />
         <HrsRow label="In-home training" sub="Solo ball work, wall passing, juggling at home" value={self} onChange={setSelf} />
         <HrsRow label="Gym / Fitness / Speed & Agility" sub="Weight training, conditioning, speed & agility sessions" value={indoor} onChange={setIndoor} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
+          <span>Total training hours / week</span>
+          <span style={{ fontWeight: '600', fontSize: '14px', color: '#0f2642' }}>
+            {((parseFloat(outdoor)||0) + (parseFloat(futsal)||0) + (parseFloat(priv)||0) + (parseFloat(self)||0) + (parseFloat(indoor)||0)).toFixed(1)} hrs/wk
+          </span>
+        </div>
       </div>
 
       {/* Play */}
