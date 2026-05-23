@@ -125,7 +125,7 @@ export default function SurveyForm() {
       {/* Train */}
       <SectionHeader label="Train — hours per week" />
       <div style={cardStyle}>
-        <HrsRow label="Team training (outdoor)" sub="Organized sessions on an outdoor field" value={outdoor} onChange={setOutdoor} />
+        <HrsRow label="Team training" sub="Any organized team sessions — outdoor, indoor turf, bubble, etc." value={outdoor} onChange={setOutdoor} />
         <HrsRow label="Futsal" sub="Futsal sessions or league" value={futsal} onChange={setFutsal} />
         <div style={{ ...rowStyle, flexWrap: 'wrap', gap: '8px' }}>
           <div style={labelStyle}>
