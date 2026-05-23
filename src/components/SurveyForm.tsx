@@ -50,6 +50,30 @@ function HrsRow({ label, sub, value, onChange }: { label: string; sub?: string; 
   );
 }
 
+function DaysHrsRow({ label, sub, days, hrs, onDaysChange, onHrsChange }: { label: string; sub?: string; days: string; hrs: string; onDaysChange: (v: string) => void; onHrsChange: (v: string) => void }) {
+  const total = (parseFloat(days) || 0) * (parseFloat(hrs) || 0);
+  const numStyle = { width: '46px', textAlign: 'right' as const, fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '6px 8px', background: '#fff', color: '#111', outline: 'none' };
+  const capStyle = { fontSize: '12px', color: '#9ca3af', whiteSpace: 'nowrap' as const };
+  return (
+    <div style={rowStyle}>
+      <div style={labelStyle}>
+        <div>{label}</div>
+        {sub && <div style={subStyle}>{sub}</div>}
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '5px', flexShrink: 0 }}>
+        <input type="number" inputMode="decimal" value={days} placeholder="0" min="0" max="7" step="1"
+          onChange={e => onDaysChange(e.target.value)} style={numStyle} />
+        <span style={capStyle}>days ×</span>
+        <input type="number" inputMode="decimal" value={hrs} placeholder="0" min="0" max="8" step="0.5"
+          onChange={e => onHrsChange(e.target.value)} style={numStyle} />
+        <span style={capStyle}>hrs =</span>
+        <span style={{ fontSize: '13px', fontWeight: '600', color: '#0f2642', minWidth: '36px', textAlign: 'right' as const }}>{total.toFixed(1)}</span>
+        <span style={capStyle}>hrs/wk</span>
+      </div>
+    </div>
+  );
+}
+
 function YesNoRow({ label, sub, value, onChange }: { label: string; sub?: string; value: boolean | null; onChange: (v: boolean) => void }) {
   return (
     <div style={rowStyle}>
@@ -70,7 +94,8 @@ function YesNoRow({ label, sub, value, onChange }: { label: string; sub?: string
 }
 
 export default function SurveyForm() {
-  const [outdoor, setOutdoor] = useState('');
+  const [outdoorDays, setOutdoorDays] = useState('');
+  const [outdoorHrs, setOutdoorHrs] = useState('');
   const [indoor, setIndoor] = useState('');
   const [futsal, setFutsal] = useState('');
   const [priv, setPriv] = useState('');
@@ -102,7 +127,7 @@ export default function SurveyForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name, email,
-          answers: { outdoor: parseFloat(outdoor)||0, indoor: parseFloat(indoor)||0, futsal: parseFloat(futsal)||0, private: parseFloat(priv)||0, privateGroup: parseFloat(privateGroup)||0, self: parseFloat(self)||0, games: parseFloat(games)||0, freePlay: parseFloat(freePlay)||0, beforeSchool, beforePractice, homeschooled, age, level },
+          answers: { outdoor: (parseFloat(outdoorDays)||0)*(parseFloat(outdoorHrs)||0), indoor: parseFloat(indoor)||0, futsal: parseFloat(futsal)||0, private: parseFloat(priv)||0, privateGroup: parseFloat(privateGroup)||0, self: parseFloat(self)||0, games: parseFloat(games)||0, freePlay: parseFloat(freePlay)||0, beforeSchool, beforePractice, homeschooled, age, level },
         }),
       });
       setStatus(res.ok ? 'sent' : 'error');
@@ -126,15 +151,16 @@ export default function SurveyForm() {
       {/* Train */}
       <SectionHeader label="Training — hours per week" />
       <div style={cardStyle}>
-        <HrsRow label="Team training" sub="Any organized team sessions — outdoor, indoor turf, bubble, etc." value={outdoor} onChange={setOutdoor} />
+        <DaysHrsRow label="Team training" sub="Any organized team sessions — outdoor, indoor turf, bubble, etc." days={outdoorDays} hrs={outdoorHrs} onDaysChange={setOutdoorDays} onHrsChange={setOutdoorHrs} />
         <HrsRow label="Futsal" sub="Futsal sessions or league" value={futsal} onChange={setFutsal} />
-        <HrsRow label="Private training" sub="1-on-1 or small group sessions with a trainer" value={priv} onChange={setPriv} />
+        <HrsRow label="Private / 1-on-1" sub="1-on-1 sessions with a trainer" value={priv} onChange={setPriv} />
+        <HrsRow label="Private group" sub="Small group sessions with a trainer" value={privateGroup} onChange={setPrivateGroup} />
         <HrsRow label="In-home training" sub="Solo ball work, wall passing, juggling at home" value={self} onChange={setSelf} />
         <HrsRow label="Gym / Fitness / Speed & Agility" sub="Weight training, conditioning, speed & agility sessions" value={indoor} onChange={setIndoor} />
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
           <span>Total training hours / week</span>
           <span style={{ fontWeight: '600', fontSize: '14px', color: '#0f2642' }}>
-            {((parseFloat(outdoor)||0) + (parseFloat(futsal)||0) + (parseFloat(priv)||0) + (parseFloat(self)||0) + (parseFloat(indoor)||0)).toFixed(1)} hrs/wk
+            {((parseFloat(outdoorDays)||0)*(parseFloat(outdoorHrs)||0) + (parseFloat(futsal)||0) + (parseFloat(priv)||0) + (parseFloat(privateGroup)||0) + (parseFloat(self)||0) + (parseFloat(indoor)||0)).toFixed(1)} hrs/wk
           </span>
         </div>
       </div>
