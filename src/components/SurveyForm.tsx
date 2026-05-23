@@ -52,7 +52,7 @@ function HrsRow({ label, sub, value, onChange }: { label: string; sub?: string; 
 
 function DaysHrsRow({ label, sub, days, hrs, onDaysChange, onHrsChange }: { label: string; sub?: string; days: string; hrs: string; onDaysChange: (v: string) => void; onHrsChange: (v: string) => void }) {
   const total = (parseFloat(days) || 0) * (parseFloat(hrs) || 0);
-  const numStyle = { width: '46px', textAlign: 'right' as const, fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '6px 8px', background: '#fff', color: '#111', outline: 'none' };
+  const numStyle = { width: '58px', textAlign: 'right' as const, fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '6px 8px', background: '#fff', color: '#111', outline: 'none' };
   const capStyle = { fontSize: '12px', color: '#9ca3af', whiteSpace: 'nowrap' as const };
   return (
     <div style={rowStyle}>
