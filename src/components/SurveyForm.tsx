@@ -128,7 +128,7 @@ export default function SurveyForm() {
         <HrsRow label="Team training" sub="Any organized team sessions — outdoor, indoor turf, bubble, etc." value={outdoor} onChange={setOutdoor} />
         <HrsRow label="Futsal" sub="Futsal sessions or league" value={futsal} onChange={setFutsal} />
         <HrsRow label="Private training" sub="1-on-1 or small group sessions with a trainer" value={priv} onChange={setPriv} />
-        <HrsRow label="Self-training at home" sub="Solo ball work, wall passing, juggling" value={self} onChange={setSelf} />
+        <HrsRow label="In-home training" sub="Solo ball work, wall passing, juggling at home" value={self} onChange={setSelf} />
         <HrsRow label="Gym / Fitness / Speed & Agility" sub="Weight training, conditioning, speed & agility sessions" value={indoor} onChange={setIndoor} />
       </div>
 
