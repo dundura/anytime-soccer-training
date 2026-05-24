@@ -626,8 +626,8 @@ export default function EliteAcademyReport() {
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '32px' }}>
           <span style={{ fontSize: '11px', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9ca3af', alignSelf: 'center', marginRight: '4px' }}>Jump to</span>
           {[
-            { label: 'Ball Mastery', href: '#age-breakdown' },
-            { label: 'Tactical', href: '#philosophies' },
+            { label: 'Age Group', href: '#age-breakdown' },
+            { label: 'Academies Tactical', href: '#philosophies' },
             { label: 'Strength & Conditioning', href: '#benchmarks' },
             { label: 'Video Analysis', href: '#key-numbers' },
             { label: 'Recovery', href: '#bottom-line' },
