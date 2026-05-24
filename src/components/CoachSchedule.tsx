@@ -200,7 +200,7 @@ export default function CoachSchedule() {
         <span style={{ fontSize: '22px', fontWeight: '700', color: '#fff' }}>{fmt(total)}</span>
       </div>
 
-      {/* Sync notice + actions */}
+      {/* Sync notice */}
       <div style={{
         marginTop: '12px', padding: '10px 14px', background: '#f0fdf4',
         border: '1px solid #bbf7d0', borderRadius: '8px', fontSize: '12px',
@@ -210,19 +210,10 @@ export default function CoachSchedule() {
         <span>✓ Total saved &amp; synced to the{' '}
           <a href="/soccer-club-cost-calculator" style={{ color: '#3B6D11', fontWeight: '600' }}>budget calculator</a>
         </span>
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <button
-            onClick={downloadExcel}
-            style={{
-              fontSize: '11px', color: '#fff', background: '#3B6D11',
-              border: 'none', borderRadius: '6px', padding: '5px 12px', cursor: 'pointer', fontWeight: '600',
-            }}
-          >⬇ Download Excel</button>
-          <button
-            onClick={clearAll}
-            style={{ fontSize: '11px', color: '#9ca3af', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px' }}
-          >Clear all</button>
-        </div>
+        <button
+          onClick={clearAll}
+          style={{ fontSize: '11px', color: '#9ca3af', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px' }}
+        >Clear all</button>
       </div>
     </div>
   );

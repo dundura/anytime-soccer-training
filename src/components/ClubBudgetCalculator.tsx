@@ -889,19 +889,11 @@ export default function ClubBudgetCalculator() {
       )}
 
       <div style={{ marginTop: '28px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '20px' }}>
-        <div style={{ fontSize: '14px', fontWeight: '500', color: '#111', marginBottom: '4px' }}>Get a copy of these results</div>
-        <div style={{ fontSize: '12px', color: '#9ca3af', marginBottom: '14px' }}>Enter your email for a PDF — or download the Excel file instantly.</div>
+        <div style={{ fontSize: '14px', fontWeight: '500', color: '#111', marginBottom: '4px' }}>Get a PDF &amp; Excel of your results</div>
+        <div style={{ fontSize: '12px', color: '#9ca3af', marginBottom: '14px' }}>Enter your email and we'll send both files to your inbox.</div>
         {sendStatus === 'sent' ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <div style={{ fontSize: '14px', color: '#3B6D11', background: '#EAF3DE', border: '1px solid #639922', borderRadius: '8px', padding: '10px 14px' }}>
-              ✓ PDF sent! Check your inbox.
-            </div>
-            <button
-              onClick={handleDownloadExcel}
-              style={{ fontSize: '13px', fontWeight: '600', background: '#fff', color: '#111', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '9px 20px', cursor: 'pointer', alignSelf: 'flex-start' }}
-            >
-              ⬇ Download Excel
-            </button>
+          <div style={{ fontSize: '14px', color: '#3B6D11', background: '#EAF3DE', border: '1px solid #639922', borderRadius: '8px', padding: '10px 14px' }}>
+            ✓ Sent! Check your inbox for the PDF &amp; Excel.
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -921,21 +913,13 @@ export default function ClubBudgetCalculator() {
                 style={{ flex: '1', minWidth: '180px', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '9px 12px', background: '#fff', color: '#111' }}
               />
             </div>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              <button
-                onClick={handleSendPdf}
-                disabled={!email || sendStatus === 'loading'}
-                style={{ fontSize: '14px', fontWeight: '600', background: sendStatus === 'loading' ? '#9ca3af' : '#111', color: '#fff', border: 'none', borderRadius: '8px', padding: '9px 20px', cursor: !email || sendStatus === 'loading' ? 'not-allowed' : 'pointer' }}
-              >
-                {sendStatus === 'loading' ? 'Sending…' : '📄 Send PDF'}
-              </button>
-              <button
-                onClick={handleDownloadExcel}
-                style={{ fontSize: '14px', fontWeight: '600', background: '#fff', color: '#111', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '9px 20px', cursor: 'pointer' }}
-              >
-                ⬇ Download Excel
-              </button>
-            </div>
+            <button
+              onClick={handleSendPdf}
+              disabled={!email || sendStatus === 'loading'}
+              style={{ fontSize: '14px', fontWeight: '600', background: sendStatus === 'loading' ? '#9ca3af' : '#111', color: '#fff', border: 'none', borderRadius: '8px', padding: '9px 20px', cursor: !email || sendStatus === 'loading' ? 'not-allowed' : 'pointer', alignSelf: 'flex-start' }}
+            >
+              {sendStatus === 'loading' ? 'Sending…' : 'Send PDF & Excel'}
+            </button>
           </div>
         )}
         {sendStatus === 'error' && (
