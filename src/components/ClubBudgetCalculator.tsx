@@ -251,6 +251,20 @@ export default function ClubBudgetCalculator() {
   const unlocked = true;
   const [sendStatus, setSendStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle');
 
+  // Coach salary schedule total — synced from /coach-salary-schedule page
+  const [coachScheduleTotal, setCoachScheduleTotal] = useState<number | null>(() => {
+    if (typeof window === 'undefined') return null;
+    try { const s = localStorage.getItem('calc_coachScheduleTotal'); return s !== null ? JSON.parse(s) : null; } catch { return null; }
+  });
+  useEffect(() => {
+    // Re-read when tab becomes visible (user returning from schedule page)
+    const onFocus = () => {
+      try { const s = localStorage.getItem('calc_coachScheduleTotal'); setCoachScheduleTotal(s !== null ? JSON.parse(s) : null); } catch {}
+    };
+    window.addEventListener('focus', onFocus);
+    return () => window.removeEventListener('focus', onFocus);
+  }, []);
+
   const [revenueOpen, setRevenueOpen] = usePersist('calc_revenueOpen', true);
   const [coachingOpen, setCoachingOpen] = usePersist('calc_coachingOpen', false);
   const [facilitiesOpen, setFacilitiesOpen] = usePersist('calc_facilitiesOpen', false);
@@ -330,7 +344,7 @@ export default function ClubBudgetCalculator() {
   const playerFees = tier1Revenue + tier2Revenue + tier3Revenue;
   const revenue = playerFees + tournamentRevenue + fundraising + otherRevenue;
 
-  const coaching = monthlyPayroll * headCoachMonths;
+  const coaching = coachScheduleTotal !== null ? coachScheduleTotal : (monthlyPayroll * headCoachMonths);
   const assistantAnn = numAssistants * assistantCoach * assistantMonths;
   const specialtyAnn = specialty * months;
   const fieldTraining = fieldHr * sessions * hrs * weeks + numHomeGames * 2 * fieldHr + winterFacility;
@@ -362,6 +376,74 @@ export default function ClubBudgetCalculator() {
     const keys = ['calc_snapshot','calc_tournamentRevenue','calc_tournamentExpense','calc_otherOpen','calc_fieldLights','calc_portaPotties','calc_backupField','calc_fieldMaintenance','calc_utilities','calc_emergencyFundPct','calc_coachTraining','calc_repairReplacement','calc_concessions','calc_coachingGear','calc_trainingJerseys','calc_preseasonEvent','calc_postseasonEvent','calc_otherEvents','calc_numTiers','calc_tier1Name','calc_tier1Players','calc_tier1Fee','calc_tier2Name','calc_tier2Players','calc_tier2Fee','calc_tier3Name','calc_tier3Players','calc_tier3Fee','calc_players','calc_numTeams','calc_fee','calc_months','calc_fundraising','calc_otherRevenue','calc_name','calc_email','calc_unlocked','calc_numCoaches','calc_headCoach','calc_headCoachMonths','calc_numAssistants','calc_assistantCoach','calc_assistantMonths','calc_specialty','calc_fieldHr','calc_sessions','calc_hrs','calc_weeks','calc_numHomeGames','calc_winterFacility','calc_league','calc_insurance','calc_equipment','calc_admin','calc_software','calc_marketing','calc_otherOps','calc_isNonprofit','calc_revenueOpen','calc_coachingOpen','calc_facilitiesOpen','calc_operationsOpen'];
     keys.forEach(k => localStorage.removeItem(k));
     window.location.reload();
+  };
+
+  const handleDownloadExcel = async () => {
+    const XLSX = await import('xlsx');
+    const wb = XLSX.utils.book_new();
+
+    // Summary sheet
+    const summaryData: (string | number | null)[][] = [
+      ['Club Budget Report'],
+      [],
+      ['REVENUE', '', ''],
+      ['Player fees', playerFees],
+      ['Fundraising', fundraising],
+      ['Other revenue', otherRevenue],
+      ['Tournament revenue', tournamentRevenue],
+      ['Total revenue', revenue],
+      [],
+      ['EXPENSES', '', ''],
+      ['Coaching staff', coaching],
+      ['Assistant coaches', assistantAnn],
+      ['Specialty coaches', specialtyAnn],
+      ['Field & facilities', fieldTraining],
+      ['League & tournaments', league],
+      ['Insurance', insurance],
+      ['Equipment', equipment],
+      ['Admin & software', adminAnn],
+      ['Marketing & communications', marketing],
+      ['Other expenses', otherExpensesTotal],
+      ['Total costs', totalCosts],
+      [],
+      [isNonprofit ? 'Surplus / Deficit' : 'Pre-tax net', net],
+      ...(!isNonprofit && incomeTax > 0 ? [['Estimated income tax (26%)', incomeTax], ['After-tax net', afterTaxNet]] : []),
+      [],
+      ['METRICS', '', ''],
+      ['Total players', totalPlayers],
+      ['Season length (months)', months],
+      ['Cost per player / year', costPP],
+      ['Cost per training hr / player', cph],
+      ['Total training hours / year', totalHrs],
+    ];
+
+    const ws = XLSX.utils.aoa_to_sheet(summaryData);
+    ws['!cols'] = [{ wch: 34 }, { wch: 16 }];
+    XLSX.utils.book_append_sheet(wb, ws, 'Budget Summary');
+
+    // Coach schedule sheet (if exists)
+    try {
+      const schedRaw = localStorage.getItem('calc_coachSchedule');
+      if (schedRaw) {
+        type CoachRow = { name: string; count: number; monthly: number; months: number };
+        const schedRows: CoachRow[] = JSON.parse(schedRaw);
+        if (Array.isArray(schedRows) && schedRows.length > 0) {
+          const coachData: (string | number)[][] = [
+            ['Coach Salary Schedule'],
+            [],
+            ['Role / Name', '# Count', 'Monthly Salary', 'Months', 'Annual Cost'],
+            ...schedRows.map(r => [r.name || 'Unnamed', r.count, r.monthly, r.months, r.count * r.monthly * r.months]),
+            [],
+            ['Total', '', '', '', schedRows.reduce((s, r) => s + r.count * r.monthly * r.months, 0)],
+          ];
+          const wsCoach = XLSX.utils.aoa_to_sheet(coachData);
+          wsCoach['!cols'] = [{ wch: 28 }, { wch: 10 }, { wch: 16 }, { wch: 10 }, { wch: 16 }];
+          XLSX.utils.book_append_sheet(wb, wsCoach, 'Coach Schedule');
+        }
+      }
+    } catch {}
+
+    XLSX.writeFile(wb, 'club-budget.xlsx');
   };
 
   const handleSendPdf = async () => {
@@ -541,26 +623,52 @@ export default function ClubBudgetCalculator() {
 
       <SectionHeader label="Coaching staff" open={coachingOpen} onToggle={() => setCoachingOpen(o => !o)} />
       {coachingOpen && <div style={cardStyle}>
-        <Row label="Head coach" sub="Count × monthly salary × months" noWrap>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <div>
-              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}># of Coaches</div>
-              <NumInput value={numCoaches} onChange={setNumCoaches} />
+        <Row
+          label={
+            <span>
+              Coaches{' '}
+              <a href="/coach-salary-schedule" style={{ fontSize: '11px', color: '#DC373E', fontWeight: '600', marginLeft: '6px', textDecoration: 'none' }}>
+                📋 Schedule →
+              </a>
+            </span>
+          }
+          sub={coachScheduleTotal !== null ? undefined : 'Count × monthly salary × months'}
+          noWrap
+        >
+          {coachScheduleTotal !== null ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: '11px', color: '#3B6D11', marginBottom: '2px' }}>✓ Using schedule</div>
+                <div style={{ fontSize: '16px', fontWeight: '700', color: '#3B6D11' }}>{fmt(coachScheduleTotal)}</div>
+              </div>
+              <button
+                onClick={() => { setCoachScheduleTotal(null); try { localStorage.removeItem('calc_coachScheduleTotal'); } catch {} }}
+                style={{ fontSize: '11px', color: '#9ca3af', background: 'none', border: '1px solid #e5e7eb', borderRadius: '6px', padding: '4px 8px', cursor: 'pointer', whiteSpace: 'nowrap' }}
+              >Switch to manual</button>
             </div>
-            <div>
-              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}>Monthly Salary</div>
-              <NumInput value={headCoach} onChange={setHeadCoach} prefix="$" />
+          ) : (
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <div>
+                <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}># of Coaches</div>
+                <NumInput value={numCoaches} onChange={setNumCoaches} />
+              </div>
+              <div>
+                <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}>Monthly Salary</div>
+                <NumInput value={headCoach} onChange={setHeadCoach} prefix="$" />
+              </div>
+              <div>
+                <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}>Months</div>
+                <NumInput value={headCoachMonths} onChange={setHeadCoachMonths} max={12} />
+              </div>
             </div>
-            <div>
-              <div style={{ fontSize: '12px', color: '#888', marginBottom: '4px' }}>Months</div>
-              <NumInput value={headCoachMonths} onChange={setHeadCoachMonths} max={12} />
-            </div>
-          </div>
+          )}
         </Row>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
-          <span>Monthly coaching payroll</span>
-          <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{fmt(monthlyPayroll)} / month</span>
-        </div>
+        {coachScheduleTotal === null && (
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0 4px', fontSize: '12px', color: '#9ca3af' }}>
+            <span>Monthly coaching payroll</span>
+            <span style={{ fontWeight: '500', fontSize: '13px', color: '#111' }}>{fmt(monthlyPayroll)} / month</span>
+          </div>
+        )}
         <Row label="Assistant coaches" sub="Count × monthly salary × months" noWrap>
           <div style={{ display: 'flex', gap: '10px' }}>
             <div>
@@ -781,11 +889,19 @@ export default function ClubBudgetCalculator() {
       )}
 
       <div style={{ marginTop: '28px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '20px' }}>
-        <div style={{ fontSize: '14px', fontWeight: '500', color: '#111', marginBottom: '4px' }}>Get a PDF copy of these results</div>
-        <div style={{ fontSize: '12px', color: '#9ca3af', marginBottom: '14px' }}>Enter your email and we'll send a clean one-page report.</div>
+        <div style={{ fontSize: '14px', fontWeight: '500', color: '#111', marginBottom: '4px' }}>Get a copy of these results</div>
+        <div style={{ fontSize: '12px', color: '#9ca3af', marginBottom: '14px' }}>Enter your email for a PDF — or download the Excel file instantly.</div>
         {sendStatus === 'sent' ? (
-          <div style={{ fontSize: '14px', color: '#3B6D11', background: '#EAF3DE', border: '1px solid #639922', borderRadius: '8px', padding: '10px 14px' }}>
-            Sent! Check your inbox for the report.
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div style={{ fontSize: '14px', color: '#3B6D11', background: '#EAF3DE', border: '1px solid #639922', borderRadius: '8px', padding: '10px 14px' }}>
+              ✓ PDF sent! Check your inbox.
+            </div>
+            <button
+              onClick={handleDownloadExcel}
+              style={{ fontSize: '13px', fontWeight: '600', background: '#fff', color: '#111', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '9px 20px', cursor: 'pointer', alignSelf: 'flex-start' }}
+            >
+              ⬇ Download Excel
+            </button>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -805,13 +921,21 @@ export default function ClubBudgetCalculator() {
                 style={{ flex: '1', minWidth: '180px', fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '9px 12px', background: '#fff', color: '#111' }}
               />
             </div>
-            <button
-              onClick={handleSendPdf}
-              disabled={!email || sendStatus === 'loading'}
-              style={{ fontSize: '14px', fontWeight: '600', background: sendStatus === 'loading' ? '#9ca3af' : '#111', color: '#fff', border: 'none', borderRadius: '8px', padding: '9px 20px', cursor: !email || sendStatus === 'loading' ? 'not-allowed' : 'pointer', alignSelf: 'flex-start' }}
-            >
-              {sendStatus === 'loading' ? 'Sending…' : 'Send PDF'}
-            </button>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <button
+                onClick={handleSendPdf}
+                disabled={!email || sendStatus === 'loading'}
+                style={{ fontSize: '14px', fontWeight: '600', background: sendStatus === 'loading' ? '#9ca3af' : '#111', color: '#fff', border: 'none', borderRadius: '8px', padding: '9px 20px', cursor: !email || sendStatus === 'loading' ? 'not-allowed' : 'pointer' }}
+              >
+                {sendStatus === 'loading' ? 'Sending…' : '📄 Send PDF'}
+              </button>
+              <button
+                onClick={handleDownloadExcel}
+                style={{ fontSize: '14px', fontWeight: '600', background: '#fff', color: '#111', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '9px 20px', cursor: 'pointer' }}
+              >
+                ⬇ Download Excel
+              </button>
+            </div>
           </div>
         )}
         {sendStatus === 'error' && (
