@@ -378,224 +378,416 @@ export default function ClubBudgetCalculator() {
     window.location.reload();
   };
 
-  const buildWorkbook = async () => {
-    const XLSX = await import('xlsx');
-    const wb = XLSX.utils.book_new();
+  const buildWorkbook = async (): Promise<string> => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ExcelJS: any = (await import('exceljs')).default;
+    const wb = new ExcelJS.Workbook();
+    wb.creator = 'Anytime Soccer Training';
+    wb.created = new Date();
     const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-    // Helper: patch a cell with formula + cached value
-    const fCell = (v: number, f: string) => ({ t: 'n' as const, v, f });
+    // ── Style helpers ────────────────────────────────────────────────
+    const C = {
+      navy:       '0F2642', white: 'FFFFFF',
+      blue:       '1E3A5F', lightBlue: 'DBEAFE',
+      green:      '27500A', lightGreen: 'EAF3DE', green2: '3B6D11',
+      red:        '791F1F', lightRed:  'FCEBEB',
+      gray:       '6B7280', lightGray: 'F3F4F6', veryLightGray: 'F9FAFB',
+      border:     'D1D5DB', darkBorder: '9CA3AF',
+      text:       '111827', subText: '374151',
+    };
+    const fill = (argb: string) => ({ type: 'pattern', pattern: 'solid', fgColor: { argb } });
+    const border = (argb = C.border) => ({ style: 'thin', color: { argb } });
+    const allBorders = (argb = C.border) => ({ top: border(argb), left: border(argb), bottom: border(argb), right: border(argb) });
+    const $ = '"$"#,##0';
+    const $2 = '"$"#,##0.00';
+    const num = '#,##0';
+
+    // ── Sheet builder helpers ───────────────────────────────────────
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const titleRow = (ws: any, row: number, text: string, cols = 2) => {
+      ws.mergeCells(row, 1, row, cols);
+      const c = ws.getCell(row, 1);
+      c.value = text;
+      c.font = { bold: true, size: 14, color: { argb: C.white } };
+      c.fill = fill(C.navy);
+      c.alignment = { horizontal: 'center', vertical: 'middle' };
+      c.border = allBorders(C.navy);
+      ws.getRow(row).height = 30;
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const sectionRow = (ws: any, row: number, text: string, cols = 2, color = C.blue) => {
+      ws.mergeCells(row, 1, row, cols);
+      const c = ws.getCell(row, 1);
+      c.value = text;
+      c.font = { bold: true, size: 10, color: { argb: C.white }, name: 'Calibri' };
+      c.fill = fill(color);
+      c.alignment = { horizontal: 'left', vertical: 'middle', indent: 1 };
+      c.border = allBorders(color);
+      ws.getRow(row).height = 20;
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const dataRow = (ws: any, row: number, label: string, value: number | null, fmt = $, even = false, indent = 2) => {
+      const bg = even ? C.veryLightGray : C.white;
+      const lc = ws.getCell(row, 1);
+      lc.value = label;
+      lc.font = { size: 10, color: { argb: C.subText }, name: 'Calibri' };
+      lc.fill = fill(bg);
+      lc.alignment = { indent };
+      lc.border = allBorders();
+      ws.getRow(row).height = 17;
+      const vc = ws.getCell(row, 2);
+      if (value !== null) { vc.value = value; vc.numFmt = fmt; }
+      vc.font = { size: 10, color: { argb: C.text }, name: 'Calibri' };
+      vc.fill = fill(bg);
+      vc.alignment = { horizontal: 'right' };
+      vc.border = allBorders();
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const formulaRow = (ws: any, row: number, label: string, formula: string, result: number, fmt = $, bgColor = C.lightGray, textColor = C.text, bold = true) => {
+      ws.getRow(row).height = 20;
+      const lc = ws.getCell(row, 1);
+      lc.value = label;
+      lc.font = { bold, size: 10, color: { argb: textColor }, name: 'Calibri' };
+      lc.fill = fill(bgColor);
+      lc.alignment = { indent: 1 };
+      lc.border = allBorders(bold ? C.darkBorder : C.border);
+      const vc = ws.getCell(row, 2);
+      vc.value = { formula, result };
+      vc.numFmt = fmt;
+      vc.font = { bold, size: 10, color: { argb: textColor }, name: 'Calibri' };
+      vc.fill = fill(bgColor);
+      vc.alignment = { horizontal: 'right' };
+      vc.border = allBorders(bold ? C.darkBorder : C.border);
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const spacer = (ws: any, row: number) => { ws.getRow(row).height = 6; };
 
     // ── SHEET 1: SUMMARY ─────────────────────────────────────────────
-    // rows are 0-indexed here; Excel rows are 1-indexed
-    const sumData: (string | number)[][] = [
-      ['SOCCER CLUB BUDGET REPORT', ''],        // row 1
-      [`Generated: ${today}`, ''],              // row 2
-      [''],                                      // row 3
-      ['REVENUE', ''],                          // row 4
-      ['Player fees', playerFees],              // row 5  B5
-      ['Tournament revenue', tournamentRevenue],// row 6  B6
-      ['Fundraising', fundraising],             // row 7  B7
-      ['Other revenue', otherRevenue],          // row 8  B8
-      ['Total Revenue', revenue],               // row 9  B9  ← formula
-      [''],                                      // row 10
-      ['EXPENSES', ''],                         // row 11
-      ['Coaching staff', coaching],             // row 12 B12
-      ['Assistant coaches', assistantAnn],      // row 13 B13
-      ['Specialty coaches', specialtyAnn],      // row 14 B14
-      ['Field & facilities', fieldTraining],    // row 15 B15
-      ['League & tournaments', league],         // row 16 B16
-      ['Insurance', insurance],                 // row 17 B17
-      ['Equipment', equipment],                 // row 18 B18
-      ['Admin & software', adminAnn],           // row 19 B19
-      ['Marketing & communications', marketing],// row 20 B20
-      ['Other expenses', otherExpensesTotal],   // row 21 B21
-      ['Total Costs', totalCosts],              // row 22 B22 ← formula
-      [''],                                      // row 23
-      [isNonprofit ? 'Surplus / Deficit' : 'Pre-tax net', net], // row 24 B24 ← formula
-      ...(!isNonprofit && incomeTax > 0 ? [
-        ['Estimated income tax (26%)', incomeTax],  // row 25
-        ['After-tax net', afterTaxNet],             // row 26 ← formula
-      ] : [[''], ['']]),
-      [''],                                      // row 27
-      ['METRICS', ''],                          // row 28
-      ['Total players', totalPlayers],          // row 29 B29
-      ['Season length (months)', months],       // row 30
-      ['Cost per player / year', Math.round(costPP)], // row 31 ← formula
-      ['Cost per training hr / player', parseFloat(cph.toFixed(2))], // row 32
-      ['Total training hours / year', Math.round(totalHrs)],         // row 33
-    ];
-    const wsSum = XLSX.utils.aoa_to_sheet(sumData);
-    wsSum['B9']  = fCell(revenue,    'B5+B6+B7+B8');
-    wsSum['B22'] = fCell(totalCosts, 'SUM(B12:B21)');
-    wsSum['B24'] = fCell(net,        'B9-B22');
+    const ws1 = wb.addWorksheet('Summary');
+    ws1.columns = [{ width: 38 }, { width: 20 }];
+    titleRow(ws1, 1, 'SOCCER CLUB BUDGET REPORT');
+    ws1.mergeCells(2, 1, 2, 2);
+    const dateC = ws1.getCell(2, 1);
+    dateC.value = `Generated: ${today}`;
+    dateC.font = { italic: true, size: 9, color: { argb: C.gray }, name: 'Calibri' };
+    dateC.alignment = { horizontal: 'center' };
+    ws1.getRow(2).height = 14;
+    spacer(ws1, 3);
+    sectionRow(ws1, 4, 'REVENUE');
+    dataRow(ws1, 5,  'Player fees',           playerFees,        $,   false);
+    dataRow(ws1, 6,  'Tournament revenue',    tournamentRevenue, $,   true);
+    dataRow(ws1, 7,  'Fundraising',           fundraising,       $,   false);
+    dataRow(ws1, 8,  'Other revenue',         otherRevenue,      $,   true);
+    formulaRow(ws1, 9, 'Total Revenue', 'B5+B6+B7+B8', revenue, $, C.lightGreen, C.green);
+    spacer(ws1, 10);
+    sectionRow(ws1, 11, 'EXPENSES');
+    dataRow(ws1, 12, 'Coaching staff',            coaching,          $,   false);
+    dataRow(ws1, 13, 'Assistant coaches',         assistantAnn,      $,   true);
+    dataRow(ws1, 14, 'Specialty coaches',         specialtyAnn,      $,   false);
+    dataRow(ws1, 15, 'Field & facilities',        fieldTraining,     $,   true);
+    dataRow(ws1, 16, 'League & tournaments',      league,            $,   false);
+    dataRow(ws1, 17, 'Insurance',                 insurance,         $,   true);
+    dataRow(ws1, 18, 'Equipment',                 equipment,         $,   false);
+    dataRow(ws1, 19, 'Admin & software',          adminAnn,          $,   true);
+    dataRow(ws1, 20, 'Marketing & communications',marketing,         $,   false);
+    dataRow(ws1, 21, 'Other expenses',            otherExpensesTotal,$,   true);
+    formulaRow(ws1, 22, 'Total Costs', 'SUM(B12:B21)', totalCosts, $, C.lightGray, C.text);
+    spacer(ws1, 23);
+    const netBg   = net >= 0 ? C.lightGreen : C.lightRed;
+    const netText = net >= 0 ? C.green      : C.red;
+    formulaRow(ws1, 24, isNonprofit ? 'Surplus / Deficit' : 'Pre-tax Net', 'B9-B22', net, $, netBg, netText);
     if (!isNonprofit && incomeTax > 0) {
-      wsSum['B26'] = fCell(afterTaxNet, 'B24-B25');
+      dataRow(ws1, 25, 'Estimated income tax (26%)', incomeTax, $, false);
+      formulaRow(ws1, 26, 'After-tax Net', 'B24-B25', afterTaxNet, $, netBg, netText);
     }
-    wsSum['B31'] = fCell(Math.round(costPP), 'IF(B29>0,B22/B29,0)');
-    wsSum['!cols'] = [{ wch: 36 }, { wch: 18 }];
-    XLSX.utils.book_append_sheet(wb, wsSum, 'Summary');
+    spacer(ws1, 27);
+    sectionRow(ws1, 28, 'METRICS', 2, '374151');
+    dataRow(ws1, 29, 'Total players',                  totalPlayers,                   num,  false);
+    dataRow(ws1, 30, 'Season length (months)',          months,                         num,  true);
+    formulaRow(ws1, 31, 'Cost per player / year',       'IF(B29>0,B22/B29,0)',          Math.round(costPP),                $,  C.veryLightGray, C.text, false);
+    formulaRow(ws1, 32, 'Cost per training hr / player','IF(B29>0,B22/B29/'+Math.round(totalHrs)+',0)', parseFloat(cph.toFixed(2)), $2, C.veryLightGray, C.text, false);
+    dataRow(ws1, 33, 'Total training hours / year',    Math.round(totalHrs),            num,  true);
 
     // ── SHEET 2: REVENUE ─────────────────────────────────────────────
-    const revData: (string | number)[][] = [
-      ['REVENUE DETAIL', '', '', ''],
-      [''],
-      ['Program', 'Players', 'Annual Fee / Player', 'Revenue'],
-      [tier1Name || 'Program 1', tier1Players, tier1Fee, tier1Revenue],
+    const ws2 = wb.addWorksheet('Revenue');
+    ws2.columns = [{ width: 24 }, { width: 12 }, { width: 22 }, { width: 16 }];
+    titleRow(ws2, 1, 'REVENUE DETAIL', 4);
+    spacer(ws2, 2);
+    // Column headers
+    ['Program / Tier', 'Players', 'Annual Fee / Player', 'Revenue'].forEach((h, i) => {
+      const c = ws2.getCell(3, i + 1);
+      c.value = h;
+      c.font = { bold: true, size: 10, color: { argb: C.white }, name: 'Calibri' };
+      c.fill = fill(C.blue);
+      c.border = allBorders(C.blue);
+      c.alignment = { horizontal: i > 0 ? 'right' : 'left', indent: i === 0 ? 1 : 0 };
+      ws2.getRow(3).height = 20;
+    });
+    const tiers = [
+      { name: tier1Name || 'Program 1', players: tier1Players, fee: tier1Fee, rev: tier1Revenue },
+      ...(numTiers >= 2 ? [{ name: tier2Name || 'Program 2', players: tier2Players, fee: tier2Fee, rev: tier2Revenue }] : []),
+      ...(numTiers >= 3 ? [{ name: tier3Name || 'Program 3', players: tier3Players, fee: tier3Fee, rev: tier3Revenue }] : []),
     ];
-    if (numTiers >= 2) revData.push([tier2Name || 'Program 2', tier2Players, tier2Fee, tier2Revenue]);
-    if (numTiers >= 3) revData.push([tier3Name || 'Program 3', tier3Players, tier3Fee, tier3Revenue]);
-
-    const lastTierRow = 3 + numTiers; // 1-indexed Excel row of last tier
-    revData.push(['']);
-    revData.push(['Other Revenue', '', '', '']);
-    const tournRow = lastTierRow + 2 + 1; // +2 for blank+header, +1 for 1-indexed
-    revData.push(['Tournament revenue', '', '', tournamentRevenue]);
-    revData.push(['Fundraising', '', '', fundraising]);
-    revData.push(['Other revenue', '', '', otherRevenue]);
-    revData.push(['']);
-    revData.push(['TOTAL REVENUE', '', '', revenue]);
-
-    const wsRev = XLSX.utils.aoa_to_sheet(revData);
-    // Formulas for each tier revenue = players × fee
-    for (let t = 0; t < numTiers; t++) {
-      const r = 4 + t; // Excel rows 4, 5, 6
-      const tierRevs = [tier1Revenue, tier2Revenue, tier3Revenue];
-      wsRev[`D${r}`] = fCell(tierRevs[t], `B${r}*C${r}`);
-    }
-    // Total revenue formula
-    const totalRevRow = lastTierRow + 6;
-    wsRev[`D${totalRevRow}`] = fCell(revenue, `SUM(D4:D${lastTierRow})+D${tournRow}+D${tournRow+1}+D${tournRow+2}`);
-    wsRev['!cols'] = [{ wch: 22 }, { wch: 10 }, { wch: 20 }, { wch: 14 }];
-    XLSX.utils.book_append_sheet(wb, wsRev, 'Revenue');
+    tiers.forEach((t, i) => {
+      const r = 4 + i;
+      const bg = i % 2 === 0 ? C.white : C.veryLightGray;
+      [t.name, t.players, t.fee, t.rev].forEach((v, col) => {
+        const c = ws2.getCell(r, col + 1);
+        c.value = col === 3 ? { formula: `B${r}*C${r}`, result: t.rev } : v;
+        if (col > 0) { c.numFmt = col === 1 ? num : $; c.alignment = { horizontal: 'right' }; }
+        else { c.alignment = { indent: 1 }; }
+        c.font = { size: 10, color: { argb: C.subText }, name: 'Calibri' };
+        c.fill = fill(bg);
+        c.border = allBorders();
+      });
+      ws2.getRow(r).height = 17;
+    });
+    const lastTierR = 3 + tiers.length;
+    spacer(ws2, lastTierR + 1);
+    sectionRow(ws2, lastTierR + 2, 'OTHER REVENUE', 4);
+    const otherRevRows = [
+      ['Tournament revenue', '', '', tournamentRevenue],
+      ['Fundraising',        '', '', fundraising],
+      ['Other revenue',      '', '', otherRevenue],
+    ];
+    otherRevRows.forEach((row, i) => {
+      const r = lastTierR + 3 + i;
+      const bg = i % 2 === 0 ? C.white : C.veryLightGray;
+      row.forEach((v, col) => {
+        const c = ws2.getCell(r, col + 1);
+        c.value = v as string | number;
+        if (col === 3 && typeof v === 'number') { c.numFmt = $; c.alignment = { horizontal: 'right' }; }
+        else if (col === 0) c.alignment = { indent: 2 };
+        c.font = { size: 10, color: { argb: C.subText }, name: 'Calibri' };
+        c.fill = fill(bg);
+        c.border = allBorders();
+        ws2.getRow(r).height = 17;
+      });
+    });
+    const totalRevR = lastTierR + 6;
+    ws2.mergeCells(totalRevR, 1, totalRevR, 3);
+    const trLabel = ws2.getCell(totalRevR, 1);
+    trLabel.value = 'TOTAL REVENUE';
+    trLabel.font = { bold: true, size: 10, color: { argb: C.green }, name: 'Calibri' };
+    trLabel.fill = fill(C.lightGreen);
+    trLabel.alignment = { indent: 1 };
+    trLabel.border = allBorders(C.green2);
+    const trVal = ws2.getCell(totalRevR, 4);
+    trVal.value = { formula: `SUM(D4:D${lastTierR})+D${lastTierR+3}+D${lastTierR+4}+D${lastTierR+5}`, result: revenue };
+    trVal.numFmt = $;
+    trVal.font = { bold: true, size: 10, color: { argb: C.green }, name: 'Calibri' };
+    trVal.fill = fill(C.lightGreen);
+    trVal.alignment = { horizontal: 'right' };
+    trVal.border = allBorders(C.green2);
+    ws2.getRow(totalRevR).height = 22;
 
     // ── SHEET 3: COACHING ─────────────────────────────────────────────
+    const ws3 = wb.addWorksheet('Coaching');
+    ws3.columns = [{ width: 30 }, { width: 10 }, { width: 14 }, { width: 10 }, { width: 16 }];
+    titleRow(ws3, 1, 'COACHING STAFF', 5);
+    spacer(ws3, 2);
+    ['Role / Name', 'Count', 'Monthly $', 'Months', 'Annual'].forEach((h, i) => {
+      const c = ws3.getCell(3, i + 1);
+      c.value = h;
+      c.font = { bold: true, size: 10, color: { argb: C.white }, name: 'Calibri' };
+      c.fill = fill(C.blue);
+      c.border = allBorders(C.blue);
+      c.alignment = { horizontal: i > 0 ? 'right' : 'left', indent: i === 0 ? 1 : 0 };
+      ws3.getRow(3).height = 20;
+    });
     type CoachRow = { name: string; count: number; monthly: number; months: number };
     let schedRows: CoachRow[] = [];
-    try {
-      const raw = localStorage.getItem('calc_coachSchedule');
-      if (raw) schedRows = JSON.parse(raw);
-    } catch {}
+    try { const raw = localStorage.getItem('calc_coachSchedule'); if (raw) schedRows = JSON.parse(raw); } catch {}
     const useSchedule = coachScheduleTotal !== null && schedRows.length > 0;
-
-    const coachData: (string | number)[][] = [
-      ['COACHING STAFF', '', '', '', ''],
-      [''],
-      ['Role / Name', '# Count', 'Monthly $', 'Months', 'Annual'],
-    ];
-    if (useSchedule) {
-      schedRows.forEach(r => coachData.push([r.name || 'Unnamed', r.count, r.monthly, r.months, r.count * r.monthly * r.months]));
-    } else {
-      coachData.push(['Coaches', numCoaches, headCoach, headCoachMonths, coaching]);
-      if (numAssistants > 0) coachData.push(['Assistant coaches', numAssistants, assistantCoach, assistantMonths, assistantAnn]);
-      if (specialty > 0)     coachData.push(['Specialty coaches', 1, specialty, months, specialtyAnn]);
-    }
-    const lastCoachDetailRow = 3 + (useSchedule ? schedRows.length : (1 + (numAssistants > 0 ? 1 : 0) + (specialty > 0 ? 1 : 0)));
-    coachData.push(['']);
-    coachData.push(['TOTAL ANNUAL COACHING COST', '', '', '', coaching + assistantAnn + specialtyAnn]);
-
-    const wsCoach = XLSX.utils.aoa_to_sheet(coachData);
-    // Formulas for each detail row: annual = count × monthly × months
-    for (let i = 3; i <= lastCoachDetailRow; i++) {
-      const rowData = coachData[i - 1];
-      if (rowData && rowData.length >= 5 && typeof rowData[1] === 'number') {
-        wsCoach[`E${i}`] = fCell(Number(rowData[4]), `B${i}*C${i}*D${i}`);
-      }
-    }
-    wsCoach[`E${lastCoachDetailRow + 2}`] = fCell(coaching + assistantAnn + specialtyAnn, `SUM(E4:E${lastCoachDetailRow})`);
-    wsCoach['!cols'] = [{ wch: 28 }, { wch: 10 }, { wch: 12 }, { wch: 10 }, { wch: 16 }];
-    XLSX.utils.book_append_sheet(wb, wsCoach, 'Coaching');
+    const coachDetailRows: CoachRow[] = useSchedule
+      ? schedRows
+      : [
+          { name: 'Coaches', count: numCoaches, monthly: headCoach, months: headCoachMonths },
+          ...(numAssistants > 0 ? [{ name: 'Assistant coaches', count: numAssistants, monthly: assistantCoach, months: assistantMonths }] : []),
+          ...(specialty > 0     ? [{ name: 'Specialty coaches',  count: 1,             monthly: specialty,    months              }] : []),
+        ];
+    coachDetailRows.forEach((r, i) => {
+      const rowN = 4 + i;
+      const bg = i % 2 === 0 ? C.white : C.veryLightGray;
+      const annual = r.count * r.monthly * r.months;
+      [r.name, r.count, r.monthly, r.months, annual].forEach((v, col) => {
+        const c = ws3.getCell(rowN, col + 1);
+        c.value = col === 4 ? { formula: `B${rowN}*C${rowN}*D${rowN}`, result: annual } : v as string | number;
+        if (col > 0) { c.numFmt = col === 4 || col === 2 ? $ : num; c.alignment = { horizontal: 'right' }; }
+        else c.alignment = { indent: 1 };
+        c.font = { size: 10, color: { argb: C.subText }, name: 'Calibri' };
+        c.fill = fill(bg);
+        c.border = allBorders();
+        ws3.getRow(rowN).height = 17;
+      });
+    });
+    const lastCoachR = 3 + coachDetailRows.length;
+    spacer(ws3, lastCoachR + 1);
+    ws3.mergeCells(lastCoachR + 2, 1, lastCoachR + 2, 4);
+    const tcLabel = ws3.getCell(lastCoachR + 2, 1);
+    tcLabel.value = 'TOTAL ANNUAL COACHING COST';
+    tcLabel.font = { bold: true, size: 10, color: { argb: C.text }, name: 'Calibri' };
+    tcLabel.fill = fill(C.lightGray);
+    tcLabel.alignment = { indent: 1 };
+    tcLabel.border = allBorders(C.darkBorder);
+    ws3.getRow(lastCoachR + 2).height = 22;
+    const tcVal = ws3.getCell(lastCoachR + 2, 5);
+    tcVal.value = { formula: `SUM(E4:E${lastCoachR})`, result: coaching + assistantAnn + specialtyAnn };
+    tcVal.numFmt = $;
+    tcVal.font = { bold: true, size: 10, color: { argb: C.text }, name: 'Calibri' };
+    tcVal.fill = fill(C.lightGray);
+    tcVal.alignment = { horizontal: 'right' };
+    tcVal.border = allBorders(C.darkBorder);
 
     // ── SHEET 4: FACILITIES ───────────────────────────────────────────
-    const trainingOnlyFieldCost = fieldHr * sessions * hrs * weeks;
-    const homeGameFieldCost = numHomeGames * 2 * fieldHr;
-    const facData: (string | number)[][] = [
-      ['FACILITIES', '', ''],
-      [''],
-      ['FIELD RENTAL (TRAINING)', '', ''],
-      ['Cost per hour ($)', fieldHr, ''],
-      ['Sessions per week', sessions, ''],
-      ['Hours per session', hrs, ''],
-      ['Training weeks per year', weeks, ''],
-      ['Training field rental', trainingOnlyFieldCost, ''],  // row 8 ← formula
-      [''],
-      ['HOME GAMES', '', ''],
-      ['Number of home games', numHomeGames, ''],
-      ['Game field rental (2 hrs × $/hr)', homeGameFieldCost, ''],  // row 12 ← formula
-      [''],
-      ['Winter / indoor facility (annual)', winterFacility, ''],  // row 14
-      [''],
-      ['TOTAL FIELD COST', fieldTraining, ''],  // row 16 ← formula
-    ];
-    const wsFac = XLSX.utils.aoa_to_sheet(facData);
-    wsFac['B8']  = fCell(trainingOnlyFieldCost, 'B4*B5*B6*B7');
-    wsFac['B12'] = fCell(homeGameFieldCost,      'B11*2*B4');
-    wsFac['B16'] = fCell(fieldTraining,           'B8+B12+B14');
-    wsFac['!cols'] = [{ wch: 34 }, { wch: 16 }, { wch: 10 }];
-    XLSX.utils.book_append_sheet(wb, wsFac, 'Facilities');
+    const ws4 = wb.addWorksheet('Facilities');
+    ws4.columns = [{ width: 36 }, { width: 18 }];
+    titleRow(ws4, 1, 'FIELD & FACILITIES');
+    spacer(ws4, 2);
+    const trainCost = fieldHr * sessions * hrs * weeks;
+    const gameCost  = numHomeGames * 2 * fieldHr;
+    sectionRow(ws4, 3, 'FIELD RENTAL — TRAINING');
+    dataRow(ws4, 4, 'Cost per hour ($)',       fieldHr,   $,   false);
+    dataRow(ws4, 5, 'Sessions per week',       sessions,  num, true);
+    dataRow(ws4, 6, 'Hours per session',       hrs,       num, false);
+    dataRow(ws4, 7, 'Training weeks per year', weeks,     num, true);
+    formulaRow(ws4, 8, 'Training field rental', 'B4*B5*B6*B7', trainCost, $, C.veryLightGray, C.text, false);
+    spacer(ws4, 9);
+    sectionRow(ws4, 10, 'HOME GAMES');
+    dataRow(ws4, 11, 'Number of home games',        numHomeGames, num,  false);
+    formulaRow(ws4, 12, 'Game field rental (2 hrs × $/hr)', 'B11*2*B4', gameCost, $, C.veryLightGray, C.text, false);
+    spacer(ws4, 13);
+    sectionRow(ws4, 14, 'OTHER');
+    dataRow(ws4, 15, 'Winter / indoor facility (annual)', winterFacility, $, false);
+    spacer(ws4, 16);
+    formulaRow(ws4, 17, 'TOTAL FIELD COST', 'B8+B12+B15', fieldTraining, $, C.lightBlue, C.blue, true);
 
     // ── SHEET 5: OPERATIONS ───────────────────────────────────────────
-    const opsData: (string | number)[][] = [
-      ['OPERATIONS & OVERHEAD', '', ''],
-      [''],
-      ['Line Item', 'Monthly ($)', 'Annual ($)'],
-      ['League & tournaments', '', league],                    // row 4 C4
-      ['Insurance', '', insurance],                            // row 5 C5
-      ['Equipment', '', equipment],                            // row 6 C6
-      ['Admin staff', admin, adminAnn - software * months],   // row 7 C7 ← formula
-      ['Software & platforms', software, software * months],  // row 8 C8 ← formula
-      ['Marketing & communications', '', marketing],           // row 9 C9
-      ['Other operating costs', '', otherOps],                // row 10 C10
-      [''],
-      ['TOTAL OPERATIONS', '', league + insurance + equipment + adminAnn + marketing + otherOps],  // row 12 ← formula
+    const ws5 = wb.addWorksheet('Operations');
+    ws5.columns = [{ width: 36 }, { width: 16 }, { width: 16 }];
+    titleRow(ws5, 1, 'OPERATIONS & OVERHEAD', 3);
+    spacer(ws5, 2);
+    ['Line Item', 'Monthly ($)', 'Annual ($)'].forEach((h, i) => {
+      const c = ws5.getCell(3, i + 1);
+      c.value = h;
+      c.font = { bold: true, size: 10, color: { argb: C.white }, name: 'Calibri' };
+      c.fill = fill(C.blue);
+      c.border = allBorders(C.blue);
+      c.alignment = { horizontal: i > 0 ? 'right' : 'left', indent: i === 0 ? 1 : 0 };
+      ws5.getRow(3).height = 20;
+    });
+    const opsItems = [
+      { label: 'League & tournaments', monthly: null, annual: league },
+      { label: 'Insurance',            monthly: null, annual: insurance },
+      { label: 'Equipment',            monthly: null, annual: equipment },
+      { label: 'Admin staff',          monthly: admin,    annual: admin * months },
+      { label: 'Software & platforms', monthly: software, annual: software * months },
+      { label: 'Marketing & comms',    monthly: null, annual: marketing },
+      { label: 'Other operating costs',monthly: null, annual: otherOps },
     ];
-    const wsOps = XLSX.utils.aoa_to_sheet(opsData);
-    wsOps['C7']  = fCell(admin * months,    `B7*${months}`);
-    wsOps['C8']  = fCell(software * months, `B8*${months}`);
-    wsOps['C12'] = fCell(league + insurance + equipment + adminAnn + marketing + otherOps, 'SUM(C4:C10)');
-    wsOps['!cols'] = [{ wch: 34 }, { wch: 14 }, { wch: 14 }];
-    XLSX.utils.book_append_sheet(wb, wsOps, 'Operations');
+    opsItems.forEach((item, i) => {
+      const r = 4 + i;
+      const bg = i % 2 === 0 ? C.white : C.veryLightGray;
+      const lc = ws5.getCell(r, 1);
+      lc.value = item.label; lc.alignment = { indent: 2 };
+      lc.font = { size: 10, color: { argb: C.subText }, name: 'Calibri' };
+      lc.fill = fill(bg); lc.border = allBorders();
+      const mc = ws5.getCell(r, 2);
+      if (item.monthly !== null) { mc.value = item.monthly; mc.numFmt = $; }
+      mc.font = { size: 10, color: { argb: C.subText }, name: 'Calibri' };
+      mc.fill = fill(bg); mc.border = allBorders(); mc.alignment = { horizontal: 'right' };
+      const ac = ws5.getCell(r, 3);
+      if (item.monthly !== null) {
+        ac.value = { formula: `B${r}*${months}`, result: item.annual };
+      } else {
+        ac.value = item.annual;
+      }
+      ac.numFmt = $;
+      ac.font = { size: 10, color: { argb: C.subText }, name: 'Calibri' };
+      ac.fill = fill(bg); ac.border = allBorders(); ac.alignment = { horizontal: 'right' };
+      ws5.getRow(r).height = 17;
+    });
+    spacer(ws5, 11);
+    ws5.mergeCells(12, 1, 12, 2);
+    const opsLabel = ws5.getCell(12, 1);
+    opsLabel.value = 'TOTAL OPERATIONS';
+    opsLabel.font = { bold: true, size: 10, color: { argb: C.text }, name: 'Calibri' };
+    opsLabel.fill = fill(C.lightGray); opsLabel.alignment = { indent: 1 };
+    opsLabel.border = allBorders(C.darkBorder);
+    ws5.getRow(12).height = 22;
+    const opsTotal = ws5.getCell(12, 3);
+    opsTotal.value = { formula: 'SUM(C4:C10)', result: league + insurance + equipment + adminAnn + marketing + otherOps };
+    opsTotal.numFmt = $;
+    opsTotal.font = { bold: true, size: 10, color: { argb: C.text }, name: 'Calibri' };
+    opsTotal.fill = fill(C.lightGray); opsTotal.alignment = { horizontal: 'right' };
+    opsTotal.border = allBorders(C.darkBorder);
 
     // ── SHEET 6: OTHER EXPENSES (if any) ─────────────────────────────
     if (otherExpensesTotal > 0) {
-      const otherData: (string | number)[][] = [
-        ['OTHER EXPENSES', ''],
-        [''],
-        ['Item', 'Annual ($)'],
-        ['Field lighting', fieldLights],
-        ['Port-a-potties', portaPotties],
-        ['Backup / emergency field', backupField],
-        ['Field maintenance', fieldMaintenance],
-        ['Utilities', utilities],
-        ['Emergency fund', emergencyFund],
-        ['Coach training & education', coachTraining],
-        ['Coaching gear', coachingGear],
-        ['Training jerseys', trainingJerseys],
-        ['Tournament expenses', tournamentExpense],
-        ['Concessions', concessions],
-        ['Repairs & replacements', repairReplacement],
-        ['Pre-season event', preseasonEvent],
-        ['Post-season event', postseasonEvent],
+      const ws6 = wb.addWorksheet('Other Expenses');
+      ws6.columns = [{ width: 36 }, { width: 18 }];
+      titleRow(ws6, 1, 'OTHER EXPENSES');
+      spacer(ws6, 2);
+      ['Item', 'Annual ($)'].forEach((h, i) => {
+        const c = ws6.getCell(3, i + 1);
+        c.value = h;
+        c.font = { bold: true, size: 10, color: { argb: C.white }, name: 'Calibri' };
+        c.fill = fill(C.blue); c.border = allBorders(C.blue);
+        c.alignment = { horizontal: i > 0 ? 'right' : 'left', indent: i === 0 ? 1 : 0 };
+        ws6.getRow(3).height = 20;
+      });
+      const otherItems = [
+        ['Field lighting', fieldLights], ['Port-a-potties', portaPotties],
+        ['Backup / emergency field', backupField], ['Field maintenance', fieldMaintenance],
+        ['Utilities', utilities], ['Emergency fund', emergencyFund],
+        ['Coach training & education', coachTraining], ['Coaching gear', coachingGear],
+        ['Training jerseys', trainingJerseys], ['Tournament expenses', tournamentExpense],
+        ['Concessions', concessions], ['Repairs & replacements', repairReplacement],
+        ['Pre-season event', preseasonEvent], ['Post-season event', postseasonEvent],
         ['Other events', otherEvents],
-        [''],
-        ['TOTAL OTHER EXPENSES', otherExpensesTotal],
-      ];
-      const wsOther = XLSX.utils.aoa_to_sheet(otherData);
-      wsOther['B20'] = fCell(otherExpensesTotal, 'SUM(B4:B18)');
-      wsOther['!cols'] = [{ wch: 34 }, { wch: 14 }];
-      XLSX.utils.book_append_sheet(wb, wsOther, 'Other Expenses');
+      ].filter(([, v]) => (v as number) > 0);
+      otherItems.forEach(([label, val], i) => {
+        const r = 4 + i;
+        const bg = i % 2 === 0 ? C.white : C.veryLightGray;
+        const lc = ws6.getCell(r, 1);
+        lc.value = label; lc.alignment = { indent: 2 };
+        lc.font = { size: 10, color: { argb: C.subText }, name: 'Calibri' };
+        lc.fill = fill(bg); lc.border = allBorders();
+        const vc = ws6.getCell(r, 2);
+        vc.value = val as number; vc.numFmt = $;
+        vc.font = { size: 10, color: { argb: C.subText }, name: 'Calibri' };
+        vc.fill = fill(bg); vc.border = allBorders(); vc.alignment = { horizontal: 'right' };
+        ws6.getRow(r).height = 17;
+      });
+      const lastOtherR = 3 + otherItems.length;
+      spacer(ws6, lastOtherR + 1);
+      const otLabel = ws6.getCell(lastOtherR + 2, 1);
+      otLabel.value = 'TOTAL OTHER EXPENSES';
+      otLabel.font = { bold: true, size: 10, color: { argb: C.text }, name: 'Calibri' };
+      otLabel.fill = fill(C.lightGray); otLabel.alignment = { indent: 1 };
+      otLabel.border = allBorders(C.darkBorder);
+      ws6.getRow(lastOtherR + 2).height = 22;
+      const otVal = ws6.getCell(lastOtherR + 2, 2);
+      otVal.value = { formula: `SUM(B4:B${lastOtherR})`, result: otherExpensesTotal };
+      otVal.numFmt = $; otVal.font = { bold: true, size: 10, color: { argb: C.text }, name: 'Calibri' };
+      otVal.fill = fill(C.lightGray); otVal.alignment = { horizontal: 'right' };
+      otVal.border = allBorders(C.darkBorder);
     }
 
-    return wb;
+    // ── Convert to base64 ──────────────────────────────────────────────
+    const arrayBuffer = await wb.xlsx.writeBuffer() as ArrayBuffer;
+    const bytes = new Uint8Array(arrayBuffer);
+    let binary = '';
+    bytes.forEach(b => { binary += String.fromCharCode(b); });
+    return btoa(binary);
   };
 
   const handleSendPdf = async () => {
     if (!email || sendStatus === 'loading') return;
     setSendStatus('loading');
     try {
-      const XLSX = await import('xlsx');
-      const wb = await buildWorkbook();
-      const excelBase64 = XLSX.write(wb, { type: 'base64', bookType: 'xlsx' });
+      const excelBase64 = await buildWorkbook();
 
       const res = await fetch('/api/send-budget-pdf', {
         method: 'POST',
