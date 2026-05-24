@@ -42,14 +42,14 @@ export default function HeroPdfCta() {
   if (status === 'sent') {
     return (
       <div className="mt-6 text-white text-[14px] font-medium">
-        ✓ Check your inbox — your report is on its way.
+        ✓ Sent! Check your inbox for the PDF &amp; Excel.
       </div>
     );
   }
 
   return (
     <div className="mt-6">
-      <div className="text-white/50 text-[12px] mb-2 uppercase tracking-wider font-semibold">Get a PDF of your results</div>
+      <div className="text-white/50 text-[12px] mb-2 uppercase tracking-wider font-semibold">Get a PDF &amp; Excel of your results</div>
       <div className="flex flex-wrap gap-2">
         <input
           type="text"
@@ -70,7 +70,7 @@ export default function HeroPdfCta() {
           disabled={!email || status === 'loading'}
           className="text-[13px] font-semibold bg-[#DC373E] hover:bg-[#c42f35] text-white rounded-lg px-4 py-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
         >
-          {status === 'loading' ? 'Sending…' : 'Send PDF'}
+          {status === 'loading' ? 'Sending…' : 'Send PDF & Excel'}
         </button>
       </div>
       {status === 'error' && <div className="text-red-300 text-[12px] mt-2">Something went wrong — try again.</div>}
