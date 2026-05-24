@@ -5,14 +5,14 @@ const AST_API = 'https://api.anytime-soccer.com';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { email, name, inputs, results } = body;
+    const { email, name, inputs, results, excelBase64 } = body;
     if (!email || !inputs || !results) {
       return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
     }
     const res = await fetch(`${AST_API}/api/public/budget-pdf`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, name, inputs, results }),
+      body: JSON.stringify({ email, name, inputs, results, excelBase64 }),
     });
     const data = await res.json();
     if (!res.ok) return NextResponse.json(data, { status: res.status });

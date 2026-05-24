@@ -378,78 +378,225 @@ export default function ClubBudgetCalculator() {
     window.location.reload();
   };
 
-  const handleDownloadExcel = async () => {
+  const buildWorkbook = async () => {
     const XLSX = await import('xlsx');
     const wb = XLSX.utils.book_new();
+    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-    // Summary sheet
-    const summaryData: (string | number | null)[][] = [
-      ['Club Budget Report'],
-      [],
-      ['REVENUE', '', ''],
-      ['Player fees', playerFees],
-      ['Fundraising', fundraising],
-      ['Other revenue', otherRevenue],
-      ['Tournament revenue', tournamentRevenue],
-      ['Total revenue', revenue],
-      [],
-      ['EXPENSES', '', ''],
-      ['Coaching staff', coaching],
-      ['Assistant coaches', assistantAnn],
-      ['Specialty coaches', specialtyAnn],
-      ['Field & facilities', fieldTraining],
-      ['League & tournaments', league],
-      ['Insurance', insurance],
-      ['Equipment', equipment],
-      ['Admin & software', adminAnn],
-      ['Marketing & communications', marketing],
-      ['Other expenses', otherExpensesTotal],
-      ['Total costs', totalCosts],
-      [],
-      [isNonprofit ? 'Surplus / Deficit' : 'Pre-tax net', net],
-      ...(!isNonprofit && incomeTax > 0 ? [['Estimated income tax (26%)', incomeTax], ['After-tax net', afterTaxNet]] : []),
-      [],
-      ['METRICS', '', ''],
-      ['Total players', totalPlayers],
-      ['Season length (months)', months],
-      ['Cost per player / year', costPP],
-      ['Cost per training hr / player', cph],
-      ['Total training hours / year', totalHrs],
+    // Helper: patch a cell with formula + cached value
+    const fCell = (v: number, f: string) => ({ t: 'n' as const, v, f });
+
+    // ── SHEET 1: SUMMARY ─────────────────────────────────────────────
+    // rows are 0-indexed here; Excel rows are 1-indexed
+    const sumData: (string | number)[][] = [
+      ['SOCCER CLUB BUDGET REPORT', ''],        // row 1
+      [`Generated: ${today}`, ''],              // row 2
+      [''],                                      // row 3
+      ['REVENUE', ''],                          // row 4
+      ['Player fees', playerFees],              // row 5  B5
+      ['Tournament revenue', tournamentRevenue],// row 6  B6
+      ['Fundraising', fundraising],             // row 7  B7
+      ['Other revenue', otherRevenue],          // row 8  B8
+      ['Total Revenue', revenue],               // row 9  B9  ← formula
+      [''],                                      // row 10
+      ['EXPENSES', ''],                         // row 11
+      ['Coaching staff', coaching],             // row 12 B12
+      ['Assistant coaches', assistantAnn],      // row 13 B13
+      ['Specialty coaches', specialtyAnn],      // row 14 B14
+      ['Field & facilities', fieldTraining],    // row 15 B15
+      ['League & tournaments', league],         // row 16 B16
+      ['Insurance', insurance],                 // row 17 B17
+      ['Equipment', equipment],                 // row 18 B18
+      ['Admin & software', adminAnn],           // row 19 B19
+      ['Marketing & communications', marketing],// row 20 B20
+      ['Other expenses', otherExpensesTotal],   // row 21 B21
+      ['Total Costs', totalCosts],              // row 22 B22 ← formula
+      [''],                                      // row 23
+      [isNonprofit ? 'Surplus / Deficit' : 'Pre-tax net', net], // row 24 B24 ← formula
+      ...(!isNonprofit && incomeTax > 0 ? [
+        ['Estimated income tax (26%)', incomeTax],  // row 25
+        ['After-tax net', afterTaxNet],             // row 26 ← formula
+      ] : [[''], ['']]),
+      [''],                                      // row 27
+      ['METRICS', ''],                          // row 28
+      ['Total players', totalPlayers],          // row 29 B29
+      ['Season length (months)', months],       // row 30
+      ['Cost per player / year', Math.round(costPP)], // row 31 ← formula
+      ['Cost per training hr / player', parseFloat(cph.toFixed(2))], // row 32
+      ['Total training hours / year', Math.round(totalHrs)],         // row 33
     ];
+    const wsSum = XLSX.utils.aoa_to_sheet(sumData);
+    wsSum['B9']  = fCell(revenue,    'B5+B6+B7+B8');
+    wsSum['B22'] = fCell(totalCosts, 'SUM(B12:B21)');
+    wsSum['B24'] = fCell(net,        'B9-B22');
+    if (!isNonprofit && incomeTax > 0) {
+      wsSum['B26'] = fCell(afterTaxNet, 'B24-B25');
+    }
+    wsSum['B31'] = fCell(Math.round(costPP), 'IF(B29>0,B22/B29,0)');
+    wsSum['!cols'] = [{ wch: 36 }, { wch: 18 }];
+    XLSX.utils.book_append_sheet(wb, wsSum, 'Summary');
 
-    const ws = XLSX.utils.aoa_to_sheet(summaryData);
-    ws['!cols'] = [{ wch: 34 }, { wch: 16 }];
-    XLSX.utils.book_append_sheet(wb, ws, 'Budget Summary');
+    // ── SHEET 2: REVENUE ─────────────────────────────────────────────
+    const revData: (string | number)[][] = [
+      ['REVENUE DETAIL', '', '', ''],
+      [''],
+      ['Program', 'Players', 'Annual Fee / Player', 'Revenue'],
+      [tier1Name || 'Program 1', tier1Players, tier1Fee, tier1Revenue],
+    ];
+    if (numTiers >= 2) revData.push([tier2Name || 'Program 2', tier2Players, tier2Fee, tier2Revenue]);
+    if (numTiers >= 3) revData.push([tier3Name || 'Program 3', tier3Players, tier3Fee, tier3Revenue]);
 
-    // Coach schedule sheet (if exists)
+    const lastTierRow = 3 + numTiers; // 1-indexed Excel row of last tier
+    revData.push(['']);
+    revData.push(['Other Revenue', '', '', '']);
+    const tournRow = lastTierRow + 2 + 1; // +2 for blank+header, +1 for 1-indexed
+    revData.push(['Tournament revenue', '', '', tournamentRevenue]);
+    revData.push(['Fundraising', '', '', fundraising]);
+    revData.push(['Other revenue', '', '', otherRevenue]);
+    revData.push(['']);
+    revData.push(['TOTAL REVENUE', '', '', revenue]);
+
+    const wsRev = XLSX.utils.aoa_to_sheet(revData);
+    // Formulas for each tier revenue = players × fee
+    for (let t = 0; t < numTiers; t++) {
+      const r = 4 + t; // Excel rows 4, 5, 6
+      const tierRevs = [tier1Revenue, tier2Revenue, tier3Revenue];
+      wsRev[`D${r}`] = fCell(tierRevs[t], `B${r}*C${r}`);
+    }
+    // Total revenue formula
+    const totalRevRow = lastTierRow + 6;
+    wsRev[`D${totalRevRow}`] = fCell(revenue, `SUM(D4:D${lastTierRow})+D${tournRow}+D${tournRow+1}+D${tournRow+2}`);
+    wsRev['!cols'] = [{ wch: 22 }, { wch: 10 }, { wch: 20 }, { wch: 14 }];
+    XLSX.utils.book_append_sheet(wb, wsRev, 'Revenue');
+
+    // ── SHEET 3: COACHING ─────────────────────────────────────────────
+    type CoachRow = { name: string; count: number; monthly: number; months: number };
+    let schedRows: CoachRow[] = [];
     try {
-      const schedRaw = localStorage.getItem('calc_coachSchedule');
-      if (schedRaw) {
-        type CoachRow = { name: string; count: number; monthly: number; months: number };
-        const schedRows: CoachRow[] = JSON.parse(schedRaw);
-        if (Array.isArray(schedRows) && schedRows.length > 0) {
-          const coachData: (string | number)[][] = [
-            ['Coach Salary Schedule'],
-            [],
-            ['Role / Name', '# Count', 'Monthly Salary', 'Months', 'Annual Cost'],
-            ...schedRows.map(r => [r.name || 'Unnamed', r.count, r.monthly, r.months, r.count * r.monthly * r.months]),
-            [],
-            ['Total', '', '', '', schedRows.reduce((s, r) => s + r.count * r.monthly * r.months, 0)],
-          ];
-          const wsCoach = XLSX.utils.aoa_to_sheet(coachData);
-          wsCoach['!cols'] = [{ wch: 28 }, { wch: 10 }, { wch: 16 }, { wch: 10 }, { wch: 16 }];
-          XLSX.utils.book_append_sheet(wb, wsCoach, 'Coach Schedule');
-        }
-      }
+      const raw = localStorage.getItem('calc_coachSchedule');
+      if (raw) schedRows = JSON.parse(raw);
     } catch {}
+    const useSchedule = coachScheduleTotal !== null && schedRows.length > 0;
 
-    XLSX.writeFile(wb, 'club-budget.xlsx');
+    const coachData: (string | number)[][] = [
+      ['COACHING STAFF', '', '', '', ''],
+      [''],
+      ['Role / Name', '# Count', 'Monthly $', 'Months', 'Annual'],
+    ];
+    if (useSchedule) {
+      schedRows.forEach(r => coachData.push([r.name || 'Unnamed', r.count, r.monthly, r.months, r.count * r.monthly * r.months]));
+    } else {
+      coachData.push(['Coaches', numCoaches, headCoach, headCoachMonths, coaching]);
+      if (numAssistants > 0) coachData.push(['Assistant coaches', numAssistants, assistantCoach, assistantMonths, assistantAnn]);
+      if (specialty > 0)     coachData.push(['Specialty coaches', 1, specialty, months, specialtyAnn]);
+    }
+    const lastCoachDetailRow = 3 + (useSchedule ? schedRows.length : (1 + (numAssistants > 0 ? 1 : 0) + (specialty > 0 ? 1 : 0)));
+    coachData.push(['']);
+    coachData.push(['TOTAL ANNUAL COACHING COST', '', '', '', coaching + assistantAnn + specialtyAnn]);
+
+    const wsCoach = XLSX.utils.aoa_to_sheet(coachData);
+    // Formulas for each detail row: annual = count × monthly × months
+    for (let i = 3; i <= lastCoachDetailRow; i++) {
+      const rowData = coachData[i - 1];
+      if (rowData && rowData.length >= 5 && typeof rowData[1] === 'number') {
+        wsCoach[`E${i}`] = fCell(Number(rowData[4]), `B${i}*C${i}*D${i}`);
+      }
+    }
+    wsCoach[`E${lastCoachDetailRow + 2}`] = fCell(coaching + assistantAnn + specialtyAnn, `SUM(E4:E${lastCoachDetailRow})`);
+    wsCoach['!cols'] = [{ wch: 28 }, { wch: 10 }, { wch: 12 }, { wch: 10 }, { wch: 16 }];
+    XLSX.utils.book_append_sheet(wb, wsCoach, 'Coaching');
+
+    // ── SHEET 4: FACILITIES ───────────────────────────────────────────
+    const trainingOnlyFieldCost = fieldHr * sessions * hrs * weeks;
+    const homeGameFieldCost = numHomeGames * 2 * fieldHr;
+    const facData: (string | number)[][] = [
+      ['FACILITIES', '', ''],
+      [''],
+      ['FIELD RENTAL (TRAINING)', '', ''],
+      ['Cost per hour ($)', fieldHr, ''],
+      ['Sessions per week', sessions, ''],
+      ['Hours per session', hrs, ''],
+      ['Training weeks per year', weeks, ''],
+      ['Training field rental', trainingOnlyFieldCost, ''],  // row 8 ← formula
+      [''],
+      ['HOME GAMES', '', ''],
+      ['Number of home games', numHomeGames, ''],
+      ['Game field rental (2 hrs × $/hr)', homeGameFieldCost, ''],  // row 12 ← formula
+      [''],
+      ['Winter / indoor facility (annual)', winterFacility, ''],  // row 14
+      [''],
+      ['TOTAL FIELD COST', fieldTraining, ''],  // row 16 ← formula
+    ];
+    const wsFac = XLSX.utils.aoa_to_sheet(facData);
+    wsFac['B8']  = fCell(trainingOnlyFieldCost, 'B4*B5*B6*B7');
+    wsFac['B12'] = fCell(homeGameFieldCost,      'B11*2*B4');
+    wsFac['B16'] = fCell(fieldTraining,           'B8+B12+B14');
+    wsFac['!cols'] = [{ wch: 34 }, { wch: 16 }, { wch: 10 }];
+    XLSX.utils.book_append_sheet(wb, wsFac, 'Facilities');
+
+    // ── SHEET 5: OPERATIONS ───────────────────────────────────────────
+    const opsData: (string | number)[][] = [
+      ['OPERATIONS & OVERHEAD', '', ''],
+      [''],
+      ['Line Item', 'Monthly ($)', 'Annual ($)'],
+      ['League & tournaments', '', league],                    // row 4 C4
+      ['Insurance', '', insurance],                            // row 5 C5
+      ['Equipment', '', equipment],                            // row 6 C6
+      ['Admin staff', admin, adminAnn - software * months],   // row 7 C7 ← formula
+      ['Software & platforms', software, software * months],  // row 8 C8 ← formula
+      ['Marketing & communications', '', marketing],           // row 9 C9
+      ['Other operating costs', '', otherOps],                // row 10 C10
+      [''],
+      ['TOTAL OPERATIONS', '', league + insurance + equipment + adminAnn + marketing + otherOps],  // row 12 ← formula
+    ];
+    const wsOps = XLSX.utils.aoa_to_sheet(opsData);
+    wsOps['C7']  = fCell(admin * months,    `B7*${months}`);
+    wsOps['C8']  = fCell(software * months, `B8*${months}`);
+    wsOps['C12'] = fCell(league + insurance + equipment + adminAnn + marketing + otherOps, 'SUM(C4:C10)');
+    wsOps['!cols'] = [{ wch: 34 }, { wch: 14 }, { wch: 14 }];
+    XLSX.utils.book_append_sheet(wb, wsOps, 'Operations');
+
+    // ── SHEET 6: OTHER EXPENSES (if any) ─────────────────────────────
+    if (otherExpensesTotal > 0) {
+      const otherData: (string | number)[][] = [
+        ['OTHER EXPENSES', ''],
+        [''],
+        ['Item', 'Annual ($)'],
+        ['Field lighting', fieldLights],
+        ['Port-a-potties', portaPotties],
+        ['Backup / emergency field', backupField],
+        ['Field maintenance', fieldMaintenance],
+        ['Utilities', utilities],
+        ['Emergency fund', emergencyFund],
+        ['Coach training & education', coachTraining],
+        ['Coaching gear', coachingGear],
+        ['Training jerseys', trainingJerseys],
+        ['Tournament expenses', tournamentExpense],
+        ['Concessions', concessions],
+        ['Repairs & replacements', repairReplacement],
+        ['Pre-season event', preseasonEvent],
+        ['Post-season event', postseasonEvent],
+        ['Other events', otherEvents],
+        [''],
+        ['TOTAL OTHER EXPENSES', otherExpensesTotal],
+      ];
+      const wsOther = XLSX.utils.aoa_to_sheet(otherData);
+      wsOther['B20'] = fCell(otherExpensesTotal, 'SUM(B4:B18)');
+      wsOther['!cols'] = [{ wch: 34 }, { wch: 14 }];
+      XLSX.utils.book_append_sheet(wb, wsOther, 'Other Expenses');
+    }
+
+    return wb;
   };
 
   const handleSendPdf = async () => {
     if (!email || sendStatus === 'loading') return;
     setSendStatus('loading');
     try {
+      const XLSX = await import('xlsx');
+      const wb = await buildWorkbook();
+      const excelBase64 = XLSX.write(wb, { type: 'base64', bookType: 'xlsx' });
+
       const res = await fetch('/api/send-budget-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -457,6 +604,7 @@ export default function ClubBudgetCalculator() {
           email, name,
           inputs: { players, numTeams, totalPlayers, fee, months, fundraising, numCoaches, headCoach, headCoachMonths, specialty, fieldHr, sessions, hrs, weeks, league, insurance, equipment, admin, software, marketing },
           results: { revenue, playerFees, fundraising, otherRevenue, coaching, assistantAnn, specialtyAnn, fieldTraining, league, insurance, equipment, adminAnn, marketing, totalCosts, net, cph, costPP, totalHrs },
+          excelBase64,
         }),
       });
       setSendStatus(res.ok ? 'sent' : 'error');
