@@ -108,6 +108,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       {/* Instagram embed script for posts with Instagram embeds */}
       <Script src="https://www.instagram.com/embed.js" strategy="lazyOnload" />
+      {/* Budget calculator — loaded only on posts that contain the calculator widget */}
+      {post.content.includes('id="sbc-reg"') && (
+        <Script src="/js/soccer-budget-calc.js" strategy="afterInteractive" />
+      )}
     </article>
   );
 }
