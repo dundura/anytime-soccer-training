@@ -68,6 +68,25 @@ export default function ParentsGettingStartedPage() {
           </div>
         </div>
 
+        {/* VIDEO 3 */}
+        <div>
+          <div className="mb-3">
+            <p className="text-xs font-bold text-red uppercase tracking-widest mb-1">Video 3</p>
+            <h2 className="text-xl font-extrabold text-navy leading-snug">
+              How to Create Custom Training Session Folders on Anytime Soccer Training
+            </h2>
+          </div>
+          <div className="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(15,49,84,0.12)] bg-black">
+            <iframe
+              src="https://www.youtube.com/embed/Wln60q78WsI"
+              title="How to Create Custom Training Session Folders on Anytime Soccer Training"
+              className="w-full aspect-video border-none block"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+
         {/* CTA */}
         <div className="text-center pt-2 pb-4">
           <a
