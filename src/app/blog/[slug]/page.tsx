@@ -4,6 +4,37 @@ import Script from 'next/script';
 import type { Metadata } from 'next';
 import { getPostBySlug, getAllSlugs, formatDate, getExcerpt } from '@/lib/posts';
 
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+}
+
+function buildTOC(html: string): { toc: { id: string; text: string }[]; content: string } {
+  const toc: { id: string; text: string }[] = [];
+  const usedIds = new Map<string, number>();
+
+  const content = html.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (match, attrs, inner) => {
+    const text = inner.replace(/<[^>]+>/g, '').trim();
+    if (!text) return match;
+    let id = slugify(text);
+    if (usedIds.has(id)) {
+      const n = usedIds.get(id)! + 1;
+      usedIds.set(id, n);
+      id = `${id}-${n}`;
+    } else {
+      usedIds.set(id, 1);
+    }
+    toc.push({ id, text });
+    return `<h2 id="${id}"${attrs}>${inner}</h2>`;
+  });
+
+  return { toc, content };
+}
+
 export async function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
 }
@@ -33,6 +64,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) notFound();
+
+  const { toc, content: contentWithIds } = buildTOC(post.content);
+  const showTOC = toc.length >= 3;
 
   return (
     <article className="pt-4 pb-12 bg-background">
@@ -70,10 +104,31 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             />
           )}
 
+          {/* Table of Contents — shown for posts with 3+ sections */}
+          {showTOC && (
+            <nav className="rounded-2xl border border-[#e2eaf2] bg-[#f8fafc] px-6 py-5 mb-8">
+              <p className="text-xs font-bold text-[#94a3b8] uppercase tracking-widest mb-3">In this article</p>
+              <ol className="space-y-2 list-none m-0 p-0">
+                {toc.map(({ id, text }, i) => (
+                  <li key={id}>
+                    <a href={`#${id}`} className="flex items-start gap-3 group no-underline">
+                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-red text-white text-xs font-bold flex items-center justify-center mt-0.5">
+                        {i + 1}
+                      </span>
+                      <span className="text-[#0f3154] text-[15px] font-medium group-hover:text-red transition-colors leading-snug">
+                        {text}
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )}
+
           {/* WordPress content — strip leading h1/h2 to avoid duplicate title */}
           <div
             className="wp-content prose max-w-none"
-            dangerouslySetInnerHTML={{ __html: post.content.replace(/^\s*<h[12][^>]*>.*?<\/h[12]>\s*/i, '') }}
+            dangerouslySetInnerHTML={{ __html: contentWithIds.replace(/^\s*<h[12][^>]*>.*?<\/h[12]>\s*/i, '') }}
           />
 
           {/* Tags */}
