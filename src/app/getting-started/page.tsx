@@ -79,8 +79,35 @@ export default function GettingStartedPage() {
         </div>
       </section>
 
+      {/* TABLE OF CONTENTS */}
+      <section className="pb-4 bg-background">
+        <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8">
+          <nav className="rounded-2xl border border-[#e2eaf2] bg-[#f8fafc] px-6 py-5">
+            <p className="text-xs font-bold text-[#94a3b8] uppercase tracking-widest mb-3">In this guide</p>
+            <ol className="space-y-2 list-none m-0 p--0">
+              {[
+                { num: '1', id: 'overview-video', title: 'Getting Started Overview Video' },
+                { num: '2', id: 'create-account', title: 'Step 1: Create Your Account' },
+                { num: '3', id: 'join-team', title: 'Step 2: Join Your Team' },
+              ].map(({ num, id, title }) => (
+                <li key={id}>
+                  <a href={`#${id}`} className="flex items-start gap-3 group no-underline">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-red text-white text-xs font-bold flex items-center justify-center mt-0.5">
+                      {num}
+                    </span>
+                    <span className="text-[#0f3154] text-[15px] font-medium group-hover:text-red transition-colors leading-snug">
+                      {title}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </div>
+      </section>
+
       {/* VIDEO */}
-      <section className="pb-6 bg-background">
+      <section id="overview-video" className="pb-6 bg-background scroll-mt-6">
         <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(15,49,84,0.1)] bg-black">
             <iframe
@@ -114,7 +141,7 @@ export default function GettingStartedPage() {
       <section className="pb-12 bg-background">
         <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
           {/* Section 1: Create Account */}
-          <details open className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden">
+          <details id="create-account" open className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden scroll-mt-6">
             <summary className="p-6 md:p-8 pb-0 md:pb-0 cursor-pointer list-none flex items-center justify-between">
               <h2 className="text-xl font-extrabold text-navy m-0">Step 1: Create Your Account</h2>
               <span className="text-navy text-lg">&#9662;</span>
@@ -142,7 +169,7 @@ export default function GettingStartedPage() {
           </details>
 
           {/* Section 2: Join Your Team */}
-          <details open className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden">
+          <details id="join-team" open className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden scroll-mt-6">
             <summary className="p-6 md:p-8 pb-0 md:pb-0 cursor-pointer list-none flex items-center justify-between">
               <h2 className="text-xl font-extrabold text-navy m-0">Step 2: Join Your Team</h2>
               <span className="text-navy text-lg">&#9662;</span>
