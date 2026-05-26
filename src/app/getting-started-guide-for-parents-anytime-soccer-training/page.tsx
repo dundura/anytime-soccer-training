@@ -30,8 +30,34 @@ export default function ParentsGettingStartedPage() {
 
       <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8 pb-16 bg-background">
 
+        {/* TABLE OF CONTENTS */}
+        <nav className="rounded-2xl border border-[#e2eaf2] bg-[#f8fafc] px-6 py-5">
+          <p className="text-xs font-bold text-[#94a3b8] uppercase tracking-widest mb-3">In this guide</p>
+          <ol className="space-y-2 list-none m-0 p-0">
+            {[
+              { num: '1', id: 'video-1', title: 'Setting up a Full Training Plan Using the Full Curriculum' },
+              { num: '2', id: 'video-2', title: "How to Use the All Programs Section to Build Your Player's Training Session" },
+              { num: '3', id: 'video-3', title: 'How to Create Custom Training Session Folders on Anytime Soccer Training' },
+            ].map(({ num, id, title }) => (
+              <li key={id}>
+                <a
+                  href={`#${id}`}
+                  className="flex items-start gap-3 group no-underline"
+                >
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-red text-white text-xs font-bold flex items-center justify-center mt-0.5">
+                    {num}
+                  </span>
+                  <span className="text-[#0f3154] text-[15px] font-medium group-hover:text-red transition-colors leading-snug">
+                    {title}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+
         {/* VIDEO 1 */}
-        <div>
+        <div id="video-1" className="scroll-mt-6">
           <div className="mb-3">
             <p className="text-xs font-bold text-red uppercase tracking-widest mb-1">Video 1</p>
             <h2 className="text-xl font-extrabold text-navy leading-snug">
@@ -50,7 +76,7 @@ export default function ParentsGettingStartedPage() {
         </div>
 
         {/* VIDEO 2 */}
-        <div>
+        <div id="video-2" className="scroll-mt-6">
           <div className="mb-3">
             <p className="text-xs font-bold text-red uppercase tracking-widest mb-1">Video 2</p>
             <h2 className="text-xl font-extrabold text-navy leading-snug">
@@ -69,7 +95,7 @@ export default function ParentsGettingStartedPage() {
         </div>
 
         {/* VIDEO 3 */}
-        <div>
+        <div id="video-3" className="scroll-mt-6">
           <div className="mb-3">
             <p className="text-xs font-bold text-red uppercase tracking-widest mb-1">Video 3</p>
             <h2 className="text-xl font-extrabold text-navy leading-snug">
