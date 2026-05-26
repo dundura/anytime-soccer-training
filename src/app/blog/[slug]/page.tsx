@@ -127,8 +127,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
           {/* WordPress content — strip leading h1/h2 to avoid duplicate title */}
           <div
-            className="wp-content prose max-w-none"
-            dangerouslySetInnerHTML={{ __html: contentWithIds.replace(/^\s*<h[12][^>]*>.*?<\/h[12]>\s*/i, '') }}
+            className="wp-content"
+            dangerouslySetInnerHTML={{ __html: contentWithIds.replace(/^\s*<h[12][^>]*>[\s\S]*?<\/h[12]>\s*/i, '') }}
           />
 
           {/* Tags */}

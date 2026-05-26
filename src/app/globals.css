@@ -33,7 +33,7 @@ body {
    ============================================ */
 
 .wp-content {
-  font-family: Georgia, serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   line-height: 1.8;
   color: #1F4E79;
 }
