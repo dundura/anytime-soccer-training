@@ -124,21 +124,16 @@ export default function ParentsGettingStartedPage() {
   return (
     <>
       {/* HERO */}
-      <section className="pt-6 pb-8 md:pt-8 md:pb-10 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-navy rounded-3xl px-6 py-12 md:px-12 md:py-16 relative overflow-hidden text-center">
-            <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 bg-red/20 text-red border border-red/30 rounded-full px-4 py-1.5 text-sm font-semibold mb-5">
-                👨‍👩‍👧 For Parents
-              </div>
-              <h1 className="text-[clamp(28px,5vw,44px)] font-extrabold leading-[1.1] text-white mb-4">
-                Getting Started Guide for Parents
-              </h1>
-              <p className="text-lg text-white/80 max-w-2xl mx-auto">
-                Everything you need to set up your child&apos;s training plan and start seeing real progress — in under 10 minutes.
-              </p>
-            </div>
+      <section className="pt-6 pb-6 md:pt-8 md:pb-8 bg-background">
+        <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-sm font-semibold text-[#6b7280] mb-2">For Parents</p>
+            <h1 className="text-[clamp(22px,4vw,34px)] font-extrabold leading-[1.15] text-navy mb-3">
+              Getting Started Guide for Parents
+            </h1>
+            <p className="text-[#5a7089] text-base max-w-xl mx-auto">
+              Watch the videos below, then follow the steps to set up your child&apos;s training plan.
+            </p>
           </div>
         </div>
       </section>
