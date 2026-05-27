@@ -70,9 +70,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <article className="pt-4 pb-12 bg-background">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto px-0 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
-        <nav className="mb-6 text-sm text-gray">
+        <nav className="mb-6 text-sm text-gray px-4 sm:px-0">
           <Link href="/" className="hover:text-navy transition-colors">Home</Link>
           <span className="mx-2">/</span>
           <Link href="/blog" className="hover:text-navy transition-colors">Blog</Link>
@@ -80,7 +80,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <span className="text-navy">{post.title}</span>
         </nav>
 
-        <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] p-8 md:p-12">
+        <div className="bg-white rounded-none sm:rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] p-5 sm:p-8 md:p-12">
           {/* Categories */}
           {post.categories.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
@@ -146,7 +146,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </div>
 
         {/* CTA */}
-        <div className="mt-8 bg-navy text-white rounded-2xl p-8 text-center">
+        <div className="mt-6 bg-navy text-white rounded-none sm:rounded-2xl p-6 sm:p-8 text-center">
           <h3 className="text-xl font-bold mb-2">Ready to improve?</h3>
           <p className="text-white/80 mb-4">Access 5,000+ follow-along training videos.</p>
           <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-block">
@@ -154,7 +154,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </Link>
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-6 mb-4 text-center px-4 sm:px-0">
           <Link href="/blog" className="text-red font-semibold hover:text-red-dark transition-colors">
             &larr; Back to Blog
           </Link>
