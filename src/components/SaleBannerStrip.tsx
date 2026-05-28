@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-const SALE_END = new Date('2026-05-26T23:59:59-05:00');
+const SALE_END = new Date('2026-06-02T23:59:59-05:00');
 const SIGNUP_URL = 'https://app.anytime-soccer.com/auth/registerFree';
 
 const SKILLS = [
@@ -48,10 +48,10 @@ export default function SaleBannerStrip() {
               {/* Copy */}
               <div className="text-center flex-shrink-0 md:ml-8">
                 <h2 className="text-4xl md:text-6xl font-black text-navy mb-2 leading-tight">
-                  Memorial Day<br />Weekend Sale!
+                  Offer<br />Extended!
                 </h2>
                 <p className="text-2xl md:text-3xl font-bold text-navy/70">
-                  50% off — Ends May 26
+                  50% off — Ends June 2
                   {timeStr && (
                     <span className="ml-3 font-black text-red">{timeStr}</span>
                   )}
