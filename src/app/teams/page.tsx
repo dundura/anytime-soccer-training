@@ -19,6 +19,7 @@ const GENERAL_GUIDES = [
 
 const TEAM_PAGES = [
   { title: 'DHS Boys Soccer 2026', slug: 'dhs-boys-soccer-2026-getting-started' },
+  { title: 'Vortex Soccer Training', slug: 'vortex-soccer-training-getting-started' },
   { title: 'Synergy FC', slug: 'synergy-fc-getting-started' },
   { title: '2015 Legacy Girls', slug: '2015-legacy-girls-getting-started' },
   { title: 'Cheltenham Cheetahs', slug: 'cheetahs-getting-started' },
