@@ -243,7 +243,7 @@ export default function FreeSoccerDrillsPage() {
   width: 100%;
   min-height: 500px;
   position: relative;
-  margin-top: -40px;
+  margin-top: 0;
   overflow: hidden;
 }
 
