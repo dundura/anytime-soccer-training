@@ -32,7 +32,8 @@ body {
    Applied to WordPress content via .wp-content
    ============================================ */
 
-.wp-content {
+.wp-content,
+.post-content {
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   line-height: 1.8;
   color: #1F4E79;

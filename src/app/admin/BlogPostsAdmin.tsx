@@ -21,20 +21,21 @@ export default function BlogPostsAdmin({ posts }: { posts: Post[] }) {
   const [filter, setFilter] = useState<"all" | "posted" | "unposted">("all");
   const [toggling, setToggling] = useState<string | null>(null);
 
+  const STORAGE_KEY = "ast_blog_post_statuses";
+
   useEffect(() => {
-    fetch("/api/admin/blog-status").then(r => r.json()).then(setStatuses).catch(() => {});
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) setStatuses(JSON.parse(saved));
+    } catch {}
   }, []);
 
-  const toggle = async (slug: string) => {
+  const toggle = (slug: string) => {
     const current = statuses[slug]?.posted ?? false;
     setToggling(slug);
     const updated = { ...statuses, [slug]: { posted: !current, postedAt: !current ? new Date().toISOString() : null } };
     setStatuses(updated);
-    await fetch("/api/admin/blog-status", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slug, posted: !current }),
-    }).catch(() => {});
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(updated)); } catch {}
     setToggling(null);
   };
 
