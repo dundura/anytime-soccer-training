@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import AdminTable from './AdminTable';
-import BlogPostsAdmin from './BlogPostsAdmin';
+import AdminTabs from './AdminTabs';
 import pagesData from '@/data/pages.json';
 import postsData from '@/data/posts.json';
 
@@ -108,9 +107,12 @@ export default function AdminPage() {
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-3xl font-bold text-navy mb-2">Admin Dashboard</h1>
-        <p className="text-gray mb-6">{entries.length} pages &middot; {images.length} images</p>
-        <AdminTable entries={entries} images={images} />
-        <BlogPostsAdmin posts={posts.map(p => ({ slug: p.slug, title: p.title, date: p.date, categories: (p as { categories?: string[] }).categories || [], excerpt: (p as { excerpt?: string }).excerpt || '' }))} />
+        <p className="text-gray mb-6">{entries.length} pages &middot; {images.length} images &middot; {posts.length} blog posts</p>
+        <AdminTabs
+          entries={entries}
+          images={images}
+          posts={posts.map(p => ({ slug: p.slug, title: p.title, date: p.date, categories: (p as { categories?: string[] }).categories || [], excerpt: (p as { excerpt?: string }).excerpt || '' }))}
+        />
       </div>
     </div>
   );
