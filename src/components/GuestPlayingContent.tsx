@@ -14,10 +14,10 @@ export default function GuestPlayingContent() {
   }, []);
 
   return (
-    <div className="w-full min-h-[500px] relative -mt-10 overflow-hidden">
+    <div className="w-full">
       <iframe
         src="https://api.leadconnectorhq.com/widget/form/yLNAlo4U2OMrW3ROvWzU"
-        style={{ width: "100%", height: "100%", border: "none", borderRadius: "3px", marginTop: "-60px" }}
+        style={{ width: "100%", height: "800px", border: "none", borderRadius: "3px" }}
         id="inline-yLNAlo4U2OMrW3ROvWzU"
         data-layout='{"id":"INLINE"}'
         data-trigger-type="alwaysShow"
@@ -27,10 +27,11 @@ export default function GuestPlayingContent() {
         data-deactivation-type="neverDeactivate"
         data-deactivation-value=""
         data-form-name="Guest Player Ebook"
-        data-height="undefined"
+        data-height="800"
         data-layout-iframe-id="inline-yLNAlo4U2OMrW3ROvWzU"
         data-form-id="yLNAlo4U2OMrW3ROvWzU"
         title="Guest Player Ebook"
+        scrolling="no"
       />
     </div>
   );
