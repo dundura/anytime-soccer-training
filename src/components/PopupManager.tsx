@@ -42,13 +42,21 @@ export default function PopupManager() {
 
         {/* Left image */}
         <div className="hidden md:flex md:w-[40%] items-center justify-center overflow-hidden bg-gray-50">
-          <img
-            src={variant === '7day'
-              ? 'https://d2vm0l3c6tu9qp.cloudfront.net/Anytime-soccer-camp.webp'
-              : 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1778974402995-sa4a36.png'}
-            alt={variant === '7day' ? 'Anytime Soccer Training' : 'Free Training Plan'}
-            className={`w-full h-full ${variant === '7day' ? 'object-cover' : 'object-contain'}`}
-          />
+          {variant === '7day' ? (
+            <a href="https://www.anytime-soccer.com/free-soccer-drills-for-kids" onClick={dismiss}>
+              <img
+                src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1780777965295-ngesx2.png"
+                alt="Anytime Soccer Training"
+                className="w-full h-full object-cover"
+              />
+            </a>
+          ) : (
+            <img
+              src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1780778473127-vnm6a6.png"
+              alt="Free Training Plan"
+              className="w-full h-full object-contain"
+            />
+          )}
         </div>
 
         {/* Right content */}

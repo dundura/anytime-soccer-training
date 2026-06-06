@@ -4,6 +4,22 @@ import Script from 'next/script';
 export const metadata: Metadata = {
   title: 'Free 7-Day Soccer Training Plan | Anytime Soccer Training',
   description: 'Get a free 7-day soccer training plan delivered to your inbox. Follow-along video training, just 10 minutes a day. Perfect for ages 6-14.',
+  openGraph: {
+    title: 'Free 7-Day Soccer Training Plan | Anytime Soccer Training',
+    description: 'Get a free 7-day soccer training plan delivered to your inbox. Follow-along video training, just 10 minutes a day. Perfect for ages 6-14.',
+    images: [
+      {
+        url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1780777965295-ngesx2.png',
+        width: 1200,
+        height: 630,
+        alt: 'Free 7-Day Soccer Training Plan',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1780777965295-ngesx2.png'],
+  },
 };
 
 export default function FreeSoccerDrillsPage() {
