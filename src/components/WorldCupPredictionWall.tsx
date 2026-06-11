@@ -82,7 +82,7 @@ export default function WorldCupPredictionWall() {
               <tr className="bg-navy text-white">
                 <th style={bebas} className="px-3 py-3 text-left text-base tracking-[2px] font-normal w-12">#</th>
                 <th style={bebas} className="px-3 py-3 text-left text-base tracking-[2px] font-normal">Fan</th>
-                <th style={bebas} className="px-3 py-3 text-left text-base tracking-[2px] font-normal">Champion (predicted final score)</th>
+                <th style={bebas} className="px-3 py-3 text-left text-base tracking-[2px] font-normal">Champion &amp; predicted final</th>
                 <th style={bebas} className="px-3 py-3 text-center text-base tracking-[2px] font-normal w-14">W</th>
                 <th style={bebas} className="px-3 py-3 text-center text-base tracking-[2px] font-normal w-14">L</th>
                 <th style={bebas} className="px-3 py-3 text-right text-base tracking-[2px] font-normal w-16">Pts</th>
@@ -115,7 +115,14 @@ export default function WorldCupPredictionWall() {
                     </td>
                     <td className="px-3 py-3 text-navy whitespace-nowrap">
                       {ALL_TEAMS[e.champion]?.flag} {e.champion}
-                      {e.finalScore ? <span className="text-gray font-normal text-xs"> ({e.finalScore})</span> : null}
+                      {(() => {
+                        const runnerUp = e.detail.finalists.find((f) => f.team !== e.champion)?.team;
+                        return e.finalScore && runnerUp ? (
+                          <span className="text-gray font-normal text-xs">
+                            {' '}{e.finalScore} {ALL_TEAMS[runnerUp]?.flag}
+                          </span>
+                        ) : null;
+                      })()}
                     </td>
                     <td className="px-3 py-3 text-center text-green-700">{e.wins ?? '—'}</td>
                     <td className="px-3 py-3 text-center text-red">{e.losses ?? '—'}</td>

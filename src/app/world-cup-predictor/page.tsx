@@ -24,15 +24,16 @@ export default function WorldCupPredictorPage() {
   return (
     <main>
       {/* Hero */}
-      <section className="bg-background pt-14 pb-10 md:pt-20 md:pb-14 relative overflow-hidden">
-        <div
-          className="absolute -top-1/2 left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-[radial-gradient(circle,rgba(220,55,62,0.07)_0%,transparent_65%)] pointer-events-none"
-          aria-hidden
-        />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <section className="bg-background pt-10 pb-6 md:pt-14 md:pb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-3xl border border-gray-100 shadow-sm px-6 py-10 sm:px-10 md:px-12 md:py-14 relative overflow-hidden">
+            <div
+              className="absolute -top-1/2 left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-[radial-gradient(circle,rgba(220,55,62,0.06)_0%,transparent_65%)] pointer-events-none"
+              aria-hidden
+            />
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center relative">
             <div className="text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 bg-white border border-gray-200 shadow-sm px-4 py-2 rounded-full text-sm font-semibold mb-6 text-navy">
+              <div className="inline-flex items-center gap-2 bg-background border border-gray-200 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-navy">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-red" />
@@ -75,6 +76,7 @@ export default function WorldCupPredictorPage() {
                 alt="2026 World Cup Predictor — who do you have winning it all?"
                 className="relative w-full rounded-3xl shadow-[0_24px_60px_rgba(0,0,0,0.45)] rotate-1 hover:rotate-0 transition-transform duration-300"
               />
+            </div>
             </div>
           </div>
         </div>
