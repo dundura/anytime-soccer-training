@@ -51,12 +51,20 @@ export default function WorldCupPredictorPage() {
                 48 teams. 12 groups. One champion. Build your bracket in 60
                 seconds and get your Boldness Score.
               </p>
-              <a
-                href="#predictor"
-                className="inline-block bg-red hover:bg-red-dark text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)]"
-              >
-                Make My Prediction 🏆
-              </a>
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                <a
+                  href="#predictor"
+                  className="inline-block bg-red hover:bg-red-dark text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)]"
+                >
+                  Make My Prediction 🏆
+                </a>
+                <a
+                  href="#leaderboard"
+                  className="inline-block bg-white hover:bg-gray-50 text-navy border border-gray-200 shadow-sm px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5"
+                >
+                  Leaderboard 🏅
+                </a>
+              </div>
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-8 gap-y-2 mt-8 text-gray text-sm font-semibold">
                 <span>⚡ Takes about a minute</span>
                 <span>🎁 Free 7-day training plan</span>
@@ -87,7 +95,7 @@ export default function WorldCupPredictorPage() {
       </section>
 
       {/* Public prediction board */}
-      <section className="pb-10 md:pb-16 bg-background">
+      <section id="leaderboard" className="pb-10 md:pb-16 bg-background scroll-mt-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <WorldCupPredictionWall />
         </div>

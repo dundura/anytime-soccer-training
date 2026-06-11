@@ -9,6 +9,8 @@ type Entry = {
   finalScore: string | null;
   boldness: number;
   points: number | null;
+  wins: number | null;
+  losses: number | null;
   createdAt: string;
 };
 
@@ -30,7 +32,7 @@ export default function WorldCupPredictionWall() {
       .catch(() => setBoard(null));
   }, []);
 
-  if (!board || board.entries.length === 0) return null;
+  if (!board) return null;
 
   return (
     <div className="bg-white rounded-3xl border border-gray-100 shadow-sm px-4 py-8 sm:px-8 md:px-12 md:py-12">
@@ -44,9 +46,13 @@ export default function WorldCupPredictionWall() {
         <p className="text-gray text-base">
           {board.actualsSet
             ? `${board.total} fans made a prediction — ranked by accuracy as results come in.`
-            : `${board.total} fan${board.total === 1 ? '' : 's'} have locked in a bracket. Accuracy scores appear here as real results come in.`}
+            : board.entries.length === 0
+              ? 'No predictions yet — be the first to lock in a bracket! Accuracy scores appear here as real results come in.'
+              : `${board.total} fan${board.total === 1 ? '' : 's'} have locked in a bracket. Accuracy scores appear here as real results come in.`}
         </p>
       </div>
+      {board.entries.length === 0 ? null : (
+      <>
 
       {board.actualsSet ? (
         <div className="max-w-2xl mx-auto overflow-hidden rounded-2xl border border-gray-200">
@@ -63,6 +69,9 @@ export default function WorldCupPredictionWall() {
               <span className="flex-1 text-navy truncate">{e.name}</span>
               <span className="text-gray hidden sm:inline">
                 {ALL_TEAMS[e.champion]?.flag} {e.champion}
+              </span>
+              <span className="text-gray text-xs w-20 text-right">
+                {e.wins ?? 0}W–{e.losses ?? 0}L
               </span>
               <span style={bebas} className="text-navy text-lg w-16 text-right">
                 {e.points} pts
@@ -82,6 +91,8 @@ export default function WorldCupPredictionWall() {
             </span>
           ))}
         </div>
+      )}
+      </>
       )}
     </div>
   );
