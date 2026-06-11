@@ -85,6 +85,10 @@ export default function WorldCupPredictor() {
       setStage('results');
       return;
     }
+    if (name.includes('@')) {
+      setError('Please enter your name (not your email) in the name field.');
+      return;
+    }
     setError('');
     setSubmitting(true);
     try {
