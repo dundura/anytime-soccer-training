@@ -54,7 +54,7 @@ export default function WorldCupPredictorPage() {
                 </a>
                 <a
                   href="#leaderboard"
-                  className="inline-block whitespace-nowrap bg-white hover:bg-gray-50 text-navy border border-gray-200 shadow-sm px-7 py-4 rounded-full font-bold text-base lg:text-lg transition-all hover:-translate-y-0.5"
+                  className="inline-block whitespace-nowrap bg-navy hover:bg-navy-light text-white px-7 py-4 rounded-full font-bold text-base lg:text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(15,49,84,0.3)]"
                 >
                   Live Leaderboard 🏅
                 </a>
