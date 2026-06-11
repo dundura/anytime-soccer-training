@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const ITEMS: { label: string; href: string }[] = [
-  { label: '🏆 NEW: 2026 World Cup Predictor', href: '/world-cup-predictor' },
-  { label: '⚽ Pick your World Cup champion in 60 seconds', href: '/world-cup-predictor' },
+  { label: '🏆 NEW: 2026 World Cup Predictor', href: '/world-cup-predictor#predictor' },
+  { label: '⚽ Pick your World Cup champion in 60 seconds', href: '/world-cup-predictor#predictor' },
   { label: '🏅 Live Leaderboard — see who called it', href: '/world-cup-predictor#leaderboard' },
-  { label: '🎯 Make your World Cup prediction — free', href: '/world-cup-predictor' },
+  { label: '🎯 Make your World Cup prediction — free', href: '/world-cup-predictor#predictor' },
 ];
 
 // Campaign ticker for the World Cup predictor — separate from the
