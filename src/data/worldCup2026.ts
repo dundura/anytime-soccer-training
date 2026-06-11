@@ -4,6 +4,7 @@
 
 export type Team = {
   name: string;
+  code: string; // flagcdn.com country code
   flag: string;
   tier: 1 | 2 | 3 | 4;
 };
@@ -17,109 +18,109 @@ export const GROUPS: Group[] = [
   {
     letter: 'A',
     teams: [
-      { name: 'Mexico', flag: '🇲🇽', tier: 3 },
-      { name: 'South Africa', flag: '🇿🇦', tier: 4 },
-      { name: 'South Korea', flag: '🇰🇷', tier: 3 },
-      { name: 'Czechia', flag: '🇨🇿', tier: 4 },
+      { name: 'Mexico', code: 'mx', flag: '🇲🇽', tier: 3 },
+      { name: 'South Africa', code: 'za', flag: '🇿🇦', tier: 4 },
+      { name: 'South Korea', code: 'kr', flag: '🇰🇷', tier: 3 },
+      { name: 'Czechia', code: 'cz', flag: '🇨🇿', tier: 4 },
     ],
   },
   {
     letter: 'B',
     teams: [
-      { name: 'Canada', flag: '🇨🇦', tier: 3 },
-      { name: 'Switzerland', flag: '🇨🇭', tier: 3 },
-      { name: 'Bosnia & Herzegovina', flag: '🇧🇦', tier: 4 },
-      { name: 'Qatar', flag: '🇶🇦', tier: 4 },
+      { name: 'Canada', code: 'ca', flag: '🇨🇦', tier: 3 },
+      { name: 'Switzerland', code: 'ch', flag: '🇨🇭', tier: 3 },
+      { name: 'Bosnia & Herzegovina', code: 'ba', flag: '🇧🇦', tier: 4 },
+      { name: 'Qatar', code: 'qa', flag: '🇶🇦', tier: 4 },
     ],
   },
   {
     letter: 'C',
     teams: [
-      { name: 'Brazil', flag: '🇧🇷', tier: 2 },
-      { name: 'Morocco', flag: '🇲🇦', tier: 3 },
-      { name: 'Scotland', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', tier: 4 },
-      { name: 'Haiti', flag: '🇭🇹', tier: 4 },
+      { name: 'Brazil', code: 'br', flag: '🇧🇷', tier: 2 },
+      { name: 'Morocco', code: 'ma', flag: '🇲🇦', tier: 3 },
+      { name: 'Scotland', code: 'gb-sct', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', tier: 4 },
+      { name: 'Haiti', code: 'ht', flag: '🇭🇹', tier: 4 },
     ],
   },
   {
     letter: 'D',
     teams: [
-      { name: 'United States', flag: '🇺🇸', tier: 3 },
-      { name: 'Türkiye', flag: '🇹🇷', tier: 3 },
-      { name: 'Paraguay', flag: '🇵🇾', tier: 4 },
-      { name: 'Australia', flag: '🇦🇺', tier: 4 },
+      { name: 'United States', code: 'us', flag: '🇺🇸', tier: 3 },
+      { name: 'Türkiye', code: 'tr', flag: '🇹🇷', tier: 3 },
+      { name: 'Paraguay', code: 'py', flag: '🇵🇾', tier: 4 },
+      { name: 'Australia', code: 'au', flag: '🇦🇺', tier: 4 },
     ],
   },
   {
     letter: 'E',
     teams: [
-      { name: 'Germany', flag: '🇩🇪', tier: 2 },
-      { name: 'Ecuador', flag: '🇪🇨', tier: 3 },
-      { name: 'Ivory Coast', flag: '🇨🇮', tier: 4 },
-      { name: 'Curaçao', flag: '🇨🇼', tier: 4 },
+      { name: 'Germany', code: 'de', flag: '🇩🇪', tier: 2 },
+      { name: 'Ecuador', code: 'ec', flag: '🇪🇨', tier: 3 },
+      { name: 'Ivory Coast', code: 'ci', flag: '🇨🇮', tier: 4 },
+      { name: 'Curaçao', code: 'cw', flag: '🇨🇼', tier: 4 },
     ],
   },
   {
     letter: 'F',
     teams: [
-      { name: 'Netherlands', flag: '🇳🇱', tier: 2 },
-      { name: 'Japan', flag: '🇯🇵', tier: 3 },
-      { name: 'Sweden', flag: '🇸🇪', tier: 4 },
-      { name: 'Tunisia', flag: '🇹🇳', tier: 4 },
+      { name: 'Netherlands', code: 'nl', flag: '🇳🇱', tier: 2 },
+      { name: 'Japan', code: 'jp', flag: '🇯🇵', tier: 3 },
+      { name: 'Sweden', code: 'se', flag: '🇸🇪', tier: 4 },
+      { name: 'Tunisia', code: 'tn', flag: '🇹🇳', tier: 4 },
     ],
   },
   {
     letter: 'G',
     teams: [
-      { name: 'Belgium', flag: '🇧🇪', tier: 3 },
-      { name: 'Egypt', flag: '🇪🇬', tier: 4 },
-      { name: 'Iran', flag: '🇮🇷', tier: 4 },
-      { name: 'New Zealand', flag: '🇳🇿', tier: 4 },
+      { name: 'Belgium', code: 'be', flag: '🇧🇪', tier: 3 },
+      { name: 'Egypt', code: 'eg', flag: '🇪🇬', tier: 4 },
+      { name: 'Iran', code: 'ir', flag: '🇮🇷', tier: 4 },
+      { name: 'New Zealand', code: 'nz', flag: '🇳🇿', tier: 4 },
     ],
   },
   {
     letter: 'H',
     teams: [
-      { name: 'Spain', flag: '🇪🇸', tier: 1 },
-      { name: 'Uruguay', flag: '🇺🇾', tier: 3 },
-      { name: 'Saudi Arabia', flag: '🇸🇦', tier: 4 },
-      { name: 'Cape Verde', flag: '🇨🇻', tier: 4 },
+      { name: 'Spain', code: 'es', flag: '🇪🇸', tier: 1 },
+      { name: 'Uruguay', code: 'uy', flag: '🇺🇾', tier: 3 },
+      { name: 'Saudi Arabia', code: 'sa', flag: '🇸🇦', tier: 4 },
+      { name: 'Cape Verde', code: 'cv', flag: '🇨🇻', tier: 4 },
     ],
   },
   {
     letter: 'I',
     teams: [
-      { name: 'France', flag: '🇫🇷', tier: 1 },
-      { name: 'Norway', flag: '🇳🇴', tier: 3 },
-      { name: 'Senegal', flag: '🇸🇳', tier: 3 },
-      { name: 'Iraq', flag: '🇮🇶', tier: 4 },
+      { name: 'France', code: 'fr', flag: '🇫🇷', tier: 1 },
+      { name: 'Norway', code: 'no', flag: '🇳🇴', tier: 3 },
+      { name: 'Senegal', code: 'sn', flag: '🇸🇳', tier: 3 },
+      { name: 'Iraq', code: 'iq', flag: '🇮🇶', tier: 4 },
     ],
   },
   {
     letter: 'J',
     teams: [
-      { name: 'Argentina', flag: '🇦🇷', tier: 2 },
-      { name: 'Austria', flag: '🇦🇹', tier: 3 },
-      { name: 'Algeria', flag: '🇩🇿', tier: 4 },
-      { name: 'Jordan', flag: '🇯🇴', tier: 4 },
+      { name: 'Argentina', code: 'ar', flag: '🇦🇷', tier: 2 },
+      { name: 'Austria', code: 'at', flag: '🇦🇹', tier: 3 },
+      { name: 'Algeria', code: 'dz', flag: '🇩🇿', tier: 4 },
+      { name: 'Jordan', code: 'jo', flag: '🇯🇴', tier: 4 },
     ],
   },
   {
     letter: 'K',
     teams: [
-      { name: 'Portugal', flag: '🇵🇹', tier: 2 },
-      { name: 'Colombia', flag: '🇨🇴', tier: 3 },
-      { name: 'Uzbekistan', flag: '🇺🇿', tier: 4 },
-      { name: 'DR Congo', flag: '🇨🇩', tier: 4 },
+      { name: 'Portugal', code: 'pt', flag: '🇵🇹', tier: 2 },
+      { name: 'Colombia', code: 'co', flag: '🇨🇴', tier: 3 },
+      { name: 'Uzbekistan', code: 'uz', flag: '🇺🇿', tier: 4 },
+      { name: 'DR Congo', code: 'cd', flag: '🇨🇩', tier: 4 },
     ],
   },
   {
     letter: 'L',
     teams: [
-      { name: 'England', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', tier: 1 },
-      { name: 'Croatia', flag: '🇭🇷', tier: 3 },
-      { name: 'Ghana', flag: '🇬🇭', tier: 4 },
-      { name: 'Panama', flag: '🇵🇦', tier: 4 },
+      { name: 'England', code: 'gb-eng', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', tier: 1 },
+      { name: 'Croatia', code: 'hr', flag: '🇭🇷', tier: 3 },
+      { name: 'Ghana', code: 'gh', flag: '🇬🇭', tier: 4 },
+      { name: 'Panama', code: 'pa', flag: '🇵🇦', tier: 4 },
     ],
   },
 ];

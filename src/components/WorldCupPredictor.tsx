@@ -10,6 +10,7 @@ import {
   boldnessLabel,
   boldnessScore,
 } from '@/data/worldCup2026';
+import Flag from '@/components/Flag';
 
 type Stage = 'groups' | 'semis' | 'final' | 'champion' | 'lockin' | 'results';
 
@@ -231,7 +232,7 @@ export default function WorldCupPredictor() {
                                 : 'bg-white text-navy/75 border border-gray-100 hover:border-navy/30 hover:text-navy'
                             }`}
                           >
-                            <span className="text-lg leading-none">{t.flag}</span>
+                            <Flag code={t.code} size="md" className="shrink-0" />
                             <span className="truncate">{t.name}</span>
                           </button>
                         );
@@ -284,7 +285,7 @@ export default function WorldCupPredictor() {
                           SF
                         </span>
                       )}
-                      <span className="text-3xl leading-none">{t.flag}</span>
+                      <Flag code={t.code} size="lg" />
                       <span className="text-center leading-tight">{team}</span>
                     </button>
                   );
@@ -335,7 +336,7 @@ export default function WorldCupPredictor() {
                           FINAL
                         </span>
                       )}
-                      <span className="text-4xl leading-none">{t.flag}</span>
+                      <Flag code={t.code} size="lg" />
                       <span className="text-center leading-tight">{team}</span>
                     </button>
                   );
@@ -382,7 +383,7 @@ export default function WorldCupPredictor() {
                         <span className={`text-2xl transition-opacity ${picked ? 'opacity-100' : 'opacity-0'}`}>
                           🏆
                         </span>
-                        <span className="text-6xl leading-none">{t.flag}</span>
+                        <Flag code={t.code} size="xl" />
                         <span
                           style={bebas}
                           className={`text-2xl tracking-wider ${picked ? 'text-navy' : 'text-navy/60'}`}
@@ -425,7 +426,7 @@ export default function WorldCupPredictor() {
               )}
 
               <StickyBar
-                progress={champion ? `${ALL_TEAMS[champion].flag} ${champion} to win it all` : 'Pick your champion'}
+                progress={champion ? `🏆 ${champion} to win it all` : 'Pick your champion'}
                 ready={!!champion}
                 cta="Lock In My Prediction →"
                 onNext={() => setStage('lockin')}
@@ -438,7 +439,9 @@ export default function WorldCupPredictor() {
           {stage === 'lockin' && (
             <motion.div key="lockin" {...stepMotion} className="max-w-md mx-auto">
               <div className="text-center mb-8">
-                <div className="text-5xl mb-4">{champion ? ALL_TEAMS[champion].flag : '🏆'}</div>
+                <div className="mb-4">
+                  {champion ? <Flag code={ALL_TEAMS[champion].code} size="xl" /> : <span className="text-5xl">🏆</span>}
+                </div>
                 <h3 style={bebas} className="text-navy text-4xl sm:text-5xl tracking-wide mb-3">
                   Lock in your prediction
                 </h3>
@@ -512,14 +515,14 @@ export default function WorldCupPredictor() {
                 <p className="text-[#B8821F] text-xs font-bold uppercase tracking-[3px] mb-2">
                   {name ? `${name.split(' ')[0]}’s` : 'Your'} official prediction
                 </p>
-                <h3 style={bebas} className="text-navy text-5xl sm:text-7xl tracking-wide leading-none">
-                  {ALL_TEAMS[champion].flag} {champion}
+                <h3 style={bebas} className="text-navy text-5xl sm:text-7xl tracking-wide leading-none flex items-center justify-center gap-3 flex-wrap">
+                  <Flag code={ALL_TEAMS[champion].code} size="xl" /> {champion}
                 </h3>
                 <p className="text-gray text-lg mt-2">
                   2026 World Cup Champions
                   {runnerUp && (
                     <>
-                      {' '}— {finalScore ? `${finalScore} ` : ''}over {ALL_TEAMS[runnerUp].flag} {runnerUp}
+                      {' '}— {finalScore ? `${finalScore} ` : ''}over <Flag code={ALL_TEAMS[runnerUp].code} size="sm" /> {runnerUp}
                     </>
                   )}
                 </p>
@@ -570,7 +573,7 @@ export default function WorldCupPredictor() {
                           : 'border-gray-200 text-gray'
                       }`}
                     >
-                      {ALL_TEAMS[f.name].flag} {f.name} {f.odds}
+                      <Flag code={ALL_TEAMS[f.name].code} size="sm" /> {f.name} {f.odds}
                     </span>
                   ))}
                 </div>
@@ -592,7 +595,7 @@ export default function WorldCupPredictor() {
                       key={t}
                       className="px-3 py-1.5 rounded-full text-sm font-semibold bg-gray-50 border border-gray-200 text-navy"
                     >
-                      {ALL_TEAMS[t].flag} {t}
+                      <Flag code={ALL_TEAMS[t].code} size="sm" /> {t}
                     </span>
                   ))}
                 </div>
@@ -610,7 +613,7 @@ export default function WorldCupPredictor() {
                         <span style={bebas} className="text-gray-400 text-xs tracking-[2px]">
                           GRP {g.letter}
                         </span>
-                        <span className="text-2xl leading-none">{t.flag}</span>
+                        <Flag code={t.code} size="md" />
                         <span className="text-navy/80 text-[11px] font-semibold text-center leading-tight">
                           {t.name}
                         </span>

@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useState } from 'react';
 import { ALL_TEAMS } from '@/data/worldCup2026';
+import Flag from '@/components/Flag';
 
 type PickStatus = 'correct' | 'wrong' | 'pending';
 
@@ -114,12 +115,12 @@ export default function WorldCupPredictionWall() {
                       </button>
                     </td>
                     <td className="px-3 py-3 text-navy whitespace-nowrap">
-                      {ALL_TEAMS[e.champion]?.flag} {e.champion}
+                      <Flag code={ALL_TEAMS[e.champion]?.code} size="sm" /> {e.champion}
                       {(() => {
                         const runnerUp = e.detail.finalists.find((f) => f.team !== e.champion)?.team;
                         return e.finalScore && runnerUp ? (
                           <span className="text-gray font-normal text-xs">
-                            {' '}{e.finalScore} {ALL_TEAMS[runnerUp]?.flag}
+                            {' '}{e.finalScore} <Flag code={ALL_TEAMS[runnerUp]?.code} size="sm" />
                           </span>
                         ) : null;
                       })()}
@@ -137,7 +138,7 @@ export default function WorldCupPredictionWall() {
                           <div className="flex flex-wrap items-center gap-2">
                             <span className="text-gray text-xs font-bold uppercase tracking-wider w-24 shrink-0">Champion</span>
                             <span className={`inline-flex items-center gap-1.5 border rounded-full px-3 py-1.5 text-sm font-bold ${STATUS_STYLES[e.detail.champion.status]}`}>
-                              🏆 {ALL_TEAMS[e.detail.champion.team]?.flag} {e.detail.champion.team}
+                              🏆 <Flag code={ALL_TEAMS[e.detail.champion.team]?.code} size="sm" /> {e.detail.champion.team}
                               <StatusIcon status={e.detail.champion.status} />
                             </span>
                             {e.finalScore && (
@@ -148,7 +149,7 @@ export default function WorldCupPredictionWall() {
                             <span className="text-gray text-xs font-bold uppercase tracking-wider w-24 shrink-0">The Final</span>
                             {e.detail.finalists.map((f) => (
                               <span key={f.team} className={`inline-flex items-center gap-1.5 border rounded-full px-3 py-1.5 text-sm font-semibold ${STATUS_STYLES[f.status]}`}>
-                                {ALL_TEAMS[f.team]?.flag} {f.team}
+                                <Flag code={ALL_TEAMS[f.team]?.code} size="sm" /> {f.team}
                                 <StatusIcon status={f.status} />
                               </span>
                             ))}
@@ -157,7 +158,7 @@ export default function WorldCupPredictionWall() {
                             <span className="text-gray text-xs font-bold uppercase tracking-wider w-24 shrink-0">Final Four</span>
                             {e.detail.semis.map((s) => (
                               <span key={s.team} className={`inline-flex items-center gap-1.5 border rounded-full px-3 py-1.5 text-sm font-semibold ${STATUS_STYLES[s.status]}`}>
-                                {ALL_TEAMS[s.team]?.flag} {s.team}
+                                <Flag code={ALL_TEAMS[s.team]?.code} size="sm" /> {s.team}
                                 <StatusIcon status={s.status} />
                               </span>
                             ))}
@@ -168,7 +169,7 @@ export default function WorldCupPredictionWall() {
                               {e.detail.groups.map((g) => (
                                 <span key={g.letter} className={`inline-flex items-center gap-1 border rounded-full px-2.5 py-1 text-xs font-semibold ${STATUS_STYLES[g.status]}`}>
                                   <span className="text-gray-400 font-bold">{g.letter}:</span>
-                                  {ALL_TEAMS[g.pick]?.flag} {g.pick}
+                                  <Flag code={ALL_TEAMS[g.pick]?.code} size="sm" /> {g.pick}
                                   <StatusIcon status={g.status} />
                                 </span>
                               ))}
