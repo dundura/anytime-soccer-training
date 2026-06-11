@@ -88,14 +88,18 @@ export default function WorldCupPredictor() {
     setError('');
     setSubmitting(true);
     try {
-      const championSlug = champion.toLowerCase().replace(/[^a-z]+/g, '-');
-      const res = await fetch('/api/ghl-contact', {
+      const res = await fetch('https://api.anytime-soccer.com/api/public/world-cup-prediction', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name,
           email,
-          tags: ['world-cup-predictor-2026', `wc26-champion-${championSlug}`],
+          groupPicks,
+          semis,
+          finalists,
+          champion,
+          finalScore,
+          boldness: boldnessScore(winners, semis, finalists, champion),
         }),
       });
       if (!res.ok) throw new Error();
@@ -521,7 +525,7 @@ export default function WorldCupPredictor() {
               <div className="max-w-lg mx-auto flex items-center justify-center gap-2 bg-[#F4C04D]/15 border border-[#F4C04D]/50 rounded-full px-5 py-2.5 mb-8 text-center">
                 <span>🎁</span>
                 <p className="text-[#8A6210] text-sm font-semibold">
-                  Your free 7-day training plan is on its way to your inbox.
+                  Your results + free 7-day training plan are on their way to your inbox.
                 </p>
               </div>
 
