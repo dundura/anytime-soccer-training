@@ -45,16 +45,16 @@ export default function WorldCupPredictorPage() {
                 48 teams. 12 groups. One champion. Build your bracket in 60
                 seconds and get your Boldness Score.
               </p>
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start lg:flex-nowrap gap-3">
                 <a
                   href="#predictor"
-                  className="inline-block bg-red hover:bg-red-dark text-white px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)]"
+                  className="inline-block whitespace-nowrap bg-red hover:bg-red-dark text-white px-7 py-4 rounded-full font-bold text-base lg:text-lg transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)]"
                 >
                   Make My Prediction 🏆
                 </a>
                 <a
                   href="#leaderboard"
-                  className="inline-block bg-white hover:bg-gray-50 text-navy border border-gray-200 shadow-sm px-10 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-0.5"
+                  className="inline-block whitespace-nowrap bg-white hover:bg-gray-50 text-navy border border-gray-200 shadow-sm px-7 py-4 rounded-full font-bold text-base lg:text-lg transition-all hover:-translate-y-0.5"
                 >
                   Live Leaderboard 🏅
                 </a>
