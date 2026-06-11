@@ -418,9 +418,9 @@ export default function WorldCupPredictor() {
                 </h3>
                 <p className="text-white/65 text-base">
                   Enter your name and email to seal your bracket and see your
-                  Boldness Score. We&apos;ll also send you a free week-one World Cup
-                  training session so your player can train like the pros they&apos;re
-                  watching.
+                  Boldness Score — plus get a <strong className="text-white">free 7-day
+                  training plan</strong> so your player can train like the pros
+                  they&apos;re watching this month.
                 </p>
               </div>
               <form onSubmit={submit} className="space-y-3">
@@ -465,7 +465,7 @@ export default function WorldCupPredictor() {
                   ← Back
                 </button>
                 <p className="text-white/35 text-xs text-center pt-1">
-                  No spam — just your results and a few World Cup training ideas. Unsubscribe anytime.
+                  No spam — just your results and your free 7-day training plan. Unsubscribe anytime.
                 </p>
               </form>
             </motion.div>
@@ -496,6 +496,14 @@ export default function WorldCupPredictor() {
                       {' '}— {finalScore ? `${finalScore} ` : ''}over {ALL_TEAMS[runnerUp].flag} {runnerUp}
                     </>
                   )}
+                </p>
+              </div>
+
+              {/* Plan confirmation */}
+              <div className="max-w-lg mx-auto flex items-center justify-center gap-2 bg-[#F4C04D]/10 border border-[#F4C04D]/30 rounded-full px-5 py-2.5 mb-8 text-center">
+                <span>🎁</span>
+                <p className="text-[#F4C04D] text-sm font-semibold">
+                  Your free 7-day training plan is on its way to your inbox.
                 </p>
               </div>
 

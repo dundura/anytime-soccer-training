@@ -4,7 +4,7 @@ import WorldCupPredictor from '@/components/WorldCupPredictor';
 export const metadata: Metadata = {
   title: 'World Cup 2026 Predictor — Pick Your Champion',
   description:
-    'Predict the 2026 World Cup: pick all 12 group winners, your final four, and your champion. Get your Boldness Score and see how you stack up against the bookies. Free.',
+    'Predict the 2026 World Cup: pick all 12 group winners, your final four, and your champion. Get your Boldness Score plus a free 7-day soccer training plan.',
   openGraph: {
     title: 'World Cup 2026 Predictor — Pick Your Champion',
     description:
@@ -58,7 +58,7 @@ export default function WorldCupPredictorPage() {
               </a>
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-8 gap-y-2 mt-8 text-white/50 text-sm font-semibold">
                 <span>⚡ Takes about a minute</span>
-                <span>🆓 100% free</span>
+                <span>🎁 Free 7-day training plan</span>
                 <span>📊 Compare with the bookies</span>
               </div>
             </div>
