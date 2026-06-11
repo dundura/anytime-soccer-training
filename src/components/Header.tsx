@@ -15,6 +15,7 @@ const trainingDropdown = [
 ];
 
 const resourcesDropdown: { href: string; label: string; external?: boolean }[] = [
+  { href: '/world-cup-predictor', label: '🏆 World Cup Predictor' },
   { href: '/free-resource-hub', label: 'Free Resources' },
   { href: '/blog', label: 'Blog' },
   { href: '/podcast', label: 'Podcast' },
