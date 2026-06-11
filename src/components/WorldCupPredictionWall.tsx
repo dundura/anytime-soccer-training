@@ -77,7 +77,7 @@ export default function WorldCupPredictionWall() {
       </div>
 
       {board.entries.length > 0 && (
-        <div className="max-w-3xl mx-auto overflow-hidden rounded-2xl border border-gray-200">
+        <div className="max-w-3xl mx-auto overflow-x-auto rounded-2xl border border-gray-200">
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-navy text-white">
@@ -114,7 +114,7 @@ export default function WorldCupPredictionWall() {
                         {e.name} {expanded === i ? '▴' : '▾'}
                       </button>
                     </td>
-                    <td className="px-3 py-3 text-navy whitespace-nowrap">
+                    <td className="px-3 py-3 text-navy whitespace-normal sm:whitespace-nowrap">
                       <Flag code={ALL_TEAMS[e.champion]?.code} size="sm" /> {e.champion}
                       {(() => {
                         const runnerUp = e.detail.finalists.find((f) => f.team !== e.champion)?.team;
@@ -133,8 +133,8 @@ export default function WorldCupPredictionWall() {
                   </tr>
                   {expanded === i && (
                     <tr>
-                      <td colSpan={6} className="bg-[#F8FAFD] px-4 py-5 border-t border-gray-100">
-                        <div className="space-y-4">
+                      <td colSpan={6} className="bg-[#F8FAFD] px-3 sm:px-4 py-5 border-t border-gray-100">
+                        <div className="space-y-4 max-w-full">
                           <div className="flex flex-wrap items-center gap-2">
                             <span className="text-gray text-xs font-bold uppercase tracking-wider w-24 shrink-0">Champion</span>
                             <span className={`inline-flex items-center gap-1.5 border rounded-full px-3 py-1.5 text-sm font-bold ${STATUS_STYLES[e.detail.champion.status]}`}>
