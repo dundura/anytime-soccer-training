@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import WorldCupPredictor from '@/components/WorldCupPredictor';
-import WorldCupPredictionWall from '@/components/WorldCupPredictionWall';
+import WorldCupTabs from '@/components/WorldCupTabs';
 import WorldCupHeroHeadline from '@/components/WorldCupHeroHeadline';
 
 export const metadata: Metadata = {
@@ -81,17 +80,10 @@ export default function WorldCupPredictorPage() {
         </div>
       </section>
 
-      {/* Predictor */}
+      {/* Predictor + Live Leaderboard tabs */}
       <section className="py-10 md:py-16 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <WorldCupPredictor />
-        </div>
-      </section>
-
-      {/* Public prediction board */}
-      <section id="leaderboard" className="pb-10 md:pb-16 bg-background scroll-mt-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <WorldCupPredictionWall />
+          <WorldCupTabs />
         </div>
       </section>
 
