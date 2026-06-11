@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import WorldCupPredictor from '@/components/WorldCupPredictor';
 import WorldCupPredictionWall from '@/components/WorldCupPredictionWall';
+import WorldCupHeroHeadline from '@/components/WorldCupHeroHeadline';
 
 export const metadata: Metadata = {
   title: 'World Cup 2026 Predictor — Pick Your Champion',
@@ -39,14 +40,7 @@ export default function WorldCupPredictorPage() {
                 </span>
                 The World Cup kicks off today — June 11, 2026
               </div>
-              <h1
-                style={bebas}
-                className="text-6xl sm:text-7xl md:text-8xl text-navy leading-[0.9] tracking-wide mb-5"
-              >
-                Predict the
-                <br />
-                <span className="text-red">2026 World Cup</span>
-              </h1>
+              <WorldCupHeroHeadline />
               <p className="text-gray text-xl md:text-2xl font-semibold max-w-2xl mx-auto lg:mx-0 mb-8">
                 48 teams. 12 groups. One champion. Build your bracket in 60
                 seconds and get your Boldness Score.
