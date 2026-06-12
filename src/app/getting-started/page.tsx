@@ -19,12 +19,6 @@ const accountSteps = [
     tip: 'Have a team code? Make sure to enter it during registration to unlock your team\'s training videos.',
   },
   {
-    title: 'Add a Player Profile',
-    content: (
-      <>Add a <span className="text-red font-semibold">player profile</span> for your child. You can add up to 4 players per account.</>
-    ),
-  },
-  {
     title: 'Verify Your Email',
     content: (
       <>Open the <span className="text-red font-semibold">Welcome Email</span> and click <span className="text-red font-semibold">&ldquo;Verify Address&rdquo;</span>.</>
@@ -34,7 +28,13 @@ const accountSteps = [
   {
     title: 'Log In',
     content: (
-      <>Log in with <span className="text-red font-semibold">Single Sign-On</span> using your email and password.</>
+      <>Log in using your <span className="text-red font-semibold">email and password</span>.</>
+    ),
+  },
+  {
+    title: 'Add a Player Profile',
+    content: (
+      <>Add a <span className="text-red font-semibold">player profile</span> for your child. You can add up to 4 players per account.</>
     ),
   },
 ];
@@ -86,9 +86,8 @@ export default function GettingStartedPage() {
             <p className="text-xs font-bold text-[#94a3b8] uppercase tracking-widest mb-3">In this guide</p>
             <ol className="space-y-2 list-none m-0 p--0">
               {[
-                { num: '1', id: 'overview-video', title: 'Getting Started Overview Video' },
-                { num: '2', id: 'create-account', title: 'Step 1: Create Your Account' },
-                { num: '3', id: 'join-team', title: 'Step 2: Join Your Team' },
+                { num: '1', id: 'create-account', title: 'Step 1: Create Your Account' },
+                { num: '2', id: 'join-team', title: 'Step 2: Join Your Team' },
               ].map(({ num, id, title }) => (
                 <li key={id}>
                   <a href={`#${id}`} className="flex items-start gap-3 group no-underline">
@@ -103,21 +102,6 @@ export default function GettingStartedPage() {
               ))}
             </ol>
           </nav>
-        </div>
-      </section>
-
-      {/* VIDEO */}
-      <section id="overview-video" className="pb-6 bg-background scroll-mt-6">
-        <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(15,49,84,0.1)] bg-black">
-            <iframe
-              src="https://www.youtube.com/embed/Vd2IkI3bQdM"
-              title="Getting Started with Anytime Soccer Training"
-              className="w-full aspect-video border-none block"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
         </div>
       </section>
 
