@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Flag from '@/components/Flag';
 
 type Round = { round: number; name: string; start: string; end: string; keep: number };
-type Row = { childId: number; screenname: string; seedRank: number; mins: number; vids: number; country?: string | null; countryName?: string | null };
+type Row = { childId: number; screenname: string; seedRank: number; mins: number; vids: number; country?: string | null; countryName?: string | null; teamName?: string | null };
 type Eliminated = { childId: number; screenname: string; eliminatedRound: number; mins: number | null; vids: number | null; finishRank: number | null; country?: string | null; countryName?: string | null };
 
 type Standings = {
@@ -98,6 +98,7 @@ export default function AstWorldCupBracket({ highlightChildId }: { highlightChil
               <tr className="bg-navy text-white">
                 <th style={bebas} className="px-3 py-3 text-left text-base tracking-[2px] font-normal w-12">#</th>
                 <th style={bebas} className="px-3 py-3 text-left text-base tracking-[2px] font-normal">Player</th>
+                <th style={bebas} className="px-3 py-3 text-left text-base tracking-[2px] font-normal hidden sm:table-cell">Team</th>
                 <th style={bebas} className="px-3 py-3 text-right text-base tracking-[2px] font-normal w-24">Minutes</th>
                 <th style={bebas} className="px-3 py-3 text-right text-base tracking-[2px] font-normal w-20">Videos</th>
               </tr>
@@ -118,12 +119,13 @@ export default function AstWorldCupBracket({ highlightChildId }: { highlightChil
                       <td className="px-3 py-2.5 text-navy truncate max-w-[200px]">
                         {s.country ? <span title={s.countryName || s.country}><Flag code={s.country} size="sm" /></span> : null} {s.screenname}{isMe ? ' (you)' : ''}
                       </td>
+                      <td className="px-3 py-2.5 text-gray text-xs truncate max-w-[150px] hidden sm:table-cell">{s.teamName || ''}</td>
                       <td style={bebas} className="px-3 py-2.5 text-right text-navy text-lg">{s.mins}</td>
                       <td className="px-3 py-2.5 text-right text-gray">{s.vids}</td>
                     </tr>
                     {round && i === round.keep - 1 && i < standings.length - 1 && (
                       <tr key={`cut-${s.childId}`}>
-                        <td colSpan={4} className="bg-red/10 text-red text-[11px] font-bold uppercase tracking-wider text-center py-1">
+                        <td colSpan={5} className="bg-red/10 text-red text-[11px] font-bold uppercase tracking-wider text-center py-1">
                           ── top {round.keep} advance ──
                         </td>
                       </tr>
