@@ -35,7 +35,7 @@ export default function AstWorldCupPage() {
                 The AST <span className="text-red">World Cup</span>
               </h1>
               <p className="text-gray text-xl font-semibold max-w-2xl mx-auto">
-                Our Top 100 trainers — plus 50 weekly wildcards — battle through World
+                Our Top 100 players — plus 50 weekly wildcards — battle through World
                 Cup–style rounds, ranked by minutes trained, champion crowned July 19.
               </p>
             </div>
