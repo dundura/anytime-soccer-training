@@ -9,11 +9,11 @@ export const metadata: Metadata = {
     title: 'AST World Cup 2026 — Live Bracket & Standings',
     description:
       '100 players. One champion. Live standings ranked by training time, June 15 – July 19.',
-    images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1781177188897-n58b0a.png' }],
+    images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1781235168346-h0tgzm.png' }],
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1781177188897-n58b0a.png'],
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1781235168346-h0tgzm.png'],
   },
 };
 
