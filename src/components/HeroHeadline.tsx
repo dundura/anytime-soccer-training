@@ -13,7 +13,7 @@ const CYCLE = 4.5;
 
 export default function HeroHeadline() {
   return (
-    <h1 className="text-[clamp(48px,6vw,72px)] font-extrabold leading-[1.1] mb-5">
+    <h1 className="text-[clamp(44px,5.5vw,64px)] font-extrabold leading-[1.1] mb-5">
       {phrases.map((phrase, i) => (
         <motion.span
           key={i}
