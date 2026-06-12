@@ -10,11 +10,11 @@ export const metadata: Metadata = {
     title: 'World Cup 2026 Predictor — Pick Your Champion',
     description:
       'Pick all 12 group winners, your final four, and your 2026 World Cup champion. Get your Boldness Score — free.',
-    images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1781177188897-n58b0a.png' }],
+    images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/og-1781287477328-predictor.jpg' }],
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1781177188897-n58b0a.png'],
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/og-1781287477328-predictor.jpg'],
   },
 };
 
