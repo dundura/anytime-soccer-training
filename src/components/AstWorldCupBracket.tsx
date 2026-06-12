@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Flag from '@/components/Flag';
 
 type Round = { round: number; name: string; start: string; end: string; keep: number };
-type Row = { childId: number; screenname: string; seedRank: number; mins: number; vids: number };
-type Eliminated = { childId: number; screenname: string; eliminatedRound: number; mins: number | null; vids: number | null; finishRank: number | null };
+type Row = { childId: number; screenname: string; seedRank: number; mins: number; vids: number; country?: string | null; countryName?: string | null };
+type Eliminated = { childId: number; screenname: string; eliminatedRound: number; mins: number | null; vids: number | null; finishRank: number | null; country?: string | null; countryName?: string | null };
 
 type Standings = {
   rounds: Round[];
@@ -13,7 +14,7 @@ type Standings = {
   round: Round | null;
   standings: Row[];
   eliminated: Eliminated[];
-  champion: { childId: number; screenname: string; mins: number; vids: number } | null;
+  champion: { childId: number; screenname: string; mins: number; vids: number; country?: string | null; countryName?: string | null } | null;
   totalParticipants: number;
   activeParticipants: number;
 };
@@ -71,7 +72,7 @@ export default function AstWorldCupBracket({ highlightChildId }: { highlightChil
         <div className="text-center mb-10">
           <div className="text-7xl mb-3">🏆</div>
           <p className="text-[#B8821F] text-xs font-bold uppercase tracking-[3px] mb-2">2026 AST World Cup Champion</p>
-          <h3 style={bebas} className="text-navy text-5xl sm:text-7xl tracking-wide">{champion.screenname}</h3>
+          <h3 style={bebas} className="text-navy text-5xl sm:text-7xl tracking-wide flex items-center justify-center gap-3 flex-wrap">{champion.country ? <Flag code={champion.country} size="xl" /> : null} {champion.screenname}</h3>
           <p className="text-gray mt-2">{champion.mins} minutes trained in the final</p>
         </div>
       )}
@@ -114,8 +115,8 @@ export default function AstWorldCupBracket({ highlightChildId }: { highlightChil
                       <td style={bebas} className={`px-3 py-2.5 text-base ${i < 3 ? 'text-red' : 'text-gray-400'}`}>
                         {i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}
                       </td>
-                      <td className="px-3 py-2.5 text-navy truncate max-w-[180px]">
-                        {s.screenname}{isMe ? ' (you)' : ''}
+                      <td className="px-3 py-2.5 text-navy truncate max-w-[200px]">
+                        {s.country ? <span title={s.countryName || s.country}><Flag code={s.country} size="sm" /></span> : null} {s.screenname}{isMe ? ' (you)' : ''}
                       </td>
                       <td style={bebas} className="px-3 py-2.5 text-right text-navy text-lg">{s.mins}</td>
                       <td className="px-3 py-2.5 text-right text-gray">{s.vids}</td>
@@ -147,8 +148,8 @@ export default function AstWorldCupBracket({ highlightChildId }: { highlightChil
                 <p className="text-navy/60 text-xs font-bold text-center mb-2">{rounds[rn]?.name}</p>
                 <div className="flex flex-wrap justify-center gap-1.5">
                   {eliminatedByRound[rn].map((e) => (
-                    <span key={e.childId} className="bg-gray-50 border border-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray">
-                      {e.screenname}{e.mins != null ? ` · ${e.mins}m` : ''}
+                    <span key={e.childId} className="inline-flex items-center gap-1.5 bg-gray-50 border border-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray">
+                      {e.country ? <Flag code={e.country} size="sm" /> : null} {e.screenname}{e.mins != null ? ` · ${e.mins}m` : ''}
                     </span>
                   ))}
                 </div>
