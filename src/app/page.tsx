@@ -20,9 +20,6 @@ export default function HomePage() {
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
-                  <span>&#9889;</span> <span className="text-red">5,000+</span> Follow-Along Videos
-                </div>
                 <HeroHeadline />
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
                   Structured follow-along soccer videos for players who want to improve — and coaches who want to see it happen.
