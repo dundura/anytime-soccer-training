@@ -19,6 +19,7 @@ const resourcesDropdown: { href: string; label: string; external?: boolean }[] =
   { href: '/free-resource-hub', label: 'Free Resources' },
   { href: '/blog', label: 'Blog' },
   { href: '/podcast', label: 'Podcast' },
+  { href: '/follow-us', label: 'Follow Us' },
   { href: '/our-picks', label: 'Our Picks' },
   { href: '/merch', label: 'Merch' },
   { href: 'https://app.anytime-soccer.com/leaderboard', label: 'Leaderboard' },
