@@ -52,9 +52,6 @@ export default function HowItWorksPage() {
                   <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
                     Join for Free &rarr;
                   </Link>
-                  <Link href="/for-coaches" className="bg-transparent text-white border-2 border-white/60 px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
-                    For Coaches &rarr;
-                  </Link>
                 </div>
               </div>
               <div className="relative">
