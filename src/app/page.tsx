@@ -18,13 +18,13 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-navy rounded-3xl px-6 py-16 md:px-12 md:py-20 relative overflow-hidden">
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
-            <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div className="grid md:grid-cols-2 gap-16 items-start">
               <div className="relative z-10">
                 <HeroHeadline />
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
                   Structured programs, expert-led follow-along videos, and coach-assigned homework — everything your player needs to reach the next level.
                 </p>
-                <div className="flex flex-wrap gap-4 mb-10">
+                <div className="flex flex-wrap gap-4">
                   <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
                     Start Training Free <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
                   </Link>
@@ -32,7 +32,10 @@ export default function HomePage() {
                     Request Team Demo
                   </Link>
                 </div>
-                <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap">
+              </div>
+              <div className="relative">
+                <HeroVideo />
+                <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap mt-4">
                   <div className="flex items-center gap-2.5">
                     <div className="flex gap-0.5">
                       {[1,2,3,4].map((i) => (
@@ -48,9 +51,6 @@ export default function HomePage() {
                     in 80+ countries worldwide
                   </div>
                 </div>
-              </div>
-              <div className="relative">
-                <HeroVideo />
               </div>
             </div>
           </div>
