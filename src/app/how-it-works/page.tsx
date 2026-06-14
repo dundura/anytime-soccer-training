@@ -39,7 +39,7 @@ export default function HowItWorksPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-navy rounded-3xl px-6 py-16 md:px-12 md:py-20 relative overflow-hidden">
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
-            <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div className="grid md:grid-cols-2 gap-16 items-start">
               <div className="relative z-10">
                 <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
                   <span>&#9889;</span> <span className="text-red">5,000+</span> Follow-Along Videos
@@ -51,7 +51,7 @@ export default function HowItWorksPage() {
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
                   Your player needs a clear system they can follow at home. We&apos;ve made it simple: set a goal, pin a plan, press play.
                 </p>
-                <div className="flex flex-wrap gap-4 mb-10">
+                <div className="flex flex-wrap gap-4">
                   <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
                     Join for Free &rarr;
                   </Link>
@@ -62,7 +62,17 @@ export default function HowItWorksPage() {
                     For Coaches &rarr;
                   </Link>
                 </div>
-                <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap">
+              </div>
+              <div className="relative">
+                {/* Assign Homework - above video */}
+                <div className="hidden lg:flex mb-4 justify-end">
+                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s', animationDelay: '1.5s' }}>
+                    <div className="w-11 h-11 rounded-xl bg-[rgba(15,49,84,0.1)] flex items-center justify-center text-xl">&#128202;</div>
+                    <div className="text-sm text-gray"><strong className="text-navy block">Assign Homework</strong>Coaches monitor training</div>
+                  </div>
+                </div>
+                <AutoplayYouTube videoId="fkHIe88Cwqo" title="How Anytime Soccer Training Works" />
+                <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap mt-4">
                   <div className="flex items-center gap-2.5">
                     <div className="flex gap-0.5">
                       {[1,2,3,4].map((i) => (
@@ -76,23 +86,6 @@ export default function HowItWorksPage() {
                   <div className="text-sm text-white/60">
                     <strong className="text-white block">Trusted by 50,000+ players</strong>
                     in 80+ countries worldwide
-                  </div>
-                </div>
-              </div>
-              <div className="relative">
-                {/* Assign Homework - above video */}
-                <div className="hidden lg:flex mb-4 justify-end">
-                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s', animationDelay: '1.5s' }}>
-                    <div className="w-11 h-11 rounded-xl bg-[rgba(15,49,84,0.1)] flex items-center justify-center text-xl">&#128202;</div>
-                    <div className="text-sm text-gray"><strong className="text-navy block">Assign Homework</strong>Coaches monitor training</div>
-                  </div>
-                </div>
-                <AutoplayYouTube videoId="fkHIe88Cwqo" title="How Anytime Soccer Training Works" />
-                {/* Track Progress - below video */}
-                <div className="hidden lg:flex mt-4 justify-start">
-                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
-                    <div className="w-11 h-11 rounded-xl bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-xl">&#10003;</div>
-                    <div className="text-sm text-gray"><strong className="text-navy block">Track Progress</strong>See every completed session</div>
                   </div>
                 </div>
               </div>
