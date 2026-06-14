@@ -22,7 +22,7 @@ export default function HomePage() {
               <div className="relative z-10">
                 <HeroHeadline />
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
-                  Structured follow-along soccer videos for players who want to improve — and coaches who want to see it happen.
+                  Structured programs, expert-led videos, and coach-assigned homework — everything your player needs to reach the next level.
                 </p>
                 <div className="flex flex-wrap gap-4 mb-10">
                   <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
@@ -50,21 +50,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="relative">
-                {/* Assign Homework - above video */}
-                <div className="hidden lg:flex mb-4 justify-end">
-                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s', animationDelay: '1.5s' }}>
-                    <div className="w-11 h-11 rounded-xl bg-[rgba(15,49,84,0.1)] flex items-center justify-center text-xl">&#128202;</div>
-                    <div className="text-sm text-gray"><strong className="text-navy block">Assign Homework</strong>Coaches monitor training</div>
-                  </div>
-                </div>
                 <HeroVideo />
-                {/* Track Progress - below video */}
-                <div className="hidden lg:flex mt-4 justify-start">
-                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
-                    <div className="w-11 h-11 rounded-xl bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-xl">&#10003;</div>
-                    <div className="text-sm text-gray"><strong className="text-navy block">Track Progress</strong>See every completed session</div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
