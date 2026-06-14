@@ -11,6 +11,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.anytime-soccer.com"),
   title: {
     default: "Anytime Soccer Training | #1 Soccer Training App",
     template: "%s | Anytime Soccer Training",
