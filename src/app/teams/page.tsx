@@ -47,6 +47,8 @@ const TEAM_PAGES = [
   { title: 'CFC Girls Academy (2013 & 2012)', slug: 'cfc-girls-academy-getting-started', aliases: ['2013 Girls Academy', '2012 Girls Academy', 'CFC 2013', 'CFC 2012'] },
   { title: 'Spokane Legacy', slug: 'spokane-legacy-getting-started', aliases: ['Spokane Legacy GU10 Pink', 'Spokane Legacy GU11', 'Spokane Legacy GU10 Purple'] },
   { title: 'MVP FC', slug: 'mvp-fc-getting-started' },
+  { title: 'Pacific FC 14G', slug: 'pacific-fc-14g-getting-started', aliases: ['Pacific FC 09B Blue/Gold', 'Pacific FC 09B'] },
+  { title: 'Pacific FC 09B Blue/Gold', slug: 'pacific-fc-14g-getting-started' },
 ];
 
 const PARENT_GUIDES = [
