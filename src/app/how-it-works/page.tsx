@@ -41,12 +41,12 @@ export default function HowItWorksPage() {
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
             <div className="grid md:grid-cols-2 gap-16 items-start">
               <div className="relative z-10">
-<h1 className="text-[clamp(40px,5vw,56px)] font-extrabold leading-[1.1] mb-5">
-                  <span className="text-white">Team Training Isn&apos;t</span>{' '}
-                  <span className="text-red animate-pulse" style={{ animationDuration: '2s' }}>Enough</span>
+                <h1 className="text-[clamp(40px,5vw,56px)] font-extrabold leading-[1.1] mb-5">
+                  <span className="text-white">Your Player Is Only Getting Better</span>{' '}
+                  <span className="text-red">2 Hours a Week.</span>
                 </h1>
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
-                  Your player needs a clear system they can follow at home. We&apos;ve made it simple: set a goal, pin a plan, press play.
+                  Team practice isn&apos;t enough to develop elite skills. AST gives players a structured home training system so they improve every day — not just on the field.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
