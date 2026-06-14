@@ -8,6 +8,19 @@ export const metadata: Metadata = {
 
 export default function ComparePage() {
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "VideoObject",
+          "name": "Free Anytime Soccer Training Session",
+          "description": "Watch a full follow-along Anytime Soccer Training session. Unlike YouTube, every session includes timers, demos, and structured progression.",
+          "thumbnailUrl": "https://img.youtube.com/vi/0hjcAaHnUic/maxresdefault.jpg",
+          "embedUrl": "https://www.youtube.com/embed/0hjcAaHnUic",
+          "uploadDate": "2024-01-01",
+        }) }}
+      />
     <div className="ast-comparison">
       {/* Header */}
       <div className="ast-comparison-header">
@@ -95,5 +108,6 @@ export default function ComparePage() {
         </a>
       </div>
     </div>
+    </>
   );
 }

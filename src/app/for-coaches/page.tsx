@@ -20,6 +20,18 @@ const reviews = [
 export default function ForCoachesPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "VideoObject",
+          "name": "Coach Review of Anytime Soccer Training",
+          "description": "A real coach's review of Anytime Soccer Training — how it helps teams assign homework, track progress, and develop players between practices.",
+          "thumbnailUrl": "https://img.youtube.com/vi/LOv6Jbk8Bac/maxresdefault.jpg",
+          "embedUrl": "https://www.youtube.com/embed/LOv6Jbk8Bac",
+          "uploadDate": "2024-01-01",
+        }) }}
+      />
       {/* HERO: Copy Left, Video Right */}
       <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

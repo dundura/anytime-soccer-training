@@ -5,3 +5,4 @@ User-agent: facebookexternalhit
 Allow: /
 
 Sitemap: https://www.anytime-soccer.com/sitemap.xml
+Sitemap: https://www.anytime-soccer.com/sitemap-video.xml

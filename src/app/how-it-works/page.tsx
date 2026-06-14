@@ -34,6 +34,18 @@ const skillCategories = [
 export default function HowItWorksPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "VideoObject",
+          "name": "How Anytime Soccer Training Works",
+          "description": "See how players use Anytime Soccer Training to follow structured programs at home. Set a goal, pin a plan, press play.",
+          "thumbnailUrl": "https://img.youtube.com/vi/fkHIe88Cwqo/maxresdefault.jpg",
+          "embedUrl": "https://www.youtube.com/embed/fkHIe88Cwqo",
+          "uploadDate": "2024-01-01",
+        }) }}
+      />
       {/* HERO SECTION */}
       <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
