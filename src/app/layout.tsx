@@ -17,6 +17,9 @@ export const metadata: Metadata = {
     template: "%s | Anytime Soccer Training",
   },
   description: "5,000+ follow-along soccer training videos. Players follow step-by-step videos to get better fast. Coaches assign and track homework.",
+  verification: {
+    google: "v_EsnPWgePWCDUXfM-gqwV6SUTDx_hnnh5XIws01rnI",
+  },
 };
 
 export default function RootLayout({
