@@ -64,14 +64,7 @@ export default function HowItWorksPage() {
                 </div>
               </div>
               <div className="relative">
-                {/* Assign Homework - above video */}
-                <div className="hidden lg:flex mb-4 justify-end">
-                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s', animationDelay: '1.5s' }}>
-                    <div className="w-11 h-11 rounded-xl bg-[rgba(15,49,84,0.1)] flex items-center justify-center text-xl">&#128202;</div>
-                    <div className="text-sm text-gray"><strong className="text-navy block">Assign Homework</strong>Coaches monitor training</div>
-                  </div>
-                </div>
-                <AutoplayYouTube videoId="fkHIe88Cwqo" title="How Anytime Soccer Training Works" />
+<AutoplayYouTube videoId="fkHIe88Cwqo" title="How Anytime Soccer Training Works" />
                 <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap mt-4">
                   <div className="flex items-center gap-2.5">
                     <div className="flex gap-0.5">
