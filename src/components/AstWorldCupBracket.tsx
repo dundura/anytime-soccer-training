@@ -286,8 +286,8 @@ export default function AstWorldCupBracket({ highlightChildId }: { highlightChil
                 <th style={bebas} className="px-3 py-3 text-left text-base tracking-[2px] font-normal w-12">#</th>
                 <th style={bebas} className="px-3 py-3 text-left text-base tracking-[2px] font-normal">Player</th>
                 <th style={bebas} className="px-3 py-3 text-left text-base tracking-[2px] font-normal hidden sm:table-cell">Team</th>
-                <th style={bebas} className="px-3 py-3 text-right text-base tracking-[2px] font-normal w-24">Minutes</th>
-                <th style={bebas} className="px-3 py-3 text-right text-base tracking-[2px] font-normal w-20">Videos</th>
+                <th style={bebas} className="px-2 sm:px-3 py-3 text-right text-sm sm:text-base tracking-[2px] font-normal w-16 sm:w-24">Min</th>
+                <th style={bebas} className="px-2 sm:px-3 py-3 text-right text-sm sm:text-base tracking-[2px] font-normal w-14 sm:w-20">Vids</th>
               </tr>
             </thead>
             <tbody>
@@ -309,8 +309,8 @@ export default function AstWorldCupBracket({ highlightChildId }: { highlightChil
                         {s.country ? <span title={s.countryName || s.country}><Flag code={s.country} size="sm" /></span> : null} {s.screenname}{isMe ? ' (you)' : ''}
                       </td>
                       <td className="px-3 py-2.5 text-gray text-xs truncate max-w-[150px] hidden sm:table-cell">{s.teamName || ''}</td>
-                      <td style={bebas} className="px-3 py-2.5 text-right text-navy text-lg">{s.mins}</td>
-                      <td className="px-3 py-2.5 text-right text-gray">{s.vids}</td>
+                      <td style={bebas} className="px-3 py-2.5 text-right text-navy text-sm sm:text-lg">{s.mins}</td>
+                      <td className="px-3 py-2.5 text-right text-gray text-xs sm:text-sm">{s.vids}</td>
                     </tr>
                     {round && i === round.keep - 1 && i < standings.length - 1 && (
                       <tr key={`cut-${s.childId}`}>
