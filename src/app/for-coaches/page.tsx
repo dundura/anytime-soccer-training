@@ -4,7 +4,6 @@ import { AutoplayYouTube } from '@/components/AutoplayYouTube';
 import CoachFeatureCards from '@/components/CoachFeatureCards';
 import WhoIsItForTabs from '@/components/WhoIsItForTabs';
 import CoachBar from '@/components/CoachBar';
-import CoachHeadline from '@/components/CoachHeadline';
 
 export const metadata: Metadata = {
   title: 'For Coaches & Clubs',
@@ -39,11 +38,13 @@ export default function ForCoachesPage() {
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
             <div className="grid md:grid-cols-2 gap-16 items-start">
               <div className="relative z-10">
-                <CoachHeadline />
+                <h1 className="text-[clamp(44px,5.5vw,64px)] font-extrabold leading-[1.1] mb-5 text-white">
+                  The Complete Soccer Training Platform for Coaches
+                </h1>
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
-                  Team training alone isn&apos;t enough. Players need structured practice at home—but most clubs struggle to assign homework and track if it&apos;s actually getting done.
+                  Assign structured homework, track every session, and give your players a system to improve at home — so your team shows up to practice ready to work.
                 </p>
-                <div className="flex flex-wrap gap-4 mb-10">
+                <div className="flex flex-wrap gap-4">
                   <a
                     href="https://anytime-soccer.com/team-demo-request-anytime-soccer-training/"
                     className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center gap-2"
@@ -51,7 +52,10 @@ export default function ForCoachesPage() {
                     Request Team Demo →
                   </a>
                 </div>
-                <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap">
+              </div>
+              <div className="relative">
+                <AutoplayYouTube videoId="LOv6Jbk8Bac" title="Coach AST Review" />
+                <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap mt-4">
                   <div className="flex items-center gap-2.5">
                     <div className="flex gap-0.5">
                       {[1,2,3,4].map((i) => (
@@ -67,9 +71,6 @@ export default function ForCoachesPage() {
                     in 80+ countries worldwide
                   </div>
                 </div>
-              </div>
-              <div className="relative">
-                <AutoplayYouTube videoId="LOv6Jbk8Bac" title="Coach AST Review" />
               </div>
             </div>
           </div>
