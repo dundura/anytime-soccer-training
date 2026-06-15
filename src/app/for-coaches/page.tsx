@@ -2,7 +2,6 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { AutoplayYouTube } from '@/components/AutoplayYouTube';
 import CoachFeatureCards from '@/components/CoachFeatureCards';
-import CoachBar from '@/components/CoachBar';
 
 export const metadata: Metadata = {
   title: 'For Coaches & Clubs',
@@ -75,9 +74,6 @@ export default function ForCoachesPage() {
           </div>
         </div>
       </section>
-
-      {/* COACH BAR */}
-      <CoachBar />
 
       {/* FEATURE CARDS WITH VIDEOS */}
       <CoachFeatureCards />
