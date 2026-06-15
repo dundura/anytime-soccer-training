@@ -45,10 +45,9 @@ export default function CoachFeatureCards() {
   const [active, setActive] = useState(0);
 
   return (
-    <section className="py-16 px-5 bg-white">
+    <section className="pt-8 pb-16 px-5 bg-white">
       <div className="max-w-[1100px] mx-auto">
         <div className="text-center mb-10">
-          <span className="text-xs font-bold uppercase tracking-[2px] text-red block mb-3">For Clubs and Teams</span>
           <h2 className="text-[clamp(24px,4vw,36px)] font-extrabold text-navy leading-tight max-w-3xl mx-auto uppercase tracking-tight">
             Your Players Are Going Home With<br /><span className="text-red">No Plan</span>
           </h2>
