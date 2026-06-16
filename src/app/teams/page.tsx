@@ -50,6 +50,7 @@ const TEAM_PAGES = [
   { title: 'Pacific FC 14G', slug: 'pacific-fc-14g-getting-started', aliases: ['Pacific FC 09B Blue/Gold', 'Pacific FC 09B'] },
   { title: 'Pacific FC 09B Blue/Gold', slug: 'pacific-fc-14g-getting-started' },
   { title: 'PFC Tsunami 14G', slug: 'pfc-tsunami-14g-getting-started' },
+  { title: 'Pacific FC 14G Lightning', slug: 'pacific-fc-14g-lightning-getting-started' },
 ];
 
 const PARENT_GUIDES = [
