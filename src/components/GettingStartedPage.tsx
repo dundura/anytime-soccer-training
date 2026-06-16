@@ -85,7 +85,7 @@ export default function GettingStartedPage({ teamName, teamCode, contactName, co
           {/* Step 1: Create Your Account */}
           <CollapsibleStep number="1" title="Create Your Account" defaultOpen>
             <Step num={1}>
-              Visit <a href="https://app.anytime-soccer.com" target="_blank" rel="noopener noreferrer" className="text-red font-semibold no-underline hover:underline">app.anytime-soccer.com</a>
+              Visit <a href="https://www.anytime-soccer.com/" target="_blank" rel="noopener noreferrer" className="text-red font-semibold no-underline hover:underline">app.anytime-soccer.com</a>
             </Step>
             <Step num={2}>
               Click <span className="text-red font-semibold">&ldquo;Join for Free&rdquo;</span> and fill out the registration form with your player&apos;s information.
@@ -98,7 +98,7 @@ export default function GettingStartedPage({ teamName, teamCode, contactName, co
               <Tip>Don&apos;t see it? Check your spam or junk folder!</Tip>
             </Step>
             <Step num={5}>
-              Log in at <a href="https://app.anytime-soccer.com" target="_blank" rel="noopener noreferrer" className="text-red font-semibold no-underline hover:underline">app.anytime-soccer.com</a> with your email and password.
+              Log in at <a href="https://www.anytime-soccer.com/" target="_blank" rel="noopener noreferrer" className="text-red font-semibold no-underline hover:underline">app.anytime-soccer.com</a> with your email and password.
             </Step>
             <VideoButton url="https://www.youtube.com/watch?v=Vd2IkI3bQdM" />
           </CollapsibleStep>
@@ -141,7 +141,7 @@ export default function GettingStartedPage({ teamName, teamCode, contactName, co
           {/* Bonus: Already Have an Account */}
           <CollapsibleStep number="+" title="Already Have an Account?">
             <Step num={1}>
-              Sign in at <a href="https://app.anytime-soccer.com" target="_blank" rel="noopener noreferrer" className="text-red font-semibold no-underline hover:underline">app.anytime-soccer.com</a>
+              Sign in at <a href="https://www.anytime-soccer.com/" target="_blank" rel="noopener noreferrer" className="text-red font-semibold no-underline hover:underline">app.anytime-soccer.com</a>
             </Step>
             <Step num={2}>
               Go to <span className="text-red font-semibold">&ldquo;Account Management&rdquo;</span> in your settings.
