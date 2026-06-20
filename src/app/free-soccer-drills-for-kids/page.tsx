@@ -260,7 +260,13 @@ export default function FreeSoccerDrillsPage() {
   min-height: 500px;
   position: relative;
   margin-top: 0;
-  overflow: hidden;
+  overflow: visible;
+}
+
+@media (max-width: 800px) {
+  .ast-7day-landing-form-container {
+    min-height: 650px;
+  }
 }
 
 .ast-7day-landing-form-container iframe {
