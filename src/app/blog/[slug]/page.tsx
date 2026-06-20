@@ -43,18 +43,28 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) return { title: 'Post Not Found' };
+  const description = post.excerpt
+    ? post.excerpt.length > 160 ? post.excerpt.substring(0, 157) + '...' : post.excerpt
+    : getExcerpt(post.content, 160);
+  const url = `https://www.anytime-soccer.com/blog/${slug}`;
   return {
     title: post.title,
-    description: getExcerpt(post.content, 160),
+    description,
+    alternates: { canonical: url },
     openGraph: {
+      type: 'article',
+      url,
       title: post.title,
-      description: getExcerpt(post.content, 160),
+      description,
+      siteName: 'Anytime Soccer Training',
+      publishedTime: post.date,
+      tags: post.tags,
       images: post.featuredImage ? [{ url: post.featuredImage, width: 1200, height: 630, alt: post.title }] : [],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
-      description: getExcerpt(post.content, 160),
+      description,
       images: post.featuredImage ? [post.featuredImage] : [],
     },
   };
@@ -167,6 +177,40 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       {post.content.includes('id="sbc-reg"') && (
         <Script src="/js/soccer-budget-calc.js" strategy="afterInteractive" />
       )}
+
+      {/* JSON-LD Article schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: post.title,
+            description: post.excerpt || getExcerpt(post.content, 160),
+            image: post.featuredImage || '',
+            datePublished: post.date,
+            dateModified: post.date,
+            author: {
+              '@type': 'Person',
+              name: 'Neil Crawford',
+              url: 'https://www.anytime-soccer.com',
+            },
+            publisher: {
+              '@type': 'Organization',
+              name: 'Anytime Soccer Training',
+              logo: {
+                '@type': 'ImageObject',
+                url: 'https://www.anytime-soccer.com/logo.png',
+              },
+            },
+            mainEntityOfPage: {
+              '@type': 'WebPage',
+              '@id': `https://www.anytime-soccer.com/blog/${slug}`,
+            },
+            keywords: post.tags.join(', '),
+          }),
+        }}
+      />
     </article>
   );
 }
