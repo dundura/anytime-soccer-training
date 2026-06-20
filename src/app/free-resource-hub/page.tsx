@@ -17,7 +17,7 @@ const TRAINING_PLANS = [
   {
     title: '7-Day Training Plan',
     description: 'See results in just one week. Short daily sessions your player can do in 10 minutes or less.',
-    image: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/about/new-chalange-image.png',
+    image: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1781997394178-uu34qz.png',
     href: '/blog/free-7-day-soccer-skills-challenge',
     cta: 'Get Free Plan',
   },
