@@ -131,7 +131,7 @@ export default function FreeResourceHubPage() {
               href={TRAINING_PLANS[0].href}
               className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all flex flex-col"
             >
-              <div className="w-full aspect-[16/10] rounded-t-2xl overflow-hidden bg-[#ecf1f7] flex items-center justify-center">
+              <div className="w-full aspect-[16/10] rounded-t-2xl overflow-hidden bg-white flex items-center justify-center p-6">
                 <img src={TRAINING_PLANS[0].image!} alt={TRAINING_PLANS[0].title} className="w-full h-full object-contain" />
               </div>
               <div className="p-8 flex flex-col flex-1 justify-center">
