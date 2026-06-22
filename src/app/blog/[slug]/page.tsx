@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Script from 'next/script';
 import type { Metadata } from 'next';
 import { getPostBySlug, getAllSlugs, formatDate, getExcerpt } from '@/lib/posts';
+import { InternalLinkBlock } from '@/components/internal-link-block';
 
 function slugify(text: string): string {
   return text
@@ -154,6 +155,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </div>
           )}
         </div>
+
+        {/* Internal links */}
+        <InternalLinkBlock categories={post.categories} />
 
         {/* CTA */}
         <div className="mt-6 bg-navy text-white rounded-none sm:rounded-2xl p-6 sm:p-8 text-center">
