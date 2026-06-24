@@ -44,6 +44,7 @@ const TEAM_PAGES = [
   { title: 'ULETE FC', slug: 'ulete-fc-getting-started' },
   { title: 'NPSL', slug: 'getting-started-npsl' },
   { title: 'Red Bluff FC', slug: 'red-bluff-fc-getting-started' },
+  { title: 'Wilson Tigers', slug: 'wilson-tigers-getting-started' },
   { title: 'CFC Girls Academy (2013 & 2012)', slug: 'cfc-girls-academy-getting-started', aliases: ['2013 Girls Academy', '2012 Girls Academy', 'CFC 2013', 'CFC 2012'] },
   { title: 'Spokane Legacy', slug: 'spokane-legacy-getting-started', aliases: ['Spokane Legacy GU10 Pink', 'Spokane Legacy GU11', 'Spokane Legacy GU10 Purple'] },
   { title: 'MVP FC', slug: 'mvp-fc-getting-started' },
