@@ -92,9 +92,8 @@ export default function HowItWorksPage() {
 
       {/* HOW EASY IT IS - 3 STEPS */}
       <section className="bg-background pt-4 pb-16 md:pb-20">
-        <div className="max-w-[1200px] mx-auto px-5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <span className="text-[11px] font-bold uppercase tracking-[2px] text-red mb-4 block">IT&apos;S THIS SIMPLE</span>
             <h2 className="text-[clamp(28px,4vw,42px)] font-bold text-navy">Three Steps to Better Training</h2>
           </div>
 
@@ -146,10 +145,9 @@ export default function HowItWorksPage() {
       </section>
 
       {/* SKILL CATEGORIES */}
-      <section className="bg-background pt-4 pb-16 md:pb-20">
-        <div className="max-w-[1200px] mx-auto px-5">
+      <section className="bg-background pt-2 pb-16 md:pb-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <span className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-4 block">Training Categories</span>
             <h2 className="text-[clamp(28px,4vw,42px)] font-bold text-navy">Master Every Aspect of the Game</h2>
           </div>
 
@@ -185,7 +183,7 @@ export default function HowItWorksPage() {
 
       {/* FEATURED TRAINING */}
       <section className="pt-4 pb-16 md:pb-20">
-        <div className="max-w-[1200px] mx-auto px-5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
             <span className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-4 block">Featured Training</span>
             <h2 className="text-[clamp(28px,4vw,42px)] font-bold text-navy">Training Session of the Month</h2>
@@ -223,21 +221,6 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* FINAL CTA */}
-      <section className="bg-gradient-to-b from-background to-white py-16 md:py-20 text-center">
-        <div className="max-w-[700px] mx-auto px-5">
-          <h2 className="text-[clamp(28px,4vw,42px)] font-bold text-navy mb-5">Ready to Transform Training?</h2>
-          <p className="text-xl text-[#64748b] mb-8">
-            Join 50,000+ players in 80+ countries who train smarter, not harder.
-          </p>
-          <Link
-            href="/pricing"
-            className="inline-block font-bold text-lg px-10 py-4 rounded-full bg-red text-white! no-underline shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:bg-red-dark hover:-translate-y-0.5 transition-all"
-          >
-            Start Training Free →
-          </Link>
-        </div>
-      </section>
     </>
   );
 }
