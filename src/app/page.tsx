@@ -90,7 +90,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== FREE PLAN ===== */}
-      <section className="pt-2 pb-20 bg-background">
+      <section className="pt-0 pb-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link href="/free-training-plan">
             <img
