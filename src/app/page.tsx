@@ -122,9 +122,18 @@ export default function HomePage() {
       {/* ===== MUST-HAVE RESOURCES ===== */}
       <section className="pt-0 pb-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/must-have-guide-for-serious-soccer-parents">
+          {/* Desktop */}
+          <Link href="/must-have-guide-for-serious-soccer-parents" className="hidden md:block">
             <img
               src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1782427564879-gjwl70.png"
+              alt="The Must-Have Guide to In-Home Soccer Training"
+              className="w-full rounded-3xl object-cover"
+            />
+          </Link>
+          {/* Mobile */}
+          <Link href="/must-have-guide-for-serious-soccer-parents" className="block md:hidden">
+            <img
+              src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1782427775223-7varxo.png"
               alt="The Must-Have Guide to In-Home Soccer Training"
               className="w-full rounded-3xl object-cover"
             />
