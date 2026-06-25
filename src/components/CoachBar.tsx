@@ -7,7 +7,7 @@ export default function CoachBar() {
         {/* Desktop: image */}
         <Link href="/team-demo-request-anytime-soccer-training" className="hidden md:block">
           <img
-            src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1782411287448-5m1o37.png"
+            src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1782412430309-a9r98x.png"
             alt="Built for Coaches & Clubs"
             className="w-full rounded-2xl object-cover"
           />
