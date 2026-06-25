@@ -45,7 +45,7 @@ export default function CoachTabbedSection() {
   const [active, setActive] = useState(0);
 
   return (
-    <section className="pt-0 pb-20 bg-background">
+    <section className="pt-0 pb-10 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
           <div className="text-center mb-10">
