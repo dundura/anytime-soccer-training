@@ -107,6 +107,22 @@ export default function FreeTrainingPlanPage() {
               </div>
               <div className="relative">
                 <AutoplayYouTube videoId="LOv6Jbk8Bac" title="Coach AST Review" />
+                <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap mt-4">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex gap-0.5">
+                      {[1,2,3,4].map((i) => (
+                        <span key={i} className="inline-flex items-center justify-center w-6 h-6 bg-[#00b67a] text-white text-xs rounded-[3px]">&#9733;</span>
+                      ))}
+                      <span className="inline-flex items-center justify-center w-6 h-6 bg-gradient-to-r from-[#00b67a] from-50% to-[#dcdce6] to-50% text-white text-xs rounded-[3px]">&#9733;</span>
+                    </div>
+                    <span className="text-sm font-semibold text-white">4.9 (9,651)</span>
+                  </div>
+                  <div className="w-px h-8 bg-white/20 hidden sm:block" />
+                  <div className="text-sm text-white/60">
+                    <strong className="text-white block">Trusted by 50,000+ players</strong>
+                    in 80+ countries worldwide
+                  </div>
+                </div>
               </div>
             </div>
           </div>
