@@ -91,7 +91,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* HOW EASY IT IS - 3 STEPS */}
-      <section className="bg-background pt-4 pb-16 md:pb-20">
+      <section className="bg-background pt-0 pb-16 md:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
             <h2 className="text-[clamp(28px,4vw,42px)] font-bold text-navy">Three Steps to Better Training</h2>
