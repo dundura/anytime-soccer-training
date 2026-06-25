@@ -145,9 +145,9 @@ export default function HowItWorksPage() {
       </section>
 
       {/* SKILL CATEGORIES */}
-      <section className="bg-background pt-2 pb-16 md:pb-20">
+      <section className="bg-background pt-0 pb-16 md:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
+          <div className="text-center mb-8">
             <h2 className="text-[clamp(28px,4vw,42px)] font-bold text-navy">Master Every Aspect of the Game</h2>
           </div>
 
