@@ -92,15 +92,23 @@ export default function HomePage() {
       {/* ===== FREE PLAN ===== */}
       <section className="pt-0 pb-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Desktop */}
-          <Link href="/free-training-plan" className="hidden md:block">
+          {/* Desktop (≥1024px) */}
+          <Link href="/free-training-plan" className="hidden lg:block">
             <img
               src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1782426160544-n0oxuw.png"
               alt="Get a Free Customized Training Plan"
               className="w-full rounded-2xl object-cover"
             />
           </Link>
-          {/* Mobile */}
+          {/* Tablet (768px–1023px) */}
+          <Link href="/free-training-plan" className="hidden md:block lg:hidden">
+            <img
+              src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1782427019300-ejxeps.png"
+              alt="Get a Free Customized Training Plan"
+              className="w-full rounded-2xl object-cover"
+            />
+          </Link>
+          {/* Mobile (<768px) */}
           <Link href="/free-training-plan" className="block md:hidden">
             <img
               src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1782426880135-n9fv0c.png"
