@@ -54,8 +54,8 @@ export default function HowItWorksPage() {
             <div className="grid md:grid-cols-2 gap-16 items-start">
               <div className="relative z-10">
                 <h1 className="text-[clamp(40px,5vw,56px)] font-extrabold leading-[1.1] mb-5">
-                  <span className="text-white">Your Player Is Only Getting Better</span>{' '}
-                  <span className="text-white">2 Hours a Week.</span>
+                  <span className="text-white">Your Player Wants to Be Great.</span>{' '}
+                  <span className="text-white">Two Hours a Week Won&apos;t Get Them There.</span>
                 </h1>
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
                   Team practice isn&apos;t enough to develop elite skills. AST gives players a structured home training system so they improve every day — not just on the field.
