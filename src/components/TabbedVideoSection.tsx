@@ -26,7 +26,7 @@ export default function TabbedVideoSection({ title, subtitle, hideCta, compact }
   const tab = TABS[active];
 
   return (
-    <section className={compact ? "pt-0 pb-0" : "pt-0 pb-20 bg-background"}>
+    <section className={compact ? "pt-0 pb-0" : "pt-0 pb-10 bg-background"}>
       <div className={compact ? "" : "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"}>
         <div className={compact ? "" : "bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]"}>
           {/* Mobile: heading + 2-col grid tabs */}
