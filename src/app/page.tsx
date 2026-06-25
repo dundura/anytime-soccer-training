@@ -89,37 +89,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== 30-DAY PLAN ===== */}
+      {/* ===== FREE PLAN ===== */}
       <section className="pt-6 pb-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-navy text-center mb-4 uppercase tracking-tight">
-            <span className="text-red">Must-Have Resources for</span> Serious Soccer Parents
-          </h2>
-          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="rounded-2xl overflow-hidden">
-                <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1778974402995-sa4a36.png" alt="Free Plan Builder" className="w-full object-cover block max-h-[200px] md:max-h-[400px]" />
-              </div>
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[2px] text-red mb-3">Not Sure Where to Start?</p>
-                <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-4">GET A FREE CUSTOMIZED TRAINING PLAN FOR YOUR PLAYER</h3>
-                <p className="text-gray mb-6">Pick your skill areas, set your schedule, and get a custom PDF plan emailed to you in 60 seconds.</p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start gap-3">
-                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                    <strong className="text-navy">A personalized training schedule based on your player&apos;s skill level.</strong>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-5 h-5 bg-[rgba(16,185,129,0.15)] text-[#10b981] rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">&#10003;</span>
-                    <strong className="text-navy">Step-by-step videos — just hit play and train.</strong>
-                  </li>
-                </ul>
-                <Link href="/free-training-plan" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center gap-2">
-                  Build Free Plan &rarr;
-                </Link>
-              </div>
-            </div>
-          </div>
+          <Link href="/free-training-plan">
+            <img
+              src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1782426160544-n0oxuw.png"
+              alt="Get a Free Customized Training Plan"
+              className="w-full rounded-2xl object-cover"
+            />
+          </Link>
         </div>
       </section>
 
