@@ -68,7 +68,7 @@ export default function HomePage() {
 
       {/* ===== REVIEWS ===== */}
       <section className="pt-0 pb-20 bg-background">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-extrabold text-navy text-center mb-12 uppercase tracking-tight">Our Reviews</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -91,7 +91,7 @@ export default function HomePage() {
 
       {/* ===== 30-DAY PLAN ===== */}
       <section className="pt-6 pb-20 bg-background">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-extrabold text-navy text-center mb-4 uppercase tracking-tight">
             <span className="text-red">Must-Have Resources for</span> Serious Soccer Parents
           </h2>
@@ -125,7 +125,7 @@ export default function HomePage() {
 
       {/* ===== MUST-HAVE RESOURCES ===== */}
       <section className="pt-0 pb-20 bg-background">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-0 mt-0 rounded-3xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)] min-h-[480px]">
             <div className="relative">
               <img src="https://media.anytime-soccer.com/wp-content/themes/anytime/images/home/bg-1.png" alt="In-home Soccer Training Guide" className="w-full h-full object-cover" />
@@ -155,7 +155,7 @@ export default function HomePage() {
 
       {/* ===== THREE EBOOKS ===== */}
       <section className="pt-0 pb-20 bg-background">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-extrabold text-navy text-center mb-12 uppercase tracking-tight">Three Ebooks Every Parent and Coach Should Read!</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[

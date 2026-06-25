@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function CoachBar() {
   return (
     <div className="bg-background pb-4 -mt-8">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-navy rounded-2xl py-6 px-6 md:px-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
           <img
             src="https://media.anytime-soccer.com/wp-content/uploads/2026/03/pacific_quote_photo.png"
