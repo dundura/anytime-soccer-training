@@ -122,30 +122,13 @@ export default function HomePage() {
       {/* ===== MUST-HAVE RESOURCES ===== */}
       <section className="pt-0 pb-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-0 mt-0 rounded-3xl overflow-hidden shadow-[0_10px_40px_rgba(15,49,84,0.12)] min-h-[480px]">
-            <div className="relative">
-              <img src="https://media.anytime-soccer.com/wp-content/themes/anytime/images/home/bg-1.png" alt="In-home Soccer Training Guide" className="w-full h-full object-cover" />
-            </div>
-            <div className="bg-[#ECF1F7] p-10 md:p-14 lg:p-16 flex flex-col justify-center relative overflow-hidden">
-              {/* Decorative circles */}
-              <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full border-2 border-navy/10 pointer-events-none" />
-              <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full border-2 border-navy/5 pointer-events-none" />
-              <div className="absolute -bottom-12 -left-12 w-40 h-40 rounded-full border-2 border-navy/10 pointer-events-none" />
-              <div className="absolute -bottom-6 -left-6 w-24 h-24 rounded-full border-2 border-navy/5 pointer-events-none" />
-
-              <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold uppercase leading-tight mb-6 relative z-10">
-                <span className="text-navy">THE MUST-HAVE GUIDE </span>
-                <span className="text-red">TO IN-HOME SOCCER TRAINING</span>
-              </h3>
-              <p className="text-navy/70 text-lg mb-8 relative z-10">A free ebook packed with practical tips from a passionate soccer parent and coach.</p>
-              <div className="relative z-10">
-                <Link href="/must-have-guide-for-serious-soccer-parents" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:-translate-y-0.5 inline-flex items-center gap-3">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  Download Free Guide
-                </Link>
-              </div>
-            </div>
-          </div>
+          <Link href="/must-have-guide-for-serious-soccer-parents">
+            <img
+              src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1782427564879-gjwl70.png"
+              alt="The Must-Have Guide to In-Home Soccer Training"
+              className="w-full rounded-3xl object-cover"
+            />
+          </Link>
         </div>
       </section>
 
