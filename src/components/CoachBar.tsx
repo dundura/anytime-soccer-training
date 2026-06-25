@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function CoachBar() {
   return (
-    <div className="bg-background pb-4 -mt-8">
+    <div className="bg-background pb-4 -mt-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Desktop (≥1024px) */}
         <Link href="/team-demo-request-anytime-soccer-training" className="hidden lg:block">

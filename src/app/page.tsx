@@ -14,7 +14,7 @@ export default function HomePage() {
       <PopupManager />
       <SaleBannerStrip />
       {/* ===== HERO ===== */}
-      <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">
+      <section className="pt-6 pb-16 md:pt-8 md:pb-10 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-navy rounded-3xl px-6 py-16 md:px-12 md:py-20 relative overflow-hidden">
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
