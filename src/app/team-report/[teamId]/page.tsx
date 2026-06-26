@@ -878,15 +878,15 @@ export default function TeamReportPage() {
   const [howToFilter, setHowToFilter] = useState<string | null>(null);
   const [expandedStep, setExpandedStep] = useState<string | null>(null);
 
-  const fetchTeams = useCallback(async (ids: number[], p = "alltime") => {
+  const fetchTeams = useCallback(async (ids: number[], p = "alltime", initialLoad = false) => {
     if (!ids.length) return;
-    setLoading(true);
+    if (initialLoad) setLoading(true);
     try {
       const res = await fetch(`${API}?teams=${ids.join(",")}&period=${p}`);
       const data = await res.json();
       setTeams(data.teams || []);
     } catch (e) { console.error(e); }
-    setLoading(false);
+    if (initialLoad) setLoading(false);
   }, []);
 
   // Init: resolve slug/ID from URL, plus any ?add= params
