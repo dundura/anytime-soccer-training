@@ -155,8 +155,8 @@ function SlugEditor({ team, onUpdate }: { team: Team; onUpdate: (slug: string) =
 const DEFAULT_WEEKLY_PLAN: string[][] = [
   ["hasHomework", "hasPersonalGoal"],
   ["demoApp", "sendEmailReminder"],
-  [],
-  [],
+  ["hasContest", "hasChallenge"],
+  ["setLevelGoal", ""],
 ];
 
 const COACH_TASKS = [
@@ -182,39 +182,50 @@ type GoalsPanelProps = {
 };
 
 function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
-  const [saving, setSaving] = useState<number | null>(null);
+  const [saving, setSaving] = useState<Record<number, boolean>>({});
   const [localGoals, setLocalGoals] = useState<Record<number, LocalGoal>>(() => Object.fromEntries(teams.map(t => [t.teamId, {
     participationGoal: t.participationGoal != null ? String(t.participationGoal) : "",
     videosPerPlayerGoal: t.videosPerPlayerGoal != null ? String(t.videosPerPlayerGoal) : "",
     weeklyPlan: t.coachWeeklyPlan?.length === 4 ? t.coachWeeklyPlan : DEFAULT_WEEKLY_PLAN.map(w => [...w]),
   }])));
+  const saveTimers = useCallback(() => ({} as Record<number, ReturnType<typeof setTimeout>>), [])();
+
+  const autoSave = (teamId: number, g: LocalGoal) => {
+    clearTimeout(saveTimers[teamId]);
+    saveTimers[teamId] = setTimeout(async () => {
+      setSaving(prev => ({ ...prev, [teamId]: true }));
+      const body: Record<string, unknown> = { coachWeeklyPlan: g.weeklyPlan };
+      if (g.participationGoal !== "") body.participationGoal = parseInt(g.participationGoal);
+      if (g.videosPerPlayerGoal !== "") body.videosPerPlayerGoal = parseInt(g.videosPerPlayerGoal);
+      try {
+        await fetch(`${API}/${teamId}/goal`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+        onUpdate(teamId, {
+          participationGoal: g.participationGoal !== "" ? parseInt(g.participationGoal) : null,
+          videosPerPlayerGoal: g.videosPerPlayerGoal !== "" ? parseInt(g.videosPerPlayerGoal) : null,
+          coachWeeklyPlan: g.weeklyPlan,
+        });
+      } catch {}
+      setSaving(prev => ({ ...prev, [teamId]: false }));
+    }, 800);
+  };
 
   const setTask = (teamId: number, week: number, slot: number, val: string) => {
     setLocalGoals(prev => {
       const plan = prev[teamId].weeklyPlan.map(w => [...w]);
       while (plan[week].length <= slot) plan[week].push("");
       plan[week][slot] = val;
-      if (!val) plan[week] = plan[week].filter(Boolean);
-      return { ...prev, [teamId]: { ...prev[teamId], weeklyPlan: plan } };
+      const updated = { ...prev, [teamId]: { ...prev[teamId], weeklyPlan: plan } };
+      autoSave(teamId, updated[teamId]);
+      return updated;
     });
   };
 
-  const save = async (t: Team) => {
-    const g = localGoals[t.teamId];
-    if (!g) return;
-    setSaving(t.teamId);
-    const body: Record<string, unknown> = { coachWeeklyPlan: g.weeklyPlan };
-    if (g.participationGoal !== "") body.participationGoal = parseInt(g.participationGoal);
-    if (g.videosPerPlayerGoal !== "") body.videosPerPlayerGoal = parseInt(g.videosPerPlayerGoal);
-    try {
-      await fetch(`${API}/${t.teamId}/goal`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-      onUpdate(t.teamId, {
-        participationGoal: g.participationGoal !== "" ? parseInt(g.participationGoal) : null,
-        videosPerPlayerGoal: g.videosPerPlayerGoal !== "" ? parseInt(g.videosPerPlayerGoal) : null,
-        coachWeeklyPlan: g.weeklyPlan,
-      });
-    } catch {}
-    setSaving(null);
+  const setNumericGoal = (teamId: number, field: "participationGoal" | "videosPerPlayerGoal", val: string) => {
+    setLocalGoals(prev => {
+      const updated = { ...prev, [teamId]: { ...prev[teamId], [field]: val } };
+      autoSave(teamId, updated[teamId]);
+      return updated;
+    });
   };
 
   const downloadPdf = (teamId: number) => {
@@ -233,11 +244,8 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                 <div className="font-black text-navy">{t.teamName}</div>
                 <div className="text-xs text-gray-400 mt-0.5">Current participation: <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span></div>
               </div>
-              <div className="flex gap-2">
-                <button onClick={() => save(t)} disabled={saving === t.teamId}
-                  className="text-sm font-bold bg-navy text-white px-4 py-2 rounded-xl disabled:opacity-50 hover:bg-navy/90 transition-colors">
-                  {saving === t.teamId ? "Saving…" : "Save Goals"}
-                </button>
+              <div className="flex items-center gap-3">
+                {saving[t.teamId] && <span className="text-xs text-navy/40 italic">Saving…</span>}
                 <button onClick={() => downloadPdf(t.teamId)}
                   className="text-sm font-bold border-2 border-navy text-navy px-4 py-2 rounded-xl hover:bg-navy/5 transition-colors">
                   ↓ PDF
@@ -251,7 +259,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                 <label className="text-xs font-bold text-navy/50 uppercase tracking-wide block mb-1">Participation Goal</label>
                 <div className="flex items-center gap-1">
                   <input type="number" min="0" max="100" value={g.participationGoal}
-                    onChange={e => setLocalGoals(prev => ({ ...prev, [t.teamId]: { ...prev[t.teamId], participationGoal: e.target.value } }))}
+                    onChange={e => setNumericGoal(t.teamId, "participationGoal", e.target.value)}
                     className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-20 focus:outline-none focus:border-navy" placeholder="—" />
                   <span className="text-sm font-bold text-navy">%</span>
                 </div>
@@ -260,7 +268,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                 <label className="text-xs font-bold text-navy/50 uppercase tracking-wide block mb-1">Avg Videos / Player / Month</label>
                 <div className="flex items-center gap-1">
                   <input type="number" min="0" value={g.videosPerPlayerGoal}
-                    onChange={e => setLocalGoals(prev => ({ ...prev, [t.teamId]: { ...prev[t.teamId], videosPerPlayerGoal: e.target.value } }))}
+                    onChange={e => setNumericGoal(t.teamId, "videosPerPlayerGoal", e.target.value)}
                     className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-20 focus:outline-none focus:border-navy" placeholder="—" />
                   <span className="text-sm text-navy/50">videos</span>
                 </div>
