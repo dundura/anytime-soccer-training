@@ -795,8 +795,10 @@ export default function TeamReportPage() {
 
   const changeTab = (t: Tab) => {
     setTab(t);
+    setShowGoals(false);
+    setShowHowTo(false);
     const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0);
-    router.replace(buildParams(addedIds, seedId, { tab: t === "Overview" ? "" : t }), { scroll: false });
+    router.replace(buildParams(addedIds, seedId, { tab: t === "Overview" ? "" : t, view: "" }), { scroll: false });
   };
 
   return (
