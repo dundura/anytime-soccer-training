@@ -957,7 +957,7 @@ export default function TeamReportPage() {
             { key: "contest", badge: "+", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Create a Team Contest", type: "opt",
               how: "Set up a season-long leaderboard contest with a prize for the top trainer — pizza party, gear, or a team trophy.",
               when: "Near the beginning of the season, once everyone becomes familiar with the app.",
-              where: "In the app under Teams → Contests.",
+              where: "From the **Team Hub**, click **Team Contest** in the dropdown.",
               why: "A longterm contest gives players a reason to stay consistent all season, not just in week one. It turns training into an ongoing game.",
               tip: undefined },
             { key: "levelgoal", badge: "+", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Set a Team Level Goal", type: "opt",
