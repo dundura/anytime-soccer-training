@@ -408,6 +408,66 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
   );
 }
 
+function CoachRankingTable({ ranking, period }: { ranking: ReturnType<typeof Array.prototype.map>; period: string }) {
+  const [expanded, setExpanded] = useState(false);
+  const periodLabel = period === "week" ? "This Week" : period === "month" ? "Month" : period === "year" ? "Year" : "All Time";
+  const extraCols = [
+    { key: "participation", label: `Participation (${periodLabel})` },
+    { key: "hasHomework", label: "Homework Assigned" },
+    { key: "hasContest", label: "Contest Created" },
+    { key: "hasPersonalGoal", label: "Personal Goal" },
+    { key: "hasChallenge", label: "Challenge Set" },
+    { key: "score", label: "Score" },
+  ];
+  return (
+    <div className="bg-white rounded-2xl shadow-sm overflow-x-auto">
+      {/* Mobile toggle */}
+      <div className="sm:hidden flex items-center justify-end px-4 pt-3 pb-1">
+        <button onClick={() => setExpanded(e => !e)}
+          className="text-xs font-bold border-2 border-gray-200 rounded-lg px-3 py-1.5 text-navy/60 hover:border-navy/40 transition-colors">
+          {expanded ? "Less ▴" : "More ▾"}
+        </button>
+      </div>
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="bg-navy text-white text-left text-xs uppercase tracking-wide">
+            <th className="px-4 py-3 text-center w-12">Rank</th>
+            <th className="px-4 py-3">Coach</th>
+            {extraCols.map(col => (
+              <th key={col.key} className={`px-4 py-3 text-center ${col.key === "participation" || col.key === "score" ? "" : ""} hidden sm:table-cell ${expanded ? "!table-cell" : ""}`}>
+                {col.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {ranking.length === 0 ? (
+            <tr><td colSpan={8} className="px-5 py-8 text-center text-navy/40">No coaches found.</td></tr>
+          ) : ranking.map((c: any, i: number) => (
+            <tr key={`${c.teamId}-${c.childId}`} className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}>
+              <td className="px-4 py-3.5 text-center">
+                <span className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-black ${i === 0 ? "bg-yellow-400 text-white" : i === 1 ? "bg-gray-300 text-gray-700" : i === 2 ? "bg-orange-300 text-white" : "bg-gray-100 text-navy/50"}`}>{i + 1}</span>
+              </td>
+              <td className="px-4 py-3.5">
+                <div className="font-bold text-navy">{c.name}</div>
+                <div className="text-xs text-navy/50 mt-0.5">{c.teamName}</div>
+              </td>
+              <td className={`px-4 py-3.5 text-center hidden sm:table-cell ${expanded ? "!table-cell" : ""}`}>
+                <span className={`font-bold ${c.participationRate >= 70 ? "text-green-600" : c.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{c.participationRate}%</span>
+              </td>
+              <td className={`px-4 py-3.5 text-center hidden sm:table-cell ${expanded ? "!table-cell" : ""}`}><CheckBadge val={c.engagementBreakdown.hasHomework} /></td>
+              <td className={`px-4 py-3.5 text-center hidden sm:table-cell ${expanded ? "!table-cell" : ""}`}><CheckBadge val={c.engagementBreakdown.hasContest} /></td>
+              <td className={`px-4 py-3.5 text-center hidden sm:table-cell ${expanded ? "!table-cell" : ""}`}><CheckBadge val={c.engagementBreakdown.hasPersonalGoal} /></td>
+              <td className={`px-4 py-3.5 text-center hidden sm:table-cell ${expanded ? "!table-cell" : ""}`}><CheckBadge val={c.engagementBreakdown.hasChallenge} /></td>
+              <td className={`px-4 py-3.5 text-center hidden sm:table-cell ${expanded ? "!table-cell" : ""}`}><span className="font-black text-navy">{c.coachEngagementScore}/4</span></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function TeamSection({ t, teamPlayers, period, forceOpen }: { t: Team; teamPlayers: Player[]; period: string; forceOpen?: boolean }) {
   const [open, setOpen] = useState(false);
   const isOpen = forceOpen || open;
@@ -773,44 +833,7 @@ export default function TeamReportPage() {
 
             {/* COACH RANKING TAB */}
             {tab === "Coach Ranking" && (
-              <div className="bg-white rounded-2xl shadow-sm overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-navy text-white text-left text-xs uppercase tracking-wide">
-                      <th className="px-4 py-3 text-center w-12">Rank</th>
-                      <th className="px-4 py-3">Coach</th>
-                      <th className="px-4 py-3">Team</th>
-                      <th className="px-4 py-3 text-center">Participation ({period === "week" ? "This Week" : period === "month" ? "Month" : period === "year" ? "Year" : "All Time"})</th>
-                      <th className="px-4 py-3 text-center">Homework Assigned</th>
-                      <th className="px-4 py-3 text-center">Contest Created</th>
-                      <th className="px-4 py-3 text-center">Personal Goal</th>
-                      <th className="px-4 py-3 text-center">Challenge Set</th>
-                      <th className="px-4 py-3 text-center">Score</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredRanking.length === 0 ? (
-                      <tr><td colSpan={9} className="px-5 py-8 text-center text-navy/40">No coaches found.</td></tr>
-                    ) : filteredRanking.map((c, i) => (
-                      <tr key={`${c.teamId}-${c.childId}`} className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}>
-                        <td className="px-4 py-3.5 text-center">
-                          <span className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-black ${i === 0 ? "bg-yellow-400 text-white" : i === 1 ? "bg-gray-300 text-gray-700" : i === 2 ? "bg-orange-300 text-white" : "bg-gray-100 text-navy/50"}`}>{i + 1}</span>
-                        </td>
-                        <td className="px-4 py-3.5 font-bold text-navy">{c.name}</td>
-                        <td className="px-4 py-3.5 text-navy/60 text-xs">{c.teamName}</td>
-                        <td className="px-4 py-3.5 text-center">
-                          <span className={`font-bold ${c.participationRate >= 70 ? "text-green-600" : c.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{c.participationRate}%</span>
-                        </td>
-                        <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasHomework} /></td>
-                        <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasContest} /></td>
-                        <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasPersonalGoal} /></td>
-                        <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasChallenge} /></td>
-                        <td className="px-4 py-3.5 text-center"><span className="font-black text-navy">{c.coachEngagementScore}/4</span></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <CoachRankingTable ranking={filteredRanking} period={period} />
             )}
 
             {/* REPORT URL TAB */}
