@@ -247,7 +247,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
     const defaults: LocalGoal = {
       participationGoal: DEFAULT_PARTICIPATION_GOAL,
       videosPerPlayerGoal: DEFAULT_VIDEOS_GOAL,
-      weeklyPlan: DEFAULT_WEEKLY_PLAN.map(w => [...w]),
+      weeklyPlan: [[], [], [], []],
     };
     setLocalGoals(prev => ({ ...prev, [t.teamId]: defaults }));
     autoSave(t.teamId, defaults);
