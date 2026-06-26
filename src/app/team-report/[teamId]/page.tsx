@@ -165,9 +165,9 @@ const DEFAULT_WEEKLY_PLAN: string[][] = [
 const COACH_TASKS = [
   { key: "hasHomework", label: "Assign Homework" },
   { key: "demoApp", label: "Demo App In-Person" },
-  { key: "hasChallenge", label: "Launch a weekly challenge" },
   { key: "sendEmailReminder", label: "Send Email Reminder" },
   { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
+  { key: "hasChallenge", label: "Launch a weekly challenge" },
   { key: "hasContest", label: "Create a Contest" },
   { key: "setLevelGoal", label: "Set a Level Goal" },
 ] as const;
