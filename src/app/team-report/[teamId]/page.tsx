@@ -287,8 +287,9 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
   );
 }
 
-function TeamSection({ t, teamPlayers, period }: { t: Team; teamPlayers: Player[]; period: string }) {
+function TeamSection({ t, teamPlayers, period, forceOpen }: { t: Team; teamPlayers: Player[]; period: string; forceOpen?: boolean }) {
   const [open, setOpen] = useState(false);
+  const isOpen = forceOpen || open;
   const tvid = teamPlayers.reduce((s, p) => s + p.videosWatched, 0);
   const tmin = teamPlayers.reduce((s, p) => s + p.trainingMinutes, 0);
   const tact = teamPlayers.filter(p => p.activeThisWeek).length;
@@ -299,7 +300,7 @@ function TeamSection({ t, teamPlayers, period }: { t: Team; teamPlayers: Player[
         className="w-full bg-navy/5 border-b border-gray-100 px-5 py-3 flex flex-wrap items-center gap-x-6 gap-y-1 text-left hover:bg-navy/10 transition-colors"
       >
         <div className="flex items-center gap-2 flex-1">
-          <span className="text-navy/40 text-xs">{open ? "▾" : "▸"}</span>
+          <span className="text-navy/40 text-xs">{isOpen ? "▾" : "▸"}</span>
           <span className="font-black text-navy text-sm">{t.teamName}</span>
           {t.createdAt && <span className="text-xs text-gray-400">({formatDate(t.createdAt)})</span>}
         </div>
@@ -309,7 +310,7 @@ function TeamSection({ t, teamPlayers, period }: { t: Team; teamPlayers: Player[
         </span>
         <ScoreDots score={t.coachEngagementScore} breakdown={t.engagementBreakdown} />
       </button>
-      {open && (
+      {isOpen && (
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left text-xs uppercase tracking-wide text-navy/40 border-b border-gray-100">
@@ -642,7 +643,7 @@ export default function TeamReportPage() {
                     .filter(p => !playerSearch || p.name.toLowerCase().includes(playerSearch.toLowerCase()))
                     .sort((a, b) => b.videosWatched - a.videosWatched);
                   return (
-                    <TeamSection key={t.teamId} t={t} teamPlayers={teamPlayers} period={period} />
+                    <TeamSection key={t.teamId} t={t} teamPlayers={teamPlayers} period={period} forceOpen={!!playerSearch} />
                   );
                 })}
               </div>
