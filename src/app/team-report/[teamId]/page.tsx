@@ -429,19 +429,22 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                 ["hasHomework", "demoApp"],
                 ["sendEmailReminder", "hasPersonalGoal"],
                 ["hasChallenge"],
-                [],
+                ["playerRecognition"],
               ] as string[][]).map((recommended, wi) => {
                 // Hide tasks already checked in another week
                 const visibleTasks = COACH_TASKS.filter(task =>
                   !g.weeklyPlan.some((week, idx) => idx !== wi && week.includes(task.key))
                 );
-                // Group consecutive tasks so recommended ones render inline as a blue block
-                type Group = { isRec: boolean; tasks: typeof COACH_TASKS[number][] };
+                // Group consecutive tasks by type: recommended, optional, or normal
+                type GroupType = "rec" | "opt" | "normal";
+                type Group = { type: GroupType; tasks: typeof COACH_TASKS[number][] };
                 const groups: Group[] = [];
                 for (const task of visibleTasks) {
-                  const isRec = recommended.includes(task.key);
-                  if (!groups.length || groups[groups.length - 1].isRec !== isRec) {
-                    groups.push({ isRec, tasks: [task] });
+                  const type: GroupType = recommended.includes(task.key) ? "rec"
+                    : ("optional" in task && (task as { optional?: boolean }).optional) ? "opt"
+                    : "normal";
+                  if (!groups.length || groups[groups.length - 1].type !== type) {
+                    groups.push({ type, tasks: [task] });
                   } else {
                     groups[groups.length - 1].tasks.push(task);
                   }
@@ -454,7 +457,6 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                         const taskRows = group.tasks.map(task => {
                           const checked = g.weeklyPlan[wi]?.includes(task.key) ?? false;
                           const example = "example" in task ? (task as { example?: string }).example : undefined;
-                          const optional = "optional" in task ? (task as { optional?: boolean }).optional : false;
                           return (
                             <div key={task.key}>
                               <label className="flex items-center gap-2 cursor-pointer group">
@@ -464,7 +466,6 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                                 <span className={`text-xs leading-tight ${checked ? "text-navy font-semibold" : "text-navy/50"} group-hover:text-navy transition-colors`}>
                                   {task.label}
                                 </span>
-                                {optional && <span className="text-[9px] font-bold text-gray-300 uppercase tracking-wide ml-0.5">Optional</span>}
                               </label>
                               {example && (
                                 <p className="ml-5 mt-0.5 text-[10px] italic text-navy/35 leading-tight">{example}</p>
@@ -472,14 +473,19 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                             </div>
                           );
                         });
-                        return group.isRec ? (
+                        if (group.type === "rec") return (
                           <div key={gi} className="bg-blue-50 rounded-lg px-2 py-1.5 space-y-1.5">
                             {taskRows}
                             <div className="text-[10px] text-blue-400 font-bold uppercase tracking-wide pt-0.5">Recommended</div>
                           </div>
-                        ) : (
-                          <div key={gi} className="space-y-1.5">{taskRows}</div>
                         );
+                        if (group.type === "opt") return (
+                          <div key={gi} className="bg-amber-50 rounded-lg px-2 py-1.5 space-y-1.5">
+                            {taskRows}
+                            <div className="text-[10px] text-amber-400 font-bold uppercase tracking-wide pt-0.5">Optional</div>
+                          </div>
+                        );
+                        return <div key={gi} className="space-y-1.5">{taskRows}</div>;
                       })}
                     </div>
                   </div>
