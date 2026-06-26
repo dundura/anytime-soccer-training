@@ -168,7 +168,7 @@ const COACH_TASKS = [
   { key: "sendEmailReminder", label: "Send Email Reminder" },
   { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
   { key: "hasChallenge", label: "Coach's Challenge" },
-  { key: "hasContest", label: "Create Longterm Contest", optional: true },
+  { key: "hasContest", label: "Create a Team Contest", optional: true },
   { key: "setLevelGoal", label: "Set Team Level Goal", optional: true },
   { key: "playerRecognition", label: "Give Player Recognition in Practice", example: "\"Great work on your home training this week, [Name] — I could see it in your touches today!\"" },
 ] as const;
@@ -300,7 +300,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                 <div className="flex flex-wrap items-center gap-1.5 mt-2">
                   {[
                     { label: "Assign Homework", val: t.engagementBreakdown.hasHomework },
-                    { label: "Create Longterm Contest", val: t.engagementBreakdown.hasContest },
+                    { label: "Create a Team Contest", val: t.engagementBreakdown.hasContest },
                     { label: "Set Personal Player Goals", val: t.engagementBreakdown.hasPersonalGoal },
                     { label: "Coach's Challenge", val: t.engagementBreakdown.hasChallenge },
                   ].map(item => (
@@ -503,7 +503,7 @@ function CoachRankingTable({ ranking, period }: { ranking: ReturnType<typeof Arr
   const extraCols = [
     { key: "participation", label: `Participation (${periodLabel})` },
     { key: "hasHomework", label: "Assign Homework" },
-    { key: "hasContest", label: "Create Longterm Contest" },
+    { key: "hasContest", label: "Create a Team Contest" },
     { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
     { key: "hasChallenge", label: "Coach's Challenge" },
     { key: "score", label: "Score" },
@@ -954,7 +954,7 @@ export default function TeamReportPage() {
               where: "From the **Team Hub**, click **Coach's Challenge** in the dropdown.",
               why: "Competition drives consistency. Players who are competing check back daily instead of training once and forgetting.",
               tip: undefined },
-            { key: "contest", badge: "+", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Create a Longterm Contest", type: "opt",
+            { key: "contest", badge: "+", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Create a Team Contest", type: "opt",
               how: "Set up a season-long leaderboard contest with a prize for the top trainer — pizza party, gear, or a team trophy.",
               when: "Near the beginning of the season, once everyone becomes familiar with the app.",
               where: "In the app under Teams → Contests.",
