@@ -163,9 +163,9 @@ const DEFAULT_WEEKLY_PLAN: string[][] = [
 ];
 
 const COACH_TASKS = [
-  { key: "hasChallenge", label: "Launch a weekly challenge" },
   { key: "hasHomework", label: "Assign Homework" },
   { key: "demoApp", label: "Demo App In-Person" },
+  { key: "hasChallenge", label: "Launch a weekly challenge" },
   { key: "sendEmailReminder", label: "Send Email Reminder" },
   { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
   { key: "hasContest", label: "Create a Contest" },
@@ -415,14 +415,24 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                 ["sendEmailReminder", "hasPersonalGoal"],
                 [],
                 [],
-              ] as string[][]).map((recommended, wi) => (
-                <div key={wi} className="border-2 border-gray-100 rounded-xl p-3">
-                  <div className="text-xs font-black text-navy mb-2">Week {wi + 1}</div>
-                  <div className="space-y-1.5">
-                    {recommended.length > 0 && (
-                      <div className="bg-blue-50 rounded-lg px-2 py-1.5 mb-1 space-y-1.5">
-                        {recommended.map(key => {
-                          const task = COACH_TASKS.find(tk => tk.key === key)!;
+              ] as string[][]).map((recommended, wi) => {
+                // Group consecutive tasks so recommended ones render inline as a blue block
+                type Group = { isRec: boolean; tasks: typeof COACH_TASKS[number][] };
+                const groups: Group[] = [];
+                for (const task of COACH_TASKS) {
+                  const isRec = recommended.includes(task.key);
+                  if (!groups.length || groups[groups.length - 1].isRec !== isRec) {
+                    groups.push({ isRec, tasks: [task] });
+                  } else {
+                    groups[groups.length - 1].tasks.push(task);
+                  }
+                }
+                return (
+                  <div key={wi} className="border-2 border-gray-100 rounded-xl p-3">
+                    <div className="text-xs font-black text-navy mb-2">Week {wi + 1}</div>
+                    <div className="space-y-1.5">
+                      {groups.map((group, gi) => {
+                        const taskRows = group.tasks.map(task => {
                           const checked = g.weeklyPlan[wi]?.includes(task.key) ?? false;
                           return (
                             <label key={task.key} className="flex items-center gap-2 cursor-pointer group">
@@ -434,26 +444,20 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                               </span>
                             </label>
                           );
-                        })}
-                        <div className="text-[10px] text-navy/40 font-semibold uppercase tracking-wide pt-0.5">Recommended</div>
-                      </div>
-                    )}
-                    {COACH_TASKS.filter(task => !recommended.includes(task.key)).map(task => {
-                      const checked = g.weeklyPlan[wi]?.includes(task.key) ?? false;
-                      return (
-                        <label key={task.key} className="flex items-center gap-2 cursor-pointer group">
-                          <input type="checkbox" checked={checked}
-                            onChange={() => toggleTask(t.teamId, wi, task.key)}
-                            className="accent-navy w-3.5 h-3.5 shrink-0 cursor-pointer" />
-                          <span className={`text-xs leading-tight ${checked ? "text-navy font-semibold" : "text-navy/50"} group-hover:text-navy transition-colors`}>
-                            {task.label}
-                          </span>
-                        </label>
-                      );
-                    })}
+                        });
+                        return group.isRec ? (
+                          <div key={gi} className="bg-blue-50 rounded-lg px-2 py-1.5 space-y-1.5">
+                            {taskRows}
+                            <div className="text-[10px] text-blue-400 font-bold uppercase tracking-wide pt-0.5">Recommended</div>
+                          </div>
+                        ) : (
+                          <div key={gi} className="space-y-1.5">{taskRows}</div>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         );
