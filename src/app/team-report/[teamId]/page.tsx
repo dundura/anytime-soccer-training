@@ -931,7 +931,7 @@ export default function TeamReportPage() {
               why: "Seeing it live removes all friction. A quick in-person demo gets more players active than any email or link you can send.",
               tip: "Bring a Bluetooth speaker and do one of the videos at practice in real time so parents can see exactly how it works." },
             { key: "email", badge: "3", badgeBg: "bg-navy", badgeText: "text-white", title: "Send Email Reminder", type: "core",
-              how: "Go to the \"New Players\" section and click Send Reminder. Then follow up using your team's communication system and include the onboarding link that was sent to help parents get started.",
+              how: "Go to the **New Players** section and click Send Reminder. Then follow up using your team's communication system and include the onboarding link that was sent to help parents get started.",
               when: "After the first week, then send reminders using your discretion.",
               where: "From the New Players dashboard and your team's communication system.",
               why: "Constant communication during the first two weeks is crucial to the program's success.",
@@ -1003,7 +1003,11 @@ export default function TeamReportPage() {
                             <div key={label}>
                               <div className="flex gap-2">
                                 <span className="text-[10px] font-black uppercase tracking-widest text-navy w-10 pt-0.5 shrink-0">{label}</span>
-                                <p className="text-sm text-navy/60 leading-relaxed">{val}</p>
+                                <p className="text-sm text-navy/60 leading-relaxed">{val.split(/(\*\*[^*]+\*\*)/).map((part, i) =>
+                                  part.startsWith("**") && part.endsWith("**")
+                                    ? <strong key={i} className="font-black text-navy">{part.slice(2, -2)}</strong>
+                                    : part
+                                )}</p>
                               </div>
                               {i < arr.length - 1 && <div className="mt-3 border-b border-gray-100" />}
                             </div>
