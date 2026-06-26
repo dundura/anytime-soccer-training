@@ -949,7 +949,7 @@ export default function TeamReportPage() {
               why: "Public recognition tells every player that home training gets noticed. It's the fastest way to build a training culture that lasts.",
               tip: undefined },
             { key: "challenge", badge: "★", badgeBg: "bg-blue-100", badgeText: "text-blue-600", title: "Launch a Weekly Challenge", type: "rec",
-              how: "Create a weekly challenge in the app for your team — pick a skill or a video-count target that everyone competes toward.",
+              how: "Create a weekly challenge in the app for your team — set a video-count target that everyone competes toward.",
               when: "At the start of each week, alongside the homework assignment.",
               where: "In the app under Teams → Challenges.",
               why: "Competition drives consistency. Players who are competing check back daily instead of training once and forgetting.",
