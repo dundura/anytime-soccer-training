@@ -184,55 +184,55 @@ function HowToContent() {
   const [howToFilter, setHowToFilter] = useState<string | null>(null);
   const [expandedStep, setExpandedStep] = useState<string | null>(null);
   const HOW_TO_STEPS = [
-    { key: "homework", badge: "1", badgeBg: "bg-navy", badgeText: "text-white", title: "Assign Homework", type: "core",
+    { key: "homework", badge: "1", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Assign Homework", type: "core",
       how: "Go to your coach's board. Pick the skill areas and folders you want to assign. We recommend keeping it simple — start with 30-day plans or the first folders in the full curriculum. Then next month, assign one of the recurring plans such as the Skill Builder Plan. If you have any questions, email megan@anytime-soccer.com.",
       when: "Do this immediately upon creating the team. You have to show the kids this is important.",
       where: "The coach's board is in the app — log in at app.anytime-soccer.com and you'll find it in the main navigation.",
       why: "Players who receive homework train 3× more often than those who don't. Assign it at the start of each week so players know exactly what to work on.",
       tip: "Not sure where to start? Email neil@anytime-soccer.com and he will assign your first homework on your behalf." },
-    { key: "demo", badge: "2", badgeBg: "bg-navy", badgeText: "text-white", title: "Demo App In-Person", type: "core",
+    { key: "demo", badge: "2", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Demo App In-Person", type: "core",
       how: "Pull up the app on your phone at practice. Walk players through finding their homework, logging a video, and checking their stats — live, in 2 minutes.",
       when: "First week of the season or at your first team meeting.",
       where: "Announce that you will do a demo, then do it after practice with your phone in hand.",
       why: "Seeing it live removes all friction. A quick in-person demo gets more players active than any email or link you can send.",
       tip: "Bring a Bluetooth speaker and do one of the videos at practice in real time so parents can see exactly how it works." },
-    { key: "email", badge: "3", badgeBg: "bg-navy", badgeText: "text-white", title: "Send Email Reminder", type: "core",
+    { key: "email", badge: "3", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Send Email Reminder", type: "core",
       how: "Go to the **New Players** section and click Send Reminder. Then follow up using your team's communication system and include the onboarding link that was sent to help parents get started.",
       when: "After the first week, then send reminders using your discretion.",
       where: "**New Players** section within your team.",
       why: "Constant communication during the first two weeks is crucial to the program's success.",
       tip: "Nominate a parent or assistant coach to be a team liaison to help everyone get signed up during practice." },
-    { key: "goals", badge: "4", badgeBg: "bg-navy", badgeText: "text-white", title: "Set Player Goals", type: "core",
+    { key: "goals", badge: "4", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Set Player Goals", type: "core",
       how: "Go to your **Team Hub** and click **Player Goals**. From there, enter a training goal for each period.",
       when: "When a player first joins the team.",
       where: "In the **Player Goals** section from the **Team Hub**.",
       why: "Players with personal goals are significantly more likely to stay active all season. Goals create internal motivation that outlasts any external push.",
       tip: undefined },
-    { key: "recognition", badge: "5", badgeBg: "bg-navy", badgeText: "text-white", title: "Give Player Recognition", type: "core",
+    { key: "recognition", badge: "5", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Give Player Recognition", type: "core",
       how: "At practice, call out one player who trained at home that week. Be specific — mention what you noticed in their footwork or touches.",
       when: "Once per week at practice, consistently every week.",
       where: "In front of the whole team at practice.",
       why: "Public recognition tells every player that home training gets noticed. It's the fastest way to build a training culture that lasts.",
       tip: "Something as simple as letting a player be team captain for the day or pick teams in a scrimmage is all it takes to fuel a kid's motivation — the recognition doesn't have to be big to be powerful." },
-    { key: "challenge", badge: "6", badgeBg: "bg-blue-100", badgeText: "text-blue-600", title: "Create Coach's Challenge", type: "rec",
+    { key: "challenge", badge: "6", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Create Coach's Challenge", type: "rec",
       how: "Create a weekly challenge in the app for your team — set a video-count target that everyone competes toward.",
       when: "Set it once — after that it's recurring.",
       where: "From the **Team Hub**, click **Coach's Challenge** in the dropdown.",
       why: "Competition drives consistency. Players who are competing check back daily instead of training once and forgetting.",
       tip: undefined },
-    { key: "personalChallenge", badge: "7", badgeBg: "bg-navy", badgeText: "text-white", title: "Create a Personal Challenge", type: "rec",
+    { key: "personalChallenge", badge: "7", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Create a Personal Challenge", type: "rec",
       how: "Set up a challenge just for one player — give them a specific target to hit on their own, separate from the team challenge.",
       when: "Any time you want to give an individual player extra motivation.",
       where: "From the **Team Hub**, click **Coach's Challenge** in the dropdown and assign it to a single player.",
       why: "Personal challenges meet players where they are. A tailored goal feels more achievable and more meaningful than a group target.",
       tip: undefined },
-    { key: "contest", badge: "8", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Create a Team Contest", type: "opt",
+    { key: "contest", badge: "8", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Create a Team Contest", type: "opt",
       how: "Set up a season-long leaderboard contest with a prize for the top trainer — pizza party, gear, or a team trophy.",
       when: "Near the beginning of the season, once everyone becomes familiar with the app.",
       where: "From the **Team Hub**, click **Team Contest** in the dropdown.",
       why: "A team contest gives players a reason to stay consistent all season, not just in week one. It turns training into an ongoing game.",
       tip: undefined },
-    { key: "levelgoal", badge: "9", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Set a Team Level Goal", type: "opt",
+    { key: "levelgoal", badge: "9", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Set a Team Level Goal", type: "opt",
       how: "Go to your **Roster** and set a collective milestone for the team — e.g. \"log 1,000 videos this season.\" The more videos your team logs, the higher your team level climbs. Every level earns your team a new professional club name.",
       when: "When the team is created.",
       where: "In the **Roster**.",
@@ -347,9 +347,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
             <div key={key} className="border border-gray-100 rounded-xl overflow-hidden bg-white shadow-sm">
               {key === "summary" && <PerformanceDropdown ranking={ranking} period={period} forceOpen />}
               {key === "plan" && (
-                <div className="p-4">
-                  <GoalsPanel teams={teams} onUpdate={onUpdate} period={period} />
-                </div>
+                <GoalsPanel teams={teams} onUpdate={onUpdate} period={period} />
               )}
               {key === "howto" && <HowToContent />}
             </div>
@@ -515,11 +513,12 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
     window.open(`${API}/${teamId}/pdf?period=${period}`, "_blank");
   };
 
+  const visibleTeams = teams.filter(t => !!localGoals[t.teamId]);
+  if (!visibleTeams.length) return null;
   return (
     <div className="space-y-5 mb-6">
-      {teams.map(t => {
+      {visibleTeams.map(t => {
         const g = localGoals[t.teamId];
-        if (!g) return null;
         return (
           <div key={t.teamId} className="bg-white rounded-2xl shadow-sm p-6">
             <div className="flex items-start justify-between gap-4 mb-4">
@@ -1136,55 +1135,55 @@ export default function TeamReportPage() {
 
         {false && (() => {
           const HOW_TO_STEPS = [
-            { key: "homework", badge: "1", badgeBg: "bg-navy", badgeText: "text-white", title: "Assign Homework", type: "core",
+            { key: "homework", badge: "1", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Assign Homework", type: "core",
               how: "Go to your coach's board. Pick the skill areas and folders you want to assign. We recommend keeping it simple — start with 30-day plans or the first folders in the full curriculum. Then next month, assign one of the recurring plans such as the Skill Builder Plan. If you have any questions, email megan@anytime-soccer.com.",
               when: "Do this immediately upon creating the team. You have to show the kids this is important.",
               where: "The coach's board is in the app — log in at app.anytime-soccer.com and you'll find it in the main navigation.",
               why: "Players who receive homework train 3× more often than those who don't. Assign it at the start of each week so players know exactly what to work on.",
               tip: "Not sure where to start? Email neil@anytime-soccer.com and he will assign your first homework on your behalf." },
-            { key: "demo", badge: "2", badgeBg: "bg-navy", badgeText: "text-white", title: "Demo App In-Person", type: "core",
+            { key: "demo", badge: "2", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Demo App In-Person", type: "core",
               how: "Pull up the app on your phone at practice. Walk players through finding their homework, logging a video, and checking their stats — live, in 2 minutes.",
               when: "First week of the season or at your first team meeting.",
               where: "Announce that you will do a demo, then do it after practice with your phone in hand.",
               why: "Seeing it live removes all friction. A quick in-person demo gets more players active than any email or link you can send.",
               tip: "Bring a Bluetooth speaker and do one of the videos at practice in real time so parents can see exactly how it works." },
-            { key: "email", badge: "3", badgeBg: "bg-navy", badgeText: "text-white", title: "Send Email Reminder", type: "core",
+            { key: "email", badge: "3", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Send Email Reminder", type: "core",
               how: "Go to the **New Players** section and click Send Reminder. Then follow up using your team's communication system and include the onboarding link that was sent to help parents get started.",
               when: "After the first week, then send reminders using your discretion.",
               where: "**New Players** section within your team.",
               why: "Constant communication during the first two weeks is crucial to the program's success.",
               tip: "Nominate a parent or assistant coach to be a team liaison to help everyone get signed up during practice." },
-            { key: "goals", badge: "4", badgeBg: "bg-navy", badgeText: "text-white", title: "Set Player Goals", type: "core",
+            { key: "goals", badge: "4", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Set Player Goals", type: "core",
               how: "Go to your **Team Hub** and click **Player Goals**. From there, enter a training goal for each period.",
               when: "When a player first joins the team.",
               where: "In the **Player Goals** section from the **Team Hub**.",
               why: "Players with personal goals are significantly more likely to stay active all season. Goals create internal motivation that outlasts any external push.",
               tip: undefined },
-            { key: "recognition", badge: "5", badgeBg: "bg-navy", badgeText: "text-white", title: "Give Player Recognition", type: "core",
+            { key: "recognition", badge: "5", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Give Player Recognition", type: "core",
               how: "At practice, call out one player who trained at home that week. Be specific — mention what you noticed in their footwork or touches.",
               when: "Once per week at practice, consistently every week.",
               where: "In front of the whole team at practice.",
               why: "Public recognition tells every player that home training gets noticed. It's the fastest way to build a training culture that lasts.",
               tip: "Something as simple as letting a player be team captain for the day or pick teams in a scrimmage is all it takes to fuel a kid's motivation — the recognition doesn't have to be big to be powerful." },
-            { key: "challenge", badge: "6", badgeBg: "bg-blue-100", badgeText: "text-blue-600", title: "Create Coach's Challenge", type: "rec",
+            { key: "challenge", badge: "6", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Create Coach's Challenge", type: "rec",
               how: "Create a weekly challenge in the app for your team — set a video-count target that everyone competes toward.",
               when: "Set it once — after that it's recurring.",
               where: "From the **Team Hub**, click **Coach's Challenge** in the dropdown.",
               why: "Competition drives consistency. Players who are competing check back daily instead of training once and forgetting.",
               tip: undefined },
-            { key: "personalChallenge", badge: "7", badgeBg: "bg-navy", badgeText: "text-white", title: "Create a Personal Challenge", type: "rec",
+            { key: "personalChallenge", badge: "7", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Create a Personal Challenge", type: "rec",
               how: "Set up a challenge just for one player — give them a specific target to hit on their own, separate from the team challenge.",
               when: "Any time you want to give an individual player extra motivation.",
               where: "From the **Team Hub**, click **Coach's Challenge** in the dropdown and assign it to a single player.",
               why: "Personal challenges meet players where they are. A tailored goal feels more achievable and more meaningful than a group target.",
               tip: undefined },
-            { key: "contest", badge: "8", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Create a Team Contest", type: "opt",
+            { key: "contest", badge: "8", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Create a Team Contest", type: "opt",
               how: "Set up a season-long leaderboard contest with a prize for the top trainer — pizza party, gear, or a team trophy.",
               when: "Near the beginning of the season, once everyone becomes familiar with the app.",
               where: "From the **Team Hub**, click **Team Contest** in the dropdown.",
               why: "A team contest gives players a reason to stay consistent all season, not just in week one. It turns training into an ongoing game.",
               tip: undefined },
-            { key: "levelgoal", badge: "9", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Set a Team Level Goal", type: "opt",
+            { key: "levelgoal", badge: "9", badgeBg: "bg-blue-600", badgeText: "text-white", title: "Set a Team Level Goal", type: "opt",
               how: "Go to your **Roster** and set a collective milestone for the team — e.g. \"log 1,000 videos this season.\" The more videos your team logs, the higher your team level climbs. Every level earns your team a new professional club name.",
               when: "When the team is created.",
               where: "In the **Roster**.",
