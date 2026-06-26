@@ -933,7 +933,7 @@ export default function TeamReportPage() {
             { key: "email", badge: "3", badgeBg: "bg-navy", badgeText: "text-white", title: "Send Email Reminder", type: "core",
               how: "Go to the **New Players** section and click Send Reminder. Then follow up using your team's communication system and include the onboarding link that was sent to help parents get started.",
               when: "After the first week, then send reminders using your discretion.",
-              where: "From the New Players dashboard and your team's communication system.",
+              where: "**New Players** section within your team.",
               why: "Constant communication during the first two weeks is crucial to the program's success.",
               tip: undefined },
             { key: "goals", badge: "4", badgeBg: "bg-navy", badgeText: "text-white", title: "Set Personal Player Goals", type: "core",
