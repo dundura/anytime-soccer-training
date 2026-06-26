@@ -466,6 +466,19 @@ export default function TeamReportPage() {
                               </td>
                             </tr>
                           ))}
+                          {teamPlayers.length > 0 && (() => {
+                            const tvid = teamPlayers.reduce((s, p) => s + p.videosWatched, 0);
+                            const tmin = teamPlayers.reduce((s, p) => s + p.trainingMinutes, 0);
+                            const tact = teamPlayers.filter(p => p.activeThisWeek).length;
+                            return (
+                              <tr className="bg-navy/5 border-t-2 border-navy/10 font-bold text-navy text-xs uppercase tracking-wide">
+                                <td className="px-5 py-2.5">Total</td>
+                                <td className="px-5 py-2.5 text-center">{tvid.toLocaleString()}</td>
+                                <td className="px-5 py-2.5 text-center">{formatTime(tmin)}</td>
+                                <td className="px-5 py-2.5 text-center">{tact} / {teamPlayers.length} active</td>
+                              </tr>
+                            );
+                          })()}
                         </tbody>
                       </table>
                     </div>
