@@ -295,6 +295,9 @@ export default function TeamReportPage() {
   const totalPlayers = allPlayers.length;
   const totalVideos = allPlayers.reduce((s, p) => s + p.videosWatched, 0);
   const totalMinutes = allPlayers.reduce((s, p) => s + p.trainingMinutes, 0);
+  const avgParticipation = filteredTeams.length > 0
+    ? Math.round(filteredTeams.reduce((s, t) => s + t.participationRate, 0) / filteredTeams.length)
+    : 0;
 
   const changePeriod = (p: "week" | "month" | "year" | "alltime") => {
     setPeriod(p);
@@ -436,11 +439,12 @@ export default function TeamReportPage() {
             {/* DETAIL TAB */}
             {tab === "Detail" && (
               <>
-              <div className="grid grid-cols-3 gap-4 mb-4">
+              <div className="grid grid-cols-4 gap-4 mb-4">
                 {[
                   { label: "Total Players", value: totalPlayers.toLocaleString() },
                   { label: "Total Videos", value: totalVideos.toLocaleString() },
                   { label: "Total Training Time", value: formatTime(totalMinutes) },
+                  { label: "Avg Participation", value: `${avgParticipation}%` },
                 ].map(card => (
                   <div key={card.label} className="bg-white rounded-2xl shadow-sm px-6 py-5 text-center">
                     <div className="text-2xl font-black text-navy">{card.value}</div>
