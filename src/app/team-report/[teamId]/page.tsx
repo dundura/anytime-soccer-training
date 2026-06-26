@@ -169,7 +169,7 @@ const COACH_TASKS = [
   { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
   { key: "hasChallenge", label: "Launch a weekly challenge" },
   { key: "hasContest", label: "Create Longterm Contest" },
-  { key: "setLevelGoal", label: "Set a Level Goal" },
+  { key: "setLevelGoal", label: "Set Team Level Goal" },
 ] as const;
 
 type LocalGoal = {
