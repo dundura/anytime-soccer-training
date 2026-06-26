@@ -931,7 +931,7 @@ export default function TeamReportPage() {
               why: "Seeing it live removes all friction. A quick in-person demo gets more players active than any email or link you can send.",
               tip: "Bring a Bluetooth speaker and do one of the videos at practice in real time so parents can see exactly how it works." },
             { key: "email", badge: "3", badgeBg: "bg-navy", badgeText: "text-white", title: "Send Email Reminder", type: "core",
-              how: "Click the Email PDF button on this page to send the coaching plan to a manager. Then forward it to parents with a short personal note.",
+              how: "Go to the \"New Players\" section and click Send Reminder. Then follow up using your team's communication system and include the onboarding link that was sent to help parents get started.",
               when: "Once per week, at the start of the training week.",
               where: "From this dashboard using the Email PDF button.",
               why: "Parents who know what their child is working on are more likely to encourage home training. A weekly reminder keeps the team accountable.",
