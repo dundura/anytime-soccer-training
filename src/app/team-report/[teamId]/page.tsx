@@ -309,7 +309,7 @@ export default function TeamReportPage() {
   const changeTab = (t: Tab) => {
     setTab(t);
     const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0);
-    router.replace(buildParams(addedIds, seedId, { tab: t === "Summary" ? "" : t }), { scroll: false });
+    router.replace(buildParams(addedIds, seedId, { tab: t === "Overview" ? "" : t }), { scroll: false });
   };
 
   return (
