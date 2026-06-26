@@ -984,7 +984,7 @@ export default function TeamReportPage() {
                       : s.type === "opt" ? (active ? "bg-amber-500 text-white border-amber-500" : "border-amber-200 text-amber-600 hover:bg-amber-50")
                       : (active ? "bg-navy text-white border-navy" : "border-gray-200 text-navy/60 hover:border-navy/40 hover:text-navy");
                     return (
-                      <button key={s.key} onClick={() => setHowToFilter(active ? null : s.key)}
+                      <button key={s.key} onClick={() => { const next = active ? null : s.key; setHowToFilter(next); setExpandedStep(next); }}
                         className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 text-xs font-bold transition-all ${pillColor}`}>
                         <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-black ${active ? "bg-white/20" : s.badgeBg} ${active ? "text-white" : s.badgeText}`}>{s.badge}</span>
                         {s.title}
