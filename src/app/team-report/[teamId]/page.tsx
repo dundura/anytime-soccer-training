@@ -30,6 +30,8 @@ interface Team {
   teamId: number;
   teamName: string;
   teamSlug: string;
+  reportSlug: string | null;
+  createdAt: string;
   activePlayerCount: number;
   participationRate: number;
   coachEngagementScore: number;
@@ -54,11 +56,7 @@ function ScoreDots({ score, breakdown }: { score: number; breakdown: EngagementB
   return (
     <div className="flex items-center gap-1.5">
       {items.map((item) => (
-        <div
-          key={item.label}
-          title={item.label}
-          className={`w-2.5 h-2.5 rounded-full ${item.val ? "bg-green-500" : "bg-gray-200"}`}
-        />
+        <div key={item.label} title={item.label} className={`w-2.5 h-2.5 rounded-full ${item.val ? "bg-green-500" : "bg-gray-200"}`} />
       ))}
       <span className="ml-1 text-sm font-bold text-navy">{score}/4</span>
     </div>
@@ -70,6 +68,78 @@ function formatTime(minutes: number): string {
   const h = Math.floor(minutes / 60);
   const m = minutes % 60;
   return m > 0 ? `${h}h ${m}m` : `${h}h`;
+}
+
+function formatDate(dateStr: string): string {
+  if (!dateStr) return "";
+  return new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+
+function SlugEditor({ team, onUpdate }: { team: Team; onUpdate: (slug: string) => void }) {
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(team.reportSlug || "");
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+
+  const currentUrl = `https://www.anytime-soccer.com/team-report/${team.reportSlug || team.teamId}`;
+
+  const save = async () => {
+    if (!value.trim()) return;
+    setSaving(true);
+    setError("");
+    try {
+      const res = await fetch(`${API}/${team.teamId}/slug`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug: value.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) { setError(data.error || "Failed to save"); setSaving(false); return; }
+      onUpdate(data.slug);
+      setEditing(false);
+    } catch {
+      setError("Network error");
+    }
+    setSaving(false);
+  };
+
+  if (!editing) {
+    return (
+      <div className="flex items-center gap-2 flex-wrap">
+        <span className="text-xs text-gray-400 font-mono break-all">{currentUrl}</span>
+        <button
+          onClick={() => { setValue(team.reportSlug || ""); setEditing(true); setError(""); }}
+          className="text-xs text-navy/50 hover:text-navy border border-gray-200 rounded-lg px-2 py-0.5 transition-colors"
+        >
+          Edit URL
+        </button>
+        <button
+          onClick={() => navigator.clipboard.writeText(currentUrl)}
+          className="text-xs text-navy/50 hover:text-navy border border-gray-200 rounded-lg px-2 py-0.5 transition-colors"
+        >
+          Copy
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-2 flex-wrap">
+      <span className="text-xs text-gray-400">anytime-soccer.com/team-report/</span>
+      <input
+        autoFocus
+        value={value}
+        onChange={(e) => setValue(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"))}
+        className="border-2 border-navy rounded-lg px-2 py-0.5 text-xs font-mono w-40 focus:outline-none"
+        placeholder="your-slug"
+      />
+      <button onClick={save} disabled={saving} className="text-xs bg-navy text-white rounded-lg px-3 py-1 font-bold disabled:opacity-50">
+        {saving ? "Saving…" : "Save"}
+      </button>
+      <button onClick={() => setEditing(false)} className="text-xs text-gray-400 hover:text-gray-600">Cancel</button>
+      {error && <span className="text-xs text-red-500">{error}</span>}
+    </div>
+  );
 }
 
 const TABS = ["Summary", "Detail", "Coach Ranking"] as const;
@@ -93,21 +163,41 @@ export default function TeamReportPage() {
       const res = await fetch(`${API}?teams=${ids.join(",")}`);
       const data = await res.json();
       setTeams(data.teams || []);
-    } catch (e) {
-      console.error(e);
-    }
+    } catch (e) { console.error(e); }
     setLoading(false);
   }, []);
 
-  // Init: load from localStorage + seed URL teamId
+  // Init: resolve slug or ID, load from localStorage
   useEffect(() => {
-    const seed = parseInt(teamId);
-    const stored: number[] = JSON.parse(localStorage.getItem("docTeamIds") || "[]");
-    const merged = Array.from(new Set([seed, ...stored].filter((n) => n > 0)));
-    setAddedIds(merged);
-    localStorage.setItem("docTeamIds", JSON.stringify(merged));
-    fetchTeams(merged);
-  }, [teamId, fetchTeams]);
+    const init = async () => {
+      setLoading(true);
+      let seedId: number | null = null;
+
+      if (/^\d+$/.test(teamId)) {
+        seedId = parseInt(teamId);
+      } else {
+        // resolve slug → teamId
+        try {
+          const res = await fetch(`${API}/by-slug/${teamId}`);
+          const data = await res.json();
+          if (data.teams?.[0]) seedId = data.teams[0].teamId;
+        } catch {}
+      }
+
+      const stored: number[] = JSON.parse(localStorage.getItem("docTeamIds") || "[]");
+      const merged = Array.from(new Set([...(seedId ? [seedId] : []), ...stored].filter(n => n > 0)));
+      setAddedIds(merged);
+      localStorage.setItem("docTeamIds", JSON.stringify(merged));
+
+      if (merged.length) {
+        const res = await fetch(`${API}?teams=${merged.join(",")}`);
+        const data = await res.json();
+        setTeams(data.teams || []);
+      }
+      setLoading(false);
+    };
+    init();
+  }, [teamId]);
 
   // Search
   useEffect(() => {
@@ -118,7 +208,7 @@ export default function TeamReportPage() {
         const res = await fetch(`${API}/search?q=${encodeURIComponent(search)}`);
         const data = await res.json();
         setSearchResults(data.teams || []);
-      } catch (e) { console.error(e); }
+      } catch {}
       setSearchLoading(false);
     }, 300);
     return () => clearTimeout(timeout);
@@ -129,45 +219,40 @@ export default function TeamReportPage() {
     const newIds = [...addedIds, t.teamId];
     setAddedIds(newIds);
     localStorage.setItem("docTeamIds", JSON.stringify(newIds));
-    setSearch("");
-    setSearchResults([]);
+    setSearch(""); setSearchResults([]);
     await fetchTeams(newIds);
   };
 
   const removeTeam = (id: number) => {
-    const newIds = addedIds.filter((x) => x !== id);
+    const newIds = addedIds.filter(x => x !== id);
     setAddedIds(newIds);
-    setTeams((prev) => prev.filter((t) => t.teamId !== id));
+    setTeams(prev => prev.filter(t => t.teamId !== id));
     localStorage.setItem("docTeamIds", JSON.stringify(newIds));
   };
 
-  const filteredTeams = filterTeam ? teams.filter((t) => t.teamId === parseInt(filterTeam)) : teams;
+  const updateSlug = (teamId: number, slug: string) => {
+    setTeams(prev => prev.map(t => t.teamId === teamId ? { ...t, reportSlug: slug, teamSlug: slug } : t));
+  };
 
-  // Coach ranking: one row per coach across all teams, sorted by score desc
+  const filteredTeams = filterTeam ? teams.filter(t => t.teamId === parseInt(filterTeam)) : teams;
+
   const coachRanking = teams
-    .flatMap((t) =>
-      t.coaches.map((c) => ({
-        ...c,
-        teamName: t.teamName,
-        teamId: t.teamId,
-        coachEngagementScore: t.coachEngagementScore,
-        engagementBreakdown: t.engagementBreakdown,
-        participationRate: t.participationRate,
-      }))
-    )
+    .flatMap(t => t.coaches.map(c => ({
+      ...c, teamName: t.teamName, teamId: t.teamId,
+      coachEngagementScore: t.coachEngagementScore,
+      engagementBreakdown: t.engagementBreakdown,
+      participationRate: t.participationRate,
+    })))
     .sort((a, b) => b.coachEngagementScore - a.coachEngagementScore);
 
-  const filteredRanking = filterTeam
-    ? coachRanking.filter((c) => c.teamId === parseInt(filterTeam))
-    : coachRanking;
+  const filteredRanking = filterTeam ? coachRanking.filter(c => c.teamId === parseInt(filterTeam)) : coachRanking;
 
-  const allPlayers = filteredTeams.flatMap((t) =>
-    t.players.map((p) => ({ ...p, teamName: t.teamName }))
-  ).sort((a, b) => b.videosWatched - a.videosWatched);
+  const allPlayers = filteredTeams
+    .flatMap(t => t.players.map(p => ({ ...p, teamName: t.teamName })))
+    .sort((a, b) => b.videosWatched - a.videosWatched);
 
   return (
     <main className="min-h-screen bg-[#f5f7fa]">
-      {/* Header */}
       <div className="bg-navy text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-black uppercase tracking-tight">DOC Team Report</h1>
@@ -187,28 +272,20 @@ export default function TeamReportPage() {
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-navy pr-10"
               />
-              {searchLoading && (
-                <div className="absolute right-3 top-3 w-4 h-4 border-2 border-navy border-t-transparent rounded-full animate-spin" />
-              )}
+              {searchLoading && <div className="absolute right-3 top-3 w-4 h-4 border-2 border-navy border-t-transparent rounded-full animate-spin" />}
               {searchResults.length > 0 && (
                 <div className="absolute z-20 left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
-                  {searchResults.map((r) => (
-                    <button
-                      key={r.teamId}
-                      onClick={() => addTeam(r)}
-                      className="w-full text-left px-4 py-2.5 text-sm hover:bg-[#f5f7fa] text-navy font-medium border-b last:border-0"
-                    >
+                  {searchResults.map(r => (
+                    <button key={r.teamId} onClick={() => addTeam(r)} className="w-full text-left px-4 py-2.5 text-sm hover:bg-[#f5f7fa] text-navy font-medium border-b last:border-0">
                       {r.teamName}
-                      {addedIds.includes(r.teamId) && (
-                        <span className="ml-2 text-xs text-gray-400">already added</span>
-                      )}
+                      {addedIds.includes(r.teamId) && <span className="ml-2 text-xs text-gray-400">already added</span>}
                     </button>
                   ))}
                 </div>
               )}
             </div>
             <div className="flex flex-wrap gap-2">
-              {teams.map((t) => (
+              {teams.map(t => (
                 <span key={t.teamId} className="inline-flex items-center gap-1.5 bg-navy/10 text-navy text-xs font-bold px-3 py-1.5 rounded-full">
                   {t.teamName}
                   <button onClick={() => removeTeam(t.teamId)} className="hover:text-red transition-colors text-navy/50 ml-0.5">✕</button>
@@ -220,31 +297,18 @@ export default function TeamReportPage() {
 
         {/* Tabs */}
         <div className="flex gap-1 mb-4 bg-white rounded-xl p-1 w-fit shadow-sm">
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${
-                tab === t ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"
-              }`}
-            >
+          {TABS.map(t => (
+            <button key={t} onClick={() => setTab(t)} className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${tab === t ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"}`}>
               {t}
             </button>
           ))}
         </div>
 
-        {/* Filter by team */}
         {teams.length > 1 && (
           <div className="mb-4">
-            <select
-              value={filterTeam}
-              onChange={(e) => setFilterTeam(e.target.value)}
-              className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm font-medium text-navy bg-white focus:outline-none focus:border-navy"
-            >
+            <select value={filterTeam} onChange={e => setFilterTeam(e.target.value)} className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm font-medium text-navy bg-white focus:outline-none focus:border-navy">
               <option value="">All Teams</option>
-              {teams.map((t) => (
-                <option key={t.teamId} value={t.teamId}>{t.teamName}</option>
-              ))}
+              {teams.map(t => <option key={t.teamId} value={t.teamId}>{t.teamName}</option>)}
             </select>
           </div>
         )}
@@ -265,21 +329,24 @@ export default function TeamReportPage() {
                       <th className="px-5 py-3 text-center">Players</th>
                       <th className="px-5 py-3 text-center">Participation (7d)</th>
                       <th className="px-5 py-3">Coach Engagement</th>
+                      <th className="px-5 py-3">Report URL</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredTeams.map((t, i) => (
                       <tr key={t.teamId} className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}>
-                        <td className="px-5 py-3.5 font-bold text-navy">{t.teamName}</td>
+                        <td className="px-5 py-3.5">
+                          <div className="font-bold text-navy">{t.teamName}</div>
+                          {t.createdAt && <div className="text-xs text-gray-400 mt-0.5">({formatDate(t.createdAt)})</div>}
+                        </td>
                         <td className="px-5 py-3.5 text-center text-navy/70">{t.activePlayerCount}</td>
                         <td className="px-5 py-3.5 text-center">
                           <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>
                             {t.participationRate}%
                           </span>
                         </td>
-                        <td className="px-5 py-3.5">
-                          <ScoreDots score={t.coachEngagementScore} breakdown={t.engagementBreakdown} />
-                        </td>
+                        <td className="px-5 py-3.5"><ScoreDots score={t.coachEngagementScore} breakdown={t.engagementBreakdown} /></td>
+                        <td className="px-5 py-3.5"><SlugEditor team={t} onUpdate={(slug) => updateSlug(t.teamId, slug)} /></td>
                       </tr>
                     ))}
                   </tbody>
@@ -340,23 +407,16 @@ export default function TeamReportPage() {
                     ) : filteredRanking.map((c, i) => (
                       <tr key={`${c.teamId}-${c.childId}`} className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}>
                         <td className="px-5 py-3.5 text-center">
-                          <span className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-black ${
-                            i === 0 ? "bg-yellow-400 text-white" :
-                            i === 1 ? "bg-gray-300 text-gray-700" :
-                            i === 2 ? "bg-orange-300 text-white" :
-                            "bg-gray-100 text-navy/50"
-                          }`}>{i + 1}</span>
+                          <span className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-black ${i === 0 ? "bg-yellow-400 text-white" : i === 1 ? "bg-gray-300 text-gray-700" : i === 2 ? "bg-orange-300 text-white" : "bg-gray-100 text-navy/50"}`}>{i + 1}</span>
                         </td>
                         <td className="px-5 py-3.5 font-bold text-navy">{c.name}</td>
-                        <td className="px-5 py-3.5 text-navy/60 text-xs">{c.teamName}</td>
-                        <td className="px-5 py-3.5 text-center">
-                          <span className={`font-bold ${c.participationRate >= 70 ? "text-green-600" : c.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>
-                            {c.participationRate}%
-                          </span>
-                        </td>
                         <td className="px-5 py-3.5">
-                          <ScoreDots score={c.coachEngagementScore} breakdown={c.engagementBreakdown} />
+                          <div className="text-navy/60 text-xs">{c.teamName}</div>
                         </td>
+                        <td className="px-5 py-3.5 text-center">
+                          <span className={`font-bold ${c.participationRate >= 70 ? "text-green-600" : c.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{c.participationRate}%</span>
+                        </td>
+                        <td className="px-5 py-3.5"><ScoreDots score={c.coachEngagementScore} breakdown={c.engagementBreakdown} /></td>
                       </tr>
                     ))}
                   </tbody>
@@ -364,7 +424,6 @@ export default function TeamReportPage() {
               </div>
             )}
 
-            {/* Score Legend */}
             <div className="mt-4 flex flex-wrap gap-3 text-xs text-navy/50">
               <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500 inline-block" /> Contest created</span>
               <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500 inline-block" /> Personal goal set</span>
