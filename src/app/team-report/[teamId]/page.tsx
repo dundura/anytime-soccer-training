@@ -167,7 +167,7 @@ const COACH_TASKS = [
   { key: "demoApp", label: "Demo App In-Person" },
   { key: "sendEmailReminder", label: "Send Email Reminder" },
   { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
-  { key: "hasChallenge", label: "Launch a weekly challenge" },
+  { key: "hasChallenge", label: "Coach's Challenge" },
   { key: "hasContest", label: "Create Longterm Contest", optional: true },
   { key: "setLevelGoal", label: "Set Team Level Goal", optional: true },
   { key: "playerRecognition", label: "Give Player Recognition in Practice", example: "\"Great work on your home training this week, [Name] — I could see it in your touches today!\"" },
@@ -302,7 +302,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                     { label: "Assign Homework", val: t.engagementBreakdown.hasHomework },
                     { label: "Create Longterm Contest", val: t.engagementBreakdown.hasContest },
                     { label: "Set Personal Player Goals", val: t.engagementBreakdown.hasPersonalGoal },
-                    { label: "Launch a weekly challenge", val: t.engagementBreakdown.hasChallenge },
+                    { label: "Coach's Challenge", val: t.engagementBreakdown.hasChallenge },
                   ].map(item => (
                     <span key={item.label} className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${item.val ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-400"}`}>
                       {item.val ? "✓" : "✗"} {item.label}
@@ -505,7 +505,7 @@ function CoachRankingTable({ ranking, period }: { ranking: ReturnType<typeof Arr
     { key: "hasHomework", label: "Assign Homework" },
     { key: "hasContest", label: "Create Longterm Contest" },
     { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
-    { key: "hasChallenge", label: "Launch a weekly challenge" },
+    { key: "hasChallenge", label: "Coach's Challenge" },
     { key: "score", label: "Score" },
   ];
   const [mobileCol, setMobileCol] = useState(0);
@@ -948,7 +948,7 @@ export default function TeamReportPage() {
               where: "In front of the whole team at practice.",
               why: "Public recognition tells every player that home training gets noticed. It's the fastest way to build a training culture that lasts.",
               tip: undefined },
-            { key: "challenge", badge: "★", badgeBg: "bg-blue-100", badgeText: "text-blue-600", title: "Launch a Weekly Challenge", type: "rec",
+            { key: "challenge", badge: "★", badgeBg: "bg-blue-100", badgeText: "text-blue-600", title: "Coach's Challenge", type: "rec",
               how: "Create a weekly challenge in the app for your team — set a video-count target that everyone competes toward.",
               when: "Set it once — after that it's recurring.",
               where: "In the app under Teams → Challenges.",
