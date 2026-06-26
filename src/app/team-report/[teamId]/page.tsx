@@ -219,11 +219,12 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
     }, 800);
   };
 
-  const setTask = (teamId: number, week: number, slot: number, val: string) => {
+  const toggleTask = (teamId: number, week: number, key: string) => {
     setLocalGoals(prev => {
       const plan = prev[teamId].weeklyPlan.map(w => [...w]);
-      while (plan[week].length <= slot) plan[week].push("");
-      plan[week][slot] = val;
+      const idx = plan[week].indexOf(key);
+      if (idx >= 0) plan[week].splice(idx, 1);
+      else plan[week].push(key);
       const updated = { ...prev, [teamId]: { ...prev[teamId], weeklyPlan: plan } };
       autoSave(teamId, updated[teamId]);
       return updated;
@@ -382,17 +383,21 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
               {[0, 1, 2, 3].map(wi => (
                 <div key={wi} className="border-2 border-gray-100 rounded-xl p-3">
                   <div className="text-xs font-black text-navy mb-2">Week {wi + 1}</div>
-                  {[0, 1].map(slot => (
-                    <select key={slot}
-                      value={g.weeklyPlan[wi]?.[slot] || ""}
-                      onChange={e => setTask(t.teamId, wi, slot, e.target.value)}
-                      className="w-full border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-navy bg-white focus:outline-none focus:border-navy mb-1.5 last:mb-0">
-                      <option value="">— No task —</option>
-                      {COACH_TASKS.map(task => (
-                        <option key={task.key} value={task.key}>{task.label}</option>
-                      ))}
-                    </select>
-                  ))}
+                  <div className="space-y-1.5">
+                    {COACH_TASKS.map(task => {
+                      const checked = g.weeklyPlan[wi]?.includes(task.key) ?? false;
+                      return (
+                        <label key={task.key} className="flex items-center gap-2 cursor-pointer group">
+                          <input type="checkbox" checked={checked}
+                            onChange={() => toggleTask(t.teamId, wi, task.key)}
+                            className="accent-navy w-3.5 h-3.5 shrink-0 cursor-pointer" />
+                          <span className={`text-xs leading-tight ${checked ? "text-navy font-semibold" : "text-navy/50"} group-hover:text-navy transition-colors`}>
+                            {task.label}
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </div>
                 </div>
               ))}
             </div>
