@@ -158,13 +158,25 @@ export default function TeamReportPage() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [addedIds, setAddedIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
-  const [tab, setTab] = useState<Tab>("Summary");
+  const [tab, setTab] = useState<Tab>(() => {
+    if (typeof window !== "undefined") {
+      const p = new URLSearchParams(window.location.search).get("tab") as Tab;
+      if (TABS.includes(p)) return p;
+    }
+    return "Summary";
+  });
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [filterTeam, setFilterTeam] = useState("");
   const [engagementFilter, setEngagementFilter] = useState<string | null>(null);
-  const [period, setPeriod] = useState<"month" | "year" | "alltime">("alltime");
+  const [period, setPeriod] = useState<"week" | "month" | "year" | "alltime">(() => {
+    if (typeof window !== "undefined") {
+      const p = new URLSearchParams(window.location.search).get("period");
+      if (["week", "month", "year", "alltime"].includes(p || "")) return p as "week" | "month" | "year" | "alltime";
+    }
+    return "week";
+  });
   const [playerSearch, setPlayerSearch] = useState("");
 
   const fetchTeams = useCallback(async (ids: number[], p = "alltime") => {
@@ -199,7 +211,8 @@ export default function TeamReportPage() {
       setAddedIds(merged);
 
       if (merged.length) {
-        const res = await fetch(`${API}?teams=${merged.join(",")}&period=alltime`);
+        const initPeriod = new URLSearchParams(window.location.search).get("period") || "week";
+        const res = await fetch(`${API}?teams=${merged.join(",")}&period=${initPeriod}`);
         const data = await res.json();
         setTeams(data.teams || []);
       }
@@ -223,10 +236,17 @@ export default function TeamReportPage() {
     return () => clearTimeout(timeout);
   }, [search]);
 
-  const updateUrl = (ids: number[], seedId: number) => {
+  const buildParams = (ids: number[], seedId: number, overrides: Record<string,string> = {}) => {
     const extra = ids.filter(id => id !== seedId);
-    const params = extra.length ? `?add=${extra.join(",")}` : "";
-    router.replace(`/team-report/${teamId}${params}`, { scroll: false });
+    const current = new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
+    if (extra.length) current.set("add", extra.join(",")); else current.delete("add");
+    Object.entries(overrides).forEach(([k, v]) => v ? current.set(k, v) : current.delete(k));
+    const str = current.toString();
+    return `/team-report/${teamId}${str ? "?" + str : ""}`;
+  };
+
+  const updateUrl = (ids: number[], seedId: number) => {
+    router.replace(buildParams(ids, seedId), { scroll: false });
   };
 
   const addTeam = async (t: SearchResult) => {
@@ -276,9 +296,17 @@ export default function TeamReportPage() {
   const totalVideos = allPlayers.reduce((s, p) => s + p.videosWatched, 0);
   const totalMinutes = allPlayers.reduce((s, p) => s + p.trainingMinutes, 0);
 
-  const changePeriod = (p: "month" | "year" | "alltime") => {
+  const changePeriod = (p: "week" | "month" | "year" | "alltime") => {
     setPeriod(p);
     fetchTeams(addedIds, p);
+    const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0);
+    router.replace(buildParams(addedIds, seedId, { period: p === "week" ? "" : p }), { scroll: false });
+  };
+
+  const changeTab = (t: Tab) => {
+    setTab(t);
+    const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0);
+    router.replace(buildParams(addedIds, seedId, { tab: t === "Summary" ? "" : t }), { scroll: false });
   };
 
   return (
@@ -325,42 +353,45 @@ export default function TeamReportPage() {
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="flex gap-1 mb-4 bg-white rounded-xl p-1 w-fit shadow-sm">
-          {TABS.map(t => (
-            <button key={t} onClick={() => setTab(t)} className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${tab === t ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"}`}>
-              {t}
-            </button>
-          ))}
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3 mb-4">
-          {/* Period pills */}
+        {/* Tabs + Controls row */}
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+          {/* Tabs */}
           <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm">
-            {(["alltime", "year", "month"] as const).map(p => (
-              <button key={p} onClick={() => changePeriod(p)}
-                className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${period === p ? "bg-navy text-white shadow" : "text-navy/50 hover:text-navy"}`}>
-                {p === "alltime" ? "All Time" : p === "year" ? "Year" : "Month"}
+            {TABS.map(t => (
+              <button key={t} onClick={() => changeTab(t)} className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${tab === t ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"}`}>
+                {t}
               </button>
             ))}
           </div>
 
-          {/* Team filter */}
-          {teams.length > 1 && (
-            <select value={filterTeam} onChange={e => setFilterTeam(e.target.value)} className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm font-medium text-navy bg-white focus:outline-none focus:border-navy">
-              <option value="">All Teams</option>
-              {teams.map(t => <option key={t.teamId} value={t.teamId}>{t.teamName}</option>)}
-            </select>
-          )}
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Team filter */}
+            {teams.length > 1 && (
+              <select value={filterTeam} onChange={e => setFilterTeam(e.target.value)} className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm font-medium text-navy bg-white focus:outline-none focus:border-navy">
+                <option value="">All Teams</option>
+                {teams.map(t => <option key={t.teamId} value={t.teamId}>{t.teamName}</option>)}
+              </select>
+            )}
 
-          {/* Player search */}
-          <input
-            type="text"
-            placeholder="Search players..."
-            value={playerSearch}
-            onChange={e => setPlayerSearch(e.target.value)}
-            className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-navy bg-white w-48"
-          />
+            {/* Player search */}
+            <input
+              type="text"
+              placeholder="Search players..."
+              value={playerSearch}
+              onChange={e => setPlayerSearch(e.target.value)}
+              className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-navy bg-white w-44"
+            />
+
+            {/* Period pills */}
+            <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm">
+              {(["week", "month", "year", "alltime"] as const).map(p => (
+                <button key={p} onClick={() => changePeriod(p)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${period === p ? "bg-navy text-white shadow" : "text-navy/50 hover:text-navy"}`}>
+                  {p === "alltime" ? "All Time" : p === "year" ? "Year" : p === "month" ? "Month" : "Week"}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {loading ? (
@@ -377,7 +408,7 @@ export default function TeamReportPage() {
                     <tr className="bg-navy text-white text-left text-xs uppercase tracking-wide">
                       <th className="px-5 py-3">Team</th>
                       <th className="px-5 py-3 text-center">Players</th>
-                      <th className="px-5 py-3 text-center">Participation ({period === "month" ? "Month" : period === "year" ? "Year" : "7d"})</th>
+                      <th className="px-5 py-3 text-center">Participation ({period === "week" ? "7d" : period === "month" ? "Month" : period === "year" ? "Year" : "All Time"})</th>
                       <th className="px-5 py-3">Coach Engagement</th>
                     </tr>
                   </thead>
@@ -480,7 +511,7 @@ export default function TeamReportPage() {
                       <th className="px-4 py-3 text-center w-12">Rank</th>
                       <th className="px-4 py-3">Coach</th>
                       <th className="px-4 py-3">Team</th>
-                      <th className="px-4 py-3 text-center">Participation ({period === "month" ? "Month" : period === "year" ? "Year" : "7d"})</th>
+                      <th className="px-4 py-3 text-center">Participation ({period === "week" ? "7d" : period === "month" ? "Month" : period === "year" ? "Year" : "All Time"})</th>
                       <th className="px-4 py-3 text-center">Contest Created</th>
                       <th className="px-4 py-3 text-center">Personal Goal</th>
                       <th className="px-4 py-3 text-center">Challenge Set</th>
