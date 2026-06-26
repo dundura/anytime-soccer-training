@@ -49,7 +49,7 @@ export default function CoachFeatureCards() {
       <div className="max-w-[1100px] mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-[clamp(24px,4vw,36px)] font-extrabold text-navy leading-tight max-w-3xl mx-auto uppercase tracking-tight">
-            Your Players Are Going Home With<br /><span className="text-red">No Plan</span>
+            Practice Ends. Their<br /><span className="text-red">Development Shouldn't.</span>
           </h2>
           <p className="text-lg text-[#64748b] mt-4 max-w-2xl mx-auto">
             Give every player structured homework, real accountability, and a reason to train — without adding a single minute to your practice schedule.
