@@ -909,7 +909,7 @@ export default function TeamReportPage() {
             { key: "homework", badge: "1", badgeBg: "bg-navy", badgeText: "text-white", title: "Assign Homework", type: "core",
               how: "Go to your coach's board. Pick the skill areas and folders you want to assign. We recommend keeping it simple — start with 30-day plans or the first folders in the full curriculum. Then next month, assign one of the recurring plans such as the Skill Builder Plan. If you have any questions, email megan@anytime-soccer.com.",
               when: "Do this immediately upon creating the team. You have to show the kids this is important.",
-              where: "In the app under Teams → Homework.",
+              where: "The coach's board is in the app — log in at app.anytime-soccer.com and you'll find it in the main navigation.",
               why: "Players who receive homework train 3× more often than those who don't. Assign it at the start of each week so players know exactly what to work on." },
             { key: "demo", badge: "2", badgeBg: "bg-navy", badgeText: "text-white", title: "Demo App In-Person", type: "core",
               how: "Pull up the app on your phone at practice. Walk players through finding their homework, logging a video, and checking their stats — live, in 2 minutes.",
