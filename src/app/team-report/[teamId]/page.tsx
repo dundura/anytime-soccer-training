@@ -17,6 +17,7 @@ interface Coach {
   childId: number;
   name: string;
   role: string;
+  email: string | null;
 }
 
 interface EngagementBreakdown {
@@ -183,8 +184,11 @@ type GoalsPanelProps = {
   period: string;
 };
 
+type EmailForm = { mode: "manager" | "custom"; selectedId: number | null; firstName: string; email: string; sending: boolean; sent: boolean };
+
 function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
   const [saving, setSaving] = useState<Record<number, boolean>>({});
+  const [emailForms, setEmailForms] = useState<Record<number, EmailForm | null>>({});
   const makeDefaults = (t: Team): LocalGoal => ({
     participationGoal: t.participationGoal != null ? String(t.participationGoal) : DEFAULT_PARTICIPATION_GOAL,
     videosPerPlayerGoal: t.videosPerPlayerGoal != null ? String(t.videosPerPlayerGoal) : DEFAULT_VIDEOS_GOAL,
@@ -244,6 +248,33 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
     autoSave(t.teamId, defaults);
   };
 
+  const resolvedRecipient = (t: Team, form: EmailForm) => {
+    if (form.mode === "manager" && form.selectedId != null) {
+      const coach = t.coaches.find(c => c.childId === form.selectedId);
+      return { firstName: coach?.name?.split(" ")[0] || "", email: (coach as any)?.email || "" };
+    }
+    return { firstName: form.firstName, email: form.email };
+  };
+
+  const sendEmail = async (t: Team) => {
+    const form = emailForms[t.teamId];
+    if (!form) return;
+    const { firstName, email } = resolvedRecipient(t, form);
+    if (!email) return;
+    setEmailForms(prev => ({ ...prev, [t.teamId]: { ...form, sending: true } }));
+    try {
+      await fetch(`${API}/${t.teamId}/email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstName, email, period }),
+      });
+      setEmailForms(prev => ({ ...prev, [t.teamId]: { ...form, sending: false, sent: true } }));
+      setTimeout(() => setEmailForms(prev => ({ ...prev, [t.teamId]: null })), 3000);
+    } catch {
+      setEmailForms(prev => ({ ...prev, [t.teamId]: { ...form, sending: false } }));
+    }
+  };
+
   const downloadPdf = (teamId: number) => {
     window.open(`${API}/${teamId}/pdf?period=${period}`, "_blank");
   };
@@ -260,11 +291,15 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                 <div className="font-black text-navy">{t.teamName}</div>
                 <div className="text-xs text-gray-400 mt-0.5">Current participation: <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span></div>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 {saving[t.teamId] && <span className="text-xs text-navy/40 italic">Saving…</span>}
                 <button onClick={() => reset(t)}
                   className="text-sm font-bold border-2 border-gray-200 text-navy/50 px-3 py-2 rounded-xl hover:border-navy/40 hover:text-navy transition-colors">
                   Reset
+                </button>
+                <button onClick={() => setEmailForms(prev => prev[t.teamId] ? { ...prev, [t.teamId]: null } : { ...prev, [t.teamId]: { mode: "manager", selectedId: t.coaches[0]?.childId ?? null, firstName: "", email: "", sending: false, sent: false } })}
+                  className="text-sm font-bold border-2 border-[#e63946] text-[#e63946] px-4 py-2 rounded-xl hover:bg-[#e63946]/5 transition-colors">
+                  ✉ Email
                 </button>
                 <button onClick={() => downloadPdf(t.teamId)}
                   className="text-sm font-bold border-2 border-navy text-navy px-4 py-2 rounded-xl hover:bg-navy/5 transition-colors">
@@ -272,6 +307,52 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                 </button>
               </div>
             </div>
+
+            {/* Email form */}
+            {emailForms[t.teamId] && (
+              <div className="mb-5 p-4 bg-[#fff5f5] border-2 border-[#e63946]/20 rounded-xl">
+                {emailForms[t.teamId]!.sent ? (
+                  <p className="text-sm font-bold text-green-600 text-center">✓ Email sent with PDF attached!</p>
+                ) : (
+                  <div className="space-y-3">
+                    <p className="text-xs font-bold text-navy/50 uppercase tracking-wide">Send to</p>
+                    {/* Manager radio buttons */}
+                    {t.coaches.filter(c => c.email).map(c => (
+                      <label key={c.childId} className="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name={`email-target-${t.teamId}`}
+                          checked={emailForms[t.teamId]!.mode === "manager" && emailForms[t.teamId]!.selectedId === c.childId}
+                          onChange={() => setEmailForms(prev => ({ ...prev, [t.teamId]: { ...prev[t.teamId]!, mode: "manager", selectedId: c.childId } }))}
+                          className="accent-[#e63946]" />
+                        <span className="text-sm font-medium text-navy">{c.name}</span>
+                        <span className="text-xs text-gray-400">{c.email}</span>
+                      </label>
+                    ))}
+                    {/* Custom email option */}
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input type="radio" name={`email-target-${t.teamId}`}
+                        checked={emailForms[t.teamId]!.mode === "custom"}
+                        onChange={() => setEmailForms(prev => ({ ...prev, [t.teamId]: { ...prev[t.teamId]!, mode: "custom", selectedId: null } }))}
+                        className="accent-[#e63946]" />
+                      <span className="text-sm font-medium text-navy">Other</span>
+                    </label>
+                    {emailForms[t.teamId]!.mode === "custom" && (
+                      <div className="flex flex-wrap gap-3 pl-5">
+                        <input type="text" placeholder="First name" value={emailForms[t.teamId]!.firstName}
+                          onChange={e => setEmailForms(prev => ({ ...prev, [t.teamId]: { ...prev[t.teamId]!, firstName: e.target.value } }))}
+                          className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-36 focus:outline-none focus:border-navy" />
+                        <input type="email" placeholder="Email address" value={emailForms[t.teamId]!.email}
+                          onChange={e => setEmailForms(prev => ({ ...prev, [t.teamId]: { ...prev[t.teamId]!, email: e.target.value } }))}
+                          className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-52 focus:outline-none focus:border-navy" />
+                      </div>
+                    )}
+                    <button onClick={() => sendEmail(t)} disabled={emailForms[t.teamId]!.sending || !resolvedRecipient(t, emailForms[t.teamId]!).email}
+                      className="text-sm font-bold bg-[#e63946] text-white px-5 py-2 rounded-xl disabled:opacity-40 hover:bg-[#c1121f] transition-colors">
+                      {emailForms[t.teamId]!.sending ? "Sending…" : "Send PDF"}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Numeric goals */}
             <div className="flex flex-wrap gap-6 mb-5 pb-5 border-b border-gray-100">
