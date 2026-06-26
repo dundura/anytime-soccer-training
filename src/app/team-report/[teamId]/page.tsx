@@ -973,7 +973,8 @@ export default function TeamReportPage() {
             <div className="max-w-3xl mx-auto">
               <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
                 <h2 className="text-2xl font-black text-navy mb-1">How To Use Your Coaching Plan</h2>
-                <p className="text-sm text-navy/50 mb-6">Follow these steps week by week to drive player engagement and build great training habits on your team.</p>
+                <p className="text-sm text-navy/50 mb-1">Follow these steps week by week to drive player engagement and build great training habits on your team.</p>
+                <p className="text-sm text-navy/40 mb-6">Questions? Email <a href="mailto:megan@anytime-soccer.com" className="text-navy/60 font-semibold hover:text-navy underline">megan@anytime-soccer.com</a> or call <a href="tel:8034311082" className="text-navy/60 font-semibold hover:text-navy underline">803-431-1082</a>.</p>
 
                 {/* Pills */}
                 <div className="flex flex-wrap gap-2 mb-8 pb-6 border-b border-gray-100">
