@@ -148,7 +148,7 @@ function SlugEditor({ team, onUpdate }: { team: Team; onUpdate: (slug: string) =
   );
 }
 
-const TABS = ["Summary", "Detail", "Coach Ranking"] as const;
+const TABS = ["Summary", "Detail", "Coach Ranking", "Report URL"] as const;
 type Tab = (typeof TABS)[number];
 
 export default function TeamReportPage() {
@@ -347,7 +347,6 @@ export default function TeamReportPage() {
                       <th className="px-5 py-3 text-center">Players</th>
                       <th className="px-5 py-3 text-center">Participation (7d)</th>
                       <th className="px-5 py-3">Coach Engagement</th>
-                      <th className="px-5 py-3">Report URL</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -364,7 +363,6 @@ export default function TeamReportPage() {
                           </span>
                         </td>
                         <td className="px-5 py-3.5"><ScoreDots score={t.coachEngagementScore} breakdown={t.engagementBreakdown} /></td>
-                        <td className="px-5 py-3.5"><SlugEditor team={t} onUpdate={(slug) => updateSlug(t.teamId, slug)} /></td>
                       </tr>
                     ))}
                   </tbody>
@@ -462,6 +460,33 @@ export default function TeamReportPage() {
                         <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasChallenge} /></td>
                         <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasHomework} /></td>
                         <td className="px-4 py-3.5 text-center"><span className="font-black text-navy">{c.coachEngagementScore}/4</span></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            {/* REPORT URL TAB */}
+            {tab === "Report URL" && (
+              <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-navy text-white text-left text-xs uppercase tracking-wide">
+                      <th className="px-5 py-3">Team</th>
+                      <th className="px-5 py-3 text-gray-300">Created</th>
+                      <th className="px-5 py-3">Report URL</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredTeams.map((t, i) => (
+                      <tr key={t.teamId} className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}>
+                        <td className="px-5 py-4">
+                          <div className="font-bold text-navy">{t.teamName}</div>
+                          {t.createdAt && <div className="text-xs text-gray-400 mt-0.5">({formatDate(t.createdAt)})</div>}
+                        </td>
+                        <td className="px-5 py-4 text-xs text-gray-400">{t.createdAt ? formatDate(t.createdAt) : "—"}</td>
+                        <td className="px-5 py-4"><SlugEditor team={t} onUpdate={(slug) => updateSlug(t.teamId, slug)} /></td>
                       </tr>
                     ))}
                   </tbody>
