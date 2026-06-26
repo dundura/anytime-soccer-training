@@ -386,7 +386,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                   <div className="text-xs font-black text-navy mb-2">Week {wi + 1}</div>
                   <div className="space-y-1.5">
                     {wi === 0 && (
-                      <div className="bg-gray-100 rounded-lg px-2 py-1.5 mb-1 space-y-1.5">
+                      <div className="bg-blue-50 rounded-lg px-2 py-1.5 mb-1 space-y-1.5">
                         {(["hasHomework", "demoApp"] as const).map(key => {
                           const task = COACH_TASKS.find(t => t.key === key)!;
                           const checked = g.weeklyPlan[wi]?.includes(task.key) ?? false;
