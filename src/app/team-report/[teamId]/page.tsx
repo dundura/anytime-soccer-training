@@ -847,28 +847,21 @@ export default function TeamReportPage() {
 
         {/* Single controls row */}
         <div className="flex flex-wrap items-center gap-2 mb-4">
-          {/* Tabs */}
+          {/* Main view buttons */}
           <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm">
-            {TABS.map(t => (
-              <button key={t} onClick={() => changeTab(t)} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${tab === t ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"}`}>
-                {t}
-              </button>
-            ))}
+            <button
+              onClick={() => { setShowGoals(false); setShowHowTo(false); const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0); router.replace(buildParams(addedIds, seedId, { view: "" }), { scroll: false }); }}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${!showGoals && !showHowTo ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"}`}
+            >
+              Player Engagement
+            </button>
+            <button
+              onClick={() => { const next = !showGoals; setShowGoals(next); setShowHowTo(false); const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0); router.replace(buildParams(addedIds, seedId, { view: next ? "goals" : "" }), { scroll: false }); }}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${showGoals ? "bg-[#e63946] text-white shadow" : "text-navy/60 hover:text-navy"}`}
+            >
+              Coach Engagement
+            </button>
           </div>
-
-          {/* Goals toggle */}
-          <button
-            onClick={() => {
-              const next = !showGoals;
-              setShowGoals(next);
-              if (next) setShowHowTo(false);
-              const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0);
-              router.replace(buildParams(addedIds, seedId, { view: next ? "goals" : "" }), { scroll: false });
-            }}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold border-2 transition-all ${showGoals ? "bg-[#e63946] border-[#e63946] text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white"}`}
-          >
-            🎯 Coach Goals
-          </button>
 
           {/* How To toggle */}
           <button
@@ -1053,7 +1046,7 @@ export default function TeamReportPage() {
         ) : !showHowTo ? (
           <>
             {/* OVERVIEW TAB */}
-            {tab === "Overview" && !showGoals && (
+            {!showGoals && !showHowTo && (
               <>
               {/* Summary cards */}
               <div className="grid grid-cols-4 gap-4 mb-4">
