@@ -951,7 +951,7 @@ export default function TeamReportPage() {
             { key: "challenge", badge: "★", badgeBg: "bg-blue-100", badgeText: "text-blue-600", title: "Coach's Challenge", type: "rec",
               how: "Create a weekly challenge in the app for your team — set a video-count target that everyone competes toward.",
               when: "Set it once — after that it's recurring.",
-              where: "In the app under Teams → Challenges.",
+              where: "From the **Team Hub**, click **Coach's Challenge** in the dropdown.",
               why: "Competition drives consistency. Players who are competing check back daily instead of training once and forgetting.",
               tip: undefined },
             { key: "contest", badge: "+", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Create a Longterm Contest", type: "opt",
