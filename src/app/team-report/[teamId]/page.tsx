@@ -168,7 +168,7 @@ const COACH_TASKS = [
   { key: "sendEmailReminder", label: "Send Email Reminder" },
   { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
   { key: "hasChallenge", label: "Launch a weekly challenge" },
-  { key: "hasContest", label: "Create a Contest" },
+  { key: "hasContest", label: "Create Longterm Contest" },
   { key: "setLevelGoal", label: "Set a Level Goal" },
 ] as const;
 
@@ -299,7 +299,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1 mt-2">
                   {[
                     { label: "Assign Homework", val: t.engagementBreakdown.hasHomework },
-                    { label: "Create a Contest", val: t.engagementBreakdown.hasContest },
+                    { label: "Create Longterm Contest", val: t.engagementBreakdown.hasContest },
                     { label: "Set Personal Player Goals", val: t.engagementBreakdown.hasPersonalGoal },
                     { label: "Launch a weekly challenge", val: t.engagementBreakdown.hasChallenge },
                   ].map(item => (
@@ -475,7 +475,7 @@ function CoachRankingTable({ ranking, period }: { ranking: ReturnType<typeof Arr
   const extraCols = [
     { key: "participation", label: `Participation (${periodLabel})` },
     { key: "hasHomework", label: "Assign Homework" },
-    { key: "hasContest", label: "Create a Contest" },
+    { key: "hasContest", label: "Create Longterm Contest" },
     { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
     { key: "hasChallenge", label: "Launch a weekly challenge" },
     { key: "score", label: "Score" },
