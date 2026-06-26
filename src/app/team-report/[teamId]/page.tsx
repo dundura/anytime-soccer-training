@@ -297,21 +297,20 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
               <div className="min-w-0">
                 <div className="font-black text-navy whitespace-nowrap">{t.teamName}</div>
                 <div className="text-xs text-gray-400 mt-0.5 whitespace-nowrap">Current participation: <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span></div>
-                <div className="grid grid-cols-2 gap-x-4 gap-y-1 mt-2">
+                <div className="flex flex-wrap items-center gap-1.5 mt-2">
                   {[
                     { label: "Assign Homework", val: t.engagementBreakdown.hasHomework },
                     { label: "Create Longterm Contest", val: t.engagementBreakdown.hasContest },
                     { label: "Set Personal Player Goals", val: t.engagementBreakdown.hasPersonalGoal },
                     { label: "Launch a weekly challenge", val: t.engagementBreakdown.hasChallenge },
                   ].map(item => (
-                    <div key={item.label} className="flex items-center gap-1.5">
-                      <span className={`text-xs font-black ${item.val ? "text-green-600" : "text-gray-300"}`}>{item.val ? "✓" : "✗"}</span>
-                      <span className={`text-xs ${item.val ? "text-navy font-semibold" : "text-gray-400"}`}>{item.label}</span>
-                    </div>
+                    <span key={item.label} className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${item.val ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-400"}`}>
+                      {item.val ? "✓" : "✗"} {item.label}
+                    </span>
                   ))}
-                </div>
-                <div className="mt-1.5">
-                  <span className="text-[11px] font-black text-navy/50">Score: <span className="text-navy">{t.coachEngagementScore}/4</span></span>
+                  <span className={`inline-flex items-center gap-1 text-[11px] font-black px-2 py-0.5 rounded-full ${t.coachEngagementScore === 4 ? "bg-green-50 text-green-700" : "bg-navy/10 text-navy"}`}>
+                    Score {t.coachEngagementScore}/4
+                  </span>
                 </div>
               </div>
               <div className="flex items-center gap-2 shrink-0">
