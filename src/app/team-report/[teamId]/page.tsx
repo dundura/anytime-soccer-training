@@ -316,7 +316,21 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 {saving[t.teamId] && <span className="text-xs text-navy/40 italic">Saving…</span>}
-                <div className="relative">
+                {/* Desktop: individual buttons */}
+                <button onClick={() => reset(t)}
+                  className="hidden sm:inline-flex text-sm font-bold border-2 border-gray-200 text-navy/50 px-3 py-2 rounded-xl hover:border-navy/40 hover:text-navy transition-colors">
+                  ↺ Reset
+                </button>
+                <button onClick={() => setEmailForms(prev => prev[t.teamId] ? { ...prev, [t.teamId]: null } : { ...prev, [t.teamId]: { mode: "manager", selectedId: t.coaches[0]?.childId ?? null, firstName: "", email: "", sending: false, sent: false } })}
+                  className="hidden sm:inline-flex text-sm font-bold border-2 border-[#e63946] text-[#e63946] px-4 py-2 rounded-xl hover:bg-[#e63946]/5 transition-colors">
+                  ✉ Email
+                </button>
+                <button onClick={() => downloadPdf(t.teamId)}
+                  className="hidden sm:inline-flex text-sm font-bold border-2 border-navy text-navy px-4 py-2 rounded-xl hover:bg-navy/5 transition-colors">
+                  ↓ PDF
+                </button>
+                {/* Mobile: Actions dropdown */}
+                <div className="relative sm:hidden">
                   <button onClick={() => toggleMenu(t.teamId)}
                     className="flex items-center gap-1.5 text-sm font-bold border-2 border-gray-200 text-navy/60 px-3 py-2 rounded-xl hover:border-navy/40 hover:text-navy transition-colors bg-white">
                     Actions <span className="text-[10px]">{openMenus[t.teamId] ? "▴" : "▾"}</span>
