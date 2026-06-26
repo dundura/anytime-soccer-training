@@ -523,7 +523,6 @@ export default function TeamReportPage() {
                       <th className="px-4 py-3 text-center">Contest Created</th>
                       <th className="px-4 py-3 text-center">Personal Goal</th>
                       <th className="px-4 py-3 text-center">Challenge Set</th>
-                      <th className="px-4 py-3 text-center">Homework Assigned</th>
                       <th className="px-4 py-3 text-center">Score</th>
                     </tr>
                   </thead>
@@ -544,7 +543,6 @@ export default function TeamReportPage() {
                         <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasContest} /></td>
                         <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasPersonalGoal} /></td>
                         <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasChallenge} /></td>
-                        <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasHomework} /></td>
                         <td className="px-4 py-3.5 text-center"><span className="font-black text-navy">{c.coachEngagementScore}/4</span></td>
                       </tr>
                     ))}
