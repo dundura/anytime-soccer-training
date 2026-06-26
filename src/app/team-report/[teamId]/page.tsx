@@ -158,8 +158,8 @@ const DEFAULT_VIDEOS_GOAL = "30";
 const DEFAULT_WEEKLY_PLAN: string[][] = [
   ["hasHomework", "demoApp"],
   ["sendEmailReminder", "hasPersonalGoal"],
-  [],
-  [],
+  ["hasChallenge"],
+  ["playerRecognition"],
 ];
 
 const COACH_TASKS = [
