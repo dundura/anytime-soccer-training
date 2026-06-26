@@ -662,6 +662,7 @@ export default function TeamReportPage() {
   const [showGoals, setShowGoals] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).get("view") === "goals");
   const [showHowTo, setShowHowTo] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).get("view") === "howto");
   const [howToFilter, setHowToFilter] = useState<string | null>(null);
+  const [expandedStep, setExpandedStep] = useState<string | null>(null);
 
   const fetchTeams = useCallback(async (ids: number[], p = "alltime") => {
     if (!ids.length) return;
@@ -992,36 +993,43 @@ export default function TeamReportPage() {
                 </div>
 
                 {/* Steps */}
-                <div className="space-y-8">
-                  {visible.map(s => (
-                    <div key={s.key} className="flex gap-4">
-                      <span className={`w-8 h-8 rounded-full ${s.badgeBg} ${s.badgeText} text-sm font-black flex items-center justify-center shrink-0 mt-0.5`}>{s.badge}</span>
-                      <div className="flex-1">
-                        <h4 className="text-base font-black text-navy mb-3">{s.title}</h4>
-                        <div className="space-y-3">
-                          {([["How", s.how], ["When", s.when], ["Where", s.where], ["Why", s.why]] as [string, string][]).map(([label, val], i, arr) => (
-                            <div key={label}>
-                              <div className="flex gap-2">
-                                <span className="text-[10px] font-black uppercase tracking-widest text-navy w-10 pt-0.5 shrink-0">{label}</span>
-                                <p className="text-sm text-navy/60 leading-relaxed">{val.split(/(\*\*[^*]+\*\*)/).map((part, i) =>
-                                  part.startsWith("**") && part.endsWith("**")
-                                    ? <strong key={i} className="font-black text-navy">{part.slice(2, -2)}</strong>
-                                    : part
-                                )}</p>
+                <div className="space-y-2">
+                  {visible.map(s => {
+                    const open = expandedStep === s.key;
+                    return (
+                      <div key={s.key} className="border border-gray-100 rounded-xl overflow-hidden">
+                        <button onClick={() => setExpandedStep(open ? null : s.key)}
+                          className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left">
+                          <span className={`w-7 h-7 rounded-full ${s.badgeBg} ${s.badgeText} text-xs font-black flex items-center justify-center shrink-0`}>{s.badge}</span>
+                          <span className="text-sm font-black text-navy flex-1">{s.title}</span>
+                          <span className="text-navy/30 text-xs">{open ? "▴" : "▾"}</span>
+                        </button>
+                        {open && (
+                          <div className="px-4 pb-4 pt-1 space-y-3 border-t border-gray-100">
+                            {([["How", s.how], ["When", s.when], ["Where", s.where], ["Why", s.why]] as [string, string][]).map(([label, val], i, arr) => (
+                              <div key={label}>
+                                <div className="flex gap-2">
+                                  <span className="text-[10px] font-black uppercase tracking-widest text-navy w-10 pt-0.5 shrink-0">{label}</span>
+                                  <p className="text-sm text-navy/60 leading-relaxed">{val.split(/(\*\*[^*]+\*\*)/).map((part, j) =>
+                                    part.startsWith("**") && part.endsWith("**")
+                                      ? <strong key={j} className="font-black text-navy">{part.slice(2, -2)}</strong>
+                                      : part
+                                  )}</p>
+                                </div>
+                                {i < arr.length - 1 && <div className="mt-3 border-b border-gray-100" />}
                               </div>
-                              {i < arr.length - 1 && <div className="mt-3 border-b border-gray-100" />}
-                            </div>
-                          ))}
-                          {s.tip && (
-                            <div className="mt-4 flex gap-2 bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-3">
-                              <span className="text-yellow-500 text-sm shrink-0">💡</span>
-                              <p className="text-sm text-yellow-800 leading-relaxed"><span className="font-black">Pro Tip:</span> {s.tip}</p>
-                            </div>
-                          )}
-                        </div>
+                            ))}
+                            {s.tip && (
+                              <div className="mt-2 flex gap-2 bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-3">
+                                <span className="text-yellow-500 text-sm shrink-0">💡</span>
+                                <p className="text-sm text-yellow-800 leading-relaxed"><span className="font-black">Pro Tip:</span> {s.tip}</p>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>
