@@ -305,54 +305,38 @@ function HowToContent() {
 }
 
 function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: any[]; period: string; teams: Team[]; onUpdate: GoalsPanelProps["onUpdate"] }) {
-  const ALL_KEYS = ["summary", "plan", "howto"];
-  const [openSections, setOpenSections] = useState<Set<string>>(new Set(ALL_KEYS));
-  const allOpen = ALL_KEYS.every(k => openSections.has(k));
-  const toggle = (s: string) => setOpenSections(prev => {
-    const next = new Set(prev);
-    if (next.has(s)) { next.delete(s); } else { next.clear(); next.add(s); }
-    return next;
-  });
-  const toggleAll = () => setOpenSections(allOpen ? new Set() : new Set(ALL_KEYS));
-  const sections: { key: string; label: string }[] = [
+  const [selected, setSelected] = useState<"all" | "summary" | "plan" | "howto">("all");
+  const sections: { key: "summary" | "plan" | "howto"; label: string }[] = [
     { key: "summary", label: "Coach Engagement Summary" },
     { key: "plan", label: "Create Action Plan" },
     { key: "howto", label: "How to Increase Engagement" },
   ];
+  const visible = selected === "all" ? sections.map(s => s.key) : [selected];
   return (
     <div>
       {/* Pill row */}
       <div className="flex flex-wrap gap-2 mb-4">
-        <button onClick={toggleAll}
-          className={`px-4 py-2 rounded-full text-sm font-bold border-2 transition-all ${allOpen ? "bg-[#e63946] border-[#e63946] text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white hover:text-navy"}`}>
+        <button onClick={() => setSelected("all")}
+          className={`px-4 py-2 rounded-full text-sm font-bold border-2 transition-all ${selected === "all" ? "bg-[#e63946] border-[#e63946] text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white hover:text-navy"}`}>
           All
         </button>
-        {sections.map(({ key, label }) => {
-          const open = openSections.has(key);
-          return (
-            <button key={key} onClick={() => toggle(key)}
-              className={`px-4 py-2 rounded-full text-sm font-bold border-2 transition-all ${open ? "bg-navy border-navy text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white hover:text-navy"}`}>
-              {label}
-            </button>
-          );
-        })}
+        {sections.map(({ key, label }) => (
+          <button key={key} onClick={() => setSelected(key)}
+            className={`px-4 py-2 rounded-full text-sm font-bold border-2 transition-all ${selected === key ? "bg-navy border-navy text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white hover:text-navy"}`}>
+            {label}
+          </button>
+        ))}
       </div>
 
-      {/* Accordion content */}
+      {/* Content */}
       <div className="space-y-2">
-        {sections.map(({ key }) => {
-          const open = openSections.has(key);
-          if (!open) return null;
-          return (
-            <div key={key} className="border border-gray-100 rounded-xl overflow-hidden bg-white shadow-sm">
-              {key === "summary" && <PerformanceDropdown ranking={ranking} period={period} forceOpen />}
-              {key === "plan" && (
-                <GoalsPanel teams={teams} onUpdate={onUpdate} period={period} />
-              )}
-              {key === "howto" && <HowToContent />}
-            </div>
-          );
-        })}
+        {visible.map(key => (
+          <div key={key} className="border border-gray-100 rounded-xl overflow-hidden bg-white shadow-sm">
+            {key === "summary" && <PerformanceDropdown ranking={ranking} period={period} forceOpen />}
+            {key === "plan" && <GoalsPanel teams={teams} onUpdate={onUpdate} period={period} />}
+            {key === "howto" && <HowToContent />}
+          </div>
+        ))}
       </div>
     </div>
   );
