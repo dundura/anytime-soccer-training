@@ -634,7 +634,7 @@ function TeamSection({ t, teamPlayers, period, forceOpen }: { t: Team; teamPlaye
   );
 }
 
-const TABS = ["Overview", "Report URL"] as const;
+const TABS = ["Overview"] as const;
 type Tab = (typeof TABS)[number];
 
 export default function TeamReportPage() {
