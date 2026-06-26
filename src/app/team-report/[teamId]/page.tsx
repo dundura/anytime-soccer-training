@@ -978,11 +978,14 @@ export default function TeamReportPage() {
                       <span className={`w-8 h-8 rounded-full ${s.badgeBg} ${s.badgeText} text-sm font-black flex items-center justify-center shrink-0 mt-0.5`}>{s.badge}</span>
                       <div className="flex-1">
                         <h4 className="text-base font-black text-navy mb-3">{s.title}</h4>
-                        <div className="space-y-2">
-                          {([["How", s.how], ["When", s.when], ["Where", s.where], ["Why", s.why]] as [string, string][]).map(([label, val]) => (
-                            <div key={label} className="flex gap-2">
-                              <span className="text-[10px] font-black uppercase tracking-widest text-navy/30 w-10 pt-0.5 shrink-0">{label}</span>
-                              <p className="text-sm text-navy/60 leading-relaxed">{val}</p>
+                        <div className="space-y-3">
+                          {([["How", s.how], ["When", s.when], ["Where", s.where], ["Why", s.why]] as [string, string][]).map(([label, val], i, arr) => (
+                            <div key={label}>
+                              <div className="flex gap-2">
+                                <span className="text-[10px] font-black uppercase tracking-widest text-navy w-10 pt-0.5 shrink-0">{label}</span>
+                                <p className="text-sm text-navy/60 leading-relaxed">{val}</p>
+                              </div>
+                              {i < arr.length - 1 && <div className="mt-3 border-b border-gray-100" />}
                             </div>
                           ))}
                         </div>
