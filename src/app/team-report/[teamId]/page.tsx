@@ -164,12 +164,14 @@ export default function TeamReportPage() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [filterTeam, setFilterTeam] = useState("");
   const [engagementFilter, setEngagementFilter] = useState<string | null>(null);
+  const [period, setPeriod] = useState<"month" | "year" | "alltime">("alltime");
+  const [playerSearch, setPlayerSearch] = useState("");
 
-  const fetchTeams = useCallback(async (ids: number[]) => {
+  const fetchTeams = useCallback(async (ids: number[], p = "alltime") => {
     if (!ids.length) return;
     setLoading(true);
     try {
-      const res = await fetch(`${API}?teams=${ids.join(",")}`);
+      const res = await fetch(`${API}?teams=${ids.join(",")}&period=${p}`);
       const data = await res.json();
       setTeams(data.teams || []);
     } catch (e) { console.error(e); }
@@ -197,7 +199,7 @@ export default function TeamReportPage() {
       setAddedIds(merged);
 
       if (merged.length) {
-        const res = await fetch(`${API}?teams=${merged.join(",")}`);
+        const res = await fetch(`${API}?teams=${merged.join(",")}&period=alltime`);
         const data = await res.json();
         setTeams(data.teams || []);
       }
@@ -234,7 +236,7 @@ export default function TeamReportPage() {
     setSearch(""); setSearchResults([]);
     const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0);
     updateUrl(newIds, seedId);
-    await fetchTeams(newIds);
+    await fetchTeams(newIds, period);
   };
 
   const removeTeam = (id: number) => {
@@ -267,7 +269,17 @@ export default function TeamReportPage() {
 
   const allPlayers = filteredTeams
     .flatMap(t => t.players.map(p => ({ ...p, teamName: t.teamName })))
+    .filter(p => !playerSearch || p.name.toLowerCase().includes(playerSearch.toLowerCase()))
     .sort((a, b) => b.videosWatched - a.videosWatched);
+
+  const totalPlayers = allPlayers.length;
+  const totalVideos = allPlayers.reduce((s, p) => s + p.videosWatched, 0);
+  const totalMinutes = allPlayers.reduce((s, p) => s + p.trainingMinutes, 0);
+
+  const changePeriod = (p: "month" | "year" | "alltime") => {
+    setPeriod(p);
+    fetchTeams(addedIds, p);
+  };
 
   return (
     <main className="min-h-screen bg-[#f5f7fa]">
@@ -322,14 +334,34 @@ export default function TeamReportPage() {
           ))}
         </div>
 
-        {teams.length > 1 && (
-          <div className="mb-4">
+        <div className="flex flex-wrap items-center gap-3 mb-4">
+          {/* Period pills */}
+          <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm">
+            {(["alltime", "year", "month"] as const).map(p => (
+              <button key={p} onClick={() => changePeriod(p)}
+                className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${period === p ? "bg-navy text-white shadow" : "text-navy/50 hover:text-navy"}`}>
+                {p === "alltime" ? "All Time" : p === "year" ? "Year" : "Month"}
+              </button>
+            ))}
+          </div>
+
+          {/* Team filter */}
+          {teams.length > 1 && (
             <select value={filterTeam} onChange={e => setFilterTeam(e.target.value)} className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm font-medium text-navy bg-white focus:outline-none focus:border-navy">
               <option value="">All Teams</option>
               {teams.map(t => <option key={t.teamId} value={t.teamId}>{t.teamName}</option>)}
             </select>
-          </div>
-        )}
+          )}
+
+          {/* Player search */}
+          <input
+            type="text"
+            placeholder="Search players..."
+            value={playerSearch}
+            onChange={e => setPlayerSearch(e.target.value)}
+            className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-navy bg-white w-48"
+          />
+        </div>
 
         {loading ? (
           <div className="text-center py-20 text-navy/40 font-medium">Loading...</div>
@@ -345,7 +377,7 @@ export default function TeamReportPage() {
                     <tr className="bg-navy text-white text-left text-xs uppercase tracking-wide">
                       <th className="px-5 py-3">Team</th>
                       <th className="px-5 py-3 text-center">Players</th>
-                      <th className="px-5 py-3 text-center">Participation (7d)</th>
+                      <th className="px-5 py-3 text-center">Participation ({period === "month" ? "Month" : period === "year" ? "Year" : "7d"})</th>
                       <th className="px-5 py-3">Coach Engagement</th>
                     </tr>
                   </thead>
@@ -372,6 +404,19 @@ export default function TeamReportPage() {
 
             {/* DETAIL TAB */}
             {tab === "Detail" && (
+              <>
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                {[
+                  { label: "Total Players", value: totalPlayers.toLocaleString() },
+                  { label: "Total Videos", value: totalVideos.toLocaleString() },
+                  { label: "Total Training Time", value: formatTime(totalMinutes) },
+                ].map(card => (
+                  <div key={card.label} className="bg-white rounded-2xl shadow-sm px-6 py-5 text-center">
+                    <div className="text-2xl font-black text-navy">{card.value}</div>
+                    <div className="text-xs text-gray-400 font-semibold mt-1 uppercase tracking-wide">{card.label}</div>
+                  </div>
+                ))}
+              </div>
               <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
                 <table className="w-full text-sm">
                   <thead>
@@ -402,6 +447,7 @@ export default function TeamReportPage() {
                   </tbody>
                 </table>
               </div>
+              </>
             )}
 
             {/* COACH RANKING TAB */}
@@ -434,7 +480,7 @@ export default function TeamReportPage() {
                       <th className="px-4 py-3 text-center w-12">Rank</th>
                       <th className="px-4 py-3">Coach</th>
                       <th className="px-4 py-3">Team</th>
-                      <th className="px-4 py-3 text-center">Participation</th>
+                      <th className="px-4 py-3 text-center">Participation ({period === "month" ? "Month" : period === "year" ? "Year" : "7d"})</th>
                       <th className="px-4 py-3 text-center">Contest Created</th>
                       <th className="px-4 py-3 text-center">Personal Goal</th>
                       <th className="px-4 py-3 text-center">Challenge Set</th>
