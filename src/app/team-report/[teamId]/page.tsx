@@ -917,7 +917,7 @@ export default function TeamReportPage() {
               when: "First week of the season or at your first team meeting.",
               where: "Announce that you will do a demo, then do it after practice with your phone in hand.",
               why: "Seeing it live removes all friction. A quick in-person demo gets more players active than any email or link you can send.",
-              tip: undefined },
+              tip: "Bring a Bluetooth speaker and do one of the videos at practice in real time so parents can see exactly how it works." },
             { key: "email", badge: "3", badgeBg: "bg-navy", badgeText: "text-white", title: "Send Email Reminder", type: "core",
               how: "Click the Email PDF button on this page to send the coaching plan to a manager. Then forward it to parents with a short personal note.",
               when: "Once per week, at the start of the training week.",
