@@ -948,7 +948,7 @@ export default function TeamReportPage() {
               when: "Once per week at practice, consistently every week.",
               where: "In front of the whole team at practice.",
               why: "Public recognition tells every player that home training gets noticed. It's the fastest way to build a training culture that lasts.",
-              tip: undefined },
+              tip: "Something as simple as letting a player be team captain for the day or pick teams in a scrimmage is all it takes to fuel a kid's motivation — the recognition doesn't have to be big to be powerful." },
             { key: "challenge", badge: "★", badgeBg: "bg-blue-100", badgeText: "text-blue-600", title: "Coach's Challenge", type: "rec",
               how: "Create a weekly challenge in the app for your team — set a video-count target that everyone competes toward.",
               when: "Set it once — after that it's recurring.",
