@@ -289,9 +289,9 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
         if (!g) return null;
         return (
           <div key={t.teamId} className="bg-white rounded-2xl shadow-sm p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <div className="font-black text-navy">{t.teamName}</div>
+            <div className="flex items-start justify-between gap-4 mb-4">
+              <div className="min-w-0">
+                <div className="font-black text-navy whitespace-nowrap">{t.teamName}</div>
                 <div className="text-xs text-gray-400 mt-0.5">Current participation: <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span></div>
                 <div className="flex flex-wrap items-center gap-2 mt-2">
                   {[
@@ -866,6 +866,11 @@ export default function TeamReportPage() {
                     <div className="text-xs text-gray-400 font-semibold mt-1 uppercase tracking-wide">{card.label}</div>
                   </div>
                 ))}
+              </div>
+
+              {/* Coach ranking */}
+              <div className="mb-4">
+                <CoachRankingTable ranking={filteredRanking} period={period} />
               </div>
 
               {/* Per-team: collapsible summary pill + player rows */}
