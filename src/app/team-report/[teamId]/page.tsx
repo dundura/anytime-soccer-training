@@ -189,6 +189,9 @@ type EmailForm = { mode: "manager" | "custom"; selectedId: number | null; firstN
 function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
   const [saving, setSaving] = useState<Record<number, boolean>>({});
   const [emailForms, setEmailForms] = useState<Record<number, EmailForm | null>>({});
+  const [openMenus, setOpenMenus] = useState<Record<number, boolean>>({});
+  const toggleMenu = (teamId: number) => setOpenMenus(prev => ({ ...prev, [teamId]: !prev[teamId] }));
+  const closeMenu = (teamId: number) => setOpenMenus(prev => ({ ...prev, [teamId]: false }));
   const makeDefaults = (t: Team): LocalGoal => ({
     participationGoal: t.participationGoal != null ? String(t.participationGoal) : DEFAULT_PARTICIPATION_GOAL,
     videosPerPlayerGoal: t.videosPerPlayerGoal != null ? String(t.videosPerPlayerGoal) : DEFAULT_VIDEOS_GOAL,
@@ -292,7 +295,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
             <div className="flex items-start justify-between gap-4 mb-4">
               <div className="min-w-0">
                 <div className="font-black text-navy whitespace-nowrap">{t.teamName}</div>
-                <div className="text-xs text-gray-400 mt-0.5">Current participation: <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span></div>
+                <div className="text-xs text-gray-400 mt-0.5 whitespace-nowrap">Current participation: <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span></div>
                 <div className="flex flex-wrap items-center gap-2 mt-2">
                   {[
                     { label: "Assign Homework", val: t.engagementBreakdown.hasHomework },
@@ -309,20 +312,30 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                   </span>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 shrink-0">
                 {saving[t.teamId] && <span className="text-xs text-navy/40 italic">Saving…</span>}
-                <button onClick={() => reset(t)}
-                  className="text-sm font-bold border-2 border-gray-200 text-navy/50 px-3 py-2 rounded-xl hover:border-navy/40 hover:text-navy transition-colors">
-                  Reset
-                </button>
-                <button onClick={() => setEmailForms(prev => prev[t.teamId] ? { ...prev, [t.teamId]: null } : { ...prev, [t.teamId]: { mode: "manager", selectedId: t.coaches[0]?.childId ?? null, firstName: "", email: "", sending: false, sent: false } })}
-                  className="text-sm font-bold border-2 border-[#e63946] text-[#e63946] px-4 py-2 rounded-xl hover:bg-[#e63946]/5 transition-colors">
-                  ✉ Email
-                </button>
-                <button onClick={() => downloadPdf(t.teamId)}
-                  className="text-sm font-bold border-2 border-navy text-navy px-4 py-2 rounded-xl hover:bg-navy/5 transition-colors">
-                  ↓ PDF
-                </button>
+                <div className="relative">
+                  <button onClick={() => toggleMenu(t.teamId)}
+                    className="flex items-center gap-1.5 text-sm font-bold border-2 border-gray-200 text-navy/60 px-3 py-2 rounded-xl hover:border-navy/40 hover:text-navy transition-colors bg-white">
+                    Actions <span className="text-[10px]">{openMenus[t.teamId] ? "▴" : "▾"}</span>
+                  </button>
+                  {openMenus[t.teamId] && (
+                    <div className="absolute right-0 top-full mt-1 w-40 bg-white rounded-xl shadow-lg border border-gray-100 z-20 overflow-hidden">
+                      <button onClick={() => { reset(t); closeMenu(t.teamId); }}
+                        className="w-full text-left px-4 py-2.5 text-sm font-semibold text-navy/70 hover:bg-gray-50 transition-colors">
+                        ↺ Reset
+                      </button>
+                      <button onClick={() => { closeMenu(t.teamId); setEmailForms(prev => prev[t.teamId] ? { ...prev, [t.teamId]: null } : { ...prev, [t.teamId]: { mode: "manager", selectedId: t.coaches[0]?.childId ?? null, firstName: "", email: "", sending: false, sent: false } }); }}
+                        className="w-full text-left px-4 py-2.5 text-sm font-semibold text-[#e63946] hover:bg-red-50 transition-colors">
+                        ✉ Email PDF
+                      </button>
+                      <button onClick={() => { downloadPdf(t.teamId); closeMenu(t.teamId); }}
+                        className="w-full text-left px-4 py-2.5 text-sm font-semibold text-navy hover:bg-navy/5 transition-colors">
+                        ↓ Download PDF
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
