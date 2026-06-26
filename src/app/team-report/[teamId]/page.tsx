@@ -168,8 +168,8 @@ const COACH_TASKS = [
   { key: "sendEmailReminder", label: "Send Email Reminder" },
   { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
   { key: "hasChallenge", label: "Launch a weekly challenge" },
-  { key: "hasContest", label: "Create Longterm Contest" },
-  { key: "setLevelGoal", label: "Set Team Level Goal" },
+  { key: "hasContest", label: "Create Longterm Contest", optional: true },
+  { key: "setLevelGoal", label: "Set Team Level Goal", optional: true },
   { key: "playerRecognition", label: "Give Player Recognition in Practice", example: "\"Great work on your home training this week, [Name] — I could see it in your touches today!\"" },
 ] as const;
 
@@ -414,7 +414,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
               {([
                 ["hasHomework", "demoApp"],
                 ["sendEmailReminder", "hasPersonalGoal"],
-                [],
+                ["hasChallenge"],
                 [],
               ] as string[][]).map((recommended, wi) => {
                 // Hide tasks already checked in another week
@@ -440,6 +440,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                         const taskRows = group.tasks.map(task => {
                           const checked = g.weeklyPlan[wi]?.includes(task.key) ?? false;
                           const example = "example" in task ? (task as { example?: string }).example : undefined;
+                          const optional = "optional" in task ? (task as { optional?: boolean }).optional : false;
                           return (
                             <div key={task.key}>
                               <label className="flex items-center gap-2 cursor-pointer group">
@@ -449,6 +450,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                                 <span className={`text-xs leading-tight ${checked ? "text-navy font-semibold" : "text-navy/50"} group-hover:text-navy transition-colors`}>
                                   {task.label}
                                 </span>
+                                {optional && <span className="text-[9px] font-bold text-gray-300 uppercase tracking-wide ml-0.5">Optional</span>}
                               </label>
                               {example && (
                                 <p className="ml-5 mt-0.5 text-[10px] italic text-navy/35 leading-tight">{example}</p>
