@@ -416,10 +416,14 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                 [],
                 [],
               ] as string[][]).map((recommended, wi) => {
+                // Hide tasks already checked in another week
+                const visibleTasks = COACH_TASKS.filter(task =>
+                  !g.weeklyPlan.some((week, idx) => idx !== wi && week.includes(task.key))
+                );
                 // Group consecutive tasks so recommended ones render inline as a blue block
                 type Group = { isRec: boolean; tasks: typeof COACH_TASKS[number][] };
                 const groups: Group[] = [];
-                for (const task of COACH_TASKS) {
+                for (const task of visibleTasks) {
                   const isRec = recommended.includes(task.key);
                   if (!groups.length || groups[groups.length - 1].isRec !== isRec) {
                     groups.push({ isRec, tasks: [task] });
