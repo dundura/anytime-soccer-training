@@ -810,18 +810,20 @@ function TeamSection({ t, teamPlayers, period, forceOpen }: { t: Team; teamPlaye
     <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
       <button
         onClick={() => setOpen(o => !o)}
-        className="w-full bg-navy/5 border-b border-gray-100 px-5 py-3 flex flex-wrap items-center gap-x-6 gap-y-1 text-left hover:bg-navy/10 transition-colors"
+        className="w-full bg-navy/5 border-b border-gray-100 px-5 py-3 text-left hover:bg-navy/10 transition-colors"
       >
-        <div className="flex items-center gap-2 flex-1">
+        <div className="flex items-center gap-2">
           <span className="text-navy/40 text-xs">{isOpen ? "▾" : "▸"}</span>
           <span className="font-black text-navy text-sm">{t.teamName}</span>
           {t.createdAt && <span className="text-xs text-gray-400">({formatDate(t.createdAt)})</span>}
         </div>
-        <span className="text-xs text-navy/50 font-semibold">{t.activePlayerCount} players</span>
-        <span className={`text-xs font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>
-          {t.participationRate}% participation
-        </span>
-        <ScoreDots score={t.coachEngagementScore} breakdown={t.engagementBreakdown} />
+        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1.5 pl-5">
+          <span className="text-xs text-navy/50 font-semibold">{t.activePlayerCount} players</span>
+          <span className={`text-xs font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>
+            {t.participationRate}% participation
+          </span>
+          <ScoreDots score={t.coachEngagementScore} breakdown={t.engagementBreakdown} />
+        </div>
       </button>
       {isOpen && (
         <table className="w-full text-sm">
