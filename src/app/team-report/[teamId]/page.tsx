@@ -755,8 +755,6 @@ export default function TeamReportPage() {
             🎯 Coach Goals
           </button>
 
-          <div className="flex-1" />
-
           {/* Team filter */}
           {teams.length > 1 && (
             <select value={filterTeam} onChange={e => setFilterTeam(e.target.value)} className="border-2 border-gray-200 rounded-xl px-3 py-2 text-sm font-medium text-navy bg-white focus:outline-none focus:border-navy">
