@@ -385,7 +385,26 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                 <div key={wi} className="border-2 border-gray-100 rounded-xl p-3">
                   <div className="text-xs font-black text-navy mb-2">Week {wi + 1}</div>
                   <div className="space-y-1.5">
-                    {COACH_TASKS.map(task => {
+                    {wi === 0 && (
+                      <div className="bg-gray-100 rounded-lg px-2 py-1.5 mb-1 space-y-1.5">
+                        {(["hasHomework", "demoApp"] as const).map(key => {
+                          const task = COACH_TASKS.find(t => t.key === key)!;
+                          const checked = g.weeklyPlan[wi]?.includes(task.key) ?? false;
+                          return (
+                            <label key={task.key} className="flex items-center gap-2 cursor-pointer group">
+                              <input type="checkbox" checked={checked}
+                                onChange={() => toggleTask(t.teamId, wi, task.key)}
+                                className="accent-navy w-3.5 h-3.5 shrink-0 cursor-pointer" />
+                              <span className={`text-xs leading-tight ${checked ? "text-navy font-semibold" : "text-navy/50"} group-hover:text-navy transition-colors`}>
+                                {task.label}
+                              </span>
+                            </label>
+                          );
+                        })}
+                        <div className="text-[10px] text-navy/40 font-semibold uppercase tracking-wide pt-0.5">Recommended</div>
+                      </div>
+                    )}
+                    {COACH_TASKS.filter(task => wi !== 0 || !["hasHomework", "demoApp"].includes(task.key)).map(task => {
                       const checked = g.weeklyPlan[wi]?.includes(task.key) ?? false;
                       return (
                         <label key={task.key} className="flex items-center gap-2 cursor-pointer group">
