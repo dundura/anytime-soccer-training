@@ -915,7 +915,7 @@ export default function TeamReportPage() {
             { key: "demo", badge: "2", badgeBg: "bg-navy", badgeText: "text-white", title: "Demo App In-Person", type: "core",
               how: "Pull up the app on your phone at practice. Walk players through finding their homework, logging a video, and checking their stats — live, in 2 minutes.",
               when: "First week of the season or at your first team meeting.",
-              where: "At practice, with your phone in hand.",
+              where: "Announce that you will do a demo, then do it after practice with your phone in hand.",
               why: "Seeing it live removes all friction. A quick in-person demo gets more players active than any email or link you can send.",
               tip: undefined },
             { key: "email", badge: "3", badgeBg: "bg-navy", badgeText: "text-white", title: "Send Email Reminder", type: "core",
