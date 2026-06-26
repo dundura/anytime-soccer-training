@@ -963,7 +963,7 @@ export default function TeamReportPage() {
             { key: "levelgoal", badge: "+", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Set a Team Level Goal", type: "opt",
               how: "Go to your **Roster** and set a collective milestone for the team — e.g. \"log 1,000 videos this season.\" The more videos your team logs, the higher your team level climbs. Every level earns your team a new professional club name.",
               when: "When the team is created.",
-              where: "Announce it at practice and pin it in the app so players can track it.",
+              where: "In the **Roster**.",
               why: "Shared goals create team ownership. Players encourage each other and feel responsible for the collective result, not just their own training.",
               tip: undefined },
           ];
