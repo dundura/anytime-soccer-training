@@ -163,10 +163,10 @@ const DEFAULT_WEEKLY_PLAN: string[][] = [
 ];
 
 const COACH_TASKS = [
-  { key: "hasHomework", label: "Homework Assigned" },
-  { key: "hasContest", label: "Contest Created" },
-  { key: "hasPersonalGoal", label: "Personal Goal Set" },
-  { key: "hasChallenge", label: "Challenge Set" },
+  { key: "hasHomework", label: "Assign Homework" },
+  { key: "hasContest", label: "Create a Contest" },
+  { key: "hasPersonalGoal", label: "Set a Personal Goal" },
+  { key: "hasChallenge", label: "Set a Challenge" },
   { key: "demoApp", label: "Demo App In Person" },
   { key: "sendEmailReminder", label: "Send Email Reminder" },
   { key: "setLevelGoal", label: "Set a Level Goal" },
@@ -325,7 +325,6 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                           onChange={() => setEmailForms(prev => ({ ...prev, [t.teamId]: { ...prev[t.teamId]!, mode: "manager", selectedId: c.childId } }))}
                           className="accent-[#e63946]" />
                         <span className="text-sm font-medium text-navy">{c.name}</span>
-                        <span className="text-xs text-gray-400">{c.email}</span>
                       </label>
                     ))}
                     {/* Custom email option */}
@@ -413,10 +412,10 @@ function CoachRankingTable({ ranking, period }: { ranking: ReturnType<typeof Arr
   const periodLabel = period === "week" ? "This Week" : period === "month" ? "Month" : period === "year" ? "Year" : "All Time";
   const extraCols = [
     { key: "participation", label: `Participation (${periodLabel})` },
-    { key: "hasHomework", label: "Homework Assigned" },
-    { key: "hasContest", label: "Contest Created" },
-    { key: "hasPersonalGoal", label: "Personal Goal" },
-    { key: "hasChallenge", label: "Challenge Set" },
+    { key: "hasHomework", label: "Assign Homework" },
+    { key: "hasContest", label: "Create a Contest" },
+    { key: "hasPersonalGoal", label: "Set a Personal Goal" },
+    { key: "hasChallenge", label: "Set a Challenge" },
     { key: "score", label: "Score" },
   ];
   return (
