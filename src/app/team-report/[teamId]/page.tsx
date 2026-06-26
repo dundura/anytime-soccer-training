@@ -308,7 +308,11 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
   const [openSections, setOpenSections] = useState<Set<string>>(new Set());
   const ALL_KEYS = ["summary", "plan", "howto"];
   const allOpen = ALL_KEYS.every(k => openSections.has(k));
-  const toggle = (s: string) => setOpenSections(prev => { const next = new Set(prev); next.has(s) ? next.delete(s) : next.add(s); return next; });
+  const toggle = (s: string) => setOpenSections(prev => {
+    const next = new Set(prev);
+    if (next.has(s)) { next.delete(s); } else { next.clear(); next.add(s); }
+    return next;
+  });
   const toggleAll = () => setOpenSections(allOpen ? new Set() : new Set(ALL_KEYS));
   const sections: { key: string; label: string }[] = [
     { key: "summary", label: "Coach Engagement Summary" },
