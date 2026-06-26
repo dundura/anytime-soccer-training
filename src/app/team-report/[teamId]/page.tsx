@@ -305,8 +305,8 @@ function HowToContent() {
 }
 
 function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: any[]; period: string; teams: Team[]; onUpdate: GoalsPanelProps["onUpdate"] }) {
-  const [openSections, setOpenSections] = useState<Set<string>>(new Set());
   const ALL_KEYS = ["summary", "plan", "howto"];
+  const [openSections, setOpenSections] = useState<Set<string>>(new Set(ALL_KEYS));
   const allOpen = ALL_KEYS.every(k => openSections.has(k));
   const toggle = (s: string) => setOpenSections(prev => {
     const next = new Set(prev);
@@ -323,6 +323,10 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
     <div>
       {/* Pill row */}
       <div className="flex flex-wrap gap-2 mb-4">
+        <button onClick={toggleAll}
+          className={`px-4 py-2 rounded-full text-sm font-bold border-2 transition-all ${allOpen ? "bg-[#e63946] border-[#e63946] text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white hover:text-navy"}`}>
+          All
+        </button>
         {sections.map(({ key, label }) => {
           const open = openSections.has(key);
           return (
@@ -332,10 +336,6 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
             </button>
           );
         })}
-        <button onClick={toggleAll}
-          className={`px-4 py-2 rounded-full text-sm font-bold border-2 transition-all ${allOpen ? "bg-[#e63946] border-[#e63946] text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white hover:text-navy"}`}>
-          All
-        </button>
       </div>
 
       {/* Accordion content */}
