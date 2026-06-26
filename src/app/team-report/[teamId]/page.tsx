@@ -156,10 +156,10 @@ function SlugEditor({ team, onUpdate }: { team: Team; onUpdate: (slug: string) =
 const DEFAULT_PARTICIPATION_GOAL = "75";
 const DEFAULT_VIDEOS_GOAL = "30";
 const DEFAULT_WEEKLY_PLAN: string[][] = [
-  ["hasHomework", "hasPersonalGoal"],
-  ["demoApp", "sendEmailReminder"],
-  ["hasContest", "hasChallenge"],
-  ["setLevelGoal", ""],
+  ["hasHomework", "demoApp"],
+  ["sendEmailReminder", "hasPersonalGoal"],
+  [],
+  [],
 ];
 
 const COACH_TASKS = [
@@ -167,8 +167,8 @@ const COACH_TASKS = [
   { key: "demoApp", label: "Demo App In-Person" },
   { key: "sendEmailReminder", label: "Send Email Reminder" },
   { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
-  { key: "hasContest", label: "Create a Contest" },
   { key: "hasChallenge", label: "Launch a weekly challenge" },
+  { key: "hasContest", label: "Create a Contest" },
   { key: "setLevelGoal", label: "Set a Level Goal" },
 ] as const;
 
@@ -198,11 +198,11 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
   const [localGoals, setLocalGoals] = useState<Record<number, LocalGoal>>(() =>
     Object.fromEntries(teams.map(t => [t.teamId, makeDefaults(t)]))
   );
-  const saveTimers = useCallback(() => ({} as Record<number, ReturnType<typeof setTimeout>>), [])();
+  const saveTimers = useRef<Record<number, ReturnType<typeof setTimeout>>>({});
 
   const autoSave = (teamId: number, g: LocalGoal) => {
-    clearTimeout(saveTimers[teamId]);
-    saveTimers[teamId] = setTimeout(async () => {
+    clearTimeout(saveTimers.current[teamId]);
+    saveTimers.current[teamId] = setTimeout(async () => {
       setSaving(prev => ({ ...prev, [teamId]: true }));
       const body: Record<string, unknown> = { coachWeeklyPlan: g.weeklyPlan };
       if (g.participationGoal !== "") body.participationGoal = parseInt(g.participationGoal);
@@ -293,6 +293,21 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
               <div>
                 <div className="font-black text-navy">{t.teamName}</div>
                 <div className="text-xs text-gray-400 mt-0.5">Current participation: <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span></div>
+                <div className="flex flex-wrap items-center gap-2 mt-2">
+                  {[
+                    { label: "Assign Homework", val: t.engagementBreakdown.hasHomework },
+                    { label: "Create a Contest", val: t.engagementBreakdown.hasContest },
+                    { label: "Set Personal Player Goals", val: t.engagementBreakdown.hasPersonalGoal },
+                    { label: "Launch a weekly challenge", val: t.engagementBreakdown.hasChallenge },
+                  ].map(item => (
+                    <span key={item.label} className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${item.val ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-400"}`}>
+                      {item.val ? "✓" : "✗"} {item.label}
+                    </span>
+                  ))}
+                  <span className="inline-flex items-center gap-1 text-[11px] font-black px-2 py-0.5 rounded-full bg-navy/10 text-navy">
+                    Score {t.coachEngagementScore}/4
+                  </span>
+                </div>
               </div>
               <div className="flex items-center gap-2">
                 {saving[t.teamId] && <span className="text-xs text-navy/40 italic">Saving…</span>}
@@ -381,14 +396,19 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
             {/* 4-week plan */}
             <div className="text-xs font-bold text-navy/50 uppercase tracking-wide mb-3">4-Week Coaching Plan</div>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {[0, 1, 2, 3].map(wi => (
+              {([
+                ["hasHomework", "demoApp"],
+                ["sendEmailReminder", "hasPersonalGoal"],
+                [],
+                [],
+              ] as string[][]).map((recommended, wi) => (
                 <div key={wi} className="border-2 border-gray-100 rounded-xl p-3">
                   <div className="text-xs font-black text-navy mb-2">Week {wi + 1}</div>
                   <div className="space-y-1.5">
-                    {wi === 0 && (
+                    {recommended.length > 0 && (
                       <div className="bg-blue-50 rounded-lg px-2 py-1.5 mb-1 space-y-1.5">
-                        {(["hasHomework", "demoApp"] as const).map(key => {
-                          const task = COACH_TASKS.find(t => t.key === key)!;
+                        {recommended.map(key => {
+                          const task = COACH_TASKS.find(tk => tk.key === key)!;
                           const checked = g.weeklyPlan[wi]?.includes(task.key) ?? false;
                           return (
                             <label key={task.key} className="flex items-center gap-2 cursor-pointer group">
@@ -404,7 +424,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                         <div className="text-[10px] text-navy/40 font-semibold uppercase tracking-wide pt-0.5">Recommended</div>
                       </div>
                     )}
-                    {COACH_TASKS.filter(task => wi !== 0 || !["hasHomework", "demoApp"].includes(task.key)).map(task => {
+                    {COACH_TASKS.filter(task => !recommended.includes(task.key)).map(task => {
                       const checked = g.weeklyPlan[wi]?.includes(task.key) ?? false;
                       return (
                         <label key={task.key} className="flex items-center gap-2 cursor-pointer group">
@@ -564,7 +584,7 @@ function TeamSection({ t, teamPlayers, period, forceOpen }: { t: Team; teamPlaye
   );
 }
 
-const TABS = ["Overview", "Coach Ranking", "Report URL"] as const;
+const TABS = ["Overview", "Report URL"] as const;
 type Tab = (typeof TABS)[number];
 
 export default function TeamReportPage() {
@@ -860,11 +880,6 @@ export default function TeamReportPage() {
                 })}
               </div>
               </>
-            )}
-
-            {/* COACH RANKING TAB */}
-            {tab === "Coach Ranking" && (
-              <CoachRankingTable ranking={filteredRanking} period={period} />
             )}
 
             {/* REPORT URL TAB */}
