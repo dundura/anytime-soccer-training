@@ -241,8 +241,8 @@ function HowToContent() {
   ];
   const visible = howToFilter ? HOW_TO_STEPS.filter(s => s.key === howToFilter) : HOW_TO_STEPS;
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
+    <div>
+      <div className="p-6">
         <h2 className="text-2xl font-black text-navy mb-1">How to Increase Engagement</h2>
         <p className="text-sm text-navy/50 mb-1">Follow these steps week by week to drive player engagement and build great training habits on your team.</p>
         <p className="text-sm text-navy/40 mb-6">Questions? Email <a href="mailto:megan@anytime-soccer.com" className="text-[#e63946] font-semibold hover:underline">megan@anytime-soccer.com</a> or call <a href="tel:8034311082" className="text-[#e63946] font-semibold hover:underline">803-431-1082</a>.</p>
