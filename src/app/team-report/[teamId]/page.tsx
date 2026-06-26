@@ -46,6 +46,12 @@ interface SearchResult {
   teamSlug: string;
 }
 
+function CheckBadge({ val }: { val: number }) {
+  return val
+    ? <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-600 font-black text-sm">✓</span>
+    : <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 text-red-500 font-black text-sm">✕</span>;
+}
+
 function ScoreDots({ score, breakdown }: { score: number; breakdown: EngagementBreakdown }) {
   const items = [
     { label: "Contest", val: breakdown.hasContest },
@@ -155,6 +161,7 @@ export default function TeamReportPage() {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [filterTeam, setFilterTeam] = useState("");
+  const [engagementFilter, setEngagementFilter] = useState<string | null>(null);
 
   const fetchTeams = useCallback(async (ids: number[]) => {
     if (!ids.length) return;
@@ -246,6 +253,9 @@ export default function TeamReportPage() {
     .sort((a, b) => b.coachEngagementScore - a.coachEngagementScore);
 
   const filteredRanking = filterTeam ? coachRanking.filter(c => c.teamId === parseInt(filterTeam)) : coachRanking;
+  const engagementFiltered = engagementFilter
+    ? filteredRanking.filter(c => c.engagementBreakdown[engagementFilter as keyof EngagementBreakdown] === 1)
+    : filteredRanking;
 
   const allPlayers = filteredTeams
     .flatMap(t => t.players.map(p => ({ ...p, teamName: t.teamName })))
@@ -390,33 +400,60 @@ export default function TeamReportPage() {
 
             {/* COACH RANKING TAB */}
             {tab === "Coach Ranking" && (
-              <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              <div className="bg-white rounded-2xl shadow-sm overflow-x-auto">
+                {/* Filters */}
+                <div className="p-4 border-b border-gray-100 flex flex-wrap gap-3 items-center">
+                  <span className="text-xs font-bold text-navy/50 uppercase tracking-wide">Filter:</span>
+                  {[
+                    { key: "hasContest", label: "Contest Created" },
+                    { key: "hasPersonalGoal", label: "Personal Goal" },
+                    { key: "hasChallenge", label: "Challenge Set" },
+                    { key: "hasHomework", label: "Homework Assigned" },
+                  ].map(f => (
+                    <button
+                      key={f.key}
+                      onClick={() => setEngagementFilter(prev => prev === f.key ? null : f.key)}
+                      className={`text-xs font-bold px-3 py-1.5 rounded-full border-2 transition-all ${engagementFilter === f.key ? "bg-navy text-white border-navy" : "border-gray-200 text-navy/60 hover:border-navy/40"}`}
+                    >
+                      {f.label}
+                    </button>
+                  ))}
+                  {engagementFilter && (
+                    <button onClick={() => setEngagementFilter(null)} className="text-xs text-gray-400 hover:text-gray-600 ml-1">Clear</button>
+                  )}
+                </div>
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="bg-navy text-white text-left text-xs uppercase tracking-wide">
-                      <th className="px-5 py-3 text-center w-12">Rank</th>
-                      <th className="px-5 py-3">Coach</th>
-                      <th className="px-5 py-3">Team</th>
-                      <th className="px-5 py-3 text-center">Participation (7d)</th>
-                      <th className="px-5 py-3">Engagement Score</th>
+                      <th className="px-4 py-3 text-center w-12">Rank</th>
+                      <th className="px-4 py-3">Coach</th>
+                      <th className="px-4 py-3">Team</th>
+                      <th className="px-4 py-3 text-center">Participation</th>
+                      <th className="px-4 py-3 text-center">Contest Created</th>
+                      <th className="px-4 py-3 text-center">Personal Goal</th>
+                      <th className="px-4 py-3 text-center">Challenge Set</th>
+                      <th className="px-4 py-3 text-center">Homework Assigned</th>
+                      <th className="px-4 py-3 text-center">Score</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredRanking.length === 0 ? (
-                      <tr><td colSpan={5} className="px-5 py-8 text-center text-navy/40">No coaches found.</td></tr>
-                    ) : filteredRanking.map((c, i) => (
+                    {engagementFiltered.length === 0 ? (
+                      <tr><td colSpan={9} className="px-5 py-8 text-center text-navy/40">No coaches found.</td></tr>
+                    ) : engagementFiltered.map((c, i) => (
                       <tr key={`${c.teamId}-${c.childId}`} className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}>
-                        <td className="px-5 py-3.5 text-center">
+                        <td className="px-4 py-3.5 text-center">
                           <span className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-black ${i === 0 ? "bg-yellow-400 text-white" : i === 1 ? "bg-gray-300 text-gray-700" : i === 2 ? "bg-orange-300 text-white" : "bg-gray-100 text-navy/50"}`}>{i + 1}</span>
                         </td>
-                        <td className="px-5 py-3.5 font-bold text-navy">{c.name}</td>
-                        <td className="px-5 py-3.5">
-                          <div className="text-navy/60 text-xs">{c.teamName}</div>
-                        </td>
-                        <td className="px-5 py-3.5 text-center">
+                        <td className="px-4 py-3.5 font-bold text-navy">{c.name}</td>
+                        <td className="px-4 py-3.5 text-navy/60 text-xs">{c.teamName}</td>
+                        <td className="px-4 py-3.5 text-center">
                           <span className={`font-bold ${c.participationRate >= 70 ? "text-green-600" : c.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{c.participationRate}%</span>
                         </td>
-                        <td className="px-5 py-3.5"><ScoreDots score={c.coachEngagementScore} breakdown={c.engagementBreakdown} /></td>
+                        <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasContest} /></td>
+                        <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasPersonalGoal} /></td>
+                        <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasChallenge} /></td>
+                        <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasHomework} /></td>
+                        <td className="px-4 py-3.5 text-center"><span className="font-black text-navy">{c.coachEngagementScore}/4</span></td>
                       </tr>
                     ))}
                   </tbody>
