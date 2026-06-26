@@ -34,6 +34,10 @@ interface Team {
   createdAt: string;
   activePlayerCount: number;
   participationRate: number;
+  participationGoal: number | null;
+  videosPerPlayerGoal: number | null;
+  coachTasksGoal: string[];
+  coachWeeklyPlan: string[][];
   coachEngagementScore: number;
   engagementBreakdown: EngagementBreakdown;
   coaches: Coach[];
@@ -148,6 +152,139 @@ function SlugEditor({ team, onUpdate }: { team: Team; onUpdate: (slug: string) =
   );
 }
 
+const COACH_TASKS = [
+  { key: "hasHomework", label: "Homework Assigned" },
+  { key: "hasContest", label: "Contest Created" },
+  { key: "hasPersonalGoal", label: "Personal Goal Set" },
+  { key: "hasChallenge", label: "Challenge Set" },
+  { key: "demoApp", label: "Demo App In Person" },
+  { key: "sendEmailReminder", label: "Send Email Reminder" },
+  { key: "setLevelGoal", label: "Set a Level Goal" },
+] as const;
+
+type TaskKey = typeof COACH_TASKS[number]["key"];
+
+function GoalsPanel({ teams, onUpdate, period }: {
+  teams: Team[];
+  onUpdate: (teamId: number, patch: Partial<Pick<Team, "participationGoal" | "videosPerPlayerGoal" | "coachWeeklyPlan">>) => void;
+  period: string;
+}) {
+  const [saving, setSaving] = useState<number | null>(null);
+  const [localGoals, setLocalGoals] = useState<Record<number, {
+    participationGoal: string;
+    videosPerPlayerGoal: string;
+    weeklyPlan: string[][];
+  }>>(() => Object.fromEntries(teams.map(t => [t.teamId, {
+    participationGoal: t.participationGoal != null ? String(t.participationGoal) : "",
+    videosPerPlayerGoal: t.videosPerPlayerGoal != null ? String(t.videosPerPlayerGoal) : "",
+    weeklyPlan: t.coachWeeklyPlan?.length === 4 ? t.coachWeeklyPlan : [[], [], [], []],
+  }])));
+
+  const setTask = (teamId: number, week: number, slot: number, val: string) => {
+    setLocalGoals(prev => {
+      const plan = prev[teamId].weeklyPlan.map(w => [...w]);
+      while (plan[week].length <= slot) plan[week].push("");
+      plan[week][slot] = val;
+      if (!val) plan[week] = plan[week].filter(Boolean);
+      return { ...prev, [teamId]: { ...prev[teamId], weeklyPlan: plan } };
+    });
+  };
+
+  const save = async (t: Team) => {
+    const g = localGoals[t.teamId];
+    if (!g) return;
+    setSaving(t.teamId);
+    const body: Record<string, unknown> = { coachWeeklyPlan: g.weeklyPlan };
+    if (g.participationGoal !== "") body.participationGoal = parseInt(g.participationGoal);
+    if (g.videosPerPlayerGoal !== "") body.videosPerPlayerGoal = parseInt(g.videosPerPlayerGoal);
+    try {
+      await fetch(`${API}/${t.teamId}/goal`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      onUpdate(t.teamId, {
+        participationGoal: g.participationGoal !== "" ? parseInt(g.participationGoal) : null,
+        videosPerPlayerGoal: g.videosPerPlayerGoal !== "" ? parseInt(g.videosPerPlayerGoal) : null,
+        coachWeeklyPlan: g.weeklyPlan,
+      });
+    } catch {}
+    setSaving(null);
+  };
+
+  const downloadPdf = (teamId: number) => {
+    window.open(`${API}/${teamId}/pdf?period=${period}`, "_blank");
+  };
+
+  return (
+    <div className="space-y-5 mb-6">
+      {teams.map(t => {
+        const g = localGoals[t.teamId];
+        if (!g) return null;
+        return (
+          <div key={t.teamId} className="bg-white rounded-2xl shadow-sm p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <div className="font-black text-navy">{t.teamName}</div>
+                <div className="text-xs text-gray-400 mt-0.5">Current participation: <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span></div>
+              </div>
+              <div className="flex gap-2">
+                <button onClick={() => save(t)} disabled={saving === t.teamId}
+                  className="text-sm font-bold bg-navy text-white px-4 py-2 rounded-xl disabled:opacity-50 hover:bg-navy/90 transition-colors">
+                  {saving === t.teamId ? "Saving…" : "Save Goals"}
+                </button>
+                <button onClick={() => downloadPdf(t.teamId)}
+                  className="text-sm font-bold border-2 border-navy text-navy px-4 py-2 rounded-xl hover:bg-navy/5 transition-colors">
+                  ↓ PDF
+                </button>
+              </div>
+            </div>
+
+            {/* Numeric goals */}
+            <div className="flex flex-wrap gap-6 mb-5 pb-5 border-b border-gray-100">
+              <div>
+                <label className="text-xs font-bold text-navy/50 uppercase tracking-wide block mb-1">Participation Goal</label>
+                <div className="flex items-center gap-1">
+                  <input type="number" min="0" max="100" value={g.participationGoal}
+                    onChange={e => setLocalGoals(prev => ({ ...prev, [t.teamId]: { ...prev[t.teamId], participationGoal: e.target.value } }))}
+                    className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-20 focus:outline-none focus:border-navy" placeholder="—" />
+                  <span className="text-sm font-bold text-navy">%</span>
+                </div>
+              </div>
+              <div>
+                <label className="text-xs font-bold text-navy/50 uppercase tracking-wide block mb-1">Avg Videos / Player / Month</label>
+                <div className="flex items-center gap-1">
+                  <input type="number" min="0" value={g.videosPerPlayerGoal}
+                    onChange={e => setLocalGoals(prev => ({ ...prev, [t.teamId]: { ...prev[t.teamId], videosPerPlayerGoal: e.target.value } }))}
+                    className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-20 focus:outline-none focus:border-navy" placeholder="—" />
+                  <span className="text-sm text-navy/50">videos</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 4-week plan */}
+            <div className="text-xs font-bold text-navy/50 uppercase tracking-wide mb-3">4-Week Coaching Plan</div>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {[0, 1, 2, 3].map(wi => (
+                <div key={wi} className="border-2 border-gray-100 rounded-xl p-3">
+                  <div className="text-xs font-black text-navy mb-2">Week {wi + 1}</div>
+                  {[0, 1].map(slot => (
+                    <select key={slot}
+                      value={g.weeklyPlan[wi]?.[slot] || ""}
+                      onChange={e => setTask(t.teamId, wi, slot, e.target.value)}
+                      className="w-full border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-navy bg-white focus:outline-none focus:border-navy mb-1.5 last:mb-0">
+                      <option value="">— No task —</option>
+                      {COACH_TASKS.map(task => (
+                        <option key={task.key} value={task.key}>{task.label}</option>
+                      ))}
+                    </select>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function TeamSection({ t, teamPlayers, period }: { t: Team; teamPlayers: Player[]; period: string }) {
   const [open, setOpen] = useState(false);
   const tvid = teamPlayers.reduce((s, p) => s + p.videosWatched, 0);
@@ -240,6 +377,7 @@ export default function TeamReportPage() {
     return "week";
   });
   const [playerSearch, setPlayerSearch] = useState("");
+  const [showGoals, setShowGoals] = useState(false);
 
   const fetchTeams = useCallback(async (ids: number[], p = "alltime") => {
     if (!ids.length) return;
@@ -333,6 +471,10 @@ export default function TeamReportPage() {
     setTeams(prev => prev.map(t => t.teamId === teamId ? { ...t, reportSlug: slug, teamSlug: slug } : t));
   };
 
+  const updateGoal = (teamId: number, patch: Partial<Pick<Team, "participationGoal" | "videosPerPlayerGoal" | "coachWeeklyPlan">>) => {
+    setTeams(prev => prev.map(t => t.teamId === teamId ? { ...t, ...patch } : t));
+  };
+
   const filteredTeams = filterTeam ? teams.filter(t => t.teamId === parseInt(filterTeam)) : teams;
 
   const coachRanking = teams
@@ -420,13 +562,23 @@ export default function TeamReportPage() {
 
         {/* Tabs + Controls row */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-          {/* Tabs */}
-          <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm">
-            {TABS.map(t => (
-              <button key={t} onClick={() => changeTab(t)} className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${tab === t ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"}`}>
-                {t}
-              </button>
-            ))}
+          {/* Tabs + Goals toggle */}
+          <div className="flex items-center gap-2">
+            <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm">
+              {TABS.map(t => (
+                <button key={t} onClick={() => changeTab(t)} className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${tab === t ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"}`}>
+                  {t}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => setShowGoals(g => !g)}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold border-2 transition-all ${showGoals ? "bg-[#e63946] border-[#e63946] text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white"}`}
+            >
+              🎯 Coach Goals
+            </button>
+          </div>
+
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -458,6 +610,14 @@ export default function TeamReportPage() {
             </div>
           </div>
         </div>
+
+        {showGoals && teams.length > 0 && (
+          <GoalsPanel
+            teams={filteredTeams}
+            period={period}
+            onUpdate={(tid, patch) => updateGoal(tid, patch as Partial<Pick<Team, "participationGoal" | "videosPerPlayerGoal" | "coachWeeklyPlan">>)}
+          />
+        )}
 
         {loading ? (
           <div className="text-center py-20 text-navy/40 font-medium">Loading...</div>
