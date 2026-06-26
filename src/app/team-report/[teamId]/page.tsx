@@ -540,13 +540,6 @@ export default function TeamReportPage() {
               </div>
             )}
 
-            <div className="mt-4 flex flex-wrap gap-3 text-xs text-navy/50">
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500 inline-block" /> Contest created</span>
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500 inline-block" /> Personal goal set</span>
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500 inline-block" /> Challenge set</span>
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500 inline-block" /> Homework assigned</span>
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-gray-200 inline-block" /> Not completed</span>
-            </div>
           </>
         )}
       </div>
