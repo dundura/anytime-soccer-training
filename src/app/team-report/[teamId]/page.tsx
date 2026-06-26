@@ -152,6 +152,8 @@ function SlugEditor({ team, onUpdate }: { team: Team; onUpdate: (slug: string) =
   );
 }
 
+const DEFAULT_PARTICIPATION_GOAL = "75";
+const DEFAULT_VIDEOS_GOAL = "30";
 const DEFAULT_WEEKLY_PLAN: string[][] = [
   ["hasHomework", "hasPersonalGoal"],
   ["demoApp", "sendEmailReminder"],
@@ -183,11 +185,15 @@ type GoalsPanelProps = {
 
 function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
   const [saving, setSaving] = useState<Record<number, boolean>>({});
-  const [localGoals, setLocalGoals] = useState<Record<number, LocalGoal>>(() => Object.fromEntries(teams.map(t => [t.teamId, {
-    participationGoal: t.participationGoal != null ? String(t.participationGoal) : "",
-    videosPerPlayerGoal: t.videosPerPlayerGoal != null ? String(t.videosPerPlayerGoal) : "",
-    weeklyPlan: t.coachWeeklyPlan?.length === 4 ? t.coachWeeklyPlan : DEFAULT_WEEKLY_PLAN.map(w => [...w]),
-  }])));
+  const makeDefaults = (t: Team): LocalGoal => ({
+    participationGoal: t.participationGoal != null ? String(t.participationGoal) : DEFAULT_PARTICIPATION_GOAL,
+    videosPerPlayerGoal: t.videosPerPlayerGoal != null ? String(t.videosPerPlayerGoal) : DEFAULT_VIDEOS_GOAL,
+    weeklyPlan: (t.coachWeeklyPlan?.length === 4 && t.coachWeeklyPlan.some(w => w.length > 0)) ? t.coachWeeklyPlan : DEFAULT_WEEKLY_PLAN.map(w => [...w]),
+  });
+
+  const [localGoals, setLocalGoals] = useState<Record<number, LocalGoal>>(() =>
+    Object.fromEntries(teams.map(t => [t.teamId, makeDefaults(t)]))
+  );
   const saveTimers = useCallback(() => ({} as Record<number, ReturnType<typeof setTimeout>>), [])();
 
   const autoSave = (teamId: number, g: LocalGoal) => {
@@ -228,6 +234,16 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
     });
   };
 
+  const reset = (t: Team) => {
+    const defaults: LocalGoal = {
+      participationGoal: DEFAULT_PARTICIPATION_GOAL,
+      videosPerPlayerGoal: DEFAULT_VIDEOS_GOAL,
+      weeklyPlan: DEFAULT_WEEKLY_PLAN.map(w => [...w]),
+    };
+    setLocalGoals(prev => ({ ...prev, [t.teamId]: defaults }));
+    autoSave(t.teamId, defaults);
+  };
+
   const downloadPdf = (teamId: number) => {
     window.open(`${API}/${teamId}/pdf?period=${period}`, "_blank");
   };
@@ -246,6 +262,10 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
               </div>
               <div className="flex items-center gap-3">
                 {saving[t.teamId] && <span className="text-xs text-navy/40 italic">Saving…</span>}
+                <button onClick={() => reset(t)}
+                  className="text-sm font-bold border-2 border-gray-200 text-navy/50 px-3 py-2 rounded-xl hover:border-navy/40 hover:text-navy transition-colors">
+                  Reset
+                </button>
                 <button onClick={() => downloadPdf(t.teamId)}
                   className="text-sm font-bold border-2 border-navy text-navy px-4 py-2 rounded-xl hover:bg-navy/5 transition-colors">
                   ↓ PDF
@@ -375,21 +395,21 @@ export default function TeamReportPage() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [addedIds, setAddedIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
-  const [tab, setTab] = useState<Tab>("Overview");
-  useEffect(() => {
-    const p = searchParams.get("tab") as Tab;
-    if (p && TABS.includes(p)) setTab(p);
-  }, []);
+  const [tab, setTab] = useState<Tab>(() => {
+    if (typeof window === "undefined") return "Overview";
+    const p = new URLSearchParams(window.location.search).get("tab") as Tab;
+    return p && TABS.includes(p) ? p : "Overview";
+  });
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [filterTeam, setFilterTeam] = useState("");
   const [engagementFilter, setEngagementFilter] = useState<string | null>(null);
-  const [period, setPeriod] = useState<"week" | "month" | "year" | "alltime">("week");
-  useEffect(() => {
-    const p = searchParams.get("period");
-    if (p && ["week", "month", "year", "alltime"].includes(p)) setPeriod(p as "week" | "month" | "year" | "alltime");
-  }, []);
+  const [period, setPeriod] = useState<"week" | "month" | "year" | "alltime">(() => {
+    if (typeof window === "undefined") return "week";
+    const p = new URLSearchParams(window.location.search).get("period");
+    return (p && ["week", "month", "year", "alltime"].includes(p) ? p : "week") as "week" | "month" | "year" | "alltime";
+  });
   const [playerSearch, setPlayerSearch] = useState("");
   const [showGoals, setShowGoals] = useState(false);
 
