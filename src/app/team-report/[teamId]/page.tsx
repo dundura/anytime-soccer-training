@@ -166,7 +166,7 @@ const COACH_TASKS = [
   { key: "hasHomework", label: "Assign Homework" },
   { key: "demoApp", label: "Demo App In-Person" },
   { key: "hasContest", label: "Create a Contest" },
-  { key: "hasPersonalGoal", label: "Set a Personal Goal" },
+  { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
   { key: "hasChallenge", label: "Launch a weekly challenge" },
   { key: "sendEmailReminder", label: "Send Email Reminder" },
   { key: "setLevelGoal", label: "Set a Level Goal" },
@@ -434,7 +434,7 @@ function CoachRankingTable({ ranking, period }: { ranking: ReturnType<typeof Arr
     { key: "participation", label: `Participation (${periodLabel})` },
     { key: "hasHomework", label: "Assign Homework" },
     { key: "hasContest", label: "Create a Contest" },
-    { key: "hasPersonalGoal", label: "Set a Personal Goal" },
+    { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
     { key: "hasChallenge", label: "Launch a weekly challenge" },
     { key: "score", label: "Score" },
   ];
