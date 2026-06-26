@@ -170,6 +170,7 @@ const COACH_TASKS = [
   { key: "hasChallenge", label: "Launch a weekly challenge" },
   { key: "hasContest", label: "Create Longterm Contest" },
   { key: "setLevelGoal", label: "Set Team Level Goal" },
+  { key: "playerRecognition", label: "Give Player Recognition in Practice", example: "\"Great work on your home training this week, [Name] — I could see it in your touches today!\"" },
 ] as const;
 
 type LocalGoal = {
@@ -438,15 +439,21 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                       {groups.map((group, gi) => {
                         const taskRows = group.tasks.map(task => {
                           const checked = g.weeklyPlan[wi]?.includes(task.key) ?? false;
+                          const example = "example" in task ? (task as { example?: string }).example : undefined;
                           return (
-                            <label key={task.key} className="flex items-center gap-2 cursor-pointer group">
-                              <input type="checkbox" checked={checked}
-                                onChange={() => toggleTask(t.teamId, wi, task.key)}
-                                className="accent-navy w-3.5 h-3.5 shrink-0 cursor-pointer" />
-                              <span className={`text-xs leading-tight ${checked ? "text-navy font-semibold" : "text-navy/50"} group-hover:text-navy transition-colors`}>
-                                {task.label}
-                              </span>
-                            </label>
+                            <div key={task.key}>
+                              <label className="flex items-center gap-2 cursor-pointer group">
+                                <input type="checkbox" checked={checked}
+                                  onChange={() => toggleTask(t.teamId, wi, task.key)}
+                                  className="accent-navy w-3.5 h-3.5 shrink-0 cursor-pointer" />
+                                <span className={`text-xs leading-tight ${checked ? "text-navy font-semibold" : "text-navy/50"} group-hover:text-navy transition-colors`}>
+                                  {task.label}
+                                </span>
+                              </label>
+                              {example && (
+                                <p className="ml-5 mt-0.5 text-[10px] italic text-navy/35 leading-tight">{example}</p>
+                              )}
+                            </div>
                           );
                         });
                         return group.isRec ? (
