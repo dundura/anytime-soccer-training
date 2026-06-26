@@ -408,7 +408,7 @@ export default function TeamReportPage() {
                     <tr className="bg-navy text-white text-left text-xs uppercase tracking-wide">
                       <th className="px-5 py-3">Team</th>
                       <th className="px-5 py-3 text-center">Players</th>
-                      <th className="px-5 py-3 text-center">Participation ({period === "week" ? "7d" : period === "month" ? "Month" : period === "year" ? "Year" : "All Time"})</th>
+                      <th className="px-5 py-3 text-center">Participation ({period === "week" ? "This Week" : period === "month" ? "Month" : period === "year" ? "Year" : "All Time"})</th>
                       <th className="px-5 py-3">Coach Engagement</th>
                     </tr>
                   </thead>
@@ -488,6 +488,7 @@ export default function TeamReportPage() {
                 <div className="p-4 border-b border-gray-100 flex flex-wrap gap-3 items-center">
                   <span className="text-xs font-bold text-navy/50 uppercase tracking-wide">Filter:</span>
                   {[
+                    { key: "hasHomework", label: "Homework Assigned" },
                     { key: "hasContest", label: "Contest Created" },
                     { key: "hasPersonalGoal", label: "Personal Goal" },
                     { key: "hasChallenge", label: "Challenge Set" },
@@ -511,7 +512,8 @@ export default function TeamReportPage() {
                       <th className="px-4 py-3 text-center w-12">Rank</th>
                       <th className="px-4 py-3">Coach</th>
                       <th className="px-4 py-3">Team</th>
-                      <th className="px-4 py-3 text-center">Participation ({period === "week" ? "7d" : period === "month" ? "Month" : period === "year" ? "Year" : "All Time"})</th>
+                      <th className="px-4 py-3 text-center">Participation ({period === "week" ? "This Week" : period === "month" ? "Month" : period === "year" ? "Year" : "All Time"})</th>
+                      <th className="px-4 py-3 text-center">Homework Assigned</th>
                       <th className="px-4 py-3 text-center">Contest Created</th>
                       <th className="px-4 py-3 text-center">Personal Goal</th>
                       <th className="px-4 py-3 text-center">Challenge Set</th>
@@ -532,6 +534,7 @@ export default function TeamReportPage() {
                         <td className="px-4 py-3.5 text-center">
                           <span className={`font-bold ${c.participationRate >= 70 ? "text-green-600" : c.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{c.participationRate}%</span>
                         </td>
+                        <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasHomework} /></td>
                         <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasContest} /></td>
                         <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasPersonalGoal} /></td>
                         <td className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown.hasChallenge} /></td>
