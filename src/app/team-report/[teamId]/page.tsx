@@ -158,7 +158,7 @@ const DEFAULT_VIDEOS_GOAL = "30";
 const DEFAULT_WEEKLY_PLAN: string[][] = [
   ["hasHomework", "demoApp"],
   ["sendEmailReminder", "hasPersonalGoal"],
-  ["hasChallenge"],
+  ["hasChallenge", "personalChallenge"],
   ["playerRecognition"],
 ];
 
@@ -168,6 +168,7 @@ const COACH_TASKS = [
   { key: "sendEmailReminder", label: "Send Email Reminder" },
   { key: "hasPersonalGoal", label: "Set Player Goals" },
   { key: "hasChallenge", label: "Create Coach's Challenge" },
+  { key: "personalChallenge", label: "Create a Personal Challenge" },
   { key: "hasContest", label: "Create a Team Contest", optional: true },
   { key: "setLevelGoal", label: "Set Team Level Goal", optional: true },
   { key: "playerRecognition", label: "Give Player Recognition in Practice", example: "\"Great work on your home training this week, [Name] — I could see it in your touches today!\"" },
@@ -427,7 +428,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
               {([
                 ["hasHomework", "demoApp"],
                 ["sendEmailReminder", "hasPersonalGoal"],
-                ["hasChallenge"],
+                ["hasChallenge", "personalChallenge"],
                 ["playerRecognition"],
               ] as string[][]).map((recommended, wi) => {
                 // Hide tasks already checked in another week
