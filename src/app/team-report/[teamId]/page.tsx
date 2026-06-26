@@ -884,8 +884,8 @@ export default function TeamReportPage() {
     return (p && ["week", "month", "year", "alltime"].includes(p) ? p : "week") as "week" | "month" | "year" | "alltime";
   });
   const [playerSearch, setPlayerSearch] = useState("");
-  const [showGoals, setShowGoals] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).get("view") === "goals");
-  const [showHowTo, setShowHowTo] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).get("view") === "howto");
+  const [showGoals, setShowGoals] = useState(() => searchParams.get("view") === "goals");
+  const [showHowTo, setShowHowTo] = useState(() => searchParams.get("view") === "howto");
   const [howToFilter, setHowToFilter] = useState<string | null>(null);
   const [expandedStep, setExpandedStep] = useState<string | null>(null);
 
