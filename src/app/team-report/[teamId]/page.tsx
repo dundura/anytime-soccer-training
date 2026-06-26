@@ -490,7 +490,6 @@ export default function TeamReportPage() {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [filterTeam, setFilterTeam] = useState("");
-  const [engagementFilter, setEngagementFilter] = useState<string | null>(null);
   const [period, setPeriod] = useState<"week" | "month" | "year" | "alltime">(() => {
     if (typeof window === "undefined") return "week";
     const p = new URLSearchParams(window.location.search).get("period");
@@ -607,9 +606,6 @@ export default function TeamReportPage() {
     .sort((a, b) => b.coachEngagementScore - a.coachEngagementScore);
 
   const filteredRanking = filterTeam ? coachRanking.filter(c => c.teamId === parseInt(filterTeam)) : coachRanking;
-  const engagementFiltered = engagementFilter
-    ? filteredRanking.filter(c => c.engagementBreakdown[engagementFilter as keyof EngagementBreakdown] === 1)
-    : filteredRanking;
 
   const allPlayers = filteredTeams
     .flatMap(t => t.players.map(p => ({ ...p, teamName: t.teamName })))
@@ -778,27 +774,6 @@ export default function TeamReportPage() {
             {/* COACH RANKING TAB */}
             {tab === "Coach Ranking" && (
               <div className="bg-white rounded-2xl shadow-sm overflow-x-auto">
-                {/* Filters */}
-                <div className="p-4 border-b border-gray-100 flex flex-wrap gap-3 items-center">
-                  <span className="text-xs font-bold text-navy/50 uppercase tracking-wide">Filter:</span>
-                  {[
-                    { key: "hasHomework", label: "Homework Assigned" },
-                    { key: "hasContest", label: "Contest Created" },
-                    { key: "hasPersonalGoal", label: "Personal Goal" },
-                    { key: "hasChallenge", label: "Challenge Set" },
-                  ].map(f => (
-                    <button
-                      key={f.key}
-                      onClick={() => setEngagementFilter(prev => prev === f.key ? null : f.key)}
-                      className={`text-xs font-bold px-3 py-1.5 rounded-full border-2 transition-all ${engagementFilter === f.key ? "bg-navy text-white border-navy" : "border-gray-200 text-navy/60 hover:border-navy/40"}`}
-                    >
-                      {f.label}
-                    </button>
-                  ))}
-                  {engagementFilter && (
-                    <button onClick={() => setEngagementFilter(null)} className="text-xs text-gray-400 hover:text-gray-600 ml-1">Clear</button>
-                  )}
-                </div>
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="bg-navy text-white text-left text-xs uppercase tracking-wide">
@@ -814,9 +789,9 @@ export default function TeamReportPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {engagementFiltered.length === 0 ? (
+                    {filteredRanking.length === 0 ? (
                       <tr><td colSpan={9} className="px-5 py-8 text-center text-navy/40">No coaches found.</td></tr>
-                    ) : engagementFiltered.map((c, i) => (
+                    ) : filteredRanking.map((c, i) => (
                       <tr key={`${c.teamId}-${c.childId}`} className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}>
                         <td className="px-4 py-3.5 text-center">
                           <span className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-black ${i === 0 ? "bg-yellow-400 text-white" : i === 1 ? "bg-gray-300 text-gray-700" : i === 2 ? "bg-orange-300 text-white" : "bg-gray-100 text-navy/50"}`}>{i + 1}</span>
