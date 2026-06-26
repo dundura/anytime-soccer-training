@@ -904,78 +904,59 @@ export default function TeamReportPage() {
         )}
 
         {showHowTo && (
-          <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
-            <h2 className="text-lg font-black text-navy mb-1">How To Use Your Coaching Plan</h2>
-            <p className="text-sm text-navy/50 mb-6">Follow these steps week by week to drive player engagement and build great training habits on your team.</p>
-            <div className="grid sm:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-[11px] font-black text-navy/40 uppercase tracking-widest mb-4">Core Steps</h3>
-                <div className="space-y-6">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="w-6 h-6 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center shrink-0">1</span>
-                      <h4 className="text-sm font-black text-navy">Assign Homework</h4>
-                    </div>
-                    <p className="text-sm text-navy/60 ml-8">Go into the app and assign a homework folder to your team. This is the single most important action you can take — players who receive homework train 3× more often than those who don&apos;t. Assign it at the start of each week so players know exactly what to work on.</p>
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="w-6 h-6 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center shrink-0">2</span>
-                      <h4 className="text-sm font-black text-navy">Demo App In-Person</h4>
-                    </div>
-                    <p className="text-sm text-navy/60 ml-8">At your next practice, pull up the app on your phone and show players exactly how it works — how to find their homework, how to log a video, and how to check their progress. A 2-minute demo at practice drives more sign-ups than any email you can send.</p>
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="w-6 h-6 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center shrink-0">3</span>
-                      <h4 className="text-sm font-black text-navy">Send Email Reminder</h4>
-                    </div>
-                    <p className="text-sm text-navy/60 ml-8">Use the Email PDF button to send a summary of the coaching plan directly to yourself or a team manager. Then forward it to parents with a short note like: &quot;Here&apos;s what we&apos;re working on this week — encourage your player to get some reps in at home!&quot;</p>
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="w-6 h-6 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center shrink-0">4</span>
-                      <h4 className="text-sm font-black text-navy">Set Personal Player Goals</h4>
-                    </div>
-                    <p className="text-sm text-navy/60 ml-8">Sit down with each player (or have them fill it out themselves) and set a personal training goal for the season — e.g. &quot;complete 3 sessions per week&quot; or &quot;reach 500 videos logged.&quot; Players with personal goals are significantly more likely to stay active throughout the season.</p>
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="w-6 h-6 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center shrink-0">5</span>
-                      <h4 className="text-sm font-black text-navy">Give Player Recognition in Practice</h4>
-                    </div>
-                    <p className="text-sm text-navy/60 ml-8">At practice, call out a player who has been putting in work at home. A quick shoutout — &quot;Great work on your home training this week, [Name] — I could see it in your touches today!&quot; — costs you 10 seconds and tells every player on your team that home training matters.</p>
+          <div className="max-w-3xl mx-auto">
+            <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
+              <h2 className="text-2xl font-black text-navy mb-1">How To Use Your Coaching Plan</h2>
+              <p className="text-sm text-navy/50 mb-8">Follow these steps week by week to drive player engagement and build great training habits on your team.</p>
+
+              <div className="space-y-10">
+                <div>
+                  <h3 className="text-[11px] font-black text-navy/40 uppercase tracking-widest mb-5">Core Steps</h3>
+                  <div className="space-y-8">
+                    {[
+                      { n: "1", title: "Assign Homework", text: "Go into the app and assign a homework folder to your team. This is the single most important action you can take — players who receive homework train 3× more often than those who don't. Assign it at the start of each week so players know exactly what to work on." },
+                      { n: "2", title: "Demo App In-Person", text: "At your next practice, pull up the app on your phone and show players exactly how it works — how to find their homework, how to log a video, and how to check their progress. A 2-minute demo at practice drives more sign-ups than any email you can send." },
+                      { n: "3", title: "Send Email Reminder", text: "Use the Email PDF button to send a summary of the coaching plan directly to yourself or a team manager. Then forward it to parents with a short note like: \"Here's what we're working on this week — encourage your player to get some reps in at home!\"" },
+                      { n: "4", title: "Set Personal Player Goals", text: "Sit down with each player (or have them fill it out themselves) and set a personal training goal for the season — e.g. \"complete 3 sessions per week\" or \"reach 500 videos logged.\" Players with personal goals are significantly more likely to stay active throughout the season." },
+                      { n: "5", title: "Give Player Recognition in Practice", text: "At practice, call out a player who has been putting in work at home. A quick shoutout — \"Great work on your home training this week, [Name] — I could see it in your touches today!\" — costs you 10 seconds and tells every player on your team that home training matters." },
+                    ].map(s => (
+                      <div key={s.n} className="flex gap-4">
+                        <span className="w-8 h-8 rounded-full bg-navy text-white text-sm font-black flex items-center justify-center shrink-0 mt-0.5">{s.n}</span>
+                        <div>
+                          <h4 className="text-base font-black text-navy mb-1">{s.title}</h4>
+                          <p className="text-sm text-navy/60 leading-relaxed">{s.text}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
-              <div>
-                <h3 className="text-[11px] font-black text-navy/40 uppercase tracking-widest mb-4">Boost Engagement</h3>
-                <div className="space-y-6">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 text-[11px] font-black flex items-center justify-center shrink-0">★</span>
-                      <h4 className="text-sm font-black text-navy">Launch a Weekly Challenge</h4>
+
+                <div className="border-t border-gray-100 pt-8">
+                  <h3 className="text-[11px] font-black text-blue-400 uppercase tracking-widest mb-5">Recommended Boost</h3>
+                  <div className="flex gap-4">
+                    <span className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 text-sm font-black flex items-center justify-center shrink-0 mt-0.5">★</span>
+                    <div>
+                      <h4 className="text-base font-black text-navy mb-1">Launch a Weekly Challenge</h4>
+                      <p className="text-sm text-navy/60 leading-relaxed">Create a weekly challenge inside the app that your whole team competes on — most videos logged, most skill completions, or a specific move they all practice. Challenges create a friendly competition that keeps players coming back every day.</p>
                     </div>
-                    <p className="text-sm text-navy/60 ml-8">Create a weekly challenge inside the app that your whole team competes on — most videos logged, most skill completions, or a specific move they all practice. Challenges create a friendly competition that keeps players coming back every day.</p>
                   </div>
-                  <div className="mt-2 pt-2 border-t border-gray-100">
-                    <h3 className="text-[11px] font-black text-navy/40 uppercase tracking-widest mb-4">Optional — But Powerful</h3>
-                    <div className="space-y-6">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 text-[11px] font-black flex items-center justify-center shrink-0">+</span>
-                          <h4 className="text-sm font-black text-navy">Create a Longterm Contest</h4>
+                </div>
+
+                <div className="border-t border-gray-100 pt-8">
+                  <h3 className="text-[11px] font-black text-amber-400 uppercase tracking-widest mb-5">Optional — But Powerful</h3>
+                  <div className="space-y-8">
+                    {[
+                      { title: "Create a Longterm Contest", text: "Set up a season-long contest where the top trainers earn a prize — pizza party, gear, or bragging rights. A longterm contest gives players a reason to stay consistent all season, not just in the first week." },
+                      { title: "Set a Team Level Goal", text: "Challenge the whole team to reach a collective milestone — e.g. \"as a team, let's log 1,000 videos this season.\" Team goals shift the culture from individual obligation to shared ownership and create a natural reason to cheer each other on." },
+                    ].map(s => (
+                      <div key={s.title} className="flex gap-4">
+                        <span className="w-8 h-8 rounded-full bg-amber-100 text-amber-500 text-sm font-black flex items-center justify-center shrink-0 mt-0.5">+</span>
+                        <div>
+                          <h4 className="text-base font-black text-navy mb-1">{s.title}</h4>
+                          <p className="text-sm text-navy/60 leading-relaxed">{s.text}</p>
                         </div>
-                        <p className="text-sm text-navy/60 ml-8">Set up a season-long contest where the top trainers earn a prize — pizza party, gear, or bragging rights. A longterm contest gives players a reason to stay consistent all season, not just in the first week.</p>
                       </div>
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 text-[11px] font-black flex items-center justify-center shrink-0">+</span>
-                          <h4 className="text-sm font-black text-navy">Set a Team Level Goal</h4>
-                        </div>
-                        <p className="text-sm text-navy/60 ml-8">Challenge the whole team to reach a collective milestone — e.g. &quot;as a team, let&apos;s log 1,000 videos this season.&quot; Team goals shift the culture from individual obligation to shared ownership and create a natural reason to cheer each other on.</p>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -983,11 +964,11 @@ export default function TeamReportPage() {
           </div>
         )}
 
-        {loading ? (
+        {!showHowTo && loading ? (
           <div className="text-center py-20 text-navy/40 font-medium">Loading...</div>
-        ) : teams.length === 0 ? (
+        ) : !showHowTo && teams.length === 0 ? (
           <div className="text-center py-20 text-navy/40 font-medium">No teams loaded.</div>
-        ) : (
+        ) : !showHowTo ? (
           <>
             {/* OVERVIEW TAB */}
             {tab === "Overview" && !showGoals && (
@@ -1054,7 +1035,7 @@ export default function TeamReportPage() {
             )}
 
           </>
-        )}
+        ) : null}
       </div>
     </main>
   );
