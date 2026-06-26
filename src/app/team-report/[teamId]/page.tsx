@@ -661,6 +661,7 @@ export default function TeamReportPage() {
   const [playerSearch, setPlayerSearch] = useState("");
   const [showGoals, setShowGoals] = useState(false);
   const [showHowTo, setShowHowTo] = useState(false);
+  const [howToFilter, setHowToFilter] = useState<string | null>(null);
 
   const fetchTeams = useCallback(async (ids: number[], p = "alltime") => {
     if (!ids.length) return;
@@ -903,66 +904,96 @@ export default function TeamReportPage() {
           />
         )}
 
-        {showHowTo && (
-          <div className="max-w-3xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
-              <h2 className="text-2xl font-black text-navy mb-1">How To Use Your Coaching Plan</h2>
-              <p className="text-sm text-navy/50 mb-8">Follow these steps week by week to drive player engagement and build great training habits on your team.</p>
+        {showHowTo && (() => {
+          const HOW_TO_STEPS = [
+            { key: "homework", badge: "1", badgeBg: "bg-navy", badgeText: "text-white", title: "Assign Homework", type: "core",
+              how: "Go into the app, navigate to your team, and assign a skill folder as homework for the week.",
+              when: "At the start of each week, before or right after practice.",
+              where: "In the app under Teams → Homework.",
+              why: "Players who receive homework train 3× more often than those who don't. It gives them a clear focus and removes the question of what to work on." },
+            { key: "demo", badge: "2", badgeBg: "bg-navy", badgeText: "text-white", title: "Demo App In-Person", type: "core",
+              how: "Pull up the app on your phone at practice. Walk players through finding their homework, logging a video, and checking their stats — live, in 2 minutes.",
+              when: "At your first practice of the season, or the first time a new player joins.",
+              where: "At practice, with your phone in hand.",
+              why: "Seeing it live removes all friction. A quick in-person demo gets more players active than any email or link you can send." },
+            { key: "email", badge: "3", badgeBg: "bg-navy", badgeText: "text-white", title: "Send Email Reminder", type: "core",
+              how: "Click the Email PDF button on this page to send the coaching plan to a manager. Then forward it to parents with a short personal note.",
+              when: "Once per week, at the start of the training week.",
+              where: "From this dashboard using the Email PDF button.",
+              why: "Parents who know what their child is working on are more likely to encourage home training. A weekly reminder keeps the team accountable." },
+            { key: "goals", badge: "4", badgeBg: "bg-navy", badgeText: "text-white", title: "Set Personal Player Goals", type: "core",
+              how: "Have each player set one measurable training goal — e.g. \"log 3 videos per week\" or \"reach level 10 by the end of the season.\"",
+              when: "At the beginning of the season or when a player first joins.",
+              where: "In the app under each player's profile, or in a quick conversation at practice.",
+              why: "Players with personal goals are significantly more likely to stay active all season. Goals create internal motivation that outlasts any external push." },
+            { key: "recognition", badge: "5", badgeBg: "bg-navy", badgeText: "text-white", title: "Give Player Recognition", type: "core",
+              how: "At practice, call out one player who trained at home that week. Be specific — mention what you noticed in their footwork or touches.",
+              when: "Once per week at practice, consistently every week.",
+              where: "In front of the whole team at practice.",
+              why: "Public recognition tells every player that home training gets noticed. It's the fastest way to build a training culture that lasts." },
+            { key: "challenge", badge: "★", badgeBg: "bg-blue-100", badgeText: "text-blue-600", title: "Launch a Weekly Challenge", type: "rec",
+              how: "Create a weekly challenge in the app for your team — pick a skill or a video-count target that everyone competes toward.",
+              when: "At the start of each week, alongside the homework assignment.",
+              where: "In the app under Teams → Challenges.",
+              why: "Competition drives consistency. Players who are competing check back daily instead of training once and forgetting." },
+            { key: "contest", badge: "+", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Create a Longterm Contest", type: "opt",
+              how: "Set up a season-long leaderboard contest with a prize for the top trainer — pizza party, gear, or a team trophy.",
+              when: "At the beginning of the season, so players have the full season to compete.",
+              where: "In the app under Teams → Contests.",
+              why: "A longterm contest gives players a reason to stay consistent all season, not just in week one. It turns training into an ongoing game." },
+            { key: "levelgoal", badge: "+", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Set a Team Level Goal", type: "opt",
+              how: "Choose a collective milestone — e.g. \"log 1,000 videos this season\" — and share it with the whole group at practice.",
+              when: "At the start of the season or during a team meeting.",
+              where: "Announce it at practice and pin it in the app so players can track it.",
+              why: "Shared goals create team ownership. Players encourage each other and feel responsible for the collective result, not just their own training." },
+          ];
+          const visible = howToFilter ? HOW_TO_STEPS.filter(s => s.key === howToFilter) : HOW_TO_STEPS;
+          return (
+            <div className="max-w-3xl mx-auto">
+              <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
+                <h2 className="text-2xl font-black text-navy mb-1">How To Use Your Coaching Plan</h2>
+                <p className="text-sm text-navy/50 mb-6">Follow these steps week by week to drive player engagement and build great training habits on your team.</p>
 
-              <div className="space-y-10">
-                <div>
-                  <h3 className="text-[11px] font-black text-navy/40 uppercase tracking-widest mb-5">Core Steps</h3>
-                  <div className="space-y-8">
-                    {[
-                      { n: "1", title: "Assign Homework", text: "Go into the app and assign a homework folder to your team. This is the single most important action you can take — players who receive homework train 3× more often than those who don't. Assign it at the start of each week so players know exactly what to work on." },
-                      { n: "2", title: "Demo App In-Person", text: "At your next practice, pull up the app on your phone and show players exactly how it works — how to find their homework, how to log a video, and how to check their progress. A 2-minute demo at practice drives more sign-ups than any email you can send." },
-                      { n: "3", title: "Send Email Reminder", text: "Use the Email PDF button to send a summary of the coaching plan directly to yourself or a team manager. Then forward it to parents with a short note like: \"Here's what we're working on this week — encourage your player to get some reps in at home!\"" },
-                      { n: "4", title: "Set Personal Player Goals", text: "Sit down with each player (or have them fill it out themselves) and set a personal training goal for the season — e.g. \"complete 3 sessions per week\" or \"reach 500 videos logged.\" Players with personal goals are significantly more likely to stay active throughout the season." },
-                      { n: "5", title: "Give Player Recognition in Practice", text: "At practice, call out a player who has been putting in work at home. A quick shoutout — \"Great work on your home training this week, [Name] — I could see it in your touches today!\" — costs you 10 seconds and tells every player on your team that home training matters." },
-                    ].map(s => (
-                      <div key={s.n} className="flex gap-4">
-                        <span className="w-8 h-8 rounded-full bg-navy text-white text-sm font-black flex items-center justify-center shrink-0 mt-0.5">{s.n}</span>
-                        <div>
-                          <h4 className="text-base font-black text-navy mb-1">{s.title}</h4>
-                          <p className="text-sm text-navy/60 leading-relaxed">{s.text}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                {/* Pills */}
+                <div className="flex flex-wrap gap-2 mb-8 pb-6 border-b border-gray-100">
+                  {HOW_TO_STEPS.map(s => {
+                    const active = howToFilter === s.key;
+                    const pillColor = s.type === "rec" ? (active ? "bg-blue-600 text-white border-blue-600" : "border-blue-200 text-blue-600 hover:bg-blue-50")
+                      : s.type === "opt" ? (active ? "bg-amber-500 text-white border-amber-500" : "border-amber-200 text-amber-600 hover:bg-amber-50")
+                      : (active ? "bg-navy text-white border-navy" : "border-gray-200 text-navy/60 hover:border-navy/40 hover:text-navy");
+                    return (
+                      <button key={s.key} onClick={() => setHowToFilter(active ? null : s.key)}
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 text-xs font-bold transition-all ${pillColor}`}>
+                        <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-black ${active ? "bg-white/20" : s.badgeBg} ${active ? "text-white" : s.badgeText}`}>{s.badge}</span>
+                        {s.title}
+                      </button>
+                    );
+                  })}
                 </div>
 
-                <div className="border-t border-gray-100 pt-8">
-                  <h3 className="text-[11px] font-black text-blue-400 uppercase tracking-widest mb-5">Recommended Boost</h3>
-                  <div className="flex gap-4">
-                    <span className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 text-sm font-black flex items-center justify-center shrink-0 mt-0.5">★</span>
-                    <div>
-                      <h4 className="text-base font-black text-navy mb-1">Launch a Weekly Challenge</h4>
-                      <p className="text-sm text-navy/60 leading-relaxed">Create a weekly challenge inside the app that your whole team competes on — most videos logged, most skill completions, or a specific move they all practice. Challenges create a friendly competition that keeps players coming back every day.</p>
+                {/* Steps */}
+                <div className="space-y-8">
+                  {visible.map(s => (
+                    <div key={s.key} className="flex gap-4">
+                      <span className={`w-8 h-8 rounded-full ${s.badgeBg} ${s.badgeText} text-sm font-black flex items-center justify-center shrink-0 mt-0.5`}>{s.badge}</span>
+                      <div className="flex-1">
+                        <h4 className="text-base font-black text-navy mb-3">{s.title}</h4>
+                        <div className="space-y-2">
+                          {([["How", s.how], ["When", s.when], ["Where", s.where], ["Why", s.why]] as [string, string][]).map(([label, val]) => (
+                            <div key={label} className="flex gap-2">
+                              <span className="text-[10px] font-black uppercase tracking-widest text-navy/30 w-10 pt-0.5 shrink-0">{label}</span>
+                              <p className="text-sm text-navy/60 leading-relaxed">{val}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-
-                <div className="border-t border-gray-100 pt-8">
-                  <h3 className="text-[11px] font-black text-amber-400 uppercase tracking-widest mb-5">Optional — But Powerful</h3>
-                  <div className="space-y-8">
-                    {[
-                      { title: "Create a Longterm Contest", text: "Set up a season-long contest where the top trainers earn a prize — pizza party, gear, or bragging rights. A longterm contest gives players a reason to stay consistent all season, not just in the first week." },
-                      { title: "Set a Team Level Goal", text: "Challenge the whole team to reach a collective milestone — e.g. \"as a team, let's log 1,000 videos this season.\" Team goals shift the culture from individual obligation to shared ownership and create a natural reason to cheer each other on." },
-                    ].map(s => (
-                      <div key={s.title} className="flex gap-4">
-                        <span className="w-8 h-8 rounded-full bg-amber-100 text-amber-500 text-sm font-black flex items-center justify-center shrink-0 mt-0.5">+</span>
-                        <div>
-                          <h4 className="text-base font-black text-navy mb-1">{s.title}</h4>
-                          <p className="text-sm text-navy/60 leading-relaxed">{s.text}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         {!showHowTo && loading ? (
           <div className="text-center py-20 text-navy/40 font-medium">Loading...</div>
