@@ -148,6 +148,68 @@ function SlugEditor({ team, onUpdate }: { team: Team; onUpdate: (slug: string) =
   );
 }
 
+function TeamSection({ t, teamPlayers, period }: { t: Team; teamPlayers: Player[]; period: string }) {
+  const [open, setOpen] = useState(false);
+  const tvid = teamPlayers.reduce((s, p) => s + p.videosWatched, 0);
+  const tmin = teamPlayers.reduce((s, p) => s + p.trainingMinutes, 0);
+  const tact = teamPlayers.filter(p => p.activeThisWeek).length;
+  return (
+    <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="w-full bg-navy/5 border-b border-gray-100 px-5 py-3 flex flex-wrap items-center gap-x-6 gap-y-1 text-left hover:bg-navy/10 transition-colors"
+      >
+        <div className="flex items-center gap-2 flex-1">
+          <span className="text-navy/40 text-xs">{open ? "▾" : "▸"}</span>
+          <span className="font-black text-navy text-sm">{t.teamName}</span>
+          {t.createdAt && <span className="text-xs text-gray-400">({formatDate(t.createdAt)})</span>}
+        </div>
+        <span className="text-xs text-navy/50 font-semibold">{t.activePlayerCount} players</span>
+        <span className={`text-xs font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>
+          {t.participationRate}% participation
+        </span>
+        <ScoreDots score={t.coachEngagementScore} breakdown={t.engagementBreakdown} />
+      </button>
+      {open && (
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="text-left text-xs uppercase tracking-wide text-navy/40 border-b border-gray-100">
+              <th className="px-5 py-2">Player</th>
+              <th className="px-5 py-2 text-center">Videos</th>
+              <th className="px-5 py-2 text-center">Training Time</th>
+              <th className="px-5 py-2 text-center">Active</th>
+            </tr>
+          </thead>
+          <tbody>
+            {teamPlayers.length === 0 ? (
+              <tr><td colSpan={4} className="px-5 py-4 text-center text-navy/30 text-xs">No players found.</td></tr>
+            ) : teamPlayers.map((p, i) => (
+              <tr key={p.childId} className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}>
+                <td className="px-5 py-3 font-semibold text-navy">{p.name}</td>
+                <td className="px-5 py-3 text-center text-navy/70">{p.videosWatched.toLocaleString()}</td>
+                <td className="px-5 py-3 text-center text-navy/70">{formatTime(p.trainingMinutes)}</td>
+                <td className="px-5 py-3 text-center">
+                  <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${p.activeThisWeek ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-400"}`}>
+                    {p.activeThisWeek ? "Yes" : "No"}
+                  </span>
+                </td>
+              </tr>
+            ))}
+            {teamPlayers.length > 0 && (
+              <tr className="bg-navy/5 border-t-2 border-navy/10 font-bold text-navy text-xs uppercase tracking-wide">
+                <td className="px-5 py-2.5">Total</td>
+                <td className="px-5 py-2.5 text-center">{tvid.toLocaleString()}</td>
+                <td className="px-5 py-2.5 text-center">{formatTime(tmin)}</td>
+                <td className="px-5 py-2.5 text-center">{tact} / {teamPlayers.length} active</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+}
+
 const TABS = ["Overview", "Coach Ranking", "Report URL"] as const;
 type Tab = (typeof TABS)[number];
 
@@ -421,67 +483,14 @@ export default function TeamReportPage() {
                 ))}
               </div>
 
-              {/* Per-team: summary pill + player rows */}
+              {/* Per-team: collapsible summary pill + player rows */}
               <div className="space-y-4">
                 {filteredTeams.map(t => {
                   const teamPlayers = t.players
                     .filter(p => !playerSearch || p.name.toLowerCase().includes(playerSearch.toLowerCase()))
                     .sort((a, b) => b.videosWatched - a.videosWatched);
                   return (
-                    <div key={t.teamId} className="bg-white rounded-2xl shadow-sm overflow-hidden">
-                      {/* Team summary pill */}
-                      <div className="bg-navy/5 border-b border-gray-100 px-5 py-3 flex flex-wrap items-center gap-x-6 gap-y-1">
-                        <div>
-                          <span className="font-black text-navy text-sm">{t.teamName}</span>
-                          {t.createdAt && <span className="text-xs text-gray-400 ml-2">({formatDate(t.createdAt)})</span>}
-                        </div>
-                        <span className="text-xs text-navy/50 font-semibold">{t.activePlayerCount} players</span>
-                        <span className={`text-xs font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>
-                          {t.participationRate}% participation
-                        </span>
-                        <ScoreDots score={t.coachEngagementScore} breakdown={t.engagementBreakdown} />
-                      </div>
-                      {/* Player rows */}
-                      <table className="w-full text-sm">
-                        <thead>
-                          <tr className="text-left text-xs uppercase tracking-wide text-navy/40 border-b border-gray-100">
-                            <th className="px-5 py-2">Player</th>
-                            <th className="px-5 py-2 text-center">Videos</th>
-                            <th className="px-5 py-2 text-center">Training Time</th>
-                            <th className="px-5 py-2 text-center">Active</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {teamPlayers.length === 0 ? (
-                            <tr><td colSpan={4} className="px-5 py-4 text-center text-navy/30 text-xs">No players found.</td></tr>
-                          ) : teamPlayers.map((p, i) => (
-                            <tr key={p.childId} className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}>
-                              <td className="px-5 py-3 font-semibold text-navy">{p.name}</td>
-                              <td className="px-5 py-3 text-center text-navy/70">{p.videosWatched.toLocaleString()}</td>
-                              <td className="px-5 py-3 text-center text-navy/70">{formatTime(p.trainingMinutes)}</td>
-                              <td className="px-5 py-3 text-center">
-                                <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${p.activeThisWeek ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-400"}`}>
-                                  {p.activeThisWeek ? "Yes" : "No"}
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
-                          {teamPlayers.length > 0 && (() => {
-                            const tvid = teamPlayers.reduce((s, p) => s + p.videosWatched, 0);
-                            const tmin = teamPlayers.reduce((s, p) => s + p.trainingMinutes, 0);
-                            const tact = teamPlayers.filter(p => p.activeThisWeek).length;
-                            return (
-                              <tr className="bg-navy/5 border-t-2 border-navy/10 font-bold text-navy text-xs uppercase tracking-wide">
-                                <td className="px-5 py-2.5">Total</td>
-                                <td className="px-5 py-2.5 text-center">{tvid.toLocaleString()}</td>
-                                <td className="px-5 py-2.5 text-center">{formatTime(tmin)}</td>
-                                <td className="px-5 py-2.5 text-center">{tact} / {teamPlayers.length} active</td>
-                              </tr>
-                            );
-                          })()}
-                        </tbody>
-                      </table>
-                    </div>
+                    <TeamSection key={t.teamId} t={t} teamPlayers={teamPlayers} period={period} />
                   );
                 })}
               </div>
