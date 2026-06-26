@@ -264,14 +264,16 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
     if (!email) return;
     setEmailForms(prev => ({ ...prev, [t.teamId]: { ...form, sending: true } }));
     try {
-      await fetch(`${API}/${t.teamId}/email`, {
+      const res = await fetch(`${API}/${t.teamId}/email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ firstName, email, period }),
       });
+      if (!res.ok) throw new Error(await res.text());
       setEmailForms(prev => ({ ...prev, [t.teamId]: { ...form, sending: false, sent: true } }));
       setTimeout(() => setEmailForms(prev => ({ ...prev, [t.teamId]: null })), 3000);
-    } catch {
+    } catch (err) {
+      alert(`Failed to send: ${err instanceof Error ? err.message : "Server error"}`);
       setEmailForms(prev => ({ ...prev, [t.teamId]: { ...form, sending: false } }));
     }
   };
