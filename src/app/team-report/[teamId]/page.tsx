@@ -195,7 +195,7 @@ function PerformanceDropdown({ ranking, period }: { ranking: any[]; period: stri
     <div className="mb-6">
       <button onClick={() => setOpen(o => !o)}
         className="w-full flex items-center justify-between px-5 py-4 bg-white rounded-2xl shadow-sm text-sm font-black text-navy hover:bg-gray-50 transition-colors">
-        <span>Performance</span>
+        <span>Coach Engagement Summary</span>
         <span className="text-navy/40 text-xs">{open ? "▴" : "▾"}</span>
       </button>
       {open && (
