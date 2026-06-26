@@ -910,42 +910,50 @@ export default function TeamReportPage() {
               how: "Go to your coach's board. Pick the skill areas and folders you want to assign. We recommend keeping it simple — start with 30-day plans or the first folders in the full curriculum. Then next month, assign one of the recurring plans such as the Skill Builder Plan. If you have any questions, email megan@anytime-soccer.com.",
               when: "Do this immediately upon creating the team. You have to show the kids this is important.",
               where: "The coach's board is in the app — log in at app.anytime-soccer.com and you'll find it in the main navigation.",
-              why: "Players who receive homework train 3× more often than those who don't. Assign it at the start of each week so players know exactly what to work on." },
+              why: "Players who receive homework train 3× more often than those who don't. Assign it at the start of each week so players know exactly what to work on.",
+              tip: "Not sure where to start? Email neil@anytime-soccer.com and he will assign your first homework on your behalf." },
             { key: "demo", badge: "2", badgeBg: "bg-navy", badgeText: "text-white", title: "Demo App In-Person", type: "core",
               how: "Pull up the app on your phone at practice. Walk players through finding their homework, logging a video, and checking their stats — live, in 2 minutes.",
-              when: "At your first practice of the season, or the first time a new player joins.",
+              when: "First week of the season or at your first team meeting.",
               where: "At practice, with your phone in hand.",
-              why: "Seeing it live removes all friction. A quick in-person demo gets more players active than any email or link you can send." },
+              why: "Seeing it live removes all friction. A quick in-person demo gets more players active than any email or link you can send.",
+              tip: undefined },
             { key: "email", badge: "3", badgeBg: "bg-navy", badgeText: "text-white", title: "Send Email Reminder", type: "core",
               how: "Click the Email PDF button on this page to send the coaching plan to a manager. Then forward it to parents with a short personal note.",
               when: "Once per week, at the start of the training week.",
               where: "From this dashboard using the Email PDF button.",
-              why: "Parents who know what their child is working on are more likely to encourage home training. A weekly reminder keeps the team accountable." },
+              why: "Parents who know what their child is working on are more likely to encourage home training. A weekly reminder keeps the team accountable.",
+              tip: undefined },
             { key: "goals", badge: "4", badgeBg: "bg-navy", badgeText: "text-white", title: "Set Personal Player Goals", type: "core",
               how: "Have each player set one measurable training goal — e.g. \"log 3 videos per week\" or \"reach level 10 by the end of the season.\"",
               when: "At the beginning of the season or when a player first joins.",
               where: "In the app under each player's profile, or in a quick conversation at practice.",
-              why: "Players with personal goals are significantly more likely to stay active all season. Goals create internal motivation that outlasts any external push." },
+              why: "Players with personal goals are significantly more likely to stay active all season. Goals create internal motivation that outlasts any external push.",
+              tip: undefined },
             { key: "recognition", badge: "5", badgeBg: "bg-navy", badgeText: "text-white", title: "Give Player Recognition", type: "core",
               how: "At practice, call out one player who trained at home that week. Be specific — mention what you noticed in their footwork or touches.",
               when: "Once per week at practice, consistently every week.",
               where: "In front of the whole team at practice.",
-              why: "Public recognition tells every player that home training gets noticed. It's the fastest way to build a training culture that lasts." },
+              why: "Public recognition tells every player that home training gets noticed. It's the fastest way to build a training culture that lasts.",
+              tip: undefined },
             { key: "challenge", badge: "★", badgeBg: "bg-blue-100", badgeText: "text-blue-600", title: "Launch a Weekly Challenge", type: "rec",
               how: "Create a weekly challenge in the app for your team — pick a skill or a video-count target that everyone competes toward.",
               when: "At the start of each week, alongside the homework assignment.",
               where: "In the app under Teams → Challenges.",
-              why: "Competition drives consistency. Players who are competing check back daily instead of training once and forgetting." },
+              why: "Competition drives consistency. Players who are competing check back daily instead of training once and forgetting.",
+              tip: undefined },
             { key: "contest", badge: "+", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Create a Longterm Contest", type: "opt",
               how: "Set up a season-long leaderboard contest with a prize for the top trainer — pizza party, gear, or a team trophy.",
               when: "At the beginning of the season, so players have the full season to compete.",
               where: "In the app under Teams → Contests.",
-              why: "A longterm contest gives players a reason to stay consistent all season, not just in week one. It turns training into an ongoing game." },
+              why: "A longterm contest gives players a reason to stay consistent all season, not just in week one. It turns training into an ongoing game.",
+              tip: undefined },
             { key: "levelgoal", badge: "+", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Set a Team Level Goal", type: "opt",
               how: "Choose a collective milestone — e.g. \"log 1,000 videos this season\" — and share it with the whole group at practice.",
               when: "At the start of the season or during a team meeting.",
               where: "Announce it at practice and pin it in the app so players can track it.",
-              why: "Shared goals create team ownership. Players encourage each other and feel responsible for the collective result, not just their own training." },
+              why: "Shared goals create team ownership. Players encourage each other and feel responsible for the collective result, not just their own training.",
+              tip: undefined },
           ];
           const visible = howToFilter ? HOW_TO_STEPS.filter(s => s.key === howToFilter) : HOW_TO_STEPS;
           return (
@@ -988,6 +996,12 @@ export default function TeamReportPage() {
                               {i < arr.length - 1 && <div className="mt-3 border-b border-gray-100" />}
                             </div>
                           ))}
+                          {s.tip && (
+                            <div className="mt-4 flex gap-2 bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-3">
+                              <span className="text-yellow-500 text-sm shrink-0">💡</span>
+                              <p className="text-sm text-yellow-800 leading-relaxed"><span className="font-black">Pro Tip:</span> {s.tip}</p>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
