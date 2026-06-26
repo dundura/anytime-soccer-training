@@ -926,7 +926,8 @@ export default function TeamReportPage() {
       setLoading(false);
     };
     init();
-  }, [teamId, searchParams]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamId]);
 
   // Search
   useEffect(() => {
