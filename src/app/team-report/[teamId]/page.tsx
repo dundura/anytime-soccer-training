@@ -1270,16 +1270,16 @@ export default function TeamReportPage() {
             {!showGoals && (
               <>
               {/* Summary cards */}
-              <div className="grid grid-cols-4 gap-4 mb-4">
+              <div className="grid grid-cols-4 gap-2 sm:gap-4 mb-4">
                 {[
                   { label: "Total Players", value: totalPlayers.toLocaleString() },
                   { label: "Total Videos", value: totalVideos.toLocaleString() },
                   { label: "Total Training Time", value: formatTime(totalMinutes) },
                   { label: "Avg Participation", value: `${avgParticipation}%` },
                 ].map(card => (
-                  <div key={card.label} className="bg-white rounded-2xl shadow-sm px-6 py-5 text-center">
-                    <div className="text-2xl font-black text-navy">{card.value}</div>
-                    <div className="text-xs text-gray-400 font-semibold mt-1 uppercase tracking-wide">{card.label}</div>
+                  <div key={card.label} className="bg-white rounded-xl sm:rounded-2xl shadow-sm px-2 py-3 sm:px-6 sm:py-5 text-center">
+                    <div className="text-base sm:text-2xl font-black text-navy">{card.value}</div>
+                    <div className="text-[10px] sm:text-xs text-gray-400 font-semibold mt-0.5 sm:mt-1 uppercase tracking-wide leading-tight">{card.label}</div>
                   </div>
                 ))}
               </div>
