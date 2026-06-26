@@ -956,7 +956,7 @@ export default function TeamReportPage() {
               tip: undefined },
             { key: "contest", badge: "+", badgeBg: "bg-amber-100", badgeText: "text-amber-500", title: "Create a Longterm Contest", type: "opt",
               how: "Set up a season-long leaderboard contest with a prize for the top trainer — pizza party, gear, or a team trophy.",
-              when: "At the beginning of the season, so players have the full season to compete.",
+              when: "Near the beginning of the season, once everyone becomes familiar with the app.",
               where: "In the app under Teams → Contests.",
               why: "A longterm contest gives players a reason to stay consistent all season, not just in week one. It turns training into an ongoing game.",
               tip: undefined },
