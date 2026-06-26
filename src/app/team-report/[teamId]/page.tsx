@@ -956,7 +956,7 @@ export default function TeamReportPage() {
               where: "From the **Team Hub**, click **Coach's Challenge** in the dropdown.",
               why: "Competition drives consistency. Players who are competing check back daily instead of training once and forgetting.",
               tip: undefined },
-            { key: "personalChallenge", badge: "7", badgeBg: "bg-blue-100", badgeText: "text-blue-600", title: "Create a Personal Challenge", type: "rec",
+            { key: "personalChallenge", badge: "7", badgeBg: "bg-navy", badgeText: "text-white", title: "Create a Personal Challenge", type: "rec",
               how: "Set up a challenge just for one player — give them a specific target to hit on their own, separate from the team challenge.",
               when: "Any time you want to give an individual player extra motivation.",
               where: "From the **Team Hub**, click **Coach's Challenge** in the dropdown and assign it to a single player.",
