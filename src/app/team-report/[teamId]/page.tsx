@@ -408,7 +408,6 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
 }
 
 function CoachRankingTable({ ranking, period }: { ranking: ReturnType<typeof Array.prototype.map>; period: string }) {
-  const [expanded, setExpanded] = useState(false);
   const periodLabel = period === "week" ? "This Week" : period === "month" ? "Month" : period === "year" ? "Year" : "All Time";
   const extraCols = [
     { key: "participation", label: `Participation (${periodLabel})` },
@@ -418,30 +417,41 @@ function CoachRankingTable({ ranking, period }: { ranking: ReturnType<typeof Arr
     { key: "hasChallenge", label: "Set a Challenge" },
     { key: "score", label: "Score" },
   ];
+  const [mobileCol, setMobileCol] = useState(0);
+  const activeCol = extraCols[mobileCol];
+
+  const renderMobileCell = (c: any) => {
+    if (activeCol.key === "participation") return <span className={`font-bold ${c.participationRate >= 70 ? "text-green-600" : c.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{c.participationRate}%</span>;
+    if (activeCol.key === "score") return <span className="font-black text-navy">{c.coachEngagementScore}/4</span>;
+    return <CheckBadge val={c.engagementBreakdown[activeCol.key]} />;
+  };
+
   return (
     <div className="bg-white rounded-2xl shadow-sm overflow-x-auto">
-      {/* Mobile toggle */}
-      <div className="sm:hidden flex items-center justify-end px-4 pt-3 pb-1">
-        <button onClick={() => setExpanded(e => !e)}
-          className="text-xs font-bold border-2 border-gray-200 rounded-lg px-3 py-1.5 text-navy/60 hover:border-navy/40 transition-colors">
-          {expanded ? "Less ▴" : "More ▾"}
-        </button>
+      {/* Mobile column cycler */}
+      <div className="sm:hidden flex items-center gap-2 px-4 pt-3 pb-2">
+        <button onClick={() => setMobileCol(i => (i - 1 + extraCols.length) % extraCols.length)}
+          className="w-7 h-7 flex items-center justify-center rounded-lg border-2 border-gray-200 text-navy/60 font-bold hover:border-navy/40 transition-colors text-sm">‹</button>
+        <span className="flex-1 text-center text-xs font-bold text-navy truncate">{activeCol.label}</span>
+        <button onClick={() => setMobileCol(i => (i + 1) % extraCols.length)}
+          className="w-7 h-7 flex items-center justify-center rounded-lg border-2 border-gray-200 text-navy/60 font-bold hover:border-navy/40 transition-colors text-sm">›</button>
       </div>
       <table className="w-full text-sm">
         <thead>
           <tr className="bg-navy text-white text-left text-xs uppercase tracking-wide">
             <th className="px-4 py-3 text-center w-12">Rank</th>
             <th className="px-4 py-3">Coach</th>
+            {/* Mobile: single active column */}
+            <th className="px-4 py-3 text-center sm:hidden">{activeCol.label}</th>
+            {/* Desktop: all columns */}
             {extraCols.map(col => (
-              <th key={col.key} className={`px-4 py-3 text-center ${col.key === "participation" || col.key === "score" ? "" : ""} hidden sm:table-cell ${expanded ? "!table-cell" : ""}`}>
-                {col.label}
-              </th>
+              <th key={col.key} className="px-4 py-3 text-center hidden sm:table-cell">{col.label}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {ranking.length === 0 ? (
-            <tr><td colSpan={8} className="px-5 py-8 text-center text-navy/40">No coaches found.</td></tr>
+            <tr><td colSpan={3} className="px-5 py-8 text-center text-navy/40">No coaches found.</td></tr>
           ) : ranking.map((c: any, i: number) => (
             <tr key={`${c.teamId}-${c.childId}`} className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}>
               <td className="px-4 py-3.5 text-center">
@@ -451,14 +461,17 @@ function CoachRankingTable({ ranking, period }: { ranking: ReturnType<typeof Arr
                 <div className="font-bold text-navy">{c.name}</div>
                 <div className="text-xs text-navy/50 mt-0.5">{c.teamName}</div>
               </td>
-              <td className={`px-4 py-3.5 text-center hidden sm:table-cell ${expanded ? "!table-cell" : ""}`}>
+              {/* Mobile: single active column */}
+              <td className="px-4 py-3.5 text-center sm:hidden">{renderMobileCell(c)}</td>
+              {/* Desktop: all columns */}
+              <td className="px-4 py-3.5 text-center hidden sm:table-cell">
                 <span className={`font-bold ${c.participationRate >= 70 ? "text-green-600" : c.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{c.participationRate}%</span>
               </td>
-              <td className={`px-4 py-3.5 text-center hidden sm:table-cell ${expanded ? "!table-cell" : ""}`}><CheckBadge val={c.engagementBreakdown.hasHomework} /></td>
-              <td className={`px-4 py-3.5 text-center hidden sm:table-cell ${expanded ? "!table-cell" : ""}`}><CheckBadge val={c.engagementBreakdown.hasContest} /></td>
-              <td className={`px-4 py-3.5 text-center hidden sm:table-cell ${expanded ? "!table-cell" : ""}`}><CheckBadge val={c.engagementBreakdown.hasPersonalGoal} /></td>
-              <td className={`px-4 py-3.5 text-center hidden sm:table-cell ${expanded ? "!table-cell" : ""}`}><CheckBadge val={c.engagementBreakdown.hasChallenge} /></td>
-              <td className={`px-4 py-3.5 text-center hidden sm:table-cell ${expanded ? "!table-cell" : ""}`}><span className="font-black text-navy">{c.coachEngagementScore}/4</span></td>
+              <td className="px-4 py-3.5 text-center hidden sm:table-cell"><CheckBadge val={c.engagementBreakdown.hasHomework} /></td>
+              <td className="px-4 py-3.5 text-center hidden sm:table-cell"><CheckBadge val={c.engagementBreakdown.hasContest} /></td>
+              <td className="px-4 py-3.5 text-center hidden sm:table-cell"><CheckBadge val={c.engagementBreakdown.hasPersonalGoal} /></td>
+              <td className="px-4 py-3.5 text-center hidden sm:table-cell"><CheckBadge val={c.engagementBreakdown.hasChallenge} /></td>
+              <td className="px-4 py-3.5 text-center hidden sm:table-cell"><span className="font-black text-navy">{c.coachEngagementScore}/4</span></td>
             </tr>
           ))}
         </tbody>
