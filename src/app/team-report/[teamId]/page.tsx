@@ -964,7 +964,7 @@ export default function TeamReportPage() {
               how: "Go to your **Roster** and set a collective milestone for the team — e.g. \"log 1,000 videos this season.\" The more videos your team logs, the higher your team level climbs. Every level earns your team a new professional club name.",
               when: "When the team is created.",
               where: "In the **Roster**.",
-              why: "Shared goals create team ownership. Players encourage each other and feel responsible for the collective result, not just their own training.",
+              why: "Shared goals create team ownership. Players encourage each other and feel responsible for the collective result, not just their own training — and kids love reaching new levels.",
               tip: undefined },
           ];
           const visible = howToFilter ? HOW_TO_STEPS.filter(s => s.key === howToFilter) : HOW_TO_STEPS;
