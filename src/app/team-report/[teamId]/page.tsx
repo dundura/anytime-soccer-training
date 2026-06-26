@@ -1081,32 +1081,6 @@ export default function TeamReportPage() {
               </>
             )}
 
-            {/* REPORT URL TAB */}
-            {tab === "Report URL" && (
-              <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-navy text-white text-left text-xs uppercase tracking-wide">
-                      <th className="px-5 py-3">Team</th>
-                      <th className="px-5 py-3 text-gray-300">Created</th>
-                      <th className="px-5 py-3">Report URL</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredTeams.map((t, i) => (
-                      <tr key={t.teamId} className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}>
-                        <td className="px-5 py-4">
-                          <div className="font-bold text-navy">{t.teamName}</div>
-                          {t.createdAt && <div className="text-xs text-gray-400 mt-0.5">({formatDate(t.createdAt)})</div>}
-                        </td>
-                        <td className="px-5 py-4 text-xs text-gray-400">{t.createdAt ? formatDate(t.createdAt) : "—"}</td>
-                        <td className="px-5 py-4"><SlugEditor team={t} onUpdate={(slug) => updateSlug(t.teamId, slug)} /></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
 
           </>
         ) : null}
