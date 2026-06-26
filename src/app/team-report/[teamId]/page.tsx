@@ -939,7 +939,7 @@ export default function TeamReportPage() {
             { key: "goals", badge: "4", badgeBg: "bg-navy", badgeText: "text-white", title: "Set Personal Player Goals", type: "core",
               how: "Go to your **Team Hub** and click **Player Goals**. From there, enter a training goal for each period.",
               when: "When a player first joins the team.",
-              where: "In the app under each player's profile, or in a quick conversation at practice.",
+              where: "In the **Player Goals** section from the **Team Hub**.",
               why: "Players with personal goals are significantly more likely to stay active all season. Goals create internal motivation that outlasts any external push.",
               tip: undefined },
             { key: "recognition", badge: "5", badgeBg: "bg-navy", badgeText: "text-white", title: "Give Player Recognition", type: "core",
