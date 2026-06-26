@@ -851,7 +851,7 @@ export default function TeamReportPage() {
         ) : (
           <>
             {/* OVERVIEW TAB */}
-            {tab === "Overview" && (
+            {tab === "Overview" && !showGoals && (
               <>
               {/* Summary cards */}
               <div className="grid grid-cols-4 gap-4 mb-4">
