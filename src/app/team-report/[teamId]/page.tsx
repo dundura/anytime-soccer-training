@@ -579,8 +579,6 @@ export default function TeamReportPage() {
             </button>
           </div>
 
-          </div>
-
           <div className="flex flex-wrap items-center gap-3">
             {/* Team filter */}
             {teams.length > 1 && (
