@@ -937,7 +937,7 @@ export default function TeamReportPage() {
               why: "Constant communication during the first two weeks is crucial to the program's success.",
               tip: undefined },
             { key: "goals", badge: "4", badgeBg: "bg-navy", badgeText: "text-white", title: "Set Personal Player Goals", type: "core",
-              how: "Have each player set one measurable training goal — e.g. \"log 3 videos per week\" or \"reach level 10 by the end of the season.\"",
+              how: "Go to your **Team Hub** and click **Player Goals**.",
               when: "At the beginning of the season or when a player first joins.",
               where: "In the app under each player's profile, or in a quick conversation at practice.",
               why: "Players with personal goals are significantly more likely to stay active all season. Goals create internal motivation that outlasts any external push.",
