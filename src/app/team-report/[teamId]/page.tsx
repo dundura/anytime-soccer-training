@@ -660,6 +660,7 @@ export default function TeamReportPage() {
   });
   const [playerSearch, setPlayerSearch] = useState("");
   const [showGoals, setShowGoals] = useState(false);
+  const [showHowTo, setShowHowTo] = useState(false);
 
   const fetchTeams = useCallback(async (ids: number[], p = "alltime") => {
     if (!ids.length) return;
@@ -858,6 +859,14 @@ export default function TeamReportPage() {
             🎯 Coach Goals
           </button>
 
+          {/* How To toggle */}
+          <button
+            onClick={() => setShowHowTo(h => !h)}
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold border-2 transition-all ${showHowTo ? "bg-navy border-navy text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white"}`}
+          >
+            📋 How To
+          </button>
+
           {/* Team filter */}
           {teams.length > 1 && (
             <select value={filterTeam} onChange={e => setFilterTeam(e.target.value)} className="border-2 border-gray-200 rounded-xl px-3 py-2 text-sm font-medium text-navy bg-white focus:outline-none focus:border-navy">
@@ -892,6 +901,86 @@ export default function TeamReportPage() {
             period={period}
             onUpdate={(tid, patch) => updateGoal(tid, patch as Partial<Pick<Team, "participationGoal" | "videosPerPlayerGoal" | "coachWeeklyPlan">>)}
           />
+        )}
+
+        {showHowTo && (
+          <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
+            <h2 className="text-lg font-black text-navy mb-1">How To Use Your Coaching Plan</h2>
+            <p className="text-sm text-navy/50 mb-6">Follow these steps week by week to drive player engagement and build great training habits on your team.</p>
+            <div className="grid sm:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-[11px] font-black text-navy/40 uppercase tracking-widest mb-4">Core Steps</h3>
+                <div className="space-y-6">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="w-6 h-6 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center shrink-0">1</span>
+                      <h4 className="text-sm font-black text-navy">Assign Homework</h4>
+                    </div>
+                    <p className="text-sm text-navy/60 ml-8">Go into the app and assign a homework folder to your team. This is the single most important action you can take — players who receive homework train 3× more often than those who don&apos;t. Assign it at the start of each week so players know exactly what to work on.</p>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="w-6 h-6 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center shrink-0">2</span>
+                      <h4 className="text-sm font-black text-navy">Demo App In-Person</h4>
+                    </div>
+                    <p className="text-sm text-navy/60 ml-8">At your next practice, pull up the app on your phone and show players exactly how it works — how to find their homework, how to log a video, and how to check their progress. A 2-minute demo at practice drives more sign-ups than any email you can send.</p>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="w-6 h-6 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center shrink-0">3</span>
+                      <h4 className="text-sm font-black text-navy">Send Email Reminder</h4>
+                    </div>
+                    <p className="text-sm text-navy/60 ml-8">Use the Email PDF button to send a summary of the coaching plan directly to yourself or a team manager. Then forward it to parents with a short note like: &quot;Here&apos;s what we&apos;re working on this week — encourage your player to get some reps in at home!&quot;</p>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="w-6 h-6 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center shrink-0">4</span>
+                      <h4 className="text-sm font-black text-navy">Set Personal Player Goals</h4>
+                    </div>
+                    <p className="text-sm text-navy/60 ml-8">Sit down with each player (or have them fill it out themselves) and set a personal training goal for the season — e.g. &quot;complete 3 sessions per week&quot; or &quot;reach 500 videos logged.&quot; Players with personal goals are significantly more likely to stay active throughout the season.</p>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="w-6 h-6 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center shrink-0">5</span>
+                      <h4 className="text-sm font-black text-navy">Give Player Recognition in Practice</h4>
+                    </div>
+                    <p className="text-sm text-navy/60 ml-8">At practice, call out a player who has been putting in work at home. A quick shoutout — &quot;Great work on your home training this week, [Name] — I could see it in your touches today!&quot; — costs you 10 seconds and tells every player on your team that home training matters.</p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3 className="text-[11px] font-black text-navy/40 uppercase tracking-widest mb-4">Boost Engagement</h3>
+                <div className="space-y-6">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 text-[11px] font-black flex items-center justify-center shrink-0">★</span>
+                      <h4 className="text-sm font-black text-navy">Launch a Weekly Challenge</h4>
+                    </div>
+                    <p className="text-sm text-navy/60 ml-8">Create a weekly challenge inside the app that your whole team competes on — most videos logged, most skill completions, or a specific move they all practice. Challenges create a friendly competition that keeps players coming back every day.</p>
+                  </div>
+                  <div className="mt-2 pt-2 border-t border-gray-100">
+                    <h3 className="text-[11px] font-black text-navy/40 uppercase tracking-widest mb-4">Optional — But Powerful</h3>
+                    <div className="space-y-6">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 text-[11px] font-black flex items-center justify-center shrink-0">+</span>
+                          <h4 className="text-sm font-black text-navy">Create a Longterm Contest</h4>
+                        </div>
+                        <p className="text-sm text-navy/60 ml-8">Set up a season-long contest where the top trainers earn a prize — pizza party, gear, or bragging rights. A longterm contest gives players a reason to stay consistent all season, not just in the first week.</p>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 text-[11px] font-black flex items-center justify-center shrink-0">+</span>
+                          <h4 className="text-sm font-black text-navy">Set a Team Level Goal</h4>
+                        </div>
+                        <p className="text-sm text-navy/60 ml-8">Challenge the whole team to reach a collective milestone — e.g. &quot;as a team, let&apos;s log 1,000 videos this season.&quot; Team goals shift the culture from individual obligation to shared ownership and create a natural reason to cheer each other on.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
 
         {loading ? (
