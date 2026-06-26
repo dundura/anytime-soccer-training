@@ -162,19 +162,21 @@ const COACH_TASKS = [
   { key: "setLevelGoal", label: "Set a Level Goal" },
 ] as const;
 
-type TaskKey = typeof COACH_TASKS[number]["key"];
+type LocalGoal = {
+  participationGoal: string;
+  videosPerPlayerGoal: string;
+  weeklyPlan: string[][];
+};
 
-function GoalsPanel({ teams, onUpdate, period }: {
+type GoalsPanelProps = {
   teams: Team[];
   onUpdate: (teamId: number, patch: Partial<Pick<Team, "participationGoal" | "videosPerPlayerGoal" | "coachWeeklyPlan">>) => void;
   period: string;
-}) {
+};
+
+function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
   const [saving, setSaving] = useState<number | null>(null);
-  const [localGoals, setLocalGoals] = useState<Record<number, {
-    participationGoal: string;
-    videosPerPlayerGoal: string;
-    weeklyPlan: string[][];
-  }>>(() => Object.fromEntries(teams.map(t => [t.teamId, {
+  const [localGoals, setLocalGoals] = useState<Record<number, LocalGoal>>(() => Object.fromEntries(teams.map(t => [t.teamId, {
     participationGoal: t.participationGoal != null ? String(t.participationGoal) : "",
     videosPerPlayerGoal: t.videosPerPlayerGoal != null ? String(t.videosPerPlayerGoal) : "",
     weeklyPlan: t.coachWeeklyPlan?.length === 4 ? t.coachWeeklyPlan : [[], [], [], []],
@@ -357,25 +359,17 @@ export default function TeamReportPage() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [addedIds, setAddedIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
-  const [tab, setTab] = useState<Tab>(() => {
-    if (typeof window !== "undefined") {
-      const p = new URLSearchParams(window.location.search).get("tab") as Tab;
-      if (TABS.includes(p)) return p;
-    }
-    return "Overview";
-  });
+  const tabParam = searchParams.get("tab") as Tab;
+  const [tab, setTab] = useState<Tab>(tabParam && TABS.includes(tabParam) ? tabParam : "Overview");
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [filterTeam, setFilterTeam] = useState("");
   const [engagementFilter, setEngagementFilter] = useState<string | null>(null);
-  const [period, setPeriod] = useState<"week" | "month" | "year" | "alltime">(() => {
-    if (typeof window !== "undefined") {
-      const p = new URLSearchParams(window.location.search).get("period");
-      if (["week", "month", "year", "alltime"].includes(p || "")) return p as "week" | "month" | "year" | "alltime";
-    }
-    return "week";
-  });
+  const periodParam = searchParams.get("period");
+  const [period, setPeriod] = useState<"week" | "month" | "year" | "alltime">(
+    (["week", "month", "year", "alltime"].includes(periodParam || "") ? periodParam : "week") as "week" | "month" | "year" | "alltime"
+  );
   const [playerSearch, setPlayerSearch] = useState("");
   const [showGoals, setShowGoals] = useState(false);
 
@@ -560,52 +554,52 @@ export default function TeamReportPage() {
           </div>
         </div>
 
-        {/* Tabs + Controls row */}
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-          {/* Tabs + Goals toggle */}
-          <div className="flex items-center gap-2">
-            <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm">
-              {TABS.map(t => (
-                <button key={t} onClick={() => changeTab(t)} className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${tab === t ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"}`}>
-                  {t}
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={() => setShowGoals(g => !g)}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold border-2 transition-all ${showGoals ? "bg-[#e63946] border-[#e63946] text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white"}`}
-            >
-              🎯 Coach Goals
-            </button>
+        {/* Single controls row */}
+        <div className="flex flex-wrap items-center gap-2 mb-4">
+          {/* Tabs */}
+          <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm">
+            {TABS.map(t => (
+              <button key={t} onClick={() => changeTab(t)} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${tab === t ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"}`}>
+                {t}
+              </button>
+            ))}
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            {/* Team filter */}
-            {teams.length > 1 && (
-              <select value={filterTeam} onChange={e => setFilterTeam(e.target.value)} className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm font-medium text-navy bg-white focus:outline-none focus:border-navy">
-                <option value="">All Teams</option>
-                {teams.map(t => <option key={t.teamId} value={t.teamId}>{t.teamName}</option>)}
-              </select>
-            )}
+          {/* Goals toggle */}
+          <button
+            onClick={() => setShowGoals(g => !g)}
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold border-2 transition-all ${showGoals ? "bg-[#e63946] border-[#e63946] text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white"}`}
+          >
+            🎯 Coach Goals
+          </button>
 
-            {/* Player search */}
-            <input
-              type="text"
-              placeholder="Search players..."
-              value={playerSearch}
-              onChange={e => setPlayerSearch(e.target.value)}
-              className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-navy bg-white w-44"
-            />
+          <div className="flex-1" />
 
-            {/* Period pills */}
-            <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm">
-              {(["week", "month", "year", "alltime"] as const).map(p => (
-                <button key={p} onClick={() => changePeriod(p)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${period === p ? "bg-navy text-white shadow" : "text-navy/50 hover:text-navy"}`}>
-                  {p === "alltime" ? "All Time" : p === "year" ? "Year" : p === "month" ? "Month" : "Week"}
-                </button>
-              ))}
-            </div>
+          {/* Team filter */}
+          {teams.length > 1 && (
+            <select value={filterTeam} onChange={e => setFilterTeam(e.target.value)} className="border-2 border-gray-200 rounded-xl px-3 py-2 text-sm font-medium text-navy bg-white focus:outline-none focus:border-navy">
+              <option value="">All Teams</option>
+              {teams.map(t => <option key={t.teamId} value={t.teamId}>{t.teamName}</option>)}
+            </select>
+          )}
+
+          {/* Player search */}
+          <input
+            type="text"
+            placeholder="Search players..."
+            value={playerSearch}
+            onChange={e => setPlayerSearch(e.target.value)}
+            className="border-2 border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy bg-white w-40"
+          />
+
+          {/* Period pills */}
+          <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm">
+            {(["week", "month", "year", "alltime"] as const).map(p => (
+              <button key={p} onClick={() => changePeriod(p)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${period === p ? "bg-navy text-white shadow" : "text-navy/50 hover:text-navy"}`}>
+                {p === "alltime" ? "All Time" : p === "year" ? "Year" : p === "month" ? "Month" : "Week"}
+              </button>
+            ))}
           </div>
         </div>
 
