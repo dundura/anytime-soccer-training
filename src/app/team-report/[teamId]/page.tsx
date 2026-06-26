@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 const API = "https://api.anytime-soccer.com/api/public/team-report";
@@ -163,11 +163,11 @@ const DEFAULT_WEEKLY_PLAN: string[][] = [
 ];
 
 const COACH_TASKS = [
+  { key: "hasChallenge", label: "Launch a weekly challenge" },
   { key: "hasHomework", label: "Assign Homework" },
   { key: "demoApp", label: "Demo App In-Person" },
   { key: "sendEmailReminder", label: "Send Email Reminder" },
   { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
-  { key: "hasChallenge", label: "Launch a weekly challenge" },
   { key: "hasContest", label: "Create a Contest" },
   { key: "setLevelGoal", label: "Set a Level Goal" },
 ] as const;
