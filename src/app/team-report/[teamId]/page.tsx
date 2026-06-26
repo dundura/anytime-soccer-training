@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 const API = "https://api.anytime-soccer.com/api/public/team-report";
 
@@ -153,6 +153,8 @@ type Tab = (typeof TABS)[number];
 
 export default function TeamReportPage() {
   const { teamId } = useParams<{ teamId: string }>();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [teams, setTeams] = useState<Team[]>([]);
   const [addedIds, setAddedIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
@@ -174,7 +176,7 @@ export default function TeamReportPage() {
     setLoading(false);
   }, []);
 
-  // Init: resolve slug or ID, load from localStorage
+  // Init: resolve slug/ID from URL, plus any ?add= params
   useEffect(() => {
     const init = async () => {
       setLoading(true);
@@ -183,7 +185,6 @@ export default function TeamReportPage() {
       if (/^\d+$/.test(teamId)) {
         seedId = parseInt(teamId);
       } else {
-        // resolve slug → teamId
         try {
           const res = await fetch(`${API}/by-slug/${teamId}`);
           const data = await res.json();
@@ -191,10 +192,9 @@ export default function TeamReportPage() {
         } catch {}
       }
 
-      const stored: number[] = JSON.parse(localStorage.getItem("docTeamIds") || "[]");
-      const merged = Array.from(new Set([...(seedId ? [seedId] : []), ...stored].filter(n => n > 0)));
+      const extra = (searchParams.get("add") || "").split(",").map(Number).filter(n => n > 0);
+      const merged = Array.from(new Set([...(seedId ? [seedId] : []), ...extra]));
       setAddedIds(merged);
-      localStorage.setItem("docTeamIds", JSON.stringify(merged));
 
       if (merged.length) {
         const res = await fetch(`${API}?teams=${merged.join(",")}`);
@@ -204,7 +204,7 @@ export default function TeamReportPage() {
       setLoading(false);
     };
     init();
-  }, [teamId]);
+  }, [teamId, searchParams]);
 
   // Search
   useEffect(() => {
@@ -221,12 +221,19 @@ export default function TeamReportPage() {
     return () => clearTimeout(timeout);
   }, [search]);
 
+  const updateUrl = (ids: number[], seedId: number) => {
+    const extra = ids.filter(id => id !== seedId);
+    const params = extra.length ? `?add=${extra.join(",")}` : "";
+    router.replace(`/team-report/${teamId}${params}`, { scroll: false });
+  };
+
   const addTeam = async (t: SearchResult) => {
     if (addedIds.includes(t.teamId)) { setSearch(""); setSearchResults([]); return; }
     const newIds = [...addedIds, t.teamId];
     setAddedIds(newIds);
-    localStorage.setItem("docTeamIds", JSON.stringify(newIds));
     setSearch(""); setSearchResults([]);
+    const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0);
+    updateUrl(newIds, seedId);
     await fetchTeams(newIds);
   };
 
@@ -234,7 +241,8 @@ export default function TeamReportPage() {
     const newIds = addedIds.filter(x => x !== id);
     setAddedIds(newIds);
     setTeams(prev => prev.filter(t => t.teamId !== id));
-    localStorage.setItem("docTeamIds", JSON.stringify(newIds));
+    const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0);
+    updateUrl(newIds, seedId);
   };
 
   const updateSlug = (teamId: number, slug: string) => {
