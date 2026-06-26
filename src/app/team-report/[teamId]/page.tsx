@@ -152,6 +152,13 @@ function SlugEditor({ team, onUpdate }: { team: Team; onUpdate: (slug: string) =
   );
 }
 
+const DEFAULT_WEEKLY_PLAN: string[][] = [
+  ["hasHomework", "hasPersonalGoal"],
+  ["demoApp", "sendEmailReminder"],
+  [],
+  [],
+];
+
 const COACH_TASKS = [
   { key: "hasHomework", label: "Homework Assigned" },
   { key: "hasContest", label: "Contest Created" },
@@ -179,7 +186,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
   const [localGoals, setLocalGoals] = useState<Record<number, LocalGoal>>(() => Object.fromEntries(teams.map(t => [t.teamId, {
     participationGoal: t.participationGoal != null ? String(t.participationGoal) : "",
     videosPerPlayerGoal: t.videosPerPlayerGoal != null ? String(t.videosPerPlayerGoal) : "",
-    weeklyPlan: t.coachWeeklyPlan?.length === 4 ? t.coachWeeklyPlan : [[], [], [], []],
+    weeklyPlan: t.coachWeeklyPlan?.length === 4 ? t.coachWeeklyPlan : DEFAULT_WEEKLY_PLAN.map(w => [...w]),
   }])));
 
   const setTask = (teamId: number, week: number, slot: number, val: string) => {
