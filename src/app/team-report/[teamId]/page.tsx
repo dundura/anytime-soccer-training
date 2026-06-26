@@ -659,8 +659,8 @@ export default function TeamReportPage() {
     return (p && ["week", "month", "year", "alltime"].includes(p) ? p : "week") as "week" | "month" | "year" | "alltime";
   });
   const [playerSearch, setPlayerSearch] = useState("");
-  const [showGoals, setShowGoals] = useState(false);
-  const [showHowTo, setShowHowTo] = useState(false);
+  const [showGoals, setShowGoals] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).get("view") === "goals");
+  const [showHowTo, setShowHowTo] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).get("view") === "howto");
   const [howToFilter, setHowToFilter] = useState<string | null>(null);
 
   const fetchTeams = useCallback(async (ids: number[], p = "alltime") => {
@@ -854,7 +854,13 @@ export default function TeamReportPage() {
 
           {/* Goals toggle */}
           <button
-            onClick={() => setShowGoals(g => !g)}
+            onClick={() => {
+              const next = !showGoals;
+              setShowGoals(next);
+              if (next) setShowHowTo(false);
+              const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0);
+              router.replace(buildParams(addedIds, seedId, { view: next ? "goals" : "" }), { scroll: false });
+            }}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold border-2 transition-all ${showGoals ? "bg-[#e63946] border-[#e63946] text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white"}`}
           >
             🎯 Coach Goals
@@ -862,7 +868,13 @@ export default function TeamReportPage() {
 
           {/* How To toggle */}
           <button
-            onClick={() => setShowHowTo(h => !h)}
+            onClick={() => {
+              const next = !showHowTo;
+              setShowHowTo(next);
+              if (next) setShowGoals(false);
+              const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0);
+              router.replace(buildParams(addedIds, seedId, { view: next ? "howto" : "" }), { scroll: false });
+            }}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold border-2 transition-all ${showHowTo ? "bg-navy border-navy text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white"}`}
           >
             📋 How To
