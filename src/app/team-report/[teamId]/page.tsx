@@ -934,7 +934,7 @@ export default function TeamReportPage() {
               how: "Go to the \"New Players\" section and click Send Reminder. Then follow up using your team's communication system and include the onboarding link that was sent to help parents get started.",
               when: "After the first week, then send reminders using your discretion.",
               where: "From the New Players dashboard and your team's communication system.",
-              why: "Parents who know what their child is working on are more likely to encourage home training. A weekly reminder keeps the team accountable.",
+              why: "Constant communication during the first two weeks is crucial to the program's success.",
               tip: undefined },
             { key: "goals", badge: "4", badgeBg: "bg-navy", badgeText: "text-white", title: "Set Personal Player Goals", type: "core",
               how: "Have each player set one measurable training goal — e.g. \"log 3 videos per week\" or \"reach level 10 by the end of the season.\"",
