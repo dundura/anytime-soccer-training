@@ -167,7 +167,7 @@ const COACH_TASKS = [
   { key: "demoApp", label: "Demo App In-Person" },
   { key: "sendEmailReminder", label: "Send Email Reminder" },
   { key: "hasPersonalGoal", label: "Set Player Goals" },
-  { key: "hasChallenge", label: "Coach's Challenge" },
+  { key: "hasChallenge", label: "Create Coach's Challenge" },
   { key: "hasContest", label: "Create a Team Contest", optional: true },
   { key: "setLevelGoal", label: "Set Team Level Goal", optional: true },
   { key: "playerRecognition", label: "Give Player Recognition in Practice", example: "\"Great work on your home training this week, [Name] — I could see it in your touches today!\"" },
@@ -302,7 +302,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                     { label: "Assign Homework", val: t.engagementBreakdown.hasHomework },
                     { label: "Create a Team Contest", val: t.engagementBreakdown.hasContest },
                     { label: "Set Player Goals", val: t.engagementBreakdown.hasPersonalGoal },
-                    { label: "Coach's Challenge", val: t.engagementBreakdown.hasChallenge },
+                    { label: "Create Coach's Challenge", val: t.engagementBreakdown.hasChallenge },
                   ].map(item => (
                     <span key={item.label} className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${item.val ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-400"}`}>
                       {item.val ? "✓" : "✗"} {item.label}
@@ -505,7 +505,7 @@ function CoachRankingTable({ ranking, period }: { ranking: ReturnType<typeof Arr
     { key: "hasHomework", label: "Assign Homework" },
     { key: "hasContest", label: "Create a Team Contest" },
     { key: "hasPersonalGoal", label: "Set Player Goals" },
-    { key: "hasChallenge", label: "Coach's Challenge" },
+    { key: "hasChallenge", label: "Create Coach's Challenge" },
     { key: "score", label: "Score" },
   ];
   const [mobileCol, setMobileCol] = useState(0);
