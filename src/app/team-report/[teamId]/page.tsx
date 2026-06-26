@@ -367,17 +367,21 @@ export default function TeamReportPage() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [addedIds, setAddedIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
-  const tabParam = searchParams.get("tab") as Tab;
-  const [tab, setTab] = useState<Tab>(tabParam && TABS.includes(tabParam) ? tabParam : "Overview");
+  const [tab, setTab] = useState<Tab>("Overview");
+  useEffect(() => {
+    const p = searchParams.get("tab") as Tab;
+    if (p && TABS.includes(p)) setTab(p);
+  }, []);
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [filterTeam, setFilterTeam] = useState("");
   const [engagementFilter, setEngagementFilter] = useState<string | null>(null);
-  const periodParam = searchParams.get("period");
-  const [period, setPeriod] = useState<"week" | "month" | "year" | "alltime">(
-    (["week", "month", "year", "alltime"].includes(periodParam || "") ? periodParam : "week") as "week" | "month" | "year" | "alltime"
-  );
+  const [period, setPeriod] = useState<"week" | "month" | "year" | "alltime">("week");
+  useEffect(() => {
+    const p = searchParams.get("period");
+    if (p && ["week", "month", "year", "alltime"].includes(p)) setPeriod(p as "week" | "month" | "year" | "alltime");
+  }, []);
   const [playerSearch, setPlayerSearch] = useState("");
   const [showGoals, setShowGoals] = useState(false);
 
