@@ -1125,7 +1125,7 @@ export default function TeamReportPage() {
           </div>
         )}
 
-        {showGoals && teams.length > 0 && (
+        {showGoals && (
           <CoachEngagementView
             ranking={filteredRanking}
             period={period}
