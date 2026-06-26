@@ -166,7 +166,7 @@ const COACH_TASKS = [
   { key: "hasHomework", label: "Assign Homework" },
   { key: "demoApp", label: "Demo App In-Person" },
   { key: "sendEmailReminder", label: "Send Email Reminder" },
-  { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
+  { key: "hasPersonalGoal", label: "Set Player Goals" },
   { key: "hasChallenge", label: "Coach's Challenge" },
   { key: "hasContest", label: "Create a Team Contest", optional: true },
   { key: "setLevelGoal", label: "Set Team Level Goal", optional: true },
@@ -301,7 +301,7 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
                   {[
                     { label: "Assign Homework", val: t.engagementBreakdown.hasHomework },
                     { label: "Create a Team Contest", val: t.engagementBreakdown.hasContest },
-                    { label: "Set Personal Player Goals", val: t.engagementBreakdown.hasPersonalGoal },
+                    { label: "Set Player Goals", val: t.engagementBreakdown.hasPersonalGoal },
                     { label: "Coach's Challenge", val: t.engagementBreakdown.hasChallenge },
                   ].map(item => (
                     <span key={item.label} className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${item.val ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-400"}`}>
@@ -504,7 +504,7 @@ function CoachRankingTable({ ranking, period }: { ranking: ReturnType<typeof Arr
     { key: "participation", label: `Participation (${periodLabel})` },
     { key: "hasHomework", label: "Assign Homework" },
     { key: "hasContest", label: "Create a Team Contest" },
-    { key: "hasPersonalGoal", label: "Set Personal Player Goals" },
+    { key: "hasPersonalGoal", label: "Set Player Goals" },
     { key: "hasChallenge", label: "Coach's Challenge" },
     { key: "score", label: "Score" },
   ];
@@ -937,7 +937,7 @@ export default function TeamReportPage() {
               where: "**New Players** section within your team.",
               why: "Constant communication during the first two weeks is crucial to the program's success.",
               tip: "Nominate a parent or assistant coach to be a team liaison to help everyone get signed up during practice." },
-            { key: "goals", badge: "4", badgeBg: "bg-navy", badgeText: "text-white", title: "Set Personal Player Goals", type: "core",
+            { key: "goals", badge: "4", badgeBg: "bg-navy", badgeText: "text-white", title: "Set Player Goals", type: "core",
               how: "Go to your **Team Hub** and click **Player Goals**. From there, enter a training goal for each period.",
               when: "When a player first joins the team.",
               where: "In the **Player Goals** section from the **Team Hub**.",
