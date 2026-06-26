@@ -1291,7 +1291,7 @@ export default function TeamReportPage() {
                     .filter(p => !playerSearch || p.name.toLowerCase().includes(playerSearch.toLowerCase()))
                     .sort((a, b) => b.videosWatched - a.videosWatched);
                   return (
-                    <TeamSection key={`${t.teamId}-${period}`} t={t} teamPlayers={teamPlayers} period={period} forceOpen={!!playerSearch} />
+                    <TeamSection key={t.teamId} t={t} teamPlayers={teamPlayers} period={period} forceOpen={!!playerSearch} />
                   );
                 })}
               </div>
