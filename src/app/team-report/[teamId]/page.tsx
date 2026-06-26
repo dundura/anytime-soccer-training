@@ -925,16 +925,16 @@ export default function TeamReportPage() {
           {/* Main view buttons */}
           <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm">
             <button
-              onClick={() => { setShowGoals(false); setShowHowTo(false); const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0); router.replace(buildParams(addedIds, seedId, { view: "" }), { scroll: false }); }}
-              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${!showGoals && !showHowTo ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"}`}
-            >
-              Player Engagement
-            </button>
-            <button
               onClick={() => { const next = !showGoals; setShowGoals(next); setShowHowTo(false); const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0); router.replace(buildParams(addedIds, seedId, { view: next ? "goals" : "" }), { scroll: false }); }}
               className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${showGoals ? "bg-[#e63946] text-white shadow" : "text-navy/60 hover:text-navy"}`}
             >
               Coach Engagement
+            </button>
+            <button
+              onClick={() => { setShowGoals(false); setShowHowTo(false); const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0); router.replace(buildParams(addedIds, seedId, { view: "" }), { scroll: false }); }}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${!showGoals && !showHowTo ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"}`}
+            >
+              Player Engagement
             </button>
           </div>
 
