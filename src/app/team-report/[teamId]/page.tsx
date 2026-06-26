@@ -936,7 +936,7 @@ export default function TeamReportPage() {
               when: "After the first week, then send reminders using your discretion.",
               where: "**New Players** section within your team.",
               why: "Constant communication during the first two weeks is crucial to the program's success.",
-              tip: undefined },
+              tip: "Nominate a parent or assistant coach to be a team liaison to help everyone get signed up during practice." },
             { key: "goals", badge: "4", badgeBg: "bg-navy", badgeText: "text-white", title: "Set Personal Player Goals", type: "core",
               how: "Go to your **Team Hub** and click **Player Goals**. From there, enter a training goal for each period.",
               when: "When a player first joins the team.",
