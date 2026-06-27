@@ -316,7 +316,7 @@ function CoachCard({ t, period }: { t: Team; period: string }) {
   };
 
   const isChecked = (item: (typeof CHECKLIST_ITEMS)[number]) => {
-    if (item.auto) return !!(t.engagementBreakdown as Record<string, number>)[item.key];
+    if (item.auto) return !!(t.engagementBreakdown as unknown as Record<string, number>)[item.key];
     return !!manual[item.key];
   };
 
