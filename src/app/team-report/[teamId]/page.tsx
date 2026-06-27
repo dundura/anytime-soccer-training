@@ -311,6 +311,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
   const [showHowTo, setShowHowTo] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
   const [showAll, setShowAll] = useState(false);
+  const [actionTeamId, setActionTeamId] = useState<number | null>(null);
   const [goals, setGoals] = useState<{ participation: string; videosPerMonth: string }>(() => {
     if (typeof window === "undefined") return { participation: "", videosPerMonth: "" };
     try { const s = localStorage.getItem("doc-engagement-goals"); return s ? JSON.parse(s) : { participation: "", videosPerMonth: "" }; } catch { return { participation: "", videosPerMonth: "" }; }
@@ -389,7 +390,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
             >{showAll ? "Show less" : `Show all ${teams.length}`}</button>
           </div>
         )}
-        <div className="flex items-center gap-4 px-4 py-3 border-b border-dashed border-gray-200 bg-gray-50/40">
+        <div className="flex items-center gap-4 px-4 py-3 border-b border-dashed border-gray-200 bg-gray-50/40 flex-wrap">
           <span className="text-[10px] font-bold text-navy/30 uppercase tracking-widest shrink-0">Goals</span>
           <div className="flex items-center gap-1.5">
             <input type="number" min="0" max="100" value={goals.participation} onChange={e => saveGoal("participation", e.target.value)}
@@ -403,16 +404,36 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
               className="w-12 text-center border-2 border-gray-200 rounded-lg px-1 py-1 text-sm font-bold text-navy focus:outline-none focus:border-navy" />
             <span className="text-xs text-gray-400">vid/mo avg/player</span>
           </div>
+          <div className="ml-auto flex items-center gap-2">
+            <select
+              value={actionTeamId ?? ""}
+              onChange={e => setActionTeamId(e.target.value ? Number(e.target.value) : null)}
+              className="border-2 border-gray-200 rounded-lg px-2 py-1 text-xs font-medium text-navy bg-white focus:outline-none focus:border-navy"
+            >
+              <option value="">Select team…</option>
+              {teams.map(t => <option key={t.teamId} value={t.teamId}>{t.teamName}</option>)}
+            </select>
+            <button
+              disabled={!actionTeamId}
+              onClick={() => { if (!actionTeamId) return; const t = teams.find(x => x.teamId === actionTeamId); if (!t) return; setEmailForms(f => ({ ...f, [actionTeamId]: f[actionTeamId] ? null : { mode: "manager", selectedId: t.coaches[0]?.childId ?? null, firstName: "", email: "", sending: false, sent: false } })); }}
+              className="text-xs font-bold border border-[#e63946] text-[#e63946] px-2.5 py-1 rounded-lg hover:bg-[#e63946]/5 disabled:opacity-30 transition-colors">✉ Email</button>
+            <button
+              disabled={!actionTeamId}
+              onClick={() => { if (!actionTeamId) return; const params = new URLSearchParams({ period }); if (goals.participation) params.set("participation_goal", goals.participation); if (goals.videosPerMonth) params.set("videos_goal", goals.videosPerMonth); window.open(`${API}/${actionTeamId}/pdf?${params}`, "_blank"); }}
+              className="text-xs font-bold border border-gray-200 text-navy/50 px-2.5 py-1 rounded-lg hover:border-navy/30 hover:text-navy disabled:opacity-30 transition-colors">↓ PDF</button>
+          </div>
         </div>
         <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="border-b-2 border-gray-100">
               <th className="px-4 py-3 text-left text-xs font-bold text-navy/40 uppercase tracking-wide sticky left-0 bg-white z-10" style={{ minWidth: "200px" }}>Team</th>
+              <th className="px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy/40 uppercase tracking-wide" style={{ minWidth: "80px" }}>Participation</th>
               {CHECKLIST_ITEMS.map(item => (
-                <th key={item.key} title={item.label} className="px-2 py-3 text-center border-l border-gray-100" style={{ minWidth: "48px" }}>
+                <th key={item.key} className="px-2 py-3 text-center border-l border-gray-100 align-top" style={{ minWidth: "90px" }}>
                   <div className="flex flex-col items-center gap-0.5">
                     <span className="text-xs font-black text-navy/50">{item.num}</span>
+                    <span className="text-[9px] font-semibold text-navy/50 leading-tight text-center px-0.5">{item.label}</span>
                     {item.auto && <span className="text-[8px] bg-gray-100 text-gray-300 rounded px-1 font-bold leading-tight">A</span>}
                   </div>
                 </th>
@@ -421,7 +442,6 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
           </thead>
           <tbody>
             {visibleTeams.map((t, i) => {
-              const doneCount = CHECKLIST_ITEMS.filter(item => isChecked(t, item)).length;
               const avgVideos = t.players.length > 0 ? Math.round(t.players.reduce((s, p) => s + p.videosWatched, 0) / t.players.length) : 0;
               const pGoal = goals.participation ? parseInt(goals.participation) : null;
               const vGoal = goals.videosPerMonth ? parseInt(goals.videosPerMonth) : null;
@@ -429,19 +449,17 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                 <tr key={t.teamId} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/60"}>
                   <td className="px-4 py-3 border-b border-gray-50 sticky left-0 z-10" style={{ background: i % 2 === 0 ? "#fff" : "#f9fafb" }}>
                     <div className="font-black text-navy text-sm leading-tight">{t.teamName}</div>
-                    <div className="text-xs mt-0.5">
-                      <span className={`font-bold ${pGoal ? (t.participationRate >= pGoal ? "text-green-600" : "text-red-500") : t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>
-                      <span className="text-gray-300"> · </span>
-                      <span className={`font-bold ${vGoal ? (avgVideos >= vGoal ? "text-green-600" : "text-red-500") : "text-navy/40"}`}>{avgVideos} vid</span>
-                      <span className="text-gray-300"> · </span>
-                      <span className="text-gray-400">{doneCount}/10</span>
-                    </div>
-                    <div className="flex items-center gap-1.5 mt-1.5">
-                      <button onClick={() => setEmailForms(f => ({ ...f, [t.teamId]: f[t.teamId] ? null : { mode: "manager", selectedId: t.coaches[0]?.childId ?? null, firstName: "", email: "", sending: false, sent: false } }))}
-                        className="text-[11px] font-bold border border-[#e63946] text-[#e63946] px-1.5 py-0.5 rounded hover:bg-[#e63946]/5 transition-colors">✉</button>
-                      <button onClick={() => { const params = new URLSearchParams({ period }); if (goals.participation) params.set("participation_goal", goals.participation); if (goals.videosPerMonth) params.set("videos_goal", goals.videosPerMonth); window.open(`${API}/${t.teamId}/pdf?${params}`, "_blank"); }}
-                        className="text-[11px] font-bold border border-gray-200 text-navy/50 px-1.5 py-0.5 rounded hover:border-navy/30 hover:text-navy transition-colors">↓ PDF</button>
-                    </div>
+                    {t.coaches.length > 0 && (
+                      <div className="text-[10px] text-navy/40 mt-0.5">{t.coaches.map(c => c.name).join(", ")}</div>
+                    )}
+                    {avgVideos > 0 && (
+                      <div className="text-xs mt-0.5">
+                        <span className={`font-bold ${vGoal ? (avgVideos >= vGoal ? "text-green-600" : "text-red-500") : "text-navy/40"}`}>{avgVideos} vid/player</span>
+                      </div>
+                    )}
+                  </td>
+                  <td className="px-3 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
+                    <span className={`text-sm font-bold ${pGoal ? (t.participationRate >= pGoal ? "text-green-600" : "text-red-500") : t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>
                   </td>
                   {CHECKLIST_ITEMS.map(item => {
                     const done = isChecked(t, item);
@@ -460,8 +478,8 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
         </table>
         </div>
 
-        {/* Email forms */}
-        {visibleTeams.map(t => {
+        {/* Email form — single active team */}
+        {teams.map(t => {
           const form = emailForms[t.teamId];
           if (!form) return null;
           return (
