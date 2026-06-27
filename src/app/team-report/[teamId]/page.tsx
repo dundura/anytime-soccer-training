@@ -923,13 +923,13 @@ export default function TeamReportPage() {
   return (
     <main className="min-h-screen bg-[#f5f7fa]">
       <div className="bg-navy text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-4">
           <h1 className="text-2xl font-black uppercase tracking-tight">DOC Team Report</h1>
           <p className="text-white/60 text-sm mt-1">Director of Coaching dashboard â€” coach rankings &amp; player engagement</p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-4 py-6">
         {/* Search + Add Teams */}
         <div className="bg-white rounded-2xl shadow-sm p-5 mb-6">
           <div className="flex items-center gap-3 flex-wrap">
