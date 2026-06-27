@@ -71,7 +71,7 @@ const sections: Section[] = [
   },
   {
     step: "STEP 4",
-    title: "100% SIGN-UPS",
+    title: "GETTING STARTED",
     steps: [
       { text: "Nominate an Anytime Soccer Training liaison", optional: true },
       {
@@ -88,7 +88,7 @@ const sections: Section[] = [
   },
   {
     step: "STEP 5",
-    title: "GETTING STARTED",
+    title: "PROMOTING COMPETITIONS",
     steps: [
       {
         text: "Coach does a short demo of the app at practice",
@@ -106,7 +106,7 @@ const sections: Section[] = [
   },
   {
     step: "STEP 6",
-    title: "TEAM CONTEST",
+    title: "BUILDING TEAM CULTURE",
     optional: true,
     steps: [
       {
