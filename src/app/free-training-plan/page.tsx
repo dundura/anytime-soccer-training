@@ -69,7 +69,6 @@ export default function FreeTrainingPlanPage() {
       <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-3 block">For Coaches &amp; Clubs</span>
             <h2 className="text-3xl md:text-4xl font-black text-navy">Take It to the Whole Team</h2>
           </div>
           <div className="bg-navy rounded-3xl px-6 py-16 md:px-12 md:py-20 relative overflow-hidden">
@@ -87,22 +86,6 @@ export default function FreeTrainingPlanPage() {
                   >
                     Request Team Demo →
                   </a>
-                </div>
-                <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap">
-                  <div className="flex items-center gap-2.5">
-                    <div className="flex gap-0.5">
-                      {[1,2,3,4].map((i) => (
-                        <span key={i} className="inline-flex items-center justify-center w-6 h-6 bg-[#00b67a] text-white text-xs rounded-[3px]">&#9733;</span>
-                      ))}
-                      <span className="inline-flex items-center justify-center w-6 h-6 bg-gradient-to-r from-[#00b67a] from-50% to-[#dcdce6] to-50% text-white text-xs rounded-[3px]">&#9733;</span>
-                    </div>
-                    <span className="text-sm font-semibold text-white">4.9 (9,651)</span>
-                  </div>
-                  <div className="w-px h-8 bg-white/20 hidden sm:block" />
-                  <div className="text-sm text-white/60">
-                    <strong className="text-white block">Trusted by 50,000+ players</strong>
-                    in 80+ countries worldwide
-                  </div>
                 </div>
               </div>
               <div className="relative">
