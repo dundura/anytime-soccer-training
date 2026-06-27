@@ -389,6 +389,8 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
             >{showAll ? "Show less" : `Show all ${teams.length}`}</button>
           </div>
         )}
+        <div className="flex items-stretch">
+        <div className="overflow-x-auto flex-1">
         <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="border-b-2 border-gray-100">
@@ -430,29 +432,6 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                   </th>
                 );
               })}
-              <th className="px-4 py-4 text-center border-l-2 border-dashed border-gray-200" style={{ minWidth: "110px" }}>
-                <div className="text-[10px] font-bold text-navy/30 uppercase tracking-wide mb-2">Goals</div>
-                <div className="space-y-2">
-                  <div>
-                    <div className="flex items-center justify-center gap-1">
-                      <input type="number" min="0" max="100" value={goals.participation} onChange={e => saveGoal("participation", e.target.value)}
-                        placeholder="70"
-                        className="w-12 text-center border-2 border-gray-200 rounded-lg px-1 py-1 text-sm font-bold text-navy focus:outline-none focus:border-navy" />
-                      <span className="text-xs text-gray-400 font-bold">%</span>
-                    </div>
-                    <div className="text-[9px] text-gray-300 mt-0.5">participation</div>
-                  </div>
-                  <div>
-                    <div className="flex items-center justify-center gap-1">
-                      <input type="number" min="0" value={goals.videosPerMonth} onChange={e => saveGoal("videosPerMonth", e.target.value)}
-                        placeholder="8"
-                        className="w-12 text-center border-2 border-gray-200 rounded-lg px-1 py-1 text-sm font-bold text-navy focus:outline-none focus:border-navy" />
-                      <span className="text-xs text-gray-400 font-bold leading-tight">vid<br/>mo</span>
-                    </div>
-                    <div className="text-[9px] text-gray-300 mt-0.5">avg/player</div>
-                  </div>
-                </div>
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -475,11 +454,34 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                     </td>
                   );
                 })}
-                {i === 0 && <td rowSpan={CHECKLIST_ITEMS.length} className="border-l-2 border-dashed border-gray-200 bg-gray-50/30" />}
               </tr>
             ))}
           </tbody>
         </table>
+        </div>
+        {/* Goals panel — inline with team headers, outside the scrollable table */}
+        <div className="shrink-0 border-l-2 border-dashed border-gray-200 px-4 py-4 flex flex-col items-center justify-start gap-3" style={{ minWidth: "100px" }}>
+          <div className="text-[10px] font-bold text-navy/30 uppercase tracking-wide">Goals</div>
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-1">
+              <input type="number" min="0" max="100" value={goals.participation} onChange={e => saveGoal("participation", e.target.value)}
+                placeholder="70"
+                className="w-12 text-center border-2 border-gray-200 rounded-lg px-1 py-1 text-sm font-bold text-navy focus:outline-none focus:border-navy" />
+              <span className="text-xs text-gray-400 font-bold">%</span>
+            </div>
+            <div className="text-[9px] text-gray-300 mt-1">participation</div>
+          </div>
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-1">
+              <input type="number" min="0" value={goals.videosPerMonth} onChange={e => saveGoal("videosPerMonth", e.target.value)}
+                placeholder="8"
+                className="w-12 text-center border-2 border-gray-200 rounded-lg px-1 py-1 text-sm font-bold text-navy focus:outline-none focus:border-navy" />
+              <div className="text-xs text-gray-400 font-bold leading-tight text-left">vid<br/>mo</div>
+            </div>
+            <div className="text-[9px] text-gray-300 mt-1">avg/player</div>
+          </div>
+        </div>
+        </div>
 
         {/* Email forms */}
         {visibleTeams.map(t => {
