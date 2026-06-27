@@ -431,6 +431,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
         {/* Mobile column cycler */}
         {(() => {
           const mobileCols = [
+            { key: "score", label: "Score" },
             { key: "participation", label: "Participation" },
             { key: "weeklyTraining", label: "Weekly Training" },
             ...CHECKLIST_ITEMS.map(item => ({ key: item.key, label: `${item.num}. ${item.label}` })),
@@ -439,6 +440,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
           const renderMobileCell = (t: Team) => {
             const pGoal = goals.participation ? parseInt(goals.participation) : null;
             const totalTime = t.players.reduce((s, p) => s + p.trainingMinutes, 0);
+            if (activeCol.key === "score") { const s = CHECKLIST_ITEMS.filter(item => isChecked(t, item)).length; const pct = Math.round((s / CHECKLIST_ITEMS.length) * 100); return <span className={`text-sm font-bold ${pct >= 80 ? "text-green-600" : pct >= 40 ? "text-yellow-600" : "text-red-500"}`}>{pct}%</span>; }
             if (activeCol.key === "participation") return <span className={`text-sm font-bold ${pGoal ? (t.participationRate >= pGoal ? "text-green-600" : "text-red-500") : t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>;
             if (activeCol.key === "weeklyTraining") return <span className="text-sm font-bold text-navy">{formatTime(totalTime)}</span>;
             const item = CHECKLIST_ITEMS.find(it => it.key === activeCol.key);
@@ -463,6 +465,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                     <th className="sm:hidden" />
                     <th className="hidden sm:table-cell" />
                     <th className="hidden sm:table-cell" />
+                    <th className="hidden sm:table-cell" />
                     <th className="hidden sm:table-cell px-3 py-2 text-center text-xs font-black text-navy uppercase tracking-wide border-l border-gray-100 bg-navy/5" colSpan={CHECKLIST_ITEMS.length}>Coach Engagement Tracker</th>
                   </tr>
                   <tr className="border-b-2 border-gray-100">
@@ -470,6 +473,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                     {/* Mobile: active column only */}
                     <th className="sm:hidden px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy/40 uppercase tracking-wide">{activeCol.label}</th>
                     {/* Desktop: all columns */}
+                    <th className="hidden sm:table-cell px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy/40 uppercase tracking-wide" style={{ minWidth: "70px" }}>Score</th>
                     <th className="hidden sm:table-cell px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy/40 uppercase tracking-wide" style={{ minWidth: "80px" }}>Participation</th>
                     <th className="hidden sm:table-cell px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy/40 uppercase tracking-wide" style={{ minWidth: "90px" }}>Weekly Training</th>
                     {CHECKLIST_ITEMS.map(item => (
@@ -498,6 +502,9 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                         {/* Mobile: active column only */}
                         <td className="sm:hidden px-3 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">{renderMobileCell(t)}</td>
                         {/* Desktop: all columns */}
+                        <td className="hidden sm:table-cell px-3 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
+                          {(() => { const s = CHECKLIST_ITEMS.filter(item => isChecked(t, item)).length; const pct = Math.round((s / CHECKLIST_ITEMS.length) * 100); return <span className={`text-sm font-bold ${pct >= 80 ? "text-green-600" : pct >= 40 ? "text-yellow-600" : "text-red-500"}`}>{pct}%</span>; })()}
+                        </td>
                         <td className="hidden sm:table-cell px-3 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
                           <span className={`text-sm font-bold ${pGoal ? (t.participationRate >= pGoal ? "text-green-600" : "text-red-500") : t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>
                         </td>
