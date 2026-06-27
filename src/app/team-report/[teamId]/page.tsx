@@ -602,14 +602,16 @@ function CoachEngagementView({ ranking, period, teams, onUpdate, showGoals, onSh
       </>)}
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-        <button onClick={() => setShowHowTo(h => !h)}
-          className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50 transition-colors">
-          <span className="font-black text-navy text-sm">How to Increase Engagement</span>
-          <span className="text-navy/30 text-xs">{showHowTo ? "▴" : "▾"}</span>
-        </button>
-        {showHowTo && <HowToContent />}
-      </div>
+      {showGoals && (
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <button onClick={() => setShowHowTo(h => !h)}
+            className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50 transition-colors">
+            <span className="font-black text-navy text-sm">How to Increase Engagement</span>
+            <span className="text-navy/30 text-xs">{showHowTo ? "▴" : "▾"}</span>
+          </button>
+          {showHowTo && <HowToContent />}
+        </div>
+      )}
     </div>
   );
 }
