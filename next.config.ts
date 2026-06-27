@@ -44,12 +44,7 @@ const nextConfig: NextConfig = {
         destination: 'https://media.anytime-soccer.com/wp-admin/:path*',
         permanent: false,
       },
-      {
-        source: '/team-report/pacificfc',
-        destination: '/team-report/70?add=846%2C780%2C764&view=goals',
-        permanent: false,
-      },
-      ...blogRedirects,
+...blogRedirects,
     ];
   },
 };

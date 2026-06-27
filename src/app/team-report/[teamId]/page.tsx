@@ -7,7 +7,7 @@ const API = "https://api.anytime-soccer.com/api/public/team-report";
 
 // Club/org slugs â†’ list of team IDs (add more teams per org as needed)
 const CLUB_SLUGS: Record<string, number[]> = {
-  pacificfc: [846],
+  pacificfc: [],
 };
 
 interface Player {
