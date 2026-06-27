@@ -31,6 +31,12 @@ interface EngagementBreakdown {
   hasChallenge: number;
   hasHomework: number;
   hasPersonalChallenge: number;
+  eng_email: number;
+  eng_demo: number;
+  eng_personal_challenge: number;
+  eng_level_goal: number;
+  eng_recognition: number;
+  eng_mvp: number;
 }
 
 interface Team {
@@ -160,15 +166,15 @@ function SlugEditor({ team, onUpdate }: { team: Team; onUpdate: (slug: string) =
 }
 
 const CHECKLIST_ITEMS: Array<{ num: number; key: string; label: string; auto: boolean; link?: string }> = [
-  { num: 1,  key: "hasHomework",       label: "Assign Homework",                     auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=coach-board" },
-  { num: 2,  key: "demoApp",           label: "Demo App In-Person",                  auto: false },
-  { num: 3,  key: "hasPersonalGoal",   label: "Set Player Goals",                    auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=players" },
-  { num: 4,  key: "hasChallenge",      label: "Create Coach's Challenge",            auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=challenge" },
-  { num: 5,  key: "hasPersonalChallenge", label: "Create a Personal Challenge",       auto: true  },
-  { num: 6,  key: "hasContest",        label: "Create a Team Contest",               auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=contest" },
-  { num: 7,  key: "setLevelGoal",      label: "Set Team Level Goal",                 auto: false },
-  { num: 8,  key: "recognition",       label: "Give Player Recognition in Practice", auto: false },
-  { num: 9,  key: "mvp",               label: "Nominate an MVP",                     auto: false },
+  { num: 1,  key: "hasHomework",          label: "Assign Homework",                     auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=coach-board" },
+  { num: 2,  key: "eng_demo",             label: "Demo App In-Person",                  auto: false },
+  { num: 3,  key: "hasPersonalGoal",      label: "Set Player Goals",                    auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=players" },
+  { num: 4,  key: "hasChallenge",         label: "Create Coach's Challenge",            auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=challenge" },
+  { num: 5,  key: "eng_personal_challenge", label: "Create a Personal Challenge",       auto: false },
+  { num: 6,  key: "hasContest",           label: "Create a Team Contest",               auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=contest" },
+  { num: 7,  key: "eng_level_goal",       label: "Set Team Level Goal",                 auto: false },
+  { num: 8,  key: "eng_recognition",      label: "Give Player Recognition in Practice", auto: false },
+  { num: 9,  key: "eng_mvp",              label: "Nominate an MVP",                     auto: false },
 ];
 
 function HowToContent() {
@@ -316,10 +322,6 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
     if (typeof window === "undefined") return { participation: "", videosPerMonth: "" };
     try { const s = localStorage.getItem("doc-engagement-goals"); return s ? JSON.parse(s) : { participation: "", videosPerMonth: "" }; } catch { return { participation: "", videosPerMonth: "" }; }
   });
-  const [manualChecked, setManualChecked] = useState<Record<string, boolean>>(() => {
-    if (typeof window === "undefined") return {};
-    try { const s = localStorage.getItem("doc-engagement-manual"); return s ? JSON.parse(s) : {}; } catch { return {}; }
-  });
 
   const saveGoal = (key: keyof typeof goals, val: string) => {
     const next = { ...goals, [key]: val };
@@ -327,19 +329,11 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
     localStorage.setItem("doc-engagement-goals", JSON.stringify(next));
   };
 
-  const toggleManual = (teamId: number, key: string) => {
-    const k = `${teamId}-${key}`;
-    const next = { ...manualChecked, [k]: !manualChecked[k] };
-    setManualChecked(next);
-    localStorage.setItem("doc-engagement-manual", JSON.stringify(next));
-  };
-
   const totalPages = Math.ceil(teams.length / PAGE_SIZE);
   const visibleTeams = showAll ? teams : teams.slice(pageIndex * PAGE_SIZE, (pageIndex + 1) * PAGE_SIZE);
 
   const isChecked = (t: Team, item: (typeof CHECKLIST_ITEMS)[number]) => {
-    if (item.auto) return !!(t.engagementBreakdown as unknown as Record<string, number>)[item.key];
-    return !!manualChecked[`${t.teamId}-${item.key}`];
+    return !!(t.engagementBreakdown as unknown as Record<string, number>)[item.key];
   };
 
   const resolvedRecipient = (t: Team, form: EmailForm) => {
@@ -450,7 +444,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
             const item = CHECKLIST_ITEMS.find(it => it.key === activeCol.key);
             if (!item) return null;
             const done = isChecked(t, item);
-            return <span onClick={!item.auto ? () => toggleManual(t.teamId, item.key) : undefined} className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black ${item.auto ? (done ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-300") : (done ? "bg-green-100 text-green-600 cursor-pointer" : "bg-gray-50 text-gray-300 cursor-pointer")}`}>{done ? "✓" : "○"}</span>;
+            return <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black ${done ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-300"}`}>{done ? "✓" : "○"}</span>;
           };
           return (
             <>
@@ -507,10 +501,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                           const done = isChecked(t, item);
                           return (
                             <td key={item.key} className="hidden sm:table-cell px-2 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
-                              <span
-                                onClick={!item.auto ? () => toggleManual(t.teamId, item.key) : undefined}
-                                className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black ${item.auto ? (done ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-300") : (done ? "bg-green-100 text-green-600 cursor-pointer" : "bg-gray-50 text-gray-300 cursor-pointer hover:bg-gray-100")}`}
-                              >
+                              <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black ${done ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-300"}`}>
                                 {done ? "✓" : "○"}
                               </span>
                             </td>
