@@ -311,6 +311,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
   const [pageIndex, setPageIndex] = useState(0);
   const [showAll, setShowAll] = useState(false);
   const [actionTeamId, setActionTeamId] = useState<number | null>(null);
+  const [mobileColIdx, setMobileColIdx] = useState(0);
   const [goals, setGoals] = useState<{ participation: string; videosPerMonth: string }>(() => {
     if (typeof window === "undefined") return { participation: "", videosPerMonth: "" };
     try { const s = localStorage.getItem("doc-engagement-goals"); return s ? JSON.parse(s) : { participation: "", videosPerMonth: "" }; } catch { return { participation: "", videosPerMonth: "" }; }
@@ -422,61 +423,94 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
               className="text-xs font-bold border border-gray-200 text-navy/50 px-2.5 py-1 rounded-lg hover:border-navy/30 hover:text-navy disabled:opacity-30 transition-colors">↓ PDF</button>
           </div>
         </div>
-        <div className="overflow-x-auto">
-        <table className="w-full text-sm border-collapse">
-          <thead>
-            <tr className="border-b-2 border-gray-100">
-              <th className="px-4 py-3 text-left text-xs font-bold text-navy/40 uppercase tracking-wide sticky left-0 bg-white z-10" style={{ minWidth: "200px" }}>Team</th>
-              <th className="px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy uppercase tracking-wide" style={{ minWidth: "80px" }}>Participation</th>
-              <th className="px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy uppercase tracking-wide" style={{ minWidth: "90px" }}>Weekly Training</th>
-              {CHECKLIST_ITEMS.map(item => (
-                <th key={item.key} className="px-2 py-3 text-center border-l border-gray-100 align-top" style={{ minWidth: "90px" }}>
-                  <div className="flex flex-col items-center gap-0.5">
-                    <span className="text-xs font-black text-navy">{item.num}</span>
-                    <span className="text-[9px] font-semibold text-navy leading-tight text-center px-0.5">{item.label}</span>
-                    {item.auto && <span className="text-[8px] bg-navy/10 text-navy/60 rounded px-1 font-bold leading-tight">A</span>}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {visibleTeams.map((t, i) => {
-              const avgVideos = t.players.length > 0 ? Math.round(t.players.reduce((s, p) => s + p.videosWatched, 0) / t.players.length) : 0;
-              const totalVideos = t.players.reduce((s, p) => s + p.videosWatched, 0);
-              const totalTime = t.players.reduce((s, p) => s + p.trainingMinutes, 0);
-              const pGoal = goals.participation ? parseInt(goals.participation) : null;
-              const vGoal = goals.videosPerMonth ? parseInt(goals.videosPerMonth) : null;
-              return (
-                <tr key={t.teamId} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/60"}>
-                  <td className="px-4 py-3 border-b border-gray-50 sticky left-0 z-10" style={{ background: i % 2 === 0 ? "#fff" : "#f9fafb" }}>
-                    <div className="font-black text-navy text-sm leading-tight">{t.teamName}</div>
-                    {t.coaches.length > 0 && (
-                      <div className="text-[10px] text-navy/40 mt-0.5">{t.coaches.map(c => c.name).join(", ")}</div>
-                    )}
-                  </td>
-                  <td className="px-3 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
-                    <span className={`text-sm font-bold ${pGoal ? (t.participationRate >= pGoal ? "text-green-600" : "text-red-500") : t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>
-                  </td>
-                  <td className="px-3 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
-                    <span className="text-sm font-bold text-navy">{formatTime(totalTime)}</span>
-                  </td>
-                  {CHECKLIST_ITEMS.map(item => {
-                    const done = isChecked(t, item);
+        {/* Mobile column cycler */}
+        {(() => {
+          const mobileCols = [
+            { key: "participation", label: "Participation" },
+            { key: "weeklyTraining", label: "Weekly Training" },
+            ...CHECKLIST_ITEMS.map(item => ({ key: item.key, label: `${item.num}. ${item.label}` })),
+          ];
+          const activeCol = mobileCols[mobileColIdx];
+          const renderMobileCell = (t: Team) => {
+            const pGoal = goals.participation ? parseInt(goals.participation) : null;
+            const totalTime = t.players.reduce((s, p) => s + p.trainingMinutes, 0);
+            if (activeCol.key === "participation") return <span className={`text-sm font-bold ${pGoal ? (t.participationRate >= pGoal ? "text-green-600" : "text-red-500") : t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>;
+            if (activeCol.key === "weeklyTraining") return <span className="text-sm font-bold text-navy">{formatTime(totalTime)}</span>;
+            const item = CHECKLIST_ITEMS.find(it => it.key === activeCol.key);
+            if (!item) return null;
+            const done = isChecked(t, item);
+            return <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black ${item.auto ? (done ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-300") : "bg-gray-50 text-gray-200"}`}>{done ? "✓" : "○"}</span>;
+          };
+          return (
+            <>
+              <div className="sm:hidden flex items-center gap-2 px-4 pt-3 pb-2">
+                <button onClick={() => setMobileColIdx(i => (i - 1 + mobileCols.length) % mobileCols.length)}
+                  className="w-7 h-7 flex items-center justify-center rounded-lg border-2 border-gray-200 text-navy/60 font-bold hover:border-navy/40 transition-colors text-sm">{"<"}</button>
+                <span className="flex-1 text-center text-xs font-bold text-navy truncate">{activeCol.label}</span>
+                <button onClick={() => setMobileColIdx(i => (i + 1) % mobileCols.length)}
+                  className="w-7 h-7 flex items-center justify-center rounded-lg border-2 border-gray-200 text-navy/60 font-bold hover:border-navy/40 transition-colors text-sm">{">"}</button>
+              </div>
+              <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse">
+                <thead>
+                  <tr className="border-b-2 border-gray-100">
+                    <th className="px-4 py-3 text-left text-xs font-bold text-navy/40 uppercase tracking-wide sticky left-0 bg-white z-10" style={{ minWidth: "160px" }}>Team</th>
+                    {/* Mobile: active column only */}
+                    <th className="sm:hidden px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy uppercase tracking-wide">{activeCol.label}</th>
+                    {/* Desktop: all columns */}
+                    <th className="hidden sm:table-cell px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy uppercase tracking-wide" style={{ minWidth: "80px" }}>Participation</th>
+                    <th className="hidden sm:table-cell px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy uppercase tracking-wide" style={{ minWidth: "90px" }}>Weekly Training</th>
+                    {CHECKLIST_ITEMS.map(item => (
+                      <th key={item.key} className="hidden sm:table-cell px-2 py-3 text-center border-l border-gray-100 align-top" style={{ minWidth: "90px" }}>
+                        <div className="flex flex-col items-center gap-0.5">
+                          <span className="text-xs font-black text-navy">{item.num}</span>
+                          <span className="text-[9px] font-semibold text-navy leading-tight text-center px-0.5">{item.label}</span>
+                          {item.auto && <span className="text-[8px] bg-navy/10 text-navy/60 rounded px-1 font-bold leading-tight">A</span>}
+                        </div>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {visibleTeams.map((t, i) => {
+                    const totalTime = t.players.reduce((s, p) => s + p.trainingMinutes, 0);
+                    const pGoal = goals.participation ? parseInt(goals.participation) : null;
                     return (
-                      <td key={item.key} className="px-2 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
-                        <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black ${item.auto ? (done ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-300") : "bg-gray-50 text-gray-200"}`}>
-                          {done ? "✓" : "○"}
-                        </span>
-                      </td>
+                      <tr key={t.teamId} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/60"}>
+                        <td className="px-4 py-3 border-b border-gray-50 sticky left-0 z-10" style={{ background: i % 2 === 0 ? "#fff" : "#f9fafb" }}>
+                          <div className="font-black text-navy text-sm leading-tight">{t.teamName}</div>
+                          {t.coaches.length > 0 && (
+                            <div className="text-[10px] text-navy/40 mt-0.5">{t.coaches.map(c => c.name).join(", ")}</div>
+                          )}
+                        </td>
+                        {/* Mobile: active column only */}
+                        <td className="sm:hidden px-3 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">{renderMobileCell(t)}</td>
+                        {/* Desktop: all columns */}
+                        <td className="hidden sm:table-cell px-3 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
+                          <span className={`text-sm font-bold ${pGoal ? (t.participationRate >= pGoal ? "text-green-600" : "text-red-500") : t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>
+                        </td>
+                        <td className="hidden sm:table-cell px-3 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
+                          <span className="text-sm font-bold text-navy">{formatTime(totalTime)}</span>
+                        </td>
+                        {CHECKLIST_ITEMS.map(item => {
+                          const done = isChecked(t, item);
+                          return (
+                            <td key={item.key} className="hidden sm:table-cell px-2 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
+                              <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black ${item.auto ? (done ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-300") : "bg-gray-50 text-gray-200"}`}>
+                                {done ? "✓" : "○"}
+                              </span>
+                            </td>
+                          );
+                        })}
+                      </tr>
                     );
                   })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        </div>
+                </tbody>
+              </table>
+              </div>
+            </>
+          );
+        })()}
 
         {/* Email form — single active team */}
         {teams.map(t => {
