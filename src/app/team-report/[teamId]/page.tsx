@@ -369,7 +369,6 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-bold text-navy">Coach Engagement Tracker</h2>
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
         {teams.length > PAGE_SIZE && (
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
@@ -462,6 +461,13 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
               <div className="overflow-x-auto [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: "none" }}>
               <table className="w-full text-sm border-collapse">
                 <thead>
+                  <tr className="border-b border-gray-100">
+                    <th className="sticky left-0 bg-white z-10" />
+                    <th className="sm:hidden" />
+                    <th className="hidden sm:table-cell" />
+                    <th className="hidden sm:table-cell" />
+                    <th className="hidden sm:table-cell px-3 py-2 text-left text-xs font-black text-navy uppercase tracking-wide border-l border-gray-100" colSpan={CHECKLIST_ITEMS.length}>Coach Engagement Tracker</th>
+                  </tr>
                   <tr className="border-b-2 border-gray-100">
                     <th className="px-4 py-3 text-left text-xs font-bold text-navy/40 uppercase tracking-wide sticky left-0 bg-white z-10" style={{ minWidth: "160px" }}>Team</th>
                     {/* Mobile: active column only */}
