@@ -312,7 +312,7 @@ type EmailForm = { mode: "manager" | "custom"; selectedId: number | null; firstN
 
 const PAGE_SIZE = 10;
 
-function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: any[]; period: string; teams: Team[]; onUpdate: GoalsPanelProps["onUpdate"] }) {
+function CoachEngagementView({ ranking, period, teams, onUpdate, showGoals, onShowGoals, onShowPlayers, filterTeam, onFilterTeamChange, allTeams, playerSearch, onPlayerSearchChange }: { ranking: any[]; period: string; teams: Team[]; onUpdate: GoalsPanelProps["onUpdate"]; showGoals: boolean; onShowGoals: () => void; onShowPlayers: () => void; filterTeam: string; onFilterTeamChange: (v: string) => void; allTeams: Team[]; playerSearch: string; onPlayerSearchChange: (v: string) => void }) {
   const [emailForms, setEmailForms] = useState<Record<number, EmailForm | null>>({});
   const [showHowTo, setShowHowTo] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
@@ -399,22 +399,22 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
         <div className="flex items-center gap-2 px-4 py-3 border-b border-dashed border-gray-200 bg-gray-50/40 flex-wrap">
           <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm">
             <button
-              onClick={() => { const next = !showGoals; setShowGoals(next); setShowHowTo(false); const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0); router.replace(buildParams(addedIds, seedId, { view: next ? "goals" : "" }), { scroll: false }); }}
+              onClick={() => { setShowHowTo(false); onShowGoals(); }}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${showGoals ? "bg-[#e63946] text-white shadow" : "text-navy/60 hover:text-navy"}`}
             >Coach Engagement</button>
             <button
-              onClick={() => { setShowGoals(false); setShowHowTo(false); const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0); router.replace(buildParams(addedIds, seedId, { view: "" }), { scroll: false }); }}
+              onClick={() => { setShowHowTo(false); onShowPlayers(); }}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${!showGoals && !showHowTo ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"}`}
             >Player Engagement</button>
           </div>
-          {teams.length > 1 && (
-            <select value={filterTeam} onChange={e => setFilterTeam(e.target.value)} className="border-2 border-gray-200 rounded-lg px-2 py-1 text-xs font-medium text-navy bg-white focus:outline-none focus:border-navy">
+          {allTeams.length > 1 && (
+            <select value={filterTeam} onChange={e => onFilterTeamChange(e.target.value)} className="border-2 border-gray-200 rounded-lg px-2 py-1 text-xs font-medium text-navy bg-white focus:outline-none focus:border-navy">
               <option value="">All Teams</option>
-              {teams.map(t => <option key={t.teamId} value={t.teamId}>{t.teamName}</option>)}
+              {allTeams.map(t => <option key={t.teamId} value={t.teamId}>{t.teamName}</option>)}
             </select>
           )}
           {!showGoals && (
-            <input type="text" placeholder="Search players..." value={playerSearch} onChange={e => setPlayerSearch(e.target.value)} className="border-2 border-gray-200 rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-navy bg-white w-36" />
+            <input type="text" placeholder="Search players..." value={playerSearch} onChange={e => onPlayerSearchChange(e.target.value)} className="border-2 border-gray-200 rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-navy bg-white w-36" />
           )}
           <div className="ml-auto flex items-center gap-2">
             <select
@@ -435,6 +435,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
               className="text-xs font-bold border border-gray-200 text-navy/50 px-2.5 py-1 rounded-lg hover:border-navy/30 hover:text-navy disabled:opacity-30 transition-colors">↓ PDF</button>
           </div>
         </div>
+        {!showGoals ? null : (<>
         {/* Mobile column cycler */}
         {(() => {
           const mobileCols = [
@@ -598,6 +599,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
         <div className="px-4 py-2 text-[10px] text-[#e63946] border-t border-gray-100">
           Engagement reflects actual in-app activity — to update Goals, visit the New Players tab within your team.
         </div>
+      </>)}
       </div>
 
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
@@ -986,14 +988,20 @@ export default function TeamReportPage() {
           </div>
         )}
 
-        {showGoals && (
-          <CoachEngagementView
-            ranking={filteredRanking}
-            period={period}
-            teams={filteredTeams}
-            onUpdate={(tid, patch) => updateGoal(tid, patch as Partial<Pick<Team, "participationGoal" | "videosPerPlayerGoal" | "coachWeeklyPlan">>)}
-          />
-        )}
+        <CoachEngagementView
+          ranking={filteredRanking}
+          period={period}
+          teams={filteredTeams}
+          onUpdate={(tid, patch) => updateGoal(tid, patch as Partial<Pick<Team, "participationGoal" | "videosPerPlayerGoal" | "coachWeeklyPlan">>)}
+          showGoals={showGoals}
+          onShowGoals={() => { const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0); setShowGoals(true); router.replace(buildParams(addedIds, seedId, { view: "goals" }), { scroll: false }); }}
+          onShowPlayers={() => { const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0); setShowGoals(false); router.replace(buildParams(addedIds, seedId, { view: "" }), { scroll: false }); }}
+          filterTeam={filterTeam}
+          onFilterTeamChange={setFilterTeam}
+          allTeams={teams}
+          playerSearch={playerSearch}
+          onPlayerSearchChange={setPlayerSearch}
+        />
 
         {false && (() => {
           const HOW_TO_STEPS = [
