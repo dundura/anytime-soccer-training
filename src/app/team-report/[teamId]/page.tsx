@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 const API = "https://api.anytime-soccer.com/api/public/team-report";
 
-// Club/org slugs → list of team IDs (add more teams per org as needed)
+// Club/org slugs â†’ list of team IDs (add more teams per org as needed)
 const CLUB_SLUGS: Record<string, number[]> = {
   pacificfc: [846],
 };
@@ -58,8 +58,8 @@ interface SearchResult {
 
 function CheckBadge({ val }: { val: number }) {
   return val
-    ? <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-600 font-black text-sm">✓</span>
-    : <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 text-red-500 font-black text-sm">✕</span>;
+    ? <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-600 font-black text-sm">âœ“</span>
+    : <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 text-red-500 font-black text-sm">âœ•</span>;
 }
 
 function ScoreDots({ score, breakdown }: { score: number; breakdown: EngagementBreakdown }) {
@@ -150,7 +150,7 @@ function SlugEditor({ team, onUpdate }: { team: Team; onUpdate: (slug: string) =
         placeholder="your-slug"
       />
       <button onClick={save} disabled={saving} className="text-xs bg-navy text-white rounded-lg px-3 py-1 font-bold disabled:opacity-50">
-        {saving ? "Saving…" : "Save"}
+        {saving ? "Savingâ€¦" : "Save"}
       </button>
       <button onClick={() => setEditing(false)} className="text-xs text-gray-400 hover:text-gray-600">Cancel</button>
       {error && <span className="text-xs text-red-500">{error}</span>}
@@ -158,45 +158,31 @@ function SlugEditor({ team, onUpdate }: { team: Team; onUpdate: (slug: string) =
   );
 }
 
-const DEFAULT_PARTICIPATION_GOAL = "75";
-const DEFAULT_VIDEOS_GOAL = "30";
-const DEFAULT_WEEKLY_PLAN: string[][] = [
-  ["hasHomework", "demoApp"],
-  ["sendEmailReminder", "hasPersonalGoal"],
-  ["hasChallenge", "personalChallenge"],
-  ["playerRecognition"],
+const CHECKLIST_ITEMS: Array<{ num: number; key: string; label: string; auto: boolean; link?: string }> = [
+  { num: 1,  key: "hasHomework",       label: "Assign Homework",                     auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=coach-board" },
+  { num: 2,  key: "sendEmail",         label: "Send Email Reminder",                 auto: false },
+  { num: 3,  key: "demoApp",           label: "Demo App In-Person",                  auto: false },
+  { num: 4,  key: "hasPersonalGoal",   label: "Set Player Goals",                    auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=players" },
+  { num: 5,  key: "hasChallenge",      label: "Create Coach's Challenge",            auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=challenge" },
+  { num: 6,  key: "personalChallenge", label: "Create a Personal Challenge",         auto: false, link: "https://app.anytime-soccer.com/teams/personal-challenge" },
+  { num: 7,  key: "hasContest",        label: "Create a Team Contest",               auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=contest" },
+  { num: 8,  key: "setLevelGoal",      label: "Set Team Level Goal",                 auto: false },
+  { num: 9,  key: "recognition",       label: "Give Player Recognition in Practice", auto: false },
+  { num: 10, key: "mvp",               label: "Nominate an MVP ðŸŒŸ",                  auto: false },
 ];
-
-const COACH_TASKS = [
-  { key: "hasHomework", label: "Assign Homework" },
-  { key: "demoApp", label: "Demo App In-Person" },
-  { key: "sendEmailReminder", label: "Send Email Reminder" },
-  { key: "hasPersonalGoal", label: "Set Player Goals" },
-  { key: "hasChallenge", label: "Create Coach's Challenge" },
-  { key: "personalChallenge", label: "Create a Personal Challenge" },
-  { key: "hasContest", label: "Create a Team Contest", optional: true },
-  { key: "setLevelGoal", label: "Set Team Level Goal", optional: true },
-  { key: "playerRecognition", label: "Give Player Recognition in Practice", example: "\"Great work on your home training this week, [Name] — I could see it in your touches today!\"" },
-] as const;
-
-type LocalGoal = {
-  participationGoal: string;
-  videosPerPlayerGoal: string;
-  weeklyPlan: string[][];
-};
 
 function HowToContent() {
   const [howToFilter, setHowToFilter] = useState<string | null>(null);
   const [expandedStep, setExpandedStep] = useState<string | null>(null);
   const HOW_TO_STEPS = [
     { key: "homework", badge: "1", badgeBg: "bg-navy", badgeText: "text-white", title: "Assign Homework", type: "core",
-      how: "Go to your coach's board. Pick the skill areas and folders you want to assign. We recommend keeping it simple — start with 30-day plans or the first folders in the full curriculum. Then next month, assign one of the recurring plans such as the Skill Builder Plan. If you have any questions, email megan@anytime-soccer.com.",
+      how: "Go to your coach's board. Pick the skill areas and folders you want to assign. We recommend keeping it simple â€” start with 30-day plans or the first folders in the full curriculum. Then next month, assign one of the recurring plans such as the Skill Builder Plan. If you have any questions, email megan@anytime-soccer.com.",
       when: "Do this immediately upon creating the team. You have to show the kids this is important.",
-      where: "The coach's board is in the app — log in at app.anytime-soccer.com and you'll find it in the main navigation.",
-      why: "Players who receive homework train 3× more often than those who don't. Assign it at the start of each week so players know exactly what to work on.",
+      where: "The coach's board is in the app â€” log in at app.anytime-soccer.com and you'll find it in the main navigation.",
+      why: "Players who receive homework train 3Ã— more often than those who don't. Assign it at the start of each week so players know exactly what to work on.",
       tip: "Not sure where to start? Email neil@anytime-soccer.com and he will assign your first homework on your behalf." },
     { key: "demo", badge: "2", badgeBg: "bg-navy", badgeText: "text-white", title: "Demo App In-Person", type: "core",
-      how: "Pull up the app on your phone at practice. Walk players through finding their homework, logging a video, and checking their stats — live, in 2 minutes.",
+      how: "Pull up the app on your phone at practice. Walk players through finding their homework, logging a video, and checking their stats â€” live, in 2 minutes.",
       when: "First week of the season or at your first team meeting.",
       where: "Announce that you will do a demo, then do it after practice with your phone in hand.",
       why: "Seeing it live removes all friction. A quick in-person demo gets more players active than any email or link you can send.",
@@ -214,34 +200,34 @@ function HowToContent() {
       why: "Players with personal goals are significantly more likely to stay active all season. Goals create internal motivation that outlasts any external push.",
       tip: undefined },
     { key: "recognition", badge: "5", badgeBg: "bg-navy", badgeText: "text-white", title: "Give Player Recognition", type: "core",
-      how: "At practice, call out one player who trained at home that week. Be specific — mention what you noticed in their footwork or touches.",
+      how: "At practice, call out one player who trained at home that week. Be specific â€” mention what you noticed in their footwork or touches.",
       when: "Once per week at practice, consistently every week.",
       where: "In front of the whole team at practice.",
       why: "Public recognition tells every player that home training gets noticed. It's the fastest way to build a training culture that lasts.",
-      tip: "Something as simple as letting a player be team captain for the day or pick teams in a scrimmage is all it takes to fuel a kid's motivation — the recognition doesn't have to be big to be powerful." },
+      tip: "Something as simple as letting a player be team captain for the day or pick teams in a scrimmage is all it takes to fuel a kid's motivation â€” the recognition doesn't have to be big to be powerful." },
     { key: "challenge", badge: "6", badgeBg: "bg-navy", badgeText: "text-white", title: "Create Coach's Challenge", type: "rec",
-      how: "Create a weekly challenge in the app for your team — set a video-count target that everyone competes toward.",
-      when: "Set it once — after that it's recurring.",
+      how: "Create a weekly challenge in the app for your team â€” set a video-count target that everyone competes toward.",
+      when: "Set it once â€” after that it's recurring.",
       where: "From the **Team Hub**, click **Coach's Challenge** in the dropdown.",
       why: "Competition drives consistency. Players who are competing check back daily instead of training once and forgetting.",
       tip: undefined },
     { key: "personalChallenge", badge: "7", badgeBg: "bg-navy", badgeText: "text-white", title: "Create a Personal Challenge", type: "rec",
-      how: "Set up a challenge just for one player — give them a specific target to hit on their own, separate from the team challenge.",
+      how: "Set up a challenge just for one player â€” give them a specific target to hit on their own, separate from the team challenge.",
       when: "Any time you want to give an individual player extra motivation.",
       where: "From the **Team Hub**, click **Coach's Challenge** in the dropdown and assign it to a single player.",
       why: "Personal challenges meet players where they are. A tailored goal feels more achievable and more meaningful than a group target.",
       tip: undefined },
     { key: "contest", badge: "8", badgeBg: "bg-navy", badgeText: "text-white", title: "Create a Team Contest", type: "opt",
-      how: "Set up a season-long leaderboard contest with a prize for the top trainer — pizza party, gear, or a team trophy.",
+      how: "Set up a season-long leaderboard contest with a prize for the top trainer â€” pizza party, gear, or a team trophy.",
       when: "Near the beginning of the season, once everyone becomes familiar with the app.",
       where: "From the **Team Hub**, click **Team Contest** in the dropdown.",
       why: "A team contest gives players a reason to stay consistent all season, not just in week one. It turns training into an ongoing game.",
       tip: undefined },
     { key: "levelgoal", badge: "9", badgeBg: "bg-navy", badgeText: "text-white", title: "Set a Team Level Goal", type: "opt",
-      how: "Go to your **Roster** and set a collective milestone for the team — e.g. \"log 1,000 videos this season.\" The more videos your team logs, the higher your team level climbs. Every level earns your team a new professional club name.",
+      how: "Go to your **Roster** and set a collective milestone for the team â€” e.g. \"log 1,000 videos this season.\" The more videos your team logs, the higher your team level climbs. Every level earns your team a new professional club name.",
       when: "When the team is created.",
       where: "In the **Roster**.",
-      why: "Shared goals create team ownership. Players encourage each other and feel responsible for the collective result, not just their own training — and kids love reaching new levels.",
+      why: "Shared goals create team ownership. Players encourage each other and feel responsible for the collective result, not just their own training â€” and kids love reaching new levels.",
       tip: undefined },
   ];
   const visible = howToFilter ? HOW_TO_STEPS.filter(s => s.key === howToFilter) : HOW_TO_STEPS;
@@ -275,7 +261,7 @@ function HowToContent() {
                   className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left">
                   <span className={`w-7 h-7 rounded-full ${s.badgeBg} ${s.badgeText} text-xs font-black flex items-center justify-center shrink-0`}>{s.badge}</span>
                   <span className="text-sm font-black text-navy flex-1">{s.title}</span>
-                  <span className="text-navy/30 text-xs">{open ? "▴" : "▾"}</span>
+                  <span className="text-navy/30 text-xs">{open ? "â–´" : "â–¾"}</span>
                 </button>
                 {open && (
                   <div className="px-4 pb-4 pt-1 space-y-3 border-t border-gray-100">
@@ -294,7 +280,7 @@ function HowToContent() {
                     ))}
                     {s.tip && (
                       <div className="mt-2 flex gap-2 bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-3">
-                        <span className="text-yellow-500 text-sm shrink-0">💡</span>
+                        <span className="text-yellow-500 text-sm shrink-0">ðŸ’¡</span>
                         <p className="text-sm text-yellow-800 leading-relaxed"><span className="font-black">Pro Tip:</span> {s.tip}</p>
                       </div>
                     )}
@@ -309,92 +295,6 @@ function HowToContent() {
   );
 }
 
-function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: any[]; period: string; teams: Team[]; onUpdate: GoalsPanelProps["onUpdate"] }) {
-  const [selected, setSelected] = useState<"all" | "summary" | "plan" | "howto">("all");
-  const sections: { key: "summary" | "plan" | "howto"; label: string }[] = [
-    { key: "summary", label: "Coach Engagement Summary" },
-    { key: "plan", label: "Create Action Plan" },
-    { key: "howto", label: "How to Increase Engagement" },
-  ];
-  const visible = selected === "all" ? sections.map(s => s.key) : [selected];
-  return (
-    <div>
-      {/* Pill row */}
-      <div className="flex flex-wrap gap-2 mb-4">
-        <button onClick={() => setSelected("all")}
-          className={`px-4 py-2 rounded-full text-sm font-bold border-2 transition-all ${selected === "all" ? "bg-[#e63946] border-[#e63946] text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white hover:text-navy"}`}>
-          All
-        </button>
-        {sections.map(({ key, label }) => (
-          <button key={key} onClick={() => setSelected(key)}
-            className={`px-4 py-2 rounded-full text-sm font-bold border-2 transition-all ${selected === key ? "bg-navy border-navy text-white" : "border-gray-200 text-navy/60 hover:border-navy/40 bg-white hover:text-navy"}`}>
-            {label}
-          </button>
-        ))}
-      </div>
-
-      {/* Content */}
-      <div className="space-y-2">
-        {visible.map(key => (
-          <div key={key} className="border border-gray-100 rounded-xl overflow-hidden bg-white shadow-sm">
-            {key === "summary" && <PerformanceDropdown ranking={ranking} period={period} forceOpen />}
-            {key === "plan" && <GoalsPanel teams={teams} onUpdate={onUpdate} period={period} />}
-            {key === "howto" && <HowToContent />}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function PerformanceDropdown({ ranking, period, forceOpen }: { ranking: any[]; period: string; forceOpen?: boolean }) {
-  const periodLabel = period === "week" ? "This Week" : period === "month" ? "Month" : period === "year" ? "Year" : "All Time";
-  const cols = [
-    { key: "participation", label: `Participation (${periodLabel})` },
-    { key: "hasHomework", label: "Assign Homework" },
-    { key: "hasContest", label: "Create a Team Contest" },
-    { key: "hasPersonalGoal", label: "Set Player Goals" },
-    { key: "hasChallenge", label: "Create Coach's Challenge" },
-    { key: "score", label: "Score" },
-  ];
-  if (!forceOpen) return null;
-  return (
-    <div className="mb-6 bg-white rounded-2xl shadow-sm overflow-x-auto">
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="bg-navy text-white text-left text-xs uppercase tracking-wide">
-            <th className="px-4 py-3 text-center w-12">Rank</th>
-            <th className="px-4 py-3">Coach</th>
-            {cols.map(c => <th key={c.key} className="px-4 py-3 text-center whitespace-nowrap">{c.label}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {ranking.length === 0 ? (
-            <tr><td colSpan={8} className="px-5 py-8 text-center text-navy/40">No coaches found.</td></tr>
-          ) : ranking.map((c: any, i: number) => (
-            <tr key={`${c.teamId}-${c.childId}`} className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}>
-              <td className="px-4 py-3.5 text-center">
-                <span className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-black ${i === 0 ? "bg-yellow-400 text-white" : i === 1 ? "bg-gray-300 text-gray-700" : i === 2 ? "bg-orange-300 text-white" : "bg-gray-100 text-navy/50"}`}>{i + 1}</span>
-              </td>
-              <td className="px-4 py-3.5">
-                <div className="font-bold text-navy">{c.name}</div>
-                <div className="text-xs text-navy/50 mt-0.5">{c.teamName}</div>
-              </td>
-              <td className="px-4 py-3.5 text-center">
-                <span className={`font-bold ${c.participationRate >= 70 ? "text-green-600" : c.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{c.participationRate}%</span>
-              </td>
-              {["hasHomework", "hasContest", "hasPersonalGoal", "hasChallenge"].map(k => (
-                <td key={k} className="px-4 py-3.5 text-center"><CheckBadge val={c.engagementBreakdown[k]} /></td>
-              ))}
-              <td className="px-4 py-3.5 text-center font-black text-navy">{c.coachEngagementScore}/4</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
 type GoalsPanelProps = {
   teams: Team[];
   onUpdate: (teamId: number, patch: Partial<Pick<Team, "participationGoal" | "videosPerPlayerGoal" | "coachWeeklyPlan">>) => void;
@@ -403,73 +303,26 @@ type GoalsPanelProps = {
 
 type EmailForm = { mode: "manager" | "custom"; selectedId: number | null; firstName: string; email: string; sending: boolean; sent: boolean };
 
-function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
-  const [saving, setSaving] = useState<Record<number, boolean>>({});
-  const [emailForms, setEmailForms] = useState<Record<number, EmailForm | null>>({});
-  const [openMenus, setOpenMenus] = useState<Record<number, boolean>>({});
-  const toggleMenu = (teamId: number) => setOpenMenus(prev => ({ ...prev, [teamId]: !prev[teamId] }));
-  const closeMenu = (teamId: number) => setOpenMenus(prev => ({ ...prev, [teamId]: false }));
-  const makeDefaults = (t: Team): LocalGoal => ({
-    participationGoal: t.participationGoal != null ? String(t.participationGoal) : DEFAULT_PARTICIPATION_GOAL,
-    videosPerPlayerGoal: t.videosPerPlayerGoal != null ? String(t.videosPerPlayerGoal) : DEFAULT_VIDEOS_GOAL,
-    weeklyPlan: (t.coachWeeklyPlan?.length === 4 && t.coachWeeklyPlan.some(w => w.length > 0)) ? t.coachWeeklyPlan : DEFAULT_WEEKLY_PLAN.map(w => [...w]),
+function CoachCard({ t, period }: { t: Team; period: string }) {
+  const [manual, setManual] = useState<Record<string, boolean>>(() => {
+    try { return JSON.parse(localStorage.getItem(`coach-checklist-${t.teamId}`) || "{}"); } catch { return {}; }
   });
+  const [emailForm, setEmailForm] = useState<EmailForm | null>(null);
 
-  const [localGoals, setLocalGoals] = useState<Record<number, LocalGoal>>(() =>
-    Object.fromEntries(teams.map(t => [t.teamId, makeDefaults(t)]))
-  );
-  const saveTimers = useRef<Record<number, ReturnType<typeof setTimeout>>>({});
-
-  const autoSave = (teamId: number, g: LocalGoal) => {
-    clearTimeout(saveTimers.current[teamId]);
-    saveTimers.current[teamId] = setTimeout(async () => {
-      setSaving(prev => ({ ...prev, [teamId]: true }));
-      const body: Record<string, unknown> = { coachWeeklyPlan: g.weeklyPlan };
-      if (g.participationGoal !== "") body.participationGoal = parseInt(g.participationGoal);
-      if (g.videosPerPlayerGoal !== "") body.videosPerPlayerGoal = parseInt(g.videosPerPlayerGoal);
-      try {
-        await fetch(`${API}/${teamId}/goal`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-        onUpdate(teamId, {
-          participationGoal: g.participationGoal !== "" ? parseInt(g.participationGoal) : null,
-          videosPerPlayerGoal: g.videosPerPlayerGoal !== "" ? parseInt(g.videosPerPlayerGoal) : null,
-          coachWeeklyPlan: g.weeklyPlan,
-        });
-      } catch {}
-      setSaving(prev => ({ ...prev, [teamId]: false }));
-    }, 800);
+  const toggle = (key: string) => {
+    const next = { ...manual, [key]: !manual[key] };
+    setManual(next);
+    localStorage.setItem(`coach-checklist-${t.teamId}`, JSON.stringify(next));
   };
 
-  const toggleTask = (teamId: number, week: number, key: string) => {
-    setLocalGoals(prev => {
-      const plan = prev[teamId].weeklyPlan.map(w => [...w]);
-      const idx = plan[week].indexOf(key);
-      if (idx >= 0) plan[week].splice(idx, 1);
-      else plan[week].push(key);
-      const updated = { ...prev, [teamId]: { ...prev[teamId], weeklyPlan: plan } };
-      autoSave(teamId, updated[teamId]);
-      return updated;
-    });
+  const isChecked = (item: (typeof CHECKLIST_ITEMS)[number]) => {
+    if (item.auto) return !!(t.engagementBreakdown as Record<string, number>)[item.key];
+    return !!manual[item.key];
   };
 
-  const setNumericGoal = (teamId: number, field: "participationGoal" | "videosPerPlayerGoal", val: string) => {
-    setLocalGoals(prev => {
-      const updated = { ...prev, [teamId]: { ...prev[teamId], [field]: val } };
-      autoSave(teamId, updated[teamId]);
-      return updated;
-    });
-  };
+  const doneCount = CHECKLIST_ITEMS.filter(item => isChecked(item)).length;
 
-  const reset = (t: Team) => {
-    const defaults: LocalGoal = {
-      participationGoal: DEFAULT_PARTICIPATION_GOAL,
-      videosPerPlayerGoal: DEFAULT_VIDEOS_GOAL,
-      weeklyPlan: [[], [], [], []],
-    };
-    setLocalGoals(prev => ({ ...prev, [t.teamId]: defaults }));
-    autoSave(t.teamId, defaults);
-  };
-
-  const resolvedRecipient = (t: Team, form: EmailForm) => {
+  const resolvedRecipient = (form: EmailForm) => {
     if (form.mode === "manager" && form.selectedId != null) {
       const coach = t.coaches.find(c => c.childId === form.selectedId);
       return { firstName: coach?.name?.split(" ")[0] || "", email: (coach as any)?.email || "" };
@@ -477,12 +330,11 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
     return { firstName: form.firstName, email: form.email };
   };
 
-  const sendEmail = async (t: Team) => {
-    const form = emailForms[t.teamId];
-    if (!form) return;
-    const { firstName, email } = resolvedRecipient(t, form);
+  const sendEmailPlan = async () => {
+    if (!emailForm) return;
+    const { firstName, email } = resolvedRecipient(emailForm);
     if (!email) return;
-    setEmailForms(prev => ({ ...prev, [t.teamId]: { ...form, sending: true } }));
+    setEmailForm(f => f ? { ...f, sending: true } : f);
     try {
       const res = await fetch(`${API}/${t.teamId}/email`, {
         method: "POST",
@@ -490,227 +342,128 @@ function GoalsPanel({ teams, onUpdate, period }: GoalsPanelProps) {
         body: JSON.stringify({ firstName, email, period }),
       });
       if (!res.ok) throw new Error(await res.text());
-      setEmailForms(prev => ({ ...prev, [t.teamId]: { ...form, sending: false, sent: true } }));
-      setTimeout(() => setEmailForms(prev => ({ ...prev, [t.teamId]: null })), 3000);
+      setEmailForm(f => f ? { ...f, sending: false, sent: true } : f);
+      setTimeout(() => setEmailForm(null), 3000);
     } catch (err) {
       alert(`Failed to send: ${err instanceof Error ? err.message : "Server error"}`);
-      setEmailForms(prev => ({ ...prev, [t.teamId]: { ...form, sending: false } }));
+      setEmailForm(f => f ? { ...f, sending: false } : f);
     }
   };
 
-  const downloadPdf = (teamId: number) => {
-    window.open(`${API}/${teamId}/pdf?period=${period}`, "_blank");
-  };
-
-  const visibleTeams = teams.filter(t => !!localGoals[t.teamId]);
-  if (!visibleTeams.length) return null;
   return (
-    <div className="space-y-5 mb-6">
-      {visibleTeams.map(t => {
-        const g = localGoals[t.teamId];
-        return (
-          <div key={t.teamId} className="bg-white rounded-2xl shadow-sm p-6">
-            <div className="flex items-start justify-between gap-4 mb-4">
-              <div className="min-w-0">
-                <div className="font-black text-navy whitespace-nowrap">{t.teamName}</div>
-                <div className="text-xs text-gray-400 mt-0.5 whitespace-nowrap">Current participation: <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span></div>
-                <div className="flex flex-wrap items-center gap-1.5 mt-2">
-                  {[
-                    { label: "Assign Homework", val: t.engagementBreakdown.hasHomework },
-                    { label: "Create a Team Contest", val: t.engagementBreakdown.hasContest },
-                    { label: "Set Player Goals", val: t.engagementBreakdown.hasPersonalGoal },
-                    { label: "Create Coach's Challenge", val: t.engagementBreakdown.hasChallenge },
-                  ].map(item => (
-                    <span key={item.label} className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${item.val ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-400"}`}>
-                      {item.val ? "✓" : "✗"} {item.label}
-                    </span>
-                  ))}
-                  <span className={`inline-flex items-center gap-1 text-[11px] font-black px-2 py-0.5 rounded-full ${t.coachEngagementScore === 4 ? "bg-green-50 text-green-700" : "bg-navy/10 text-navy"}`}>
-                    Score {t.coachEngagementScore}/4
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                {saving[t.teamId] && <span className="text-xs text-navy/40 italic">Saving…</span>}
-                {/* Desktop: individual buttons */}
-                <button onClick={() => reset(t)}
-                  className="hidden sm:inline-flex text-sm font-bold border-2 border-gray-200 text-navy/50 px-3 py-2 rounded-xl hover:border-navy/40 hover:text-navy transition-colors">
-                  ↺ Reset
-                </button>
-                <button onClick={() => setEmailForms(prev => prev[t.teamId] ? { ...prev, [t.teamId]: null } : { ...prev, [t.teamId]: { mode: "manager", selectedId: t.coaches[0]?.childId ?? null, firstName: "", email: "", sending: false, sent: false } })}
-                  className="hidden sm:inline-flex text-sm font-bold border-2 border-[#e63946] text-[#e63946] px-4 py-2 rounded-xl hover:bg-[#e63946]/5 transition-colors">
-                  ✉ Email
-                </button>
-                <button onClick={() => downloadPdf(t.teamId)}
-                  className="hidden sm:inline-flex text-sm font-bold border-2 border-navy text-navy px-4 py-2 rounded-xl hover:bg-navy/5 transition-colors">
-                  ↓ PDF
-                </button>
-                {/* Mobile: Actions dropdown */}
-                <div className="relative sm:hidden">
-                  <button onClick={() => toggleMenu(t.teamId)}
-                    className="flex items-center gap-1.5 text-sm font-bold border-2 border-gray-200 text-navy/60 px-3 py-2 rounded-xl hover:border-navy/40 hover:text-navy transition-colors bg-white">
-                    Actions <span className="text-[10px]">{openMenus[t.teamId] ? "▴" : "▾"}</span>
-                  </button>
-                  {openMenus[t.teamId] && (
-                    <div className="absolute right-0 top-full mt-1 w-40 bg-white rounded-xl shadow-lg border border-gray-100 z-20 overflow-hidden">
-                      <button onClick={() => { reset(t); closeMenu(t.teamId); }}
-                        className="w-full text-left px-4 py-2.5 text-sm font-semibold text-navy/70 hover:bg-gray-50 transition-colors">
-                        ↺ Reset
-                      </button>
-                      <button onClick={() => { closeMenu(t.teamId); setEmailForms(prev => prev[t.teamId] ? { ...prev, [t.teamId]: null } : { ...prev, [t.teamId]: { mode: "manager", selectedId: t.coaches[0]?.childId ?? null, firstName: "", email: "", sending: false, sent: false } }); }}
-                        className="w-full text-left px-4 py-2.5 text-sm font-semibold text-[#e63946] hover:bg-red-50 transition-colors">
-                        ✉ Email PDF
-                      </button>
-                      <button onClick={() => { downloadPdf(t.teamId); closeMenu(t.teamId); }}
-                        className="w-full text-left px-4 py-2.5 text-sm font-semibold text-navy hover:bg-navy/5 transition-colors">
-                        ↓ Download PDF
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-gray-100">
+        <div>
+          <div className="font-black text-navy">{t.teamName}</div>
+          <div className="text-xs text-gray-400 mt-0.5">
+            <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>
+            {" "}participation &middot; <span className="font-semibold text-navy">{doneCount}/{CHECKLIST_ITEMS.length}</span> steps done
+          </div>
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={() => setEmailForm(f => f ? null : { mode: "manager", selectedId: t.coaches[0]?.childId ?? null, firstName: "", email: "", sending: false, sent: false })}
+            className="text-sm font-bold border-2 border-[#e63946] text-[#e63946] px-3 py-1.5 rounded-lg hover:bg-[#e63946]/5 transition-colors"
+          >✉ Send Plan</button>
+          <button
+            onClick={() => window.open(`${API}/${t.teamId}/pdf?period=${period}`, "_blank")}
+            className="text-sm font-bold border-2 border-gray-200 text-navy/60 px-3 py-1.5 rounded-lg hover:border-navy/40 hover:text-navy transition-colors"
+          >↓ PDF</button>
+        </div>
+      </div>
 
-            {/* Email form */}
-            {emailForms[t.teamId] && (
-              <div className="mb-5 p-4 bg-[#fff5f5] border-2 border-[#e63946]/20 rounded-xl">
-                {emailForms[t.teamId]!.sent ? (
-                  <p className="text-sm font-bold text-green-600 text-center">✓ Email sent with PDF attached!</p>
-                ) : (
-                  <div className="space-y-3">
-                    <p className="text-xs font-bold text-navy/50 uppercase tracking-wide">Send to</p>
-                    {/* Manager radio buttons */}
-                    {t.coaches.filter(c => c.email).map(c => (
-                      <label key={c.childId} className="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name={`email-target-${t.teamId}`}
-                          checked={emailForms[t.teamId]!.mode === "manager" && emailForms[t.teamId]!.selectedId === c.childId}
-                          onChange={() => setEmailForms(prev => ({ ...prev, [t.teamId]: { ...prev[t.teamId]!, mode: "manager", selectedId: c.childId } }))}
-                          className="accent-[#e63946]" />
-                        <span className="text-sm font-medium text-navy">{c.name}</span>
-                      </label>
-                    ))}
-                    {/* Custom email option */}
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="radio" name={`email-target-${t.teamId}`}
-                        checked={emailForms[t.teamId]!.mode === "custom"}
-                        onChange={() => setEmailForms(prev => ({ ...prev, [t.teamId]: { ...prev[t.teamId]!, mode: "custom", selectedId: null } }))}
-                        className="accent-[#e63946]" />
-                      <span className="text-sm font-medium text-navy">Other</span>
-                    </label>
-                    {emailForms[t.teamId]!.mode === "custom" && (
-                      <div className="flex flex-wrap gap-3 pl-5">
-                        <input type="text" placeholder="First name" value={emailForms[t.teamId]!.firstName}
-                          onChange={e => setEmailForms(prev => ({ ...prev, [t.teamId]: { ...prev[t.teamId]!, firstName: e.target.value } }))}
-                          className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-36 focus:outline-none focus:border-navy" />
-                        <input type="email" placeholder="Email address" value={emailForms[t.teamId]!.email}
-                          onChange={e => setEmailForms(prev => ({ ...prev, [t.teamId]: { ...prev[t.teamId]!, email: e.target.value } }))}
-                          className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-52 focus:outline-none focus:border-navy" />
-                      </div>
-                    )}
-                    <button onClick={() => sendEmail(t)} disabled={emailForms[t.teamId]!.sending || !resolvedRecipient(t, emailForms[t.teamId]!).email}
-                      className="text-sm font-bold bg-[#e63946] text-white px-5 py-2 rounded-xl disabled:opacity-40 hover:bg-[#c1121f] transition-colors">
-                      {emailForms[t.teamId]!.sending ? "Sending…" : "Send PDF"}
-                    </button>
-                  </div>
+      {emailForm && (
+        <div className="px-5 py-4 bg-red-50 border-b border-red-100">
+          {emailForm.sent ? (
+            <p className="text-sm font-bold text-green-600">✓ Email sent!</p>
+          ) : (
+            <div className="space-y-2">
+              <p className="text-xs font-bold text-navy/50 uppercase tracking-wide">Send to</p>
+              {t.coaches.filter(c => c.email).map(c => (
+                <label key={c.childId} className="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name={`email-${t.teamId}`}
+                    checked={emailForm.mode === "manager" && emailForm.selectedId === c.childId}
+                    onChange={() => setEmailForm(f => f ? { ...f, mode: "manager", selectedId: c.childId } : f)}
+                    className="accent-[#e63946]" />
+                  <span className="text-sm text-navy">{c.name}</span>
+                </label>
+              ))}
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name={`email-${t.teamId}`}
+                  checked={emailForm.mode === "custom"}
+                  onChange={() => setEmailForm(f => f ? { ...f, mode: "custom", selectedId: null } : f)}
+                  className="accent-[#e63946]" />
+                <span className="text-sm text-navy">Other</span>
+              </label>
+              {emailForm.mode === "custom" && (
+                <div className="flex flex-wrap gap-2 pl-5">
+                  <input type="text" placeholder="First name" value={emailForm.firstName}
+                    onChange={e => setEmailForm(f => f ? { ...f, firstName: e.target.value } : f)}
+                    className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-32 focus:outline-none focus:border-navy" />
+                  <input type="email" placeholder="Email address" value={emailForm.email}
+                    onChange={e => setEmailForm(f => f ? { ...f, email: e.target.value } : f)}
+                    className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-48 focus:outline-none focus:border-navy" />
+                </div>
+              )}
+              <button onClick={sendEmailPlan}
+                disabled={emailForm.sending || !resolvedRecipient(emailForm).email}
+                className="text-sm font-bold bg-[#e63946] text-white px-4 py-1.5 rounded-lg disabled:opacity-40 hover:bg-[#c1121f] transition-colors">
+                {emailForm.sending ? "Sending..." : "Send"}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      <div className="divide-y divide-gray-50">
+        {CHECKLIST_ITEMS.map(item => {
+          const done = isChecked(item);
+          return (
+            <div key={item.key} className="flex items-center gap-3 px-5 py-2.5">
+              <span className="w-5 text-center text-xs text-gray-300 font-bold shrink-0">{item.num}</span>
+              <div className="flex-1 flex items-center gap-2 flex-wrap min-w-0">
+                <span className={`text-sm ${done ? "text-navy font-semibold" : "text-navy/50"}`}>{item.label}</span>
+                {item.auto && <span className="text-[10px] bg-gray-100 text-gray-400 px-1.5 py-0.5 rounded font-bold">auto</span>}
+                {item.link && !item.auto && (
+                  <a href={item.link} target="_blank" rel="noopener noreferrer"
+                    className="text-[10px] text-blue-500 hover:text-blue-700 font-bold">Go</a>
                 )}
               </div>
-            )}
-
-            {/* Numeric goals */}
-            <div className="flex flex-wrap gap-6 mb-5 pb-5 border-b border-gray-100">
-              <div>
-                <label className="text-xs font-bold text-navy/50 uppercase tracking-wide block mb-1">Participation Goal</label>
-                <div className="flex items-center gap-1">
-                  <input type="number" min="0" max="100" value={g.participationGoal}
-                    onChange={e => setNumericGoal(t.teamId, "participationGoal", e.target.value)}
-                    className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-20 focus:outline-none focus:border-navy" placeholder="—" />
-                  <span className="text-sm font-bold text-navy">%</span>
-                </div>
-              </div>
-              <div>
-                <label className="text-xs font-bold text-navy/50 uppercase tracking-wide block mb-1">Avg Videos / Player / Month</label>
-                <div className="flex items-center gap-1">
-                  <input type="number" min="0" value={g.videosPerPlayerGoal}
-                    onChange={e => setNumericGoal(t.teamId, "videosPerPlayerGoal", e.target.value)}
-                    className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-20 focus:outline-none focus:border-navy" placeholder="—" />
-                  <span className="text-sm text-navy/50">videos</span>
-                </div>
+              <div className="shrink-0">
+                {item.auto ? (
+                  <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black ${done ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-300"}`}>
+                    {done ? "✓" : "○"}
+                  </span>
+                ) : (
+                  <button onClick={() => toggle(item.key)}
+                    title={done ? "Click to unmark" : "Click to mark done"}
+                    className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black transition-colors ${done ? "bg-green-100 text-green-600 hover:bg-red-50 hover:text-red-400" : "bg-gray-100 text-gray-300 hover:bg-green-50 hover:text-green-500"}`}>
+                    {done ? "✓" : "○"}
+                  </button>
+                )}
               </div>
             </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
-            {/* 4-week plan */}
-            <div className="text-xs font-bold text-navy/50 uppercase tracking-wide mb-3">4-Week Coaching Plan</div>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {([
-                ["hasHomework", "demoApp"],
-                ["sendEmailReminder", "hasPersonalGoal"],
-                ["hasChallenge", "personalChallenge"],
-                ["playerRecognition"],
-              ] as string[][]).map((recommended, wi) => {
-                // Hide tasks already checked in another week
-                const visibleTasks = COACH_TASKS.filter(task =>
-                  !g.weeklyPlan.some((week, idx) => idx !== wi && week.includes(task.key))
-                );
-                // Group consecutive tasks by type: recommended, optional, or normal
-                type GroupType = "rec" | "opt" | "normal";
-                type Group = { type: GroupType; tasks: typeof COACH_TASKS[number][] };
-                const groups: Group[] = [];
-                for (const task of visibleTasks) {
-                  const type: GroupType = recommended.includes(task.key) ? "rec"
-                    : ("optional" in task && (task as { optional?: boolean }).optional) ? "opt"
-                    : "normal";
-                  if (!groups.length || groups[groups.length - 1].type !== type) {
-                    groups.push({ type, tasks: [task] });
-                  } else {
-                    groups[groups.length - 1].tasks.push(task);
-                  }
-                }
-                return (
-                  <div key={wi} className="border-2 border-gray-100 rounded-xl p-3">
-                    <div className="text-xs font-black text-navy mb-2">Week {wi + 1}</div>
-                    <div className="space-y-1.5">
-                      {groups.map((group, gi) => {
-                        const taskRows = group.tasks.map(task => {
-                          const checked = g.weeklyPlan[wi]?.includes(task.key) ?? false;
-                          const example = "example" in task ? (task as { example?: string }).example : undefined;
-                          return (
-                            <div key={task.key}>
-                              <label className="flex items-center gap-2 cursor-pointer group">
-                                <input type="checkbox" checked={checked}
-                                  onChange={() => toggleTask(t.teamId, wi, task.key)}
-                                  className="accent-navy w-3.5 h-3.5 shrink-0 cursor-pointer" />
-                                <span className={`text-xs leading-tight ${checked ? "text-navy font-semibold" : "text-navy/50"} group-hover:text-navy transition-colors`}>
-                                  {task.label}
-                                </span>
-                              </label>
-                              {example && (
-                                <p className="ml-5 mt-0.5 text-[10px] italic text-navy/35 leading-tight">{example}</p>
-                              )}
-                            </div>
-                          );
-                        });
-                        if (group.type === "rec") return (
-                          <div key={gi} className="bg-blue-50 rounded-lg px-2 py-1.5 space-y-1.5">
-                            {taskRows}
-                            <div className="text-[10px] text-blue-400 font-bold uppercase tracking-wide pt-0.5">Recommended</div>
-                          </div>
-                        );
-                        if (group.type === "opt") return (
-                          <div key={gi} className="bg-amber-50 rounded-lg px-2 py-1.5 space-y-1.5">
-                            {taskRows}
-                            <div className="text-[10px] text-amber-400 font-bold uppercase tracking-wide pt-0.5">Optional</div>
-                          </div>
-                        );
-                        return <div key={gi} className="space-y-1.5">{taskRows}</div>;
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        );
-      })}
+function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: any[]; period: string; teams: Team[]; onUpdate: GoalsPanelProps["onUpdate"] }) {
+  const [showHowTo, setShowHowTo] = useState(false);
+  if (!teams.length) return null;
+  return (
+    <div className="space-y-4">
+      {teams.map(t => <CoachCard key={t.teamId} t={t} period={period} />)}
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <button onClick={() => setShowHowTo(h => !h)}
+          className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50 transition-colors">
+          <span className="font-black text-navy text-sm">How to Increase Engagement</span>
+          <span className="text-navy/30 text-xs">{showHowTo ? "▴" : "▾"}</span>
+        </button>
+        {showHowTo && <HowToContent />}
+      </div>
     </div>
   );
 }
@@ -739,10 +492,10 @@ function CoachRankingTable({ ranking, period }: { ranking: ReturnType<typeof Arr
       {/* Mobile column cycler */}
       <div className="sm:hidden flex items-center gap-2 px-4 pt-3 pb-2">
         <button onClick={() => setMobileCol(i => (i - 1 + extraCols.length) % extraCols.length)}
-          className="w-7 h-7 flex items-center justify-center rounded-lg border-2 border-gray-200 text-navy/60 font-bold hover:border-navy/40 transition-colors text-sm">‹</button>
+          className="w-7 h-7 flex items-center justify-center rounded-lg border-2 border-gray-200 text-navy/60 font-bold hover:border-navy/40 transition-colors text-sm">â€¹</button>
         <span className="flex-1 text-center text-xs font-bold text-navy truncate">{activeCol.label}</span>
         <button onClick={() => setMobileCol(i => (i + 1) % extraCols.length)}
-          className="w-7 h-7 flex items-center justify-center rounded-lg border-2 border-gray-200 text-navy/60 font-bold hover:border-navy/40 transition-colors text-sm">›</button>
+          className="w-7 h-7 flex items-center justify-center rounded-lg border-2 border-gray-200 text-navy/60 font-bold hover:border-navy/40 transition-colors text-sm">â€º</button>
       </div>
       <table className="w-full text-sm">
         <thead>
@@ -801,7 +554,7 @@ function TeamSection({ t, teamPlayers, period, forceOpen }: { t: Team; teamPlaye
         className="w-full bg-navy/5 border-b border-gray-100 px-5 py-3 text-left hover:bg-navy/10 transition-colors"
       >
         <div className="flex items-center gap-2">
-          <span className="text-navy/40 text-xs">{isOpen ? "▾" : "▸"}</span>
+          <span className="text-navy/40 text-xs">{isOpen ? "â–¾" : "â–¸"}</span>
           <span className="font-black text-navy text-sm">{t.teamName}</span>
           {t.createdAt && <span className="text-xs text-gray-400">({formatDate(t.createdAt)})</span>}
         </div>
@@ -1028,7 +781,7 @@ export default function TeamReportPage() {
       <div className="bg-navy text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-black uppercase tracking-tight">DOC Team Report</h1>
-          <p className="text-white/60 text-sm mt-1">Director of Coaching dashboard — coach rankings &amp; player engagement</p>
+          <p className="text-white/60 text-sm mt-1">Director of Coaching dashboard â€” coach rankings &amp; player engagement</p>
         </div>
       </div>
 
@@ -1060,7 +813,7 @@ export default function TeamReportPage() {
               {teams.map(t => (
                 <span key={t.teamId} className="inline-flex items-center gap-1.5 bg-navy/10 text-navy text-xs font-bold px-3 py-1.5 rounded-full">
                   {t.teamName}
-                  <button onClick={() => removeTeam(t.teamId)} className="hover:text-red transition-colors text-navy/50 ml-0.5">✕</button>
+                  <button onClick={() => removeTeam(t.teamId)} className="hover:text-red transition-colors text-navy/50 ml-0.5">âœ•</button>
                 </span>
               ))}
             </div>
@@ -1105,7 +858,7 @@ export default function TeamReportPage() {
           )}
         </div>
 
-        {/* Period pills — player engagement only */}
+        {/* Period pills â€” player engagement only */}
         {!showGoals && (
           <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm mb-4 w-fit">
             {(["week", "month", "year", "alltime"] as const).map(p => (
@@ -1129,13 +882,13 @@ export default function TeamReportPage() {
         {false && (() => {
           const HOW_TO_STEPS = [
             { key: "homework", badge: "1", badgeBg: "bg-navy", badgeText: "text-white", title: "Assign Homework", type: "core",
-              how: "Go to your coach's board. Pick the skill areas and folders you want to assign. We recommend keeping it simple — start with 30-day plans or the first folders in the full curriculum. Then next month, assign one of the recurring plans such as the Skill Builder Plan. If you have any questions, email megan@anytime-soccer.com.",
+              how: "Go to your coach's board. Pick the skill areas and folders you want to assign. We recommend keeping it simple â€” start with 30-day plans or the first folders in the full curriculum. Then next month, assign one of the recurring plans such as the Skill Builder Plan. If you have any questions, email megan@anytime-soccer.com.",
               when: "Do this immediately upon creating the team. You have to show the kids this is important.",
-              where: "The coach's board is in the app — log in at app.anytime-soccer.com and you'll find it in the main navigation.",
-              why: "Players who receive homework train 3× more often than those who don't. Assign it at the start of each week so players know exactly what to work on.",
+              where: "The coach's board is in the app â€” log in at app.anytime-soccer.com and you'll find it in the main navigation.",
+              why: "Players who receive homework train 3Ã— more often than those who don't. Assign it at the start of each week so players know exactly what to work on.",
               tip: "Not sure where to start? Email neil@anytime-soccer.com and he will assign your first homework on your behalf." },
             { key: "demo", badge: "2", badgeBg: "bg-navy", badgeText: "text-white", title: "Demo App In-Person", type: "core",
-              how: "Pull up the app on your phone at practice. Walk players through finding their homework, logging a video, and checking their stats — live, in 2 minutes.",
+              how: "Pull up the app on your phone at practice. Walk players through finding their homework, logging a video, and checking their stats â€” live, in 2 minutes.",
               when: "First week of the season or at your first team meeting.",
               where: "Announce that you will do a demo, then do it after practice with your phone in hand.",
               why: "Seeing it live removes all friction. A quick in-person demo gets more players active than any email or link you can send.",
@@ -1153,34 +906,34 @@ export default function TeamReportPage() {
               why: "Players with personal goals are significantly more likely to stay active all season. Goals create internal motivation that outlasts any external push.",
               tip: undefined },
             { key: "recognition", badge: "5", badgeBg: "bg-navy", badgeText: "text-white", title: "Give Player Recognition", type: "core",
-              how: "At practice, call out one player who trained at home that week. Be specific — mention what you noticed in their footwork or touches.",
+              how: "At practice, call out one player who trained at home that week. Be specific â€” mention what you noticed in their footwork or touches.",
               when: "Once per week at practice, consistently every week.",
               where: "In front of the whole team at practice.",
               why: "Public recognition tells every player that home training gets noticed. It's the fastest way to build a training culture that lasts.",
-              tip: "Something as simple as letting a player be team captain for the day or pick teams in a scrimmage is all it takes to fuel a kid's motivation — the recognition doesn't have to be big to be powerful." },
+              tip: "Something as simple as letting a player be team captain for the day or pick teams in a scrimmage is all it takes to fuel a kid's motivation â€” the recognition doesn't have to be big to be powerful." },
             { key: "challenge", badge: "6", badgeBg: "bg-navy", badgeText: "text-white", title: "Create Coach's Challenge", type: "rec",
-              how: "Create a weekly challenge in the app for your team — set a video-count target that everyone competes toward.",
-              when: "Set it once — after that it's recurring.",
+              how: "Create a weekly challenge in the app for your team â€” set a video-count target that everyone competes toward.",
+              when: "Set it once â€” after that it's recurring.",
               where: "From the **Team Hub**, click **Coach's Challenge** in the dropdown.",
               why: "Competition drives consistency. Players who are competing check back daily instead of training once and forgetting.",
               tip: undefined },
             { key: "personalChallenge", badge: "7", badgeBg: "bg-navy", badgeText: "text-white", title: "Create a Personal Challenge", type: "rec",
-              how: "Set up a challenge just for one player — give them a specific target to hit on their own, separate from the team challenge.",
+              how: "Set up a challenge just for one player â€” give them a specific target to hit on their own, separate from the team challenge.",
               when: "Any time you want to give an individual player extra motivation.",
               where: "From the **Team Hub**, click **Coach's Challenge** in the dropdown and assign it to a single player.",
               why: "Personal challenges meet players where they are. A tailored goal feels more achievable and more meaningful than a group target.",
               tip: undefined },
             { key: "contest", badge: "8", badgeBg: "bg-navy", badgeText: "text-white", title: "Create a Team Contest", type: "opt",
-              how: "Set up a season-long leaderboard contest with a prize for the top trainer — pizza party, gear, or a team trophy.",
+              how: "Set up a season-long leaderboard contest with a prize for the top trainer â€” pizza party, gear, or a team trophy.",
               when: "Near the beginning of the season, once everyone becomes familiar with the app.",
               where: "From the **Team Hub**, click **Team Contest** in the dropdown.",
               why: "A team contest gives players a reason to stay consistent all season, not just in week one. It turns training into an ongoing game.",
               tip: undefined },
             { key: "levelgoal", badge: "9", badgeBg: "bg-navy", badgeText: "text-white", title: "Set a Team Level Goal", type: "opt",
-              how: "Go to your **Roster** and set a collective milestone for the team — e.g. \"log 1,000 videos this season.\" The more videos your team logs, the higher your team level climbs. Every level earns your team a new professional club name.",
+              how: "Go to your **Roster** and set a collective milestone for the team â€” e.g. \"log 1,000 videos this season.\" The more videos your team logs, the higher your team level climbs. Every level earns your team a new professional club name.",
               when: "When the team is created.",
               where: "In the **Roster**.",
-              why: "Shared goals create team ownership. Players encourage each other and feel responsible for the collective result, not just their own training — and kids love reaching new levels.",
+              why: "Shared goals create team ownership. Players encourage each other and feel responsible for the collective result, not just their own training â€” and kids love reaching new levels.",
               tip: undefined },
           ];
           const visible = howToFilter ? HOW_TO_STEPS.filter(s => s.key === howToFilter) : HOW_TO_STEPS;
@@ -1218,7 +971,7 @@ export default function TeamReportPage() {
                           className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left">
                           <span className={`w-7 h-7 rounded-full ${s.badgeBg} ${s.badgeText} text-xs font-black flex items-center justify-center shrink-0`}>{s.badge}</span>
                           <span className="text-sm font-black text-navy flex-1">{s.title}</span>
-                          <span className="text-navy/30 text-xs">{open ? "▴" : "▾"}</span>
+                          <span className="text-navy/30 text-xs">{open ? "â–´" : "â–¾"}</span>
                         </button>
                         {open && (
                           <div className="px-4 pb-4 pt-1 space-y-3 border-t border-gray-100">
@@ -1237,7 +990,7 @@ export default function TeamReportPage() {
                             ))}
                             {s.tip && (
                               <div className="mt-2 flex gap-2 bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-3">
-                                <span className="text-yellow-500 text-sm shrink-0">💡</span>
+                                <span className="text-yellow-500 text-sm shrink-0">ðŸ’¡</span>
                                 <p className="text-sm text-yellow-800 leading-relaxed"><span className="font-black">Pro Tip:</span> {s.tip}</p>
                               </div>
                             )}
