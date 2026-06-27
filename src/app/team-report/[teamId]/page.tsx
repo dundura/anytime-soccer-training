@@ -397,6 +397,10 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
           </div>
         )}
         <div className="flex items-center gap-4 px-4 py-3 border-b border-dashed border-gray-200 bg-gray-50/40 flex-wrap">
+          <span className="text-[10px] font-bold text-navy/30 uppercase tracking-widest shrink-0">AST Benchmarks</span>
+          <span className="text-xs text-gray-500"><span className="font-bold text-navy">75%</span> participation</span>
+          <span className="text-xs text-gray-500"><span className="font-bold text-navy">7/10</span> coach engagement</span>
+          <span className="text-xs text-gray-500"><span className="font-bold text-navy">35</span> videos/mo per player</span>
           <div className="ml-auto flex items-center gap-2">
             <select
               value={actionTeamId ?? ""}
