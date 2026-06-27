@@ -363,7 +363,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
 
   return (
     <div className="space-y-4">
-      <div className="bg-white rounded-xl shadow-sm overflow-x-auto">
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
         {teams.length > PAGE_SIZE && (
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
             <div className="flex items-center gap-2">
@@ -389,8 +389,8 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
             >{showAll ? "Show less" : `Show all ${teams.length}`}</button>
           </div>
         )}
-        <div className="flex items-stretch">
-        <div className="overflow-x-auto flex-1">
+        <div className="flex items-start">
+        <div className="overflow-x-auto flex-1 min-w-0">
         <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="border-b-2 border-gray-100">
