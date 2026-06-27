@@ -166,15 +166,16 @@ function SlugEditor({ team, onUpdate }: { team: Team; onUpdate: (slug: string) =
 }
 
 const CHECKLIST_ITEMS: Array<{ num: number; key: string; label: string; auto: boolean; link?: string }> = [
-  { num: 1,  key: "hasHomework",          label: "Assign Homework",                     auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=coach-board" },
-  { num: 2,  key: "eng_demo",             label: "Demo App In-Person",                  auto: false },
-  { num: 3,  key: "hasPersonalGoal",      label: "Set Player Goals",                    auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=players" },
-  { num: 4,  key: "hasChallenge",         label: "Create Coach's Challenge",            auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=challenge" },
-  { num: 5,  key: "eng_personal_challenge", label: "Create a Personal Challenge",       auto: false },
-  { num: 6,  key: "hasContest",           label: "Create a Team Contest",               auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=contest" },
-  { num: 7,  key: "eng_level_goal",       label: "Set Team Level Goal",                 auto: false },
-  { num: 8,  key: "eng_recognition",      label: "Give Player Recognition in Practice", auto: false },
-  { num: 9,  key: "eng_mvp",              label: "Nominate an MVP",                     auto: false },
+  { num: 1,  key: "hasHomework",            label: "Assign Homework",                     auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=coach-board" },
+  { num: 2,  key: "eng_email_reminder",    label: "Send Email Reminder",                 auto: false },
+  { num: 3,  key: "eng_demo",              label: "Demo App In-Person",                  auto: false },
+  { num: 4,  key: "hasPersonalGoal",       label: "Set Player Goals",                    auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=players" },
+  { num: 5,  key: "hasChallenge",          label: "Create Coach's Challenge",            auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=challenge" },
+  { num: 6,  key: "eng_personal_challenge", label: "Create a Personal Challenge",       auto: false },
+  { num: 7,  key: "hasContest",            label: "Create a Team Contest",               auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=contest" },
+  { num: 8,  key: "eng_level_goal",        label: "Set Team Level Goal",                 auto: false },
+  { num: 9,  key: "eng_recognition",       label: "Give Player Recognition in Practice", auto: false },
+  { num: 10, key: "eng_mvp",               label: "Nominate an MVP",                     auto: false },
 ];
 
 function HowToContent() {
