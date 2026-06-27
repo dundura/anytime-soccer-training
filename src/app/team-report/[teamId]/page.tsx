@@ -499,7 +499,6 @@ function CoachEngagementView({ ranking, period, teams, onUpdate, showGoals, onSh
                         <div className="flex flex-col items-center gap-0.5">
                           <span className="text-xs font-black text-navy/40">{item.num}</span>
                           <span className="text-[9px] font-semibold text-navy/40 leading-tight text-center px-0.5">{item.label}</span>
-                          {item.auto && <span className="text-[8px] bg-gray-100 text-navy/30 rounded px-1 font-bold leading-tight">A</span>}
                         </div>
                       </th>
                     ))}
