@@ -397,19 +397,6 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
           </div>
         )}
         <div className="flex items-center gap-4 px-4 py-3 border-b border-dashed border-gray-200 bg-gray-50/40 flex-wrap">
-          <span className="text-[10px] font-bold text-navy/30 uppercase tracking-widest shrink-0">Goals</span>
-          <div className="flex items-center gap-1.5">
-            <input type="number" min="0" max="100" value={goals.participation} onChange={e => saveGoal("participation", e.target.value)}
-              placeholder="70"
-              className="w-12 text-center border-2 border-gray-200 rounded-lg px-1 py-1 text-sm font-bold text-navy focus:outline-none focus:border-navy" />
-            <span className="text-xs text-gray-400">% participation</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <input type="number" min="0" value={goals.videosPerMonth} onChange={e => saveGoal("videosPerMonth", e.target.value)}
-              placeholder="8"
-              className="w-12 text-center border-2 border-gray-200 rounded-lg px-1 py-1 text-sm font-bold text-navy focus:outline-none focus:border-navy" />
-            <span className="text-xs text-gray-400">vid/mo avg/player</span>
-          </div>
           <div className="ml-auto flex items-center gap-2">
             <select
               value={actionTeamId ?? ""}
