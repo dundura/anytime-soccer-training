@@ -303,26 +303,16 @@ type GoalsPanelProps = {
 
 type EmailForm = { mode: "manager" | "custom"; selectedId: number | null; firstName: string; email: string; sending: boolean; sent: boolean };
 
-function CoachCard({ t, period }: { t: Team; period: string }) {
-  const [manual, setManual] = useState<Record<string, boolean>>(() => {
-    try { return JSON.parse(localStorage.getItem(`coach-checklist-${t.teamId}`) || "{}"); } catch { return {}; }
-  });
-  const [emailForm, setEmailForm] = useState<EmailForm | null>(null);
+function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: any[]; period: string; teams: Team[]; onUpdate: GoalsPanelProps["onUpdate"] }) {
+  const [emailForms, setEmailForms] = useState<Record<number, EmailForm | null>>({});
+  const [showHowTo, setShowHowTo] = useState(false);
 
-  const toggle = (key: string) => {
-    const next = { ...manual, [key]: !manual[key] };
-    setManual(next);
-    localStorage.setItem(`coach-checklist-${t.teamId}`, JSON.stringify(next));
-  };
-
-  const isChecked = (item: (typeof CHECKLIST_ITEMS)[number]) => {
+  const isChecked = (t: Team, item: (typeof CHECKLIST_ITEMS)[number]) => {
     if (item.auto) return !!(t.engagementBreakdown as unknown as Record<string, number>)[item.key];
-    return !!manual[item.key];
+    return false;
   };
 
-  const doneCount = CHECKLIST_ITEMS.filter(item => isChecked(item)).length;
-
-  const resolvedRecipient = (form: EmailForm) => {
+  const resolvedRecipient = (t: Team, form: EmailForm) => {
     if (form.mode === "manager" && form.selectedId != null) {
       const coach = t.coaches.find(c => c.childId === form.selectedId);
       return { firstName: coach?.name?.split(" ")[0] || "", email: (coach as any)?.email || "" };
@@ -330,11 +320,12 @@ function CoachCard({ t, period }: { t: Team; period: string }) {
     return { firstName: form.firstName, email: form.email };
   };
 
-  const sendEmailPlan = async () => {
-    if (!emailForm) return;
-    const { firstName, email } = resolvedRecipient(emailForm);
+  const sendEmailPlan = async (t: Team) => {
+    const form = emailForms[t.teamId];
+    if (!form) return;
+    const { firstName, email } = resolvedRecipient(t, form);
     if (!email) return;
-    setEmailForm(f => f ? { ...f, sending: true } : f);
+    setEmailForms(f => ({ ...f, [t.teamId]: { ...form, sending: true } }));
     try {
       const res = await fetch(`${API}/${t.teamId}/email`, {
         method: "POST",
@@ -342,124 +333,121 @@ function CoachCard({ t, period }: { t: Team; period: string }) {
         body: JSON.stringify({ firstName, email, period }),
       });
       if (!res.ok) throw new Error(await res.text());
-      setEmailForm(f => f ? { ...f, sending: false, sent: true } : f);
-      setTimeout(() => setEmailForm(null), 3000);
+      setEmailForms(f => ({ ...f, [t.teamId]: { ...form, sending: false, sent: true } }));
+      setTimeout(() => setEmailForms(f => ({ ...f, [t.teamId]: null })), 3000);
     } catch (err) {
       alert(`Failed to send: ${err instanceof Error ? err.message : "Server error"}`);
-      setEmailForm(f => f ? { ...f, sending: false } : f);
+      setEmailForms(f => ({ ...f, [t.teamId]: { ...form, sending: false } }));
     }
   };
 
-  return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-      <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-gray-100">
-        <div>
-          <div className="font-black text-navy">{t.teamName}</div>
-          <div className="text-xs text-gray-400 mt-0.5">
-            <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>
-            {" "}participation &middot; <span className="font-semibold text-navy">{doneCount}/{CHECKLIST_ITEMS.length}</span> steps done
-          </div>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={() => setEmailForm(f => f ? null : { mode: "manager", selectedId: t.coaches[0]?.childId ?? null, firstName: "", email: "", sending: false, sent: false })}
-            className="text-sm font-bold border-2 border-[#e63946] text-[#e63946] px-3 py-1.5 rounded-lg hover:bg-[#e63946]/5 transition-colors"
-          >✉ Send Plan</button>
-          <button
-            onClick={() => {
-              const manualDone = Object.keys(manual).filter(k => manual[k]).join(',');
-              const url = `${API}/${t.teamId}/pdf?period=${period}${manualDone ? '&checklist=' + manualDone : ''}`;
-              window.open(url, "_blank");
-            }}
-            className="text-sm font-bold border-2 border-gray-200 text-navy/60 px-3 py-1.5 rounded-lg hover:border-navy/40 hover:text-navy transition-colors"
-          >↓ PDF</button>
-        </div>
-      </div>
+  if (!teams.length) return null;
 
-      {emailForm && (
-        <div className="px-5 py-4 bg-red-50 border-b border-red-100">
-          {emailForm.sent ? (
-            <p className="text-sm font-bold text-green-600">✓ Email sent!</p>
-          ) : (
-            <div className="space-y-2">
-              <p className="text-xs font-bold text-navy/50 uppercase tracking-wide">Send to</p>
-              {t.coaches.filter(c => c.email).map(c => (
-                <label key={c.childId} className="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name={`email-${t.teamId}`}
-                    checked={emailForm.mode === "manager" && emailForm.selectedId === c.childId}
-                    onChange={() => setEmailForm(f => f ? { ...f, mode: "manager", selectedId: c.childId } : f)}
-                    className="accent-[#e63946]" />
-                  <span className="text-sm text-navy">{c.name}</span>
-                </label>
-              ))}
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name={`email-${t.teamId}`}
-                  checked={emailForm.mode === "custom"}
-                  onChange={() => setEmailForm(f => f ? { ...f, mode: "custom", selectedId: null } : f)}
-                  className="accent-[#e63946]" />
-                <span className="text-sm text-navy">Other</span>
-              </label>
-              {emailForm.mode === "custom" && (
-                <div className="flex flex-wrap gap-2 pl-5">
-                  <input type="text" placeholder="First name" value={emailForm.firstName}
-                    onChange={e => setEmailForm(f => f ? { ...f, firstName: e.target.value } : f)}
-                    className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-32 focus:outline-none focus:border-navy" />
-                  <input type="email" placeholder="Email address" value={emailForm.email}
-                    onChange={e => setEmailForm(f => f ? { ...f, email: e.target.value } : f)}
-                    className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-48 focus:outline-none focus:border-navy" />
+  return (
+    <div className="space-y-4">
+      <div className="bg-white rounded-xl shadow-sm overflow-x-auto">
+        <table className="w-full text-sm border-collapse">
+          <thead>
+            <tr className="border-b-2 border-gray-100">
+              <th className="px-4 py-4 text-left text-xs font-bold text-navy/40 uppercase tracking-wide" style={{ minWidth: "200px" }}>Step</th>
+              {teams.map(t => {
+                const doneCount = CHECKLIST_ITEMS.filter(item => isChecked(t, item)).length;
+                return (
+                  <th key={t.teamId} className="px-4 py-4 text-center border-l border-gray-100" style={{ minWidth: "140px" }}>
+                    <div className="font-black text-navy text-sm leading-tight">{t.teamName}</div>
+                    <div className="text-xs mt-1">
+                      <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>
+                      <span className="text-gray-400"> · {doneCount}/4 auto</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-1.5 mt-2">
+                      <button
+                        onClick={() => setEmailForms(f => ({ ...f, [t.teamId]: f[t.teamId] ? null : { mode: "manager", selectedId: t.coaches[0]?.childId ?? null, firstName: "", email: "", sending: false, sent: false } }))}
+                        className="text-xs font-bold border-2 border-[#e63946] text-[#e63946] px-2 py-1 rounded-lg hover:bg-[#e63946]/5 transition-colors"
+                      >✉</button>
+                      <button
+                        onClick={() => window.open(`${API}/${t.teamId}/pdf?period=${period}`, "_blank")}
+                        className="text-xs font-bold border-2 border-gray-200 text-navy/60 px-2 py-1 rounded-lg hover:border-navy/40 hover:text-navy transition-colors"
+                      >↓ PDF</button>
+                    </div>
+                  </th>
+                );
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {CHECKLIST_ITEMS.map((item, i) => (
+              <tr key={item.key} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/60"}>
+                <td className="px-4 py-2.5 border-b border-gray-50">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] text-gray-300 font-bold w-4 shrink-0">{item.num}</span>
+                    <span className={`text-sm ${item.auto ? "text-navy/70" : "text-navy/40"}`}>{item.label}</span>
+                    {item.auto && <span className="text-[9px] bg-gray-100 text-gray-400 px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">auto</span>}
+                  </div>
+                </td>
+                {teams.map(t => {
+                  const done = isChecked(t, item);
+                  return (
+                    <td key={t.teamId} className="px-4 py-2.5 border-b border-gray-50 border-l border-l-gray-100 text-center">
+                      <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black ${item.auto ? (done ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-300") : "bg-gray-50 text-gray-200"}`}>
+                        {done ? "✓" : "○"}
+                      </span>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* Email forms */}
+        {teams.map(t => {
+          const form = emailForms[t.teamId];
+          if (!form) return null;
+          return (
+            <div key={t.teamId} className="px-5 py-4 bg-red-50 border-t border-red-100">
+              <p className="text-xs font-black text-navy mb-2">Send plan to — {t.teamName}</p>
+              {form.sent ? (
+                <p className="text-sm font-bold text-green-600">✓ Email sent!</p>
+              ) : (
+                <div className="space-y-2">
+                  {t.coaches.filter(c => c.email).map(c => (
+                    <label key={c.childId} className="flex items-center gap-2 cursor-pointer">
+                      <input type="radio" name={`email-${t.teamId}`}
+                        checked={form.mode === "manager" && form.selectedId === c.childId}
+                        onChange={() => setEmailForms(f => ({ ...f, [t.teamId]: { ...form, mode: "manager", selectedId: c.childId } }))}
+                        className="accent-[#e63946]" />
+                      <span className="text-sm text-navy">{c.name}</span>
+                    </label>
+                  ))}
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name={`email-${t.teamId}`}
+                      checked={form.mode === "custom"}
+                      onChange={() => setEmailForms(f => ({ ...f, [t.teamId]: { ...form, mode: "custom", selectedId: null } }))}
+                      className="accent-[#e63946]" />
+                    <span className="text-sm text-navy">Other</span>
+                  </label>
+                  {form.mode === "custom" && (
+                    <div className="flex flex-wrap gap-2 pl-5">
+                      <input type="text" placeholder="First name" value={form.firstName}
+                        onChange={e => setEmailForms(f => ({ ...f, [t.teamId]: { ...form, firstName: e.target.value } }))}
+                        className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-32 focus:outline-none focus:border-navy" />
+                      <input type="email" placeholder="Email address" value={form.email}
+                        onChange={e => setEmailForms(f => ({ ...f, [t.teamId]: { ...form, email: e.target.value } }))}
+                        className="border-2 border-gray-200 rounded-lg px-3 py-1.5 text-sm w-48 focus:outline-none focus:border-navy" />
+                    </div>
+                  )}
+                  <button onClick={() => sendEmailPlan(t)}
+                    disabled={form.sending || !resolvedRecipient(t, form).email}
+                    className="text-sm font-bold bg-[#e63946] text-white px-4 py-1.5 rounded-lg disabled:opacity-40 hover:bg-[#c1121f] transition-colors">
+                    {form.sending ? "Sending..." : "Send"}
+                  </button>
                 </div>
               )}
-              <button onClick={sendEmailPlan}
-                disabled={emailForm.sending || !resolvedRecipient(emailForm).email}
-                className="text-sm font-bold bg-[#e63946] text-white px-4 py-1.5 rounded-lg disabled:opacity-40 hover:bg-[#c1121f] transition-colors">
-                {emailForm.sending ? "Sending..." : "Send"}
-              </button>
-            </div>
-          )}
-        </div>
-      )}
-
-      <div className="divide-y divide-gray-50">
-        {CHECKLIST_ITEMS.map(item => {
-          const done = isChecked(item);
-          return (
-            <div key={item.key} className="flex items-center gap-3 px-5 py-2.5">
-              <span className="w-5 text-center text-xs text-gray-300 font-bold shrink-0">{item.num}</span>
-              <div className="flex-1 flex items-center gap-2 flex-wrap min-w-0">
-                <span className={`text-sm ${done ? "text-navy font-semibold" : "text-navy/50"}`}>{item.label}</span>
-                {item.auto && <span className="text-[10px] bg-gray-100 text-gray-400 px-1.5 py-0.5 rounded font-bold">auto</span>}
-                {item.link && !item.auto && (
-                  <a href={item.link} target="_blank" rel="noopener noreferrer"
-                    className="text-[10px] text-blue-500 hover:text-blue-700 font-bold">Go</a>
-                )}
-              </div>
-              <div className="shrink-0">
-                {item.auto ? (
-                  <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black ${done ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-300"}`}>
-                    {done ? "✓" : "○"}
-                  </span>
-                ) : (
-                  <button onClick={() => toggle(item.key)}
-                    title={done ? "Click to unmark" : "Click to mark done"}
-                    className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black transition-colors ${done ? "bg-green-100 text-green-600 hover:bg-red-50 hover:text-red-400" : "bg-gray-100 text-gray-300 hover:bg-green-50 hover:text-green-500"}`}>
-                    {done ? "✓" : "○"}
-                  </button>
-                )}
-              </div>
             </div>
           );
         })}
       </div>
-    </div>
-  );
-}
 
-function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: any[]; period: string; teams: Team[]; onUpdate: GoalsPanelProps["onUpdate"] }) {
-  const [showHowTo, setShowHowTo] = useState(false);
-  if (!teams.length) return null;
-  return (
-    <div className="space-y-4">
-      {teams.map(t => <CoachCard key={t.teamId} t={t} period={period} />)}
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
         <button onClick={() => setShowHowTo(h => !h)}
           className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50 transition-colors">
@@ -471,7 +459,6 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
     </div>
   );
 }
-
 function CoachRankingTable({ ranking, period }: { ranking: ReturnType<typeof Array.prototype.map>; period: string }) {
   const periodLabel = period === "week" ? "This Week" : period === "month" ? "Month" : period === "year" ? "Year" : "All Time";
   const extraCols = [
