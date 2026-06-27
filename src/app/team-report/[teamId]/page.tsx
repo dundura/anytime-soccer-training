@@ -396,11 +396,26 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
             >{showAll ? "Show less" : `Show all ${teams.length}`}</button>
           </div>
         )}
-        <div className="flex items-center gap-4 px-4 py-3 border-b border-dashed border-gray-200 bg-gray-50/40 flex-wrap">
-          <span className="text-[10px] font-bold text-navy/30 uppercase tracking-widest shrink-0">AST Benchmarks</span>
-          <span className="text-xs text-gray-500"><span className="font-bold text-navy">75%</span> participation</span>
-          <span className="text-xs text-gray-500"><span className="font-bold text-navy">7/10</span> coach engagement</span>
-          <span className="text-xs text-gray-500"><span className="font-bold text-navy">35</span> videos/mo per player</span>
+        <div className="flex items-center gap-2 px-4 py-3 border-b border-dashed border-gray-200 bg-gray-50/40 flex-wrap">
+          <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm">
+            <button
+              onClick={() => { const next = !showGoals; setShowGoals(next); setShowHowTo(false); const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0); router.replace(buildParams(addedIds, seedId, { view: next ? "goals" : "" }), { scroll: false }); }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${showGoals ? "bg-[#e63946] text-white shadow" : "text-navy/60 hover:text-navy"}`}
+            >Coach Engagement</button>
+            <button
+              onClick={() => { setShowGoals(false); setShowHowTo(false); const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0); router.replace(buildParams(addedIds, seedId, { view: "" }), { scroll: false }); }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${!showGoals && !showHowTo ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"}`}
+            >Player Engagement</button>
+          </div>
+          {teams.length > 1 && (
+            <select value={filterTeam} onChange={e => setFilterTeam(e.target.value)} className="border-2 border-gray-200 rounded-lg px-2 py-1 text-xs font-medium text-navy bg-white focus:outline-none focus:border-navy">
+              <option value="">All Teams</option>
+              {teams.map(t => <option key={t.teamId} value={t.teamId}>{t.teamName}</option>)}
+            </select>
+          )}
+          {!showGoals && (
+            <input type="text" placeholder="Search players..." value={playerSearch} onChange={e => setPlayerSearch(e.target.value)} className="border-2 border-gray-200 rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-navy bg-white w-36" />
+          )}
           <div className="ml-auto flex items-center gap-2">
             <select
               value={actionTeamId ?? ""}
@@ -959,45 +974,7 @@ export default function TeamReportPage() {
           </div>
         </div>
 
-        {/* Single controls row */}
-        <div className="flex flex-wrap items-center gap-2 mb-4">
-          {/* Main view buttons */}
-          <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm">
-            <button
-              onClick={() => { const next = !showGoals; setShowGoals(next); setShowHowTo(false); const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0); router.replace(buildParams(addedIds, seedId, { view: next ? "goals" : "" }), { scroll: false }); }}
-              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${showGoals ? "bg-[#e63946] text-white shadow" : "text-navy/60 hover:text-navy"}`}
-            >
-              Coach Engagement
-            </button>
-            <button
-              onClick={() => { setShowGoals(false); setShowHowTo(false); const seedId = /^\d+$/.test(teamId) ? parseInt(teamId) : (teams[0]?.teamId ?? 0); router.replace(buildParams(addedIds, seedId, { view: "" }), { scroll: false }); }}
-              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${!showGoals && !showHowTo ? "bg-navy text-white shadow" : "text-navy/60 hover:text-navy"}`}
-            >
-              Player Engagement
-            </button>
-          </div>
-
-          {/* Team filter */}
-          {teams.length > 1 && (
-            <select value={filterTeam} onChange={e => setFilterTeam(e.target.value)} className="border-2 border-gray-200 rounded-xl px-3 py-2 text-sm font-medium text-navy bg-white focus:outline-none focus:border-navy">
-              <option value="">All Teams</option>
-              {teams.map(t => <option key={t.teamId} value={t.teamId}>{t.teamName}</option>)}
-            </select>
-          )}
-
-          {/* Player search (player engagement only) */}
-          {!showGoals && (
-            <input
-              type="text"
-              placeholder="Search players..."
-              value={playerSearch}
-              onChange={e => setPlayerSearch(e.target.value)}
-              className="border-2 border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy bg-white w-40"
-            />
-          )}
-        </div>
-
-        {/* Period pills â€” player engagement only */}
+        {/* Period pills — player engagement only */}
         {!showGoals && (
           <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm mb-4 w-fit">
             {(["week", "month", "year", "alltime"] as const).map(p => (
