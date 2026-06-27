@@ -450,7 +450,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                 <button onClick={() => setMobileColIdx(i => (i + 1) % mobileCols.length)}
                   className="w-7 h-7 flex items-center justify-center rounded-lg border-2 border-gray-200 text-navy/60 font-bold hover:border-navy/40 transition-colors text-sm">{">"}</button>
               </div>
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: "none" }}>
               <table className="w-full text-sm border-collapse">
                 <thead>
                   <tr className="border-b-2 border-gray-100">
