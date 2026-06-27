@@ -164,11 +164,11 @@ const CHECKLIST_ITEMS: Array<{ num: number; key: string; label: string; auto: bo
   { num: 3,  key: "demoApp",           label: "Demo App In-Person",                  auto: false },
   { num: 4,  key: "hasPersonalGoal",   label: "Set Player Goals",                    auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=players" },
   { num: 5,  key: "hasChallenge",      label: "Create Coach's Challenge",            auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=challenge" },
-  { num: 6,  key: "personalChallenge", label: "Create a Personal Challenge",         auto: false, link: "https://app.anytime-soccer.com/teams/personal-challenge" },
+  { num: 6,  key: "personalChallenge", label: "Create a Personal Challenge",         auto: false },
   { num: 7,  key: "hasContest",        label: "Create a Team Contest",               auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=contest" },
   { num: 8,  key: "setLevelGoal",      label: "Set Team Level Goal",                 auto: false },
   { num: 9,  key: "recognition",       label: "Give Player Recognition in Practice", auto: false },
-  { num: 10, key: "mvp",               label: "Nominate an MVP ðŸŒŸ",                  auto: false },
+  { num: 10, key: "mvp",               label: "Nominate an MVP",                     auto: false },
 ];
 
 function HowToContent() {
