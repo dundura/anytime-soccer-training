@@ -389,8 +389,22 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
             >{showAll ? "Show less" : `Show all ${teams.length}`}</button>
           </div>
         )}
-        <div className="flex items-start">
-        <div className="overflow-x-auto flex-1 min-w-0">
+        <div className="flex items-center gap-4 px-4 py-3 border-b border-dashed border-gray-200 bg-gray-50/40">
+          <span className="text-[10px] font-bold text-navy/30 uppercase tracking-widest shrink-0">Goals</span>
+          <div className="flex items-center gap-1.5">
+            <input type="number" min="0" max="100" value={goals.participation} onChange={e => saveGoal("participation", e.target.value)}
+              placeholder="70"
+              className="w-12 text-center border-2 border-gray-200 rounded-lg px-1 py-1 text-sm font-bold text-navy focus:outline-none focus:border-navy" />
+            <span className="text-xs text-gray-400">% participation</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <input type="number" min="0" value={goals.videosPerMonth} onChange={e => saveGoal("videosPerMonth", e.target.value)}
+              placeholder="8"
+              className="w-12 text-center border-2 border-gray-200 rounded-lg px-1 py-1 text-sm font-bold text-navy focus:outline-none focus:border-navy" />
+            <span className="text-xs text-gray-400">vid/mo avg/player</span>
+          </div>
+        </div>
+        <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="border-b-2 border-gray-100">
@@ -458,29 +472,6 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
             ))}
           </tbody>
         </table>
-        </div>
-        {/* Goals panel — inline with team headers, outside the scrollable table */}
-        <div className="shrink-0 border-l-2 border-dashed border-gray-200 px-4 py-4 flex flex-col items-center justify-start gap-3" style={{ minWidth: "100px" }}>
-          <div className="text-[10px] font-bold text-navy/30 uppercase tracking-wide">Goals</div>
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-1">
-              <input type="number" min="0" max="100" value={goals.participation} onChange={e => saveGoal("participation", e.target.value)}
-                placeholder="70"
-                className="w-12 text-center border-2 border-gray-200 rounded-lg px-1 py-1 text-sm font-bold text-navy focus:outline-none focus:border-navy" />
-              <span className="text-xs text-gray-400 font-bold">%</span>
-            </div>
-            <div className="text-[9px] text-gray-300 mt-1">participation</div>
-          </div>
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-1">
-              <input type="number" min="0" value={goals.videosPerMonth} onChange={e => saveGoal("videosPerMonth", e.target.value)}
-                placeholder="8"
-                className="w-12 text-center border-2 border-gray-200 rounded-lg px-1 py-1 text-sm font-bold text-navy focus:outline-none focus:border-navy" />
-              <div className="text-xs text-gray-400 font-bold leading-tight text-left">vid<br/>mo</div>
-            </div>
-            <div className="text-[9px] text-gray-300 mt-1">avg/player</div>
-          </div>
-        </div>
         </div>
 
         {/* Email forms */}
