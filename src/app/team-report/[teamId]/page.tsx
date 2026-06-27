@@ -30,6 +30,7 @@ interface EngagementBreakdown {
   hasPersonalGoal: number;
   hasChallenge: number;
   hasHomework: number;
+  hasPersonalChallenge: number;
 }
 
 interface Team {
@@ -164,7 +165,7 @@ const CHECKLIST_ITEMS: Array<{ num: number; key: string; label: string; auto: bo
   { num: 3,  key: "demoApp",           label: "Demo App In-Person",                  auto: false },
   { num: 4,  key: "hasPersonalGoal",   label: "Set Player Goals",                    auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=players" },
   { num: 5,  key: "hasChallenge",      label: "Create Coach's Challenge",            auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=challenge" },
-  { num: 6,  key: "personalChallenge", label: "Create a Personal Challenge",         auto: false },
+  { num: 6,  key: "hasPersonalChallenge", label: "Create a Personal Challenge",       auto: true  },
   { num: 7,  key: "hasContest",        label: "Create a Team Contest",               auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=contest" },
   { num: 8,  key: "setLevelGoal",      label: "Set Team Level Goal",                 auto: false },
   { num: 9,  key: "recognition",       label: "Give Player Recognition in Practice", auto: false },
@@ -357,7 +358,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                     <div className="font-black text-navy text-sm leading-tight">{t.teamName}</div>
                     <div className="text-xs mt-1">
                       <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>
-                      <span className="text-gray-400"> · {doneCount}/4 auto</span>
+                      <span className="text-gray-400"> · {doneCount}/10</span>
                     </div>
                     <div className="flex items-center justify-center gap-1.5 mt-2">
                       <button
