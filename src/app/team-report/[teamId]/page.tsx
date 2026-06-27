@@ -476,7 +476,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                     <th className="hidden sm:table-cell" />
                     <th className="hidden sm:table-cell" />
                     <th className="hidden sm:table-cell px-3 py-1 text-center text-[9px] font-black text-emerald-700 uppercase tracking-widest border-l border-gray-100 bg-emerald-50/70" colSpan={3}>Getting Started</th>
-                    <th className="hidden sm:table-cell px-3 py-1 text-center text-[9px] font-black text-blue-700 uppercase tracking-widest border-l border-gray-100 bg-blue-50/70" colSpan={3}>Promoting Competitions</th>
+                    <th className="hidden sm:table-cell px-3 py-1 text-center text-[9px] font-black text-red-700 uppercase tracking-widest border-l border-gray-100 bg-red-50/70" colSpan={3}>Promoting Competitions</th>
                     <th className="hidden sm:table-cell px-3 py-1 text-center text-[9px] font-black text-purple-700 uppercase tracking-widest border-l border-gray-100 bg-purple-50/70" colSpan={CHECKLIST_ITEMS.length - 6}>Team Culture</th>
                   </tr>
                   <tr className="border-b-2 border-gray-100">
