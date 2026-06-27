@@ -316,6 +316,10 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
     if (typeof window === "undefined") return { participation: "", videosPerMonth: "" };
     try { const s = localStorage.getItem("doc-engagement-goals"); return s ? JSON.parse(s) : { participation: "", videosPerMonth: "" }; } catch { return { participation: "", videosPerMonth: "" }; }
   });
+  const [manualChecked, setManualChecked] = useState<Record<string, boolean>>(() => {
+    if (typeof window === "undefined") return {};
+    try { const s = localStorage.getItem("doc-engagement-manual"); return s ? JSON.parse(s) : {}; } catch { return {}; }
+  });
 
   const saveGoal = (key: keyof typeof goals, val: string) => {
     const next = { ...goals, [key]: val };
@@ -323,12 +327,19 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
     localStorage.setItem("doc-engagement-goals", JSON.stringify(next));
   };
 
+  const toggleManual = (teamId: number, key: string) => {
+    const k = `${teamId}-${key}`;
+    const next = { ...manualChecked, [k]: !manualChecked[k] };
+    setManualChecked(next);
+    localStorage.setItem("doc-engagement-manual", JSON.stringify(next));
+  };
+
   const totalPages = Math.ceil(teams.length / PAGE_SIZE);
   const visibleTeams = showAll ? teams : teams.slice(pageIndex * PAGE_SIZE, (pageIndex + 1) * PAGE_SIZE);
 
   const isChecked = (t: Team, item: (typeof CHECKLIST_ITEMS)[number]) => {
     if (item.auto) return !!(t.engagementBreakdown as unknown as Record<string, number>)[item.key];
-    return false;
+    return !!manualChecked[`${t.teamId}-${item.key}`];
   };
 
   const resolvedRecipient = (t: Team, form: EmailForm) => {
@@ -439,7 +450,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
             const item = CHECKLIST_ITEMS.find(it => it.key === activeCol.key);
             if (!item) return null;
             const done = isChecked(t, item);
-            return <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black ${item.auto ? (done ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-300") : "bg-gray-50 text-gray-200"}`}>{done ? "✓" : "○"}</span>;
+            return <span onClick={!item.auto ? () => toggleManual(t.teamId, item.key) : undefined} className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black ${item.auto ? (done ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-300") : (done ? "bg-green-100 text-green-600 cursor-pointer" : "bg-gray-50 text-gray-300 cursor-pointer")}`}>{done ? "✓" : "○"}</span>;
           };
           return (
             <>
@@ -496,7 +507,10 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                           const done = isChecked(t, item);
                           return (
                             <td key={item.key} className="hidden sm:table-cell px-2 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
-                              <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black ${item.auto ? (done ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-300") : "bg-gray-50 text-gray-200"}`}>
+                              <span
+                                onClick={!item.auto ? () => toggleManual(t.teamId, item.key) : undefined}
+                                className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-black ${item.auto ? (done ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-300") : (done ? "bg-green-100 text-green-600 cursor-pointer" : "bg-gray-50 text-gray-300 cursor-pointer hover:bg-gray-100")}`}
+                              >
                                 {done ? "✓" : "○"}
                               </span>
                             </td>
@@ -1150,7 +1164,7 @@ export default function TeamReportPage() {
                   <thead>
                     <tr className="text-left text-xs uppercase tracking-wide text-navy/40 border-b border-gray-100">
                       <th className="px-5 py-2">Player</th>
-                      {filteredTeams.length > 1 && <th className="px-5 py-2">Team</th>}
+                      <th className="px-5 py-2">Team</th>
                       <th className="px-5 py-2 text-center">Videos</th>
                       <th className="px-5 py-2 text-center">Training Time</th>
                       <th className="px-5 py-2 text-center">Active</th>
@@ -1162,7 +1176,7 @@ export default function TeamReportPage() {
                     ) : allPlayers.map((p, i) => (
                       <tr key={`${p.childId}-${(p as any).teamName}`} className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}>
                         <td className="px-5 py-3 font-semibold text-navy">{p.name}</td>
-                        {filteredTeams.length > 1 && <td className="px-5 py-3 text-xs text-navy/50">{(p as any).teamName}</td>}
+                        <td className="px-5 py-3 text-xs text-navy/50">{(p as any).teamName}</td>
                         <td className="px-5 py-3 text-center text-navy/70">{p.videosWatched.toLocaleString()}</td>
                         <td className="px-5 py-3 text-center text-navy/70">{formatTime(p.trainingMinutes)}</td>
                         <td className="px-5 py-3 text-center">
