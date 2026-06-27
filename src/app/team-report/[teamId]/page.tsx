@@ -311,6 +311,16 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
   const [showHowTo, setShowHowTo] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
   const [showAll, setShowAll] = useState(false);
+  const [goals, setGoals] = useState<{ participation: string; videosPerMonth: string }>(() => {
+    if (typeof window === "undefined") return { participation: "", videosPerMonth: "" };
+    try { const s = localStorage.getItem("doc-engagement-goals"); return s ? JSON.parse(s) : { participation: "", videosPerMonth: "" }; } catch { return { participation: "", videosPerMonth: "" }; }
+  });
+
+  const saveGoal = (key: keyof typeof goals, val: string) => {
+    const next = { ...goals, [key]: val };
+    setGoals(next);
+    localStorage.setItem("doc-engagement-goals", JSON.stringify(next));
+  };
 
   const totalPages = Math.ceil(teams.length / PAGE_SIZE);
   const visibleTeams = showAll ? teams : teams.slice(pageIndex * PAGE_SIZE, (pageIndex + 1) * PAGE_SIZE);
@@ -385,12 +395,22 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
               <th className="px-4 py-4 text-left text-xs font-bold text-navy/40 uppercase tracking-wide" style={{ minWidth: "200px" }}>Step</th>
               {visibleTeams.map(t => {
                 const doneCount = CHECKLIST_ITEMS.filter(item => isChecked(t, item)).length;
+                const avgVideos = t.players.length > 0 ? Math.round(t.players.reduce((s, p) => s + p.videosWatched, 0) / t.players.length) : 0;
+                const pGoal = goals.participation ? parseInt(goals.participation) : null;
+                const vGoal = goals.videosPerMonth ? parseInt(goals.videosPerMonth) : null;
                 return (
                   <th key={t.teamId} className="px-4 py-4 text-center border-l border-gray-100" style={{ minWidth: "140px" }}>
                     <div className="font-black text-navy text-sm leading-tight">{t.teamName}</div>
-                    <div className="text-xs mt-1">
-                      <span className={`font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>
-                      <span className="text-gray-400"> · {doneCount}/10</span>
+                    <div className="text-xs mt-1 space-y-0.5">
+                      <div>
+                        <span className={`font-bold ${pGoal ? (t.participationRate >= pGoal ? "text-green-600" : "text-red-500") : t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>
+                        <span className="text-gray-300"> participation</span>
+                      </div>
+                      <div>
+                        <span className={`font-bold ${vGoal ? (avgVideos >= vGoal ? "text-green-600" : "text-red-500") : "text-navy/50"}`}>{avgVideos}</span>
+                        <span className="text-gray-300"> avg vid</span>
+                      </div>
+                      <div><span className="text-gray-400">{doneCount}/10 steps</span></div>
                     </div>
                     <div className="flex items-center justify-center gap-1.5 mt-2">
                       <button
@@ -398,13 +418,41 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                         className="text-xs font-bold border-2 border-[#e63946] text-[#e63946] px-2 py-1 rounded-lg hover:bg-[#e63946]/5 transition-colors"
                       >✉</button>
                       <button
-                        onClick={() => window.open(`${API}/${t.teamId}/pdf?period=${period}`, "_blank")}
+                        onClick={() => {
+                          const params = new URLSearchParams({ period });
+                          if (goals.participation) params.set("participation_goal", goals.participation);
+                          if (goals.videosPerMonth) params.set("videos_goal", goals.videosPerMonth);
+                          window.open(`${API}/${t.teamId}/pdf?${params}`, "_blank");
+                        }}
                         className="text-xs font-bold border-2 border-gray-200 text-navy/60 px-2 py-1 rounded-lg hover:border-navy/40 hover:text-navy transition-colors"
                       >↓ PDF</button>
                     </div>
                   </th>
                 );
               })}
+              <th className="px-4 py-4 text-center border-l-2 border-dashed border-gray-200" style={{ minWidth: "110px" }}>
+                <div className="text-[10px] font-bold text-navy/30 uppercase tracking-wide mb-2">Goals</div>
+                <div className="space-y-2">
+                  <div>
+                    <div className="flex items-center justify-center gap-1">
+                      <input type="number" min="0" max="100" value={goals.participation} onChange={e => saveGoal("participation", e.target.value)}
+                        placeholder="70"
+                        className="w-12 text-center border-2 border-gray-200 rounded-lg px-1 py-1 text-sm font-bold text-navy focus:outline-none focus:border-navy" />
+                      <span className="text-xs text-gray-400 font-bold">%</span>
+                    </div>
+                    <div className="text-[9px] text-gray-300 mt-0.5">participation</div>
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-center gap-1">
+                      <input type="number" min="0" value={goals.videosPerMonth} onChange={e => saveGoal("videosPerMonth", e.target.value)}
+                        placeholder="8"
+                        className="w-12 text-center border-2 border-gray-200 rounded-lg px-1 py-1 text-sm font-bold text-navy focus:outline-none focus:border-navy" />
+                      <span className="text-xs text-gray-400 font-bold leading-tight">vid<br/>mo</span>
+                    </div>
+                    <div className="text-[9px] text-gray-300 mt-0.5">avg/player</div>
+                  </div>
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -427,6 +475,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                     </td>
                   );
                 })}
+                {i === 0 && <td rowSpan={CHECKLIST_ITEMS.length} className="border-l-2 border-dashed border-gray-200 bg-gray-50/30" />}
               </tr>
             ))}
           </tbody>
