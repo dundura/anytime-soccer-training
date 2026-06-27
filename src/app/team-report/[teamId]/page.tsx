@@ -454,11 +454,6 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                     {t.coaches.length > 0 && (
                       <div className="text-[10px] text-navy/40 mt-0.5">{t.coaches.map(c => c.name).join(", ")}</div>
                     )}
-                    {avgVideos > 0 && (
-                      <div className="text-xs mt-0.5">
-                        <span className={`font-bold ${vGoal ? (avgVideos >= vGoal ? "text-green-600" : "text-red-500") : "text-navy/40"}`}>{avgVideos} vid/player</span>
-                      </div>
-                    )}
                   </td>
                   <td className="px-3 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
                     <span className={`text-sm font-bold ${pGoal ? (t.participationRate >= pGoal ? "text-green-600" : "text-red-500") : t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>
