@@ -430,7 +430,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
           </div>
         </div>
         <div className="px-4 py-2 text-[10px] text-[#e63946] border-b border-gray-100">
-          Engagement reflects actual in-app activity — to update Goals, visit the Players tab in your team hub.
+          Engagement reflects actual in-app activity — to update Goals, visit the Players tab within your team.
         </div>
         {/* Mobile column cycler */}
         {(() => {
