@@ -648,6 +648,7 @@ export default function TeamReportPage() {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
+  const [yearFilter, setYearFilter] = useState<string>("");
   const [filterTeam, setFilterTeam] = useState("");
   const [period, setPeriod] = useState<"week" | "month" | "year" | "alltime">(() => {
     if (typeof window === "undefined") return "week";
@@ -712,14 +713,15 @@ export default function TeamReportPage() {
     const timeout = setTimeout(async () => {
       setSearchLoading(true);
       try {
-        const res = await fetch(`${API}/search?q=${encodeURIComponent(search)}`);
+        const url = `${API}/search?q=${encodeURIComponent(search)}${yearFilter ? `&year=${yearFilter}` : ""}`;
+        const res = await fetch(url);
         const data = await res.json();
         setSearchResults(data.teams || []);
       } catch {}
       setSearchLoading(false);
     }, 300);
     return () => clearTimeout(timeout);
-  }, [search]);
+  }, [search, yearFilter]);
 
   const buildParams = (ids: number[], seedId: number, overrides: Record<string,string> = {}) => {
     const extra = ids.filter(id => id !== seedId);
@@ -813,6 +815,16 @@ export default function TeamReportPage() {
         {/* Search + Add Teams */}
         <div className="bg-white rounded-2xl shadow-sm p-5 mb-6">
           <div className="flex items-center gap-3 flex-wrap">
+            <select
+              value={yearFilter}
+              onChange={e => { setYearFilter(e.target.value); setSearchResults([]); }}
+              className="border-2 border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-navy text-navy font-medium bg-white"
+            >
+              <option value="">All years</option>
+              {Array.from({ length: new Date().getFullYear() - 2019 }, (_, i) => new Date().getFullYear() - i).map(y => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
             <div className="relative flex-1 min-w-[220px]">
               <input
                 type="text"
