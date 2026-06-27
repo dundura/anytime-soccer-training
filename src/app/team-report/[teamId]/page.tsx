@@ -428,13 +428,13 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
           <thead>
             <tr className="border-b-2 border-gray-100">
               <th className="px-4 py-3 text-left text-xs font-bold text-navy/40 uppercase tracking-wide sticky left-0 bg-white z-10" style={{ minWidth: "200px" }}>Team</th>
-              <th className="px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy/40 uppercase tracking-wide" style={{ minWidth: "80px" }}>Participation</th>
+              <th className="px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-blue-600 uppercase tracking-wide" style={{ minWidth: "80px" }}>Participation</th>
               {CHECKLIST_ITEMS.map(item => (
                 <th key={item.key} className="px-2 py-3 text-center border-l border-gray-100 align-top" style={{ minWidth: "90px" }}>
                   <div className="flex flex-col items-center gap-0.5">
-                    <span className="text-xs font-black text-navy/50">{item.num}</span>
-                    <span className="text-[9px] font-semibold text-navy/50 leading-tight text-center px-0.5">{item.label}</span>
-                    {item.auto && <span className="text-[8px] bg-gray-100 text-gray-300 rounded px-1 font-bold leading-tight">A</span>}
+                    <span className="text-xs font-black text-blue-600">{item.num}</span>
+                    <span className="text-[9px] font-semibold text-blue-600 leading-tight text-center px-0.5">{item.label}</span>
+                    {item.auto && <span className="text-[8px] bg-blue-50 text-blue-400 rounded px-1 font-bold leading-tight">A</span>}
                   </div>
                 </th>
               ))}
@@ -624,7 +624,7 @@ function TeamSection({ t, teamPlayers, period, forceOpen }: { t: Team; teamPlaye
         className="w-full bg-navy/5 border-b border-gray-100 px-5 py-3 text-left hover:bg-navy/10 transition-colors"
       >
         <div className="flex items-center gap-2">
-          <span className="text-navy/40 text-xs">{isOpen ? "â–¾" : "â–¸"}</span>
+          <span className="text-navy/40 text-xs">{isOpen ? "v" : ">"}</span>
           <span className="font-black text-navy text-sm">{t.teamName}</span>
           {t.createdAt && <span className="text-xs text-gray-400">({formatDate(t.createdAt)})</span>}
         </div>
@@ -633,7 +633,6 @@ function TeamSection({ t, teamPlayers, period, forceOpen }: { t: Team; teamPlaye
           <span className={`text-xs font-bold ${t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>
             {t.participationRate}% participation
           </span>
-          <ScoreDots score={t.coachEngagementScore} breakdown={t.engagementBreakdown} />
         </div>
       </button>
       {isOpen && (
@@ -1111,16 +1110,36 @@ export default function TeamReportPage() {
                 ))}
               </div>
 
-              {/* Per-team: collapsible summary pill + player rows */}
-              <div className="space-y-4">
-                {filteredTeams.map(t => {
-                  const teamPlayers = t.players
-                    .filter(p => !playerSearch || p.name.toLowerCase().includes(playerSearch.toLowerCase()))
-                    .sort((a, b) => b.videosWatched - a.videosWatched);
-                  return (
-                    <TeamSection key={t.teamId} t={t} teamPlayers={teamPlayers} period={period} forceOpen={!!playerSearch} />
-                  );
-                })}
+              {/* Flat player table */}
+              <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-left text-xs uppercase tracking-wide text-navy/40 border-b border-gray-100">
+                      <th className="px-5 py-2">Player</th>
+                      {filteredTeams.length > 1 && <th className="px-5 py-2">Team</th>}
+                      <th className="px-5 py-2 text-center">Videos</th>
+                      <th className="px-5 py-2 text-center">Training Time</th>
+                      <th className="px-5 py-2 text-center">Active</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allPlayers.length === 0 ? (
+                      <tr><td colSpan={5} className="px-5 py-8 text-center text-navy/30 text-xs">No players found.</td></tr>
+                    ) : allPlayers.map((p, i) => (
+                      <tr key={`${p.childId}-${(p as any).teamName}`} className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}>
+                        <td className="px-5 py-3 font-semibold text-navy">{p.name}</td>
+                        {filteredTeams.length > 1 && <td className="px-5 py-3 text-xs text-navy/50">{(p as any).teamName}</td>}
+                        <td className="px-5 py-3 text-center text-navy/70">{p.videosWatched.toLocaleString()}</td>
+                        <td className="px-5 py-3 text-center text-navy/70">{formatTime(p.trainingMinutes)}</td>
+                        <td className="px-5 py-3 text-center">
+                          <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${p.activeThisWeek ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-400"}`}>
+                            {p.activeThisWeek ? "Yes" : "No"}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
               </>
             )}
