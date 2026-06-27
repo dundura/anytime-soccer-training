@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion';
 
 const phrases = [
-  { text: 'Your players want to improve.', color: 'text-white' },
-  { text: ' Give them a system that works.', color: 'text-red' },
+  { text: 'The Complete Soccer Training Platform', color: 'text-white' },
+  { text: ' for Coaches', color: 'text-red' },
 ];
 
 export default function CoachHeadline() {

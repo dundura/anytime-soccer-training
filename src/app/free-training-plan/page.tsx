@@ -77,7 +77,7 @@ export default function FreeTrainingPlanPage() {
               <div className="relative z-10">
 <CoachHeadline />
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
-                  Team training alone isn&apos;t enough. Players need structured practice at home—but most clubs struggle to assign homework and track if it&apos;s actually getting done.
+                  Assign structured homework, track every session, and give your players a system to improve at home — so your team shows up to practice ready to work.
                 </p>
                 <div className="flex flex-wrap gap-4 mb-10">
                   <a
