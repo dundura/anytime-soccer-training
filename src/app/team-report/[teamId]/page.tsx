@@ -304,9 +304,16 @@ type GoalsPanelProps = {
 
 type EmailForm = { mode: "manager" | "custom"; selectedId: number | null; firstName: string; email: string; sending: boolean; sent: boolean };
 
+const PAGE_SIZE = 3;
+
 function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: any[]; period: string; teams: Team[]; onUpdate: GoalsPanelProps["onUpdate"] }) {
   const [emailForms, setEmailForms] = useState<Record<number, EmailForm | null>>({});
   const [showHowTo, setShowHowTo] = useState(false);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [showAll, setShowAll] = useState(false);
+
+  const totalPages = Math.ceil(teams.length / PAGE_SIZE);
+  const visibleTeams = showAll ? teams : teams.slice(pageIndex * PAGE_SIZE, (pageIndex + 1) * PAGE_SIZE);
 
   const isChecked = (t: Team, item: (typeof CHECKLIST_ITEMS)[number]) => {
     if (item.auto) return !!(t.engagementBreakdown as unknown as Record<string, number>)[item.key];
@@ -347,11 +354,36 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
   return (
     <div className="space-y-4">
       <div className="bg-white rounded-xl shadow-sm overflow-x-auto">
+        {teams.length > PAGE_SIZE && (
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+            <div className="flex items-center gap-2">
+              {!showAll && (
+                <>
+                  <button
+                    onClick={() => setPageIndex(i => Math.max(0, i - 1))}
+                    disabled={pageIndex === 0}
+                    className="text-xs font-bold px-2.5 py-1 rounded-lg border-2 border-gray-200 text-navy/50 hover:border-navy/30 hover:text-navy disabled:opacity-30 transition-colors"
+                  >← Prev</button>
+                  <span className="text-xs text-gray-400 font-medium">{pageIndex + 1} / {totalPages}</span>
+                  <button
+                    onClick={() => setPageIndex(i => Math.min(totalPages - 1, i + 1))}
+                    disabled={pageIndex === totalPages - 1}
+                    className="text-xs font-bold px-2.5 py-1 rounded-lg border-2 border-gray-200 text-navy/50 hover:border-navy/30 hover:text-navy disabled:opacity-30 transition-colors"
+                  >Next →</button>
+                </>
+              )}
+            </div>
+            <button
+              onClick={() => { setShowAll(a => !a); setPageIndex(0); }}
+              className="text-xs font-bold text-[#e63946] hover:underline"
+            >{showAll ? "Show less" : `Show all ${teams.length}`}</button>
+          </div>
+        )}
         <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="border-b-2 border-gray-100">
               <th className="px-4 py-4 text-left text-xs font-bold text-navy/40 uppercase tracking-wide" style={{ minWidth: "200px" }}>Step</th>
-              {teams.map(t => {
+              {visibleTeams.map(t => {
                 const doneCount = CHECKLIST_ITEMS.filter(item => isChecked(t, item)).length;
                 return (
                   <th key={t.teamId} className="px-4 py-4 text-center border-l border-gray-100" style={{ minWidth: "140px" }}>
@@ -385,7 +417,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                     {item.auto && <span className="text-[9px] bg-gray-100 text-gray-400 px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">auto</span>}
                   </div>
                 </td>
-                {teams.map(t => {
+                {visibleTeams.map(t => {
                   const done = isChecked(t, item);
                   return (
                     <td key={t.teamId} className="px-4 py-2.5 border-b border-gray-50 border-l border-l-gray-100 text-center">
@@ -401,7 +433,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
         </table>
 
         {/* Email forms */}
-        {teams.map(t => {
+        {visibleTeams.map(t => {
           const form = emailForms[t.teamId];
           if (!form) return null;
           return (
@@ -805,7 +837,7 @@ export default function TeamReportPage() {
               {teams.map(t => (
                 <span key={t.teamId} className="inline-flex items-center gap-1.5 bg-navy/10 text-navy text-xs font-bold px-3 py-1.5 rounded-full">
                   {t.teamName}
-                  <button onClick={() => removeTeam(t.teamId)} className="hover:text-red transition-colors text-navy/50 ml-0.5">âœ•</button>
+                  <button onClick={() => removeTeam(t.teamId)} className="hover:text-red transition-colors text-navy/50 ml-0.5">&times;</button>
                 </span>
               ))}
             </div>
