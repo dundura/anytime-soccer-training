@@ -369,6 +369,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
 
   return (
     <div className="space-y-4">
+      <h2 className="text-lg font-bold text-navy">Coach Engagement Tracker</h2>
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
         {teams.length > PAGE_SIZE && (
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
