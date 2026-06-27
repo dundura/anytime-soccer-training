@@ -456,16 +456,16 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                   <tr className="border-b-2 border-gray-100">
                     <th className="px-4 py-3 text-left text-xs font-bold text-navy/40 uppercase tracking-wide sticky left-0 bg-white z-10" style={{ minWidth: "160px" }}>Team</th>
                     {/* Mobile: active column only */}
-                    <th className="sm:hidden px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy uppercase tracking-wide">{activeCol.label}</th>
+                    <th className="sm:hidden px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy/40 uppercase tracking-wide">{activeCol.label}</th>
                     {/* Desktop: all columns */}
-                    <th className="hidden sm:table-cell px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy uppercase tracking-wide" style={{ minWidth: "80px" }}>Participation</th>
-                    <th className="hidden sm:table-cell px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy uppercase tracking-wide" style={{ minWidth: "90px" }}>Weekly Training</th>
+                    <th className="hidden sm:table-cell px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy/40 uppercase tracking-wide" style={{ minWidth: "80px" }}>Participation</th>
+                    <th className="hidden sm:table-cell px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy/40 uppercase tracking-wide" style={{ minWidth: "90px" }}>Weekly Training</th>
                     {CHECKLIST_ITEMS.map(item => (
                       <th key={item.key} className="hidden sm:table-cell px-2 py-3 text-center border-l border-gray-100 align-top" style={{ minWidth: "90px" }}>
                         <div className="flex flex-col items-center gap-0.5">
-                          <span className="text-xs font-black text-navy">{item.num}</span>
-                          <span className="text-[9px] font-semibold text-navy leading-tight text-center px-0.5">{item.label}</span>
-                          {item.auto && <span className="text-[8px] bg-navy/10 text-navy/60 rounded px-1 font-bold leading-tight">A</span>}
+                          <span className="text-xs font-black text-navy/40">{item.num}</span>
+                          <span className="text-[9px] font-semibold text-navy/40 leading-tight text-center px-0.5">{item.label}</span>
+                          {item.auto && <span className="text-[8px] bg-gray-100 text-navy/30 rounded px-1 font-bold leading-tight">A</span>}
                         </div>
                       </th>
                     ))}
