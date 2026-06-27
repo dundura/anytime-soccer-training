@@ -428,7 +428,7 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
             <tr className="border-b-2 border-gray-100">
               <th className="px-4 py-3 text-left text-xs font-bold text-navy/40 uppercase tracking-wide sticky left-0 bg-white z-10" style={{ minWidth: "200px" }}>Team</th>
               <th className="px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy uppercase tracking-wide" style={{ minWidth: "80px" }}>Participation</th>
-              <th className="px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy uppercase tracking-wide" style={{ minWidth: "90px" }}>Training Time</th>
+              <th className="px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy uppercase tracking-wide" style={{ minWidth: "90px" }}>Weekly Training</th>
               {CHECKLIST_ITEMS.map(item => (
                 <th key={item.key} className="px-2 py-3 text-center border-l border-gray-100 align-top" style={{ minWidth: "90px" }}>
                   <div className="flex flex-col items-center gap-0.5">
