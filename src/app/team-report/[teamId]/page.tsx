@@ -161,15 +161,14 @@ function SlugEditor({ team, onUpdate }: { team: Team; onUpdate: (slug: string) =
 
 const CHECKLIST_ITEMS: Array<{ num: number; key: string; label: string; auto: boolean; link?: string }> = [
   { num: 1,  key: "hasHomework",       label: "Assign Homework",                     auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=coach-board" },
-  { num: 2,  key: "sendEmail",         label: "Send Email Reminder",                 auto: false },
-  { num: 3,  key: "demoApp",           label: "Demo App In-Person",                  auto: false },
-  { num: 4,  key: "hasPersonalGoal",   label: "Set Player Goals",                    auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=players" },
-  { num: 5,  key: "hasChallenge",      label: "Create Coach's Challenge",            auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=challenge" },
-  { num: 6,  key: "hasPersonalChallenge", label: "Create a Personal Challenge",       auto: true  },
-  { num: 7,  key: "hasContest",        label: "Create a Team Contest",               auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=contest" },
-  { num: 8,  key: "setLevelGoal",      label: "Set Team Level Goal",                 auto: false },
-  { num: 9,  key: "recognition",       label: "Give Player Recognition in Practice", auto: false },
-  { num: 10, key: "mvp",               label: "Nominate an MVP",                     auto: false },
+  { num: 2,  key: "demoApp",           label: "Demo App In-Person",                  auto: false },
+  { num: 3,  key: "hasPersonalGoal",   label: "Set Player Goals",                    auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=players" },
+  { num: 4,  key: "hasChallenge",      label: "Create Coach's Challenge",            auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=challenge" },
+  { num: 5,  key: "hasPersonalChallenge", label: "Create a Personal Challenge",       auto: true  },
+  { num: 6,  key: "hasContest",        label: "Create a Team Contest",               auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=contest" },
+  { num: 7,  key: "setLevelGoal",      label: "Set Team Level Goal",                 auto: false },
+  { num: 8,  key: "recognition",       label: "Give Player Recognition in Practice", auto: false },
+  { num: 9,  key: "mvp",               label: "Nominate an MVP",                     auto: false },
 ];
 
 function HowToContent() {
@@ -241,7 +240,7 @@ function HowToContent() {
         <div className="flex flex-wrap gap-2 mb-8 pb-6 border-b border-gray-100">
           {HOW_TO_STEPS.map(s => {
             const active = howToFilter === s.key;
-            const pillColor = s.type === "rec" ? (active ? "bg-blue-600 text-white border-blue-600" : "border-blue-200 text-blue-600 hover:bg-blue-50")
+            const pillColor = s.type === "rec" ? (active ? "bg-blue-600 text-white border-blue-600" : "border-blue-200 text-navy hover:bg-blue-50")
               : s.type === "opt" ? (active ? "bg-amber-500 text-white border-amber-500" : "border-amber-200 text-amber-600 hover:bg-amber-50")
               : (active ? "bg-navy text-white border-navy" : "border-gray-200 text-navy/60 hover:border-navy/40 hover:text-navy");
             return (
@@ -428,13 +427,15 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
           <thead>
             <tr className="border-b-2 border-gray-100">
               <th className="px-4 py-3 text-left text-xs font-bold text-navy/40 uppercase tracking-wide sticky left-0 bg-white z-10" style={{ minWidth: "200px" }}>Team</th>
-              <th className="px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-blue-600 uppercase tracking-wide" style={{ minWidth: "80px" }}>Participation</th>
+              <th className="px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy uppercase tracking-wide" style={{ minWidth: "80px" }}>Weekly Training</th>
+              <th className="px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy uppercase tracking-wide" style={{ minWidth: "70px" }}>Usage</th>
+              <th className="px-3 py-3 text-center border-l border-gray-100 text-xs font-bold text-navy uppercase tracking-wide" style={{ minWidth: "90px" }}>Training Time</th>
               {CHECKLIST_ITEMS.map(item => (
                 <th key={item.key} className="px-2 py-3 text-center border-l border-gray-100 align-top" style={{ minWidth: "90px" }}>
                   <div className="flex flex-col items-center gap-0.5">
-                    <span className="text-xs font-black text-blue-600">{item.num}</span>
-                    <span className="text-[9px] font-semibold text-blue-600 leading-tight text-center px-0.5">{item.label}</span>
-                    {item.auto && <span className="text-[8px] bg-blue-50 text-blue-400 rounded px-1 font-bold leading-tight">A</span>}
+                    <span className="text-xs font-black text-navy">{item.num}</span>
+                    <span className="text-[9px] font-semibold text-navy leading-tight text-center px-0.5">{item.label}</span>
+                    {item.auto && <span className="text-[8px] bg-navy/10 text-navy/60 rounded px-1 font-bold leading-tight">A</span>}
                   </div>
                 </th>
               ))}
@@ -443,6 +444,8 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
           <tbody>
             {visibleTeams.map((t, i) => {
               const avgVideos = t.players.length > 0 ? Math.round(t.players.reduce((s, p) => s + p.videosWatched, 0) / t.players.length) : 0;
+              const totalVideos = t.players.reduce((s, p) => s + p.videosWatched, 0);
+              const totalTime = t.players.reduce((s, p) => s + p.trainingMinutes, 0);
               const pGoal = goals.participation ? parseInt(goals.participation) : null;
               const vGoal = goals.videosPerMonth ? parseInt(goals.videosPerMonth) : null;
               return (
@@ -460,6 +463,12 @@ function CoachEngagementView({ ranking, period, teams, onUpdate }: { ranking: an
                   </td>
                   <td className="px-3 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
                     <span className={`text-sm font-bold ${pGoal ? (t.participationRate >= pGoal ? "text-green-600" : "text-red-500") : t.participationRate >= 70 ? "text-green-600" : t.participationRate >= 40 ? "text-yellow-600" : "text-red-500"}`}>{t.participationRate}%</span>
+                  </td>
+                  <td className="px-3 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
+                    <span className="text-sm font-bold text-navy">{totalVideos}</span>
+                  </td>
+                  <td className="px-3 py-3 border-b border-gray-50 border-l border-l-gray-100 text-center">
+                    <span className="text-sm font-bold text-navy">{formatTime(totalTime)}</span>
                   </td>
                   {CHECKLIST_ITEMS.map(item => {
                     const done = isChecked(t, item);
@@ -1029,7 +1038,7 @@ export default function TeamReportPage() {
                 <div className="flex flex-wrap gap-2 mb-8 pb-6 border-b border-gray-100">
                   {HOW_TO_STEPS.map(s => {
                     const active = howToFilter === s.key;
-                    const pillColor = s.type === "rec" ? (active ? "bg-blue-600 text-white border-blue-600" : "border-blue-200 text-blue-600 hover:bg-blue-50")
+                    const pillColor = s.type === "rec" ? (active ? "bg-blue-600 text-white border-blue-600" : "border-blue-200 text-navy hover:bg-blue-50")
                       : s.type === "opt" ? (active ? "bg-amber-500 text-white border-amber-500" : "border-amber-200 text-amber-600 hover:bg-amber-50")
                       : (active ? "bg-navy text-white border-navy" : "border-gray-200 text-navy/60 hover:border-navy/40 hover:text-navy");
                     return (
