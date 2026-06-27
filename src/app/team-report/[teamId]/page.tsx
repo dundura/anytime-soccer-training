@@ -366,7 +366,11 @@ function CoachCard({ t, period }: { t: Team; period: string }) {
             className="text-sm font-bold border-2 border-[#e63946] text-[#e63946] px-3 py-1.5 rounded-lg hover:bg-[#e63946]/5 transition-colors"
           >✉ Send Plan</button>
           <button
-            onClick={() => window.open(`${API}/${t.teamId}/pdf?period=${period}`, "_blank")}
+            onClick={() => {
+              const manualDone = Object.keys(manual).filter(k => manual[k]).join(',');
+              const url = `${API}/${t.teamId}/pdf?period=${period}${manualDone ? '&checklist=' + manualDone : ''}`;
+              window.open(url, "_blank");
+            }}
             className="text-sm font-bold border-2 border-gray-200 text-navy/60 px-3 py-1.5 rounded-lg hover:border-navy/40 hover:text-navy transition-colors"
           >↓ PDF</button>
         </div>
