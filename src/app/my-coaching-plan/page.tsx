@@ -2,8 +2,8 @@ import EngagementPredictor from '@/components/EngagementPredictor';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Coach Engagement Predictor | Anytime Soccer Training',
-  description: 'Select the engagement tasks you commit to and get your predicted coaching engagement score.',
+  title: 'My Coaching Plan | Anytime Soccer Training',
+  description: 'Select the coaching tasks you commit to and get your personalized coaching plan.',
 };
 
 export default function EngagementPredictorPage() {
