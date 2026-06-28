@@ -217,8 +217,6 @@ export default function EngagementPredictor() {
               </div>
 
               <div style={{ background: '#fff', borderRadius: 16, padding: 28, boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-                <h2 style={{ margin: '0 0 6px', fontSize: 20, fontWeight: 800, color: navyBlue }}>Which tasks will you commit to?</h2>
-                <p style={{ margin: '0 0 20px', fontSize: 13, color: '#6b7280' }}>Check every task you plan to do. Each one adds 10 points to your predicted engagement score.</p>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {TASKS.map(task => {
