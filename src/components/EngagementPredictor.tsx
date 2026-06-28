@@ -301,9 +301,21 @@ export default function EngagementPredictor() {
               Your predicted score is <strong style={{ color }}>{score}/100</strong>.
             </p>
             <ScoreCircle score={score} />
-            <p style={{ margin: '24px 0 0', fontSize: 13, color: '#9ca3af' }}>
+            <p style={{ margin: '24px 0 16px', fontSize: 13, color: '#9ca3af' }}>
               Our team will be in touch to help you get started.
             </p>
+            <button
+              onClick={() => {
+                try { sessionStorage.removeItem(SESSION_KEY); } catch {}
+                setForm({ coachName: '', teamName: '', phone: '', email: '' });
+                setSelected(new Set());
+                setStep(1);
+                window.scrollTo(0, 0);
+              }}
+              style={{ background: 'none', border: '1.5px solid #e5e7eb', borderRadius: 8, padding: '10px 24px', fontSize: 13, color: '#6b7280', cursor: 'pointer', fontFamily: 'inherit' }}
+            >
+              ← Start Over
+            </button>
           </div>
         )}
 
