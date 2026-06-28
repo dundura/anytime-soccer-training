@@ -26,7 +26,7 @@ const TASKS = [
   { id: 'team-contest', label: 'Create a Team Contest', desc: 'Run a leaderboard-based competition' },
   { id: 'team-goal', label: 'Set Team Level Goal', desc: 'Set a collective goal for the whole squad' },
   { id: 'recognition', label: 'Give Player Recognition in Practice', desc: 'Highlight player achievements on the field' },
-  { id: 'mvp', label: 'Nominate an MVP', desc: 'Recognize your most improved or dedicated player' },
+  { id: 'mvp', label: 'Nominate an MVP', desc: 'Recognize your most improved or dedicated player inside the app' },
 ];
 
 const navyBlue = '#0f2642';
