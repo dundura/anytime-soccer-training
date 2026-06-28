@@ -294,16 +294,6 @@ export default function EngagementPredictor() {
         {/* Step 3: Success */}
         {step === 3 && (
           <div style={{ background: '#fff', borderRadius: 16, padding: 48, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>🎉</div>
-            <h2 style={{ margin: '0 0 10px', fontSize: 24, fontWeight: 800, color: navyBlue }}>Your report is on its way!</h2>
-            <p style={{ margin: '0 0 24px', fontSize: 15, color: '#6b7280', lineHeight: 1.7 }}>
-              We sent your Engagement Commitment Report to <strong>{form.email}</strong>.<br />
-              Your predicted score is <strong style={{ color }}>{score}/100</strong>.
-            </p>
-            <ScoreCircle score={score} />
-            <p style={{ margin: '24px 0 16px', fontSize: 13, color: '#9ca3af' }}>
-              Our team will be in touch to help you get started.
-            </p>
             <button
               onClick={() => {
                 try { sessionStorage.removeItem(SESSION_KEY); } catch {}
@@ -312,10 +302,20 @@ export default function EngagementPredictor() {
                 setStep(1);
                 window.scrollTo(0, 0);
               }}
-              style={{ background: 'none', border: '1.5px solid #e5e7eb', borderRadius: 8, padding: '10px 24px', fontSize: 13, color: '#6b7280', cursor: 'pointer', fontFamily: 'inherit' }}
+              style={{ background: navyBlue, border: 'none', borderRadius: 8, padding: '11px 28px', fontSize: 14, fontWeight: 700, color: '#fff', cursor: 'pointer', fontFamily: 'inherit', marginBottom: 32 }}
             >
               ← Start Over
             </button>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>🎉</div>
+            <h2 style={{ margin: '0 0 10px', fontSize: 24, fontWeight: 800, color: navyBlue }}>Your report is on its way!</h2>
+            <p style={{ margin: '0 0 24px', fontSize: 15, color: '#6b7280', lineHeight: 1.7 }}>
+              We sent your Engagement Commitment Report to <strong>{form.email}</strong>.<br />
+              Your predicted score is <strong style={{ color }}>{score}/100</strong>.
+            </p>
+            <ScoreCircle score={score} />
+            <p style={{ margin: '24px 0 0', fontSize: 13, color: '#9ca3af' }}>
+              Our team will be in touch to help you get started.
+            </p>
           </div>
         )}
 
