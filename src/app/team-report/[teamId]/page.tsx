@@ -245,6 +245,10 @@ function HowToContent() {
         <p className="text-sm text-navy/50 mb-1">Follow these steps week by week to drive player engagement and build great training habits on your team.</p>
         <p className="text-sm text-navy/40 mb-6">Questions? Email <a href="mailto:megan@anytime-soccer.com" className="text-[#e63946] font-semibold hover:underline">megan@anytime-soccer.com</a> or call <a href="tel:8034311082" className="text-[#e63946] font-semibold hover:underline">803-431-1082</a>.</p>
         <div className="flex flex-wrap gap-2 mb-8 pb-6 border-b border-gray-100">
+          <button onClick={() => { setHowToFilter(null); setExpandedStep(null); }}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 text-xs font-bold transition-all ${howToFilter === null ? "bg-navy text-white border-navy" : "border-gray-200 text-navy/60 hover:border-navy/40 hover:text-navy"}`}>
+            All
+          </button>
           {HOW_TO_STEPS.map(s => {
             const active = howToFilter === s.key;
             const pillColor = s.type === "rec" ? (active ? "bg-blue-600 text-white border-blue-600" : "border-blue-200 text-navy hover:bg-blue-50")
