@@ -22,7 +22,7 @@ const TASKS = [
   { id: 'demo-app', label: 'Demo App In-Person', desc: 'Walk through the app with your team at practice' },
   { id: 'set-goals', label: 'Set Player Goals', desc: 'Give each player a personal training target' },
   { id: 'coach-challenge', label: "Create Coach's Challenge", desc: 'Set a team-wide challenge for extra motivation' },
-  { id: 'personal-challenge', label: 'Create a Personal Challenge', desc: 'Design individual challenges for specific players' },
+  { id: 'personal-challenge', label: 'Create a Personal Challenge', desc: 'Set individual challenges for specific players' },
   { id: 'team-contest', label: 'Create a Team Contest', desc: 'Run a leaderboard-based competition' },
   { id: 'team-goal', label: 'Set Team Level Goal', desc: 'Set a collective goal for the whole squad' },
   { id: 'recognition', label: 'Give Player Recognition in Practice', desc: 'Highlight player achievements on the field' },
