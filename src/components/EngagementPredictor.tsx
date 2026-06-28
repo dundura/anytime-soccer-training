@@ -240,12 +240,12 @@ export default function EngagementPredictor() {
               <div style={{ background: '#fff', borderRadius: 16, padding: 24, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', textAlign: 'center' }}>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9ca3af', marginBottom: 12 }}>Predicted Score</div>
                 <ScoreCircle score={score} />
-                <div style={{ marginTop: 20, background: navyBlue, borderRadius: 10, padding: '14px 12px', textAlign: 'left' }}>
-                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>Tasks Committed</div>
-                  <div style={{ fontSize: 24, fontWeight: 800, color: '#fff' }}>
-                    {selected.size}<span style={{ fontSize: 13, fontWeight: 400, color: 'rgba(255,255,255,0.4)' }}> / 10</span>
+                <div style={{ marginTop: 20, background: '#e8edf3', borderRadius: 10, padding: '14px 12px', textAlign: 'left' }}>
+                  <div style={{ fontSize: 10, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>Tasks Committed</div>
+                  <div style={{ fontSize: 24, fontWeight: 800, color: navyBlue }}>
+                    {selected.size}<span style={{ fontSize: 13, fontWeight: 400, color: '#9ca3af' }}> / 10</span>
                   </div>
-                  <div style={{ marginTop: 8, background: 'rgba(255,255,255,0.15)', borderRadius: 4, height: 6, overflow: 'hidden' }}>
+                  <div style={{ marginTop: 8, background: 'rgba(0,0,0,0.08)', borderRadius: 4, height: 6, overflow: 'hidden' }}>
                     <div style={{ height: '100%', borderRadius: 4, background: color, width: `${score}%`, transition: 'width 0.3s ease' }} />
                   </div>
                 </div>
