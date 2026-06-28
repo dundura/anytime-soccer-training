@@ -20,6 +20,7 @@ const GENERAL_GUIDES = [
 const TEAM_PAGES = [
   { title: 'Butler Falcons', slug: 'butler-falcons-getting-started' },
   { title: 'Pacific FC 15G', slug: 'pacific-fc-15g-getting-started' },
+  { title: 'Pacific FC 15G Riptide', slug: 'pacific-fc-15g-riptide-getting-started' },
   { title: 'RBU Renegades', slug: 'rbu-renegades-getting-started' },
   { title: 'DHS Boys Soccer 2026', slug: 'dhs-boys-soccer-2026-getting-started' },
   { title: 'Vortex Soccer Training', slug: 'vortex-soccer-training-getting-started' },
