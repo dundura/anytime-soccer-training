@@ -155,7 +155,9 @@ export default function EngagementPredictor() {
       {/* Hero */}
       <div style={{ maxWidth: 680, margin: '0 auto', padding: '32px 16px 0' }}>
         <div style={{ background: navyBlue, borderRadius: 12, padding: '16px 24px' }}>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#fff' }}>Step 1: Confirm Contact Info</div>
+          <div style={{ fontSize: 18, fontWeight: 800, color: '#fff' }}>
+            {step === 1 ? 'Step 1: Confirm Contact Info' : step === 2 ? 'Step 2: Select Your Coaching Tasks' : 'Your Coaching Plan'}
+          </div>
         </div>
       </div>
 
