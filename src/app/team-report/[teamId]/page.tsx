@@ -180,7 +180,8 @@ const CHECKLIST_ITEMS: Array<{ num: number; key: string; label: string; auto: bo
 
 function HowToContent() {
   const [howToFilter, setHowToFilter] = useState<string | null>(null);
-  const [expandedStep, setExpandedStep] = useState<string | null>(null);
+  const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set(['homework']));
+  const toggleStep = (key: string) => setExpandedSteps(prev => { const next = new Set(prev); next.has(key) ? next.delete(key) : next.add(key); return next; });
   const HOW_TO_STEPS = [
     { key: "homework", badge: "1", badgeBg: "bg-navy", badgeText: "text-white", title: "Assign Homework", type: "core",
       how: "Go to your coach's board. Pick the skill areas and folders you want to assign. We recommend keeping it simple â€” start with 30-day plans or the first folders in the full curriculum. Then next month, assign one of the recurring plans such as the Skill Builder Plan. If you have any questions, email megan@anytime-soccer.com.",
@@ -245,7 +246,7 @@ function HowToContent() {
         <p className="text-sm text-navy/50 mb-1">Follow these steps week by week to drive player engagement and build great training habits on your team.</p>
         <p className="text-sm text-navy/40 mb-6">Questions? Email <a href="mailto:megan@anytime-soccer.com" className="text-[#e63946] font-semibold hover:underline">megan@anytime-soccer.com</a> or call <a href="tel:8034311082" className="text-[#e63946] font-semibold hover:underline">803-431-1082</a>.</p>
         <div className="flex flex-wrap gap-2 mb-8 pb-6 border-b border-gray-100">
-          <button onClick={() => { setHowToFilter(null); setExpandedStep(null); }}
+          <button onClick={() => { setHowToFilter(null); setExpandedSteps(new Set(HOW_TO_STEPS.map(s => s.key))); }}
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 text-xs font-bold transition-all ${howToFilter === null ? "bg-navy text-white border-navy" : "border-gray-200 text-navy/60 hover:border-navy/40 hover:text-navy"}`}>
             All
           </button>
@@ -255,7 +256,7 @@ function HowToContent() {
               : s.type === "opt" ? (active ? "bg-amber-500 text-white border-amber-500" : "border-amber-200 text-amber-600 hover:bg-amber-50")
               : (active ? "bg-navy text-white border-navy" : "border-gray-200 text-navy/60 hover:border-navy/40 hover:text-navy");
             return (
-              <button key={s.key} onClick={() => { const next = active ? null : s.key; setHowToFilter(next); setExpandedStep(next); }}
+              <button key={s.key} onClick={() => { const next = active ? null : s.key; setHowToFilter(next); if (next) setExpandedSteps(new Set([next])); }}
                 className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 text-xs font-bold transition-all ${pillColor}`}>
                 <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-black ${active ? "bg-white/20" : s.badgeBg} ${active ? "text-white" : s.badgeText}`}>{s.badge}</span>
                 {s.title}
@@ -265,10 +266,10 @@ function HowToContent() {
         </div>
         <div className="space-y-2">
           {visible.map(s => {
-            const open = expandedStep === s.key;
+            const open = expandedSteps.has(s.key);
             return (
               <div key={s.key} className="border border-gray-100 rounded-xl overflow-hidden">
-                <button onClick={() => setExpandedStep(open ? null : s.key)}
+                <button onClick={() => toggleStep(s.key)}
                   className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left">
                   <span className={`w-7 h-7 rounded-full ${s.badgeBg} ${s.badgeText} text-xs font-black flex items-center justify-center shrink-0`}>{s.badge}</span>
                   <span className="text-sm font-black text-navy flex-1">{s.title}</span>
@@ -784,7 +785,8 @@ export default function TeamReportPage() {
   const [showGoals, setShowGoals] = useState(() => searchParams.get("view") === "goals");
   const [showHowTo, setShowHowTo] = useState(() => searchParams.get("view") === "howto");
   const [howToFilter, setHowToFilter] = useState<string | null>(null);
-  const [expandedStep, setExpandedStep] = useState<string | null>(null);
+  const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set(['homework']));
+  const toggleStep = (key: string) => setExpandedSteps(prev => { const next = new Set(prev); next.has(key) ? next.delete(key) : next.add(key); return next; });
 
   const fetchTeams = useCallback(async (ids: number[], p = "alltime", initialLoad = false) => {
     if (!ids.length) return;
@@ -1075,13 +1077,17 @@ export default function TeamReportPage() {
 
                 {/* Pills */}
                 <div className="flex flex-wrap gap-2 mb-8 pb-6 border-b border-gray-100">
+                  <button onClick={() => { setHowToFilter(null); setExpandedSteps(new Set(HOW_TO_STEPS.map(s => s.key))); }}
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 text-xs font-bold transition-all ${howToFilter === null ? "bg-navy text-white border-navy" : "border-gray-200 text-navy/60 hover:border-navy/40 hover:text-navy"}`}>
+                    All
+                  </button>
                   {HOW_TO_STEPS.map(s => {
                     const active = howToFilter === s.key;
                     const pillColor = s.type === "rec" ? (active ? "bg-blue-600 text-white border-blue-600" : "border-blue-200 text-navy hover:bg-blue-50")
                       : s.type === "opt" ? (active ? "bg-amber-500 text-white border-amber-500" : "border-amber-200 text-amber-600 hover:bg-amber-50")
                       : (active ? "bg-navy text-white border-navy" : "border-gray-200 text-navy/60 hover:border-navy/40 hover:text-navy");
                     return (
-                      <button key={s.key} onClick={() => { const next = active ? null : s.key; setHowToFilter(next); setExpandedStep(next); }}
+                      <button key={s.key} onClick={() => { const next = active ? null : s.key; setHowToFilter(next); if (next) setExpandedSteps(new Set([next])); }}
                         className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 text-xs font-bold transition-all ${pillColor}`}>
                         <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-black ${active ? "bg-white/20" : s.badgeBg} ${active ? "text-white" : s.badgeText}`}>{s.badge}</span>
                         {s.title}
@@ -1093,10 +1099,10 @@ export default function TeamReportPage() {
                 {/* Steps */}
                 <div className="space-y-2">
                   {visible.map(s => {
-                    const open = expandedStep === s.key;
+                    const open = expandedSteps.has(s.key);
                     return (
                       <div key={s.key} className="border border-gray-100 rounded-xl overflow-hidden">
-                        <button onClick={() => setExpandedStep(open ? null : s.key)}
+                        <button onClick={() => toggleStep(s.key)}
                           className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left">
                           <span className={`w-7 h-7 rounded-full ${s.badgeBg} ${s.badgeText} text-xs font-black flex items-center justify-center shrink-0`}>{s.badge}</span>
                           <span className="text-sm font-black text-navy flex-1">{s.title}</span>
