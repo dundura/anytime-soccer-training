@@ -209,10 +209,10 @@ export default function EngagementPredictor() {
 
             <div>
               {/* Why section */}
-              <div style={{ background: '#fff', borderRadius: 16, padding: 24, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', marginBottom: 16 }}>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: '#DC373E', marginBottom: 8 }}>Why This Matters</div>
-                <p style={{ margin: 0, fontSize: 14, color: '#374151', lineHeight: 1.7 }}>
-                  The first few weeks are the most critical — they set the tone for how engaged your players will be all season. We've studied what actually drives participation and distilled it down to these 10 tasks. Our goal is to understand your expectations going in, and then make sure you're fully equipped to execute on each one.
+              <div style={{ background: '#dbeafe', borderRadius: 16, padding: 24, marginBottom: 16 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: '#1d4ed8', marginBottom: 8 }}>Why This Matters</div>
+                <p style={{ margin: 0, fontSize: 14, color: '#1e3a5f', lineHeight: 1.7 }}>
+                  We've studied what actually drives participation and distilled it down to these 10 tasks. Our goal is to understand your expectations going in, and then make sure you're fully equipped to execute on each one.
                 </p>
               </div>
 
