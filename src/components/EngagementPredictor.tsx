@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 const TASKS = [
-  { id: 'assign-homework', label: 'Assign Homework', desc: 'Send weekly video assignments to your players' },
+  { id: 'assign-homework', label: 'Assign Homework', desc: 'Assign homework folders and/or assign a recurring training plan' },
   { id: 'send-email', label: 'Send Email Reminder', desc: 'Keep players motivated with timely reminders' },
   { id: 'demo-app', label: 'Demo App In-Person', desc: 'Walk through the app with your team at practice' },
   { id: 'set-goals', label: 'Set Player Goals', desc: 'Give each player a personal training target' },
