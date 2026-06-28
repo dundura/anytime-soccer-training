@@ -18,7 +18,7 @@ function saveState(step: number, form: Record<string, string>, selected: string[
 
 const TASKS = [
   { id: 'assign-homework', label: 'Assign Homework', desc: 'Assign homework folders and/or assign a recurring training plan' },
-  { id: 'send-email', label: 'Send Email Reminder', desc: 'Keep players motivated with timely reminders' },
+  { id: 'send-email', label: 'Send Email Reminder', desc: 'Send emails from the new player dashboard' },
   { id: 'demo-app', label: 'Demo App In-Person', desc: 'Walk through the app with your team at practice' },
   { id: 'set-goals', label: 'Set Player Goals', desc: 'Give each player a personal training target' },
   { id: 'coach-challenge', label: "Create Coach's Challenge", desc: 'Set a team-wide challenge for extra motivation' },
