@@ -208,6 +208,14 @@ export default function EngagementPredictor() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 220px', gap: 20, alignItems: 'start' }}>
 
             <div>
+              {/* Why section */}
+              <div style={{ background: '#fff', borderRadius: 16, padding: 24, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', marginBottom: 16 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: '#DC373E', marginBottom: 8 }}>Why This Matters</div>
+                <p style={{ margin: 0, fontSize: 14, color: '#374151', lineHeight: 1.7 }}>
+                  The first few weeks are the most critical — they set the tone for how engaged your players will be all season. We've studied what actually drives participation and distilled it down to these 10 tasks. Our goal is to understand your expectations going in, and then make sure you're fully equipped to execute on each one.
+                </p>
+              </div>
+
               <div style={{ background: '#fff', borderRadius: 16, padding: 28, boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
                 <h2 style={{ margin: '0 0 6px', fontSize: 20, fontWeight: 800, color: navyBlue }}>Which tasks will you commit to?</h2>
                 <p style={{ margin: '0 0 20px', fontSize: 13, color: '#6b7280' }}>Check every task you plan to do. Each one adds 10 points to your predicted engagement score.</p>
