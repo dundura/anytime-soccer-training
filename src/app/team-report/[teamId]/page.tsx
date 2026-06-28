@@ -167,7 +167,7 @@ function SlugEditor({ team, onUpdate }: { team: Team; onUpdate: (slug: string) =
 
 const CHECKLIST_ITEMS: Array<{ num: number; key: string; label: string; auto: boolean; link?: string }> = [
   { num: 1,  key: "hasHomework",            label: "Assign Homework",                     auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=coach-board" },
-  { num: 2,  key: "eng_email_reminder",    label: "Send Email Reminder",                 auto: false },
+  { num: 2,  key: "eng_email",              label: "Send Email Reminder",                 auto: false },
   { num: 3,  key: "eng_demo",              label: "Demo App In-Person",                  auto: false },
   { num: 4,  key: "hasPersonalGoal",       label: "Set Player Goals",                    auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=players" },
   { num: 5,  key: "hasChallenge",          label: "Create Coach's Challenge",            auto: true,  link: "https://app.anytime-soccer.com/teams/dashboard?nav=challenge" },
