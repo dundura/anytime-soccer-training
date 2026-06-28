@@ -1,6 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+const SESSION_KEY = 'coaching-plan-state';
+
+function loadState() {
+  try {
+    const raw = sessionStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch { return null; }
+}
+
+function saveState(step: number, form: Record<string, string>, selected: string[]) {
+  try { sessionStorage.setItem(SESSION_KEY, JSON.stringify({ step, form, selected })); } catch {}
+}
 
 const TASKS = [
   { id: 'assign-homework', label: 'Assign Homework', desc: 'Assign homework folders and/or assign a recurring training plan' },
@@ -64,11 +78,21 @@ function ScoreCircle({ score }: { score: number }) {
 }
 
 export default function EngagementPredictor() {
-  const [form, setForm] = useState({ coachName: '', teamName: '', phone: '', email: '' });
-  const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [step, setStep] = useState(1);
+  const [form, setForm] = useState(() => {
+    const s = loadState(); return s?.form || { coachName: '', teamName: '', phone: '', email: '' };
+  });
+  const [selected, setSelected] = useState<Set<string>>(() => {
+    const s = loadState(); return new Set(s?.selected || []);
+  });
+  const [step, setStep] = useState(() => {
+    const s = loadState(); return s?.step || 1;
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    saveState(step, form, Array.from(selected));
+  }, [step, form, selected]);
 
   const score = selected.size * 10;
   const color = getScoreColor(score);
@@ -109,6 +133,7 @@ export default function EngagementPredictor() {
         }),
       });
       if (!res.ok) throw new Error('Request failed');
+      try { sessionStorage.removeItem(SESSION_KEY); } catch {}
       setStep(3);
       window.scrollTo(0, 0);
     } catch {
@@ -146,8 +171,8 @@ export default function EngagementPredictor() {
             <form onSubmit={handleContactNext}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Coach Name *</label>
-                  <input type="text" value={form.coachName} onChange={e => setForm(f => ({ ...f, coachName: e.target.value }))} placeholder="Jane Smith" style={inputStyle} />
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 6 }}>First Name *</label>
+                  <input type="text" value={form.coachName} onChange={e => setForm(f => ({ ...f, coachName: e.target.value }))} placeholder="Jane" style={inputStyle} />
                 </div>
                 <div>
                   <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Team Name *</label>
