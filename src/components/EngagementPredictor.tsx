@@ -172,21 +172,21 @@ export default function EngagementPredictor() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
                 <div>
                   <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 6 }}>First Name *</label>
-                  <input type="text" value={form.coachName} onChange={e => setForm(f => ({ ...f, coachName: e.target.value }))} placeholder="Jane" style={inputStyle} />
+                  <input type="text" value={form.coachName} onChange={e => setForm({ ...form, coachName: e.target.value })} placeholder="Jane" style={inputStyle} />
                 </div>
                 <div>
                   <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Team Name *</label>
-                  <input type="text" value={form.teamName} onChange={e => setForm(f => ({ ...f, teamName: e.target.value }))} placeholder="FC Eagles U12" style={inputStyle} />
+                  <input type="text" value={form.teamName} onChange={e => setForm({ ...form, teamName: e.target.value })} placeholder="FC Eagles U12" style={inputStyle} />
                 </div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
                 <div>
                   <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Email *</label>
-                  <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="jane@example.com" style={inputStyle} />
+                  <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="jane@example.com" style={inputStyle} />
                 </div>
                 <div>
                   <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Phone *</label>
-                  <input type="tel" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="(555) 000-0000" style={inputStyle} />
+                  <input type="tel" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} placeholder="(555) 000-0000" style={inputStyle} />
                 </div>
               </div>
               {error && <div style={{ color: red, fontSize: 13, marginBottom: 16 }}>{error}</div>}
