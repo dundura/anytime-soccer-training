@@ -79,32 +79,6 @@ export default function GettingStartedPage() {
         </div>
       </section>
 
-      {/* TABLE OF CONTENTS */}
-      <section className="pb-4 bg-background">
-        <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="rounded-2xl border border-[#e2eaf2] bg-[#f8fafc] px-6 py-5">
-            <p className="text-xs font-bold text-[#94a3b8] uppercase tracking-widest mb-3">In this guide</p>
-            <ol className="space-y-2 list-none m-0 p--0">
-              {[
-                { num: '1', id: 'create-account', title: 'Step 1: Create Your Account' },
-                { num: '2', id: 'join-team', title: 'Step 2: Join Your Team' },
-              ].map(({ num, id, title }) => (
-                <li key={id}>
-                  <a href={`#${id}`} className="flex items-start gap-3 group no-underline">
-                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-red text-white text-xs font-bold flex items-center justify-center mt-0.5">
-                      {num}
-                    </span>
-                    <span className="text-[#0f3154] text-[15px] font-medium group-hover:text-red transition-colors leading-snug">
-                      {title}
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </nav>
-        </div>
-      </section>
-
       {/* Already have an account callout */}
       <section className="pb-4 bg-background">
         <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8">
