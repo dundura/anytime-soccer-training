@@ -18,6 +18,7 @@ const GENERAL_GUIDES = [
 ];
 
 const TEAM_PAGES = [
+  { title: 'FSC Boys U13 Red', slug: 'fsc-boys-u13-red-getting-started' },
   { title: 'Butler Falcons', slug: 'butler-falcons-getting-started' },
   { title: 'Pacific FC 15G', slug: 'pacific-fc-15g-getting-started' },
   { title: 'Pacific FC 15G Riptide', slug: 'pacific-fc-15g-riptide-getting-started' },
