@@ -90,12 +90,6 @@ export default function CoachRenewalChecklist() {
             {/* Section Content */}
             {!collapsed[si] && (
               <div>
-                {/* Table Header */}
-                <div className="grid grid-cols-[1fr_160px] bg-[#e9ecef] px-6 py-3">
-                  <span className="text-[11px] font-semibold uppercase tracking-wide text-[#555]">Step</span>
-                  <span className="text-[11px] font-semibold uppercase tracking-wide text-[#555] text-center">Link / Video</span>
-                </div>
-
                 {/* Rows */}
                 {section.steps.map((step, ri) => (
                   <div
