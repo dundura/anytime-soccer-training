@@ -32,7 +32,7 @@ const sections: Section[] = [
             <ul className="list-disc pl-5 mt-1 space-y-0.5">
               <li>Go to your roster</li>
               <li>Click the player&apos;s name</li>
-              <li>Remove them from the team</li>
+              <li>Click &ldquo;Remove from Team&rdquo;</li>
             </ul>
           </>
         ),
