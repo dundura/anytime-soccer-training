@@ -25,7 +25,18 @@ const sections: Section[] = [
         link: { href: "https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa", label: "Roster Template" },
       },
       { text: "Pay online invoice (sent via Stripe)" },
-      { text: "Remove players who aren't returning — go to your roster, click the player's name, and remove them from the team" },
+      {
+        text: (
+          <>
+            Remove players who aren&apos;t returning:
+            <ul className="list-disc pl-5 mt-1 space-y-0.5">
+              <li>Go to your roster</li>
+              <li>Click the player&apos;s name</li>
+              <li>Remove them from the team</li>
+            </ul>
+          </>
+        ),
+      },
     ],
   },
   {
@@ -57,19 +68,17 @@ export default function CoachRenewalChecklist() {
             {/* Section Header */}
             <button
               onClick={() => toggle(si)}
-              className={`w-full flex items-center gap-3 px-6 py-4 text-left transition-colors cursor-pointer ${
-                section.optional ? "bg-navy/80 hover:bg-navy/90" : "bg-navy hover:bg-navy-light"
-              }`}
+              className="w-full flex items-center gap-3 px-6 py-4 text-left transition-colors cursor-pointer bg-white hover:bg-[#f5f6f8] border-b border-[#e9ecef]"
             >
               <span className="bg-red text-white text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap">
                 {section.step}
               </span>
-              <span className="text-white font-bold text-sm tracking-wide">{section.title}</span>
+              <span className="text-navy font-bold text-sm tracking-wide">{section.title}</span>
               {section.optional && (
-                <span className="bg-white/20 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full">OPTIONAL</span>
+                <span className="bg-navy/10 text-navy text-[11px] font-semibold px-2.5 py-1 rounded-full">OPTIONAL</span>
               )}
               <svg
-                className={`w-5 h-5 text-white ml-auto transition-transform flex-shrink-0 ${collapsed[si] ? "-rotate-90" : ""}`}
+                className={`w-5 h-5 text-navy ml-auto transition-transform flex-shrink-0 ${collapsed[si] ? "-rotate-90" : ""}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
