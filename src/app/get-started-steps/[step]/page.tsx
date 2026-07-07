@@ -67,6 +67,44 @@ export default function CoachOnboardingStepPage() {
               </ul>
             )}
 
+            {step.subSteps && (
+              <ol className="mb-8 space-y-5">
+                {step.subSteps.map((sub, i) => (
+                  <li key={sub.title} className="flex gap-4">
+                    <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">
+                      {i + 1}
+                    </span>
+                    <div>
+                      <p className="font-semibold text-navy mb-1">{sub.title}</p>
+                      <p className="text-gray-700 leading-relaxed mb-1">{sub.description}</p>
+                      <div className="flex flex-wrap gap-x-4 gap-y-1">
+                        {sub.videoHref && (
+                          <a
+                            href={sub.videoHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-red text-sm font-semibold hover:underline"
+                          >
+                            📺 Watch Video
+                          </a>
+                        )}
+                        {sub.moreInfoHref && (
+                          <a
+                            href={sub.moreInfoHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-navy text-sm font-semibold hover:underline"
+                          >
+                            Learn More →
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            )}
+
             {step.ctaHref && (
               <a
                 href={step.ctaHref}
