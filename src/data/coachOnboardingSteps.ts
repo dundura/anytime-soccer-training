@@ -12,10 +12,10 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     isOverview: true,
     title: "You're In! Let's Get Your Team Rolling",
     body: `
-      <p>We&rsquo;re excited to get your team started with Anytime Soccer Training!</p>
-      <p>Below are the key steps to the onboarding process. Complete each one, and be sure to email Megan when you&rsquo;re done.</p>
-      <p>Work through them one at a time &mdash; click <strong>Next</strong> when you&rsquo;re ready to move on, and skip anything you&rsquo;ve already knocked out.</p>
-      <p>Here&rsquo;s what needs to happen:</p>
+      <p>Welcome to Anytime Soccer Training! We&rsquo;re glad to have your team on board.</p>
+      <p>Below is your onboarding checklist. Work through the steps one at a time, click <strong>Next</strong> to move on, and skip anything you&rsquo;ve already completed.</p>
+      <p>Once everything&rsquo;s done, please email Megan to let her know.</p>
+      <p>Here&rsquo;s what&rsquo;s next:</p>
     `,
     checklist: [
       'Take the Coach Engagement Survey',
@@ -24,7 +24,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       'Reply to Megan with your team name',
       'Let Megan know once parents have been informed',
       "We'll invite your parents to join the team",
-      "We'll send your parents helpful getting-started information",
+      "We'll send you and your parents helpful getting-started information",
       'Neil will give you a call to walk through homework and other team features',
     ],
   },

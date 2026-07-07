@@ -53,7 +53,7 @@ export default function CoachOnboardingStepPage() {
 
           <div className="px-8 py-8">
             <div
-              className="prose prose-p:text-gray-700 prose-p:leading-relaxed max-w-none mb-6"
+              className="mb-6 space-y-4 text-gray-700 leading-relaxed [&_strong]:text-navy [&_strong]:font-semibold"
               dangerouslySetInnerHTML={{ __html: step.body }}
             />
 
@@ -79,20 +79,29 @@ export default function CoachOnboardingStepPage() {
               </a>
             )}
 
-            {isLastStep ? (
-              <div className="text-center text-gray font-medium">
-                🎉 That&rsquo;s everything &mdash; you&rsquo;re all set!
-              </div>
-            ) : (
-              <div className="flex justify-center">
+            <div className="flex justify-center items-center gap-4">
+              {stepNumber > 1 && (
+                <Link
+                  href={`/get-started-steps/${stepNumber - 1}`}
+                  className="inline-block bg-white border-2 border-navy text-navy hover:bg-gray-light font-bold py-2.5 px-8 rounded-xl transition-colors"
+                >
+                  ← Back
+                </Link>
+              )}
+
+              {isLastStep ? (
+                <div className="text-center text-gray font-medium">
+                  🎉 That&rsquo;s everything &mdash; you&rsquo;re all set!
+                </div>
+              ) : (
                 <Link
                   href={`/get-started-steps/${stepNumber + 1}`}
                   className="inline-block bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
                 >
                   Next →
                 </Link>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
 
