@@ -137,4 +137,31 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     ],
     hint: 'Duplicate player on the team? Click Roster, click the player’s profile name, copy their email address, click Leave Team, then invite them again — with auto-accept on, they’ll automatically appear on the roster.',
   },
+  {
+    title: 'Notify Parents',
+    body: `
+      <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
+        <p style="margin:0;"><strong style="color:#1565C0;">Action Required: Send parents the introduction email using our template.</strong></p>
+      </div>
+    `,
+    ctaLabel: 'Download the Parent Welcome Template',
+    ctaHref: 'https://docs.google.com/document/d/1VAVT_sHrtvvb1rUbuNX4muqUthq1Tgn0/edit?tab=t.0',
+  },
+  {
+    title: 'Notify Megan',
+    body: `
+      <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
+        <p style="margin:0;"><strong style="color:#1565C0;">Action Required: Reply to Megan and confirm parents have been informed.</strong></p>
+      </div>
+    `,
+    subSteps: [
+      {
+        title: 'Reply to Megan with your team name',
+        description: 'Use the exact team name you created in the app, and don’t change it during onboarding.',
+      },
+      {
+        title: 'Let Megan know once parents have been informed',
+      },
+    ],
+  },
 ];
