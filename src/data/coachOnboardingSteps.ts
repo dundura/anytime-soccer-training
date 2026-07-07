@@ -12,7 +12,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     isOverview: true,
     title: "You're In! Let's Get Your Team Rolling",
     body: `
-      <p>Welcome to Anytime Soccer Training! We&rsquo;re glad to have your team on board.</p>
+      <p>Welcome to <strong>Anytime Soccer Training</strong>! We&rsquo;re glad to have your team on board.</p>
       <p>Below is your onboarding checklist. Work through the steps one at a time, click <strong>Next</strong> to move on, and skip anything you&rsquo;ve already completed.</p>
       <p>Once everything&rsquo;s done, please email Megan to let her know.</p>
       <p>Here&rsquo;s what&rsquo;s next:</p>
