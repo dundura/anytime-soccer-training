@@ -23,6 +23,9 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       'Create your team (inside the app)',
       'Reply back to Megan with your team name',
       'Let Megan know that parents have been informed',
+      'From there, we invite your parents',
+      'We share helpful information with your parents',
+      'Neil Crawford will call to go over setting up your homework and other team features',
     ],
   },
   {
