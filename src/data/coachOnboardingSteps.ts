@@ -13,6 +13,8 @@ export type CoachOnboardingStep = {
   subSteps?: CoachOnboardingSubStep[];
   ctaLabel?: string;
   ctaHref?: string;
+  videoHref?: string;
+  moreInfoHref?: string;
   hint?: string;
 };
 
@@ -109,33 +111,29 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Create Your Team',
     body: `
-      <p><strong style="color:#1565C0;">Action Required: Create your team using the exact team name given to parents.</strong></p>
+      <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
+        <p style="margin:0;"><strong style="color:#1565C0;">Action Required: Create your team using the exact team name given to parents.</strong></p>
+      </div>
     `,
+    videoHref: 'https://youtu.be/_LTtpT885cM?si=5xVusdRdi7Nxjcxa',
+    moreInfoHref: 'https://www.anytime-soccer.com/creating-an-anytime-soccer-training-team?utm_source=email&utm_medium=email%20marketing',
     subSteps: [
       {
         title: 'Log In and Choose Your Coach’s Profile',
-        description: 'Sign in to anytime-soccer.com and select your coach profile. After creating the team, you can add your child via their profile.',
-        videoHref: 'https://youtu.be/_LTtpT885cM?si=5xVusdRdi7Nxjcxa',
-        moreInfoHref: 'https://www.anytime-soccer.com/creating-an-anytime-soccer-training-team?utm_source=email&utm_medium=email%20marketing',
       },
       {
         title: 'Click MY TEAMS',
-        description: 'From the dashboard, click on "MY TEAMS".',
       },
       {
         title: 'Click CREATE TEAM',
-        description: 'Click the "CREATE TEAM" button.',
       },
       {
         title: 'Complete the Form',
-        description: 'Fill out the team information form with the exact team name given to parents.',
       },
       {
         title: 'Keep Auto-Accept Turned On',
-        description: 'To check, go to Roster → Pending Invites. Please let players "request to join your team" — don’t invite them directly yet.',
       },
     ],
-    hint: 'Duplicate player on the team? Click Roster, click the player’s profile name, copy their email address, click Leave Team, then invite them again — with auto-accept on, they’ll automatically appear on the roster.',
   },
   {
     title: 'Notify Parents',
@@ -163,5 +161,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         title: 'Let Megan know once parents have been informed',
       },
     ],
+  },
+  {
+    title: 'Renewing Members',
+    body: `
+      <p>Already familiar with Anytime Soccer Training? Here&rsquo;s what&rsquo;s different for you this season.</p>
+      <p>You don&rsquo;t need to book a demo &mdash; instead, we&rsquo;ll give you a call during onboarding to walk through anything new since last season.</p>
+      <p>Otherwise, work through the same steps: send your roster, pay your invoice, and get your team set up. If any of your players already have an account, they won&rsquo;t need to create a new one &mdash; just add them to your new team.</p>
+    `,
   },
 ];

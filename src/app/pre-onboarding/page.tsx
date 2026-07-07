@@ -26,6 +26,10 @@ const PHASE_2_ITEMS: ChecklistItem[] = [
   { label: 'Neil will give you a call to walk through homework and other team features' },
 ];
 
+const RENEWING_MEMBERS_ITEMS: ChecklistItem[] = [
+  { label: 'Renewing members', href: '/get-started-steps/9' },
+];
+
 export default function PreOnboardingPage() {
   return (
     <section className="py-16 bg-background min-h-screen">
@@ -72,6 +76,25 @@ export default function PreOnboardingPage() {
 
             <ol className="space-y-5">
               {PHASE_2_ITEMS.map((item, i) => (
+                <li key={item.label} className="flex gap-4">
+                  <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">
+                    {i + 1}
+                  </span>
+                  {item.href ? (
+                    <Link href={item.href} className="font-semibold text-navy hover:underline">
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <p className="font-semibold text-navy">{item.label}</p>
+                  )}
+                </li>
+              ))}
+            </ol>
+
+            <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4 mt-8">Renewing Members</h2>
+
+            <ol className="space-y-5">
+              {RENEWING_MEMBERS_ITEMS.map((item, i) => (
                 <li key={item.label} className="flex gap-4">
                   <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">
                     {i + 1}

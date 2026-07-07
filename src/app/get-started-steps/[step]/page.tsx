@@ -62,6 +62,31 @@ export default function CoachOnboardingStepPage() {
               dangerouslySetInnerHTML={{ __html: step.body }}
             />
 
+            {(step.videoHref || step.moreInfoHref) && (
+              <div className="flex flex-wrap gap-x-4 gap-y-1 mb-6">
+                {step.videoHref && (
+                  <a
+                    href={step.videoHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-red text-sm font-semibold hover:underline"
+                  >
+                    📺 Watch Video
+                  </a>
+                )}
+                {step.moreInfoHref && (
+                  <a
+                    href={step.moreInfoHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-red text-sm font-semibold hover:underline"
+                  >
+                    How To →
+                  </a>
+                )}
+              </div>
+            )}
+
             {step.checklist && (
               <ul className="mb-6 space-y-3">
                 {step.checklist.map((item) => (
