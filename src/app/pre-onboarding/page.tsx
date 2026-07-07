@@ -6,15 +6,22 @@ export const metadata: Metadata = {
   description: "Before you start onboarding: send us your roster and pay your invoice.",
 };
 
-const FULL_ONBOARDING_CHECKLIST = [
-  'Take the Coach Engagement Survey',
-  'Create your account and add player profiles',
-  'Create your team inside the app',
-  'Reply to Megan with your team name',
-  'Let Megan know once parents have been informed',
-  "We'll invite your parents to join the team",
-  "We'll send you and your parents helpful getting-started information",
-  'Neil will give you a call to walk through homework and other team features',
+type ChecklistItem = { label: string; href?: string };
+
+const PHASE_1_ITEMS: ChecklistItem[] = [
+  { label: 'Send us your roster.', href: '/get-started-steps/1' },
+  { label: 'Pay your invoice.', href: '/get-started-steps/2' },
+];
+
+const PHASE_2_ITEMS: ChecklistItem[] = [
+  { label: 'Take the Coach Engagement Survey', href: '/get-started-steps/3' },
+  { label: 'Create your account and add player profiles' },
+  { label: 'Create your team inside the app' },
+  { label: 'Reply to Megan with your team name' },
+  { label: 'Let Megan know once parents have been informed' },
+  { label: "We'll invite your parents to join the team" },
+  { label: "We'll send you and your parents helpful getting-started information" },
+  { label: 'Neil will give you a call to walk through homework and other team features' },
 ];
 
 export default function PreOnboardingPage() {
@@ -30,34 +37,50 @@ export default function PreOnboardingPage() {
           </div>
 
           <div className="px-8 py-8">
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Welcome to <strong className="text-navy font-semibold">Anytime Soccer Training</strong>! We&rsquo;re so glad to have you on board, and we&rsquo;re looking forward to getting your team set up.
+            </p>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Our onboarding process is a streamlined way to get you up and running, answer any questions along the way, and set your team up for strong engagement from day one. Our onboarding site will guide you through each step along the way.
+            </p>
             <p className="text-gray-700 leading-relaxed mb-6">
-              Welcome to <strong className="text-navy font-semibold">Anytime Soccer Training</strong>! We&rsquo;re so glad to have you on board.
-              <br />
-              You&rsquo;ll complete your onboarding through our step-by-step onboarding site. Here&rsquo;s what to expect:
+              Here are the key steps. Click <strong className="text-navy font-semibold">Next</strong> when you&rsquo;re ready to begin.
             </p>
 
             <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4">Phase 1</h2>
 
             <ol className="space-y-5 mb-8">
-              <li className="flex gap-4">
-                <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">1</span>
-                <p className="font-semibold text-navy">Send us your roster.</p>
-              </li>
-              <li className="flex gap-4">
-                <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">2</span>
-                <p className="font-semibold text-navy">Pay your invoice.</p>
-              </li>
+              {PHASE_1_ITEMS.map((item, i) => (
+                <li key={item.label} className="flex gap-4">
+                  <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">
+                    {i + 1}
+                  </span>
+                  {item.href ? (
+                    <Link href={item.href} className="font-semibold text-navy hover:underline">
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <p className="font-semibold text-navy">{item.label}</p>
+                  )}
+                </li>
+              ))}
             </ol>
 
             <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4">Phase 2</h2>
 
-            <ol className="space-y-3">
-              {FULL_ONBOARDING_CHECKLIST.map((item, i) => (
-                <li key={item} className="flex items-start gap-3 text-gray-700">
-                  <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-red text-white font-bold text-xs mt-0.5">
+            <ol className="space-y-5">
+              {PHASE_2_ITEMS.map((item, i) => (
+                <li key={item.label} className="flex gap-4">
+                  <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">
                     {i + 1}
                   </span>
-                  <span>{item}</span>
+                  {item.href ? (
+                    <Link href={item.href} className="font-semibold text-navy hover:underline">
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <p className="font-semibold text-navy">{item.label}</p>
+                  )}
                 </li>
               ))}
             </ol>
