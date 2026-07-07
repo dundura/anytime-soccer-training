@@ -56,6 +56,17 @@ export default function CoachOnboardingStepPage() {
               dangerouslySetInnerHTML={{ __html: step.body }}
             />
 
+            {step.checklist && (
+              <ul className="mb-6 space-y-3">
+                {step.checklist.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-gray-700">
+                    <span className="text-red font-bold mt-0.5">✅</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
             {step.ctaHref && (
               <a
                 href={step.ctaHref}
@@ -79,6 +90,22 @@ export default function CoachOnboardingStepPage() {
                 Next →
               </Link>
             )}
+          </div>
+        </div>
+
+        <div className="mt-8 bg-navy rounded-2xl px-8 py-8 text-center text-white">
+          <h3 className="text-lg font-bold mb-4">Questions? We&rsquo;re Here to Help!</h3>
+          <div className="flex flex-col items-center gap-2">
+            <span className="font-semibold text-base">Megan Chambers</span>
+            <span className="text-white/70 text-sm">Team Success Manager</span>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 mt-3">
+              <a href="mailto:megan@anytime-soccer.com" className="text-white/90 hover:text-white text-sm">
+                megan@anytime-soccer.com
+              </a>
+              <a href="tel:803-431-1028" className="text-white/90 hover:text-white text-sm">
+                (M) 803-431-1028
+              </a>
+            </div>
           </div>
         </div>
       </div>
