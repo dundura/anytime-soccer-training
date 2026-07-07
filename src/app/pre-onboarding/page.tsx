@@ -39,7 +39,7 @@ export default function PreOnboardingPage() {
                 <div>
                   <p className="font-semibold text-navy">Send us your roster.</p>
                   <p className="text-gray-700 leading-relaxed mb-2">
-                    Megan will send you a roster template to fill in. We&rsquo;ll use the player names and emails to invite parents &mdash; but we don&rsquo;t send any information to parents until you confirm you&rsquo;ve notified them.
+                    Fill in the roster template below and email it to <strong className="text-navy font-semibold">Megan Chambers</strong>. We&rsquo;ll use the player names and emails to invite parents &mdash; but we don&rsquo;t send any information to parents until you confirm you&rsquo;ve notified them.
                   </p>
                   <a
                     href="https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa"
@@ -58,10 +58,16 @@ export default function PreOnboardingPage() {
                 <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">2</span>
                 <div>
                   <p className="font-semibold text-navy">Pay your invoice.</p>
-                  <p className="text-gray-700 leading-relaxed">We&rsquo;ll send it once we have your roster.</p>
+                  <p className="text-gray-700 leading-relaxed">
+                    Once we receive your roster, we&rsquo;ll generate your invoice. As soon as it&rsquo;s paid, onboarding begins &mdash; starting with the Coaching Plan Survey.
+                  </p>
                 </div>
               </li>
             </ol>
+
+            <p className="text-gray-700 leading-relaxed mb-8 bg-gray-light border-l-4 border-red px-4 py-3 rounded">
+              <strong className="text-navy">Parents don&rsquo;t pay anything.</strong> Each player is given a code that gives them full access to the program for 365 days.
+            </p>
 
             <p className="text-gray-700 leading-relaxed mb-4 font-semibold">
               Here&rsquo;s the full onboarding process, so you know what&rsquo;s ahead:
