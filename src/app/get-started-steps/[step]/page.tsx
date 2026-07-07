@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { COACH_ONBOARDING_STEPS } from '@/data/coachOnboardingSteps';
@@ -67,52 +67,71 @@ export default function CoachOnboardingStepPage() {
               </ul>
             )}
 
-            {step.subSteps && (
-              <ol className="mb-8 space-y-5">
-                {step.subSteps.map((sub, i) => (
-                  <Fragment key={sub.title}>
-                    {sub.sectionHeading && (
-                      <h2 className="text-sm font-bold uppercase tracking-wide text-red pt-2 first:pt-0">
-                        {sub.sectionHeading}
-                      </h2>
-                    )}
-                    <li className="flex gap-4">
-                      <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">
-                        {i + 1}
-                      </span>
-                      <div>
-                        <p className="font-semibold text-navy mb-1">{sub.title}</p>
-                        {sub.description && (
-                          <p className="text-gray-700 leading-relaxed mb-1">{sub.description}</p>
-                        )}
-                        <div className="flex flex-wrap gap-x-4 gap-y-1">
-                        {sub.videoHref && (
-                          <a
-                            href={sub.videoHref}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-red text-sm font-semibold hover:underline"
-                          >
-                            📺 Watch Video
-                          </a>
-                        )}
-                        {sub.moreInfoHref && (
-                          <a
-                            href={sub.moreInfoHref}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-navy text-sm font-semibold hover:underline"
-                          >
-                            How To →
-                          </a>
-                        )}
-                        </div>
-                      </div>
-                    </li>
-                  </Fragment>
-                ))}
-              </ol>
-            )}
+            {step.subSteps && (() => {
+              const groups: { heading?: string; items: typeof step.subSteps }[] = [];
+              step.subSteps.forEach((sub) => {
+                if (sub.sectionHeading || groups.length === 0) {
+                  groups.push({ heading: sub.sectionHeading, items: [sub] });
+                } else {
+                  groups[groups.length - 1].items.push(sub);
+                }
+              });
+
+              let counter = 0;
+              return (
+                <div className="mb-8 space-y-6">
+                  {groups.map((group, gi) => (
+                    <div key={gi} className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                      {group.heading && (
+                        <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-3">
+                          {group.heading}
+                        </h2>
+                      )}
+                      <ol className="space-y-5">
+                        {group.items.map((sub) => {
+                          counter += 1;
+                          return (
+                            <li key={sub.title} className="flex gap-4">
+                              <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">
+                                {counter}
+                              </span>
+                              <div>
+                                <p className="font-semibold text-navy mb-1">{sub.title}</p>
+                                {sub.description && (
+                                  <p className="text-gray-700 leading-relaxed mb-1">{sub.description}</p>
+                                )}
+                                <div className="flex flex-wrap gap-x-4 gap-y-1">
+                                  {sub.videoHref && (
+                                    <a
+                                      href={sub.videoHref}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-1 text-red text-sm font-semibold hover:underline"
+                                    >
+                                      📺 Watch Video
+                                    </a>
+                                  )}
+                                  {sub.moreInfoHref && (
+                                    <a
+                                      href={sub.moreInfoHref}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-1 text-navy text-sm font-semibold hover:underline"
+                                    >
+                                      How To →
+                                    </a>
+                                  )}
+                                </div>
+                              </div>
+                            </li>
+                          );
+                        })}
+                      </ol>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
 
             {step.ctaHref && (
               <a

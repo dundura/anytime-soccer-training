@@ -16,7 +16,7 @@ const PHASE_1_ITEMS: ChecklistItem[] = [
 
 const PHASE_2_ITEMS: ChecklistItem[] = [
   { label: 'Take the Coach Engagement Survey', href: '/get-started-steps/4' },
-  { label: 'Create your account and add player profiles', href: '/get-started-steps/5' },
+  { label: 'Create your account and add profiles', href: '/get-started-steps/5' },
   { label: 'Create your team inside the app' },
   { label: 'Reply to Megan with your team name' },
   { label: 'Let Megan know once parents have been informed' },
