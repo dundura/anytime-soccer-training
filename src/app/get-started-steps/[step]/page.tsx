@@ -80,14 +80,12 @@ export default function CoachOnboardingStepPage() {
             )}
 
             <div className="flex justify-center items-center gap-4">
-              {stepNumber > 1 && (
-                <Link
-                  href={`/get-started-steps/${stepNumber - 1}`}
-                  className="inline-block bg-white border-2 border-navy text-navy hover:bg-gray-light font-bold py-2.5 px-8 rounded-xl transition-colors"
-                >
-                  ← Back
-                </Link>
-              )}
+              <Link
+                href={stepNumber > 1 ? `/get-started-steps/${stepNumber - 1}` : '/pre-onboarding'}
+                className="inline-block bg-white border-2 border-navy text-navy hover:bg-gray-light font-bold py-2.5 px-8 rounded-xl transition-colors"
+              >
+                ← Back
+              </Link>
 
               {isLastStep ? (
                 <div className="text-center text-gray font-medium">
