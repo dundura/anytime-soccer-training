@@ -79,7 +79,7 @@ export default function CoachOnboardingStepPage() {
             )}
 
             {step.hint && (
-              <p className="text-gray text-sm text-center italic mb-8">{step.hint}</p>
+              <p className="text-navy text-sm text-center bg-blue-50 border border-blue-200 rounded-lg px-4 py-3 mb-8">{step.hint}</p>
             )}
 
             <div className="flex justify-center items-center gap-4">
