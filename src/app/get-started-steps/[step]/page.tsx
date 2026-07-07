@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { COACH_ONBOARDING_STEPS } from '@/data/coachOnboardingSteps';
@@ -70,14 +70,22 @@ export default function CoachOnboardingStepPage() {
             {step.subSteps && (
               <ol className="mb-8 space-y-5">
                 {step.subSteps.map((sub, i) => (
-                  <li key={sub.title} className="flex gap-4">
-                    <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">
-                      {i + 1}
-                    </span>
-                    <div>
-                      <p className="font-semibold text-navy mb-1">{sub.title}</p>
-                      <p className="text-gray-700 leading-relaxed mb-1">{sub.description}</p>
-                      <div className="flex flex-wrap gap-x-4 gap-y-1">
+                  <Fragment key={sub.title}>
+                    {sub.sectionHeading && (
+                      <h2 className="text-sm font-bold uppercase tracking-wide text-red pt-2 first:pt-0">
+                        {sub.sectionHeading}
+                      </h2>
+                    )}
+                    <li className="flex gap-4">
+                      <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">
+                        {i + 1}
+                      </span>
+                      <div>
+                        <p className="font-semibold text-navy mb-1">{sub.title}</p>
+                        {sub.description && (
+                          <p className="text-gray-700 leading-relaxed mb-1">{sub.description}</p>
+                        )}
+                        <div className="flex flex-wrap gap-x-4 gap-y-1">
                         {sub.videoHref && (
                           <a
                             href={sub.videoHref}
@@ -95,12 +103,13 @@ export default function CoachOnboardingStepPage() {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1 text-navy text-sm font-semibold hover:underline"
                           >
-                            Learn More →
+                            How To →
                           </a>
                         )}
+                        </div>
                       </div>
-                    </div>
-                  </li>
+                    </li>
+                  </Fragment>
                 ))}
               </ol>
             )}
