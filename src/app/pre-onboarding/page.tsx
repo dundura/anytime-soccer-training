@@ -38,10 +38,10 @@ export default function PreOnboardingPage() {
 
           <div className="px-8 py-8">
             <p className="text-gray-700 leading-relaxed mb-4">
-              Welcome to <strong className="text-navy font-semibold">Anytime Soccer Training</strong>! We&rsquo;re so glad to have you on board, and we&rsquo;re looking forward to getting your team set up.
+              Welcome to <strong className="text-navy font-semibold">Anytime Soccer Training</strong>! We&rsquo;re excited to get your team set up.
             </p>
             <p className="text-gray-700 leading-relaxed mb-4">
-              Our onboarding process is a streamlined way to get you up and running, answer any questions along the way, and set your team up for strong engagement from day one. Our onboarding site will guide you through each step along the way.
+              Our onboarding site walks you through a streamlined process &mdash; answering questions along the way and setting your team up for strong engagement from day one.
             </p>
             <p className="text-gray-700 leading-relaxed mb-6">
               Here are the key steps. Click <strong className="text-navy font-semibold">Next</strong> when you&rsquo;re ready to begin.
