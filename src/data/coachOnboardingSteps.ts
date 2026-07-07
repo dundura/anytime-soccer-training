@@ -4,29 +4,24 @@ export type CoachOnboardingStep = {
   checklist?: string[];
   ctaLabel?: string;
   ctaHref?: string;
-  isOverview?: boolean;
 };
 
 export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
-    isOverview: true,
-    title: "You're In! Let's Get Your Team Rolling",
+    title: 'Send Us Your Roster',
     body: `
-      <p>Welcome to <strong>Anytime Soccer Training</strong>! We&rsquo;re glad to have your team on board.</p>
-      <p>Below is your onboarding checklist. Work through the steps one at a time, click <strong>Next</strong> to move on, and skip anything you&rsquo;ve already completed.</p>
-      <p>Once everything&rsquo;s done, please email Megan to let her know.</p>
-      <p>Here&rsquo;s what&rsquo;s next:</p>
+      <p>Fill in the roster template below and email it to <strong>Megan Chambers</strong>.</p>
+      <p>We&rsquo;ll use the player names and emails to invite parents &mdash; but we don&rsquo;t send any information to parents until you confirm you&rsquo;ve notified them.</p>
     `,
-    checklist: [
-      'Take the Coach Engagement Survey',
-      'Create your account and add player profiles',
-      'Create your team inside the app',
-      'Reply to Megan with your team name',
-      'Let Megan know once parents have been informed',
-      "We'll invite your parents to join the team",
-      "We'll send you and your parents helpful getting-started information",
-      'Neil will give you a call to walk through homework and other team features',
-    ],
+    ctaLabel: 'Roster Template',
+    ctaHref: 'https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa',
+  },
+  {
+    title: 'Pay Your Invoice',
+    body: `
+      <p>Once we receive your roster, we&rsquo;ll generate your invoice. As soon as it&rsquo;s paid, onboarding begins &mdash; starting with the Coaching Plan Survey.</p>
+      <p><strong>Parents don&rsquo;t pay anything.</strong> Each player is given a code that gives them full access to the program for 365 days.</p>
+    `,
   },
   {
     title: 'Coaching Plan Survey',

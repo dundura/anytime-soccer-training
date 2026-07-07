@@ -41,38 +41,13 @@ export default function PreOnboardingPage() {
             <ol className="space-y-5 mb-8">
               <li className="flex gap-4">
                 <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">1</span>
-                <div>
-                  <p className="font-semibold text-navy">Send us your roster.</p>
-                  <p className="text-gray-700 leading-relaxed mb-2">
-                    Fill in the roster template below and email it to <strong className="text-navy font-semibold">Megan Chambers</strong>. We&rsquo;ll use the player names and emails to invite parents &mdash; but we don&rsquo;t send any information to parents until you confirm you&rsquo;ve notified them.
-                  </p>
-                  <a
-                    href="https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 bg-red hover:bg-red-dark text-white text-sm font-semibold px-4 py-2 rounded-md transition-all hover:-translate-y-0.5 hover:shadow-lg"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Roster Template
-                  </a>
-                </div>
+                <p className="font-semibold text-navy">Send us your roster.</p>
               </li>
               <li className="flex gap-4">
                 <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">2</span>
-                <div>
-                  <p className="font-semibold text-navy">Pay your invoice.</p>
-                  <p className="text-gray-700 leading-relaxed">
-                    Once we receive your roster, we&rsquo;ll generate your invoice. As soon as it&rsquo;s paid, onboarding begins &mdash; starting with the Coaching Plan Survey.
-                  </p>
-                </div>
+                <p className="font-semibold text-navy">Pay your invoice.</p>
               </li>
             </ol>
-
-            <p className="text-gray-700 leading-relaxed mb-8 bg-gray-light border-l-4 border-red px-4 py-3 rounded">
-              <strong className="text-navy">Parents don&rsquo;t pay anything.</strong> Each player is given a code that gives them full access to the program for 365 days.
-            </p>
 
             <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4">Phase 2</h2>
 
