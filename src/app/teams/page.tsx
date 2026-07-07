@@ -59,6 +59,7 @@ const TEAM_PAGES = [
   { title: 'PFC Tsunami 14G', slug: 'pfc-tsunami-14g-getting-started' },
   { title: 'Pacific FC 14G Lightning', slug: 'pacific-fc-14g-lightning-getting-started' },
   { title: 'Pacific FC 17G Spirit', slug: 'pacific-fc-17g-spirit-getting-started' },
+  { title: 'WJFC BU13 AM', slug: 'wjfc-bu13-am-getting-started' },
 ];
 
 const PARENT_GUIDES = [
