@@ -72,10 +72,14 @@ export default function CoachOnboardingStepPage() {
                 href={step.ctaHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-center bg-red hover:bg-red-dark text-white font-bold py-4 px-6 rounded-xl transition-colors mb-8"
+                className="block text-center bg-red hover:bg-red-dark text-white font-bold py-4 px-6 rounded-xl transition-colors mb-2"
               >
                 {step.ctaLabel}
               </a>
+            )}
+
+            {step.hint && (
+              <p className="text-gray text-sm text-center italic mb-8">{step.hint}</p>
             )}
 
             <div className="flex justify-center items-center gap-4">
