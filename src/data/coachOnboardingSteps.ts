@@ -32,9 +32,8 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Coaching Plan Survey',
     body: `
-      <p>Before we get your team fully set up, there&rsquo;s one quick step to complete.</p>
-      <p>Over the years, we&rsquo;ve studied what actually drives player participation and distilled it down to <strong>10 key coaching actions</strong> that take around one minute each for the coach to complete.</p>
-      <p>Your Coaching Plan Survey tells us which ones you plan to use &mdash; and from there, our team will make sure you&rsquo;re fully equipped to execute on every single one.</p>
+      <p><strong style="color:#DC373E;">Action Required:</strong> Complete the survey.</p>
+      <p>We&rsquo;ve distilled what drives player participation into <strong>10 key coaching actions</strong> &mdash; each takes about a minute. Your survey tells us which ones you plan to use, so we can set you up to execute on every one.</p>
     `,
     ctaLabel: 'Complete Your Coaching Plan Survey',
     ctaHref: 'https://www.anytime-soccer.com/my-coaching-plan',
