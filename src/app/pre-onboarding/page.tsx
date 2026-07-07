@@ -44,7 +44,7 @@ export default function PreOnboardingPage() {
               Our onboarding site walks you through a streamlined process &mdash; answering questions along the way and setting your team up for strong engagement from day one.
             </p>
             <p className="text-gray-700 leading-relaxed mb-6">
-              Here are the key steps. Click <strong className="text-navy font-semibold">Next</strong> when you&rsquo;re ready to begin.
+              Click <strong className="text-navy font-semibold">Next</strong> or the links to begin.
             </p>
 
             <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4">Phase 1</h2>
