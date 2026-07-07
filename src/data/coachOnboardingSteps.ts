@@ -18,6 +18,16 @@ export type CoachOnboardingStep = {
 
 export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
+    title: 'Book a Demo',
+    body: `
+      <p>If you haven&rsquo;t booked a demo yet, please book a time &mdash; it&rsquo;s a quick 20-minute Zoom call.</p>
+      <p>Already booked? Great job &mdash; move on to the next step.</p>
+      <p><strong>Renewing member?</strong> No need to rebook &mdash; we&rsquo;ll give you a call during onboarding to walk through the new features instead.</p>
+    `,
+    ctaLabel: 'Book Demo',
+    ctaHref: 'https://www.anytime-soccer.com/team-demo-request-anytime-soccer-training',
+  },
+  {
     title: 'Send Us Your Roster',
     body: `
       <p><strong style="color:#DC373E;">Action Required:</strong> Download a copy of the roster template below, fill it in, and email it back to <strong>Megan Chambers</strong> as an Excel file.</p>
