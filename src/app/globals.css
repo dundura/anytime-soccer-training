@@ -97,14 +97,6 @@ body {
   text-decoration: none;
 }
 
-.wp-content .contact-section h3,
-.wp-content .contact-section .contact-name,
-.wp-content .contact-section .contact-title,
-.wp-content .contact-section .contact-details a,
-.wp-content .contact-section .contact-details a:hover {
-  color: #1565C0 !important;
-}
-
 /* Hide WordPress featured-image wrapper (causes empty whitespace) */
 .wp-content .post-image {
   display: none;
