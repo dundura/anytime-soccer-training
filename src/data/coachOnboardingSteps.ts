@@ -11,8 +11,8 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: "Welcome — Here's What's Next",
     body: `
       <p>Thanks for getting your team set up with us &mdash; it&rsquo;s time to get started!</p>
-      <p>Our Team Success Manager, Megan, will be reaching out shortly with specific instructions to get you set up. Keep an eye on your email and follow the steps she sends &mdash; they&rsquo;ll be short and easy to act on.</p>
-      <p>Already completed a step? No worries &mdash; just skip it. After Megan&rsquo;s email, make sure these things are done:</p>
+      <p>The steps below will walk you through everything you need to get your team fully set up and training. Each one is short and easy to act on &mdash; just work through them one at a time using the Next button.</p>
+      <p>Already completed a step? No worries &mdash; just skip ahead. By the end, make sure these things are done:</p>
     `,
     checklist: [
       'Take the Coach Engagement Survey',
