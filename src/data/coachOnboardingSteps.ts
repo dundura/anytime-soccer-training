@@ -45,7 +45,9 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Pay Your Invoice',
     body: `
-      <p><strong style="color:#1565C0;">Action Required: Pay invoice online.</strong></p>
+      <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
+        <p style="margin:0;"><strong style="color:#1565C0;">Action Required: Pay invoice online.</strong></p>
+      </div>
       <p>Once we receive your roster, we&rsquo;ll generate your invoice and send it via Stripe. As soon as it&rsquo;s paid, onboarding begins &mdash; starting with the <strong>Coaching Plan Survey</strong>.</p>
       <p><strong>Parents don&rsquo;t pay anything.</strong> Each player is given a code that gives them full access to the program for 365 days.</p>
     `,
@@ -53,7 +55,9 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Coaching Plan Survey',
     body: `
-      <p><strong style="color:#1565C0;">Action Required: Complete the survey.</strong></p>
+      <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
+        <p style="margin:0;"><strong style="color:#1565C0;">Action Required: Complete the survey.</strong></p>
+      </div>
       <p>We&rsquo;ve distilled what drives player participation into <strong>10 key coaching actions</strong> &mdash; each takes about a minute.</p>
       <p>Your survey tells us which ones you plan to use, so we can set you up to execute on every one.</p>
     `,
@@ -63,7 +67,9 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Create Your Account',
     body: `
-      <p><strong style="color:#1565C0;">Action Required: Create your account and add profiles.</strong></p>
+      <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
+        <p style="margin:0;"><strong style="color:#1565C0;">Action Required: Create your account and add profiles.</strong></p>
+      </div>
       <p>Click the How To links below for detailed instructions.</p>
     `,
     subSteps: [
@@ -99,5 +105,36 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         description: 'You can use the same contact email for all player profiles, or different ones. Parents: only create profiles for your own children.',
       },
     ],
+  },
+  {
+    title: 'Create Your Team',
+    body: `
+      <p><strong style="color:#1565C0;">Action Required: Create your team using the exact team name given to parents.</strong></p>
+    `,
+    subSteps: [
+      {
+        title: 'Log In and Choose Your Coach’s Profile',
+        description: 'Sign in to anytime-soccer.com and select your coach profile. After creating the team, you can add your child via their profile.',
+        videoHref: 'https://youtu.be/_LTtpT885cM?si=5xVusdRdi7Nxjcxa',
+        moreInfoHref: 'https://www.anytime-soccer.com/creating-an-anytime-soccer-training-team?utm_source=email&utm_medium=email%20marketing',
+      },
+      {
+        title: 'Click MY TEAMS',
+        description: 'From the dashboard, click on "MY TEAMS".',
+      },
+      {
+        title: 'Click CREATE TEAM',
+        description: 'Click the "CREATE TEAM" button.',
+      },
+      {
+        title: 'Complete the Form',
+        description: 'Fill out the team information form with the exact team name given to parents.',
+      },
+      {
+        title: 'Keep Auto-Accept Turned On',
+        description: 'To check, go to Roster → Pending Invites. Please let players "request to join your team" — don’t invite them directly yet.',
+      },
+    ],
+    hint: 'Duplicate player on the team? Click Roster, click the player’s profile name, copy their email address, click Leave Team, then invite them again — with auto-accept on, they’ll automatically appear on the roster.',
   },
 ];

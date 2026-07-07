@@ -43,7 +43,13 @@ export default function CoachOnboardingStepPage() {
     <section className="py-16 bg-background min-h-screen">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div className="bg-navy px-8 py-6">
+          <div className="bg-navy px-8 py-6 relative">
+            <Link
+              href="/pre-onboarding"
+              className="absolute top-4 right-6 text-white/80 hover:text-white text-sm font-semibold inline-flex items-center gap-1"
+            >
+              🏠 Home
+            </Link>
             <span className="inline-block bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-3">
               Step {stepNumber} of {COACH_ONBOARDING_STEPS.length}
             </span>
@@ -116,7 +122,7 @@ export default function CoachOnboardingStepPage() {
                                       href={sub.moreInfoHref}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="inline-flex items-center gap-1 text-navy text-sm font-semibold hover:underline"
+                                      className="inline-flex items-center gap-1 text-red text-sm font-semibold hover:underline"
                                     >
                                       How To →
                                     </a>
@@ -138,7 +144,7 @@ export default function CoachOnboardingStepPage() {
                 href={step.ctaHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-center bg-red hover:bg-red-dark text-white font-bold py-4 px-6 rounded-xl transition-colors mb-2"
+                className={`block text-center bg-red hover:bg-red-dark text-white font-bold py-4 px-6 rounded-xl transition-colors ${step.hint ? 'mb-2' : 'mb-8'}`}
               >
                 {step.ctaLabel}
               </a>
