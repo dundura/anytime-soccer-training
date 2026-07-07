@@ -83,12 +83,14 @@ export default function CoachOnboardingStepPage() {
                 🎉 That&rsquo;s everything &mdash; you&rsquo;re all set!
               </div>
             ) : (
-              <Link
-                href={`/get-started-steps/${stepNumber + 1}`}
-                className="block text-center bg-navy hover:bg-navy-light text-white font-bold py-4 px-6 rounded-xl transition-colors"
-              >
-                Next →
-              </Link>
+              <div className="flex justify-center">
+                <Link
+                  href={`/get-started-steps/${stepNumber + 1}`}
+                  className="inline-block bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                >
+                  Next →
+                </Link>
+              </div>
             )}
           </div>
         </div>

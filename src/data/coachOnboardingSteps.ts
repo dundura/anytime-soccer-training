@@ -8,11 +8,11 @@ export type CoachOnboardingStep = {
 
 export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
-    title: "Welcome — Here's What's Next",
+    title: "You're In! Let's Get Your Team Rolling",
     body: `
-      <p>Thanks for getting your team set up with us &mdash; it&rsquo;s time to get started!</p>
-      <p>The steps below will walk you through everything you need to get your team fully set up and training. Each one is short and easy to act on &mdash; just work through them one at a time using the Next button.</p>
-      <p>Already completed a step? No worries &mdash; just skip ahead. By the end, make sure these things are done:</p>
+      <p>This is your roadmap &mdash; a handful of quick steps between you and a fully set-up, training team.</p>
+      <p>Work through them one at a time. Click <strong>Next</strong> when you&rsquo;re ready to move on, and skip anything you&rsquo;ve already knocked out.</p>
+      <p>Here&rsquo;s what needs to happen:</p>
     `,
     checklist: [
       'Take the Coach Engagement Survey',
@@ -21,8 +21,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       'Reply back to Megan with your team name',
       'Let us know that parents have been informed',
     ],
-    ctaLabel: 'Download the Parent Welcome Template →',
-    ctaHref: 'https://docs.google.com/document/d/1VAVT_sHrtvvb1rUbuNX4muqUthq1Tgn0/edit',
   },
   {
     title: 'Coaching Plan Survey',
