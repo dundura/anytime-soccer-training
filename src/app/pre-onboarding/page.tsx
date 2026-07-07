@@ -47,7 +47,7 @@ export default function PreOnboardingPage() {
               Click <strong className="text-navy font-semibold">Next</strong> or the links to begin.
             </p>
 
-            <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4">Phase 1</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4">Pre Onboarding</h2>
 
             <ol className="space-y-5 mb-8">
               {PHASE_1_ITEMS.map((item, i) => (
@@ -66,7 +66,7 @@ export default function PreOnboardingPage() {
               ))}
             </ol>
 
-            <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4">Phase 2</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4">Onboarding</h2>
 
             <ol className="space-y-5">
               {PHASE_2_ITEMS.map((item, i) => (
