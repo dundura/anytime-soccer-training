@@ -10,8 +10,9 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Send Us Your Roster',
     body: `
-      <p>Fill in the roster template below and email it to <strong>Megan Chambers</strong>.</p>
+      <p>Download a copy of the roster template below, fill it in, and email it back to <strong>Megan Chambers</strong> as an Excel file.</p>
       <p>We&rsquo;ll use the player names and emails to invite parents &mdash; but we don&rsquo;t send any information to parents until you confirm you&rsquo;ve notified them.</p>
+      <p>Don&rsquo;t have your full roster finalized yet? No problem &mdash; send over what you have and we&rsquo;ll get you started. You can always add the rest of your players later.</p>
     `,
     ctaLabel: 'Roster Template',
     ctaHref: 'https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa',
