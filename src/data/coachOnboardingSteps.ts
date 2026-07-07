@@ -4,10 +4,12 @@ export type CoachOnboardingStep = {
   checklist?: string[];
   ctaLabel?: string;
   ctaHref?: string;
+  isOverview?: boolean;
 };
 
 export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
+    isOverview: true,
     title: "You're In! Let's Get Your Team Rolling",
     body: `
       <p>This is your roadmap &mdash; a handful of quick steps between you and a fully set-up, training team.</p>

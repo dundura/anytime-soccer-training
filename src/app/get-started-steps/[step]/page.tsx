@@ -16,6 +16,7 @@ export default function CoachOnboardingStepPage() {
   const stepIndex = stepNumber - 1;
   const step = COACH_ONBOARDING_STEPS[stepIndex];
   const isLastStep = stepIndex === COACH_ONBOARDING_STEPS.length - 1;
+  const totalRealSteps = COACH_ONBOARDING_STEPS.filter((s) => !s.isOverview).length;
 
   useEffect(() => {
     setMounted(true);
@@ -45,7 +46,7 @@ export default function CoachOnboardingStepPage() {
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="bg-navy px-8 py-6">
             <span className="inline-block bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-3">
-              Step {stepNumber} of {COACH_ONBOARDING_STEPS.length}
+              {step.isOverview ? 'Overview' : `Step ${stepIndex} of ${totalRealSteps}`}
             </span>
             <h1 className="text-white text-2xl font-extrabold">{step.title}</h1>
           </div>
