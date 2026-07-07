@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Pre Onboarding | Anytime Soccer Training',
@@ -30,8 +31,12 @@ export default function PreOnboardingPage() {
 
           <div className="px-8 py-8">
             <p className="text-gray-700 leading-relaxed mb-6">
-              We&rsquo;re about to get started! You&rsquo;ll complete your onboarding through our step-by-step onboarding site. In the meantime, here&rsquo;s what to expect:
+              Welcome to <strong className="text-navy font-semibold">Anytime Soccer Training</strong>! We&rsquo;re so glad to have you on board.
+              <br />
+              You&rsquo;ll complete your onboarding through our step-by-step onboarding site. Here&rsquo;s what to expect:
             </p>
+
+            <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4">Phase 1</h2>
 
             <ol className="space-y-5 mb-8">
               <li className="flex gap-4">
@@ -69,9 +74,7 @@ export default function PreOnboardingPage() {
               <strong className="text-navy">Parents don&rsquo;t pay anything.</strong> Each player is given a code that gives them full access to the program for 365 days.
             </p>
 
-            <p className="text-gray-700 leading-relaxed mb-4 font-semibold">
-              Here&rsquo;s the full onboarding process, so you know what&rsquo;s ahead:
-            </p>
+            <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4">Phase 2</h2>
 
             <ol className="space-y-3">
               {FULL_ONBOARDING_CHECKLIST.map((item, i) => (
@@ -83,6 +86,15 @@ export default function PreOnboardingPage() {
                 </li>
               ))}
             </ol>
+
+            <div className="flex justify-center mt-8">
+              <Link
+                href="/get-started-steps/1"
+                className="inline-block bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+              >
+                Next →
+              </Link>
+            </div>
           </div>
         </div>
 
