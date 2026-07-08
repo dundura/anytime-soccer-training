@@ -159,6 +159,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       },
       {
         title: 'Let Megan know once parents have been informed',
+        description: "We'll begin onboarding within 48 hours.",
       },
     ],
   },
