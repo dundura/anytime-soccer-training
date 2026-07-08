@@ -177,9 +177,34 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Renewing Members',
     body: `
-      <p>Already familiar with Anytime Soccer Training? Here&rsquo;s what&rsquo;s different for you this season.</p>
-      <p>You don&rsquo;t need to book a demo &mdash; instead, we&rsquo;ll give you a call during onboarding to walk through anything new since last season.</p>
-      <p>Otherwise, work through the same steps: send your roster, pay your invoice, and get your team set up. If any of your players already have an account, they won&rsquo;t need to create a new one &mdash; just add them to your new team.</p>
+      <p>We&rsquo;re excited to have you back. We&rsquo;ve made updates to make managing your team easier and get your players more touches at home.</p>
+      <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin:16px 0;">
+        <p style="margin:0;"><strong style="color:#DC373E;">Action Required:</strong> <strong style="color:#0F3154;">Complete your roster update and send parent notifications.</strong></p>
+      </div>
+      <p>You don&rsquo;t need to book a demo &mdash; we&rsquo;ll give you a call during onboarding to walk through anything new since last season.</p>
     `,
+    subSteps: [
+      {
+        title: 'Submit your updated roster to Megan',
+        moreInfoHref: 'https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa',
+        sectionHeading: 'Roster Update',
+      },
+      {
+        title: "Pay your invoice (we'll send it via Stripe)",
+      },
+      {
+        title: 'Remove non-returning players from your roster',
+      },
+      {
+        title: 'Send parents your intro email',
+        moreInfoHref: 'https://docs.google.com/document/d/1VAVT_sHrtvvb1rUbuNX4muqUthq1Tgn0/edit',
+        sectionHeading: 'Send Notifications',
+      },
+      {
+        title: 'Confirm with Megan once parents are notified',
+        description: 'Email her at megan@anytime-soccer.com.',
+      },
+    ],
+    hint: "That's it — Megan will follow up. Looking forward to the season! Questions? Email megan@anytime-soccer.com.",
   },
 ];
