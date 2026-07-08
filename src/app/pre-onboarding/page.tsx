@@ -22,13 +22,13 @@ const PHASE_2_ITEMS: ChecklistItem[] = [
   { label: 'Send parents the introduction email', href: '/get-started-steps/7' },
   { label: 'Reply to Megan with your team name', href: '/get-started-steps/8' },
   { label: 'Let Megan know once parents have been informed', href: '/get-started-steps/8' },
-  { label: "We'll invite your parents to join the team" },
-  { label: "We'll send you and your parents helpful getting-started information" },
-  { label: 'Neil will give you a call to walk through homework and other team features' },
+  { label: "We'll invite your parents to join the team", href: '/get-started-steps/9' },
+  { label: "We'll send you and your parents helpful getting-started information", href: '/get-started-steps/9' },
+  { label: 'Neil will give you a call to walk through homework and other team features', href: '/get-started-steps/9' },
 ];
 
 const RENEWING_MEMBERS_ITEMS: ChecklistItem[] = [
-  { label: 'Renewing members', href: '/get-started-steps/9' },
+  { label: 'Renewing members', href: '/get-started-steps/10' },
 ];
 
 export default function PreOnboardingPage() {

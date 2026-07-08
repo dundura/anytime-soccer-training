@@ -164,6 +164,17 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     ],
   },
   {
+    title: "You're All Set!",
+    body: `
+      <p>You&rsquo;re all set! Here&rsquo;s what to expect next:</p>
+    `,
+    checklist: [
+      "We'll invite your parents to join the team",
+      "We'll send you and your parents helpful getting-started information",
+      'Neil will give you a call to walk through homework and other team features',
+    ],
+  },
+  {
     title: 'Renewing Members',
     body: `
       <p>Already familiar with Anytime Soccer Training? Here&rsquo;s what&rsquo;s different for you this season.</p>
