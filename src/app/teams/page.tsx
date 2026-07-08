@@ -91,6 +91,19 @@ export default function TeamsPage() {
           </Link>
         </div>
 
+        {/* Pre Onboarding (step-by-step wizard) */}
+        <div className="mb-6">
+          <Link href="/pre-onboarding" className="block bg-navy text-white rounded-2xl p-6 hover:bg-navy/90 transition-colors no-underline">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-lg font-bold mb-1">Start Onboarding</h2>
+                <p className="text-white/70 text-sm m-0">Step-by-step onboarding site &mdash; get your team set up one step at a time</p>
+              </div>
+              <span className="text-white/50 text-xl">&rarr;</span>
+            </div>
+          </Link>
+        </div>
+
         {/* Onboarding Checklist */}
         <div className="mb-10">
           <Link href="/anytime-soccer-training-onboarding-checklist" className="block bg-navy text-white rounded-2xl p-6 hover:bg-navy/90 transition-colors no-underline">
