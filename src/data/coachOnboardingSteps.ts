@@ -194,6 +194,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       },
       {
         title: 'Remove non-returning players from your roster',
+        description: 'It\'s a quick one-minute task. Go to your roster, click the player\'s name, then click "Remove from Team."',
       },
       {
         title: 'Send parents your intro email',
