@@ -24,7 +24,9 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     body: `
       <p>If you haven&rsquo;t booked a demo yet, please book a time &mdash; it&rsquo;s a quick 20-minute Zoom call.</p>
       <p>Already booked? Great job &mdash; move on to the next step.</p>
-      <p><strong>Renewing member?</strong> No need to rebook &mdash; we&rsquo;ll give you a call during onboarding to walk through the new features instead.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
+        <p style="margin:0;"><strong>Renewing member?</strong> No need to rebook &mdash; we&rsquo;ll give you a call during onboarding to walk through the new features instead.</p>
+      </div>
     `,
     ctaLabel: 'Book Demo',
     ctaHref: 'https://www.anytime-soccer.com/team-demo-request-anytime-soccer-training',
