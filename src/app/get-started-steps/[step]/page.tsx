@@ -44,16 +44,18 @@ export default function CoachOnboardingStepPage() {
     <section className="py-16 bg-background min-h-screen">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div className="bg-navy px-8 py-6 relative">
-            <Link
-              href="/pre-onboarding"
-              className="absolute top-4 right-6 text-white/80 hover:text-white text-sm font-semibold inline-flex items-center gap-1"
-            >
-              🏠 Home
-            </Link>
-            <span className="inline-block bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-3">
-              Step {stepNumber} of {COACH_ONBOARDING_STEPS.length}
-            </span>
+          <div className="bg-navy px-8 py-6">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="inline-block bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full">
+                Step {stepNumber} of {COACH_ONBOARDING_STEPS.length}
+              </span>
+              <Link
+                href="/pre-onboarding"
+                className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
+              >
+                🏠 Home
+              </Link>
+            </div>
             <h1 className="text-white text-2xl font-extrabold">{step.title}</h1>
           </div>
 
