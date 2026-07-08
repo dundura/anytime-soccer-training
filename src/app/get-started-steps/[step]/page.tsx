@@ -11,6 +11,7 @@ export default function CoachOnboardingStepPage() {
   const params = useParams();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
+  const [openGroups, setOpenGroups] = useState<Record<number, boolean>>({});
 
   const stepNumber = Number(params.step);
   const stepIndex = stepNumber - 1;
@@ -109,16 +110,34 @@ export default function CoachOnboardingStepPage() {
               });
 
               let counter = 0;
+              const counterStart: number[] = [];
+              groups.forEach((group) => {
+                counterStart.push(counter);
+                counter += group.items.length;
+              });
+              counter = 0;
+
               return (
                 <div className="mb-8 space-y-6">
-                  {groups.map((group, gi) => (
+                  {groups.map((group, gi) => {
+                    const isOpen = openGroups[gi] ?? false;
+                    counter = counterStart[gi];
+                    return (
                     <div key={gi} className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                      {group.heading && (
-                        <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-3">
-                          {group.heading}
-                        </h2>
-                      )}
-                      <ol className="space-y-5">
+                      {group.heading ? (
+                        <button
+                          type="button"
+                          onClick={() => setOpenGroups((prev) => ({ ...prev, [gi]: !isOpen }))}
+                          className="flex items-center justify-between w-full text-left mb-0"
+                        >
+                          <h2 className="text-sm font-bold uppercase tracking-wide text-red">
+                            {group.heading}
+                          </h2>
+                          <span className={`text-red transition-transform ${isOpen ? 'rotate-180' : ''}`}>▼</span>
+                        </button>
+                      ) : null}
+                      {(isOpen || !group.heading) && (
+                      <ol className={`space-y-5 ${group.heading ? 'mt-3' : ''}`}>
                         {group.items.map((sub) => {
                           counter += 1;
                           return (
@@ -158,8 +177,10 @@ export default function CoachOnboardingStepPage() {
                           );
                         })}
                       </ol>
+                      )}
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               );
             })()}
