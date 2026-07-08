@@ -50,7 +50,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Pay Your Invoice',
     body: `
       <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
-        <p style="margin:0;"><strong style="color:#1565C0;">Action Required: Pay invoice online.</strong></p>
+        <p style="margin:0;"><strong style="color:#DC373E;">Action Required: Pay invoice online.</strong></p>
       </div>
       <p>Once we receive your roster, we&rsquo;ll generate your invoice and send it via Stripe. As soon as it&rsquo;s paid, onboarding begins &mdash; starting with the <strong>Coaching Plan Survey</strong>.</p>
       <p><strong>Parents don&rsquo;t pay anything.</strong> Each player is given a code that gives them full access to the program for 365 days.</p>
@@ -60,7 +60,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Coaching Plan Survey',
     body: `
       <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
-        <p style="margin:0;"><strong style="color:#1565C0;">Action Required: Complete the survey.</strong></p>
+        <p style="margin:0;"><strong style="color:#DC373E;">Action Required: Complete the survey.</strong></p>
       </div>
       <p>We&rsquo;ve distilled what drives player participation into <strong>10 key coaching actions</strong> &mdash; each takes about a minute.</p>
       <p>Your survey tells us which ones you plan to use, so we can set you up to execute on every one.</p>
@@ -72,7 +72,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Create Your Account',
     body: `
       <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
-        <p style="margin:0;"><strong style="color:#1565C0;">Action Required: Create your account and add profiles.</strong></p>
+        <p style="margin:0;"><strong style="color:#DC373E;">Action Required: Create your account and add profiles.</strong></p>
       </div>
       <p>Click the How To links below for detailed instructions.</p>
     `,
@@ -114,7 +114,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Create Your Team',
     body: `
       <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
-        <p style="margin:0;"><strong style="color:#1565C0;">Action Required: Create your team using the exact team name given to parents.</strong></p>
+        <p style="margin:0;"><strong style="color:#DC373E;">Action Required: Create your team using the exact team name given to parents.</strong></p>
       </div>
     `,
     videoHref: 'https://youtu.be/_LTtpT885cM?si=5xVusdRdi7Nxjcxa',
@@ -141,7 +141,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Notify Parents',
     body: `
       <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
-        <p style="margin:0;"><strong style="color:#1565C0;">Action Required: Send parents the introduction email using our template.</strong></p>
+        <p style="margin:0;"><strong style="color:#DC373E;">Action Required: Send parents the introduction email using our template.</strong></p>
       </div>
     `,
     ctaLabel: 'Download the Parent Welcome Template',
@@ -151,7 +151,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Notify Megan',
     body: `
       <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
-        <p style="margin:0;"><strong style="color:#1565C0;">Action Required: Reply to Megan and confirm parents have been informed.</strong></p>
+        <p style="margin:0;"><strong style="color:#DC373E;">Action Required: Reply to Megan and confirm parents have been informed.</strong></p>
       </div>
     `,
     subSteps: [
