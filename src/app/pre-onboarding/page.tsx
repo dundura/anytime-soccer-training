@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import CollapsibleChecklist from '@/components/CollapsibleChecklist';
 
 export const metadata: Metadata = {
   title: 'Pre Onboarding | Anytime Soccer Training',
@@ -53,62 +54,9 @@ export default function PreOnboardingPage() {
               Click <strong className="text-navy font-semibold">Next</strong> or the links to begin.
             </p>
 
-            <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4">Pre Onboarding</h2>
-
-            <ol className="space-y-5 mb-8">
-              {PHASE_1_ITEMS.map((item, i) => (
-                <li key={item.label} className="flex gap-4">
-                  <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">
-                    {i + 1}
-                  </span>
-                  {item.href ? (
-                    <Link href={item.href} className="font-semibold text-navy hover:underline">
-                      {item.label}
-                    </Link>
-                  ) : (
-                    <p className="font-semibold text-navy">{item.label}</p>
-                  )}
-                </li>
-              ))}
-            </ol>
-
-            <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4">Onboarding</h2>
-
-            <ol className="space-y-5">
-              {PHASE_2_ITEMS.map((item, i) => (
-                <li key={item.label} className="flex gap-4">
-                  <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">
-                    {i + 1}
-                  </span>
-                  {item.href ? (
-                    <Link href={item.href} className="font-semibold text-navy hover:underline">
-                      {item.label}
-                    </Link>
-                  ) : (
-                    <p className="font-semibold text-navy">{item.label}</p>
-                  )}
-                </li>
-              ))}
-            </ol>
-
-            <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4 mt-8">Renewing Members</h2>
-
-            <ol className="space-y-5">
-              {RENEWING_MEMBERS_ITEMS.map((item, i) => (
-                <li key={item.label} className="flex gap-4">
-                  <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">
-                    {i + 1}
-                  </span>
-                  {item.href ? (
-                    <Link href={item.href} className="font-semibold text-navy hover:underline">
-                      {item.label}
-                    </Link>
-                  ) : (
-                    <p className="font-semibold text-navy">{item.label}</p>
-                  )}
-                </li>
-              ))}
-            </ol>
+            <CollapsibleChecklist heading="Pre Onboarding" items={PHASE_1_ITEMS} />
+            <CollapsibleChecklist heading="Onboarding" items={PHASE_2_ITEMS} />
+            <CollapsibleChecklist heading="Renewing Members" items={RENEWING_MEMBERS_ITEMS} />
 
             <div className="flex justify-center mt-8">
               <Link
