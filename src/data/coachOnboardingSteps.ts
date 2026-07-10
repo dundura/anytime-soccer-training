@@ -131,7 +131,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         title: 'Complete the Form',
       },
       {
-        title: 'Add your team code to the team code field in the New Player tab',
+        title: 'Add your team code to the team code field in the New Player tab (no need if you paid inside the app)',
         sectionHeading: 'Self Onboarding',
       },
       {
