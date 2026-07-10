@@ -4,12 +4,20 @@ import { useState } from 'react';
 
 type FAQItem = { question: string; answer: string };
 
-export default function CollapsibleFAQ({ items }: { items: FAQItem[] }) {
+export default function CollapsibleFAQ({
+  items,
+  hideHeading,
+}: {
+  items: FAQItem[];
+  hideHeading?: boolean;
+}) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <div className="mb-6">
-      <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4">FAQ</h2>
+      {!hideHeading && (
+        <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-4">FAQ</h2>
+      )}
       <div className="space-y-2">
         {items.map((item, i) => {
           const isOpen = openIndex === i;

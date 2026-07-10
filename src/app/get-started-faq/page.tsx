@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import CollapsibleFAQ from '@/components/CollapsibleFAQ';
+import FaqSearch from '@/components/FaqSearch';
 import { ONBOARDING_FAQ } from '@/data/onboardingFaq';
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ export default function OnboardingFaqPage() {
 
           <div className="px-8 py-8">
             {ONBOARDING_FAQ.length > 0 ? (
-              <CollapsibleFAQ items={ONBOARDING_FAQ} />
+              <FaqSearch items={ONBOARDING_FAQ} />
             ) : (
               <p className="text-gray-700">More questions coming soon.</p>
             )}
