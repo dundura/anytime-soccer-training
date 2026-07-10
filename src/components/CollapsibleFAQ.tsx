@@ -24,9 +24,10 @@ export default function CollapsibleFAQ({ items }: { items: FAQItem[] }) {
                 <span className={`text-red flex-shrink-0 ml-3 transition-transform ${isOpen ? 'rotate-180' : ''}`}>▼</span>
               </button>
               {isOpen && (
-                <div className="px-4 py-3 text-gray-700 text-sm leading-relaxed bg-white">
-                  {item.answer}
-                </div>
+                <div
+                  className="px-4 py-3 text-gray-700 text-sm leading-relaxed bg-white space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1.5 [&_li]:marker:text-red [&_strong]:text-navy [&_strong]:font-semibold"
+                  dangerouslySetInnerHTML={{ __html: item.answer }}
+                />
               )}
             </div>
           );
