@@ -42,6 +42,10 @@ const RENEWING_MEMBERS_ITEMS: ChecklistItem[] = [
   { label: 'Renewing members', href: '/get-started-steps/11' },
 ];
 
+const FAQ_ITEMS: ChecklistItem[] = [
+  { label: 'FAQ', href: '/get-started-faq' },
+];
+
 export default function PreOnboardingPage() {
   return (
     <section className="py-16 bg-background min-h-screen">
@@ -69,6 +73,7 @@ export default function PreOnboardingPage() {
             <CollapsibleChecklist heading="Onboarding" items={PHASE_2_ITEMS} />
             <CollapsibleChecklist heading="Self-Onboarding" items={SELF_ONBOARDING_ITEMS} />
             <CollapsibleChecklist heading="Renewing Members" items={RENEWING_MEMBERS_ITEMS} />
+            <CollapsibleChecklist heading="Frequently Asked Questions" items={FAQ_ITEMS} />
 
             <div className="flex justify-center mt-8">
               <Link
