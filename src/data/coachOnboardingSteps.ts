@@ -122,6 +122,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       },
       {
         title: 'Click MY TEAMS',
+        description: "One thing to avoid: please don't change your team name during onboarding. This is what parents will search for to find and join your team.",
       },
       {
         title: 'Click CREATE TEAM',
@@ -140,7 +141,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         title: 'Invite everyone through the app',
       },
     ],
-    hint: "One thing to avoid: please don't change your team name during onboarding. This is what parents will search for to find and join your team.",
   },
   {
     title: 'Notify Parents',
