@@ -143,6 +143,15 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     ],
   },
   {
+    title: 'Making the Most of Your Pricing',
+    body: `
+      <p>We&rsquo;ve made Anytime Soccer Training super affordable &mdash; your players get access to over 5,000 training sessions, plus every feature that comes with your team.</p>
+      <div style="background:#f8fafc;border:1px solid #e3e8f0;border-radius:10px;padding:20px;margin:16px 0;">
+        <p style="margin:0;"><strong>Here&rsquo;s how it works:</strong> once you upgrade your team, you can give each player 365 all-access by going to the <strong>Upgrade Player</strong> page and selecting the player after they join your team.</p>
+      </div>
+    `,
+  },
+  {
     title: 'Notify Parents',
     body: `
       <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
