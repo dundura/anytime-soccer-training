@@ -32,7 +32,7 @@ const SELF_ONBOARDING_ITEMS: ChecklistItem[] = [
   { label: 'Create your account and add a profile for yourself and your child', href: '/get-started-steps/5' },
   { label: 'Create a team inside the app', href: '/get-started-steps/6' },
   { label: 'Making the most of your pricing', href: '/get-started-steps/7' },
-  { label: 'Click upgrade and purchase' },
+  { label: 'Click upgrade and purchase', href: '/get-started-steps/7' },
   { label: 'Complete the Coaching Plan Survey', href: '/get-started-steps/4' },
   { label: "We'll send you an invitation link to share with parents" },
   { label: 'Invite parents to get started by sharing the link we provide, plus the invite through the app' },
