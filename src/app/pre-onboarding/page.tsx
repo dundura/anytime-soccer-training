@@ -27,6 +27,15 @@ const PHASE_2_ITEMS: ChecklistItem[] = [
   { label: 'Neil will give you a call to walk through homework and other team features', href: '/get-started-steps/9' },
 ];
 
+const SELF_ONBOARDING_ITEMS: ChecklistItem[] = [
+  { label: 'Create your account and add a profile for yourself and your child', href: '/get-started-steps/5' },
+  { label: 'Create a team inside the app', href: '/get-started-steps/6' },
+  { label: 'Click upgrade and purchase' },
+  { label: "We'll send you your team code and an invitation link to share with parents" },
+  { label: 'Invite parents to get started by sharing the link we provide, plus the invite through the app' },
+  { label: "We'll call to go over assigning homework and getting fully set up" },
+];
+
 const RENEWING_MEMBERS_ITEMS: ChecklistItem[] = [
   { label: 'Renewing members', href: '/get-started-steps/10' },
 ];
@@ -56,6 +65,7 @@ export default function PreOnboardingPage() {
 
             <CollapsibleChecklist heading="Pre Onboarding" items={PHASE_1_ITEMS} />
             <CollapsibleChecklist heading="Onboarding" items={PHASE_2_ITEMS} />
+            <CollapsibleChecklist heading="Self-Onboarding" items={SELF_ONBOARDING_ITEMS} />
             <CollapsibleChecklist heading="Renewing Members" items={RENEWING_MEMBERS_ITEMS} />
 
             <div className="flex justify-center mt-8">
