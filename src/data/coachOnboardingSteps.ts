@@ -129,7 +129,18 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       {
         title: 'Complete the Form',
       },
+      {
+        title: 'Add your team code to the team code field in the New Player tab',
+        sectionHeading: 'Self Onboarding',
+      },
+      {
+        title: "Add your team's parent emails",
+      },
+      {
+        title: 'Invite everyone through the app',
+      },
     ],
+    hint: "One thing to avoid: please don't change your team name during onboarding. This is what parents will search for to find and join your team.",
   },
   {
     title: 'Notify Parents',
