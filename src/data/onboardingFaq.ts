@@ -14,4 +14,14 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       </div>
     `,
   },
+  {
+    question: 'What if I have more than one child?',
+    answer: `
+      <p>You can add up to <strong>4 unique profiles per account</strong>. Each profile can use the same contact email or a different one &mdash; they&rsquo;re all tied to a single login.</p>
+      <p>Each profile can join a different team, and profiles can be linked together when training together so they get shared training credit.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0;"><strong>To link profiles during a training session:</strong> click the link icon next to the profile, then log in with the profile you want to link.</p>
+      </div>
+    `,
+  },
 ];
