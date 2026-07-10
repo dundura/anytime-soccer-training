@@ -34,7 +34,7 @@ const SELF_ONBOARDING_ITEMS: ChecklistItem[] = [
   { label: 'Click upgrade and purchase', href: '/get-started-steps/7' },
   { label: 'Complete the Coaching Plan Survey', href: '/get-started-steps/4' },
   { label: "We'll send you an invitation link to share with parents" },
-  { label: 'Invite parents to get started by sharing the link we provide, plus the invite through the app', href: '/get-started-steps/8' },
+  { label: 'Send parents the introduction email', href: '/get-started-steps/8' },
   { label: "We'll call to go over assigning homework and getting fully set up" },
 ];
 
