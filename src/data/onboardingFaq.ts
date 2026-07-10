@@ -15,7 +15,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     `,
   },
   {
-    question: 'What if I have more than one child?',
+    question: 'What if I have more than one child using the program?',
     answer: `
       <p>You can add up to <strong>4 unique profiles per account</strong>. Each profile can use the same contact email or a different one &mdash; they&rsquo;re all tied to a single login.</p>
       <p>Each profile can join a different team, and profiles can be linked together when training together so they get shared training credit.</p>
