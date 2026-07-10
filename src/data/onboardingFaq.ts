@@ -28,4 +28,14 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       </div>
     `,
   },
+  {
+    question: "I can't find my team when I search for it — what should I do?",
+    answer: `
+      <p>This is a common question. Occasionally a coach changes the team name after it was created, so searching for the exact full name may not find it.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0;"><strong>Try searching for just part of the team name instead.</strong> For example, search &ldquo;Next&rdquo; instead of typing out the full team name.</p>
+      </div>
+      <p>If you still can&rsquo;t find it, email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
+    `,
+  },
 ];
