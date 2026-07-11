@@ -22,7 +22,7 @@ export default function HomePage() {
               <div className="relative z-10">
                 <HeroHeadline />
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
-                  Structured programs, expert-led follow-along videos, and coach-assigned homework — so players build real skill at home, and coaches turn "go practice" into a fun plan kids actually follow.
+                  Structured programs, expert-led follow-along videos, and coach-assigned homework — so players build real skill at home.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
