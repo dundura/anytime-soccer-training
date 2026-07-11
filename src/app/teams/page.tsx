@@ -61,6 +61,7 @@ const TEAM_PAGES = [
   { title: 'Pacific FC 17G Spirit', slug: 'pacific-fc-17g-spirit-getting-started' },
   { title: 'WJFC BU13 AM', slug: 'wjfc-bu13-am-getting-started' },
   { title: 'BCSC U13 Girls Target Rep. Team', slug: 'bcsc-u13-girls-target-rep-getting-started' },
+  { title: 'Summit FC', slug: 'summit-fc-getting-started' },
 ];
 
 const PARENT_GUIDES = [
