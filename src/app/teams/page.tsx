@@ -62,6 +62,7 @@ const TEAM_PAGES = [
   { title: 'WJFC BU13 AM', slug: 'wjfc-bu13-am-getting-started' },
   { title: 'BCSC U13 Girls Target Rep. Team', slug: 'bcsc-u13-girls-target-rep-getting-started' },
   { title: 'Summit FC', slug: 'summit-fc-getting-started' },
+  { title: 'Tiger Strike', slug: 'tiger-strike-getting-started' },
 ];
 
 const PARENT_GUIDES = [
