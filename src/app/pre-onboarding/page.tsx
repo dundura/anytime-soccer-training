@@ -19,7 +19,6 @@ const PHASE_2_ITEMS: ChecklistItem[] = [
   { label: 'Take the Coach Engagement Survey', href: '/get-started-steps/4' },
   { label: 'Create your account and add profiles', href: '/get-started-steps/5' },
   { label: 'Create your team inside the app', href: '/get-started-steps/6' },
-  { label: 'Making the most of your pricing', href: '/get-started-steps/7' },
   { label: 'Send parents the introduction email', href: '/get-started-steps/8' },
   { label: 'Reply to Megan with your team name', href: '/get-started-steps/9' },
   { label: 'Let Megan know once parents have been informed', href: '/get-started-steps/9' },
