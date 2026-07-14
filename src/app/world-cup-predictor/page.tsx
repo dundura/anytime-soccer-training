@@ -38,7 +38,7 @@ export default function WorldCupPredictorPage() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-red" />
                 </span>
-                The World Cup kicks off today — June 11, 2026
+                🔴 LIVE: Spain beats France 2-0, advances to the Final
               </div>
               <WorldCupHeroHeadline />
               <p className="text-gray text-xl md:text-2xl font-semibold max-w-2xl mx-auto lg:mx-0 mb-8">
@@ -77,6 +77,61 @@ export default function WorldCupPredictorPage() {
                 className="relative w-full rounded-3xl shadow-[0_24px_60px_rgba(0,0,0,0.45)] rotate-1 hover:rotate-0 transition-transform duration-300"
               />
             </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Results */}
+      <section className="pb-10 md:pb-14 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-3xl border border-gray-100 shadow-sm px-6 py-8 sm:px-10 sm:py-10">
+            <h2 className="text-navy font-black text-2xl md:text-3xl mb-6 text-center lg:text-left">
+              📊 Latest World Cup Results
+            </h2>
+
+            {/* Latest result callout */}
+            <div className="bg-background border border-gray-200 rounded-2xl px-6 py-5 mb-6">
+              <p className="text-xs font-bold uppercase tracking-wide text-red mb-1">Latest Result — Tue, Jul 14</p>
+              <p className="text-navy font-black text-xl md:text-2xl">France 0 – 2 Spain</p>
+              <p className="text-gray text-sm font-semibold mt-1">Spain advances to the Final</p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Recent knockout results */}
+              <div>
+                <h3 className="text-navy font-black text-sm uppercase tracking-wide mb-3">Recent Knockout Results</h3>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex justify-between border-b border-gray-100 pb-2"><span className="font-semibold text-navy">Argentina 3 – 1 Switzerland</span><span className="text-gray">Jul 11</span></li>
+                  <li className="flex justify-between border-b border-gray-100 pb-2"><span className="font-semibold text-navy">Norway 1 – 2 England</span><span className="text-gray">Jul 11</span></li>
+                  <li className="flex justify-between border-b border-gray-100 pb-2"><span className="font-semibold text-navy">Spain 2 – 1 Belgium</span><span className="text-gray">Jul 10</span></li>
+                  <li className="flex justify-between border-b border-gray-100 pb-2"><span className="font-semibold text-navy">France 2 – 0 Morocco</span><span className="text-gray">Jul 9</span></li>
+                  <li className="flex justify-between border-b border-gray-100 pb-2"><span className="font-semibold text-navy">Switzerland 0 – 0 Colombia</span><span className="text-gray">Jul 7</span></li>
+                  <li className="flex justify-between border-b border-gray-100 pb-2"><span className="font-semibold text-navy">Argentina 3 – 2 Egypt</span><span className="text-gray">Jul 7</span></li>
+                  <li className="flex justify-between border-b border-gray-100 pb-2"><span className="font-semibold text-navy">USA 1 – 4 Belgium</span><span className="text-gray">Jul 6</span></li>
+                  <li className="flex justify-between border-b border-gray-100 pb-2"><span className="font-semibold text-navy">Portugal 0 – 1 Spain</span><span className="text-gray">Jul 6</span></li>
+                  <li className="flex justify-between pb-2"><span className="font-semibold text-navy">Mexico 2 – 3 England</span><span className="text-gray">Jul 5</span></li>
+                </ul>
+              </div>
+
+              {/* Upcoming */}
+              <div>
+                <h3 className="text-navy font-black text-sm uppercase tracking-wide mb-3">Upcoming</h3>
+                <ul className="space-y-3 text-sm">
+                  <li className="bg-background rounded-xl px-4 py-3">
+                    <p className="font-black text-navy">England vs Argentina</p>
+                    <p className="text-gray">Semifinal — Wed, Jul 15, 3:00 PM EDT</p>
+                  </li>
+                  <li className="bg-background rounded-xl px-4 py-3">
+                    <p className="font-black text-navy">France vs TBD</p>
+                    <p className="text-gray">3rd Place Match — Sat, Jul 18, 5:00 PM EDT</p>
+                  </li>
+                  <li className="bg-background rounded-xl px-4 py-3">
+                    <p className="font-black text-navy">Spain vs TBD</p>
+                    <p className="text-gray">Final — Sun, Jul 19, 3:00 PM EDT</p>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
