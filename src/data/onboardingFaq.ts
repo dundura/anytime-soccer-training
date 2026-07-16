@@ -65,12 +65,9 @@ export const ONBOARDING_FAQ: FaqItem[] = [
   },
   {
     category: 'Team Management',
-    question: 'If a player moves to a different team, do their completed videos move with them?',
+    question: 'Do completed videos move with a player to a new team?',
     answer: `
-      <p><strong>Yes &mdash; automatically.</strong> A player&rsquo;s training history (completed videos, streaks, and levels) belongs to their account, not to the team. When a player changes teams, everything comes with them &mdash; nothing is lost and nothing needs to be transferred.</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <p style="margin:0;"><strong>To move a player:</strong> remove them from the old team&rsquo;s roster, then add them to the new team from the Coach&rsquo;s Board. Their completed videos will count on the new team right away.</p>
-      </div>
+      <p><strong>Yes &mdash; automatically.</strong> Training history belongs to the player&rsquo;s account, not the team, so everything moves with them.</p>
     `,
   },
   {
