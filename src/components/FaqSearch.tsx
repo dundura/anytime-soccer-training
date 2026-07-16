@@ -81,9 +81,9 @@ export default function FaqSearch({ items }: { items: FAQItem[] }) {
                 <button
                   type="button"
                   onClick={() => toggleSection(cat)}
-                  className="flex items-center justify-between w-full text-left px-4 py-3 bg-navy rounded-lg hover:bg-navy-light transition-colors"
+                  className="flex items-center justify-between w-full text-left px-4 py-3 bg-blue-50 border border-gray-200 rounded-lg hover:bg-blue-100 transition-colors"
                 >
-                  <span className="text-sm font-bold uppercase tracking-wide text-white">{cat}</span>
+                  <span className="text-sm font-bold uppercase tracking-wide text-navy">{cat}</span>
                   <span className={`text-red flex-shrink-0 ml-3 transition-transform ${isOpen ? 'rotate-180' : ''}`}>▼</span>
                 </button>
                 {isOpen && (
