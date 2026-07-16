@@ -23,6 +23,16 @@ function rankItem(item: FAQItem, words: string[]) {
 
 export default function FaqSearch({ items }: { items: FAQItem[] }) {
   const [query, setQuery] = useState('');
+  // Sections are collapsed by default; this tracks the ones the user opened
+  const [openSections, setOpenSections] = useState<Set<string>>(new Set());
+
+  const toggleSection = (cat: string) =>
+    setOpenSections((prev) => {
+      const next = new Set(prev);
+      if (next.has(cat)) next.delete(cat);
+      else next.add(cat);
+      return next;
+    });
 
   const filtered = useMemo(() => {
     const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
@@ -52,7 +62,7 @@ export default function FaqSearch({ items }: { items: FAQItem[] }) {
       ) : query.trim() ? (
         <CollapsibleFAQ items={filtered} hideHeading />
       ) : (
-        // No search: group questions under their section headings
+        // No search: group questions under collapsible section headings (collapsed by default)
         (() => {
           const order: string[] = [];
           const groups = new Map<string, FAQItem[]>();
@@ -64,12 +74,26 @@ export default function FaqSearch({ items }: { items: FAQItem[] }) {
             }
             groups.get(cat)!.push(item);
           }
-          return order.map((cat) => (
-            <div key={cat} className="mb-6">
-              <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-3">{cat}</h2>
-              <CollapsibleFAQ items={groups.get(cat)!} hideHeading />
-            </div>
-          ));
+          return order.map((cat) => {
+            const isOpen = openSections.has(cat);
+            return (
+              <div key={cat} className="mb-4">
+                <button
+                  type="button"
+                  onClick={() => toggleSection(cat)}
+                  className="flex items-center justify-between w-full text-left px-4 py-3 bg-navy rounded-lg hover:bg-navy-light transition-colors"
+                >
+                  <span className="text-sm font-bold uppercase tracking-wide text-white">{cat}</span>
+                  <span className={`text-red flex-shrink-0 ml-3 transition-transform ${isOpen ? 'rotate-180' : ''}`}>▼</span>
+                </button>
+                {isOpen && (
+                  <div className="mt-2">
+                    <CollapsibleFAQ items={groups.get(cat)!} hideHeading />
+                  </div>
+                )}
+              </div>
+            );
+          });
         })()
       )}
     </div>
