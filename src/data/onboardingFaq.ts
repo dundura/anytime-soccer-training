@@ -62,7 +62,8 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <ul style="margin:0;">
           <li>Go to your team and click <strong>Roster</strong>.</li>
-          <li>Click the player&rsquo;s name and remove them from the team.</li>
+          <li>Click the player&rsquo;s name.</li>
+          <li>From their profile, click <strong>Remove from Team</strong>.</li>
         </ul>
       </div>
     `,
