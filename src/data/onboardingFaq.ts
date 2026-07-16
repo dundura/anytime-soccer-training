@@ -67,15 +67,8 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: 'Do completed videos move with a player to a new team?',
     answer: `
-      <p><strong>Yes &mdash; automatically.</strong> Training history belongs to the player&rsquo;s account, not the team, so everything moves with them.</p>
-    `,
-  },
-  {
-    category: 'Team Management',
-    question: 'Do players lose their video count when leaving or joining a team?',
-    answer: `
-      <p><strong>No.</strong> Video and training time data travel with the player &mdash; teams simply act as groups. All-time totals, streaks, and levels stay fully intact when a player leaves or joins a team.</p>
-      <p>Their completed videos count on the new team right away &mdash; joining a team never resets a player&rsquo;s progress.</p>
+      <p><strong>Yes &mdash; automatically.</strong> Video and training time data travel with the player &mdash; teams simply act as groups.</p>
+      <p>All-time totals, streaks, and levels stay fully intact, and their completed videos count on the new team right away &mdash; changing teams never resets a player&rsquo;s progress.</p>
     `,
   },
 ];
