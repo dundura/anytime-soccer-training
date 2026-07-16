@@ -1,7 +1,8 @@
-export type FaqItem = { question: string; answer: string };
+export type FaqItem = { question: string; answer: string; category?: string };
 
 export const ONBOARDING_FAQ: FaqItem[] = [
   {
+    category: 'Accounts & Profiles',
     question: "What's the difference between the login email and the contact email, and how do I update them?",
     answer: `
       <p>Anytime Soccer Training uses two emails on every account: the <strong>login email</strong> &mdash; the email used to create the account &mdash; and the <strong>contact email</strong> &mdash; the email in-app alerts are sent to.</p>
@@ -15,6 +16,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     `,
   },
   {
+    category: 'Accounts & Profiles',
     question: 'What if I have more than one child using the program?',
     answer: `
       <p>You can add up to <strong>4 unique profiles per account</strong>. Each profile can use the same contact email or a different one &mdash; they&rsquo;re all tied to a single login.</p>
@@ -29,6 +31,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     `,
   },
   {
+    category: 'Teams & Rosters',
     question: 'How do I add and remove players from my team?',
     answer: `
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin-bottom:12px;">
@@ -40,6 +43,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     `,
   },
   {
+    category: 'Teams & Rosters',
     question: 'If a player moves to a different team, do their completed videos move with them?',
     answer: `
       <p><strong>Yes &mdash; automatically.</strong> A player&rsquo;s training history (completed videos, streaks, and levels) belongs to their account, not to the team. When a player changes teams, everything comes with them &mdash; nothing is lost and nothing needs to be transferred.</p>
@@ -49,6 +53,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     `,
   },
   {
+    category: 'Teams & Rosters',
     question: 'Do players lose their video count when leaving or joining a team?',
     answer: `
       <p><strong>No.</strong> Video and training time data travel with the player &mdash; teams simply act as groups. All-time totals, streaks, and levels stay fully intact when a player leaves or joins a team.</p>
@@ -56,6 +61,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     `,
   },
   {
+    category: 'Teams & Rosters',
     question: "I can't find my team when I search for it — what should I do?",
     answer: `
       <p>This is a common question. Occasionally a coach changes the team name after it was created, so searching for the exact full name may not find it.</p>

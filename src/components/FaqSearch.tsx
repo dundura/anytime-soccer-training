@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import CollapsibleFAQ from './CollapsibleFAQ';
 
-type FAQItem = { question: string; answer: string };
+type FAQItem = { question: string; answer: string; category?: string };
 
 function stripHtml(html: string) {
   return html.replace(/<[^>]+>/g, ' ');
@@ -47,10 +47,30 @@ export default function FaqSearch({ items }: { items: FAQItem[] }) {
         <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray">🔍</span>
       </div>
 
-      {filtered.length > 0 ? (
+      {filtered.length === 0 ? (
+        <p className="text-gray-700 text-sm">No questions match &ldquo;{query}&rdquo;.</p>
+      ) : query.trim() ? (
         <CollapsibleFAQ items={filtered} hideHeading />
       ) : (
-        <p className="text-gray-700 text-sm">No questions match &ldquo;{query}&rdquo;.</p>
+        // No search: group questions under their section headings
+        (() => {
+          const order: string[] = [];
+          const groups = new Map<string, FAQItem[]>();
+          for (const item of filtered) {
+            const cat = item.category || 'General';
+            if (!groups.has(cat)) {
+              groups.set(cat, []);
+              order.push(cat);
+            }
+            groups.get(cat)!.push(item);
+          }
+          return order.map((cat) => (
+            <div key={cat} className="mb-6">
+              <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-3">{cat}</h2>
+              <CollapsibleFAQ items={groups.get(cat)!} hideHeading />
+            </div>
+          ));
+        })()
       )}
     </div>
   );
