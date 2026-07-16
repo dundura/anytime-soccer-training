@@ -31,6 +31,17 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     `,
   },
   {
+    category: 'Joining a Team',
+    question: "I can't find my team when I search for it — what should I do?",
+    answer: `
+      <p>This is a common question. Occasionally a coach changes the team name after it was created, so searching for the exact full name may not find it.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0;"><strong>Try searching for just part of the team name instead.</strong> For example, if the team name is &ldquo;<strong>Next Level AS - Group 2</strong>,&rdquo; try searching for just &ldquo;<strong>Next</strong>&rdquo;.</p>
+      </div>
+      <p>If you still can&rsquo;t find it, email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
+    `,
+  },
+  {
     category: 'Team Management',
     question: 'How do I add and remove players from my team?',
     answer: `
@@ -58,17 +69,6 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     answer: `
       <p><strong>No.</strong> Video and training time data travel with the player &mdash; teams simply act as groups. All-time totals, streaks, and levels stay fully intact when a player leaves or joins a team.</p>
       <p>Their completed videos count on the new team right away &mdash; joining a team never resets a player&rsquo;s progress.</p>
-    `,
-  },
-  {
-    category: 'Joining a Team',
-    question: "I can't find my team when I search for it — what should I do?",
-    answer: `
-      <p>This is a common question. Occasionally a coach changes the team name after it was created, so searching for the exact full name may not find it.</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <p style="margin:0;"><strong>Try searching for just part of the team name instead.</strong> For example, if the team name is &ldquo;<strong>Next Level AS - Group 2</strong>,&rdquo; try searching for just &ldquo;<strong>Next</strong>&rdquo;.</p>
-      </div>
-      <p>If you still can&rsquo;t find it, email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
     `,
   },
 ];
