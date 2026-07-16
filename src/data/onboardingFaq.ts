@@ -29,6 +29,33 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     `,
   },
   {
+    question: 'How do I add and remove players from my team?',
+    answer: `
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin-bottom:12px;">
+        <p style="margin:0;"><strong>To add a player:</strong> click your team, open the <strong>Coach&rsquo;s Board</strong>, click <strong>New Players</strong> (at the top), then <strong>Player Onboard</strong>. Enter the player&rsquo;s email into <strong>Add Player</strong>. If they already have an Anytime Soccer Training account, they&rsquo;ll automatically be added to the team.</p>
+      </div>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0;"><strong>To remove a player:</strong> go to your team, click <strong>Roster</strong>, click the player&rsquo;s name, and remove them from the team.</p>
+      </div>
+    `,
+  },
+  {
+    question: 'If a player moves to a different team, do their completed videos move with them?',
+    answer: `
+      <p><strong>Yes &mdash; automatically.</strong> A player&rsquo;s training history (completed videos, streaks, and levels) belongs to their account, not to the team. When a player changes teams, everything comes with them &mdash; nothing is lost and nothing needs to be transferred.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0;"><strong>To move a player:</strong> remove them from the old team&rsquo;s roster, then add them to the new team from the Coach&rsquo;s Board. Their completed videos will count on the new team right away.</p>
+      </div>
+    `,
+  },
+  {
+    question: 'Do players lose their video count when leaving or joining a team?',
+    answer: `
+      <p><strong>No.</strong> Video and training time data travel with the player &mdash; teams simply act as groups. All-time totals, streaks, and levels stay fully intact when a player leaves or joins a team.</p>
+      <p>Their completed videos count on the new team right away &mdash; joining a team never resets a player&rsquo;s progress.</p>
+    `,
+  },
+  {
     question: "I can't find my team when I search for it — what should I do?",
     answer: `
       <p>This is a common question. Occasionally a coach changes the team name after it was created, so searching for the exact full name may not find it.</p>
