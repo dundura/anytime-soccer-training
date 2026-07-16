@@ -45,11 +45,21 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: 'How do I add and remove players from my team?',
     answer: `
+      <p style="font-weight:700;color:#0F3154;margin:0 0 6px;">Adding a Player</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin-bottom:12px;">
-        <p style="margin:0;"><strong>To add a player:</strong> click your team, open the <strong>Coach&rsquo;s Board</strong>, click <strong>New Players</strong> (at the top), then <strong>Player Onboard</strong>. Enter the player&rsquo;s email into <strong>Add Player</strong>. If they already have an Anytime Soccer Training account, they&rsquo;ll automatically be added to the team.</p>
+        <ul style="margin:0 0 10px;">
+          <li>Click your team and open the <strong>Coach&rsquo;s Board</strong>.</li>
+          <li>Click <strong>New Players</strong> (at the top), then <strong>Player Onboard</strong>.</li>
+          <li>Enter the player&rsquo;s email into <strong>Add Player</strong>.</li>
+        </ul>
+        <p style="margin:0;">If they already have an Anytime Soccer Training account, they&rsquo;ll automatically be added to the team.</p>
       </div>
+      <p style="font-weight:700;color:#0F3154;margin:0 0 6px;">Removing a Player</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <p style="margin:0;"><strong>To remove a player:</strong> go to your team, click <strong>Roster</strong>, click the player&rsquo;s name, and remove them from the team.</p>
+        <ul style="margin:0;">
+          <li>Go to your team and click <strong>Roster</strong>.</li>
+          <li>Click the player&rsquo;s name and remove them from the team.</li>
+        </ul>
       </div>
     `,
   },
