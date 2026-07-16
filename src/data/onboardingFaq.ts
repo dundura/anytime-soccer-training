@@ -51,7 +51,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
           <li>Click <strong>New Players</strong> (at the top), then <strong>Player Onboard</strong>.</li>
           <li>Enter the player&rsquo;s email into <strong>Add Player</strong>.</li>
         </ul>
-        <p style="margin:0;">If they already have an Anytime Soccer Training account, they&rsquo;ll automatically be added to the team.</p>
+        <p style="margin:0;">If they already have an Anytime Soccer Training account, they&rsquo;ll automatically be added to the team. If not, they&rsquo;ll receive an invite with instructions on joining.</p>
       </div>
     `,
   },
