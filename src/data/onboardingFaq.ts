@@ -43,10 +43,9 @@ export const ONBOARDING_FAQ: FaqItem[] = [
   },
   {
     category: 'Team Management',
-    question: 'How do I add and remove players from my team?',
+    question: 'How do I add players to my team?',
     answer: `
-      <p style="font-weight:700;color:#0F3154;margin:0 0 6px;">Adding a Player</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin-bottom:12px;">
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <ul style="margin:0 0 10px;">
           <li>Click your team and open the <strong>Coach&rsquo;s Board</strong>.</li>
           <li>Click <strong>New Players</strong> (at the top), then <strong>Player Onboard</strong>.</li>
@@ -54,7 +53,12 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         </ul>
         <p style="margin:0;">If they already have an Anytime Soccer Training account, they&rsquo;ll automatically be added to the team.</p>
       </div>
-      <p style="font-weight:700;color:#0F3154;margin:0 0 6px;">Removing a Player</p>
+    `,
+  },
+  {
+    category: 'Team Management',
+    question: 'How do I remove players from my team?',
+    answer: `
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <ul style="margin:0;">
           <li>Go to your team and click <strong>Roster</strong>.</li>
