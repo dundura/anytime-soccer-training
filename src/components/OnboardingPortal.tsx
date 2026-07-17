@@ -353,15 +353,22 @@ export default function OnboardingPortal() {
                             {s.section}
                           </div>
                         )}
-                        <button
-                          onClick={() => { setWizardIndex(i); setShowIntro(false); setError(''); }}
-                          className={`flex items-center gap-3 w-full text-left px-4 py-3 transition-colors hover:bg-gray-50 ${!showHeading ? 'border-t border-gray-100' : ''}`}
-                        >
-                          <span className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-extrabold ${done ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-500'}`}>
-                            {done ? '✓' : i + 1}
-                          </span>
-                          <span className={`text-sm font-semibold ${done ? 'text-green-800' : 'text-navy'}`}>{s.title}</span>
-                        </button>
+                        {(() => {
+                          const locked = i > firstIncomplete(coach);
+                          return (
+                            <button
+                              onClick={() => { if (!locked) { setWizardIndex(i); setShowIntro(false); setError(''); } }}
+                              disabled={locked}
+                              title={locked ? 'Complete the previous steps first' : undefined}
+                              className={`flex items-center gap-3 w-full text-left px-4 py-3 transition-colors ${!showHeading ? 'border-t border-gray-100' : ''} ${locked ? 'cursor-not-allowed opacity-60' : 'hover:bg-gray-50'}`}
+                            >
+                              <span className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-extrabold ${done ? 'bg-green-500 text-white' : locked ? 'bg-gray-100 text-gray-300' : 'bg-gray-100 text-gray-500'}`}>
+                                {done ? '✓' : locked ? '🔒' : i + 1}
+                              </span>
+                              <span className={`text-sm font-semibold ${done ? 'text-green-800' : locked ? 'text-gray-400' : 'text-navy'}`}>{s.title}</span>
+                            </button>
+                          );
+                        })()}
                       </div>
                     );
                   })}
@@ -383,12 +390,14 @@ export default function OnboardingPortal() {
                     {STEPS.map((s, i) => {
                       const done = !!coach.checklist[s.key];
                       const isCurrent = i === wizardIndex;
+                      const locked = i > firstIncomplete(coach);
                       return (
                         <button
                           key={s.key}
-                          onClick={() => { setWizardIndex(i); setError(''); }}
-                          title={s.title}
-                          className={`w-8 h-8 rounded-full text-xs font-extrabold transition-colors ${done ? 'bg-green-500 text-white' : isCurrent ? 'bg-red text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+                          onClick={() => { if (!locked) { setWizardIndex(i); setError(''); } }}
+                          disabled={locked}
+                          title={locked ? 'Complete the previous steps first' : s.title}
+                          className={`w-8 h-8 rounded-full text-xs font-extrabold transition-colors ${done ? 'bg-green-500 text-white' : isCurrent ? 'bg-red text-white' : locked ? 'bg-gray-100 text-gray-300 cursor-not-allowed' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
                         >
                           {done ? '✓' : i + 1}
                         </button>
