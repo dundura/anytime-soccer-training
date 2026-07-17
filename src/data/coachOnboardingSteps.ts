@@ -48,17 +48,17 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Pay Your Invoice',
     body: `
-      <p>Once we receive your roster, we&rsquo;ll generate your invoice and send it via Stripe. As soon as it&rsquo;s paid, onboarding begins &mdash; starting with the <strong>Coaching Plan Survey</strong>.</p>
+      <p>Once we receive your roster, we&rsquo;ll generate your invoice and send it via Stripe. As soon as it&rsquo;s paid, onboarding begins &mdash; starting with the <strong>Coaching Engagement Survey</strong>.</p>
       <p><strong>Parents don&rsquo;t pay anything.</strong> Each player is given a code that gives them full access to the program for 365 days.</p>
     `,
   },
   {
-    title: 'Coaching Plan Survey',
+    title: 'Coaching Engagement Survey',
     body: `
       <p>We&rsquo;ve distilled what drives player participation into <strong>10 key coaching actions</strong> &mdash; each takes about a minute.</p>
       <p>Your survey tells us which ones you plan to use, so we can set you up to execute on every one.</p>
     `,
-    ctaLabel: 'Complete Your Coaching Plan Survey',
+    ctaLabel: 'Complete Your Coaching Engagement Survey',
     ctaHref: 'https://www.anytime-soccer.com/my-coaching-plan',
   },
   {

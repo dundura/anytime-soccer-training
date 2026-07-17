@@ -23,7 +23,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: 2, section: 'Pre-Onboarding' },
   { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding', info: true },
-  { key: 'survey', title: 'Take the Coach Engagement Survey', dataIndex: 3, section: 'Onboarding' },
+  { key: 'survey', title: 'Take the Coaching Engagement Survey', dataIndex: 3, section: 'Onboarding' },
   { key: 'account', title: 'Create your account and add profiles', dataIndex: 4, section: 'Onboarding' },
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding' },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
