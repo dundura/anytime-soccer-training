@@ -171,6 +171,28 @@ export default function OnboardingPortal() {
     }
   };
 
+  const resetProgress = async () => {
+    if (!coach || !token) return;
+    if (!window.confirm('Reset all your onboarding progress? Every step will be marked as not done.')) return;
+    setError('');
+    setSaving(true);
+    try {
+      const res = await fetch(`${API}/portal-onboarding/checklist`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: token },
+        body: JSON.stringify({ checklist: {}, reset: true }),
+      });
+      if (!res.ok) throw new Error();
+      setCoach({ ...coach, checklist: {} });
+      setWizardIndex(0);
+      setShowIntro(true);
+    } catch {
+      setError('Could not reset. Please try again.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const doneCount = coach ? STEPS.filter(s => coach.checklist[s.key]).length : 0;
   const allDone = doneCount === STEPS.length;
   const step = STEPS[wizardIndex];
@@ -339,6 +361,13 @@ export default function OnboardingPortal() {
                 <p className="text-gray-600 text-sm text-center">
                   Questions? Email <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold hover:underline">megan@anytime-soccer.com</a> — we&rsquo;re happy to help.
                 </p>
+                {doneCount > 0 && (
+                  <p className="text-center mt-4">
+                    <button onClick={resetProgress} disabled={saving} className="text-xs text-gray-400 hover:text-gray-600 underline disabled:opacity-60">
+                      Reset all my progress
+                    </button>
+                  </p>
+                )}
               </div>
             ) : (
               <div>
