@@ -77,7 +77,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       },
       {
         title: 'Enter Your Team Code',
-        description: "If you didn't receive your team code, email megan@anytime-soccer.com.",
+        description: 'No team code? Email megan@anytime-soccer.com.',
         moreInfoHref: 'https://www.anytime-soccer.com/applying-team-code-to-existing-account?utm_source=email&utm_medium=email%20marketing',
       },
       {
