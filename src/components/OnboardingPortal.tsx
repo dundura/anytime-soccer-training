@@ -215,8 +215,6 @@ export default function OnboardingPortal() {
                 </button>
                 <a
                   href="/get-started-faq"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                 >
                   FAQ
