@@ -68,7 +68,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Create Your Account',
     body: `
-      <p>Click the How To links below for detailed instructions.</p>
+      <p>Click the <strong>How To</strong> links below for detailed instructions.</p>
     `,
     subSteps: [
       {
@@ -97,7 +97,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       },
       {
         title: 'Contact Emails',
-        description: 'You can use the same contact email for all player profiles, or different ones. Parents: only create profiles for your own children.',
+        description: 'You can use the same contact email for all player profiles, or different ones.',
       },
     ],
   },
