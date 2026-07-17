@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { COACH_ONBOARDING_STEPS } from '@/data/coachOnboardingSteps';
 import CoachStepContent from '@/components/CoachStepContent';
+import FaqSearch from '@/components/FaqSearch';
+import { ONBOARDING_FAQ } from '@/data/onboardingFaq';
 
 const API = 'https://api.anytime-soccer.com';
 const TOKEN_KEY = 'astPortalToken';
@@ -49,6 +51,7 @@ export default function OnboardingPortal() {
   const [wizardIndex, setWizardIndex] = useState(0);
   const [showIntro, setShowIntro] = useState(true);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showFaq, setShowFaq] = useState(false);
 
   const firstIncomplete = (c: Coach) => {
     const idx = STEPS.findIndex(s => !c.checklist[s.key]);
@@ -89,9 +92,9 @@ export default function OnboardingPortal() {
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
     if (!coach || typeof window === 'undefined') return;
-    const url = showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
+    const url = showIntro || showFaq ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
     window.history.replaceState(null, '', url);
-  }, [coach, showIntro, wizardIndex]);
+  }, [coach, showIntro, showFaq, wizardIndex]);
 
   const submitAuth = async () => {
     setError('');
@@ -205,20 +208,20 @@ export default function OnboardingPortal() {
             <div className="flex items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2">
                 <span className="inline-block bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full">
-                  {coach ? (showIntro ? 'Welcome' : `Step ${wizardIndex + 1} of ${STEPS.length}`) : 'Onboarding Portal'}
+                  {showFaq ? 'FAQ' : coach ? (showIntro ? 'Welcome' : `Step ${wizardIndex + 1} of ${STEPS.length}`) : 'Onboarding Portal'}
                 </span>
                 <button
-                  onClick={() => { setShowIntro(true); setError(''); }}
+                  onClick={() => { setShowIntro(true); setShowFaq(false); setError(''); }}
                   className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                 >
                   🏠 Home
                 </button>
-                <a
-                  href="/get-started-faq"
+                <button
+                  onClick={() => { setShowFaq(true); setError(''); }}
                   className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                 >
                   FAQ
-                </a>
+                </button>
                 {coach && doneCount > 0 && (
                   <button
                     onClick={() => setShowResetConfirm(true)}
@@ -235,7 +238,7 @@ export default function OnboardingPortal() {
               )}
             </div>
             <h1 className="text-white text-2xl font-extrabold">
-              {coach ? (showIntro ? `Welcome, ${coach.name.split(' ')[0]}!` : step.title) : 'Coach Onboarding Portal'}
+              {showFaq ? 'Frequently Asked Questions' : coach ? (showIntro ? `Welcome, ${coach.name.split(' ')[0]}!` : step.title) : 'Coach Onboarding Portal'}
             </h1>
             {!coach && (
               <p className="text-white/70 text-sm mt-1">Sign in to walk through your team setup step by step.</p>
@@ -243,7 +246,19 @@ export default function OnboardingPortal() {
           </div>
 
           <div className="px-8 py-8">
-            {loading ? (
+            {showFaq ? (
+              <div>
+                <FaqSearch items={ONBOARDING_FAQ} />
+                <div className="flex justify-center mt-8">
+                  <button
+                    onClick={() => setShowFaq(false)}
+                    className="inline-block bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    ← Back
+                  </button>
+                </div>
+              </div>
+            ) : loading ? (
               <p className="text-gray-700 text-sm">Loading&hellip;</p>
             ) : !coach ? (
               <div>
