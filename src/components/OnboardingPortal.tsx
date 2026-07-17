@@ -58,6 +58,7 @@ export default function OnboardingPortal() {
   const [saving, setSaving] = useState(false);
   const [wizardIndex, setWizardIndex] = useState(0);
   const [showIntro, setShowIntro] = useState(true);
+  const [showOverview, setShowOverview] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showFaq, setShowFaq] = useState(false);
   const [showCompleteConfirm, setShowCompleteConfirm] = useState(false);
@@ -106,9 +107,9 @@ export default function OnboardingPortal() {
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
     if (!coach || typeof window === 'undefined') return;
-    const url = showIntro || showFaq ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
+    const url = showIntro || showOverview || showFaq ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
     window.history.replaceState(null, '', url);
-  }, [coach, showIntro, showFaq, wizardIndex]);
+  }, [coach, showIntro, showOverview, showFaq, wizardIndex]);
 
   const submitAuth = async () => {
     setError('');
@@ -244,10 +245,10 @@ export default function OnboardingPortal() {
             <div className="flex items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2">
                 <span className="inline-block bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full">
-                  {showFaq ? 'FAQ' : coach ? (showIntro ? 'Welcome' : step.tip ? `${step.section} — Quick Tip` : `${step.section} — Step ${stepNumber(wizardIndex)} of ${NUMBERED_TOTAL}`) : 'Onboarding Portal'}
+                  {showFaq ? 'FAQ' : coach ? (showIntro ? 'Welcome' : showOverview ? 'Your Steps' : step.tip ? `${step.section} — Quick Tip` : `${step.section} — Step ${stepNumber(wizardIndex)} of ${NUMBERED_TOTAL}`) : 'Onboarding Portal'}
                 </span>
                 <button
-                  onClick={() => { setShowIntro(true); setShowFaq(false); setError(''); }}
+                  onClick={() => { setShowIntro(true); setShowOverview(false); setShowFaq(false); setError(''); }}
                   className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                 >
                   🏠 Home
@@ -279,7 +280,7 @@ export default function OnboardingPortal() {
             {!coach && (
               <p className="text-white/70 text-sm mt-1">Sign in to walk through your team setup step by step.</p>
             )}
-            {coach && !showIntro && !showFaq && (
+            {coach && !showIntro && !showOverview && !showFaq && (
               <div className="mt-4">
                 <div className="h-2 bg-white/20 rounded-full overflow-hidden">
                   <div className="h-full bg-red rounded-full transition-all" style={{ width: `${(doneCount / STEPS.length) * 100}%` }} />
@@ -399,6 +400,19 @@ export default function OnboardingPortal() {
                   </p>
                 </div>
 
+                <button
+                  onClick={() => { setShowIntro(false); setShowOverview(true); setError(''); }}
+                  className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors mb-4"
+                >
+                  {doneCount === 0 ? 'Get Started →' : 'Continue →'}
+                </button>
+
+              </div>
+            ) : showOverview ? (
+              <div>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Here&rsquo;s everything ahead — tap any unlocked step, or continue where you left off.
+                </p>
                 <div className="border border-gray-200 rounded-xl overflow-hidden mb-6">
                   {STEPS.map((s, i) => {
                     const done = !!coach.checklist[s.key];
@@ -414,7 +428,7 @@ export default function OnboardingPortal() {
                           const locked = i > firstIncomplete(coach);
                           return (
                             <button
-                              onClick={() => { if (!locked) { setWizardIndex(i); setShowIntro(false); setError(''); } }}
+                              onClick={() => { if (!locked) { setWizardIndex(i); setShowOverview(false); setError(''); } }}
                               disabled={locked}
                               title={locked ? 'Complete the previous steps first' : undefined}
                               className={`flex items-center gap-3 w-full text-left px-4 py-3 transition-colors ${!showHeading ? 'border-t border-gray-100' : ''} ${locked ? 'cursor-not-allowed opacity-60' : 'hover:bg-gray-50'}`}
@@ -432,12 +446,11 @@ export default function OnboardingPortal() {
                 </div>
 
                 <button
-                  onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowIntro(false); setError(''); }}
+                  onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowOverview(false); setError(''); }}
                   className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors mb-4"
                 >
                   {doneCount === 0 ? 'Get Started →' : allDone ? 'Review Your Steps →' : 'Pick Up Where You Left Off →'}
                 </button>
-
               </div>
             ) : (
               <div>
