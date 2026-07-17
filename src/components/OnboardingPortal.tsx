@@ -319,9 +319,11 @@ export default function OnboardingPortal() {
                 <p className="text-gray-700 leading-relaxed mb-4">
                   Every step is designed to get your team set up quickly — so your players can start <strong className="text-navy font-semibold">training from day one</strong>.
                 </p>
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team and keeps things moving. Have a question along the way? Send it to <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold hover:underline">megan@anytime-soccer.com</a> and we&rsquo;ll respond quickly.
-                </p>
+                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 mb-6">
+                  <p className="text-gray-700 leading-relaxed text-sm">
+                    When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team and keeps things moving. Have a question along the way? Send it to <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold hover:underline">megan@anytime-soccer.com</a> and we&rsquo;ll respond quickly.
+                  </p>
+                </div>
 
                 <div className="border border-gray-200 rounded-xl overflow-hidden mb-6">
                   {STEPS.map((s, i) => {
