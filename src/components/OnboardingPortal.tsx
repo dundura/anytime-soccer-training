@@ -333,7 +333,7 @@ export default function OnboardingPortal() {
                 </p>
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 mb-6">
                   <p className="text-gray-700 leading-relaxed text-sm">
-                    When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team and keeps things moving. Have a question along the way? Send it to <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold hover:underline">megan@anytime-soccer.com</a> and we&rsquo;ll respond quickly.
+                    When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team and keeps things moving.
                   </p>
                 </div>
 
