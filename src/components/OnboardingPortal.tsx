@@ -43,6 +43,7 @@ export default function OnboardingPortal() {
   const [busy, setBusy] = useState(false);
   const [saving, setSaving] = useState(false);
   const [wizardIndex, setWizardIndex] = useState(0);
+  const [showIntro, setShowIntro] = useState(true);
 
   const firstIncomplete = (c: Coach) => {
     const idx = STEPS.findIndex(s => !c.checklist[s.key]);
@@ -168,14 +169,14 @@ export default function OnboardingPortal() {
             <div className="flex items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2">
                 <span className="inline-block bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full">
-                  {coach ? `Step ${wizardIndex + 1} of ${STEPS.length}` : 'Onboarding Portal'}
+                  {coach ? (showIntro ? 'Welcome' : `Step ${wizardIndex + 1} of ${STEPS.length}`) : 'Onboarding Portal'}
                 </span>
-                <a
-                  href="/onboarding-portal"
+                <button
+                  onClick={() => { setShowIntro(true); setError(''); }}
                   className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                 >
                   🏠 Home
-                </a>
+                </button>
               </div>
               {coach && (
                 <button onClick={signOut} className="text-white/60 hover:text-white text-xs font-semibold">
@@ -184,7 +185,7 @@ export default function OnboardingPortal() {
               )}
             </div>
             <h1 className="text-white text-2xl font-extrabold">
-              {coach ? step.title : 'Coach Onboarding Portal'}
+              {coach ? (showIntro ? `Welcome, ${coach.name.split(' ')[0]}!` : step.title) : 'Coach Onboarding Portal'}
             </h1>
             {!coach && (
               <p className="text-white/70 text-sm mt-1">Sign in to walk through your team setup step by step.</p>
@@ -266,6 +267,44 @@ export default function OnboardingPortal() {
                     This portal login is separate from your Anytime Soccer Training app account.
                   </p>
                 </div>
+              </div>
+            ) : showIntro ? (
+              <div>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Welcome to <strong className="text-navy font-semibold">Anytime Soccer Training</strong> — we&rsquo;re excited to get your team set up!
+                </p>
+                <p className="text-gray-700 leading-relaxed mb-6">
+                  Onboarding is <strong className="text-navy font-semibold">{STEPS.length} simple steps</strong>. Each one has its own page with everything you need — videos, how-to guides, and links. Do the step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong>, and move to the next. We&rsquo;re notified as you go, and your progress saves automatically so you can leave and pick up where you left off anytime.
+                </p>
+
+                <div className="border border-gray-200 rounded-xl overflow-hidden mb-6">
+                  {STEPS.map((s, i) => {
+                    const done = !!coach.checklist[s.key];
+                    return (
+                      <button
+                        key={s.key}
+                        onClick={() => { setWizardIndex(i); setShowIntro(false); setError(''); }}
+                        className={`flex items-center gap-3 w-full text-left px-4 py-3 transition-colors hover:bg-gray-50 ${i > 0 ? 'border-t border-gray-100' : ''}`}
+                      >
+                        <span className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-extrabold ${done ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-500'}`}>
+                          {done ? '✓' : i + 1}
+                        </span>
+                        <span className={`text-sm font-semibold ${done ? 'text-green-800' : 'text-navy'}`}>{s.title}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <button
+                  onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowIntro(false); setError(''); }}
+                  className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors mb-4"
+                >
+                  {doneCount === 0 ? 'Get Started →' : allDone ? 'Review Your Steps →' : `Continue — Step ${firstIncomplete(coach) + 1} of ${STEPS.length} →`}
+                </button>
+
+                <p className="text-gray-600 text-sm text-center">
+                  Questions? Email <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold hover:underline">megan@anytime-soccer.com</a> — we&rsquo;re happy to help.
+                </p>
               </div>
             ) : (
               <div>
