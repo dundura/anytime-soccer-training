@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { COACH_ONBOARDING_STEPS } from '@/data/coachOnboardingSteps';
+import CoachStepContent from '@/components/CoachStepContent';
 
 const API = 'https://api.anytime-soccer.com';
 const TOKEN_KEY = 'astPortalToken';
@@ -14,48 +15,13 @@ type Coach = {
   checklist: Record<string, boolean>;
 };
 
-type Step = {
-  key: string;
-  title: string;
-  description: string;
-  links?: { label: string; href: string }[];
-  needsTeamName?: boolean;
-};
-
-const STEPS: Step[] = [
-  {
-    key: 'survey',
-    title: 'Take the Coach Engagement Survey',
-    description: 'Tell us about your team so we can tailor the program to your players.',
-    links: [{ label: 'View instructions', href: '/get-started-steps/4' }],
-  },
-  {
-    key: 'account',
-    title: 'Create your account and add profiles',
-    description: 'Create your Anytime Soccer Training account and add a profile for yourself (and your child if they play).',
-    links: [
-      { label: 'View instructions', href: '/get-started-steps/5' },
-      { label: 'Open the app', href: 'https://app.anytime-soccer.com' },
-    ],
-  },
-  {
-    key: 'team',
-    title: 'Create your team inside the app',
-    description: 'Create your team in the app, then enter the team name below — we’ll let Megan know automatically.',
-    links: [{ label: 'View instructions', href: '/get-started-steps/6' }],
-    needsTeamName: true,
-  },
-  {
-    key: 'intro_email',
-    title: 'Send parents the introduction email',
-    description: 'Send your parents the introduction email so they know the program is coming.',
-    links: [{ label: 'View instructions', href: '/get-started-steps/8' }],
-  },
-  {
-    key: 'parents_informed',
-    title: 'Confirm your parents have been informed',
-    description: 'Once your parents have heard about the program, confirm here — that’s our green light to start inviting them.',
-  },
+// Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
+const STEPS: { key: string; title: string; dataIndex: number; needsTeamName?: boolean; note?: string }[] = [
+  { key: 'survey', title: 'Take the Coach Engagement Survey', dataIndex: 3 },
+  { key: 'account', title: 'Create your account and add profiles', dataIndex: 4 },
+  { key: 'team', title: 'Create your team inside the app', dataIndex: 5, needsTeamName: true, note: 'Enter your team name below — we’ll let Megan know automatically.' },
+  { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7 },
+  { key: 'parents_informed', title: 'Confirm your parents have been informed', dataIndex: 8, note: 'Marking this step complete notifies Megan automatically — that’s our green light to start inviting your parents.' },
 ];
 
 const NEXT_STEPS = [
@@ -75,7 +41,13 @@ export default function OnboardingPortal() {
   const [teamNameInput, setTeamNameInput] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
-  const [savingStep, setSavingStep] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [wizardIndex, setWizardIndex] = useState(0);
+
+  const firstIncomplete = (c: Coach) => {
+    const idx = STEPS.findIndex(s => !c.checklist[s.key]);
+    return idx === -1 ? STEPS.length - 1 : idx;
+  };
 
   // Restore session (or enter reset mode from an emailed link)
   useEffect(() => {
@@ -95,6 +67,7 @@ export default function OnboardingPortal() {
         setToken(saved);
         setCoach(data.coach);
         setTeamNameInput(data.coach.teamName || '');
+        setWizardIndex(firstIncomplete(data.coach));
       })
       .catch(() => localStorage.removeItem(TOKEN_KEY))
       .finally(() => setLoading(false));
@@ -129,6 +102,7 @@ export default function OnboardingPortal() {
       setToken(data.token);
       setCoach(data.coach);
       setTeamNameInput(data.coach.teamName || '');
+      setWizardIndex(firstIncomplete(data.coach));
     } catch {
       setError('Could not reach the server. Please try again.');
     } finally {
@@ -140,10 +114,11 @@ export default function OnboardingPortal() {
     localStorage.removeItem(TOKEN_KEY);
     setToken(null);
     setCoach(null);
+    setMode('signin');
     setForm({ name: '', email: '', password: '', club: '' });
   };
 
-  const setStep = async (key: string, done: boolean) => {
+  const setStep = async (key: string, done: boolean, advance = false) => {
     if (!coach || !token) return;
     const step = STEPS.find(s => s.key === key);
     if (done && step?.needsTeamName && !teamNameInput.trim()) {
@@ -151,7 +126,7 @@ export default function OnboardingPortal() {
       return;
     }
     setError('');
-    setSavingStep(key);
+    setSaving(true);
     const checklist = { ...coach.checklist, [key]: done };
     try {
       const res = await fetch(`${API}/portal-onboarding/checklist`, {
@@ -169,16 +144,19 @@ export default function OnboardingPortal() {
         checklist,
         teamName: done && step?.needsTeamName ? teamNameInput.trim() : coach.teamName,
       });
+      if (advance && wizardIndex < STEPS.length - 1) setWizardIndex(wizardIndex + 1);
     } catch {
       setError('Could not save. Please try again.');
     } finally {
-      setSavingStep(null);
+      setSaving(false);
     }
   };
 
   const doneCount = coach ? STEPS.filter(s => coach.checklist[s.key]).length : 0;
   const allDone = doneCount === STEPS.length;
-  const currentKey = coach ? STEPS.find(s => !coach.checklist[s.key])?.key : undefined;
+  const step = STEPS[wizardIndex];
+  const stepDone = coach ? !!coach.checklist[step.key] : false;
+  const stepData = COACH_ONBOARDING_STEPS[step.dataIndex];
 
   const inputClass = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-navy placeholder:text-gray focus:outline-none focus:ring-2 focus:ring-red/30 focus:border-red';
 
@@ -189,7 +167,7 @@ export default function OnboardingPortal() {
           <div className="bg-navy px-8 py-6">
             <div className="flex items-center justify-between gap-2 mb-3">
               <span className="inline-block bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full">
-                Onboarding Portal
+                {coach ? `Step ${wizardIndex + 1} of ${STEPS.length}` : 'Onboarding Portal'}
               </span>
               {coach && (
                 <button onClick={signOut} className="text-white/60 hover:text-white text-xs font-semibold">
@@ -198,13 +176,9 @@ export default function OnboardingPortal() {
               )}
             </div>
             <h1 className="text-white text-2xl font-extrabold">
-              {coach ? `Welcome, ${coach.name.split(' ')[0]}!` : 'Coach Onboarding Portal'}
+              {coach ? step.title : 'Coach Onboarding Portal'}
             </h1>
-            {coach ? (
-              <p className="text-white/70 text-sm mt-1">
-                {coach.teamName ? `Team: ${coach.teamName}` : coach.club ? coach.club : 'Work through each step below — we’re notified as you go.'}
-              </p>
-            ) : (
+            {!coach && (
               <p className="text-white/70 text-sm mt-1">Sign in to walk through your team setup step by step.</p>
             )}
           </div>
@@ -214,28 +188,27 @@ export default function OnboardingPortal() {
               <p className="text-gray-700 text-sm">Loading&hellip;</p>
             ) : !coach ? (
               <div>
-                {/* Sign in / register tabs */}
                 {(mode === 'signin' || mode === 'register') ? (
-                <div className="flex border border-gray-200 rounded-lg overflow-hidden mb-6">
-                  {(['signin', 'register'] as const).map(m => (
-                    <button
-                      key={m}
-                      onClick={() => { setMode(m); setError(''); setNotice(''); }}
-                      className={`flex-1 py-2.5 text-sm font-bold transition-colors ${mode === m ? 'bg-navy text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}
-                    >
-                      {m === 'signin' ? 'Sign In' : 'Create Account'}
-                    </button>
-                  ))}
-                </div>
+                  <div className="flex border border-gray-200 rounded-lg overflow-hidden mb-6">
+                    {(['signin', 'register'] as const).map(m => (
+                      <button
+                        key={m}
+                        onClick={() => { setMode(m); setError(''); setNotice(''); }}
+                        className={`flex-1 py-2.5 text-sm font-bold transition-colors ${mode === m ? 'bg-navy text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}
+                      >
+                        {m === 'signin' ? 'Sign In' : 'Create Account'}
+                      </button>
+                    ))}
+                  </div>
                 ) : (
-                <div className="mb-6">
-                  <p className="font-bold text-navy">{mode === 'forgot' ? 'Reset your password' : 'Choose a new password'}</p>
-                  <p className="text-gray-600 text-sm mt-1">
-                    {mode === 'forgot'
-                      ? 'Enter your email and we’ll send you a reset link.'
-                      : 'Enter a new password for your portal account.'}
-                  </p>
-                </div>
+                  <div className="mb-6">
+                    <p className="font-bold text-navy">{mode === 'forgot' ? 'Reset your password' : 'Choose a new password'}</p>
+                    <p className="text-gray-600 text-sm mt-1">
+                      {mode === 'forgot'
+                        ? 'Enter your email and we’ll send you a reset link.'
+                        : 'Enter a new password for your portal account.'}
+                    </p>
+                  </div>
                 )}
 
                 <div className="space-y-3">
@@ -248,13 +221,13 @@ export default function OnboardingPortal() {
                     </>
                   )}
                   {mode !== 'reset' && (
-                  <input className={inputClass} type="email" placeholder="Email" value={form.email}
-                    onChange={e => setForm({ ...form, email: e.target.value })} />
+                    <input className={inputClass} type="email" placeholder="Email" value={form.email}
+                      onChange={e => setForm({ ...form, email: e.target.value })} />
                   )}
                   {mode !== 'forgot' && (
-                  <input className={inputClass} type="password" placeholder={mode === 'register' || mode === 'reset' ? 'Choose a password (6+ characters)' : 'Password'} value={form.password}
-                    onChange={e => setForm({ ...form, password: e.target.value })}
-                    onKeyDown={e => { if (e.key === 'Enter') submitAuth(); }} />
+                    <input className={inputClass} type="password" placeholder={mode === 'register' || mode === 'reset' ? 'Choose a password (6+ characters)' : 'Password'} value={form.password}
+                      onChange={e => setForm({ ...form, password: e.target.value })}
+                      onKeyDown={e => { if (e.key === 'Enter') submitAuth(); }} />
                   )}
 
                   {error && <p className="text-red text-sm font-semibold">{error}</p>}
@@ -288,89 +261,93 @@ export default function OnboardingPortal() {
               </div>
             ) : (
               <div>
-                {/* Progress */}
+                {/* Step dots + progress */}
                 <div className="mb-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-bold text-navy">{doneCount} of {STEPS.length} steps complete</span>
-                    <span className="text-sm font-bold text-red">{Math.round((doneCount / STEPS.length) * 100)}%</span>
+                  <div className="flex items-center justify-center gap-2 mb-4">
+                    {STEPS.map((s, i) => {
+                      const done = !!coach.checklist[s.key];
+                      const isCurrent = i === wizardIndex;
+                      return (
+                        <button
+                          key={s.key}
+                          onClick={() => { setWizardIndex(i); setError(''); }}
+                          title={s.title}
+                          className={`w-9 h-9 rounded-full text-sm font-extrabold transition-colors ${done ? 'bg-green-500 text-white' : isCurrent ? 'bg-red text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+                        >
+                          {done ? '✓' : i + 1}
+                        </button>
+                      );
+                    })}
                   </div>
-                  <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                     <div className="h-full bg-red rounded-full transition-all" style={{ width: `${(doneCount / STEPS.length) * 100}%` }} />
                   </div>
+                  <p className="text-center text-xs text-gray-500 font-semibold mt-2">{doneCount} of {STEPS.length} steps complete</p>
                 </div>
 
                 {allDone && (
                   <div className="bg-green-50 border border-green-200 rounded-xl px-5 py-4 mb-6">
-                    <p className="text-green-800 font-bold mb-1">🎉 You&rsquo;re all set!</p>
-                    <p className="text-green-800/80 text-sm">Megan has been notified. Here&rsquo;s what happens next on our side:</p>
+                    <p className="text-green-800 font-bold mb-1">🎉 You&rsquo;re all set — Megan has been notified!</p>
+                    <ul className="mt-2 space-y-1">
+                      {NEXT_STEPS.map(s => (
+                        <li key={s} className="text-green-800/80 text-sm flex items-start gap-2">
+                          <span className="font-bold">→</span> {s}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
+                )}
+
+                {stepDone && !allDone && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg px-4 py-3 mb-6 flex items-center justify-between">
+                    <p className="text-green-800 text-sm font-bold">✓ You&rsquo;ve completed this step</p>
+                    <button onClick={() => setStep(step.key, false)} className="text-xs text-green-700/70 hover:text-green-900 font-semibold">Undo</button>
+                  </div>
+                )}
+
+                {/* Full step instructions */}
+                <CoachStepContent step={stepData} />
+
+                {step.note && (
+                  <p className="text-navy text-sm bg-blue-50 border border-blue-200 rounded-lg px-4 py-3 mb-4">{step.note}</p>
+                )}
+
+                {step.needsTeamName && !stepDone && (
+                  <input
+                    className={`${inputClass} mb-4`}
+                    placeholder="Your team name in the app"
+                    value={teamNameInput}
+                    onChange={e => setTeamNameInput(e.target.value)}
+                  />
                 )}
 
                 {error && <p className="text-red text-sm font-semibold mb-4">{error}</p>}
 
-                {/* Steps */}
-                <div className="space-y-3">
-                  {STEPS.map((step, i) => {
-                    const done = !!coach.checklist[step.key];
-                    const isCurrent = step.key === currentKey;
-                    return (
-                      <div key={step.key} className={`border rounded-xl p-5 ${done ? 'border-green-200 bg-green-50/50' : isCurrent ? 'border-red/40 bg-white shadow-sm' : 'border-gray-200 bg-white'}`}>
-                        <div className="flex items-start gap-4">
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-extrabold ${done ? 'bg-green-500 text-white' : isCurrent ? 'bg-red text-white' : 'bg-gray-100 text-gray-500'}`}>
-                            {done ? '✓' : i + 1}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className={`font-bold text-sm ${done ? 'text-green-800' : 'text-navy'}`}>{step.title}</p>
-                            {!done && <p className="text-gray-600 text-sm mt-1 leading-relaxed">{step.description}</p>}
-
-                            {!done && step.needsTeamName && (
-                              <input
-                                className={`${inputClass} mt-3`}
-                                placeholder="Your team name in the app"
-                                value={teamNameInput}
-                                onChange={e => setTeamNameInput(e.target.value)}
-                              />
-                            )}
-
-                            {!done && (
-                              <div className="flex flex-wrap items-center gap-2 mt-3">
-                                {(step.links || []).map(l => (
-                                  l.href.startsWith('http')
-                                    ? <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="text-xs font-bold text-navy bg-blue-50 border border-blue-100 rounded-lg px-3 py-2 hover:bg-blue-100 transition-colors">{l.label}</a>
-                                    : <Link key={l.href} href={l.href} target="_blank" className="text-xs font-bold text-navy bg-blue-50 border border-blue-100 rounded-lg px-3 py-2 hover:bg-blue-100 transition-colors">{l.label}</Link>
-                                ))}
-                                <button
-                                  onClick={() => setStep(step.key, true)}
-                                  disabled={savingStep === step.key}
-                                  className="text-xs font-bold text-white bg-red hover:bg-red-dark rounded-lg px-4 py-2 transition-colors disabled:opacity-60"
-                                >
-                                  {savingStep === step.key ? 'Saving…' : 'Mark Complete ✓'}
-                                </button>
-                              </div>
-                            )}
-
-                            {done && (
-                              <button onClick={() => setStep(step.key, false)} className="text-xs text-gray-400 hover:text-gray-600 mt-1">
-                                Undo
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* What happens next */}
-                <div className="mt-8 bg-gray-50 border border-gray-200 rounded-xl px-5 py-4">
-                  <p className="font-bold text-navy text-sm mb-2">What happens next (we handle these)</p>
-                  <ul className="space-y-1.5">
-                    {NEXT_STEPS.map(s => (
-                      <li key={s} className="text-gray-600 text-sm flex items-start gap-2">
-                        <span className="text-red font-bold">→</span> {s}
-                      </li>
-                    ))}
-                  </ul>
+                {/* Wizard navigation */}
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-6">
+                  <button
+                    onClick={() => { setWizardIndex(Math.max(0, wizardIndex - 1)); setError(''); }}
+                    disabled={wizardIndex === 0}
+                    className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
+                  >
+                    ← Back
+                  </button>
+                  {!stepDone ? (
+                    <button
+                      onClick={() => setStep(step.key, true, true)}
+                      disabled={saving}
+                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
+                    >
+                      {saving ? 'Saving…' : 'Mark Complete ✓'}
+                    </button>
+                  ) : wizardIndex < STEPS.length - 1 ? (
+                    <button
+                      onClick={() => { setWizardIndex(wizardIndex + 1); setError(''); }}
+                      className="w-full sm:w-auto bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                    >
+                      Next →
+                    </button>
+                  ) : null}
                 </div>
               </div>
             )}
