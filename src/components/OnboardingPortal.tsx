@@ -280,7 +280,7 @@ export default function OnboardingPortal() {
                   Getting set up has two parts: <strong className="text-navy font-semibold">Pre-Onboarding</strong> — a few quick steps before we begin — and <strong className="text-navy font-semibold">Onboarding</strong> — the steps that get your team live in the app.
                 </p>
                 <p className="text-gray-700 leading-relaxed mb-6">
-                  It&rsquo;s all designed to get you <strong className="text-navy font-semibold">up and running fast</strong>, so your players start benefiting right away. Let&rsquo;s go!
+                  Every step is designed to get your team set up quickly — so your players can start <strong className="text-navy font-semibold">training from day one</strong>. Let&rsquo;s get started!
                 </p>
 
                 <div className="border border-gray-200 rounded-xl overflow-hidden mb-6">
