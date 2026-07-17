@@ -315,7 +315,7 @@ export default function OnboardingPortal() {
                   onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowIntro(false); setError(''); }}
                   className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors mb-4"
                 >
-                  {doneCount === 0 ? 'Get Started →' : allDone ? 'Review Your Steps →' : `Continue — Step ${firstIncomplete(coach) + 1} of ${STEPS.length} →`}
+                  {doneCount === 0 ? 'Get Started →' : allDone ? 'Review Your Steps →' : 'Pick Up Where You Left Off →'}
                 </button>
 
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 mb-4">
