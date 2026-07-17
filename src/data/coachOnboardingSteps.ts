@@ -59,9 +59,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Coaching Plan Survey',
     body: `
-      <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
-        <p style="margin:0;"><strong style="color:#DC373E;">Action Required:</strong> <strong style="color:#0F3154;">Complete the survey.</strong></p>
-      </div>
       <p>We&rsquo;ve distilled what drives player participation into <strong>10 key coaching actions</strong> &mdash; each takes about a minute.</p>
       <p>Your survey tells us which ones you plan to use, so we can set you up to execute on every one.</p>
     `,
