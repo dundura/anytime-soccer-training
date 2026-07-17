@@ -83,6 +83,7 @@ export default function OnboardingPortal() {
       setLoading(false);
       return;
     }
+    if (params.get('view') === 'faq') setShowFaq(true);
     const saved = typeof window !== 'undefined' ? localStorage.getItem(TOKEN_KEY) : null;
     if (!saved) { setLoading(false); return; }
     fetch(`${API}/portal-onboarding/state`, { headers: { Authorization: saved } })
@@ -91,11 +92,15 @@ export default function OnboardingPortal() {
         setToken(saved);
         setCoach(data.coach);
         setTeamNameInput(data.coach.teamName || '');
-        // Stay on the step from the URL after a refresh; otherwise show the welcome page
+        // Stay on the page from the URL after a refresh; otherwise show the welcome page
         const stepParam = parseInt(params.get('step') || '', 10);
         if (stepParam >= 1 && stepParam <= STEPS.length) {
           setWizardIndex(stepParam - 1);
           setShowIntro(false);
+        } else if (params.get('view') === 'steps') {
+          setWizardIndex(firstIncomplete(data.coach));
+          setShowIntro(false);
+          setShowOverview(true);
         } else {
           setWizardIndex(firstIncomplete(data.coach));
         }
@@ -107,7 +112,7 @@ export default function OnboardingPortal() {
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
     if (!coach || typeof window === 'undefined') return;
-    const url = showIntro || showOverview || showFaq ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
+    const url = showFaq ? '/onboarding-portal?view=faq' : showOverview ? '/onboarding-portal?view=steps' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
     window.history.replaceState(null, '', url);
   }, [coach, showIntro, showOverview, showFaq, wizardIndex]);
 
