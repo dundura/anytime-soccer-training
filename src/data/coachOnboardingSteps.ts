@@ -67,9 +67,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   },
   {
     title: 'Create Your Account',
-    body: `
-      <p>Click the <strong>How To</strong> links below for detailed instructions.</p>
-    `,
+    body: '',
     subSteps: [
       {
         title: 'Go to anytime-soccer.com & Join for Free',
