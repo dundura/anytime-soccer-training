@@ -16,12 +16,15 @@ type Coach = {
 };
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
-const STEPS: { key: string; title: string; dataIndex: number; needsTeamName?: boolean; note?: string }[] = [
-  { key: 'survey', title: 'Take the Coach Engagement Survey', dataIndex: 3 },
-  { key: 'account', title: 'Create your account and add profiles', dataIndex: 4 },
-  { key: 'team', title: 'Create your team inside the app', dataIndex: 5, needsTeamName: true, note: 'Enter your team name below — we’ll let Megan know automatically.' },
-  { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7 },
-  { key: 'parents_informed', title: 'Confirm your parents have been informed', dataIndex: 8, note: 'Marking this step complete notifies Megan automatically — that’s our green light to start inviting your parents.' },
+const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string }[] = [
+  { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
+  { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
+  { key: 'invoice', title: 'Pay your invoice', dataIndex: 2, section: 'Pre-Onboarding' },
+  { key: 'survey', title: 'Take the Coach Engagement Survey', dataIndex: 3, section: 'Onboarding' },
+  { key: 'account', title: 'Create your account and add profiles', dataIndex: 4, section: 'Onboarding' },
+  { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding', needsTeamName: true, note: 'Enter your team name below — we’ll let Megan know automatically.' },
+  { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
+  { key: 'parents_informed', title: 'Confirm your parents have been informed', dataIndex: 8, section: 'Onboarding', note: 'Marking this step complete notifies Megan automatically — that’s our green light to start inviting your parents.' },
 ];
 
 const NEXT_STEPS = [
@@ -280,17 +283,24 @@ export default function OnboardingPortal() {
                 <div className="border border-gray-200 rounded-xl overflow-hidden mb-6">
                   {STEPS.map((s, i) => {
                     const done = !!coach.checklist[s.key];
+                    const showHeading = i === 0 || STEPS[i - 1].section !== s.section;
                     return (
-                      <button
-                        key={s.key}
-                        onClick={() => { setWizardIndex(i); setShowIntro(false); setError(''); }}
-                        className={`flex items-center gap-3 w-full text-left px-4 py-3 transition-colors hover:bg-gray-50 ${i > 0 ? 'border-t border-gray-100' : ''}`}
-                      >
-                        <span className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-extrabold ${done ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-500'}`}>
-                          {done ? '✓' : i + 1}
-                        </span>
-                        <span className={`text-sm font-semibold ${done ? 'text-green-800' : 'text-navy'}`}>{s.title}</span>
-                      </button>
+                      <div key={s.key}>
+                        {showHeading && (
+                          <div className={`px-4 py-2 bg-gray-50 text-xs font-bold uppercase tracking-wide text-red ${i > 0 ? 'border-t border-gray-200' : ''} border-b border-gray-200`}>
+                            {s.section}
+                          </div>
+                        )}
+                        <button
+                          onClick={() => { setWizardIndex(i); setShowIntro(false); setError(''); }}
+                          className={`flex items-center gap-3 w-full text-left px-4 py-3 transition-colors hover:bg-gray-50 ${!showHeading ? 'border-t border-gray-100' : ''}`}
+                        >
+                          <span className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-extrabold ${done ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-500'}`}>
+                            {done ? '✓' : i + 1}
+                          </span>
+                          <span className={`text-sm font-semibold ${done ? 'text-green-800' : 'text-navy'}`}>{s.title}</span>
+                        </button>
+                      </div>
                     );
                   })}
                 </div>
@@ -319,7 +329,7 @@ export default function OnboardingPortal() {
                           key={s.key}
                           onClick={() => { setWizardIndex(i); setError(''); }}
                           title={s.title}
-                          className={`w-9 h-9 rounded-full text-sm font-extrabold transition-colors ${done ? 'bg-green-500 text-white' : isCurrent ? 'bg-red text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+                          className={`w-8 h-8 rounded-full text-xs font-extrabold transition-colors ${done ? 'bg-green-500 text-white' : isCurrent ? 'bg-red text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
                         >
                           {done ? '✓' : i + 1}
                         </button>
