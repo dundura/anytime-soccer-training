@@ -419,38 +419,6 @@ export default function OnboardingPortal() {
                     <strong className="text-red font-bold">Already done a step?</strong> Simply mark it complete and move to the next one.
                   </p>
                 </div>
-                <div className="border border-gray-200 rounded-xl overflow-hidden mb-6">
-                  {STEPS.map((s, i) => {
-                    const done = !!coach.checklist[s.key];
-                    const showHeading = i === 0 || STEPS[i - 1].section !== s.section;
-                    return (
-                      <div key={s.key}>
-                        {showHeading && (
-                          <div className={`px-4 py-2 bg-gray-50 text-xs font-bold uppercase tracking-wide text-red ${i > 0 ? 'border-t border-gray-200' : ''} border-b border-gray-200`}>
-                            {s.section}
-                          </div>
-                        )}
-                        {(() => {
-                          const locked = i > firstIncomplete(coach);
-                          return (
-                            <button
-                              onClick={() => { if (!locked) { setWizardIndex(i); setShowOverview(false); setError(''); } }}
-                              disabled={locked}
-                              title={locked ? 'Complete the previous steps first' : undefined}
-                              className={`flex items-center gap-3 w-full text-left px-4 py-3 transition-colors ${!showHeading ? 'border-t border-gray-100' : ''} ${locked ? 'cursor-not-allowed opacity-60' : 'hover:bg-gray-50'}`}
-                            >
-                              <span className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-extrabold ${done ? 'bg-green-500 text-white' : locked ? 'bg-gray-100 text-gray-300' : 'bg-gray-100 text-gray-500'}`}>
-                                {done ? '✓' : locked ? '🔒' : s.tip ? '💡' : stepNumber(i)}
-                              </span>
-                              <span className={`text-sm font-semibold ${done ? 'text-green-800' : locked ? 'text-gray-400' : 'text-navy'}`}>{s.title}</span>
-                            </button>
-                          );
-                        })()}
-                      </div>
-                    );
-                  })}
-                </div>
-
                 <button
                   onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowOverview(false); setError(''); }}
                   className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors mb-4"
