@@ -23,7 +23,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding' },
   { key: 'survey', title: 'Take the Coach Engagement Survey', dataIndex: 3, section: 'Onboarding' },
   { key: 'account', title: 'Create your account and add profiles', dataIndex: 4, section: 'Onboarding' },
-  { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding', needsTeamName: true, note: 'Enter your team name below — we’ll let Megan know automatically.' },
+  { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding' },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
   { key: 'parents_informed', title: 'Confirm your parents have been informed', dataIndex: 8, section: 'Onboarding', note: 'Marking this step complete notifies Megan automatically — that’s our green light to start inviting your parents.' },
 ];
