@@ -167,7 +167,7 @@ export default function OnboardingPortal() {
         body: JSON.stringify({
           checklist,
           completedStep: value === true ? key : null,
-          stepAction: stepDef && !stepDef.info && !stepDef.tip ? (value === true ? 'completed' : value === 'skipped' ? 'skipped' : null) : null,
+          stepAction: stepDef && !stepDef.info ? (value === true ? 'completed' : value === 'skipped' ? 'skipped' : null) : null,
           stepTitle: stepDef ? stepDef.title : key,
         }),
       });
@@ -531,7 +531,8 @@ export default function OnboardingPortal() {
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-6">
                   <button
                     onClick={() => { setWizardIndex(Math.max(0, wizardIndex - 1)); setError(''); }}
-                    disabled={wizardIndex === 0}
+                    disabled={wizardIndex === 0 || (step.tip && !stepDone)}
+                    title={step.tip && !stepDone ? 'Confirm you understand to continue' : undefined}
                     className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
                   >
                     ← Back
