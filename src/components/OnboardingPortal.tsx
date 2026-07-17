@@ -48,6 +48,7 @@ export default function OnboardingPortal() {
   const [saving, setSaving] = useState(false);
   const [wizardIndex, setWizardIndex] = useState(0);
   const [showIntro, setShowIntro] = useState(true);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const firstIncomplete = (c: Coach) => {
     const idx = STEPS.findIndex(s => !c.checklist[s.key]);
@@ -173,7 +174,6 @@ export default function OnboardingPortal() {
 
   const resetProgress = async () => {
     if (!coach || !token) return;
-    if (!window.confirm('Reset all your onboarding progress? Every step will be marked as not done.')) return;
     setError('');
     setSaving(true);
     try {
@@ -190,6 +190,7 @@ export default function OnboardingPortal() {
       setError('Could not reset. Please try again.');
     } finally {
       setSaving(false);
+      setShowResetConfirm(false);
     }
   };
 
@@ -227,9 +228,8 @@ export default function OnboardingPortal() {
                 </a>
                 {coach && doneCount > 0 && (
                   <button
-                    onClick={resetProgress}
-                    disabled={saving}
-                    className="inline-flex items-center gap-1 bg-white/15 border border-white/30 text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-white/25 transition-colors disabled:opacity-60"
+                    onClick={() => setShowResetConfirm(true)}
+                    className="inline-flex items-center gap-1 bg-white/15 border border-white/30 text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-white/25 transition-colors"
                   >
                     Reset
                   </button>
@@ -504,6 +504,40 @@ export default function OnboardingPortal() {
           </div>
         </div>
       </div>
+
+      {/* Reset confirmation modal */}
+      {showResetConfirm && (
+        <div
+          onClick={() => !saving && setShowResetConfirm(false)}
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4"
+        >
+          <div onClick={e => e.stopPropagation()} className="bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden">
+            <div className="px-6 pt-6 pb-4 text-center">
+              <div className="text-4xl mb-3">🔄</div>
+              <h2 className="text-navy text-lg font-extrabold mb-2">Reset your progress?</h2>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Every step will be marked as not done and you&rsquo;ll start from the beginning. Your account stays — only the checkmarks are cleared.
+              </p>
+            </div>
+            <div className="flex gap-3 px-6 pb-6">
+              <button
+                onClick={() => setShowResetConfirm(false)}
+                disabled={saving}
+                className="flex-1 bg-white border-2 border-gray-200 text-navy font-bold py-2.5 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-60"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={resetProgress}
+                disabled={saving}
+                className="flex-1 bg-red hover:bg-red-dark text-white font-bold py-2.5 rounded-xl transition-colors disabled:opacity-60"
+              >
+                {saving ? 'Resetting…' : 'Reset'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
