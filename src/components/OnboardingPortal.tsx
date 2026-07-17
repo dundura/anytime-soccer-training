@@ -52,6 +52,7 @@ export default function OnboardingPortal() {
   const [showIntro, setShowIntro] = useState(true);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showFaq, setShowFaq] = useState(false);
+  const [showCompleteConfirm, setShowCompleteConfirm] = useState(false);
 
   const firstIncomplete = (c: Coach) => {
     const idx = STEPS.findIndex(s => !c.checklist[s.key]);
@@ -504,7 +505,7 @@ export default function OnboardingPortal() {
                     ) : (
                       <>
                         <button
-                          onClick={() => setStep(step.key, true, true)}
+                          onClick={() => setShowCompleteConfirm(true)}
                           disabled={saving}
                           className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-6 rounded-xl transition-colors disabled:opacity-60"
                         >
@@ -550,6 +551,40 @@ export default function OnboardingPortal() {
           </div>
         </div>
       </div>
+
+      {/* Step completion confirmation modal */}
+      {showCompleteConfirm && coach && (
+        <div
+          onClick={() => !saving && setShowCompleteConfirm(false)}
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4"
+        >
+          <div onClick={e => e.stopPropagation()} className="bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden">
+            <div className="px-6 pt-6 pb-4 text-center">
+              <div className="text-4xl mb-3">✅</div>
+              <h2 className="text-navy text-lg font-extrabold mb-2">Mark this step complete?</h2>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                This confirms you&rsquo;ve finished <strong className="text-navy">{step.title}</strong> and lets our team know you&rsquo;re moving forward.
+              </p>
+            </div>
+            <div className="flex gap-3 px-6 pb-6">
+              <button
+                onClick={() => setShowCompleteConfirm(false)}
+                disabled={saving}
+                className="flex-1 bg-white border-2 border-gray-200 text-navy font-bold py-2.5 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-60"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={async () => { await setStep(step.key, true, true); setShowCompleteConfirm(false); }}
+                disabled={saving}
+                className="flex-1 bg-red hover:bg-red-dark text-white font-bold py-2.5 rounded-xl transition-colors disabled:opacity-60"
+              >
+                {saving ? 'Saving…' : 'Yes, Complete ✓'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Reset confirmation modal */}
       {showResetConfirm && (
