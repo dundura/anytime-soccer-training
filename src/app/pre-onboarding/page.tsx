@@ -68,6 +68,19 @@ export default function PreOnboardingPage() {
               Click <strong className="text-navy font-semibold">Next</strong> or the links to begin.
             </p>
 
+            <div className="bg-blue-50 border border-blue-100 rounded-xl px-6 py-5 mb-6 flex flex-col sm:flex-row sm:items-center gap-4">
+              <div className="flex-1">
+                <p className="font-bold text-navy mb-1">Ready to start onboarding?</p>
+                <p className="text-gray-600 text-sm">Sign in to the Onboarding Portal and work through each step &mdash; we&rsquo;re notified as you go.</p>
+              </div>
+              <Link
+                href="/onboarding-portal"
+                className="inline-block bg-red hover:bg-red-dark text-white font-bold py-2.5 px-6 rounded-xl transition-colors text-center flex-shrink-0"
+              >
+                Start Onboarding →
+              </Link>
+            </div>
+
             <CollapsibleChecklist heading="Pre Onboarding" items={PHASE_1_ITEMS} />
             <CollapsibleChecklist heading="Onboarding" items={PHASE_2_ITEMS} />
             <CollapsibleChecklist heading="Self-Onboarding" items={SELF_ONBOARDING_ITEMS} />
