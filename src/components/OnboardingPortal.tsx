@@ -394,9 +394,9 @@ export default function OnboardingPortal() {
                   return remaining.length > 0 ? (
                     <ul className="mb-6 space-y-3">
                       {remaining.map(s2 => (
-                        <li key={s2.key} className="flex items-start gap-3 text-gray-700">
+                        <li key={s2.key} className="flex items-start gap-3">
                           <span className="text-red font-bold mt-0.5">✅</span>
-                          <span>{s2.title}</span>
+                          <span className="font-bold text-navy">{s2.title}</span>
                         </li>
                       ))}
                     </ul>
