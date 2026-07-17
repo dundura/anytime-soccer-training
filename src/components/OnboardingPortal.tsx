@@ -273,7 +273,7 @@ export default function OnboardingPortal() {
               )}
             </div>
             <h1 className="text-white text-2xl font-extrabold">
-              {showFaq ? 'Frequently Asked Questions' : coach ? (showIntro ? `Welcome, ${coach.name.split(' ')[0]}!` : step.title) : 'Coach Onboarding Portal'}
+              {showFaq ? 'Frequently Asked Questions' : coach && showIntro ? `Welcome, ${coach.name.split(' ')[0]}!` : 'Coach Onboarding Portal'}
             </h1>
             {!coach && (
               <p className="text-white/70 text-sm mt-1">Sign in to walk through your team setup step by step.</p>
@@ -440,28 +440,7 @@ export default function OnboardingPortal() {
               </div>
             ) : (
               <div>
-                {/* Step dots */}
-                <div className="mb-6">
-                  <div className="flex items-center justify-center gap-2 flex-wrap">
-                    {STEPS.map((s, i) => {
-                      const done = !!coach.checklist[s.key];
-                      const skipped = coach.checklist[s.key] === 'skipped';
-                      const isCurrent = i === wizardIndex;
-                      const locked = i > firstIncomplete(coach);
-                      return (
-                        <button
-                          key={s.key}
-                          onClick={() => { if (!locked) { setWizardIndex(i); setError(''); } }}
-                          disabled={locked}
-                          title={locked ? 'Complete the previous steps first' : s.title}
-                          className={`w-8 h-8 rounded-full text-xs font-extrabold transition-colors ${skipped ? 'bg-amber-400 text-white' : done ? 'bg-green-500 text-white' : isCurrent ? 'bg-red text-white' : locked ? 'bg-blue-50 text-blue-200 cursor-not-allowed' : 'bg-blue-100 text-navy hover:bg-blue-200'}`}
-                        >
-                          {skipped ? '→' : done ? '✓' : s.tip ? '💡' : stepNumber(i)}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
+                <h2 className="text-navy text-xl font-extrabold mb-4">{step.title}</h2>
 
                 {allDone && (
                   <div className="bg-green-50 border border-green-200 rounded-xl px-5 py-4 mb-6">
