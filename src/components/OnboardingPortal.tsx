@@ -20,6 +20,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: 2, section: 'Pre-Onboarding' },
+  { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding' },
   { key: 'survey', title: 'Take the Coach Engagement Survey', dataIndex: 3, section: 'Onboarding' },
   { key: 'account', title: 'Create your account and add profiles', dataIndex: 4, section: 'Onboarding' },
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding', needsTeamName: true, note: 'Enter your team name below — we’ll let Megan know automatically.' },
@@ -387,6 +388,22 @@ export default function OnboardingPortal() {
 
                 {/* Full step instructions */}
                 <CoachStepContent step={stepData} />
+
+                {step.key === 'onboarding_begins' && (() => {
+                  const remaining = STEPS.filter(s2 => s2.section === 'Onboarding' && s2.key !== 'onboarding_begins' && !coach.checklist[s2.key]);
+                  return remaining.length > 0 ? (
+                    <ul className="mb-6 space-y-3">
+                      {remaining.map(s2 => (
+                        <li key={s2.key} className="flex items-start gap-3 text-gray-700">
+                          <span className="text-red font-bold mt-0.5">✅</span>
+                          <span>{s2.title}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-green-800 font-semibold mb-6">You&rsquo;ve already completed every onboarding step — nice work! 🎉</p>
+                  );
+                })()}
 
                 {step.note && (
                   <p className="text-navy text-sm bg-blue-50 border border-blue-200 rounded-lg px-4 py-3 mb-4">{step.note}</p>

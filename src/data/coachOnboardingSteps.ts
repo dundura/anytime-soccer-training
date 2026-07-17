@@ -210,4 +210,12 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     ],
     hint: "That's it — Megan will follow up. Looking forward to the season! Questions? Email megan@anytime-soccer.com.",
   },
+  {
+    title: 'Onboarding Begins!',
+    body: `
+      <p>Invoice paid? 🎉 <strong>Now onboarding begins.</strong></p>
+      <p>From here, the steps are in your hands &mdash; and the faster you complete them, the quicker we can get your team up and training.</p>
+      <p>Here&rsquo;s what&rsquo;s left:</p>
+    `,
+  },
 ];
