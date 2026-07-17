@@ -336,6 +336,11 @@ export default function OnboardingPortal() {
                     When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team and keeps things moving.
                   </p>
                 </div>
+                <div className="bg-red-50 border border-red-200 rounded-xl px-5 py-4 mb-6">
+                  <p className="text-gray-700 leading-relaxed text-sm">
+                    <strong className="text-red font-bold">Already done a step?</strong> If you&rsquo;ve completed it previously, simply mark it complete and move to the next step.
+                  </p>
+                </div>
 
                 <div className="border border-gray-200 rounded-xl overflow-hidden mb-6">
                   {STEPS.map((s, i) => {
