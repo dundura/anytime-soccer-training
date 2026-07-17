@@ -49,6 +49,9 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Pay Your Invoice',
     body: `
       <p>Once we receive your roster, we&rsquo;ll generate your invoice and send it via Stripe. As soon as it&rsquo;s paid, onboarding begins &mdash; starting with the <strong>Coaching Engagement Survey</strong>.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
+        <p style="margin:0;"><strong>Pricing:</strong> <strong>$90 + tax</strong> covers 15 players + a free coach, then <strong>$6 per player</strong>. Under 15 players? Adding more is free until you reach 15.</p>
+      </div>
       <p><strong>Parents don&rsquo;t pay anything.</strong> Each player is given a code that gives them full access to the program for 365 days.</p>
     `,
   },
