@@ -44,7 +44,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
     ctaLabel: 'Roster Template',
     ctaHref: 'https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa',
-    hint: "Want to onboard without a roster at all? Email megan@anytime-soccer.com, and we'll send you a custom link with the set-up instructions for your team.",
   },
   {
     title: 'Pay Your Invoice',
