@@ -19,7 +19,6 @@ type Coach = {
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
 const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean }[] = [
-  { key: 'tip_start', title: 'Quick Tip: How to Use This Portal', dataIndex: 15, section: 'Pre-Onboarding', tip: true },
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
   { key: 'tip_roster', title: 'Quick Tip: What to Include on Your Roster', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
@@ -218,7 +217,7 @@ export default function OnboardingPortal() {
       const res = await fetch(`${API}/portal-onboarding/question`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: token },
-        body: JSON.stringify({ question: questionText.trim(), stepTitle: showIntro ? '' : STEPS[wizardIndex].title }),
+        body: JSON.stringify({ question: questionText.trim(), stepTitle: showIntro || showOverview ? '' : STEPS[wizardIndex].title }),
       });
       if (!res.ok) throw new Error();
       setQuestionText('');
@@ -385,6 +384,7 @@ export default function OnboardingPortal() {
               </div>
             ) : showIntro ? (
               <div>
+                <h2 className="text-navy text-xl font-extrabold mb-3">Getting Started</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
                   Welcome to <strong className="text-navy font-semibold">Anytime Soccer Training</strong> — we&rsquo;re excited to have your team!
                 </p>
@@ -407,7 +407,7 @@ export default function OnboardingPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">How it Works</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Each step has its own page with everything you need — and we share helpful tips along the way.
+                  Each step has its own page with everything you need — and we share helpful tips along the way. We also share this portal with you to <strong className="text-navy font-semibold">clarify questions</strong>.
                 </p>
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 mb-6">
                   <p className="text-gray-700 leading-relaxed text-sm">
@@ -416,9 +416,19 @@ export default function OnboardingPortal() {
                 </div>
                 <div className="bg-red-50 border border-red-200 rounded-xl px-5 py-4 mb-6">
                   <p className="text-gray-700 leading-relaxed text-sm">
-                    <strong className="text-red font-bold">Already done a step?</strong> Simply mark it complete and move to the next one.
+                    <strong className="text-red font-bold">Already done a step?</strong> Simply mark it complete and move to the next one — click through until you reach the step you have questions about.
                   </p>
                 </div>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Up next: request your demo — it&rsquo;s a quick <strong className="text-navy font-semibold">20-minute Zoom call</strong>.
+                </p>
+                <p className="text-center text-sm text-gray-600 mb-3">
+                  Question?{' '}
+                  <button onClick={() => { setShowQuestion(true); setError(''); }} className="text-red font-semibold hover:underline">
+                    Ask us here
+                  </button>
+                  {questionSent && <span className="block text-green-700 font-semibold mt-1">✓ Sent — we&rsquo;ll get back to you shortly!</span>}
+                </p>
                 <button
                   onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowOverview(false); setError(''); }}
                   className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors mb-4"

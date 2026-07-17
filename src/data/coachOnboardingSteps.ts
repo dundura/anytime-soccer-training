@@ -245,14 +245,4 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       </div>
     `,
   },
-  {
-    title: 'Quick Tip: How to Use This Portal',
-    body: `
-      <p>We also share this portal with you to <strong>clarify questions</strong> along the way.</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
-        <p style="margin:0;"><strong>Already done a step?</strong> Just click through &mdash; mark each one complete until you reach the step you have questions about.</p>
-      </div>
-      <p>Up next: request your demo &mdash; it&rsquo;s a quick <strong>20-minute Zoom call</strong>.</p>
-    `,
-  },
 ];
