@@ -493,16 +493,25 @@ export default function OnboardingPortal() {
                   >
                     ← Back
                   </button>
-                  {!stepDone ? (
-                    step.info ? (
+                  {step.info ? (
+                    <>
                       <button
-                        onClick={() => setStep(step.key, true, true)}
-                        disabled={saving}
-                        className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
+                        onClick={() => { if (!stepDone) setStep(step.key, true); }}
+                        disabled={saving || stepDone}
+                        className={`w-full sm:w-auto font-bold py-2.5 px-6 rounded-xl transition-colors ${stepDone ? 'bg-green-500 text-white cursor-default' : 'bg-red hover:bg-red-dark text-white disabled:opacity-60'}`}
                       >
-                        {saving ? 'Saving…' : 'Next →'}
+                        {saving ? 'Saving…' : 'I Understand ✓'}
                       </button>
-                    ) : (
+                      <button
+                        onClick={() => { if (stepDone && wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } }}
+                        disabled={!stepDone}
+                        className="w-full sm:w-auto bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
+                      >
+                        Next →
+                      </button>
+                    </>
+                  ) : !stepDone ? (
+                    (
                       <>
                         <button
                           onClick={() => setShowCompleteConfirm(true)}
@@ -522,7 +531,7 @@ export default function OnboardingPortal() {
                     )
                   ) : (
                     <>
-                      {!stepSkipped && !step.info && (
+                      {!stepSkipped && (
                         <button
                           disabled
                           className="w-full sm:w-auto bg-green-500 text-white font-bold py-2.5 px-6 rounded-xl cursor-default"
