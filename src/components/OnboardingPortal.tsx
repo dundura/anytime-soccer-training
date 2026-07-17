@@ -171,7 +171,7 @@ export default function OnboardingPortal() {
                   {coach ? `Step ${wizardIndex + 1} of ${STEPS.length}` : 'Onboarding Portal'}
                 </span>
                 <a
-                  href="https://www.anytime-soccer.com"
+                  href="/onboarding-portal"
                   className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                 >
                   🏠 Home
