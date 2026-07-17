@@ -71,17 +71,17 @@ export default function CoachStepContent({ step }: { step: CoachOnboardingStep }
         counter = 0;
 
         return (
-          <div className="mb-8 space-y-4">
+          <div className="mb-8 space-y-6">
             {groups.map((group, gi) => {
-              const isOpen = openGroups[gi] ?? true;
+              const isOpen = openGroups[gi] ?? false;
               counter = counterStart[gi];
               return (
-                <div key={gi} className="border border-gray-200 rounded-lg overflow-hidden">
+                <div key={gi} className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   {group.heading ? (
                     <button
                       type="button"
                       onClick={() => setOpenGroups((prev) => ({ ...prev, [gi]: !isOpen }))}
-                      className="flex items-center justify-between w-full text-left px-4 py-3 bg-gray-50 border-b border-gray-200"
+                      className="flex items-center justify-between w-full text-left mb-0"
                     >
                       <h2 className="text-sm font-bold uppercase tracking-wide text-red">
                         {group.heading}
@@ -90,28 +90,26 @@ export default function CoachStepContent({ step }: { step: CoachOnboardingStep }
                     </button>
                   ) : null}
                   {(isOpen || !group.heading) && (
-                    <ol className="divide-y divide-gray-100">
+                    <ol className={`space-y-5 ${group.heading ? 'mt-3' : ''}`}>
                       {group.items.map((sub) => {
                         counter += 1;
                         return (
-                          <li key={sub.title} className="flex items-start gap-3 px-4 py-3">
-                            <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs mt-0.5">
+                          <li key={sub.title} className="flex gap-4">
+                            <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">
                               {counter}
                             </span>
-                            <div className="flex-1 min-w-0">
-                              <p className="font-semibold text-navy text-sm leading-snug">{sub.title}</p>
+                            <div>
+                              <p className="font-semibold text-navy mb-1">{sub.title}</p>
                               {sub.description && (
-                                <p className="text-gray-600 text-sm leading-relaxed mt-0.5">{sub.description}</p>
+                                <p className="text-gray-700 leading-relaxed mb-1">{sub.description}</p>
                               )}
-                            </div>
-                            {(sub.videoHref || sub.moreInfoHref) && (
-                              <div className="flex flex-col sm:flex-row items-end sm:items-center gap-1 sm:gap-3 flex-shrink-0">
+                              <div className="flex flex-wrap gap-x-4 gap-y-1">
                                 {sub.videoHref && (
                                   <a
                                     href={sub.videoHref}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1 text-red text-xs font-bold hover:underline whitespace-nowrap"
+                                    className="inline-flex items-center gap-1 text-red text-sm font-semibold hover:underline"
                                   >
                                     📺 Watch Video
                                   </a>
@@ -121,13 +119,13 @@ export default function CoachStepContent({ step }: { step: CoachOnboardingStep }
                                     href={sub.moreInfoHref}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1 text-red text-xs font-bold hover:underline whitespace-nowrap"
+                                    className="inline-flex items-center gap-1 text-red text-sm font-semibold hover:underline"
                                   >
                                     How To →
                                   </a>
                                 )}
                               </div>
-                            )}
+                            </div>
                           </li>
                         );
                       })}
