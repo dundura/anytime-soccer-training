@@ -106,10 +106,10 @@ export default function PricingContent() {
             <span className="ast-badge">For Coaches</span>
             <div className="ast-plan-name">Teams</div>
             <div className="ast-price">
-              <span className="ast-price-amount">$6</span>
+              <span className="ast-price-amount">$10</span>
               <span className="ast-price-period">/player/year</span>
             </div>
-            <p className="ast-price-note">Minimum 10 players</p>
+            <p className="ast-price-note">Minimum 15 slots</p>
             <ul className="ast-features">
               <li><span className="ast-check">&#10003;</span> All Access for every player</li>
               <li><span className="ast-check">&#10003;</span> Team goals &amp; reports</li>

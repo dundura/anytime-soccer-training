@@ -84,7 +84,7 @@ export default function ClubPartnershipPage() {
             {[
               { icon: '🎬', text: '5,000+ follow-along training sessions covering everything' },
               { icon: '🆓', text: 'Free to join and access to free training sessions forever' },
-              { icon: '💰', text: 'Only $6 per player per year (coaches free) and only pay if parent activates account' },
+              { icon: '💰', text: 'Only $10 per player per year (coaches free) and only pay if parent activates account' },
             ].map((fact) => (
               <div key={fact.icon} className="bg-white rounded-xl p-5 shadow-[0_2px_12px_rgba(15,49,84,0.06)]">
                 <div className="text-3xl mb-3">{fact.icon}</div>
@@ -242,7 +242,7 @@ export default function ClubPartnershipPage() {
               <h3 className="text-[clamp(1.125rem,3vw,1.5rem)] font-bold text-red mb-3">Pricing That Makes Sense</h3>
               <p className="font-bold text-navy mb-3">A lifetime solution your club can actually afford.</p>
               <ul className="space-y-2.5">
-                {['Free forever tier available', 'Full access: just $6/player/year', 'No contracts, cancel anytime'].map((item) => (
+                {['Free forever tier available', 'Full access: just $10/player/year', 'No contracts, cancel anytime'].map((item) => (
                   <li key={item} className="pl-6 relative text-[15px] text-navy before:content-['✓'] before:absolute before:left-0 before:text-emerald-500 before:font-bold before:text-sm">
                     <strong>{item}</strong>
                   </li>
@@ -307,7 +307,7 @@ export default function ClubPartnershipPage() {
             Ready to give your players <span className="text-red">a real advantage?</span>
           </h2>
           <p className="text-lg text-slate-500 mb-6">
-            Join clubs worldwide who are developing better players and strengthening family relationships&mdash;starting at just $6 per player per year.
+            Join clubs worldwide who are developing better players and strengthening family relationships&mdash;starting at just $10 per player per year.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
             <Link
