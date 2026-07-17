@@ -416,7 +416,7 @@ export default function OnboardingPortal() {
                 </div>
                 <div className="bg-red-50 border border-red-200 rounded-xl px-5 py-4 mb-6">
                   <p className="text-gray-700 leading-relaxed text-sm">
-                    <strong className="text-red font-bold">Already done a step?</strong> Simply mark it complete and move to the next one — click through until you reach the step you have questions about.
+                    <strong className="text-red font-bold">Already done a step?</strong> Simply mark it complete and move to the next one.
                   </p>
                 </div>
                 <p className="text-gray-700 leading-relaxed mb-4">
