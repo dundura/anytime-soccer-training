@@ -400,8 +400,9 @@ export default function OnboardingPortal() {
               </div>
             ) : showOverview ? (
               <div>
+                <h2 className="text-navy text-xl font-extrabold mb-3">How it Works</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Here&rsquo;s everything ahead — tap any unlocked step, or continue where you left off.
+                  Each step has its own page with everything you need — and we share helpful tips along the way.
                 </p>
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 mb-6">
                   <p className="text-gray-700 leading-relaxed text-sm">
@@ -410,7 +411,7 @@ export default function OnboardingPortal() {
                 </div>
                 <div className="bg-red-50 border border-red-200 rounded-xl px-5 py-4 mb-6">
                   <p className="text-gray-700 leading-relaxed text-sm">
-                    <strong className="text-red font-bold">Already done a step?</strong> If you&rsquo;ve completed it previously, simply mark it complete and move to the next step.
+                    <strong className="text-red font-bold">Already done a step?</strong> Simply mark it complete and move to the next one.
                   </p>
                 </div>
                 <div className="border border-gray-200 rounded-xl overflow-hidden mb-6">
