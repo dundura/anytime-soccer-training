@@ -374,9 +374,6 @@ export default function OnboardingPortal() {
                   {doneCount === 0 ? 'Get Started →' : allDone ? 'Review Your Steps →' : 'Pick Up Where You Left Off →'}
                 </button>
 
-                <p className="text-gray-600 text-sm text-center">
-                  Questions? Email <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold hover:underline">megan@anytime-soccer.com</a> — we&rsquo;re happy to help.
-                </p>
               </div>
             ) : (
               <div>
