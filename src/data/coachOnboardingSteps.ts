@@ -68,9 +68,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Create Your Account',
     body: `
-      <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
-        <p style="margin:0;"><strong style="color:#DC373E;">Action Required:</strong> <strong style="color:#0F3154;">Create your account and add profiles.</strong></p>
-      </div>
       <p>Click the How To links below for detailed instructions.</p>
     `,
     subSteps: [
