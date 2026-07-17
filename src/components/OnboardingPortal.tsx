@@ -243,7 +243,7 @@ export default function OnboardingPortal() {
             <div className="flex items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2">
                 <span className="inline-block bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full">
-                  {showFaq ? 'FAQ' : coach ? (showIntro ? 'Welcome' : step.tip ? 'Quick Tip' : `Step ${stepNumber(wizardIndex)} of ${NUMBERED_TOTAL}`) : 'Onboarding Portal'}
+                  {showFaq ? 'FAQ' : coach ? (showIntro ? 'Welcome' : step.tip ? `${step.section} — Quick Tip` : `${step.section} — Step ${stepNumber(wizardIndex)} of ${NUMBERED_TOTAL}`) : 'Onboarding Portal'}
                 </span>
                 <button
                   onClick={() => { setShowIntro(true); setShowFaq(false); setError(''); }}
@@ -277,6 +277,14 @@ export default function OnboardingPortal() {
             </h1>
             {!coach && (
               <p className="text-white/70 text-sm mt-1">Sign in to walk through your team setup step by step.</p>
+            )}
+            {coach && !showIntro && !showFaq && (
+              <div className="mt-4">
+                <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+                  <div className="h-full bg-red rounded-full transition-all" style={{ width: `${(doneCount / STEPS.length) * 100}%` }} />
+                </div>
+                <p className="text-white/60 text-xs font-semibold mt-1.5">{doneCount} of {STEPS.length} steps complete</p>
+              </div>
             )}
           </div>
 
@@ -432,9 +440,9 @@ export default function OnboardingPortal() {
               </div>
             ) : (
               <div>
-                {/* Step dots + progress */}
+                {/* Step dots */}
                 <div className="mb-6">
-                  <div className="flex items-center justify-center gap-2 mb-4">
+                  <div className="flex items-center justify-center gap-2 flex-wrap">
                     {STEPS.map((s, i) => {
                       const done = !!coach.checklist[s.key];
                       const skipped = coach.checklist[s.key] === 'skipped';
@@ -446,17 +454,13 @@ export default function OnboardingPortal() {
                           onClick={() => { if (!locked) { setWizardIndex(i); setError(''); } }}
                           disabled={locked}
                           title={locked ? 'Complete the previous steps first' : s.title}
-                          className={`w-8 h-8 rounded-full text-xs font-extrabold transition-colors ${skipped ? 'bg-amber-400 text-white' : done ? 'bg-green-500 text-white' : isCurrent ? 'bg-red text-white' : locked ? 'bg-gray-100 text-gray-300 cursor-not-allowed' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+                          className={`w-8 h-8 rounded-full text-xs font-extrabold transition-colors ${skipped ? 'bg-amber-400 text-white' : done ? 'bg-green-500 text-white' : isCurrent ? 'bg-red text-white' : locked ? 'bg-blue-50 text-blue-200 cursor-not-allowed' : 'bg-blue-100 text-navy hover:bg-blue-200'}`}
                         >
                           {skipped ? '→' : done ? '✓' : s.tip ? '💡' : stepNumber(i)}
                         </button>
                       );
                     })}
                   </div>
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-red rounded-full transition-all" style={{ width: `${(doneCount / STEPS.length) * 100}%` }} />
-                  </div>
-                  <p className="text-center text-xs text-gray-500 font-semibold mt-2">{doneCount} of {STEPS.length} steps complete</p>
                 </div>
 
                 {allDone && (

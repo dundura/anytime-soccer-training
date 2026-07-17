@@ -221,7 +221,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     body: `
       <p>For each player, we need the <strong>parent&rsquo;s first name</strong>, the <strong>player&rsquo;s first name</strong>, and an <strong>email address</strong>.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
-        <p style="margin:0;">You can provide more than one parent email &mdash; both parents get the invite and can decide who signs up &mdash; but <strong>only one email can be used to create the account</strong>.</p>
+        <p style="margin:0;">You can provide more than one parent email &mdash; in those cases, both parents will receive our invite and can decide who signs up. Note: <strong>only one email can be used to create the account</strong>.</p>
       </div>
       <p>Older player with their own email? It&rsquo;s fine to provide theirs.</p>
     `,
