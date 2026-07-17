@@ -316,8 +316,11 @@ export default function OnboardingPortal() {
                 <p className="text-gray-700 leading-relaxed mb-4">
                   Getting set up has two parts: <strong className="text-navy font-semibold">Pre-Onboarding</strong> — a few quick steps before we begin — and <strong className="text-navy font-semibold">Onboarding</strong> — the steps that get your team live in the app.
                 </p>
-                <p className="text-gray-700 leading-relaxed mb-6">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   Every step is designed to get your team set up quickly — so your players can start <strong className="text-navy font-semibold">training from day one</strong>.
+                </p>
+                <p className="text-gray-700 leading-relaxed mb-6">
+                  One last note: when you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team and keeps things moving. Have a question along the way? Send it to <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold hover:underline">megan@anytime-soccer.com</a> and we&rsquo;ll respond quickly.
                 </p>
 
                 <div className="border border-gray-200 rounded-xl overflow-hidden mb-6">
