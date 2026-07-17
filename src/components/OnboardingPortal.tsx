@@ -166,9 +166,17 @@ export default function OnboardingPortal() {
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="bg-navy px-8 py-6">
             <div className="flex items-center justify-between gap-2 mb-3">
-              <span className="inline-block bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full">
-                {coach ? `Step ${wizardIndex + 1} of ${STEPS.length}` : 'Onboarding Portal'}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="inline-block bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full">
+                  {coach ? `Step ${wizardIndex + 1} of ${STEPS.length}` : 'Onboarding Portal'}
+                </span>
+                <a
+                  href="https://www.anytime-soccer.com"
+                  className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
+                >
+                  🏠 Home
+                </a>
+              </div>
               {coach && (
                 <button onClick={signOut} className="text-white/60 hover:text-white text-xs font-semibold">
                   Sign out
