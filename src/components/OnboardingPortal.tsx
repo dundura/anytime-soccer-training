@@ -68,15 +68,25 @@ export default function OnboardingPortal() {
   const [token, setToken] = useState<string | null>(null);
   const [coach, setCoach] = useState<Coach | null>(null);
   const [loading, setLoading] = useState(true);
-  const [mode, setMode] = useState<'signin' | 'register'>('signin');
+  const [mode, setMode] = useState<'signin' | 'register' | 'forgot' | 'reset'>('signin');
+  const [resetToken, setResetToken] = useState('');
+  const [notice, setNotice] = useState('');
   const [form, setForm] = useState({ name: '', email: '', password: '', club: '' });
   const [teamNameInput, setTeamNameInput] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [savingStep, setSavingStep] = useState<string | null>(null);
 
-  // Restore session
+  // Restore session (or enter reset mode from an emailed link)
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const rt = params.get('reset');
+    if (rt) {
+      setResetToken(rt);
+      setMode('reset');
+      setLoading(false);
+      return;
+    }
     const saved = typeof window !== 'undefined' ? localStorage.getItem(TOKEN_KEY) : null;
     if (!saved) { setLoading(false); return; }
     fetch(`${API}/portal-onboarding/state`, { headers: { Authorization: saved } })
@@ -92,11 +102,14 @@ export default function OnboardingPortal() {
 
   const submitAuth = async () => {
     setError('');
+    setNotice('');
     setBusy(true);
     try {
-      const path = mode === 'register' ? 'register' : 'login';
-      const body = mode === 'register'
-        ? { name: form.name, email: form.email, password: form.password, club: form.club }
+      const path = mode === 'register' ? 'register' : mode === 'forgot' ? 'forgot' : mode === 'reset' ? 'reset' : 'login';
+      const body =
+        mode === 'register' ? { name: form.name, email: form.email, password: form.password, club: form.club }
+        : mode === 'forgot' ? { email: form.email }
+        : mode === 'reset' ? { token: resetToken, password: form.password }
         : { email: form.email, password: form.password };
       const res = await fetch(`${API}/portal-onboarding/${path}`, {
         method: 'POST',
@@ -105,6 +118,13 @@ export default function OnboardingPortal() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) { setError(data.error || 'Something went wrong. Please try again.'); return; }
+      if (mode === 'forgot') {
+        setNotice(data.message || 'If an account exists for that email, a reset link is on its way.');
+        return;
+      }
+      if (mode === 'reset' && typeof window !== 'undefined') {
+        window.history.replaceState(null, '', '/onboarding-portal');
+      }
       localStorage.setItem(TOKEN_KEY, data.token);
       setToken(data.token);
       setCoach(data.coach);
@@ -195,17 +215,28 @@ export default function OnboardingPortal() {
             ) : !coach ? (
               <div>
                 {/* Sign in / register tabs */}
+                {(mode === 'signin' || mode === 'register') ? (
                 <div className="flex border border-gray-200 rounded-lg overflow-hidden mb-6">
                   {(['signin', 'register'] as const).map(m => (
                     <button
                       key={m}
-                      onClick={() => { setMode(m); setError(''); }}
+                      onClick={() => { setMode(m); setError(''); setNotice(''); }}
                       className={`flex-1 py-2.5 text-sm font-bold transition-colors ${mode === m ? 'bg-navy text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}
                     >
                       {m === 'signin' ? 'Sign In' : 'Create Account'}
                     </button>
                   ))}
                 </div>
+                ) : (
+                <div className="mb-6">
+                  <p className="font-bold text-navy">{mode === 'forgot' ? 'Reset your password' : 'Choose a new password'}</p>
+                  <p className="text-gray-600 text-sm mt-1">
+                    {mode === 'forgot'
+                      ? 'Enter your email and we’ll send you a reset link.'
+                      : 'Enter a new password for your portal account.'}
+                  </p>
+                </div>
+                )}
 
                 <div className="space-y-3">
                   {mode === 'register' && (
@@ -216,21 +247,40 @@ export default function OnboardingPortal() {
                         onChange={e => setForm({ ...form, club: e.target.value })} />
                     </>
                   )}
+                  {mode !== 'reset' && (
                   <input className={inputClass} type="email" placeholder="Email" value={form.email}
                     onChange={e => setForm({ ...form, email: e.target.value })} />
-                  <input className={inputClass} type="password" placeholder={mode === 'register' ? 'Choose a password (6+ characters)' : 'Password'} value={form.password}
+                  )}
+                  {mode !== 'forgot' && (
+                  <input className={inputClass} type="password" placeholder={mode === 'register' || mode === 'reset' ? 'Choose a password (6+ characters)' : 'Password'} value={form.password}
                     onChange={e => setForm({ ...form, password: e.target.value })}
                     onKeyDown={e => { if (e.key === 'Enter') submitAuth(); }} />
+                  )}
 
                   {error && <p className="text-red text-sm font-semibold">{error}</p>}
+                  {notice && <p className="text-green-700 text-sm font-semibold">{notice}</p>}
 
                   <button
                     onClick={submitAuth}
                     disabled={busy}
                     className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors disabled:opacity-60"
                   >
-                    {busy ? 'One moment…' : mode === 'register' ? 'Create Account & Start' : 'Sign In'}
+                    {busy ? 'One moment…'
+                      : mode === 'register' ? 'Create Account & Start'
+                      : mode === 'forgot' ? 'Send Reset Link'
+                      : mode === 'reset' ? 'Set New Password'
+                      : 'Sign In'}
                   </button>
+                  {mode === 'signin' && (
+                    <button onClick={() => { setMode('forgot'); setError(''); setNotice(''); }} className="w-full text-center text-sm text-gray-500 hover:text-navy font-semibold">
+                      Forgot password?
+                    </button>
+                  )}
+                  {(mode === 'forgot' || mode === 'reset') && (
+                    <button onClick={() => { setMode('signin'); setError(''); setNotice(''); }} className="w-full text-center text-sm text-gray-500 hover:text-navy font-semibold">
+                      ← Back to sign in
+                    </button>
+                  )}
                   <p className="text-gray-500 text-xs text-center">
                     This portal login is separate from your Anytime Soccer Training app account.
                   </p>
