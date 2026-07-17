@@ -16,11 +16,11 @@ type Coach = {
 };
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
-const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string }[] = [
+const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean }[] = [
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: 2, section: 'Pre-Onboarding' },
-  { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding' },
+  { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding', info: true },
   { key: 'survey', title: 'Take the Coach Engagement Survey', dataIndex: 3, section: 'Onboarding' },
   { key: 'account', title: 'Create your account and add profiles', dataIndex: 4, section: 'Onboarding' },
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding' },
@@ -468,7 +468,7 @@ export default function OnboardingPortal() {
                       disabled={saving}
                       className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
                     >
-                      {saving ? 'Saving…' : 'Mark Complete ✓'}
+                      {saving ? 'Saving…' : step.info ? 'Next →' : 'Mark Complete ✓'}
                     </button>
                   ) : wizardIndex < STEPS.length - 1 ? (
                     <button
