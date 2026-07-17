@@ -520,14 +520,26 @@ export default function OnboardingPortal() {
                         </button>
                       </>
                     )
-                  ) : wizardIndex < STEPS.length - 1 ? (
-                    <button
-                      onClick={() => { setWizardIndex(wizardIndex + 1); setError(''); }}
-                      className="w-full sm:w-auto bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
-                    >
-                      Next →
-                    </button>
-                  ) : null}
+                  ) : (
+                    <>
+                      {!stepSkipped && !step.info && (
+                        <button
+                          disabled
+                          className="w-full sm:w-auto bg-green-500 text-white font-bold py-2.5 px-6 rounded-xl cursor-default"
+                        >
+                          I Have Completed This Step ✓
+                        </button>
+                      )}
+                      {wizardIndex < STEPS.length - 1 && (
+                        <button
+                          onClick={() => { setWizardIndex(wizardIndex + 1); setError(''); }}
+                          className="w-full sm:w-auto bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                        >
+                          Next →
+                        </button>
+                      )}
+                    </>
+                  )}
                 </div>
               </div>
             )}
