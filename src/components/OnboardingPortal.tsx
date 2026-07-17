@@ -12,7 +12,7 @@ type Coach = {
   email: string;
   club: string | null;
   teamName: string | null;
-  checklist: Record<string, boolean>;
+  checklist: Record<string, boolean | 'skipped'>;
 };
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
@@ -138,32 +138,25 @@ export default function OnboardingPortal() {
     setForm({ name: '', email: '', password: '', club: '' });
   };
 
-  const setStep = async (key: string, done: boolean, advance = false) => {
+  const setStep = async (key: string, value: boolean | 'skipped', advance = false) => {
     if (!coach || !token) return;
-    const step = STEPS.find(s => s.key === key);
-    if (done && step?.needsTeamName && !teamNameInput.trim()) {
-      setError('Please enter your team name first.');
-      return;
-    }
+    const stepDef = STEPS.find(s => s.key === key);
     setError('');
     setSaving(true);
-    const checklist = { ...coach.checklist, [key]: done };
+    const checklist = { ...coach.checklist, [key]: value };
     try {
       const res = await fetch(`${API}/portal-onboarding/checklist`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: token },
         body: JSON.stringify({
           checklist,
-          completedStep: done ? key : null,
-          teamName: done && step?.needsTeamName ? teamNameInput.trim() : undefined,
+          completedStep: value === true ? key : null,
+          stepAction: value === true ? 'completed' : value === 'skipped' ? 'skipped' : null,
+          stepTitle: stepDef ? stepDef.title : key,
         }),
       });
       if (!res.ok) throw new Error();
-      setCoach({
-        ...coach,
-        checklist,
-        teamName: done && step?.needsTeamName ? teamNameInput.trim() : coach.teamName,
-      });
+      setCoach({ ...coach, checklist });
       if (advance && wizardIndex < STEPS.length - 1) setWizardIndex(wizardIndex + 1);
     } catch {
       setError('Could not save. Please try again.');
@@ -197,7 +190,9 @@ export default function OnboardingPortal() {
   const doneCount = coach ? STEPS.filter(s => coach.checklist[s.key]).length : 0;
   const allDone = doneCount === STEPS.length;
   const step = STEPS[wizardIndex];
-  const stepDone = coach ? !!coach.checklist[step.key] : false;
+  const stepState = coach ? coach.checklist[step.key] : undefined;
+  const stepDone = !!stepState;
+  const stepSkipped = stepState === 'skipped';
   const stepData = COACH_ONBOARDING_STEPS[step.dataIndex];
 
   const inputClass = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-navy placeholder:text-gray focus:outline-none focus:ring-2 focus:ring-red/30 focus:border-red';
@@ -389,6 +384,7 @@ export default function OnboardingPortal() {
                   <div className="flex items-center justify-center gap-2 mb-4">
                     {STEPS.map((s, i) => {
                       const done = !!coach.checklist[s.key];
+                      const skipped = coach.checklist[s.key] === 'skipped';
                       const isCurrent = i === wizardIndex;
                       const locked = i > firstIncomplete(coach);
                       return (
@@ -397,9 +393,9 @@ export default function OnboardingPortal() {
                           onClick={() => { if (!locked) { setWizardIndex(i); setError(''); } }}
                           disabled={locked}
                           title={locked ? 'Complete the previous steps first' : s.title}
-                          className={`w-8 h-8 rounded-full text-xs font-extrabold transition-colors ${done ? 'bg-green-500 text-white' : isCurrent ? 'bg-red text-white' : locked ? 'bg-gray-100 text-gray-300 cursor-not-allowed' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+                          className={`w-8 h-8 rounded-full text-xs font-extrabold transition-colors ${skipped ? 'bg-amber-400 text-white' : done ? 'bg-green-500 text-white' : isCurrent ? 'bg-red text-white' : locked ? 'bg-gray-100 text-gray-300 cursor-not-allowed' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
                         >
-                          {done ? '✓' : i + 1}
+                          {skipped ? '→' : done ? '✓' : i + 1}
                         </button>
                       );
                     })}
@@ -424,9 +420,16 @@ export default function OnboardingPortal() {
                 )}
 
                 {stepDone && !allDone && (
-                  <div className="bg-green-50 border border-green-200 rounded-lg px-4 py-3 mb-6 flex items-center justify-between">
-                    <p className="text-green-800 text-sm font-bold">✓ You&rsquo;ve completed this step</p>
-                    <button onClick={() => setStep(step.key, false)} className="text-xs text-green-700/70 hover:text-green-900 font-semibold">Undo</button>
+                  <div className={`${stepSkipped ? 'bg-amber-50 border-amber-200' : 'bg-green-50 border-green-200'} border rounded-lg px-4 py-3 mb-6 flex items-center justify-between gap-3 flex-wrap`}>
+                    <p className={`${stepSkipped ? 'text-amber-800' : 'text-green-800'} text-sm font-bold`}>
+                      {stepSkipped ? '→ You skipped this step' : '✓ You’ve completed this step'}
+                    </p>
+                    <span className="flex items-center gap-3">
+                      {stepSkipped && (
+                        <button onClick={() => setStep(step.key, true)} className="text-xs text-amber-800 hover:text-amber-950 font-semibold underline">Mark complete instead</button>
+                      )}
+                      <button onClick={() => setStep(step.key, false)} className={`text-xs font-semibold ${stepSkipped ? 'text-amber-700/70 hover:text-amber-900' : 'text-green-700/70 hover:text-green-900'}`}>Undo</button>
+                    </span>
                   </div>
                 )}
 
@@ -472,13 +475,32 @@ export default function OnboardingPortal() {
                     ← Back
                   </button>
                   {!stepDone ? (
-                    <button
-                      onClick={() => setStep(step.key, true, true)}
-                      disabled={saving}
-                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
-                    >
-                      {saving ? 'Saving…' : step.info ? 'Next →' : 'Mark Complete ✓'}
-                    </button>
+                    step.info ? (
+                      <button
+                        onClick={() => setStep(step.key, true, true)}
+                        disabled={saving}
+                        className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
+                      >
+                        {saving ? 'Saving…' : 'Next →'}
+                      </button>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => setStep(step.key, true, true)}
+                          disabled={saving}
+                          className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-6 rounded-xl transition-colors disabled:opacity-60"
+                        >
+                          {saving ? 'Saving…' : 'I Have Completed This Step ✓'}
+                        </button>
+                        <button
+                          onClick={() => setStep(step.key, 'skipped', true)}
+                          disabled={saving}
+                          className="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-600 hover:bg-gray-50 font-bold py-2.5 px-6 rounded-xl transition-colors disabled:opacity-60"
+                        >
+                          I&rsquo;m Skipping This Step →
+                        </button>
+                      </>
+                    )
                   ) : wizardIndex < STEPS.length - 1 ? (
                     <button
                       onClick={() => { setWizardIndex(wizardIndex + 1); setError(''); }}
