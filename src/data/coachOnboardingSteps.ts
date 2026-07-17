@@ -38,7 +38,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Send Us Your Roster',
     body: `
       <p>Download the roster template below, fill it in, and email it to <strong>Megan Chambers</strong> as an Excel file. We&rsquo;ll use the names and emails to invite parents &mdash; <strong>nothing is sent until you confirm they&rsquo;ve been notified.</strong></p>
-      <div style="background:#f8fafc;border-left:4px solid #DC373E;border-radius:8px;padding:14px 16px;margin:16px 0;">
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
         <p style="margin:0;"><strong>Roster not finalized?</strong> No problem &mdash; send what you have and add the rest later.</p>
       </div>
     `,
@@ -60,6 +60,9 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     body: `
       <p>We&rsquo;ve distilled what drives player participation into <strong>10 key coaching actions</strong> &mdash; each takes about a minute.</p>
       <p>Your survey tells us which ones you plan to use, so we can set you up to execute on every one.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
+        <p style="margin:0;"><strong>Filled this out before?</strong> Please take it again when adding a new team.</p>
+      </div>
     `,
     ctaLabel: 'Complete Your Coaching Engagement Survey',
     ctaHref: 'https://www.anytime-soccer.com/my-coaching-plan',
@@ -211,6 +214,35 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         <p style="margin:0;"><strong>Returning member?</strong> You&rsquo;ll have done many of these steps already &mdash; but we still want you to complete the <strong>Coaching Engagement Survey</strong>. It helps us gauge expectations and better support you along the way.</p>
       </div>
       <p>Here&rsquo;s what&rsquo;s left:</p>
+    `,
+  },
+  {
+    title: 'Quick Tip: What to Include on Your Roster',
+    body: `
+      <p>For each player, we need the <strong>parent&rsquo;s first name</strong>, the <strong>player&rsquo;s first name</strong>, and an <strong>email address</strong>.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
+        <p style="margin:0;">You can provide more than one parent email &mdash; both parents get the invite and can decide who signs up &mdash; but <strong>only one email can be used to create the account</strong>.</p>
+      </div>
+      <p>Older player with their own email? It&rsquo;s fine to provide theirs.</p>
+    `,
+  },
+  {
+    title: 'Quick Tip: Accounts & Profiles',
+    body: `
+      <p>Next you&rsquo;ll create your account and add profiles for <strong>yourself and your child</strong>.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
+        <p style="margin:0;"><strong>Remember:</strong> you don&rsquo;t add profiles for your team&rsquo;s players &mdash; each parent has their own account.</p>
+      </div>
+      <p>You&rsquo;ll need to apply the <strong>team code</strong> provided. Already have an account? Enter the team code in the <strong>Account Management</strong> section.</p>
+    `,
+  },
+  {
+    title: 'Quick Tip: Creating Your Team',
+    body: `
+      <p>Next we&rsquo;ll ask you to create your team. All you need to do is fill out the <strong>Create Team form</strong> and let us know once it&rsquo;s done.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
+        <p style="margin:0;"><strong>Don&rsquo;t change the team name during onboarding</strong> &mdash; this is what we&rsquo;ll use to invite your parents.</p>
+      </div>
     `,
   },
 ];

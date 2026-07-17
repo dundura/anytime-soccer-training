@@ -18,17 +18,24 @@ type Coach = {
 };
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
-const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean }[] = [
+const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean }[] = [
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
+  { key: 'tip_roster', title: 'Quick Tip: What to Include on Your Roster', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: 2, section: 'Pre-Onboarding' },
   { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding', info: true },
   { key: 'survey', title: 'Take the Coaching Engagement Survey', dataIndex: 3, section: 'Onboarding' },
+  { key: 'tip_account', title: 'Quick Tip: Accounts & Profiles', dataIndex: 13, section: 'Onboarding', tip: true },
   { key: 'account', title: 'Create your account and add profiles', dataIndex: 4, section: 'Onboarding' },
+  { key: 'tip_team', title: 'Quick Tip: Creating Your Team', dataIndex: 14, section: 'Onboarding', tip: true },
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding' },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
   { key: 'parents_informed', title: 'Reply to Megan with the team name (inside the app) and that your parents have been informed', dataIndex: 8, section: 'Onboarding', note: 'Marking this step complete notifies Megan automatically — that’s our green light to start inviting your parents.' },
 ];
+
+// Tips are unnumbered; numbered position of the step at index i
+const stepNumber = (i: number) => STEPS.slice(0, i + 1).filter(x => !x.tip).length;
+const NUMBERED_TOTAL = STEPS.filter(x => !x.tip).length;
 
 const NEXT_STEPS = [
   'We’ll invite your parents to join the team',
@@ -160,7 +167,7 @@ export default function OnboardingPortal() {
         body: JSON.stringify({
           checklist,
           completedStep: value === true ? key : null,
-          stepAction: value === true ? 'completed' : value === 'skipped' ? 'skipped' : null,
+          stepAction: stepDef && !stepDef.info && !stepDef.tip ? (value === true ? 'completed' : value === 'skipped' ? 'skipped' : null) : null,
           stepTitle: stepDef ? stepDef.title : key,
         }),
       });
@@ -236,7 +243,7 @@ export default function OnboardingPortal() {
             <div className="flex items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2">
                 <span className="inline-block bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full">
-                  {showFaq ? 'FAQ' : coach ? (showIntro ? 'Welcome' : `Step ${wizardIndex + 1} of ${STEPS.length}`) : 'Onboarding Portal'}
+                  {showFaq ? 'FAQ' : coach ? (showIntro ? 'Welcome' : step.tip ? 'Quick Tip' : `Step ${stepNumber(wizardIndex)} of ${NUMBERED_TOTAL}`) : 'Onboarding Portal'}
                 </span>
                 <button
                   onClick={() => { setShowIntro(true); setShowFaq(false); setError(''); }}
@@ -404,7 +411,7 @@ export default function OnboardingPortal() {
                               className={`flex items-center gap-3 w-full text-left px-4 py-3 transition-colors ${!showHeading ? 'border-t border-gray-100' : ''} ${locked ? 'cursor-not-allowed opacity-60' : 'hover:bg-gray-50'}`}
                             >
                               <span className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-extrabold ${done ? 'bg-green-500 text-white' : locked ? 'bg-gray-100 text-gray-300' : 'bg-gray-100 text-gray-500'}`}>
-                                {done ? '✓' : locked ? '🔒' : i + 1}
+                                {done ? '✓' : locked ? '🔒' : s.tip ? '💡' : stepNumber(i)}
                               </span>
                               <span className={`text-sm font-semibold ${done ? 'text-green-800' : locked ? 'text-gray-400' : 'text-navy'}`}>{s.title}</span>
                             </button>
@@ -441,7 +448,7 @@ export default function OnboardingPortal() {
                           title={locked ? 'Complete the previous steps first' : s.title}
                           className={`w-8 h-8 rounded-full text-xs font-extrabold transition-colors ${skipped ? 'bg-amber-400 text-white' : done ? 'bg-green-500 text-white' : isCurrent ? 'bg-red text-white' : locked ? 'bg-gray-100 text-gray-300 cursor-not-allowed' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
                         >
-                          {skipped ? '→' : done ? '✓' : i + 1}
+                          {skipped ? '→' : done ? '✓' : s.tip ? '💡' : stepNumber(i)}
                         </button>
                       );
                     })}
@@ -484,7 +491,7 @@ export default function OnboardingPortal() {
 
                 {step.key === 'onboarding_begins' && (
                   <ul className="mb-6 space-y-3">
-                    {STEPS.filter(s2 => s2.section === 'Onboarding' && s2.key !== 'onboarding_begins').map(s2 => {
+                    {STEPS.filter(s2 => s2.section === 'Onboarding' && s2.key !== 'onboarding_begins' && !s2.tip).map(s2 => {
                       const stepComplete = !!coach.checklist[s2.key];
                       return (
                         <li key={s2.key} className="flex items-start gap-3">
@@ -529,7 +536,7 @@ export default function OnboardingPortal() {
                   >
                     ← Back
                   </button>
-                  {step.info ? (
+                  {(step.info || step.tip) ? (
                     <>
                       <button
                         onClick={() => { if (!stepDone) setStep(step.key, true); }}
