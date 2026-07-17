@@ -217,6 +217,14 @@ export default function OnboardingPortal() {
                 >
                   🏠 Home
                 </button>
+                <a
+                  href="/get-started-faq"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
+                >
+                  FAQ
+                </a>
               </div>
               {coach && (
                 <button onClick={signOut} className="text-white/60 hover:text-white text-xs font-semibold">
@@ -357,12 +365,6 @@ export default function OnboardingPortal() {
                   {doneCount === 0 ? 'Get Started →' : allDone ? 'Review Your Steps →' : 'Pick Up Where You Left Off →'}
                 </button>
 
-                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 mb-4">
-                  <p className="font-bold text-navy text-sm mb-1">Frequently Asked Questions</p>
-                  <p className="text-gray-600 text-sm">
-                    Common questions about accounts, profiles, and teams — <a href="/get-started-faq" target="_blank" className="text-red font-semibold hover:underline">read the FAQ →</a>
-                  </p>
-                </div>
                 <p className="text-gray-600 text-sm text-center">
                   Questions? Email <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold hover:underline">megan@anytime-soccer.com</a> — we&rsquo;re happy to help.
                 </p>
