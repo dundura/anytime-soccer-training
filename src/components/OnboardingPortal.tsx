@@ -53,6 +53,7 @@ export default function OnboardingPortal() {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showFaq, setShowFaq] = useState(false);
   const [showCompleteConfirm, setShowCompleteConfirm] = useState(false);
+  const [stepChoice, setStepChoice] = useState<'completed' | 'skipped' | null>(null);
 
   const firstIncomplete = (c: Coach) => {
     const idx = STEPS.findIndex(s => !c.checklist[s.key]);
@@ -511,24 +512,13 @@ export default function OnboardingPortal() {
                       </button>
                     </>
                   ) : !stepDone ? (
-                    (
-                      <>
-                        <button
-                          onClick={() => setShowCompleteConfirm(true)}
-                          disabled={saving}
-                          className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-6 rounded-xl transition-colors disabled:opacity-60"
-                        >
-                          {saving ? 'Saving…' : 'I Have Completed This Step ✓'}
-                        </button>
-                        <button
-                          onClick={() => setStep(step.key, 'skipped', true)}
-                          disabled={saving}
-                          className="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-600 hover:bg-gray-50 font-bold py-2.5 px-6 rounded-xl transition-colors disabled:opacity-60"
-                        >
-                          I&rsquo;m Skipping This Step →
-                        </button>
-                      </>
-                    )
+                    <button
+                      onClick={() => { setStepChoice(null); setShowCompleteConfirm(true); }}
+                      disabled={saving}
+                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
+                    >
+                      {saving ? 'Saving…' : 'Continue →'}
+                    </button>
                   ) : (
                     <>
                       {!stepSkipped && (
@@ -580,14 +570,36 @@ export default function OnboardingPortal() {
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4"
         >
           <div onClick={e => e.stopPropagation()} className="bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden">
-            <div className="px-6 pt-6 pb-4 text-center">
+            <div className="px-6 pt-6 pb-2 text-center">
               <div className="text-4xl mb-3">✅</div>
-              <h2 className="text-navy text-lg font-extrabold mb-2">Mark this step complete?</h2>
+              <h2 className="text-navy text-lg font-extrabold mb-2">Before you continue</h2>
               <p className="text-gray-600 text-sm leading-relaxed">
-                This confirms you&rsquo;ve finished <strong className="text-navy">{step.title}</strong> and lets our team know you&rsquo;re moving forward.
+                Where are you with <strong className="text-navy">{step.title}</strong>? This lets our team know.
               </p>
             </div>
-            <div className="flex gap-3 px-6 pb-6">
+            <div className="flex flex-col gap-2 px-6 pt-3 pb-4">
+              <label className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${stepChoice === 'completed' ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                <input
+                  type="radio"
+                  name="stepChoice"
+                  checked={stepChoice === 'completed'}
+                  onChange={() => setStepChoice('completed')}
+                  className="accent-green-600 w-4 h-4"
+                />
+                <span className="text-sm font-bold text-navy">I have completed this step ✓</span>
+              </label>
+              <label className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${stepChoice === 'skipped' ? 'border-amber-400 bg-amber-50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                <input
+                  type="radio"
+                  name="stepChoice"
+                  checked={stepChoice === 'skipped'}
+                  onChange={() => setStepChoice('skipped')}
+                  className="accent-amber-500 w-4 h-4"
+                />
+                <span className="text-sm font-bold text-navy">I&rsquo;m skipping this step →</span>
+              </label>
+            </div>
+            <div className="flex gap-3 px-6 pb-5">
               <button
                 onClick={() => setShowCompleteConfirm(false)}
                 disabled={saving}
@@ -596,11 +608,15 @@ export default function OnboardingPortal() {
                 Cancel
               </button>
               <button
-                onClick={async () => { await setStep(step.key, true, true); setShowCompleteConfirm(false); }}
-                disabled={saving}
-                className="flex-1 bg-red hover:bg-red-dark text-white font-bold py-2.5 rounded-xl transition-colors disabled:opacity-60"
+                onClick={async () => {
+                  if (!stepChoice) return;
+                  await setStep(step.key, stepChoice === 'completed' ? true : 'skipped', true);
+                  setShowCompleteConfirm(false);
+                }}
+                disabled={saving || !stepChoice}
+                className="flex-1 bg-red hover:bg-red-dark text-white font-bold py-2.5 rounded-xl transition-colors disabled:opacity-40"
               >
-                {saving ? 'Saving…' : 'Yes, Complete ✓'}
+                {saving ? 'Saving…' : 'Submit'}
               </button>
             </div>
           </div>
