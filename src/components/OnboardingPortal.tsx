@@ -225,6 +225,15 @@ export default function OnboardingPortal() {
                 >
                   FAQ
                 </a>
+                {coach && doneCount > 0 && (
+                  <button
+                    onClick={resetProgress}
+                    disabled={saving}
+                    className="inline-flex items-center gap-1 bg-white/15 border border-white/30 text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-white/25 transition-colors disabled:opacity-60"
+                  >
+                    Reset
+                  </button>
+                )}
               </div>
               {coach && (
                 <button onClick={signOut} className="text-white/60 hover:text-white text-xs font-semibold">
@@ -368,13 +377,6 @@ export default function OnboardingPortal() {
                 <p className="text-gray-600 text-sm text-center">
                   Questions? Email <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold hover:underline">megan@anytime-soccer.com</a> — we&rsquo;re happy to help.
                 </p>
-                {doneCount > 0 && (
-                  <p className="text-center mt-4">
-                    <button onClick={resetProgress} disabled={saving} className="text-xs text-gray-400 hover:text-gray-600 underline disabled:opacity-60">
-                      Reset all my progress
-                    </button>
-                  </p>
-                )}
               </div>
             ) : (
               <div>
