@@ -71,11 +71,25 @@ export default function OnboardingPortal() {
         setToken(saved);
         setCoach(data.coach);
         setTeamNameInput(data.coach.teamName || '');
-        setWizardIndex(firstIncomplete(data.coach));
+        // Stay on the step from the URL after a refresh; otherwise show the welcome page
+        const stepParam = parseInt(params.get('step') || '', 10);
+        if (stepParam >= 1 && stepParam <= STEPS.length) {
+          setWizardIndex(stepParam - 1);
+          setShowIntro(false);
+        } else {
+          setWizardIndex(firstIncomplete(data.coach));
+        }
       })
       .catch(() => localStorage.removeItem(TOKEN_KEY))
       .finally(() => setLoading(false));
   }, []);
+
+  // Keep the current step in the URL so a refresh stays on the same page
+  useEffect(() => {
+    if (!coach || typeof window === 'undefined') return;
+    const url = showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
+    window.history.replaceState(null, '', url);
+  }, [coach, showIntro, wizardIndex]);
 
   const submitAuth = async () => {
     setError('');
