@@ -3,6 +3,8 @@ export type CoachOnboardingSubStep = {
   description?: string;
   videoHref?: string;
   moreInfoHref?: string;
+  extraLinkLabel?: string;
+  extraLinkHref?: string;
   sectionHeading?: string;
 };
 
@@ -78,6 +80,8 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       {
         title: 'Enter Your Team Code',
         description: 'No team code? Email megan@anytime-soccer.com.',
+        extraLinkLabel: 'Already have an account? Apply your code →',
+        extraLinkHref: 'https://www.anytime-soccer.com/applying-team-code-to-existing-account?utm_source=email&utm_medium=email%20marketing',
         moreInfoHref: 'https://www.anytime-soccer.com/applying-team-code-to-existing-account?utm_source=email&utm_medium=email%20marketing',
       },
       {

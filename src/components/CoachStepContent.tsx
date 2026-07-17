@@ -104,6 +104,16 @@ export default function CoachStepContent({ step }: { step: CoachOnboardingStep }
                                 <p className="text-gray-700 leading-relaxed mb-1">{sub.description}</p>
                               )}
                               <div className="flex flex-wrap gap-x-4 gap-y-1">
+                                {sub.extraLinkHref && (
+                                  <a
+                                    href={sub.extraLinkHref}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1 text-navy text-sm font-semibold hover:underline"
+                                  >
+                                    {sub.extraLinkLabel || 'Learn more →'}
+                                  </a>
+                                )}
                                 {sub.videoHref && (
                                   <a
                                     href={sub.videoHref}
