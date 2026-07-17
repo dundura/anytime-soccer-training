@@ -276,8 +276,14 @@ export default function OnboardingPortal() {
                 <p className="text-gray-700 leading-relaxed mb-4">
                   Welcome to <strong className="text-navy font-semibold">Anytime Soccer Training</strong> — we&rsquo;re excited to get your team set up!
                 </p>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Getting started has two parts: <strong className="text-navy font-semibold">Pre-Onboarding</strong> — the steps you take before onboarding begins (book your demo, send your roster, pay your invoice) — and <strong className="text-navy font-semibold">Onboarding</strong> — the steps that get your team live in the app.
+                </p>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Each step has its own page with everything you need — videos, how-to guides, and links. Do the step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong>, and move to the next. We&rsquo;re notified as you go, and your progress saves automatically so you can leave and pick up where you left off anytime.
+                </p>
                 <p className="text-gray-700 leading-relaxed mb-6">
-                  Onboarding is <strong className="text-navy font-semibold">{STEPS.length} simple steps</strong>. Each one has its own page with everything you need — videos, how-to guides, and links. Do the step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong>, and move to the next. We&rsquo;re notified as you go, and your progress saves automatically so you can leave and pick up where you left off anytime.
+                  These steps are designed to get you <strong className="text-navy font-semibold">up and running fast</strong> — the sooner they&rsquo;re done, the sooner your players get the full benefit of the program.
                 </p>
 
                 <div className="border border-gray-200 rounded-xl overflow-hidden mb-6">
@@ -312,6 +318,12 @@ export default function OnboardingPortal() {
                   {doneCount === 0 ? 'Get Started →' : allDone ? 'Review Your Steps →' : `Continue — Step ${firstIncomplete(coach) + 1} of ${STEPS.length} →`}
                 </button>
 
+                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 mb-4">
+                  <p className="font-bold text-navy text-sm mb-1">Frequently Asked Questions</p>
+                  <p className="text-gray-600 text-sm">
+                    Common questions about accounts, profiles, and teams — <a href="/get-started-faq" target="_blank" className="text-red font-semibold hover:underline">read the FAQ →</a>
+                  </p>
+                </div>
                 <p className="text-gray-600 text-sm text-center">
                   Questions? Email <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold hover:underline">megan@anytime-soccer.com</a> — we&rsquo;re happy to help.
                 </p>
