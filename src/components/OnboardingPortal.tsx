@@ -389,21 +389,19 @@ export default function OnboardingPortal() {
                 {/* Full step instructions */}
                 <CoachStepContent step={stepData} />
 
-                {step.key === 'onboarding_begins' && (() => {
-                  const remaining = STEPS.filter(s2 => s2.section === 'Onboarding' && s2.key !== 'onboarding_begins' && !coach.checklist[s2.key]);
-                  return remaining.length > 0 ? (
-                    <ul className="mb-6 space-y-3">
-                      {remaining.map(s2 => (
+                {step.key === 'onboarding_begins' && (
+                  <ul className="mb-6 space-y-3">
+                    {STEPS.filter(s2 => s2.section === 'Onboarding' && s2.key !== 'onboarding_begins').map(s2 => {
+                      const stepComplete = !!coach.checklist[s2.key];
+                      return (
                         <li key={s2.key} className="flex items-start gap-3">
                           <span className="text-red font-bold mt-0.5">✅</span>
-                          <span className="font-bold text-navy">{s2.title}</span>
+                          <span className={stepComplete ? 'font-bold text-green-700 line-through' : 'font-bold text-navy'}>{s2.title}</span>
                         </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-green-800 font-semibold mb-6">You&rsquo;ve already completed every onboarding step — nice work! 🎉</p>
-                  );
-                })()}
+                      );
+                    })}
+                  </ul>
+                )}
 
                 {step.note && (
                   <p className="text-navy text-sm bg-blue-50 border border-blue-200 rounded-lg px-4 py-3 mb-4">{step.note}</p>
