@@ -210,4 +210,20 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       </div>
     `,
   },
+  {
+    category: 'Team Management',
+    question: "My kids have not used the program as much as I expected. Any suggestions?",
+    answer: `
+      <p>This usually comes down to <strong>coach engagement</strong> &mdash; teams train when the coach makes it part of team life.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <ul style="margin:0;padding-left:20px;list-style:disc;">
+          <li style="margin-bottom:8px;">Assign homework with a <strong>due date</strong> &mdash; and mention it at practice.</li>
+          <li style="margin-bottom:8px;">Run a <strong>team challenge or contest</strong> &mdash; leaderboards get kids competing.</li>
+          <li style="margin-bottom:8px;">Recognize effort with <strong>MVP awards, shoutouts, and high fives</strong>.</li>
+          <li>Set <strong>player goals</strong> so families know what&rsquo;s expected each week.</li>
+        </ul>
+      </div>
+      <p>Want ideas for your team? Email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a> &mdash; we&rsquo;ll help you get things moving.</p>
+    `,
+  },
 ];
