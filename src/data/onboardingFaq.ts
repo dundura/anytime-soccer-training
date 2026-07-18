@@ -189,6 +189,9 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         <li style="margin-bottom:10px;"><strong>30-Day Plan</strong> folders are 30-day plans by skill area.</li>
         <li>You can also create your own folder in <strong>Favorites</strong> &mdash; go to <strong>Key Skills</strong>, add videos to the folder, and assign it to players.</li>
       </ul>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0;"><strong>To assign a folder:</strong> click <strong>pin/board</strong> next to it, then click the <strong>person icon</strong> and select the players you want to assign the homework to.</p>
+      </div>
     `,
   },
   {
