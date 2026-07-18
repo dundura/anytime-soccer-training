@@ -144,4 +144,14 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <p>If a team code was provided, be sure it&rsquo;s entered in the <strong>team code field</strong> on the same page.</p>
     `,
   },
+  {
+    category: 'Team Management',
+    question: 'What are the 30-day plans?',
+    answer: `
+      <p>Our 30-day plans are guided, month-long programs built from the <strong>30-Day plan folders</strong> &mdash; including Ball Mastery, Juggling, Dribbling, Wall Passing, Finishing, 1v1 Moves, Partner Passing, and Speed &amp; Agility.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0;">The full video curriculum introduces <strong>one move at a time</strong>, then combines them &mdash; so players build skills step by step.</p>
+      </div>
+    `,
+  },
 ];
