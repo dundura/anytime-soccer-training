@@ -31,7 +31,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'tip_team', title: 'Quick Tip: Creating Your Team', dataIndex: 14, section: 'Onboarding', tip: true },
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding' },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
-  { key: 'parents_informed', title: 'Reply to Megan with the team name (inside the app) and that your parents have been informed', dataIndex: 8, section: 'Onboarding', note: 'Marking this step complete notifies Megan automatically — that’s our green light to start inviting your parents.' },
+  { key: 'parents_informed', title: 'Reply to Megan with the team name (inside the app) and that your parents have been informed', dataIndex: 8, section: 'Onboarding' },
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
