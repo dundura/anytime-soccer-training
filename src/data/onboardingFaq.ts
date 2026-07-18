@@ -184,4 +184,14 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       </ul>
     `,
   },
+  {
+    category: 'Team Management',
+    question: 'Assigning plans',
+    answer: `
+      <p>You build the plan, then <strong>assign it the same way you assign folders</strong>.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0;">The quick differences: <strong>Skill Builder</strong> pulls from the full curriculum by skill area, the <strong>Weekly Plan</strong> delivers skill areas into each day automatically, the <strong>30-Day Monthly Plan</strong> is a guided month built from the 30-Day folders, and the <strong>Custom Plan</strong> is folders you pick yourself.</p>
+      </div>
+    `,
+  },
 ];
