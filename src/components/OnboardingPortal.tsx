@@ -18,7 +18,7 @@ type Coach = {
 };
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
-const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number }[] = [
+const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean }[] = [
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
@@ -35,7 +35,11 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_intro', title: 'Common FAQs', dataIndex: 16, section: 'FAQs', info: true },
   { key: 'faq_emails', title: 'What’s the difference between the login email and the contact email, and how do I update them?', dataIndex: -1, faqIndex: 0, section: 'FAQs', tip: true },
   { key: 'faq_profiles', title: 'What if I have more than one child using the program?', dataIndex: -1, faqIndex: 1, section: 'FAQs', tip: true },
-  { key: 'faq_find_team', title: 'I can’t find my team when I search for it — what should I do?', dataIndex: -1, faqIndex: 5, section: 'FAQs', tip: true },
+  { key: 'faq_find_team', title: 'I can’t find my team when I search for it — what should I do?', dataIndex: -1, faqIndex: 2, section: 'FAQs', tip: true },
+  { key: 'faq_add_players', title: 'How do I add players to my team?', dataIndex: -1, faqIndex: 3, section: 'FAQs', tip: true },
+  { key: 'faq_remove_players', title: 'How do I remove players from my team?', dataIndex: -1, faqIndex: 4, section: 'FAQs', tip: true },
+  { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'FAQs', tip: true },
+  { key: 'final_confirm', title: 'Confirm & Finish', dataIndex: 17, section: 'FAQs', final: true },
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
@@ -244,6 +248,7 @@ export default function OnboardingPortal() {
   };
 
   const doneCount = coach ? STEPS.filter(s => coach.checklist[s.key]).length : 0;
+  const othersDone = coach ? STEPS.filter(s => !s.final).every(s => !!coach.checklist[s.key]) : false;
   const allDone = doneCount === STEPS.length;
   const step = STEPS[wizardIndex];
   const stepState = coach ? coach.checklist[step.key] : undefined;
@@ -604,7 +609,22 @@ export default function OnboardingPortal() {
                       {stepData!.ctaLabel}
                     </a>
                   )}
-                  {(step.info || step.tip) ? (
+                  {step.final ? (
+                    stepDone ? (
+                      <button disabled className="w-full sm:w-auto bg-green-500 text-white font-bold py-2.5 px-8 rounded-xl cursor-default">
+                        🎉 Onboarding Confirmed ✓
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => setStep(step.key, true)}
+                        disabled={saving || !othersDone}
+                        title={othersDone ? undefined : 'Complete every step to unlock'}
+                        className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
+                      >
+                        {saving ? 'Saving…' : othersDone ? 'Confirm — Onboarding Complete ✓' : 'Complete All Steps to Confirm'}
+                      </button>
+                    )
+                  ) : (step.info || step.tip) ? (
                     <>
                       {stepDone && (
                         <button disabled className="w-full sm:w-auto bg-green-500 text-white font-bold py-2.5 px-6 rounded-xl cursor-default">

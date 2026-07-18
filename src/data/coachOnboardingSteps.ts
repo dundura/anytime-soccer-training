@@ -335,4 +335,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       </div>
     `,
   },
+  {
+    title: 'Confirm & Finish',
+    body: `
+      <p>That&rsquo;s everything! Once every step is complete, confirm below and we&rsquo;ll take it from there.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
+        <p style="margin:0;">The confirm button unlocks when <strong>every step is done</strong>.</p>
+      </div>
+    `,
+  },
 ];
