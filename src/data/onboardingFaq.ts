@@ -196,7 +196,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
   },
   {
     category: 'Team Management',
-    question: 'Assigning plans',
+    question: 'Assigning training plans',
     answer: `
       <p>From the <strong>Coach&rsquo;s Board</strong>, click <strong>Build Training Plan</strong>. You build the plan, then <strong>assign it the same way you assign folders</strong>.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
