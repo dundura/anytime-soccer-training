@@ -29,6 +29,206 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:6px 0 0;"><strong>Already booked?</strong> Great job &mdash; move on to the next step.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;"><strong>Renewing member?</strong> No need to rebook &mdash; we&rsquo;ll call to walk through the new features instead.</p>
+        </div>
+      </div>
+    `,
+    ctaLabel: 'Book Demo',
+    ctaHref: 'https://www.anytime-soccer.com/team-demo-request-anytime-soccer-training',
+  },
+  {
+    title: 'Send Us Your Roster',
+    body: `
+      <p>Download the roster template below, fill it in, and email it to <strong>Megan Chambers</strong> as an Excel file. We&rsquo;ll invite your parents &mdash; <strong>nothing is sent until you confirm they&rsquo;ve been notified.</strong></p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
+        <p style="margin:0;"><strong>Roster not finalized?</strong> No problem &mdash; send what you have and add the rest later.</p>
+      </div>
+    `,
+    ctaLabel: 'Roster Template',
+    ctaHref: 'https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa',
+  },
+  {
+    title: 'Pay Your Invoice',
+    body: `
+      <p>Once we receive your roster, we&rsquo;ll generate your invoice and send it via Stripe. As soon as it&rsquo;s paid, onboarding begins.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
+        <p style="margin:0;"><strong>Pricing:</strong> <strong>$10 per player per year</strong> + tax, with a 15-slot minimum ($150) and a <strong>free coach</strong>. Under 15 players? Adding more is free until you reach 15.</p>
+      </div>
+      <p><strong>Parents don&rsquo;t pay anything.</strong> Each player is given a code that gives them full access to the program for 365 days.</p>
+    `,
+  },
+  {
+    title: 'Coaching Engagement Survey',
+    body: `
+      <p>We&rsquo;ve distilled what drives player participation into <strong>10 key coaching actions</strong> &mdash; each takes about a minute.</p>
+      <p>Your survey tells us which ones you plan to use, so we can set you up to execute on every one.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
+        <p style="margin:0;"><strong>Filled this out before?</strong> Please take it again when adding a new team.</p>
+      </div>
+    `,
+    ctaLabel: 'Complete Your Coaching Engagement Survey',
+    ctaHref: 'https://www.anytime-soccer.com/my-coaching-plan',
+  },
+  {
+    title: 'Create Your Account',
+    body: '',
+    subSteps: [
+      {
+        title: 'Go to anytime-soccer.com & Join for Free',
+        videoHref: 'https://youtu.be/Vd2IkI3bQdM?si=urfwji2FLhUMYpGH',
+        moreInfoHref: 'https://www.anytime-soccer.com/how-to-create-your-anytime-soccer-training-account?utm_source=email&utm_medium=email%20marketing',
+        sectionHeading: 'Create Account',
+      },
+      {
+        title: 'Enter Your Team Code',
+        description: 'No team code? Email megan@anytime-soccer.com.',
+        extraLinkPrefix: 'Already have an account?',
+        extraLinkLabel: 'learn how to apply it →',
+        extraLinkHref: 'https://www.anytime-soccer.com/applying-team-code-to-existing-account?utm_source=email&utm_medium=email%20marketing',
+        moreInfoHref: 'https://www.anytime-soccer.com/applying-team-code-to-existing-account?utm_source=email&utm_medium=email%20marketing',
+      },
+      {
+        title: 'Verify Your Email',
+      },
+      {
+        title: 'Sign In to Your Account',
+      },
+      {
+        title: 'Click "Add Profile"',
+        description: 'Add a profile for yourself and your children (not team). Remember: you don\'t create profiles for the players on your team — each parent has their own account.',
+        videoHref: 'https://youtu.be/oE_GsRgfEdA?si=8RqaXFv_LKxXIXNY',
+        moreInfoHref: 'https://www.anytime-soccer.com/adding-an-anytime-soccer-training-player-profile?utm_source=email&utm_medium=email%20marketing',
+        sectionHeading: 'Add Profiles',
+      },
+      {
+        title: 'Contact Emails',
+        description: 'You can use the same contact email for all player profiles, or different ones.',
+      },
+    ],
+  },
+  {
+    title: 'Create Your Team',
+    body: '',
+    subSteps: [
+      {
+        title: 'Log In and Choose Your Coach’s Profile',
+        videoHref: 'https://youtu.be/_LTtpT885cM?si=5xVusdRdi7Nxjcxa',
+        moreInfoHref: 'https://www.anytime-soccer.com/creating-an-anytime-soccer-training-team?utm_source=email&utm_medium=email%20marketing',
+      },
+      {
+        title: 'Click MY TEAMS',
+        description: "One thing to avoid: please don't change your team name during onboarding. This is what parents will search for to find and join your team.",
+      },
+      {
+        title: 'Click CREATE TEAM',
+      },
+      {
+        title: 'Complete the Form',
+      },
+    ],
+  },
+  {
+    title: 'Making the Most of Your Pricing',
+    body: `
+      <p>We&rsquo;ve made Anytime Soccer Training super affordable &mdash; your players get access to over 5,000 training sessions, plus every feature that comes with your team.</p>
+      <div style="background:#f8fafc;border:1px solid #e3e8f0;border-radius:10px;padding:20px;margin:16px 0;">
+        <p style="margin:0;"><strong>Here&rsquo;s how it works:</strong> once you upgrade your team, you can give each player 365 all-access by going to the <strong>Upgrade Player</strong> page and selecting the player after they join your team.</p>
+      </div>
+    `,
+  },
+  {
+    title: 'Notify Parents',
+    body: `
+      <p>Please download the template linked below to notify parents. You&rsquo;re welcome to edit it as needed to reflect your name, club details, or program specifics before sending.</p>
+    `,
+    ctaLabel: 'Download the Parent Welcome Template',
+    ctaHref: 'https://docs.google.com/document/d/1VAVT_sHrtvvb1rUbuNX4muqUthq1Tgn0/edit?tab=t.0',
+  },
+  {
+    title: 'Notify Megan',
+    body: `
+      <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
+        <p style="margin:0;"><strong style="color:#DC373E;">Action Required:</strong> <strong style="color:#0F3154;">Reply to Megan and confirm parents have been informed.</strong></p>
+      </div>
+    `,
+    subSteps: [
+      {
+        title: 'Reply to Megan with your team name',
+        description: 'Use the exact team name you created in the app, and don’t change it during onboarding.',
+      },
+      {
+        title: 'Let Megan know once parents have been informed',
+        description: "We'll begin onboarding within 48 hours.",
+      },
+    ],
+  },
+  {
+    title: "You're All Set!",
+    body: `
+      <p>You&rsquo;re all set! Here&rsquo;s what to expect next:</p>
+    `,
+    checklist: [
+      "We'll invite your parents to join the team",
+      "We'll send you and your parents helpful getting-started information",
+      'Neil will give you a call to walk through homework and other team features',
+    ],
+  },
+  {
+    title: 'Renewing Members',
+    body: `
+      <p>We&rsquo;re excited to have you back. We&rsquo;ve made updates to make managing your team easier and get your players more touches at home.</p>
+      <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin:16px 0;">
+        <p style="margin:0;"><strong style="color:#DC373E;">Action Required:</strong> <strong style="color:#0F3154;">Complete your roster update and send parent notifications.</strong></p>
+      </div>
+      <p>You don&rsquo;t need to book a demo &mdash; we&rsquo;ll give you a call during onboarding to walk through anything new since last season.</p>
+    `,
+    subSteps: [
+      {
+        title: 'Submit your updated roster to Megan',
+        moreInfoHref: 'https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa',
+        sectionHeading: 'Roster Update',
+      },
+      {
+        title: "Pay your invoice (we'll send it via Stripe)",
+      },
+      {
+        title: 'Remove non-returning players from your roster',
+        description: 'It\'s a quick one-minute task. Go to your roster, click the player\'s name, then click "Remove from Team."',
+      },
+      {
+        title: 'Send parents your intro email',
+        moreInfoHref: 'https://docs.google.com/document/d/1VAVT_sHrtvvb1rUbuNX4muqUthq1Tgn0/edit',
+        sectionHeading: 'Send Notifications',
+      },
+      {
+        title: 'Confirm with Megan once parents are notified',
+        description: 'Email her at megan@anytime-soccer.com.',
+      },
+    ],
+    hint: "That's it — Megan will follow up. Looking forward to the season! Questions? Email megan@anytime-soccer.com.",
+  },
+  {
+    title: 'Onboarding Begins!',
+    body: `
+      <p>Invoice paid? 🎉 <strong>Now onboarding begins.</strong></p>
+      <p>From here, the steps are in your hands &mdash; and the faster you complete them, the quicker we can get your team up and training.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
+        <p style="margin:0;"><strong>Returning member?</strong> You&rsquo;ll have done many of these steps already &mdash; but we still want you to complete the <strong>Coaching Engagement Survey</strong>. It helps us gauge expectations and better support you along the way.</p>
+      </div>
+      <p>Here&rsquo;s what&rsquo;s left:</p>
+    `,
+  },
+  {
+    title: 'Roster FAQs',
+    body: `
+      <p>Before you download the roster template in the next step, we want to cover some FAQs.</p>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
           <p style="margin:6px 0 0;">You can provide more than one parent email &mdash; both parents get the invite and can decide who signs up.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
