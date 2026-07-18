@@ -32,6 +32,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding' },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
   { key: 'parents_informed', title: 'Reply to Megan with the team name (inside the app) and that your parents have been informed', dataIndex: 8, section: 'Onboarding' },
+  { key: 'faq_intro', title: 'Common FAQs', dataIndex: 16, section: 'FAQs', info: true },
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
@@ -517,20 +518,7 @@ export default function OnboardingPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-4">{step.title}</h2>
 
-                {allDone && (
-                  <div className="bg-green-50 border border-green-200 rounded-xl px-5 py-4 mb-6">
-                    <p className="text-green-800 font-bold mb-1">🎉 You&rsquo;re all set — Megan has been notified!</p>
-                    <ul className="mt-2 space-y-1">
-                      {NEXT_STEPS.map(s => (
-                        <li key={s} className="text-green-800/80 text-sm flex items-start gap-2">
-                          <span className="font-bold">→</span> {s}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {stepDone && !allDone && (
+                {stepDone && (
                   <div className={`${stepSkipped ? 'bg-amber-50 border-amber-200' : 'bg-green-50 border-green-200'} border rounded-lg px-4 py-3 mb-6 flex items-center justify-between gap-3 flex-wrap`}>
                     <p className={`${stepSkipped ? 'text-amber-800' : 'text-green-800'} text-sm font-bold`}>
                       {stepSkipped ? '→ You skipped this step' : '✓ You’ve completed this step'}
