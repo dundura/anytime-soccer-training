@@ -408,7 +408,7 @@ export default function OnboardingPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">How it Works</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Each step has its own page with everything you need — and we share helpful tips along the way. We also share this portal with you to <strong className="text-navy font-semibold">clarify questions</strong>.
+                  Each step has its own page with everything you need.
                 </p>
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 mb-6">
                   <p className="text-gray-700 leading-relaxed text-sm">
