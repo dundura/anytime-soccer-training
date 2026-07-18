@@ -23,6 +23,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'tip_roster', title: 'Quick Tip: What to Include on Your Roster', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: 2, section: 'Pre-Onboarding' },
+  { key: 'tip_paywall', title: 'Quick Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Pre-Onboarding', tip: true },
   { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding', info: true },
   { key: 'survey', title: 'Take the Coaching Engagement Survey', dataIndex: 3, section: 'Onboarding' },
   { key: 'tip_account', title: 'Quick Tip: Accounts & Profiles', dataIndex: 13, section: 'Onboarding', tip: true },
