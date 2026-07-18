@@ -41,6 +41,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'FAQs', tip: true },
   { key: 'faq_homework', title: 'Which homework do you recommend I start with?', dataIndex: -1, faqIndex: 6, section: 'FAQs', tip: true },
   { key: 'faq_skip_videos', title: 'What happens if kids skip videos?', dataIndex: -1, faqIndex: 7, section: 'FAQs', tip: true },
+  { key: 'faq_hw_complete', title: 'I got an email that a homework folder is complete, but the player hasn’t done the videos', dataIndex: -1, faqIndex: 8, section: 'FAQs', tip: true },
   { key: 'final_confirm', title: 'Confirm & Finish', dataIndex: 17, section: 'FAQs', final: true },
 ];
 

@@ -101,4 +101,14 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       </div>
     `,
   },
+  {
+    category: 'Team Management',
+    question: "I got an email that a homework folder is complete, but the player hasn't done the videos",
+    answer: `
+      <p>Folder completion is <strong>not tied to the videos</strong> &mdash; players mark a homework folder complete themselves, with a double confirmation.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0;">Please ask the player to only confirm their homework is complete when <strong>all the videos are done</strong>.</p>
+      </div>
+    `,
+  },
 ];
