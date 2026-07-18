@@ -226,10 +226,20 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Roster FAQs',
     body: `
       <p>Before you download the roster template in the next step, we want to cover some FAQs.</p>
-      <ul style="margin:16px 0;padding-left:22px;list-style:disc;">
-        <li style="margin-bottom:10px;">You can provide more than one parent email &mdash; in those cases, both parents will receive our invite and can decide who signs up.</li>
-        <li>Don&rsquo;t have your full roster yet? No problem &mdash; you can add players later.</li>
-      </ul>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:6px 0 0;">You can provide more than one parent email &mdash; both parents get the invite and can decide who signs up.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;">Don&rsquo;t have your full roster yet? No problem &mdash; you can add players later.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:6px 0 0;">Older player? Use their email if they&rsquo;ll be the primary contact.</p>
+        </div>
+      </div>
     `,
   },
   {
