@@ -63,6 +63,8 @@ export default function OnboardingPortal() {
   const [showFaq, setShowFaq] = useState(false);
   const [showCompleteConfirm, setShowCompleteConfirm] = useState(false);
   const [stepChoice, setStepChoice] = useState<'completed' | 'skipped' | null>(null);
+  const [showUnderstandConfirm, setShowUnderstandConfirm] = useState(false);
+  const [understandChoice, setUnderstandChoice] = useState<'yes' | 'no' | null>(null);
   const [showQuestion, setShowQuestion] = useState(false);
   const [questionText, setQuestionText] = useState('');
   const [questionSent, setQuestionSent] = useState(false);
@@ -161,7 +163,7 @@ export default function OnboardingPortal() {
     setForm({ name: '', email: '', password: '', club: '' });
   };
 
-  const setStep = async (key: string, value: boolean | 'skipped', advance = false) => {
+  const setStep = async (key: string, value: boolean | 'skipped', advance = false, actionOverride?: string) => {
     if (!coach || !token) return;
     const stepDef = STEPS.find(s => s.key === key);
     setError('');
@@ -174,7 +176,7 @@ export default function OnboardingPortal() {
         body: JSON.stringify({
           checklist,
           completedStep: value === true ? key : null,
-          stepAction: stepDef && !stepDef.info ? (value === true ? 'completed' : value === 'skipped' ? 'skipped' : null) : null,
+          stepAction: actionOverride || (value === true ? 'completed' : value === 'skipped' ? 'skipped' : null),
           stepTitle: stepDef ? stepDef.title : key,
         }),
       });
@@ -550,19 +552,20 @@ export default function OnboardingPortal() {
                   )}
                   {(step.info || step.tip) ? (
                     <>
+                      {stepDone && (
+                        <button disabled className="w-full sm:w-auto bg-green-500 text-white font-bold py-2.5 px-6 rounded-xl cursor-default">
+                          I Understand ✓
+                        </button>
+                      )}
                       <button
-                        onClick={() => { if (!stepDone) setStep(step.key, true); }}
-                        disabled={saving || stepDone}
-                        className={`w-full sm:w-auto font-bold py-2.5 px-6 rounded-xl transition-colors ${stepDone ? 'bg-green-500 text-white cursor-default' : 'bg-red hover:bg-red-dark text-white disabled:opacity-60'}`}
+                        onClick={() => {
+                          if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } }
+                          else { setUnderstandChoice(null); setShowUnderstandConfirm(true); }
+                        }}
+                        disabled={saving}
+                        className={`w-full sm:w-auto font-bold py-2.5 px-8 rounded-xl transition-colors text-white disabled:opacity-60 ${stepDone ? 'bg-navy hover:bg-navy-light' : 'bg-red hover:bg-red-dark'}`}
                       >
-                        {saving ? 'Saving…' : 'I Understand ✓'}
-                      </button>
-                      <button
-                        onClick={() => { if (stepDone && wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } }}
-                        disabled={!stepDone}
-                        className="w-full sm:w-auto bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
-                      >
-                        Next →
+                        {saving ? 'Saving…' : stepDone ? 'Next →' : 'Continue →'}
                       </button>
                     </>
                   ) : !stepDone ? (
@@ -654,6 +657,66 @@ export default function OnboardingPortal() {
                 className="flex-1 bg-red hover:bg-red-dark text-white font-bold py-2.5 rounded-xl transition-colors disabled:opacity-40"
               >
                 {sendingQuestion ? 'Sending…' : 'Send Question'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Understanding confirmation modal (tips and info pages) */}
+      {showUnderstandConfirm && coach && (
+        <div
+          onClick={() => !saving && setShowUnderstandConfirm(false)}
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4"
+        >
+          <div onClick={e => e.stopPropagation()} className="bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden">
+            <div className="px-6 pt-6 pb-2 text-center">
+              <div className="text-4xl mb-3">💡</div>
+              <h2 className="text-navy text-lg font-extrabold mb-2">Before you continue</h2>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Does <strong className="text-navy">{step.title}</strong> make sense?
+              </p>
+            </div>
+            <div className="flex flex-col gap-2 px-6 pt-3 pb-4">
+              <label className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${understandChoice === 'yes' ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                <input
+                  type="radio"
+                  name="understandChoice"
+                  checked={understandChoice === 'yes'}
+                  onChange={() => setUnderstandChoice('yes')}
+                  className="accent-green-600 w-4 h-4"
+                />
+                <span className="text-sm font-bold text-navy">I understand ✓</span>
+              </label>
+              <label className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${understandChoice === 'no' ? 'border-amber-400 bg-amber-50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                <input
+                  type="radio"
+                  name="understandChoice"
+                  checked={understandChoice === 'no'}
+                  onChange={() => setUnderstandChoice('no')}
+                  className="accent-amber-500 w-4 h-4"
+                />
+                <span className="text-sm font-bold text-navy">I don&rsquo;t understand — please reach out</span>
+              </label>
+            </div>
+            <div className="flex gap-3 px-6 pb-5">
+              <button
+                onClick={() => setShowUnderstandConfirm(false)}
+                disabled={saving}
+                className="flex-1 bg-white border-2 border-gray-200 text-navy font-bold py-2.5 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-60"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={async () => {
+                  if (!understandChoice) return;
+                  await setStep(step.key, true, true, understandChoice === 'no' ? 'needs_help' : 'completed');
+                  setShowUnderstandConfirm(false);
+                }}
+                disabled={saving || !understandChoice}
+                className="flex-1 bg-red hover:bg-red-dark text-white font-bold py-2.5 rounded-xl transition-colors disabled:opacity-40"
+              >
+                {saving ? 'Saving…' : 'Submit'}
               </button>
             </div>
           </div>
