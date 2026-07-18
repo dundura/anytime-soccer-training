@@ -154,4 +154,18 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       </div>
     `,
   },
+  {
+    category: 'Team Management',
+    question: 'How do I assign homework?',
+    answer: `
+      <p>Homework is assigned from the <strong>Coach&rsquo;s Board</strong>.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <ul style="margin:0;">
+          <li>Open your team and go to the <strong>Coach&rsquo;s Board</strong>.</li>
+          <li>Add a folder as homework &mdash; from All Programs or your Favorites.</li>
+          <li>Assign it to your players and set a due date if you&rsquo;d like.</li>
+        </ul>
+      </div>
+    `,
+  },
 ];
