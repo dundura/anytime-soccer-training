@@ -454,7 +454,7 @@ export default function OnboardingPortal() {
                   Welcome to <strong className="text-navy font-semibold">Anytime Soccer Training</strong> — we&rsquo;re excited to have your team!
                 </p>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Getting set up has two parts: <strong className="text-navy font-semibold">Pre-Onboarding</strong> — a few quick steps before we begin — and <strong className="text-navy font-semibold">Onboarding</strong> — the steps that get your team live in the app.
+                  Getting set up has three parts: <strong className="text-navy font-semibold">Pre-Onboarding</strong> — a few quick steps before we begin — <strong className="text-navy font-semibold">Onboarding</strong> — the steps that get your team live in the app — and finally <strong className="text-navy font-semibold">FAQs</strong> — answering common questions so you&rsquo;re set up for success.
                 </p>
                 <p className="text-gray-700 leading-relaxed mb-4">
                   Every step is designed to get your team set up quickly — so your players can start <strong className="text-navy font-semibold">training from day one</strong>.
