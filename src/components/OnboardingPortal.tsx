@@ -749,16 +749,6 @@ export default function OnboardingPortal() {
               </p>
             </div>
             <div className="flex flex-col gap-2 px-6 pt-3 pb-4">
-              <label className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${understandChoice === 'yes' ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:bg-gray-50'}`}>
-                <input
-                  type="radio"
-                  name="understandChoice"
-                  checked={understandChoice === 'yes'}
-                  onChange={() => setUnderstandChoice('yes')}
-                  className="accent-green-600 w-4 h-4"
-                />
-                <span className="text-sm font-bold text-navy">I understand ✓</span>
-              </label>
               <label className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${understandChoice === 'no' ? 'border-amber-400 bg-amber-50' : 'border-gray-200 hover:bg-gray-50'}`}>
                 <input
                   type="radio"
@@ -768,6 +758,16 @@ export default function OnboardingPortal() {
                   className="accent-amber-500 w-4 h-4"
                 />
                 <span className="text-sm font-bold text-navy">I don&rsquo;t understand — please reach out</span>
+              </label>
+              <label className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${understandChoice === 'yes' ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                <input
+                  type="radio"
+                  name="understandChoice"
+                  checked={understandChoice === 'yes'}
+                  onChange={() => setUnderstandChoice('yes')}
+                  className="accent-green-600 w-4 h-4"
+                />
+                <span className="text-sm font-bold text-navy">I understand ✓</span>
               </label>
             </div>
             <div className="flex gap-3 px-6 pb-5">
