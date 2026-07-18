@@ -133,4 +133,17 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       </div>
     `,
   },
+  {
+    category: 'Team Management',
+    question: "I see that players have joined the app, but they're not on my team",
+    answer: `
+      <p>Creating an account doesn&rsquo;t automatically add a player to your team &mdash; they still need to join it.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <ul style="margin:0;">
+          <li>Check your <strong>Pending Requests</strong> &mdash; players who searched for your team may be waiting for approval.</li>
+          <li>Or add them yourself: <strong>Coach&rsquo;s Board &rarr; New Players &rarr; Player Onboard</strong> &mdash; players with an account are added instantly.</li>
+        </ul>
+      </div>
+    `,
+  },
 ];
