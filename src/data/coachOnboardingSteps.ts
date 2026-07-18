@@ -43,9 +43,19 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Send Us Your Roster',
     body: `
-      <p>Download the roster template below, fill it in, and email it to <strong>Megan Chambers</strong> as an Excel file. We&rsquo;ll invite your parents &mdash; <strong>nothing is sent until you confirm they&rsquo;ve been notified.</strong></p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
-        <p style="margin:0;"><strong>Roster not finalized?</strong> No problem &mdash; send what you have and add the rest later.</p>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:0 0 16px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:6px 0 0;">Download the roster template below, fill it in, and email it to <strong>Megan Chambers</strong> as an Excel file.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;">We&rsquo;ll invite your parents &mdash; <strong>nothing is sent until you confirm they&rsquo;ve been notified.</strong></p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:6px 0 0;"><strong>Roster not finalized?</strong> No problem &mdash; send what you have and add the rest later.</p>
+        </div>
       </div>
     `,
     ctaLabel: 'Roster Template',
