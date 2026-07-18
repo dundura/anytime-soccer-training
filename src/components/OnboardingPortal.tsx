@@ -479,7 +479,7 @@ export default function OnboardingPortal() {
                 )}
 
                 {/* Full step instructions */}
-                <CoachStepContent step={stepData} />
+                <CoachStepContent step={stepData} hideCta />
 
                 {step.key === 'onboarding_begins' && (
                   <ul className="mb-6 space-y-3">
@@ -530,6 +530,16 @@ export default function OnboardingPortal() {
                   >
                     ← Back
                   </button>
+                  {stepData.ctaHref && (
+                    <a
+                      href={stepData.ctaHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-6 rounded-xl transition-colors text-center"
+                    >
+                      {stepData.ctaLabel}
+                    </a>
+                  )}
                   {(step.info || step.tip) ? (
                     <>
                       <button

@@ -6,7 +6,7 @@ import type { CoachOnboardingStep } from '@/data/coachOnboardingSteps';
 /** Renders a coach onboarding step's full instructions (body, checklist,
  * grouped sub-steps, CTA, hint). Shared by the get-started-steps pages and
  * the Onboarding Portal wizard. */
-export default function CoachStepContent({ step }: { step: CoachOnboardingStep }) {
+export default function CoachStepContent({ step, hideCta }: { step: CoachOnboardingStep; hideCta?: boolean }) {
   const [openGroups, setOpenGroups] = useState<Record<number, boolean>>({});
 
   return (
@@ -151,7 +151,7 @@ export default function CoachStepContent({ step }: { step: CoachOnboardingStep }
         );
       })()}
 
-      {step.ctaHref && (
+      {step.ctaHref && !hideCta && (
         <a
           href={step.ctaHref}
           target="_blank"
