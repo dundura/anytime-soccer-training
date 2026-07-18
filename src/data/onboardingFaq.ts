@@ -159,12 +159,19 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: 'How do I assign homework?',
     answer: `
       <p>Homework is assigned from the <strong>Coach&rsquo;s Board</strong>.</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <ul style="margin:0;">
-          <li>Open your team and go to the <strong>Coach&rsquo;s Board</strong>.</li>
-          <li>Add a folder as homework &mdash; from All Programs or your Favorites.</li>
-          <li>Assign it to your players and set a due date if you&rsquo;d like.</li>
-        </ul>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:6px 0 0;">Open your team and go to the <strong>Coach&rsquo;s Board</strong>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;">Add a folder as homework &mdash; from All Programs or your Favorites.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:6px 0 0;">Assign it to your players and set a due date if you&rsquo;d like.</p>
+        </div>
       </div>
       <p>Homework is organized into <strong>3 key categories</strong>: <strong>folders</strong>, <strong>plans</strong>, and <strong>custom folders</strong>. In the next slides we&rsquo;ll cover each.</p>
     `,
