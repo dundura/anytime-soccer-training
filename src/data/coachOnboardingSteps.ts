@@ -108,7 +108,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         extraLinkPrefix: 'Already have an account?',
         extraLinkLabel: 'learn how to apply it →',
         extraLinkHref: 'https://www.anytime-soccer.com/applying-team-code-to-existing-account?utm_source=email&utm_medium=email%20marketing',
-        moreInfoHref: 'https://www.anytime-soccer.com/applying-team-code-to-existing-account?utm_source=email&utm_medium=email%20marketing',
       },
       {
         title: 'Verify Your Email',
