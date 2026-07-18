@@ -169,4 +169,14 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <p>Homework is organized into <strong>3 key categories</strong>: <strong>folders</strong>, <strong>plans</strong>, and <strong>custom folders</strong>. In the next slides we&rsquo;ll cover each.</p>
     `,
   },
+  {
+    category: 'Team Management',
+    question: 'Assigning folders',
+    answer: `
+      <p>You can assign folders from the <strong>curated curriculum</strong>, the <strong>All Programs</strong> area, or create your own folders with your own videos in <strong>Favorites</strong>.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0;">The curated curriculum organizes folders <strong>by skill area</strong>, in the order we recommend &mdash; great if you want variety, since it rotates across the different types of skills.</p>
+      </div>
+    `,
+  },
 ];
