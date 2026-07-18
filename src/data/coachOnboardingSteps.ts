@@ -283,10 +283,20 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Quick Tip: Accounts & Profiles',
     body: `
       <p>Next you&rsquo;ll create your account and add profiles for <strong>yourself and your child</strong>.</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
-        <p style="margin:0;"><strong>Remember:</strong> you don&rsquo;t add profiles for your team&rsquo;s players &mdash; each parent has their own account.</p>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:6px 0 0;"><strong>Remember:</strong> you don&rsquo;t add profiles for your team&rsquo;s players &mdash; each parent has their own account.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;">You&rsquo;ll need to apply the <strong>team code</strong> provided.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:6px 0 0;">Already have an account? Enter the team code in the <strong>Account Management</strong> section.</p>
+        </div>
       </div>
-      <p>You&rsquo;ll need to apply the <strong>team code</strong> provided. Already have an account? Enter the team code in the <strong>Account Management</strong> section.</p>
     `,
   },
   {
