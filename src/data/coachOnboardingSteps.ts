@@ -317,9 +317,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
           <p style="margin:6px 0 0;">When that happens, send them the <strong>onboarding link we provide</strong> &mdash; it includes the team code and instructions to add it.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
           <p style="margin:6px 0 0;">Still having issues? Have them email <a href="mailto:megan@anytime-soccer.com" style="color:#DC373E;font-weight:600;">Megan Chambers</a>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:6px 0 0;">Have a question? Click <strong>Ask us here</strong> below and we&rsquo;ll be in touch.</p>
         </div>
       </div>
     `,
