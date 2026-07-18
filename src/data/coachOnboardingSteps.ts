@@ -301,7 +301,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Quick Tip: If a Parent Hits a Paywall',
     body: `
-      <p>One of the most common questions we get: a parent hits a <strong>paywall</strong>. That means they didn&rsquo;t apply the team code.</p>
+      <p>One of the most common questions we get: <strong>a parent hits a paywall</strong>. That means they didn&rsquo;t apply the team code.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
         <p style="margin:0;">When that happens, send them the <strong>onboarding link we provide</strong> &mdash; it includes the team code and instructions to add it.</p>
       </div>
