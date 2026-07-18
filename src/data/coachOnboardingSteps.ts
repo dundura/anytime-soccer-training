@@ -50,7 +50,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:6px 0 0;"><strong>Nothing is sent until you confirm they&rsquo;ve been notified.</strong></p>
+          <p style="margin:6px 0 0;"><strong>Nothing is sent to parents until you confirm they&rsquo;ve been notified.</strong></p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
