@@ -34,6 +34,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'parents_informed', title: 'Reply to Megan with the team name (inside the app) and that your parents have been informed', dataIndex: 8, section: 'Onboarding' },
   { key: 'faq_intro', title: 'Common FAQs', dataIndex: 16, section: 'FAQs', info: true },
   { key: 'faq_emails', title: 'What’s the difference between the login email and the contact email, and how do I update them?', dataIndex: -1, faqIndex: 0, section: 'FAQs', tip: true },
+  { key: 'faq_profiles', title: 'What if I have more than one child using the program?', dataIndex: -1, faqIndex: 1, section: 'FAQs', tip: true },
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
