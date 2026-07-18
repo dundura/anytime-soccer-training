@@ -305,7 +305,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     body: `
       <p>Next we&rsquo;ll ask you to create your team. All you need to do is fill out the <strong>Create Team form</strong> and let us know once it&rsquo;s done.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
-        <p style="margin:0;"><strong>Don&rsquo;t change the team name during onboarding</strong> &mdash; this is what we&rsquo;ll use to invite your parents.</p>
+        <p style="margin:0;"><strong>Don&rsquo;t change the team name during onboarding</strong> &mdash; this is what the parents will search for.</p>
       </div>
     `,
   },
