@@ -421,7 +421,7 @@ export default function OnboardingPortal() {
                 <ol className="space-y-4">
                   {[
                     <>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team.</>,
-                    <><strong className="text-navy font-semibold">Already done a step?</strong> Simply mark it complete and move to the next one.</>,
+                    <><strong className="text-navy font-semibold">Already done a step?</strong> Mark it complete and move to the next one.</>,
                     <>Up next: request your demo — it&rsquo;s a <strong className="text-navy font-semibold">20-minute Zoom call</strong>.</>,
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-3">
