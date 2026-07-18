@@ -417,11 +417,20 @@ export default function OnboardingPortal() {
                 <p className="text-gray-700 leading-relaxed mb-4">
                   Each step has its own page with everything you need.
                 </p>
-                <ul className="list-disc pl-5 space-y-2.5 text-gray-700 leading-relaxed mb-6 marker:text-red">
-                  <li>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team and keeps things moving.</li>
-                  <li><strong className="text-navy font-semibold">Already done a step?</strong> Simply mark it complete and move to the next one.</li>
-                  <li>Up next: request your demo — it&rsquo;s a quick <strong className="text-navy font-semibold">20-minute Zoom call</strong>.</li>
-                </ul>
+                <ol className="space-y-4 mb-6">
+                  {[
+                    <>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team and keeps things moving.</>,
+                    <><strong className="text-navy font-semibold">Already done a step?</strong> Simply mark it complete and move to the next one.</>,
+                    <>Up next: request your demo — it&rsquo;s a quick <strong className="text-navy font-semibold">20-minute Zoom call</strong>.</>,
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <span className="flex-shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-navy text-white font-bold text-base">
+                        {i + 1}
+                      </span>
+                      <span className="text-gray-700 leading-relaxed pt-1">{item}</span>
+                    </li>
+                  ))}
+                </ol>
                 <p className="text-center text-sm text-gray-600 mb-3">
                   Question?{' '}
                   <button onClick={() => { setShowQuestion(true); setError(''); }} className="text-red font-semibold hover:underline">
