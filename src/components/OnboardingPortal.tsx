@@ -434,7 +434,7 @@ export default function OnboardingPortal() {
                   onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowOverview(false); setError(''); }}
                   className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors mb-4"
                 >
-                  {doneCount === 0 ? 'Get Started →' : allDone ? 'Review Your Steps →' : 'Pick Up Where You Left Off →'}
+                  Next →
                 </button>
               </div>
             ) : (
