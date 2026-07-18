@@ -91,4 +91,14 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <p>You can also create a plan &mdash; such as the <strong>Skill Builder</strong> plan. These are recurring plans that require no maintenance from the coach once set.</p>
     `,
   },
+  {
+    category: 'Team Management',
+    question: 'What happens if kids skip videos?',
+    answer: `
+      <p>We have <strong>automatic fraud detection</strong>. If a player skips through a video, it will show as complete &mdash; but they <strong>won&rsquo;t get credit for the time</strong>.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0;">Time is what drives all <strong>leaderboard activity</strong> &mdash; so skipping never pays off.</p>
+      </div>
+    `,
+  },
 ];
