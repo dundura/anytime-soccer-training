@@ -111,4 +111,26 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       </div>
     `,
   },
+  {
+    category: 'Team Management',
+    question: 'What are the different training plans?',
+    answer: `
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;margin-bottom:10px;">
+        <p style="margin:0 0 6px;"><span style="font-size:17px;">🛠️</span> <strong>Skill Builder</strong></p>
+        <p style="margin:0;color:#64748b;">Pulls from every video in our curriculum and separates them by skill area, so you can focus on exactly the skills you want to build.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;margin-bottom:10px;">
+        <p style="margin:0 0 6px;"><span style="font-size:17px;">📅</span> <strong>Weekly Plan</strong></p>
+        <p style="margin:0;color:#64748b;">Pulls from the full curriculum and puts the skill areas into each day of the week &mdash; delivered automatically, no setup needed.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;margin-bottom:10px;">
+        <p style="margin:0 0 6px;"><span style="font-size:17px;">📆</span> <strong>30-Day Monthly Plan</strong></p>
+        <p style="margin:0;color:#64748b;">A guided program based on our 30-Day plan folders, giving you a full month of structured training.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;">
+        <p style="margin:0 0 6px;"><span style="font-size:17px;">🧩</span> <strong>Custom Plan</strong></p>
+        <p style="margin:0;color:#64748b;">You pick the folders and build your plan.</p>
+      </div>
+    `,
+  },
 ];
