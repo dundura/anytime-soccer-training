@@ -217,7 +217,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
   },
   {
-    title: 'Quick Tip: What to Include on Your Roster',
+    title: 'Roster FAQs',
     body: `
       <p>Before you download the roster template in the next step, we want to cover some FAQs.</p>
       <ul style="margin:16px 0;padding-left:22px;list-style:disc;">
