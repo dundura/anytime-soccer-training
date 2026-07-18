@@ -440,12 +440,20 @@ export default function OnboardingPortal() {
                   </button>
                   {questionSent && <span className="block text-green-700 font-semibold mt-1">✓ Sent — we&rsquo;ll get back to you shortly!</span>}
                 </p>
-                <button
-                  onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowOverview(false); setError(''); }}
-                  className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors mb-4"
-                >
-                  Next →
-                </button>
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
+                  <button
+                    onClick={() => { setShowOverview(false); setShowIntro(true); setError(''); }}
+                    className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    ← Back
+                  </button>
+                  <button
+                    onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowOverview(false); setError(''); }}
+                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    Next →
+                  </button>
+                </div>
               </div>
             ) : (
               <div>
