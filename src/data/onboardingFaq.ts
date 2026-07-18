@@ -177,6 +177,11 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <p style="margin:0;">The curated curriculum organizes folders <strong>by skill area</strong>, in the order we recommend &mdash; great if you want variety, since it rotates across the different types of skills.</p>
       </div>
+      <ul style="margin:16px 0;padding-left:22px;list-style:disc;">
+        <li style="margin-bottom:10px;"><strong>All Programs</strong> folders list all the folders in a particular program within the skill area.</li>
+        <li style="margin-bottom:10px;"><strong>30-Day Plan</strong> folders are 30-day plans by skill area.</li>
+        <li>You can also create your own folder in <strong>Favorites</strong> &mdash; go to <strong>Key Skills</strong>, add videos to the folder, and assign it to players.</li>
+      </ul>
     `,
   },
 ];
