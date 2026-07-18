@@ -216,11 +216,10 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     answer: `
       <p>This usually comes down to <strong>coach engagement</strong> &mdash; teams train when the coach makes it part of team life.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0 0 8px;"><strong>We recommend:</strong></p>
         <ul style="margin:0;padding-left:20px;list-style:disc;">
-          <li style="margin-bottom:8px;">Assign homework with a <strong>due date</strong> &mdash; and mention it at practice.</li>
-          <li style="margin-bottom:8px;">Run a <strong>team challenge or contest</strong> &mdash; leaderboards get kids competing.</li>
-          <li style="margin-bottom:8px;">Recognize effort with <strong>MVP awards, shoutouts, and high fives</strong>.</li>
-          <li>Set <strong>player goals</strong> so families know what&rsquo;s expected each week.</li>
+          <li style="margin-bottom:8px;">Creating a <strong>team contest</strong> and making an <strong>announcement during training</strong>.</li>
+          <li>Setting each player a <strong>personal goal</strong> &mdash; personal goals really motivate players to stay consistent.</li>
         </ul>
       </div>
       <p>Want ideas for your team? Email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a> &mdash; we&rsquo;ll help you get things moving.</p>
