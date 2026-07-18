@@ -59,6 +59,7 @@ export default function OnboardingPortal() {
   const [wizardIndex, setWizardIndex] = useState(0);
   const [showIntro, setShowIntro] = useState(true);
   const [showOverview, setShowOverview] = useState(false);
+  const [showIndex, setShowIndex] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showFaq, setShowFaq] = useState(false);
   const [showCompleteConfirm, setShowCompleteConfirm] = useState(false);
@@ -103,6 +104,10 @@ export default function OnboardingPortal() {
           setWizardIndex(firstIncomplete(data.coach));
           setShowIntro(false);
           setShowOverview(true);
+        } else if (params.get('view') === 'index') {
+          setWizardIndex(firstIncomplete(data.coach));
+          setShowIntro(false);
+          setShowIndex(true);
         } else {
           setWizardIndex(firstIncomplete(data.coach));
         }
@@ -114,9 +119,9 @@ export default function OnboardingPortal() {
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
     if (!coach || typeof window === 'undefined') return;
-    const url = showFaq ? '/onboarding-portal?view=faq' : showOverview ? '/onboarding-portal?view=steps' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
+    const url = showFaq ? '/onboarding-portal?view=faq' : showIndex ? '/onboarding-portal?view=index' : showOverview ? '/onboarding-portal?view=steps' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
     window.history.replaceState(null, '', url);
-  }, [coach, showIntro, showOverview, showFaq, wizardIndex]);
+  }, [coach, showIntro, showOverview, showIndex, showFaq, wizardIndex]);
 
   const submitAuth = async () => {
     setError('');
@@ -253,18 +258,26 @@ export default function OnboardingPortal() {
               <div className="flex items-center gap-2">
                 {!(coach && showIntro && !showFaq) && (
                   <span className="inline-block bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full">
-                    {showFaq ? 'FAQ' : coach ? (showOverview ? 'Your Steps' : step.tip ? `${step.section} — Quick Tip` : `${step.section} — Step ${stepNumber(wizardIndex)} of ${NUMBERED_TOTAL}`) : 'Onboarding Portal'}
+                    {showFaq ? 'FAQ' : coach ? (showIndex ? 'Index' : showOverview ? 'Your Steps' : step.tip ? `${step.section} — Quick Tip` : `${step.section} — Step ${stepNumber(wizardIndex)} of ${NUMBERED_TOTAL}`) : 'Onboarding Portal'}
                   </span>
                 )}
                 <button
-                  onClick={() => { setShowIntro(true); setShowOverview(false); setShowFaq(false); setError(''); }}
+                  onClick={() => { setShowIntro(true); setShowOverview(false); setShowIndex(false); setShowFaq(false); setError(''); }}
                   className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                 >
                   🏠 Home
                 </button>
+                {coach && !showIndex && (
+                  <button
+                    onClick={() => { setShowIndex(true); setShowFaq(false); setError(''); }}
+                    className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
+                  >
+                    Index
+                  </button>
+                )}
                 {!showFaq && (
                   <button
-                    onClick={() => { setShowFaq(true); setError(''); }}
+                    onClick={() => { setShowFaq(true); setShowIndex(false); setError(''); }}
                     className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                   >
                     FAQ
@@ -291,7 +304,7 @@ export default function OnboardingPortal() {
             {!coach && (
               <p className="text-white/70 text-sm mt-1">Sign in to walk through your team setup step by step.</p>
             )}
-            {coach && !showIntro && !showOverview && !showFaq && (
+            {coach && !showIntro && !showOverview && !showIndex && !showFaq && (
               <div className="mt-4">
                 <div className="h-2 bg-white/20 rounded-full overflow-hidden">
                   <div className="h-full bg-red rounded-full transition-all" style={{ width: `${(doneCount / STEPS.length) * 100}%` }} />
@@ -309,6 +322,44 @@ export default function OnboardingPortal() {
                   <button
                     onClick={() => setShowFaq(false)}
                     className="inline-block bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    ← Back
+                  </button>
+                </div>
+              </div>
+            ) : showIndex && coach ? (
+              <div>
+                <h2 className="text-navy text-xl font-extrabold mb-4">Index</h2>
+                <div className="border border-gray-200 rounded-xl overflow-hidden mb-6 divide-y divide-gray-100">
+                  <a href="/onboarding-portal" className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
+                    <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
+                    <span className="text-sm font-semibold text-red hover:underline">Welcome</span>
+                  </a>
+                  <a href="/onboarding-portal?view=steps" className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
+                    <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
+                    <span className="text-sm font-semibold text-red hover:underline">How it Works</span>
+                  </a>
+                  {STEPS.map((st, i) => {
+                    const done = !!coach.checklist[st.key];
+                    const skipped = coach.checklist[st.key] === 'skipped';
+                    return (
+                      <a key={st.key} href={`/onboarding-portal?step=${i + 1}`} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
+                        <span className={`w-6 text-center font-bold text-xs ${skipped ? 'text-amber-500' : done ? 'text-green-600' : 'text-gray-300'}`}>
+                          {skipped ? '→' : done ? '✓' : st.tip ? '💡' : stepNumber(i)}
+                        </span>
+                        <span className="text-sm font-semibold text-red hover:underline">{st.title}</span>
+                      </a>
+                    );
+                  })}
+                  <a href="/onboarding-portal?view=faq" className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
+                    <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
+                    <span className="text-sm font-semibold text-red hover:underline">FAQ</span>
+                  </a>
+                </div>
+                <div className="flex justify-center">
+                  <button
+                    onClick={() => setShowIndex(false)}
+                    className="bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
                     ← Back
                   </button>
