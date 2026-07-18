@@ -420,7 +420,7 @@ export default function OnboardingPortal() {
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
                 <ol className="space-y-4">
                   {[
-                    <>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team and keeps things moving.</>,
+                    <>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team.</>,
                     <><strong className="text-navy font-semibold">Already done a step?</strong> Simply mark it complete and move to the next one.</>,
                     <>Up next: request your demo — it&rsquo;s a quick <strong className="text-navy font-semibold">20-minute Zoom call</strong>.</>,
                   ].map((item, i) => (
