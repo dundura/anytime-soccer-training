@@ -219,11 +219,11 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Quick Tip: What to Include on Your Roster',
     body: `
-      <p>For each player, we need the <strong>parent&rsquo;s first name</strong>, the <strong>player&rsquo;s first name</strong>, and an <strong>email address</strong>.</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
-        <p style="margin:0;">You can provide more than one parent email &mdash; in those cases, both parents will receive our invite and can decide who signs up.</p>
-      </div>
-      <p>Older player with their own email? It&rsquo;s fine to provide theirs.</p>
+      <p>Before you download the roster template in the next step, we want to cover some FAQs.</p>
+      <ul style="margin:16px 0;padding-left:22px;list-style:disc;">
+        <li style="margin-bottom:10px;">You can provide more than one parent email &mdash; in those cases, both parents will receive our invite and can decide who signs up.</li>
+        <li>Don&rsquo;t have your full roster yet? No problem &mdash; you can add players later.</li>
+      </ul>
     `,
   },
   {
