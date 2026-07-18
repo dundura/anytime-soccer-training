@@ -417,19 +417,11 @@ export default function OnboardingPortal() {
                 <p className="text-gray-700 leading-relaxed mb-4">
                   Each step has its own page with everything you need.
                 </p>
-                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 mb-6">
-                  <p className="text-gray-700 leading-relaxed text-sm">
-                    When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team and keeps things moving.
-                  </p>
-                </div>
-                <div className="bg-red-50 border border-red-200 rounded-xl px-5 py-4 mb-6">
-                  <p className="text-gray-700 leading-relaxed text-sm">
-                    <strong className="text-red font-bold">Already done a step?</strong> Simply mark it complete and move to the next one.
-                  </p>
-                </div>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Up next: request your demo — it&rsquo;s a quick <strong className="text-navy font-semibold">20-minute Zoom call</strong>.
-                </p>
+                <ul className="list-disc pl-5 space-y-2.5 text-gray-700 leading-relaxed mb-6 marker:text-red">
+                  <li>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team and keeps things moving.</li>
+                  <li><strong className="text-navy font-semibold">Already done a step?</strong> Simply mark it complete and move to the next one.</li>
+                  <li>Up next: request your demo — it&rsquo;s a quick <strong className="text-navy font-semibold">20-minute Zoom call</strong>.</li>
+                </ul>
                 <p className="text-center text-sm text-gray-600 mb-3">
                   Question?{' '}
                   <button onClick={() => { setShowQuestion(true); setError(''); }} className="text-red font-semibold hover:underline">
