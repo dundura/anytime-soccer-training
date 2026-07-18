@@ -137,10 +137,11 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: "I see that players have joined the app, but they're not on my team",
     answer: `
-      <p>Some players join the app but forget to join the team.</p>
+      <p>Some players join the app but forget to join the team. You can automatically add them by <strong>re-inviting them</strong>.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <p style="margin:0;">You can automatically add them to the team by <strong>re-inviting them</strong> from the <strong>Player Onboard</strong> tab under <strong>New Players</strong>.</p>
+        <p style="margin:0;"><strong>To re-invite a player:</strong> go to your team, open the <strong>Player Onboard</strong> page, and resend the invite. Anyone already on the app is automatically added to the team.</p>
       </div>
+      <p>If a team code was provided, be sure it&rsquo;s entered in the <strong>team code field</strong> on the same page.</p>
     `,
   },
 ];
