@@ -18,7 +18,7 @@ type Coach = {
 };
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
-const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean }[] = [
+const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number }[] = [
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
@@ -33,6 +33,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
   { key: 'parents_informed', title: 'Reply to Megan with the team name (inside the app) and that your parents have been informed', dataIndex: 8, section: 'Onboarding' },
   { key: 'faq_intro', title: 'Common FAQs', dataIndex: 16, section: 'FAQs', info: true },
+  { key: 'faq_emails', title: 'What’s the difference between the login email and the contact email, and how do I update them?', dataIndex: -1, faqIndex: 0, section: 'FAQs', tip: true },
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
@@ -246,7 +247,7 @@ export default function OnboardingPortal() {
   const stepState = coach ? coach.checklist[step.key] : undefined;
   const stepDone = !!stepState;
   const stepSkipped = stepState === 'skipped';
-  const stepData = COACH_ONBOARDING_STEPS[step.dataIndex];
+  const stepData = step.faqIndex == null ? COACH_ONBOARDING_STEPS[step.dataIndex] : null;
 
   const inputClass = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-navy placeholder:text-gray focus:outline-none focus:ring-2 focus:ring-red/30 focus:border-red';
 
@@ -533,7 +534,14 @@ export default function OnboardingPortal() {
                 )}
 
                 {/* Full step instructions */}
-                <CoachStepContent step={stepData} hideCta />
+                {stepData ? (
+                  <CoachStepContent step={stepData} hideCta />
+                ) : step.faqIndex != null ? (
+                  <div
+                    className="mb-6 space-y-3 text-gray-700 leading-relaxed text-sm [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1.5 [&_li]:marker:text-red [&_strong]:text-navy [&_strong]:font-semibold"
+                    dangerouslySetInnerHTML={{ __html: ONBOARDING_FAQ[step.faqIndex].answer }}
+                  />
+                ) : null}
 
                 {step.key === 'onboarding_begins' && (
                   <ul className="mb-6 space-y-3">
@@ -584,14 +592,14 @@ export default function OnboardingPortal() {
                   >
                     ← Back
                   </button>
-                  {stepData.ctaHref && (
+                  {stepData && stepData.ctaHref && (
                     <a
-                      href={stepData.ctaHref}
+                      href={stepData!.ctaHref}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-6 rounded-xl transition-colors text-center"
                     >
-                      {stepData.ctaLabel}
+                      {stepData!.ctaLabel}
                     </a>
                   )}
                   {(step.info || step.tip) ? (
