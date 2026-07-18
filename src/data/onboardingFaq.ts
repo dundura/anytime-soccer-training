@@ -32,7 +32,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
   },
   {
     category: 'Joining a Team',
-    question: "I can't find my team when I search for it — what should I do?",
+    question: "Parents can't find our team when they search — what should I do?",
     answer: `
       <p>This is a common question. Occasionally the team name is slightly different, so searching for the exact full name may not find it.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
