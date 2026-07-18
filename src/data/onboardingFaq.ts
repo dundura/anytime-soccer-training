@@ -36,7 +36,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     answer: `
       <p>This is a common question. Occasionally the team name is slightly different, so searching for the exact full name may not find it.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <p style="margin:0;"><strong>Try searching for just part of the team name.</strong> For example, if the team name is &ldquo;<strong>Next Level AS - Group 2</strong>,&rdquo; try searching for just &ldquo;<strong>Next</strong>&rdquo;.</p>
+        <p style="margin:0;"><strong>Tell them to try searching for just part of the team name.</strong> For example, if the team name is &ldquo;<strong>Next Level AS - Group 2</strong>,&rdquo; try searching for just &ldquo;<strong>Next</strong>&rdquo;.</p>
       </div>
       <p>You can also invite them again from the <strong>Player Onboard</strong> tab under <strong>New Players</strong>.</p>
       <p>If you still can&rsquo;t find it, email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
