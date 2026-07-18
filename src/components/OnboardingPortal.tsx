@@ -260,12 +260,14 @@ export default function OnboardingPortal() {
                 >
                   🏠 Home
                 </button>
-                <button
-                  onClick={() => { setShowFaq(true); setError(''); }}
-                  className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
-                >
-                  FAQ
-                </button>
+                {!showFaq && (
+                  <button
+                    onClick={() => { setShowFaq(true); setError(''); }}
+                    className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
+                  >
+                    FAQ
+                  </button>
+                )}
                 {coach && doneCount > 0 && (
                   <button
                     onClick={() => setShowResetConfirm(true)}
