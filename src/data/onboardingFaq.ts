@@ -148,9 +148,9 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: 'What are the 30-day plans?',
     answer: `
-      <p>Our 30-day plans are guided, month-long programs built from the <strong>30-Day plan folders</strong> &mdash; including Ball Mastery, Juggling, Dribbling, Wall Passing, Finishing, 1v1 Moves, Partner Passing, and Speed &amp; Agility.</p>
+      <p>The full video curriculum introduces <strong>one move at a time</strong>, then combines them. Our 30-day plans select only the <strong>review videos</strong> &mdash; estimated to take about <strong>30 days</strong> to finish.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <p style="margin:0;">The full video curriculum introduces <strong>one move at a time</strong>, then combines them &mdash; so players build skills step by step.</p>
+        <p style="margin:0;">Review videos include <strong>4&ndash;6 moves per video</strong>, making them excellent for touching most skills in a truncated way.</p>
       </div>
     `,
   },
