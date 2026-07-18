@@ -214,7 +214,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: "My kids have not used the program as much as I expected. Any suggestions?",
     answer: `
-      <p>This usually comes down to <strong>coach engagement</strong> &mdash; teams train when the coach makes it part of team life.</p>
+      <p>It happens &mdash; sometimes a team just needs a little spark to get going, and a couple of small moves can make a big difference.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <p style="margin:0 0 8px;"><strong>We recommend:</strong></p>
         <ul style="margin:0;padding-left:20px;list-style:disc;">
