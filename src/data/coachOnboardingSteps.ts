@@ -229,22 +229,26 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;">You can provide more than one parent email &mdash; both parents get the invite and can decide who signs up.</p>
+          <p style="margin:6px 0 0;">We only need the coach&rsquo;s phone number.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:6px 0 0;">Don&rsquo;t have your full roster yet? No problem &mdash; you can add players later.</p>
+          <p style="margin:6px 0 0;">You can provide more than one parent email &mdash; both parents get the invite and can decide who signs up.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
-          <p style="margin:6px 0 0;">Emails can be updated later &mdash; not a problem.</p>
+          <p style="margin:6px 0 0;">Don&rsquo;t have your full roster yet? No problem &mdash; you can add players later.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
+          <p style="margin:6px 0 0;">Emails can be updated later &mdash; not a problem.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
           <p style="margin:6px 0 0;">Parents can also sign up with a different email than the one you provided &mdash; that&rsquo;s fine.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">6</span>
           <p style="margin:6px 0 0;">Older player? Use their email if they&rsquo;ll be the primary contact.</p>
         </div>
       </div>
