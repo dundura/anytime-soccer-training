@@ -73,7 +73,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
-          <p style="margin:6px 0 0;"><strong>Parents pay nothing</strong> &mdash; each player gets a code for 365 days of full access.</p>
+          <p style="margin:6px 0 0;"><strong>Parents pay nothing</strong> &mdash; each player gets a team code for 365 days of full access.</p>
         </div>
       </div>
     `,
