@@ -417,7 +417,8 @@ export default function OnboardingPortal() {
                 <p className="text-gray-700 leading-relaxed mb-4">
                   Each step has its own page with everything you need.
                 </p>
-                <ol className="space-y-4 mb-6">
+                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
+                <ol className="space-y-4">
                   {[
                     <>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team and keeps things moving.</>,
                     <><strong className="text-navy font-semibold">Already done a step?</strong> Simply mark it complete and move to the next one.</>,
@@ -431,6 +432,7 @@ export default function OnboardingPortal() {
                     </li>
                   ))}
                 </ol>
+                </div>
                 <p className="text-center text-sm text-gray-600 mb-3">
                   Question?{' '}
                   <button onClick={() => { setShowQuestion(true); setError(''); }} className="text-red font-semibold hover:underline">
