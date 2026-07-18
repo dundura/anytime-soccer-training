@@ -169,9 +169,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Notify Megan',
     body: `
-      <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
-        <p style="margin:0;"><strong style="color:#DC373E;">Action Required:</strong> <strong style="color:#0F3154;">Reply to Megan and confirm parents have been informed.</strong></p>
-      </div>
+      <p>Reply to Megan and confirm parents have been informed.</p>
     `,
     subSteps: [
       {
