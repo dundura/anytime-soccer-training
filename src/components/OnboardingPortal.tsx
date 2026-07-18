@@ -290,14 +290,6 @@ export default function OnboardingPortal() {
                     Index
                   </button>
                 )}
-                {!showFaq && (
-                  <button
-                    onClick={() => { setShowFaq(true); setShowIndex(false); setError(''); }}
-                    className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
-                  >
-                    FAQ
-                  </button>
-                )}
                 {coach && doneCount > 0 && (
                   <button
                     onClick={() => setShowResetConfirm(true)}
@@ -366,10 +358,6 @@ export default function OnboardingPortal() {
                       </a>
                     );
                   })}
-                  <a href="/onboarding-portal?view=faq" className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
-                    <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
-                    <span className="text-sm font-semibold text-red hover:underline">FAQ</span>
-                  </a>
                 </div>
                 <div className="flex justify-center">
                   <button
