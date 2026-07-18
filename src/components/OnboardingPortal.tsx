@@ -523,8 +523,6 @@ export default function OnboardingPortal() {
                       if (wizardIndex === 0) { setShowOverview(true); } else { setWizardIndex(wizardIndex - 1); }
                       setError('');
                     }}
-                    disabled={wizardIndex > 0 && step.tip && !stepDone}
-                    title={wizardIndex > 0 && step.tip && !stepDone ? 'Confirm you understand to continue' : undefined}
                     className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
                   >
                     ← Back
