@@ -166,6 +166,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
           <li>Assign it to your players and set a due date if you&rsquo;d like.</li>
         </ul>
       </div>
+      <p>Homework is organized into <strong>3 key categories</strong>: <strong>folders</strong>, <strong>plans</strong>, and <strong>custom folders</strong>. In the next slides we&rsquo;ll cover each.</p>
     `,
   },
 ];
