@@ -269,7 +269,7 @@ export default function OnboardingPortal() {
           <div className="bg-navy px-8 py-6">
             <div className="flex items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2">
-                {!(coach && showIntro && !showFaq) && (
+                {!(showIntro && !showFaq) && !(!coach && !showFaq) && (
                   <span className="inline-block bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full">
                     {showFaq ? 'FAQ' : coach ? (showIndex ? 'Index' : showOverview ? 'Your Steps' : step.tip ? `${step.section} — Quick Tip` : `${step.section} — Step ${stepNumber(wizardIndex)} of ${NUMBERED_TOTAL}`) : 'Onboarding Portal'}
                   </span>
