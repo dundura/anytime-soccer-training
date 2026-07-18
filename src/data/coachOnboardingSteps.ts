@@ -161,7 +161,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Notify Parents',
     body: `
-      <p>Please download the template linked below to notify parents. You&rsquo;re welcome to edit it as needed to reflect your name, club details, or program specifics before sending.</p>
+      <p>Please download the template linked below to notify parents. You&rsquo;re welcome to edit it before sending.</p>
     `,
     ctaLabel: 'Download the Parent Welcome Template',
     ctaHref: 'https://docs.google.com/document/d/1VAVT_sHrtvvb1rUbuNX4muqUthq1Tgn0/edit?tab=t.0',
