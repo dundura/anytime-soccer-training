@@ -36,7 +36,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <ul style="margin:0;">
           <li>Search <strong>part</strong> of the name (e.g. &ldquo;Anytime&rdquo; for &ldquo;Anytime Soccer Training&rdquo;).</li>
-          <li>Re-invite from <strong>New Players &rarr; Player Onboard</strong>.</li>
+          <li>Re-invite from <strong>New Players &rarr; Player Onboard</strong> &mdash; the invite includes the correct team name.</li>
           <li>Or send them the onboarding link we shared &mdash; it has instructions.</li>
         </ul>
       </div>
