@@ -57,7 +57,6 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'How training is organized',
     body: (
       <>
-        <p className="mb-3">Training is broken down into:</p>
         <ol className="space-y-3 mb-3">
           {[
             <><strong className="text-navy font-semibold">All Programs</strong> — all skill areas grouped by programs.</>,
