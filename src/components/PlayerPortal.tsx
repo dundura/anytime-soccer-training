@@ -103,7 +103,9 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
       <>
         <p className="mb-3">Puts the programs in a <strong className="text-navy font-semibold">recommended order</strong>.</p>
         <p className="mb-3">For example, Ball Mastery starts with <strong className="text-navy font-semibold">1,000 Touch</strong>, <strong className="text-navy font-semibold">101 Ball Mastery</strong>, <strong className="text-navy font-semibold">One Cone</strong>, <strong className="text-navy font-semibold">Two Cone</strong>, and more — delivering videos in a <strong className="text-navy font-semibold">round robin</strong>.</p>
-        <p>We recommend pinning the folders to your <strong className="text-navy font-semibold">Favorites</strong> or <strong className="text-navy font-semibold">My Plan</strong>.</p>
+        <p className="mb-3">We recommend pinning the folders to your <strong className="text-navy font-semibold">Favorites</strong> or <strong className="text-navy font-semibold">My Plan</strong>.</p>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1784500898570-vi0r7o.png" alt="Curated Curriculum" className="w-full rounded-lg border border-blue-100" />
       </>
     ),
   },
