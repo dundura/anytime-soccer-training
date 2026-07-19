@@ -182,7 +182,39 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
   {
     icon: '🔁',
     title: 'Recurring Training Plans',
-    body: <>Coming soon — we&rsquo;re putting this section together. Check back shortly!</>,
+    body: (
+      <>
+        <p className="mb-3">There are four types of training plans:</p>
+        <ol className="space-y-2">
+          {['Skill Builder', 'Weekly Plan', '30-Day Monthly Plan', 'Custom Plan'].map((t, i) => (
+            <li key={i} className="flex items-start gap-2.5">
+              <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
+              <span className="pt-0.5 font-semibold text-navy">{t}</span>
+            </li>
+          ))}
+        </ol>
+      </>
+    ),
+  },
+  {
+    icon: '🛠️',
+    title: 'Skill Builder',
+    body: <>Pulls from every video in our curriculum and separates them by skill area, so you can focus on exactly the skills you want to build.</>,
+  },
+  {
+    icon: '📅',
+    title: 'Weekly Plan',
+    body: <>Pulls from the full curriculum and puts the skill areas into each day of the week — delivered automatically, no setup needed.</>,
+  },
+  {
+    icon: '📆',
+    title: '30-Day Monthly Plan',
+    body: <>A guided program based on our 30-Day plan folders, giving you a full month of structured training.</>,
+  },
+  {
+    icon: '🧩',
+    title: 'Custom Plan',
+    body: <>You pick the folders and build your plan.</>,
   },
 ];
 
