@@ -344,7 +344,7 @@ export default function OnboardingPortal() {
                 <div className="h-2 bg-white/20 rounded-full overflow-hidden">
                   <div className="h-full bg-red rounded-full transition-all" style={{ width: `${(doneCount / STEPS.length) * 100}%` }} />
                 </div>
-                <p className="text-white/60 text-xs font-semibold mt-1.5">{doneCount} of {STEPS.length} steps complete</p>
+                <p className="text-white/60 text-xs font-semibold mt-1.5">{Math.round((doneCount / STEPS.length) * 100)}% complete</p>
               </div>
             )}
           </div>
