@@ -322,7 +322,7 @@ export default function PlayerPortal() {
                   </button>
                   <button onClick={() => setScreen('gettingStarted')} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left">
                     <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
-                    <span className="text-sm font-semibold text-red hover:underline">Getting Started</span>
+                    <span className="text-sm font-semibold text-red hover:underline">How to Start Your Training</span>
                   </button>
                 </div>
                 <div className="flex justify-center">
@@ -423,7 +423,7 @@ export default function PlayerPortal() {
             ) : (
               /* ---------- Getting Started ---------- */
               <div>
-                <h2 className="text-navy text-xl font-extrabold mb-3">Getting Started</h2>
+                <h2 className="text-navy text-xl font-extrabold mb-3">How to Start Your Training</h2>
                 <p className="text-gray-700 leading-relaxed mb-5">Getting started is easy — but the best way depends on your preference, so we&rsquo;ll cover a few options.</p>
 
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-2">
