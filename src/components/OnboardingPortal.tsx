@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { COACH_ONBOARDING_STEPS } from '@/data/coachOnboardingSteps';
 import CoachStepContent from '@/components/CoachStepContent';
 import FaqSearch from '@/components/FaqSearch';
@@ -58,7 +58,7 @@ const NUMBERED_TOTAL = STEPS.filter(x => !x.tip).length;
 
 const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
   { heading: 'Coach Contact', items: [
-    'We only need the coach&rsquo;s phone number.',
+    'For the coach, include the same roster info plus their phone number.',
     'Include the coach on the roster and indicate they&rsquo;re the coach &mdash; their child will be the player on the same line.',
     'Don&rsquo;t have a player? Leave the player name blank.',
   ] },
@@ -115,6 +115,8 @@ export default function OnboardingPortal() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [missingSent, setMissingSent] = useState(false);
   const [extraEmail, setExtraEmail] = useState('');
+  const [pageSent, setPageSent] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [sendingQuestion, setSendingQuestion] = useState(false);
 
   const firstIncomplete = (c: Coach) => {
@@ -261,6 +263,30 @@ export default function OnboardingPortal() {
       if (!res.ok) throw new Error();
       setMissingSent(true);
       setTimeout(() => setMissingSent(false), 6000);
+    } catch {
+      setError('Could not send. Please try again.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const emailPage = async () => {
+    if (!coach || !token) return;
+    setSaving(true);
+    setError('');
+    try {
+      let html = contentRef.current ? contentRef.current.innerHTML : '';
+      if (stepData && stepData.ctaHref) {
+        html += `<p style="text-align:center;margin-top:16px;"><a href="${stepData.ctaHref}" style="color:#DC373E;font-weight:700;">${stepData.ctaLabel || 'Open link'}</a></p>`;
+      }
+      const res = await fetch(`${API}/portal-onboarding/email-page`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: token },
+        body: JSON.stringify({ title: step.title, html, extraEmail: extraEmail.trim() }),
+      });
+      if (!res.ok) throw new Error();
+      setPageSent(true);
+      setTimeout(() => setPageSent(false), 6000);
     } catch {
       setError('Could not send. Please try again.');
     } finally {
@@ -623,6 +649,7 @@ export default function OnboardingPortal() {
                 )}
 
                 {/* Full step instructions */}
+                <div ref={contentRef}>
                 {isRosterStepper ? (
                   <div className="mb-6">
                     <p className="text-gray-700 leading-relaxed mb-4">Before you download the roster template in the next step, we want to cover some FAQs.</p>
@@ -675,6 +702,7 @@ export default function OnboardingPortal() {
                 {step.note && (
                   <p className="text-navy text-sm bg-blue-50 border border-blue-200 rounded-lg px-4 py-3 mb-4">{step.note}</p>
                 )}
+                </div>
 
                 {step.needsTeamName && !stepDone && (
                   <input
@@ -686,6 +714,27 @@ export default function OnboardingPortal() {
                 )}
 
                 {error && <p className="text-red text-sm font-semibold mb-4">{error}</p>}
+
+                {isAdmin && (
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4">
+                    <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-2 text-center">Admin</p>
+                    <input
+                      type="email"
+                      value={extraEmail}
+                      onChange={e => setExtraEmail(e.target.value)}
+                      placeholder="Also send to (optional email)"
+                      className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 mb-3 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                    />
+                    <button
+                      onClick={emailPage}
+                      disabled={saving}
+                      className="w-full bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-6 rounded-xl transition-colors disabled:opacity-60"
+                    >
+                      {saving ? 'Sending…' : '📧 Email This Page to Coach'}
+                    </button>
+                    {pageSent && <p className="text-green-700 font-semibold text-sm mt-2 text-center">✓ Sent to {coach.email}</p>}
+                  </div>
+                )}
 
                 {/* Ask a question */}
                 <p className="text-center text-sm text-gray-600 mb-2">
