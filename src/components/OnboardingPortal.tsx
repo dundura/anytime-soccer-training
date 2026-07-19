@@ -281,7 +281,7 @@ export default function OnboardingPortal() {
   };
 
   const doneCount = coach ? STEPS.filter(s => coach.checklist[s.key]).length : 0;
-  const othersDone = coach ? STEPS.filter(s => !s.final).every(s => !!coach.checklist[s.key]) : false;
+  const othersDone = coach ? STEPS.filter(s => !s.final).every(s => coach.checklist[s.key] === true) : false;
   const allDone = doneCount === STEPS.length;
   const step = STEPS[wizardIndex];
   const stepState = coach ? coach.checklist[step.key] : undefined;
