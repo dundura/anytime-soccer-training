@@ -58,7 +58,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     body: (
       <>
         <p className="mb-3">The training is broken down into <strong className="text-navy font-semibold">Skill Areas</strong>, <strong className="text-navy font-semibold">Programs</strong>, <strong className="text-navy font-semibold">Folders</strong>, and <strong className="text-navy font-semibold">Recurring Training Plans</strong>.</p>
-        <p>We&rsquo;ll describe getting started with each — pick whichever fits you best. Tap <strong className="text-navy font-semibold">Next</strong> to see the first.</p>
+        <p>We&rsquo;ll go over how to get started with each — pick whichever fits you best. Tap <strong className="text-navy font-semibold">Next</strong> to see the first.</p>
       </>
     ),
   },
@@ -73,6 +73,16 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
         <p>In <strong className="text-navy font-semibold">Wall Passing</strong>, start with the <strong className="text-navy font-semibold">101 Wall Passing Drills</strong> program and the folder <strong className="text-navy font-semibold">P1: 101 Wall Passing Part 1</strong>.</p>
       </>
     ),
+  },
+  {
+    icon: '⭐',
+    title: 'Favorites and Custom Folders',
+    body: <>Content coming soon.</>,
+  },
+  {
+    icon: '🔁',
+    title: 'Recurring Training Plans',
+    body: <>Content coming soon.</>,
   },
 ];
 
