@@ -87,7 +87,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         <p style="margin:0;"><strong>Filled this out before?</strong> Please take it again when adding a new team.</p>
       </div>
     `,
-    ctaLabel: 'Complete Your Coaching Engagement Survey',
+    ctaLabel: 'Complete Your Survey',
     ctaHref: 'https://www.anytime-soccer.com/my-coaching-plan',
   },
   {
