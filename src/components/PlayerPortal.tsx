@@ -7,12 +7,12 @@ const TOKEN_KEY = 'astPlayerPortalToken';
 const SCREEN_KEY = 'astPlayerPortalScreen';
 const ADMIN_KEY = 'astPlayerPortalAdmin';
 const LEFTOFF_KEY = 'astPlayerPortalLeftOff';
-const CONTENT_SCREENS: readonly string[] = ['how', 'steps', 'gettingStarted'];
-const SCREENS = ['welcome', 'how', 'steps', 'gettingStarted', 'index'] as const;
+const CONTENT_SCREENS: readonly string[] = ['how', 'philosophy', 'steps', 'gettingStarted'];
+const SCREENS = ['welcome', 'how', 'steps', 'philosophy', 'gettingStarted', 'index'] as const;
 
 type Player = { name: string; email: string; checklist: Record<string, boolean | 'skipped'> };
 type Mode = 'signin' | 'register' | 'forgot' | 'reset';
-type Screen = 'welcome' | 'how' | 'steps' | 'gettingStarted' | 'index';
+type Screen = 'welcome' | 'how' | 'steps' | 'philosophy' | 'gettingStarted' | 'index';
 
 const OFFERINGS: React.ReactNode[] = [
   <><strong className="text-navy font-semibold">Get started the right way</strong> — know exactly where to begin.</>,
@@ -657,6 +657,10 @@ export default function PlayerPortal() {
                     <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
                     <span className="text-sm font-semibold text-red hover:underline">Account Setup</span>
                   </button>
+                  <button onClick={() => setScreen('philosophy')} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left">
+                    <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
+                    <span className="text-sm font-semibold text-red hover:underline">Our Training Philosophy</span>
+                  </button>
                   <button onClick={() => setScreen('gettingStarted')} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left">
                     <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
                     <span className="text-sm font-semibold text-red hover:underline">How to Start Your Training</span>
@@ -754,7 +758,7 @@ export default function PlayerPortal() {
                   </button>
                   <button
                     onClick={() => {
-                      const advance = () => { if (setupStep < SETUP_TIPS.length - 1) setSetupStep(setupStep + 1); else setScreen('gettingStarted'); };
+                      const advance = () => { if (setupStep < SETUP_TIPS.length - 1) setSetupStep(setupStep + 1); else setScreen('philosophy'); };
                       openComplete(`accountSetup:${setupStep}`, `Account Setup — ${SETUP_TIPS[setupStep].title}`, advance);
                     }}
                     className={`w-full sm:w-auto ${isDone(`accountSetup:${setupStep}`) ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
@@ -763,6 +767,37 @@ export default function PlayerPortal() {
                   </button>
                 </div>
                 {pageActions('accountSetup', 'Account Setup')}
+              </div>
+            ) : screen === 'philosophy' ? (
+              /* ---------- Our Training Philosophy ---------- */
+              <div>
+                <h2 className="text-navy text-xl font-extrabold mb-3">Our Training Philosophy</h2>
+                <p className="text-gray-700 leading-relaxed mb-3">Our goal is to deliver <strong className="text-navy font-semibold">world-class individual training</strong> that&rsquo;s easy for players to follow and stick with.</p>
+                <p className="text-gray-700 leading-relaxed mb-3">It&rsquo;s based on the <strong className="text-navy font-semibold">brain science</strong> around how kids learn.</p>
+                <p className="text-gray-700 leading-relaxed mb-2">Our method is based on:</p>
+                <ol className="space-y-2 mb-6">
+                  {['Volume of Repetitions', 'Variety of Skill Areas', 'Variation of Skill Moves'].map((t, i) => (
+                    <li key={i} className="flex items-start gap-2.5">
+                      <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
+                      <span className="pt-0.5 font-semibold text-navy">{t}</span>
+                    </li>
+                  ))}
+                </ol>
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
+                  <button
+                    onClick={() => setScreen('steps')}
+                    className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    &larr; Back
+                  </button>
+                  <button
+                    onClick={() => openComplete('philosophy', 'Our Training Philosophy', () => setScreen('gettingStarted'))}
+                    className={`w-full sm:w-auto ${isDone('philosophy') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
+                  >
+                    Next &rarr;
+                  </button>
+                </div>
+                {pageActions('philosophy', 'Our Training Philosophy')}
               </div>
             ) : (
               /* ---------- Getting Started ---------- */
