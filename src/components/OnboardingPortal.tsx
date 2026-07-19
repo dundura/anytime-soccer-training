@@ -118,6 +118,7 @@ export default function OnboardingPortal() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [missingSent, setMissingSent] = useState(false);
   const [indexFilter, setIndexFilter] = useState<'all' | 'outstanding'>('all');
+  const [showIndexInfo, setShowIndexInfo] = useState(false);
   const [extraEmail, setExtraEmail] = useState('');
   const [pageSent, setPageSent] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -157,6 +158,10 @@ export default function OnboardingPortal() {
           setWizardIndex(firstIncomplete(data.coach));
           setShowIntro(false);
           setShowOverview(true);
+        } else if (params.get('view') === 'indexinfo') {
+          setWizardIndex(firstIncomplete(data.coach));
+          setShowIntro(false);
+          setShowIndexInfo(true);
         } else if (params.get('view') === 'index') {
           setWizardIndex(firstIncomplete(data.coach));
           setShowIntro(false);
@@ -174,9 +179,9 @@ export default function OnboardingPortal() {
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
     if (!coach || typeof window === 'undefined') return;
-    const url = showFaq ? '/onboarding-portal?view=faq' : showIndex ? '/onboarding-portal?view=index' : showOverview ? '/onboarding-portal?view=steps' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
+    const url = showFaq ? '/onboarding-portal?view=faq' : showIndex ? '/onboarding-portal?view=index' : showIndexInfo ? '/onboarding-portal?view=indexinfo' : showOverview ? '/onboarding-portal?view=steps' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
     window.history.replaceState(null, '', url);
-  }, [coach, showIntro, showOverview, showIndex, showFaq, wizardIndex]);
+  }, [coach, showIntro, showOverview, showIndex, showIndexInfo, showFaq, wizardIndex]);
 
   const submitAuth = async () => {
     setError('');
@@ -363,14 +368,14 @@ export default function OnboardingPortal() {
             <div className="flex items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => { setShowIntro(true); setShowOverview(false); setShowIndex(false); setShowFaq(false); setError(''); }}
+                  onClick={() => { setShowIntro(true); setShowOverview(false); setShowIndexInfo(false); setShowIndex(false); setShowFaq(false); setError(''); }}
                   className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                 >
                   🏠 Home
                 </button>
                 {coach && !showIndex && (
                   <button
-                    onClick={() => { setShowIndex(true); setShowFaq(false); setError(''); }}
+                    onClick={() => { setShowIndex(true); setShowIndexInfo(false); setShowFaq(false); setError(''); }}
                     className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                   >
                     Index
@@ -397,7 +402,7 @@ export default function OnboardingPortal() {
             {!coach && (
               <p className="text-white/70 text-sm mt-1">Sign in to walk through your team setup step by step.</p>
             )}
-            {coach && !showIntro && !showOverview && !showIndex && !showFaq && (
+            {coach && !showIntro && !showOverview && !showIndexInfo && !showIndex && !showFaq && (
               <div className="mt-4">
                 <div className="h-2 bg-white/20 rounded-full overflow-hidden">
                   <div className="h-full bg-red rounded-full transition-all" style={{ width: `${(doneCount / STEPS.length) * 100}%` }} />
@@ -678,7 +683,49 @@ export default function OnboardingPortal() {
                     ← Back
                   </button>
                   <button
-                    onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowOverview(false); setError(''); }}
+                    onClick={() => { setShowOverview(false); setShowIndexInfo(true); setError(''); }}
+                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    Next →
+                  </button>
+                </div>
+              </div>
+            ) : showIndexInfo ? (
+              <div>
+                <h2 className="text-navy text-xl font-extrabold mb-3">The Index</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  The <strong className="text-navy font-semibold">Index</strong> is your table of contents &mdash; it lists every page in this portal so you can jump straight to any step.
+                </p>
+                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
+                  <p className="text-gray-700 leading-relaxed mb-3">It also shows you <strong className="text-navy font-semibold">which steps are still outstanding</strong>:</p>
+                  <ul className="space-y-2.5">
+                    <li className="flex items-center gap-3">
+                      <span className="flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-green-100 text-green-700">Done</span>
+                      <span className="text-gray-700 text-sm">steps you&rsquo;ve completed.</span>
+                    </li>
+                    <li className="flex items-center gap-3">
+                      <span className="flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Skipped</span>
+                      <span className="text-gray-700 text-sm">steps you passed over to revisit later.</span>
+                    </li>
+                    <li className="flex items-center gap-3">
+                      <span className="flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-red/10 text-red">To do</span>
+                      <span className="text-gray-700 text-sm">steps still outstanding.</span>
+                    </li>
+                  </ul>
+                  <p className="text-gray-700 leading-relaxed mt-4">Use the <strong className="text-navy font-semibold">Outstanding</strong> filter at the top of the Index to see only what&rsquo;s left to do.</p>
+                </div>
+                <p className="text-center text-sm text-gray-600 mb-3">
+                  You can open the Index any time from the menu at the top of the page.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
+                  <button
+                    onClick={() => { setShowIndexInfo(false); setShowOverview(true); setError(''); }}
+                    className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    ← Back
+                  </button>
+                  <button
+                    onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowIndexInfo(false); setError(''); }}
                     className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
                     Next →
