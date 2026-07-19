@@ -96,6 +96,11 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     ),
   },
   {
+    icon: '📚',
+    title: 'Curated Curriculum',
+    body: <>Content coming soon.</>,
+  },
+  {
     icon: '⭐',
     title: 'Favorites and Custom Folders',
     body: <>Content coming soon.</>,
