@@ -696,8 +696,8 @@ export default function PlayerPortal() {
                     &larr; Back
                   </button>
                   <button
-                    onClick={() => setScreen('steps')}
-                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                    onClick={() => (isDone('how') ? setScreen('steps') : openComplete('how', 'How it Works', () => setScreen('steps')))}
+                    className={`w-full sm:w-auto ${isDone('how') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
                   >
                     Next &rarr;
                   </button>
@@ -724,8 +724,12 @@ export default function PlayerPortal() {
                     &larr; Back
                   </button>
                   <button
-                    onClick={() => { if (setupStep < SETUP_TIPS.length - 1) setSetupStep(setupStep + 1); else setScreen('gettingStarted'); }}
-                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                    onClick={() => {
+                      const advance = () => { if (setupStep < SETUP_TIPS.length - 1) setSetupStep(setupStep + 1); else setScreen('gettingStarted'); };
+                      if (isDone(`accountSetup:${setupStep}`)) advance();
+                      else openComplete(`accountSetup:${setupStep}`, `Account Setup — ${SETUP_TIPS[setupStep].title}`, advance);
+                    }}
+                    className={`w-full sm:w-auto ${isDone(`accountSetup:${setupStep}`) ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
                   >
                     Next &rarr;
                   </button>
@@ -752,8 +756,12 @@ export default function PlayerPortal() {
                     &larr; Back
                   </button>
                   <button
-                    onClick={() => { if (gsStep < GETTING_STARTED_TIPS.length - 1) setGsStep(gsStep + 1); else setScreen('index'); }}
-                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                    onClick={() => {
+                      const advance = () => { if (gsStep < GETTING_STARTED_TIPS.length - 1) setGsStep(gsStep + 1); else setScreen('index'); };
+                      if (isDone(`gettingStarted:${gsStep}`)) advance();
+                      else openComplete(`gettingStarted:${gsStep}`, `How to Start Your Training — ${GETTING_STARTED_TIPS[gsStep].title}`, advance);
+                    }}
+                    className={`w-full sm:w-auto ${isDone(`gettingStarted:${gsStep}`) ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
                   >
                     Next &rarr;
                   </button>
