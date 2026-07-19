@@ -3,8 +3,8 @@
 import { useState } from 'react';
 
 const OFFERINGS: React.ReactNode[] = [
-  <><strong className="text-navy font-semibold">Well over 5,000+ follow-along videos</strong> — every skill, age, and level covered.</>,
-  <><strong className="text-navy font-semibold">Homework & recurring training plans</strong> from your coach or created by you.</>,
+  <><strong className="text-navy font-semibold">5,000+ follow-along videos</strong> — every skill, age, and level covered.</>,
+  <><strong className="text-navy font-semibold">Homework & training plans</strong> from your coach or created by you.</>,
   <><strong className="text-navy font-semibold">Challenges, leaderboards & awards</strong> that keep training fun.</>,
   <><strong className="text-navy font-semibold">Progress & streak tracking</strong> so you can see how far you&rsquo;ve come.</>,
 ];
@@ -25,7 +25,7 @@ export default function PlayerPortal() {
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="bg-navy px-8 py-6">
-            <h1 className="text-white text-2xl font-extrabold">Welcome to Anytime Soccer Training! &#9917;</h1>
+            <h1 className="text-white text-2xl font-extrabold">Welcome to Anytime Soccer Training!</h1>
           </div>
 
           <div className="px-8 py-8">
@@ -33,7 +33,7 @@ export default function PlayerPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">Getting Started</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Anytime Soccer Training is like having an <strong className="text-navy font-semibold">assistant coach and trainer working with your child every day</strong> &mdash; anytime, anywhere. Every video is <strong className="text-navy font-semibold">100% follow-along</strong>, and the curriculum covers <strong className="text-navy font-semibold">everything</strong>.
+                  Anytime Soccer Training is like having an <strong className="text-navy font-semibold">assistant coach and trainer working with your child every day</strong>. Every video is <strong className="text-navy font-semibold">100% follow-along</strong>, and the curriculum covers <strong className="text-navy font-semibold">everything</strong>.
                 </p>
                 <p className="text-gray-700 leading-relaxed mb-3">Here&rsquo;s what the program gives you:</p>
 
