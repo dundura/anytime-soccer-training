@@ -57,15 +57,20 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'How training is organized',
     body: (
       <>
-        <p className="mb-2">Everything lives under <strong className="text-navy font-semibold">All Programs</strong>, which includes all skill areas. There&rsquo;s also a <strong className="text-navy font-semibold">Curated Curriculum</strong> — all skill areas organized in a recommended order. And with <strong className="text-navy font-semibold">Custom Folders and Favorites</strong>, you can create your own video folders. It&rsquo;s broken down into:</p>
-        <ul className="space-y-1.5 mb-3">
-          {['Skill Areas', 'Programs', 'Folders', 'Recurring Training Plans'].map((t) => (
-            <li key={t} className="flex items-start gap-2">
-              <span className="text-red font-bold leading-6">•</span>
-              <span className="font-semibold text-navy">{t}</span>
+        <p className="mb-3">Here&rsquo;s how the training is organized:</p>
+        <ol className="space-y-3 mb-3">
+          {[
+            <><strong className="text-navy font-semibold">All Programs</strong> — includes all skill areas.</>,
+            <><strong className="text-navy font-semibold">Curated Curriculum</strong> — all skill areas organized in a recommended order.</>,
+            <><strong className="text-navy font-semibold">Custom Folders and Favorites</strong> — create your own video folders.</>,
+            <><strong className="text-navy font-semibold">Recurring Training Plans</strong> — schedule sessions that repeat automatically, so training stays consistent.</>,
+          ].map((item, i) => (
+            <li key={i} className="flex items-start gap-2.5">
+              <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
+              <span className="pt-0.5">{item}</span>
             </li>
           ))}
-        </ul>
+        </ol>
         <p>We&rsquo;ll go over how to get started with each — pick whichever fits you best.</p>
       </>
     ),
