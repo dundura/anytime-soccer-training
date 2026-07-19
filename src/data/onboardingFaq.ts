@@ -300,4 +300,17 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       </div>
     `,
   },
+  {
+    category: 'Team Management',
+    question: 'Do my players need equipment and a lot of space?',
+    answer: `
+      <p><strong>No &mdash; just a ball.</strong> Most videos don&rsquo;t require any equipment, and when equipment is suggested it&rsquo;s normally optional.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0;">Players can follow along in a small space &mdash; a garage, driveway, backyard, or even a living room works.</p>
+      </div>
+      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:14px 16px;margin-top:12px;">
+        <p style="margin:0;color:#92400e;">The one exception is <strong>wall passing</strong>, which needs a wall, rebounder, or other surface. Alternatively, players can pass with a friend, sibling, or parent.</p>
+      </div>
+    `,
+  },
 ];

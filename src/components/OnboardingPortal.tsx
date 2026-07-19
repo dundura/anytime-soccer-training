@@ -47,6 +47,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_plans', title: 'What are the different training plans?', dataIndex: -1, faqIndex: 9, section: 'FAQs', tip: true },
   { key: 'faq_30day', title: 'What are the 30-day plans?', dataIndex: -1, faqIndex: 11, section: 'FAQs', tip: true },
   { key: 'faq_homework', title: 'Which homework do you recommend I start with?', dataIndex: -1, faqIndex: 6, section: 'FAQs', tip: true },
+  { key: 'faq_equipment', title: 'Do my players need equipment and a lot of space?', dataIndex: -1, faqIndex: 17, section: 'FAQs', tip: true },
   { key: 'faq_skip_videos', title: 'What happens if kids skip videos?', dataIndex: -1, faqIndex: 7, section: 'FAQs', tip: true },
   { key: 'faq_hw_complete', title: 'I got an email that a homework folder is complete, but the player hasn’t done the videos', dataIndex: -1, faqIndex: 8, section: 'FAQs', tip: true },
   { key: 'faq_low_usage', title: 'My kids have not used the program as much as I expected. Any suggestions?', dataIndex: -1, faqIndex: 15, section: 'FAQs', tip: true },
