@@ -53,6 +53,11 @@ const SETUP_TIPS: { icon: string; title: string; body: React.ReactNode }[] = [
 
 const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode }[] = [
   {
+    icon: '📋',
+    title: 'A few ways to start',
+    body: <>There are a few ways to begin — pick whichever fits you best. We&rsquo;ll walk through each option. Tap <strong className="text-navy font-semibold">Next</strong> to see the first.</>,
+  },
+  {
     icon: '⚽',
     title: 'Start with All Programs',
     body: (
