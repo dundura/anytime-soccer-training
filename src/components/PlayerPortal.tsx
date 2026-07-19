@@ -54,7 +54,7 @@ const SETUP_TIPS: { icon: string; title: string; body: React.ReactNode }[] = [
 const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode }[] = [
   {
     icon: '📋',
-    title: 'A few ways to start',
+    title: 'How training is organized',
     body: (
       <>
         <p className="mb-3">The training is broken down into <strong className="text-navy font-semibold">Skill Areas</strong>, <strong className="text-navy font-semibold">Programs</strong>, <strong className="text-navy font-semibold">Folders</strong>, and <strong className="text-navy font-semibold">Recurring Training Plans</strong>.</p>
