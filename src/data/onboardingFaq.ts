@@ -173,17 +173,18 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: 'Assigning Program Folders',
     answer: `
-      <p>You can assign folders from the <strong>curated curriculum</strong>, the <strong>All Programs</strong> area, or create your own folders with your own videos in <strong>Favorites</strong>.</p>
+      <p style="font-weight:700;color:#0F3154;margin:0 0 8px;">Types of Folders</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <p style="margin:0;">The curated curriculum organizes folders <strong>by skill area</strong>, in the order we recommend &mdash; great if you want variety, since it rotates across the different types of skills.</p>
+        <ul style="margin:0;">
+          <li><strong>Curated Curriculum</strong> &mdash; folders by skill area, in our recommended order (rotates skills for variety).</li>
+          <li><strong>All Programs</strong> &mdash; every folder in a program within a skill area.</li>
+          <li><strong>30-Day Plans</strong> &mdash; 30-day plans by skill area.</li>
+          <li><strong>Favorites</strong> &mdash; your own folders (add videos in Key Skills).</li>
+        </ul>
       </div>
-      <ul style="margin:16px 0;padding-left:22px;list-style:disc;">
-        <li style="margin-bottom:10px;"><strong>All Programs</strong> folders list all the folders in a particular program within the skill area.</li>
-        <li style="margin-bottom:10px;"><strong>30-Day Plan</strong> folders are 30-day plans by skill area.</li>
-        <li>You can also create your own folder in <strong>Favorites</strong> &mdash; go to <strong>Key Skills</strong>, add videos to the folder, and assign it to players.</li>
-      </ul>
+      <p style="font-weight:700;color:#0F3154;margin:16px 0 8px;">How to Assign</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <p style="margin:0;"><strong>To assign a folder:</strong> click <strong>pin/board</strong> next to it, then click the <strong>person icon</strong> and select the players you want to assign the homework to.</p>
+        <p style="margin:0;">Click <strong>pin/board</strong> next to a folder, then the <strong>person icon</strong>, and select your players.</p>
       </div>
     `,
   },
