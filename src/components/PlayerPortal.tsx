@@ -84,7 +84,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
         <ol className="space-y-2">
           {[
             <><strong className="text-navy font-semibold">1,000 Touch Ball Mastery</strong> &mdash; <strong className="text-navy font-semibold">P1: Toe Taps, Tick Tocks, Stationary</strong>.</>,
-            <><strong className="text-navy font-semibold">Ronaldinho Freestyle Dribbling</strong> &mdash; <strong className="text-navy font-semibold">P1: Ronaldinho Freestyle Dribbling</strong>.</>,
+            <><strong className="text-navy font-semibold">Ronaldinho Freestyle Dribbling</strong> &mdash; <strong className="text-navy font-semibold">P1: Ronaldinho Freestyle</strong>.</>,
             <><strong className="text-navy font-semibold">101 Wall Passing Drills</strong> &mdash; <strong className="text-navy font-semibold">P1: 101 Wall Passing Part 1</strong>.</>,
           ].map((item, i) => (
             <li key={i} className="flex items-start gap-2.5">
