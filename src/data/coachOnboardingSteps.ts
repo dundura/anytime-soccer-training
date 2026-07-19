@@ -169,15 +169,15 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Notify Megan',
     body: `
-      <p>Reply to Megan and confirm parents have been informed.</p>
+      <p>Reply to Megan with two things:</p>
     `,
     subSteps: [
       {
-        title: 'Reply to Megan with your team name',
-        description: 'Use the exact team name you created in the app, and don’t change it during onboarding.',
+        title: 'Your team name',
+        description: 'Use the exact name from the app.',
       },
       {
-        title: 'Let Megan know once parents have been informed',
+        title: 'That parents are informed',
         description: "We'll begin onboarding within 48 hours.",
       },
     ],
