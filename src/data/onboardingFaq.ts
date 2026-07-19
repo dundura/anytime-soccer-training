@@ -345,6 +345,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
           <li style="margin-bottom:6px;">Create a team challenge (or other challenges) and announce it in person.</li>
           <li style="margin-bottom:6px;">Demo the app so players know how to use it.</li>
           <li style="margin-bottom:6px;">Acknowledge players at training for their progress.</li>
+          <li style="margin-bottom:6px;">Personally check in on players who are not engaged.</li>
           <li style="margin-bottom:6px;">Give a regular nudge and check progress on the board.</li>
           <li>Keep it simple.</li>
         </ul>
