@@ -107,8 +107,8 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     ),
   },
   {
-    icon: '⭐',
-    title: 'Favorites and Custom Folders',
+    icon: '📌',
+    title: 'My Plan',
     body: <>Content coming soon.</>,
   },
   {
