@@ -177,7 +177,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <p style="font-weight:700;color:#0F3154;margin:16px 0 8px;">Types of Folders</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <ul style="margin:0;">
-          <li><strong>Curated Curriculum</strong> &mdash; folders by skill area, in our recommended order (rotates skills for variety).</li>
+          <li><strong>Curated Curriculum</strong> &mdash; folders by skill area, in our recommended order (rotates programs for variety).</li>
           <li><strong>All Programs</strong> &mdash; every folder in a program within a skill area.</li>
           <li><strong>30-Day Plans</strong> &mdash; 30-day plans by skill area.</li>
           <li><strong>Favorites</strong> &mdash; your own folders (add videos in Key Skills).</li>
