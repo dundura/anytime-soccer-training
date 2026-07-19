@@ -488,7 +488,7 @@ export default function PlayerPortal() {
               /* ---------- How it Works ---------- */
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">How it Works</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">We&rsquo;ve broken the key features and training information into pages you can reference.</p>
+                <p className="text-gray-700 leading-relaxed mb-4">We&rsquo;ve broken the key features into pages you can reference.</p>
 
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
                   <ol className="space-y-4">
