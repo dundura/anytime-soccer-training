@@ -49,7 +49,7 @@ export default function PlayerPortal() {
                 </div>
 
                 <p className="text-gray-700 leading-relaxed mb-5">
-                  This quick portal will help you <strong className="text-navy font-semibold">get started</strong> &mdash; a few simple steps and answers to common questions, so your player can be <strong className="text-navy font-semibold">training from day one</strong>.
+                  This portal will help you <strong className="text-navy font-semibold">get started</strong> and <strong className="text-navy font-semibold">make the most of your training</strong>.
                 </p>
 
                 <button
