@@ -580,10 +580,20 @@ export default function OnboardingPortal() {
                 </p>
                 <button
                   onClick={() => { setShowIntro(false); setShowOverview(true); setError(''); }}
-                  className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors mb-4"
+                  className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors mb-3"
                 >
                   {doneCount === 0 ? 'Get Started →' : 'Continue →'}
                 </button>
+                {doneCount > 0 && !allDone && (
+                  <p className="text-center mb-4">
+                    <button
+                      onClick={() => { setShowIntro(false); setWizardIndex(firstIncomplete(coach)); setError(''); }}
+                      className="text-sm text-gray-500 font-medium hover:text-red hover:underline transition-colors"
+                    >
+                      or skip to where you left off →
+                    </button>
+                  </p>
+                )}
 
               </div>
             ) : showOverview ? (
@@ -618,26 +628,16 @@ export default function OnboardingPortal() {
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
                   <button
-                    onClick={() => { setWizardIndex(0); setShowOverview(false); setError(''); }}
-                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
-                  >
-                    Start from the beginning →
-                  </button>
-                  {doneCount > 0 && !allDone && (
-                    <button
-                      onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowOverview(false); setError(''); }}
-                      className="w-full sm:w-auto bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
-                    >
-                      Continue where you left off →
-                    </button>
-                  )}
-                </div>
-                <div className="flex justify-center mb-2">
-                  <button
                     onClick={() => { setShowOverview(false); setShowIntro(true); setError(''); }}
-                    className="text-sm text-navy font-semibold underline hover:text-red transition-colors"
+                    className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
                     ← Back
+                  </button>
+                  <button
+                    onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowOverview(false); setError(''); }}
+                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    Next →
                   </button>
                 </div>
               </div>
