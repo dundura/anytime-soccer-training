@@ -18,6 +18,19 @@ const OFFERINGS: React.ReactNode[] = [
   <><strong className="text-navy font-semibold">Make the most of the program</strong> — design training plans that fit your needs.</>,
 ];
 
+const SETUP_TIPS: { icon: string; title: string; body: React.ReactNode }[] = [
+  {
+    icon: '👤',
+    title: 'Player Profiles',
+    body: <>You can add a player profile for each child using the program — <strong className="text-navy font-semibold">up to four</strong>. All profiles share the same login email, but each can have its own <strong className="text-navy font-semibold">contact email</strong> (it can even be the same as your login email). The contact email is where <strong className="text-navy font-semibold">training alerts and other notifications</strong> are sent.</>,
+  },
+  {
+    icon: '🔗',
+    title: 'Linking Profiles',
+    body: <>Content coming soon.</>,
+  },
+];
+
 const HOW_IT_WORKS: React.ReactNode[] = [
   <>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete &#10003;</strong> — this keeps track of what you&rsquo;ve covered and flags when new content is added.</>,
   <>You can <strong className="text-navy font-semibold">skip a step</strong> and come back to it.</>,
@@ -38,6 +51,7 @@ export default function PlayerPortal() {
   const [notice, setNotice] = useState('');
   const [busy, setBusy] = useState(false);
   const [screen, setScreen] = useState<Screen>('welcome');
+  const [setupStep, setSetupStep] = useState(0);
 
   // On load: pick up a ?reset= link, then restore any saved session.
   useEffect(() => {
@@ -341,17 +355,28 @@ export default function PlayerPortal() {
                 <h2 className="text-navy text-xl font-extrabold mb-3">Account Setup</h2>
                 <p className="text-gray-700 leading-relaxed mb-5">By now, you&rsquo;ve likely already created your account. Below are a few helpful tips.</p>
 
-                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
-                  <p className="text-navy font-bold mb-2">👤 Player Profiles</p>
-                  <p className="text-gray-700 leading-relaxed">You can add a player profile for each child using the program — <strong className="text-navy font-semibold">up to four</strong>. All profiles share the same login email, but each can have its own <strong className="text-navy font-semibold">contact email</strong> (it can even be the same as your login email). The contact email is where <strong className="text-navy font-semibold">training alerts and other notifications</strong> are sent.</p>
+                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-2">
+                  <p className="text-navy font-bold mb-2">{SETUP_TIPS[setupStep].icon} {SETUP_TIPS[setupStep].title}</p>
+                  <p className="text-gray-700 leading-relaxed">{SETUP_TIPS[setupStep].body}</p>
                 </div>
+                <p className="text-gray-400 text-xs font-semibold text-center mb-6">Tip {setupStep + 1} of {SETUP_TIPS.length}</p>
 
-                <button
-                  onClick={() => setScreen('how')}
-                  className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
-                >
-                  &larr; Back
-                </button>
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
+                  <button
+                    onClick={() => { if (setupStep > 0) setSetupStep(setupStep - 1); else setScreen('how'); }}
+                    className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    &larr; Back
+                  </button>
+                  {setupStep < SETUP_TIPS.length - 1 && (
+                    <button
+                      onClick={() => setSetupStep(setupStep + 1)}
+                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                    >
+                      Next &rarr;
+                    </button>
+                  )}
+                </div>
               </div>
             )}
           </div>
