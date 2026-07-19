@@ -281,7 +281,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
           <p style="margin:5px 0 0;"><strong>Demo the app in person</strong> and give the players a specific video goal for that week.</p>
         </div>
       </div>
-      <p>We understand that building habits can be difficult, but a little nudge on your part goes a long way.</p>
+      <p>We understand that building habits can be difficult, but a little nudge on your part &mdash; and a specific, measurable goal &mdash; goes a long way.</p>
       <p>Want more ideas? Email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
     `,
   },
