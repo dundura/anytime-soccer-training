@@ -148,6 +148,15 @@ export default function PlayerPortal() {
   const [screen, setScreen] = useState<Screen>('welcome');
   const [setupStep, setSetupStep] = useState(0);
   const [gsStep, setGsStep] = useState(0);
+  const [showQuestion, setShowQuestion] = useState(false);
+  const [questionText, setQuestionText] = useState('');
+  const [questionTitle, setQuestionTitle] = useState('');
+  const [sendingQuestion, setSendingQuestion] = useState(false);
+  const [questionSent, setQuestionSent] = useState(false);
+  const [showComplete, setShowComplete] = useState(false);
+  const [completeTarget, setCompleteTarget] = useState<{ key: string; title: string } | null>(null);
+  const [stepChoice, setStepChoice] = useState<'affirm' | 'question' | null>(null);
+  const [saving, setSaving] = useState(false);
 
   // On load: pick up a ?reset= link, then restore any saved session.
   useEffect(() => {
@@ -227,6 +236,71 @@ export default function PlayerPortal() {
   };
 
   const goHome = () => { setScreen('welcome'); setError(''); };
+
+  const isDone = (key: string) => player?.checklist?.[key] === true;
+
+  const saveChecklist = async (next: Record<string, boolean | 'skipped'>) => {
+    setPlayer(p => (p ? { ...p, checklist: next } : p));
+    if (!token) return;
+    try {
+      await fetch(`${API}/player-portal/checklist`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: token },
+        body: JSON.stringify({ checklist: next }),
+      });
+    } catch { /* non-blocking */ }
+  };
+
+  const openQuestion = (title: string) => { setQuestionTitle(title); setQuestionText(''); setQuestionSent(false); setShowQuestion(true); };
+
+  const submitQuestion = async () => {
+    if (!token || !questionText.trim()) return;
+    setSendingQuestion(true);
+    try {
+      await fetch(`${API}/player-portal/question`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: token },
+        body: JSON.stringify({ question: questionText.trim(), stepTitle: questionTitle }),
+      });
+      setQuestionSent(true);
+      setQuestionText('');
+    } catch { /* non-blocking */ } finally { setSendingQuestion(false); }
+  };
+
+  const openComplete = (key: string, title: string) => { setCompleteTarget({ key, title }); setStepChoice(null); setShowComplete(true); };
+
+  const submitComplete = async () => {
+    if (!completeTarget || !stepChoice) return;
+    setSaving(true);
+    if (stepChoice === 'affirm') {
+      await saveChecklist({ ...(player?.checklist || {}), [completeTarget.key]: true });
+      setShowComplete(false);
+    } else {
+      const title = completeTarget.title;
+      setShowComplete(false);
+      openQuestion(title);
+    }
+    setSaving(false);
+  };
+
+  // Reusable footer: Mark Complete + Ask a question, shown on each content page.
+  const pageActions = (key: string, title: string) => (
+    <div className="mt-6 pt-4 border-t border-gray-100 flex flex-col items-center gap-3">
+      {isDone(key) ? (
+        <p className="text-green-700 font-bold text-sm">&#10003; Marked complete</p>
+      ) : (
+        <button
+          onClick={() => openComplete(key, title)}
+          className="w-full sm:w-auto bg-navy hover:bg-navy/90 text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+        >
+          Mark Complete &#10003;
+        </button>
+      )}
+      <button onClick={() => openQuestion(title)} className="text-sm text-red hover:text-red-dark font-semibold">
+        Have a question? Ask us here
+      </button>
+    </div>
+  );
 
   const resetProgress = async () => {
     if (!token) return;
@@ -452,6 +526,7 @@ export default function PlayerPortal() {
                     Next &rarr;
                   </button>
                 </div>
+                {pageActions('how', 'How it Works')}
               </div>
             ) : screen === 'steps' ? (
               /* ---------- Account Setup ---------- */
@@ -479,6 +554,7 @@ export default function PlayerPortal() {
                     Next &rarr;
                   </button>
                 </div>
+                {pageActions('accountSetup', 'Account Setup')}
               </div>
             ) : (
               /* ---------- Getting Started ---------- */
@@ -508,11 +584,76 @@ export default function PlayerPortal() {
                     </button>
                   )}
                 </div>
+                {pageActions('gettingStarted', 'How to Start Your Training')}
               </div>
             )}
           </div>
         </div>
       </div>
+
+      {/* Ask a question modal */}
+      {showQuestion && player && (
+        <div onClick={() => !sendingQuestion && setShowQuestion(false)} className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+          <div onClick={e => e.stopPropagation()} className="bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden">
+            {questionSent ? (
+              <div className="px-6 py-8 text-center">
+                <div className="text-4xl mb-3">&#9989;</div>
+                <h2 className="text-navy text-lg font-extrabold mb-2">Question sent!</h2>
+                <p className="text-gray-600 text-sm leading-relaxed mb-5">We&rsquo;ve emailed you a copy and will get back to you quickly.</p>
+                <button onClick={() => setShowQuestion(false)} className="bg-navy hover:bg-navy/90 text-white font-bold py-2.5 px-8 rounded-xl transition-colors">Done</button>
+              </div>
+            ) : (
+              <>
+                <div className="px-6 pt-6 pb-2 text-center">
+                  <div className="text-4xl mb-3">&#10067;</div>
+                  <h2 className="text-navy text-lg font-extrabold mb-2">Ask us a question</h2>
+                  <p className="text-gray-600 text-sm leading-relaxed">We&rsquo;ll email you a copy and get back to you quickly.</p>
+                </div>
+                <div className="px-6 pt-3 pb-4">
+                  <textarea
+                    value={questionText}
+                    onChange={e => setQuestionText(e.target.value)}
+                    rows={4}
+                    placeholder="Type your question here…"
+                    className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red/30 focus:border-red resize-none"
+                  />
+                </div>
+                <div className="flex gap-3 px-6 pb-6">
+                  <button onClick={() => setShowQuestion(false)} disabled={sendingQuestion} className="flex-1 bg-white border-2 border-gray-200 text-navy font-bold py-2.5 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-60">Cancel</button>
+                  <button onClick={submitQuestion} disabled={sendingQuestion || !questionText.trim()} className="flex-1 bg-red hover:bg-red-dark text-white font-bold py-2.5 rounded-xl transition-colors disabled:opacity-40">{sendingQuestion ? 'Sending…' : 'Send Question'}</button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Step completion modal */}
+      {showComplete && player && completeTarget && (
+        <div onClick={() => !saving && setShowComplete(false)} className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+          <div onClick={e => e.stopPropagation()} className="bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden">
+            <div className="px-6 pt-6 pb-2 text-center">
+              <div className="text-4xl mb-3">&#9989;</div>
+              <h2 className="text-navy text-lg font-extrabold mb-2">Before you continue</h2>
+              <p className="text-gray-600 text-sm leading-relaxed"><strong className="text-navy">{completeTarget.title}</strong></p>
+            </div>
+            <div className="flex flex-col gap-2 px-6 pt-3 pb-4">
+              <label className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${stepChoice === 'question' ? 'border-red bg-red-50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                <input type="radio" name="playerStepChoice" checked={stepChoice === 'question'} onChange={() => setStepChoice('question')} className="accent-red-600 w-4 h-4" />
+                <span className="text-sm font-bold text-navy">I have a question</span>
+              </label>
+              <label className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${stepChoice === 'affirm' ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                <input type="radio" name="playerStepChoice" checked={stepChoice === 'affirm'} onChange={() => setStepChoice('affirm')} className="accent-green-600 w-4 h-4" />
+                <span className="text-sm font-bold text-navy">I understand &#10003;</span>
+              </label>
+            </div>
+            <div className="flex gap-3 px-6 pb-5">
+              <button onClick={() => setShowComplete(false)} disabled={saving} className="flex-1 bg-white border-2 border-gray-200 text-navy font-bold py-2.5 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-60">Cancel</button>
+              <button onClick={submitComplete} disabled={saving || !stepChoice} className="flex-1 bg-red hover:bg-red-dark text-white font-bold py-2.5 rounded-xl transition-colors disabled:opacity-40">{saving ? 'Saving…' : 'Submit'}</button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
