@@ -74,6 +74,7 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
   ] },
   { heading: 'Adding New Players', items: [
     'To onboard new players, simply email us the parent name, child name, and email.',
+    'You can also add them directly in the app via the <strong>Player Onboard</strong> tab, then upgrade them in the <strong>Upgrade Player</strong> tab.',
   ] },
   { heading: 'Player Turnover', items: [
     'You can remove a player from your team anytime.',
