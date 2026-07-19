@@ -233,7 +233,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <p>Invoice paid? 🎉 <strong>Now onboarding begins.</strong></p>
       <p>The faster you complete these steps, the quicker your team gets training.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
-        <p style="margin:0;"><strong>Returning member?</strong> You&rsquo;ll have done many of these steps already &mdash; but we still want you to complete the <strong>Coaching Engagement Survey</strong>. It helps us gauge expectations and better support you along the way.</p>
+        <p style="margin:0;"><strong>Returning member?</strong> You&rsquo;ve likely done most of these &mdash; but please still complete the <strong>Coaching Engagement Survey</strong> so we can support you better.</p>
       </div>
       <p>Here&rsquo;s what&rsquo;s left:</p>
     `,
