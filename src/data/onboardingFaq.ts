@@ -143,7 +143,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         <ul style="margin:0;">
           <li>Go to your team, open the <strong>New Players</strong> dropdown, and click <strong>Player Onboard</strong>.</li>
           <li>Resend the invite.</li>
-          <li>Anyone already on the app is added to the team automatically.</li>
+          <li>They&rsquo;ll get an invite; if they already have an account, they can join in one click.</li>
         </ul>
       </div>
     `,
