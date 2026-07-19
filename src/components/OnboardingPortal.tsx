@@ -68,7 +68,7 @@ const ROSTER_SECTIONS: { heading: string; items: string[] }[] = [
   ] },
   { heading: 'Player Emails', items: [
     'Parents can also sign up with a different email than the one you provided &mdash; that&rsquo;s fine.',
-    'Older player? Use their email if they&rsquo;ll be the primary contact.',
+    'Older player? You can provide their email if they&rsquo;ll be the account creator.',
   ] },
   { heading: 'Adding New Players', items: [
     'To onboard new players, simply email us the parent name, child name, and email.',
