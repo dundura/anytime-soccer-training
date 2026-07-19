@@ -498,7 +498,6 @@ export default function OnboardingPortal() {
                   {[
                     <>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team.</>,
                     <><strong className="text-navy font-semibold">Already done a step?</strong> Mark it complete and move on.</>,
-                    <>Up next: request your demo — it&rsquo;s a <strong className="text-navy font-semibold">20-minute Zoom call</strong>.</>,
                     <>Have a question? Click <strong className="text-navy font-semibold">Ask us here</strong> and we&rsquo;ll be in touch.</>,
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-3">
