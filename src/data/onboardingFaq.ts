@@ -85,11 +85,10 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: 'Which homework do you recommend I start with?',
     answer: `
-      <p>To start, it&rsquo;s important to <strong>keep it simple</strong>. What you assign is based on a number of factors &mdash; including your preference.</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin-bottom:12px;">
-        <p style="margin:0;">We recommend starting with <strong>Ball Mastery</strong>. As the kids get used to the program, add <strong>Wall Passing</strong>, <strong>Dribbling</strong>, <strong>1v1</strong>, and other folders.</p>
+      <p><strong>Keep it simple to start.</strong> We recommend <strong>Ball Mastery</strong> first, then adding <strong>Wall Passing</strong>, <strong>Dribbling</strong>, <strong>1v1</strong>, and more as the kids settle in.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0;">Prefer set-and-forget? Build a plan like <strong>Skill Builder</strong> &mdash; recurring, no upkeep.</p>
       </div>
-      <p>You can also create a plan &mdash; such as the <strong>Skill Builder</strong> plan. These are recurring plans that require no maintenance from the coach once set.</p>
     `,
   },
   {
