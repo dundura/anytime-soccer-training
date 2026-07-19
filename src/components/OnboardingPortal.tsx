@@ -618,28 +618,28 @@ export default function OnboardingPortal() {
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
                   <button
-                    onClick={() => { setShowOverview(false); setShowIntro(true); setError(''); }}
-                    className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
-                  >
-                    ← Back
-                  </button>
-                  <button
                     onClick={() => { setWizardIndex(0); setShowOverview(false); setError(''); }}
                     className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
-                    Next →
+                    Start from the beginning →
                   </button>
-                </div>
-                {doneCount > 0 && !allDone && (
-                  <p className="text-center mb-2">
+                  {doneCount > 0 && !allDone && (
                     <button
                       onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowOverview(false); setError(''); }}
-                      className="text-sm text-navy font-semibold underline hover:text-red transition-colors"
+                      className="w-full sm:w-auto bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
                     >
-                      Jump to where you left off →
+                      Continue where you left off →
                     </button>
-                  </p>
-                )}
+                  )}
+                </div>
+                <div className="flex justify-center mb-2">
+                  <button
+                    onClick={() => { setShowOverview(false); setShowIntro(true); setError(''); }}
+                    className="text-sm text-navy font-semibold underline hover:text-red transition-colors"
+                  >
+                    ← Back
+                  </button>
+                </div>
               </div>
             ) : (
               <div>
