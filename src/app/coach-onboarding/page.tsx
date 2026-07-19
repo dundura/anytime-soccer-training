@@ -1,9 +1,20 @@
 import type { Metadata } from 'next';
 import CoachOnboardingChecklist from '@/components/CoachOnboardingChecklist';
 
+const OG_IMAGE = 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1784474398158-pbjc26.png';
+
 export const metadata: Metadata = {
   title: 'Coach Onboarding Checklist | Anytime Soccer Training',
   description: 'Follow these steps to get your team set up and training with Anytime Soccer Training.',
+  openGraph: {
+    title: 'Coach Onboarding Checklist | Anytime Soccer Training',
+    description: 'Follow these steps to get your team set up and training with Anytime Soccer Training.',
+    images: [{ url: OG_IMAGE, width: 1731, height: 909 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: [OG_IMAGE],
+  },
 };
 
 export default function CoachOnboardingPage() {
