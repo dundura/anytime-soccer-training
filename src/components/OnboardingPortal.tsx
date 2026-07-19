@@ -77,8 +77,8 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
   ] },
   { heading: 'Player Turnover', items: [
     'You can remove a player from your team anytime.',
-    'Their account and 365-day access stay with them, so the slot isn&rsquo;t freed up.',
-  ], note: 'New players are additions &mdash; not replacements for a player who left, since that player keeps their access.' },
+    'Their account and 365-day access stay with them.',
+  ], note: 'New players are additions &mdash; not replacements for a player who left. Upgrades are only $10 per player per year.' },
 ];
 
 const NEXT_STEPS = [
