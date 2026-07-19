@@ -359,7 +359,7 @@ export default function PlayerPortal() {
               /* ---------- Account Setup ---------- */
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">Account Setup</h2>
-                <p className="text-gray-700 leading-relaxed mb-5">By now, you&rsquo;ve likely already created your account. Below are a few helpful tips.</p>
+                <p className="text-gray-700 leading-relaxed mb-5">By now, you&rsquo;ve already created your account. Below are a few helpful tips.</p>
 
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-2">
                   <p className="text-navy font-bold mb-2">{SETUP_TIPS[setupStep].icon} {SETUP_TIPS[setupStep].title}</p>
