@@ -112,6 +112,8 @@ export default function OnboardingPortal() {
   const [showQuestion, setShowQuestion] = useState(false);
   const [questionText, setQuestionText] = useState('');
   const [questionSent, setQuestionSent] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [missingSent, setMissingSent] = useState(false);
   const [sendingQuestion, setSendingQuestion] = useState(false);
 
   const firstIncomplete = (c: Coach) => {
@@ -131,6 +133,7 @@ export default function OnboardingPortal() {
     }
     if (params.get('view') === 'faq') setShowFaq(true);
     const saved = typeof window !== 'undefined' ? localStorage.getItem(TOKEN_KEY) : null;
+    if (typeof window !== 'undefined' && localStorage.getItem('astPortalAdmin') === '1') setIsAdmin(true);
     if (!saved) { setLoading(false); return; }
     fetch(`${API}/portal-onboarding/state`, { headers: { Authorization: saved } })
       .then(r => (r.ok ? r.json() : Promise.reject()))
@@ -194,6 +197,7 @@ export default function OnboardingPortal() {
         window.history.replaceState(null, '', '/onboarding-portal');
       }
       localStorage.setItem(TOKEN_KEY, data.token);
+      if (data.admin) { setIsAdmin(true); localStorage.setItem('astPortalAdmin', '1'); } else { setIsAdmin(false); localStorage.removeItem('astPortalAdmin'); }
       setToken(data.token);
       setCoach(data.coach);
       setTeamNameInput(data.coach.teamName || '');
@@ -207,6 +211,8 @@ export default function OnboardingPortal() {
 
   const signOut = () => {
     localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem('astPortalAdmin');
+    setIsAdmin(false);
     setToken(null);
     setCoach(null);
     setMode('signin');
@@ -235,6 +241,27 @@ export default function OnboardingPortal() {
       if (advance && wizardIndex < STEPS.length - 1) setWizardIndex(wizardIndex + 1);
     } catch {
       setError('Could not save. Please try again.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const emailMissing = async () => {
+    if (!coach || !token) return;
+    setSaving(true);
+    setError('');
+    try {
+      const missing = STEPS.filter(st => !st.final && coach.checklist[st.key] !== true).map(st => st.title);
+      const res = await fetch(`${API}/portal-onboarding/email-missing`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: token },
+        body: JSON.stringify({ missing }),
+      });
+      if (!res.ok) throw new Error();
+      setMissingSent(true);
+      setTimeout(() => setMissingSent(false), 6000);
+    } catch {
+      setError('Could not send. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -387,6 +414,19 @@ export default function OnboardingPortal() {
                     );
                   })}
                 </div>
+                {isAdmin && (
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4 text-center">
+                    <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-2">Admin</p>
+                    <button
+                      onClick={emailMissing}
+                      disabled={saving}
+                      className="bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-6 rounded-xl transition-colors disabled:opacity-60"
+                    >
+                      {saving ? 'Sending…' : '📧 Email Missing Steps to Coach'}
+                    </button>
+                    {missingSent && <p className="text-green-700 font-semibold text-sm mt-2">✓ Sent to {coach.email}</p>}
+                  </div>
+                )}
                 <div className="flex justify-center">
                   <button
                     onClick={() => setShowIndex(false)}
