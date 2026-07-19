@@ -57,7 +57,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'How training is organized',
     body: (
       <>
-        <p className="mb-2">Everything lives under <strong className="text-navy font-semibold">All Programs</strong>, which includes all skill areas. There&rsquo;s also a <strong className="text-navy font-semibold">Curated Curriculum</strong> — all skill areas organized in a recommended order. It&rsquo;s broken down into:</p>
+        <p className="mb-2">Everything lives under <strong className="text-navy font-semibold">All Programs</strong>, which includes all skill areas. There&rsquo;s also a <strong className="text-navy font-semibold">Curated Curriculum</strong> — all skill areas organized in a recommended order. And with <strong className="text-navy font-semibold">Custom Folders and Favorites</strong>, you can create your own video folders. It&rsquo;s broken down into:</p>
         <ul className="space-y-1.5 mb-3">
           {['Skill Areas', 'Programs', 'Folders', 'Recurring Training Plans'].map((t) => (
             <li key={t} className="flex items-start gap-2">
