@@ -98,7 +98,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
   {
     icon: '📚',
     title: 'Curated Curriculum',
-    body: <>Content coming soon.</>,
+    body: <>The Curated Curriculum puts the programs in a <strong className="text-navy font-semibold">recommended order</strong> — giving your training <strong className="text-navy font-semibold">structure and variety</strong>.</>,
   },
   {
     icon: '⭐',
