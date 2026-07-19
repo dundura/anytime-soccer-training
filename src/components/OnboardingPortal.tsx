@@ -72,6 +72,9 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
   ] },
   { heading: 'Adding New Players', items: [
     'To onboard new players, simply email us the parent name, child name, and email.',
+  ] },
+  { heading: 'Player Turnover', items: [
+    'When a player leaves, their account and 365-day access stay with them.',
   ], note: 'New players can&rsquo;t replace an existing player for free &mdash; the original already has 365-day access.' },
 ];
 
