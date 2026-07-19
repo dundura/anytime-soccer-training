@@ -898,11 +898,6 @@ export default function OnboardingPortal() {
                     )
                   ) : (step.info || step.tip) ? (
                     <>
-                      {stepDone && (
-                        <button disabled className="w-full sm:w-auto bg-green-500 text-white font-bold py-2.5 px-6 rounded-xl cursor-default">
-                          I Understand ✓
-                        </button>
-                      )}
                       {isRosterStepper && !stepDone && rosterSection < rosterLast ? (
                         <button
                           onClick={() => { setRosterSection(rosterSection + 1); setError(''); }}
@@ -925,7 +920,7 @@ export default function OnboardingPortal() {
                           else { setStepChoice(null); setShowCompleteConfirm(true); }
                         }}
                         disabled={saving}
-                        className={`w-full sm:w-auto font-bold py-2.5 px-8 rounded-xl transition-colors text-white disabled:opacity-60 ${stepDone ? 'bg-navy hover:bg-navy-light' : 'bg-red hover:bg-red-dark'}`}
+                        className={`w-full sm:w-auto font-bold py-2.5 px-8 rounded-xl transition-colors text-white disabled:opacity-60 ${stepDone ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'}`}
                       >
                         {saving ? 'Saving…' : stepDone ? 'Next →' : 'Continue →'}
                       </button>
