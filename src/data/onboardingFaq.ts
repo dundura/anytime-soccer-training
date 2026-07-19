@@ -141,7 +141,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <p style="margin:0 0 8px;font-weight:700;color:#0F3154;">To re-invite a player:</p>
         <ul style="margin:0;">
-          <li>Go to your team and open the <strong>Player Onboard</strong> page.</li>
+          <li>Go to your team, open the <strong>New Players</strong> dropdown, and click <strong>Player Onboard</strong>.</li>
           <li>Resend the invite.</li>
           <li>Anyone already on the app is added to the team automatically.</li>
         </ul>
