@@ -231,20 +231,34 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     answer: `
       <p>Training plans are recurring plans that you set and forget.</p>
       <p style="font-weight:700;color:#0F3154;margin:16px 0 8px;">Types of Plans</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <ul style="margin:0;">
-          <li><strong>Skill Builder</strong> &mdash; pulls from the full curriculum by skill area.</li>
-          <li><strong>Weekly Plan</strong> &mdash; organizes the skill videos by day, delivering skill areas into each day automatically.</li>
-          <li><strong>30-Day Monthly Plan</strong> &mdash; a guided month built from the 30-Day folders.</li>
-          <li><strong>Custom Plan</strong> &mdash; folders you pick yourself.</li>
-        </ul>
+      <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
+          <p style="margin:5px 0 0;"><strong>Skill Builder</strong> &mdash; pulls from the full curriculum by skill area.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
+          <p style="margin:5px 0 0;"><strong>Weekly Plan</strong> &mdash; organizes the skill videos by day, delivering skill areas into each day automatically.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">3</span>
+          <p style="margin:5px 0 0;"><strong>30-Day Monthly Plan</strong> &mdash; a guided month built from the 30-Day folders.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">4</span>
+          <p style="margin:5px 0 0;"><strong>Custom Plan</strong> &mdash; folders you pick yourself.</p>
+        </div>
       </div>
       <p style="font-weight:700;color:#0F3154;margin:16px 0 8px;">How to Assign</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <ul style="margin:0;">
-          <li>From the <strong>Coach&rsquo;s Board</strong>, click <strong>Build Training Plan</strong>.</li>
-          <li>Assign it the same way you assign folders.</li>
-        </ul>
+      <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
+          <p style="margin:5px 0 0;">From the <strong>Coach&rsquo;s Board</strong>, click <strong>Build Training Plan</strong>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
+          <p style="margin:5px 0 0;">Assign it the same way you assign folders.</p>
+        </div>
       </div>
     `,
   },
