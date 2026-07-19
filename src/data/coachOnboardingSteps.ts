@@ -82,7 +82,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Coaching Engagement Survey',
     body: `
       <p>We&rsquo;ve distilled what drives player participation into <strong>10 key coaching actions</strong>.</p>
-      <p>Your survey tells us which ones you plan to use, so we can set you up to execute on every one.</p>
+      <p>Tell us which ones you plan to use, and we&rsquo;ll set you up to execute.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
         <p style="margin:0;"><strong>Filled this out before?</strong> Please take it again when adding a new team.</p>
       </div>
