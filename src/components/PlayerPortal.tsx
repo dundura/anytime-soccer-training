@@ -60,7 +60,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
         <ol className="space-y-3 mb-3">
           {[
             <><strong className="text-navy font-semibold">All Programs</strong> — all skill areas grouped by programs.</>,
-            <><strong className="text-navy font-semibold">Curated Curriculum</strong> — all programs organized in a recommended order.</>,
+            <><strong className="text-navy font-semibold">Curated Curriculum</strong> — programs organized in a recommended order.</>,
             <><strong className="text-navy font-semibold">Custom Folders and Favorites</strong> — create your own video folders.</>,
             <><strong className="text-navy font-semibold">Recurring Training Plans</strong> — recurring sessions that auto update.</>,
           ].map((item, i) => (
