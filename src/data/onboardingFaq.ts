@@ -32,12 +32,13 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Joining a Team',
     question: "Parents can't find our team when they search — what should I do?",
     answer: `
-      <p>Occasionally the team name is slightly different, so searching for the exact full name may not find it.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <p style="margin:0;"><strong>Tell them to try searching for just part of the team name.</strong> For example, if the team name is &ldquo;<strong>Next Level AS - Group 2</strong>,&rdquo; try searching for just &ldquo;<strong>Next</strong>&rdquo;.</p>
+        <ul style="margin:0;">
+          <li>Have them search <strong>part</strong> of the name (e.g. &ldquo;Next&rdquo; for &ldquo;Next Level AS - Group 2&rdquo;).</li>
+          <li>Or re-invite them from <strong>New Players &rarr; Player Onboard</strong>.</li>
+        </ul>
       </div>
-      <p>You can also invite them again from the <strong>Player Onboard</strong> tab under <strong>New Players</strong>.</p>
-      <p>If you still can&rsquo;t find it, email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
+      <p>Still stuck? Email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
     `,
   },
   {
