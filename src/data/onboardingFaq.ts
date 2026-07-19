@@ -212,14 +212,14 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: "My kids have not used the program as much as I expected. Any suggestions?",
     answer: `
-      <p>It happens &mdash; a couple of small moves usually get a team going. Try these:</p>
+      <p>Two quick moves to get your team going:</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <ul style="margin:0;">
-          <li style="margin-bottom:8px;"><strong>Start a team contest</strong> &mdash; then announce it at training.</li>
-          <li><strong>Set each player a personal goal</strong> &mdash; the biggest driver of consistency.</li>
+          <li style="margin-bottom:8px;"><strong>Start a team contest</strong> and announce it at your next training.</li>
+          <li><strong>Set a personal goal for every player</strong> &mdash; it&rsquo;s the biggest driver of consistency.</li>
         </ul>
       </div>
-      <p>Want a hand? Email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
+      <p>Need a hand setting these up? Email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
     `,
   },
 ];
