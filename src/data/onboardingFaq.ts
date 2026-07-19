@@ -48,12 +48,19 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: 'How do I add players to my team?',
     answer: `
       <p>You can add players from the <strong>Player Onboard</strong> section.</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <ul style="margin:0 0 10px;">
-          <li>Click your team and open the <strong>Coach&rsquo;s Board</strong>.</li>
-          <li>Click <strong>New Players</strong> (at the top), then <strong>Player Onboard</strong>.</li>
-          <li>Enter the player&rsquo;s email into <strong>Add Player</strong>.</li>
-        </ul>
+      <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
+          <p style="margin:5px 0 0;">Click your team and open the <strong>Coach&rsquo;s Board</strong>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
+          <p style="margin:5px 0 0;">Click <strong>New Players</strong> (at the top), then <strong>Player Onboard</strong>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">3</span>
+          <p style="margin:5px 0 0;">Enter the player&rsquo;s email into <strong>Add Player</strong>.</p>
+        </div>
         <p style="margin:0;">They&rsquo;ll get an invite; if they already have an account, they can join in one click.</p>
       </div>
       <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-top:12px;">
