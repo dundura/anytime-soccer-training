@@ -336,10 +336,10 @@ export default function PlayerPortal() {
                 </div>
               </div>
             ) : (
-              /* ---------- Steps (content to come) ---------- */
+              /* ---------- Account Setup ---------- */
               <div>
-                <h2 className="text-navy text-xl font-extrabold mb-3">Your steps</h2>
-                <p className="text-gray-700 leading-relaxed mb-5">Your step-by-step guide and FAQs will appear here.</p>
+                <h2 className="text-navy text-xl font-extrabold mb-3">Account Setup</h2>
+                <p className="text-gray-700 leading-relaxed mb-5">Let&rsquo;s get your account set up so you&rsquo;re ready to train.</p>
                 <button
                   onClick={() => setScreen('how')}
                   className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
