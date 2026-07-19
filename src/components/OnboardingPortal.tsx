@@ -114,6 +114,7 @@ export default function OnboardingPortal() {
   const [questionSent, setQuestionSent] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [missingSent, setMissingSent] = useState(false);
+  const [extraEmail, setExtraEmail] = useState('');
   const [sendingQuestion, setSendingQuestion] = useState(false);
 
   const firstIncomplete = (c: Coach) => {
@@ -255,7 +256,7 @@ export default function OnboardingPortal() {
       const res = await fetch(`${API}/portal-onboarding/email-missing`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: token },
-        body: JSON.stringify({ missing }),
+        body: JSON.stringify({ missing, extraEmail: extraEmail.trim() }),
       });
       if (!res.ok) throw new Error();
       setMissingSent(true);
@@ -417,6 +418,13 @@ export default function OnboardingPortal() {
                 {isAdmin && (
                   <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4 text-center">
                     <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-2">Admin</p>
+                    <input
+                      type="email"
+                      value={extraEmail}
+                      onChange={e => setExtraEmail(e.target.value)}
+                      placeholder="Also send to (optional email)"
+                      className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 mb-3 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                    />
                     <button
                       onClick={emailMissing}
                       disabled={saving}
