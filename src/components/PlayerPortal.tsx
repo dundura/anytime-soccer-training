@@ -131,7 +131,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
           <p>Click the star button next to any folder to pin it to your favorites.</p>
         </div>
         <div className="mb-4">
-          <p className="text-navy font-bold mb-1">Favorite Videos</p>
+          <p className="text-navy font-bold mb-1">Pinning Videos</p>
           <p>Content coming soon.</p>
         </div>
         <div>
