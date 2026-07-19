@@ -353,7 +353,8 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         <ul style="margin:0;color:#b91c1c;padding-left:18px;">
           <li style="margin-bottom:6px;">Don&rsquo;t actively assign homework.</li>
           <li style="margin-bottom:6px;">Never mention it at training.</li>
-          <li>Assume the kids will do it on their own.</li>
+          <li style="margin-bottom:6px;">Assume the kids will do it on their own.</li>
+          <li>Don&rsquo;t ask the Anytime team for help.</li>
         </ul>
       </div>
       <p>Don&rsquo;t expect that early interest alone will keep players consistent over time &mdash; without coach engagement, interest fades, just like any other activity. A little structure and follow-up from you makes all the difference.</p>
