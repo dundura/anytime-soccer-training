@@ -126,7 +126,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     body: (
       <>
         <p className="mb-2">There are three ways to utilize <strong className="text-navy font-semibold">My Favorites</strong>:</p>
-        <ol className="space-y-1.5 mb-4">
+        <ol className="space-y-1.5">
           {['Pinning folders', 'Pinning individual videos', 'Creating custom folders'].map((t, i) => (
             <li key={i} className="flex items-start gap-2.5">
               <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
@@ -134,7 +134,14 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
             </li>
           ))}
         </ol>
-        <p className="text-navy font-bold mb-1">Pinning Folders</p>
+      </>
+    ),
+  },
+  {
+    icon: '📁',
+    title: 'Pinning Folders',
+    body: (
+      <>
         <p className="mb-3">Click the star button next to any folder to pin it to your favorites.</p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1784500454200-4y689z.png" alt="Star button to pin a folder to favorites" className="w-full rounded-lg border border-blue-100" />
