@@ -282,6 +282,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         </div>
       </div>
       <p>We understand that building habits can be difficult, but a little nudge on your part goes a long way.</p>
+      <p>Want more ideas? Email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
     `,
   },
   {
