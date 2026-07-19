@@ -171,7 +171,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
   },
   {
     category: 'Team Management',
-    question: 'Assigning folders',
+    question: 'Assigning Program Folders',
     answer: `
       <p>You can assign folders from the <strong>curated curriculum</strong>, the <strong>All Programs</strong> area, or create your own folders with your own videos in <strong>Favorites</strong>.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">

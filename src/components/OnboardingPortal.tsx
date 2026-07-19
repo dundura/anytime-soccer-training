@@ -41,7 +41,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_remove_players', title: 'How do I remove players from my team?', dataIndex: -1, faqIndex: 4, section: 'FAQs', tip: true },
   { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'FAQs', tip: true },
   { key: 'faq_assign_hw', title: 'How do I assign homework?', dataIndex: -1, faqIndex: 12, section: 'FAQs', tip: true, plainNext: true },
-  { key: 'faq_folders', title: 'Assigning folders', dataIndex: -1, faqIndex: 13, section: 'FAQs', tip: true },
+  { key: 'faq_folders', title: 'Assigning Program Folders', dataIndex: -1, faqIndex: 13, section: 'FAQs', tip: true },
   { key: 'faq_assign_plans', title: 'Assigning training plans', dataIndex: -1, faqIndex: 14, section: 'FAQs', tip: true },
   { key: 'faq_plans', title: 'What are the different training plans?', dataIndex: -1, faqIndex: 9, section: 'FAQs', tip: true },
   { key: 'faq_30day', title: 'What are the 30-day plans?', dataIndex: -1, faqIndex: 11, section: 'FAQs', tip: true },
