@@ -27,7 +27,13 @@ const SETUP_TIPS: { icon: string; title: string; body: React.ReactNode }[] = [
   {
     icon: '🔗',
     title: 'Linking Profiles',
-    body: <>Often siblings train together. When you <strong className="text-navy font-semibold">link their profiles</strong>, all linked profiles get <strong className="text-navy font-semibold">training credit</strong> for the same session. You can link profiles from your <strong className="text-navy font-semibold">account dashboard</strong>.</>,
+    body: (
+      <>
+        <p className="mb-3">Often siblings train together. When you <strong className="text-navy font-semibold">link their profiles</strong>, all linked profiles get <strong className="text-navy font-semibold">training credit</strong> for the same session. You can link profiles from your <strong className="text-navy font-semibold">account dashboard</strong>.</p>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1784494889184-m244fu.png" alt="Linking profiles from the account dashboard" className="w-full rounded-lg border border-blue-100" />
+      </>
+    ),
   },
 ];
 
@@ -357,7 +363,7 @@ export default function PlayerPortal() {
 
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-2">
                   <p className="text-navy font-bold mb-2">{SETUP_TIPS[setupStep].icon} {SETUP_TIPS[setupStep].title}</p>
-                  <p className="text-gray-700 leading-relaxed">{SETUP_TIPS[setupStep].body}</p>
+                  <div className="text-gray-700 leading-relaxed">{SETUP_TIPS[setupStep].body}</div>
                 </div>
                 <p className="text-gray-400 text-xs font-semibold text-center mb-6">Tip {setupStep + 1} of {SETUP_TIPS.length}</p>
 
