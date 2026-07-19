@@ -258,7 +258,8 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'Week 2',
     body: (
       <>
-        <p className="mb-3">Now that you&rsquo;re familiar with the program, do our core skills — Ball Mastery, Juggling, Dribbling, and Wall Passing. Go to <strong className="text-navy font-semibold">All Programs</strong> and do the first video in each section.</p>
+        <p className="mb-3">Now that you&rsquo;re familiar with the program, do our core skills — Ball Mastery, Juggling, Dribbling, and Wall Passing.</p>
+        <p className="mb-3">Go to <strong className="text-navy font-semibold">All Programs</strong> and do the first video in each section.</p>
         <div className="flex flex-wrap gap-2">
           {['🎯 Ball Mastery', '🤹 Juggling', '🏃 Dribbling', '🧱 Wall Passing'].map((p, j) => (
             <span key={j} className="inline-flex items-center bg-white border border-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-navy">{p}</span>
@@ -272,7 +273,8 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'Week 2 or 3',
     body: (
       <>
-        <p className="mb-3">Either pin the desired folders to your <strong className="text-navy font-semibold">Favorites</strong> and work through them, or build one of our training plans. The <strong className="text-navy font-semibold">Skill Builder</strong> plan is a good place to start.</p>
+        <p className="mb-3">Either pin the desired folders to your <strong className="text-navy font-semibold">Favorites</strong> and work through them, or build one of our training plans.</p>
+        <p className="mb-3">The <strong className="text-navy font-semibold">Skill Builder</strong> plan is a good place to start.</p>
         <div className="flex flex-wrap gap-2">
           {['❤️ Favorites', '🛠️ Skill Builder'].map((p, j) => (
             <span key={j} className="inline-flex items-center bg-white border border-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-navy">{p}</span>
