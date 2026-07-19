@@ -122,43 +122,30 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
   },
   {
     icon: '⭐',
-    title: 'Custom Folders and Favorites',
+    title: 'Pinning Folders',
+    body: <>Click the star button next to any folder to pin it to your favorites.</>,
+  },
+  {
+    icon: '🎬',
+    title: 'Favorite Videos',
+    body: <>Content coming soon.</>,
+  },
+  {
+    icon: '📁',
+    title: 'Custom Folders',
     body: (
-      <>
-        <p className="mb-4">Favorites have three main aspects:</p>
-        <div className="mb-4">
-          <p className="text-navy font-bold mb-1">Pinning Folders</p>
-          <p>Click the star button next to any folder to pin it to your favorites.</p>
-        </div>
-        <div className="mb-4">
-          <p className="text-navy font-bold mb-2">Pinning Videos</p>
-          <ol className="space-y-2">
-            {[
-              <>Click inside any training folder and pin videos to your favorites.</>,
-            ].map((item, i) => (
-              <li key={i} className="flex items-start gap-2.5">
-                <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
-                <span className="pt-0.5">{item}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-        <div>
-          <p className="text-navy font-bold mb-2">Custom Folders</p>
-          <ol className="space-y-2">
-            {[
-              <>Click <strong className="text-navy font-semibold">My Favorites</strong> and create a folder.</>,
-              <>Click inside any training folder and pin videos to your favorites.</>,
-              <>Add those videos to the folder (select all for faster assigning).</>,
-            ].map((item, i) => (
-              <li key={i} className="flex items-start gap-2.5">
-                <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
-                <span className="pt-0.5">{item}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </>
+      <ol className="space-y-3">
+        {[
+          <>Click <strong className="text-navy font-semibold">My Favorites</strong> and create a folder.</>,
+          <>Click inside any training folder and pin videos to your favorites.</>,
+          <>Add those videos to the folder (select all for faster assigning).</>,
+        ].map((item, i) => (
+          <li key={i} className="flex items-start gap-2.5">
+            <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
+            <span className="pt-0.5">{item}</span>
+          </li>
+        ))}
+      </ol>
     ),
   },
   {
