@@ -241,4 +241,21 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <p>Need a hand setting these up? Email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
     `,
   },
+  {
+    category: 'Team Management',
+    question: 'Can my team have multiple team managers?',
+    answer: `
+      <p><strong>Yes.</strong> Once the team manager joins, you can update their role:</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <ul style="margin:0;">
+          <li>Click <strong>Roster</strong>.</li>
+          <li>Click their name.</li>
+          <li>Update their role to <strong>Manager</strong>.</li>
+        </ul>
+      </div>
+      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:14px 16px;margin-top:12px;">
+        <p style="margin:0;color:#92400e;">Parent coaches should add a profile for themselves and their children using the program &mdash; just like you did initially.</p>
+      </div>
+    `,
+  },
 ];
