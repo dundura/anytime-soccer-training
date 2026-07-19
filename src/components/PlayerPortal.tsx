@@ -1,6 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+const API = 'https://api.anytime-soccer.com';
+const TOKEN_KEY = 'astPlayerPortalToken';
+
+type Player = { name: string; email: string; checklist: Record<string, boolean | 'skipped'> };
+type Mode = 'signin' | 'register' | 'forgot' | 'reset';
+type Screen = 'welcome' | 'how' | 'steps' | 'index';
 
 const OFFERINGS: React.ReactNode[] = [
   <><strong className="text-navy font-semibold">5,000+ follow-along videos</strong> — every skill, age, and level covered.</>,
@@ -15,25 +22,237 @@ const HOW_IT_WORKS: React.ReactNode[] = [
   <>Have a question? Click <strong className="text-navy font-semibold">Ask us here</strong> and we&rsquo;ll be in touch.</>,
 ];
 
-type Screen = 'welcome' | 'how' | 'steps';
+const inputClass = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red/30 focus:border-red';
 
 export default function PlayerPortal() {
+  const [token, setToken] = useState<string | null>(null);
+  const [player, setPlayer] = useState<Player | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [mode, setMode] = useState<Mode>('signin');
+  const [resetToken, setResetToken] = useState('');
+  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
+  const [busy, setBusy] = useState(false);
   const [screen, setScreen] = useState<Screen>('welcome');
+
+  // On load: pick up a ?reset= link, then restore any saved session.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const rt = params.get('reset');
+    if (rt) {
+      setResetToken(rt);
+      setMode('reset');
+    }
+    const saved = localStorage.getItem(TOKEN_KEY);
+    if (!saved) { setLoading(false); return; }
+    fetch(`${API}/player-portal/state`, { headers: { Authorization: saved } })
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(data => {
+        setToken(saved);
+        setPlayer(data.player);
+        if (params.get('view') === 'steps') setScreen('how');
+        else if (params.get('view') === 'index') setScreen('index');
+        else setScreen('welcome');
+      })
+      .catch(() => localStorage.removeItem(TOKEN_KEY))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const submitAuth = async () => {
+    setError(''); setNotice(''); setBusy(true);
+    try {
+      const path = mode === 'register' ? 'register' : mode === 'forgot' ? 'forgot' : mode === 'reset' ? 'reset' : 'login';
+      const body =
+        mode === 'register' ? { name: form.name, email: form.email, password: form.password }
+        : mode === 'forgot' ? { email: form.email }
+        : mode === 'reset' ? { token: resetToken, password: form.password }
+        : { email: form.email, password: form.password };
+      const res = await fetch(`${API}/player-portal/${path}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+
+      if (mode === 'forgot') {
+        setNotice(data.message || 'If an account exists for that email, a reset link is on its way.');
+        setBusy(false);
+        return;
+      }
+      if (mode === 'reset') {
+        // clear the ?reset= param from the URL
+        window.history.replaceState({}, '', '/player-portal');
+      }
+      localStorage.setItem(TOKEN_KEY, data.token);
+      setToken(data.token);
+      setPlayer(data.player);
+      setScreen('welcome');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Something went wrong.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const signOut = () => {
+    localStorage.removeItem(TOKEN_KEY);
+    setToken(null);
+    setPlayer(null);
+    setMode('signin');
+    setForm({ name: '', email: '', password: '' });
+    setScreen('welcome');
+  };
+
+  const goHome = () => { setScreen('welcome'); setError(''); };
 
   return (
     <section className="py-16 bg-background min-h-screen">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+          {/* Hero */}
           <div className="bg-navy px-8 py-6">
-            <h1 className="text-white text-2xl font-extrabold">Welcome to Anytime Soccer Training!</h1>
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={goHome}
+                  className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
+                >
+                  🏠 Home
+                </button>
+                {player && screen !== 'index' && (
+                  <button
+                    onClick={() => { setScreen('index'); setError(''); }}
+                    className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
+                  >
+                    Index
+                  </button>
+                )}
+                {player && (
+                  <button
+                    onClick={() => { signOut(); setMode('forgot'); }}
+                    className="inline-flex items-center gap-1 bg-white/15 border border-white/30 text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-white/25 transition-colors"
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+              {player && (
+                <button onClick={signOut} className="text-white/60 hover:text-white text-xs font-semibold">
+                  Sign out
+                </button>
+              )}
+            </div>
+            <h1 className="text-white text-2xl font-extrabold">
+              {player ? `Welcome, ${player.name.split(' ')[0]}!` : 'Welcome to Anytime Soccer Training!'}
+            </h1>
+            {!player && (
+              <p className="text-white/70 text-sm mt-1">Sign in to your player portal to get the most out of the program.</p>
+            )}
           </div>
 
           <div className="px-8 py-8">
-            {screen === 'welcome' ? (
+            {loading ? (
+              <p className="text-gray-700 text-sm">Loading&hellip;</p>
+            ) : !player ? (
+              /* ---------- Auth gate ---------- */
+              <div>
+                {(mode === 'signin' || mode === 'register') ? (
+                  <div className="flex border border-gray-200 rounded-lg overflow-hidden mb-6">
+                    {(['signin', 'register'] as const).map(m => (
+                      <button
+                        key={m}
+                        onClick={() => { setMode(m); setError(''); setNotice(''); }}
+                        className={`flex-1 py-2.5 text-sm font-bold transition-colors ${mode === m ? 'bg-navy text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}
+                      >
+                        {m === 'signin' ? 'Sign In' : 'Create Account'}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="mb-6">
+                    <p className="font-bold text-navy">{mode === 'forgot' ? 'Reset your password' : 'Choose a new password'}</p>
+                    <p className="text-gray-600 text-sm mt-1">
+                      {mode === 'forgot'
+                        ? 'Enter your email and we’ll send you a reset link.'
+                        : 'Enter a new password for your portal account.'}
+                    </p>
+                  </div>
+                )}
+
+                <div className="space-y-3">
+                  {mode === 'register' && (
+                    <input className={inputClass} placeholder="Your name" value={form.name}
+                      onChange={e => setForm({ ...form, name: e.target.value })} />
+                  )}
+                  {mode !== 'reset' && (
+                    <input className={inputClass} type="email" placeholder="Email" value={form.email}
+                      onChange={e => setForm({ ...form, email: e.target.value })} />
+                  )}
+                  {mode !== 'forgot' && (
+                    <input className={inputClass} type="password" placeholder={mode === 'register' || mode === 'reset' ? 'Choose a password (6+ characters)' : 'Password'} value={form.password}
+                      onChange={e => setForm({ ...form, password: e.target.value })}
+                      onKeyDown={e => { if (e.key === 'Enter') submitAuth(); }} />
+                  )}
+
+                  {error && <p className="text-red text-sm font-semibold">{error}</p>}
+                  {notice && <p className="text-green-700 text-sm font-semibold">{notice}</p>}
+
+                  <button
+                    onClick={submitAuth}
+                    disabled={busy}
+                    className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors disabled:opacity-60"
+                  >
+                    {busy ? 'One moment…'
+                      : mode === 'register' ? 'Create Account & Start'
+                      : mode === 'forgot' ? 'Send Reset Link'
+                      : mode === 'reset' ? 'Set New Password'
+                      : 'Sign In'}
+                  </button>
+                  {mode === 'signin' && (
+                    <button onClick={() => { setMode('forgot'); setError(''); setNotice(''); }} className="w-full text-center text-sm text-gray-500 hover:text-navy font-semibold">
+                      Forgot password?
+                    </button>
+                  )}
+                  {(mode === 'forgot' || mode === 'reset') && (
+                    <button onClick={() => { setMode('signin'); setError(''); setNotice(''); }} className="w-full text-center text-sm text-gray-500 hover:text-navy font-semibold">
+                      ← Back to sign in
+                    </button>
+                  )}
+                  <p className="text-gray-500 text-xs text-center">
+                    This portal login is separate from your Anytime Soccer Training app account.
+                  </p>
+                </div>
+              </div>
+            ) : screen === 'index' ? (
+              /* ---------- Index ---------- */
+              <div>
+                <h2 className="text-navy text-xl font-extrabold mb-4">Index</h2>
+                <p className="text-gray-600 text-sm mb-4">A table of contents for your portal — jump to any page.</p>
+                <div className="border border-gray-200 rounded-xl overflow-hidden mb-6 divide-y divide-gray-100">
+                  <button onClick={() => setScreen('welcome')} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left">
+                    <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
+                    <span className="text-sm font-semibold text-red hover:underline">Welcome</span>
+                  </button>
+                  <button onClick={() => setScreen('how')} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left">
+                    <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
+                    <span className="text-sm font-semibold text-red hover:underline">How it Works</span>
+                  </button>
+                </div>
+                <div className="flex justify-center">
+                  <button onClick={() => setScreen('welcome')} className="bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors">
+                    ← Back
+                  </button>
+                </div>
+              </div>
+            ) : screen === 'welcome' ? (
+              /* ---------- Welcome ---------- */
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">Getting Started</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Anytime Soccer Training is like having an <strong className="text-navy font-semibold">assistant coach and trainer working with your child every day</strong>. Every video is <strong className="text-navy font-semibold">100% follow-along</strong>, and the curriculum covers <strong className="text-navy font-semibold">everything</strong>.
+                  Anytime Soccer Training is <strong className="text-navy font-semibold">easy to use</strong> — but this portal is designed to help you <strong className="text-navy font-semibold">maximize your training</strong> and <strong className="text-navy font-semibold">get started on the right foot</strong>. Think of it as your guide to the key features and everything the program has to offer.
                 </p>
                 <p className="text-gray-700 leading-relaxed mb-3">Here&rsquo;s what the program gives you:</p>
 
@@ -60,6 +279,7 @@ export default function PlayerPortal() {
                 </button>
               </div>
             ) : screen === 'how' ? (
+              /* ---------- How it Works ---------- */
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">How it Works</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">We&rsquo;ve broken the key features and training information into pages you can reference. Use this as a guide to get the most out of the program.</p>
@@ -91,6 +311,7 @@ export default function PlayerPortal() {
                 </div>
               </div>
             ) : (
+              /* ---------- Steps (content to come) ---------- */
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">Your steps</h2>
                 <p className="text-gray-700 leading-relaxed mb-5">Your step-by-step guide and FAQs will appear here.</p>
