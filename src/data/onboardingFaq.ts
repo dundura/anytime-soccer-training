@@ -77,8 +77,8 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: 'Do completed videos move with a player to a new team?',
     answer: `
-      <p><strong>Yes &mdash; automatically.</strong> Video and training time data travel with the player &mdash; teams simply act as groups.</p>
-      <p>All-time totals, streaks, and levels stay fully intact, and their completed videos count on the new team right away &mdash; changing teams never resets a player&rsquo;s progress.</p>
+      <p><strong>Yes &mdash; automatically.</strong> Video and training data travel with the player; teams are just groups.</p>
+      <p>Totals, streaks, and levels stay intact, and completed videos count on the new team right away. Changing teams never resets progress.</p>
     `,
   },
   {
