@@ -462,10 +462,7 @@ export default function PlayerPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">Getting Started</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Anytime Soccer Training is <strong className="text-navy font-semibold">easy to use</strong> — but this portal is designed to help you <strong className="text-navy font-semibold">maximize your training</strong> and <strong className="text-navy font-semibold">get started on the right foot</strong>.
-                </p>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  While all you have to do is press play, there are a lot of <strong className="text-navy font-semibold">tips we&rsquo;ve learned along the way</strong> that we want to share with you.
+                  This portal helps you <strong className="text-navy font-semibold">maximize your training</strong> and <strong className="text-navy font-semibold">get started on the right foot</strong> — with tips we&rsquo;ve learned along the way.
                 </p>
                 <p className="text-gray-700 leading-relaxed mb-3">Here&rsquo;s why we built it:</p>
 
