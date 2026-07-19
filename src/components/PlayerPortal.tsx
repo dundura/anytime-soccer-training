@@ -113,7 +113,9 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
       <>
         <p className="mb-3">Save folders and videos into your <strong className="text-navy font-semibold">My Plan</strong> for convenience — everything you&rsquo;re working on, all in one place.</p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1784497330132-l6s39e.png" alt="My Plan section" className="w-full rounded-lg border border-blue-100" />
+        <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1784497330132-l6s39e.png" alt="My Plan section" className="w-full rounded-lg border border-blue-100 mb-3" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1784497206092-l5kzpb.png" alt="Saving to My Plan" className="w-full rounded-lg border border-blue-100" />
       </>
     ),
   },
