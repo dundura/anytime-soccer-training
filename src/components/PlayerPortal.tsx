@@ -285,10 +285,6 @@ export default function PlayerPortal() {
                   </ol>
                 </div>
 
-                <p className="text-gray-700 leading-relaxed mb-5">
-                  This portal will help you <strong className="text-navy font-semibold">get started</strong> and <strong className="text-navy font-semibold">make the most of your training</strong>.
-                </p>
-
                 <button
                   onClick={() => setScreen('how')}
                   className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors"
