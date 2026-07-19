@@ -345,7 +345,8 @@ export const ONBOARDING_FAQ: FaqItem[] = [
           <li style="margin-bottom:6px;">Create a team challenge (or other challenges) and announce it in person.</li>
           <li style="margin-bottom:6px;">Demo the app so players know how to use it.</li>
           <li style="margin-bottom:6px;">Acknowledge players at training for their progress.</li>
-          <li>Give a regular nudge and check progress on the board.</li>
+          <li style="margin-bottom:6px;">Give a regular nudge and check progress on the board.</li>
+          <li>Keep it simple.</li>
         </ul>
       </div>
       <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:16px 18px;margin-top:12px;">
@@ -354,7 +355,8 @@ export const ONBOARDING_FAQ: FaqItem[] = [
           <li style="margin-bottom:6px;">Don&rsquo;t actively assign homework.</li>
           <li style="margin-bottom:6px;">Never mention it at training.</li>
           <li style="margin-bottom:6px;">Assume the kids will do it on their own.</li>
-          <li>Don&rsquo;t ask the Anytime team for help.</li>
+          <li style="margin-bottom:6px;">Don&rsquo;t ask the Anytime team for help.</li>
+          <li>Unintentionally make things complicated.</li>
         </ul>
       </div>
       <p>Don&rsquo;t expect that early interest alone will keep players consistent over time &mdash; without coach engagement, interest fades, just like any other activity. A little structure and follow-up from you makes all the difference.</p>
