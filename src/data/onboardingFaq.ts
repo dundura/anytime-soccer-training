@@ -32,7 +32,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Joining a Team',
     question: "Parents can't find our team when they search — what should I do?",
     answer: `
-      <p>The exact name may not turn up. A few fixes:</p>
+      <p>The exact name may be different. A few options:</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <ul style="margin:0;">
           <li>Search <strong>part</strong> of the name (e.g. &ldquo;Next&rdquo;).</li>
