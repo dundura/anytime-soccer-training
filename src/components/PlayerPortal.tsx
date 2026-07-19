@@ -53,9 +53,9 @@ const SETUP_TIPS: { icon: string; title: string; body: React.ReactNode }[] = [
 
 const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode }[] = [
   {
-    icon: '▶️',
-    title: 'Just press play',
-    body: <>Content coming soon.</>,
+    icon: '⚽',
+    title: 'Start with All Programs',
+    body: <>Click <strong className="text-navy font-semibold">All Programs</strong> and start with the core skill areas — <strong className="text-navy font-semibold">Ball Mastery</strong>, <strong className="text-navy font-semibold">Dribbling</strong>, and <strong className="text-navy font-semibold">Wall Passing</strong>.</>,
   },
 ];
 
