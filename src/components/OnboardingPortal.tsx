@@ -522,7 +522,7 @@ export default function OnboardingPortal() {
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
                 <ol className="space-y-4">
                   {[
-                    <>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong> — that notifies our team.</>,
+                    <>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong>.</>,
                     <><strong className="text-navy font-semibold">Already done a step?</strong> Mark it complete and move on.</>,
                     <>Have a question? Click <strong className="text-navy font-semibold">Ask us here</strong> and we&rsquo;ll be in touch.</>,
                   ].map((item, i) => (
