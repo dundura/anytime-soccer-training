@@ -309,7 +309,12 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         <p style="margin:0;">Players can follow along in a small space &mdash; a garage, driveway, backyard, or even a living room works.</p>
       </div>
       <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:14px 16px;margin-top:12px;">
-        <p style="margin:0;color:#92400e;">The one exception is <strong>wall passing</strong>, which needs a wall, rebounder, or other surface. Alternatively, players can pass with a friend, sibling, or parent.</p>
+        <p style="margin:0 0 8px;color:#92400e;font-weight:700;">A few exceptions:</p>
+        <ul style="margin:0;color:#92400e;padding-left:18px;">
+          <li style="margin-bottom:6px;"><strong>Wall passing</strong> needs a wall, rebounder, or other surface &mdash; or players can pass with a friend, sibling, or parent.</li>
+          <li style="margin-bottom:6px;">Some <strong>fitness drills</strong> use common equipment.</li>
+          <li><strong>Finishing drills</strong> require a goal.</li>
+        </ul>
       </div>
     `,
   },
