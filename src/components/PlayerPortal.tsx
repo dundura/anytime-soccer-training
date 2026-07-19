@@ -22,7 +22,7 @@ const SETUP_TIPS: { icon: string; title: string; body: React.ReactNode }[] = [
   {
     icon: '👤',
     title: 'Player Profiles',
-    body: <>You can add a player profile for each child using the program — <strong className="text-navy font-semibold">up to four</strong>. All profiles share the same login email, but each can have its own <strong className="text-navy font-semibold">contact email</strong> (it can even be the same as your login email). The contact email is where <strong className="text-navy font-semibold">training alerts and other notifications</strong> are sent.</>,
+    body: <>Add a player profile for each child — <strong className="text-navy font-semibold">up to four</strong>. All profiles share the same login email, but each can have its own <strong className="text-navy font-semibold">contact email</strong> (it can even be the same as your login email). The contact email is where <strong className="text-navy font-semibold">training alerts and other notifications</strong> are sent.</>,
   },
   {
     icon: '🔗',
