@@ -153,7 +153,13 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
   {
     icon: '🎬',
     title: 'Pinning Individual Videos',
-    body: <>Click inside any folder and pin videos to your favorites.</>,
+    body: (
+      <>
+        <p className="mb-3">Click inside any folder and pin videos to your favorites.</p>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1784501113331-r9wyi2.png" alt="Pinning individual videos to favorites" className="w-full rounded-lg border border-blue-100" />
+      </>
+    ),
   },
   {
     icon: '📁',
