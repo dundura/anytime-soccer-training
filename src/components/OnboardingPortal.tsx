@@ -59,7 +59,7 @@ const NUMBERED_TOTAL = STEPS.filter(x => !x.tip).length;
 const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
   { heading: 'Coach Contact', items: [
     'We only need the coach&rsquo;s phone number.',
-    'Include the coach on the roster and indicate they&rsquo;re the coach &mdash; their child will be the player.',
+    'Include the coach on the roster and indicate they&rsquo;re the coach &mdash; their child will be the player on the same line.',
   ] },
   { heading: 'Parent Emails &amp; Roster', items: [
     'You can provide more than one parent email &mdash; both parents will get the invite and can decide who signs up.',
