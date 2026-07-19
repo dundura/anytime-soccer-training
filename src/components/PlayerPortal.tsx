@@ -125,7 +125,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'Custom Folders and Favorites',
     body: (
       <>
-        <p className="mb-4">Favorites have two main steps:</p>
+        <p className="mb-4">Favorites have three main aspects:</p>
         <div className="mb-4">
           <p className="text-navy font-bold mb-1">Pinning Folders</p>
           <p>Click the star button next to any folder to pin it to your favorites.</p>
