@@ -460,7 +460,7 @@ export default function PlayerPortal() {
             ) : screen === 'welcome' ? (
               /* ---------- Welcome ---------- */
               <div>
-                <h2 className="text-navy text-xl font-extrabold mb-3">Getting Started</h2>
+                <h2 className="text-navy text-xl font-extrabold mb-3">Anytime Soccer Training</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
                   This portal helps you <strong className="text-navy font-semibold">maximize your training</strong> and <strong className="text-navy font-semibold">get started on the right foot</strong> — with tips we&rsquo;ve learned along the way.
                 </p>
