@@ -125,17 +125,25 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'Custom Folders and Favorites',
     body: (
       <>
-        <p className="mb-3">Favorites have two main steps:</p>
-        <ol className="space-y-3">
-          {[
-            <>Create a folder.</>,
-          ].map((item, i) => (
-            <li key={i} className="flex items-start gap-2.5">
-              <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
-              <span className="pt-0.5">{item}</span>
-            </li>
-          ))}
-        </ol>
+        <p className="mb-4">Favorites have two main steps:</p>
+        <div className="mb-4">
+          <p className="text-navy font-bold mb-1">Pinning Folders</p>
+          <p>Click the star button next to any folder to pin it to your favorites.</p>
+        </div>
+        <div>
+          <p className="text-navy font-bold mb-2">Custom Folders</p>
+          <ol className="space-y-2">
+            {[
+              <>Click <strong className="text-navy font-semibold">My Favorites</strong> and create a folder.</>,
+              <>Click inside any training folder and pin videos to your favorites.</>,
+            ].map((item, i) => (
+              <li key={i} className="flex items-start gap-2.5">
+                <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
+                <span className="pt-0.5">{item}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
       </>
     ),
   },
