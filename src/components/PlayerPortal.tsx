@@ -70,7 +70,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
             </li>
           ))}
         </ol>
-        <p>We&rsquo;ll go over how to get started with each — pick whichever fits you best.</p>
+        <p>We&rsquo;ll cover each — pick what fits you best.</p>
       </>
     ),
   },
