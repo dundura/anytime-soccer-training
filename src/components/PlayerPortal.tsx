@@ -12,7 +12,6 @@ const OFFERINGS: React.ReactNode[] = [
 const HOW_IT_WORKS: React.ReactNode[] = [
   <>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete &#10003;</strong>.</>,
   <>You can <strong className="text-navy font-semibold">skip a step</strong> and come back to it.</>,
-  <><strong className="text-navy font-semibold">Already done a step?</strong> Mark it complete and move on.</>,
   <>Have a question? Click <strong className="text-navy font-semibold">Ask us here</strong> and we&rsquo;ll be in touch.</>,
 ];
 
