@@ -65,11 +65,11 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;"><strong>Pricing:</strong> <strong>$10 per player per year</strong> + tax, with a 15-slot minimum ($150) and a <strong>free coach</strong>.</p>
+          <p style="margin:6px 0 0;"><strong>Pricing:</strong> <strong>$10 per player per year</strong> + tax, with a 10-slot minimum ($100) and a <strong>free coach</strong>.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:6px 0 0;">Under 15 players? Adding more is free until you reach 15.</p>
+          <p style="margin:6px 0 0;">Under 10 players? Adding more is free until you reach 10.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
