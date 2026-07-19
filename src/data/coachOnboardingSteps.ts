@@ -132,14 +132,14 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       },
       {
         title: 'Click "Add Profile"',
-        description: 'Add a profile for yourself and your children (not team). Remember: you don\'t create profiles for the players on your team — each parent has their own account.',
+        description: 'Add a profile for yourself and your children (not team).',
         videoHref: 'https://youtu.be/oE_GsRgfEdA?si=8RqaXFv_LKxXIXNY',
         moreInfoHref: 'https://www.anytime-soccer.com/adding-an-anytime-soccer-training-player-profile?utm_source=email&utm_medium=email%20marketing',
         sectionHeading: 'Add Profiles',
       },
       {
         title: 'Contact Emails',
-        description: 'You can use the same contact email for all player profiles, or different ones.',
+        description: 'Use the same contact email for all profiles, or different ones.',
       },
     ],
   },
