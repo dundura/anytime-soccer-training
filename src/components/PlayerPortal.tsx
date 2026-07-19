@@ -103,7 +103,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
       <>
         <p className="mb-3">Puts the programs in a <strong className="text-navy font-semibold">recommended order</strong>.</p>
         <p className="mb-3">For example, Ball Mastery starts with <strong className="text-navy font-semibold">1,000 Touch</strong>, <strong className="text-navy font-semibold">101 Ball Mastery</strong>, <strong className="text-navy font-semibold">One Cone</strong>, <strong className="text-navy font-semibold">Two Cone</strong>, and more — delivering videos from each in a <strong className="text-navy font-semibold">round robin</strong>.</p>
-        <p>We recommend pinning the folders to your <strong className="text-navy font-semibold">Favorites</strong> or the <strong className="text-navy font-semibold">My Plan</strong> section.</p>
+        <p>We recommend pinning the folders to your <strong className="text-navy font-semibold">Favorites</strong> or <strong className="text-navy font-semibold">My Plan</strong>.</p>
       </>
     ),
   },
