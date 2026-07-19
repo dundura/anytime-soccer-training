@@ -80,18 +80,18 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     body: (
       <>
         <p className="mb-3">Click <strong className="text-navy font-semibold">All Programs</strong> and start with the core skill areas — <strong className="text-navy font-semibold">Ball Mastery</strong>, <strong className="text-navy font-semibold">Dribbling</strong>, and <strong className="text-navy font-semibold">Wall Passing</strong>:</p>
-        <ul className="space-y-2">
+        <ol className="space-y-2">
           {[
             <><strong className="text-navy font-semibold">1,000 Touch Ball Mastery</strong> &mdash; <strong className="text-navy font-semibold">P1: Toe Taps, Tick Tocks, Stationary, Pause &amp; Moving</strong>.</>,
             <><strong className="text-navy font-semibold">Ronaldinho Freestyle Dribbling</strong> &mdash; <strong className="text-navy font-semibold">P1: Ronaldinho Freestyle Dribbling</strong>.</>,
             <><strong className="text-navy font-semibold">101 Wall Passing Drills</strong> &mdash; <strong className="text-navy font-semibold">P1: 101 Wall Passing Part 1</strong>.</>,
           ].map((item, i) => (
-            <li key={i} className="flex items-start gap-2">
-              <span className="text-red font-bold leading-6">•</span>
-              <span>{item}</span>
+            <li key={i} className="flex items-start gap-2.5">
+              <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
+              <span className="pt-0.5">{item}</span>
             </li>
           ))}
-        </ul>
+        </ol>
       </>
     ),
   },
