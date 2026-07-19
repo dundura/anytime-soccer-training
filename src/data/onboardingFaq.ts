@@ -178,7 +178,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <ul style="margin:0;">
           <li><strong>Curated Curriculum</strong> &mdash; folders by skill area, in our recommended order (rotates programs for variety).</li>
-          <li><strong>All Programs</strong> &mdash; every folder in a program within a skill area (i.e. 1,000 Touch Ball Mastery, 101, Two Cone, and so forth).</li>
+          <li><strong>All Programs</strong> &mdash; lists every folder in each respective program (i.e. 1,000 Touch Ball Mastery, 101, Two Cone, and so forth).</li>
           <li><strong>30-Day Plans</strong> &mdash; 30-day plans by skill area.</li>
           <li><strong>Favorites</strong> &mdash; your own folders (add videos in Key Skills).</li>
         </ul>
