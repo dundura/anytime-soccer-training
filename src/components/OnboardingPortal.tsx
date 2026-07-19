@@ -62,7 +62,7 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
     'Include the coach on the roster and indicate they&rsquo;re the coach &mdash; their child will be the player.',
   ] },
   { heading: 'Parent Emails &amp; Roster', items: [
-    'You can provide more than one parent email &mdash; both parents get the invite and can decide who signs up.',
+    'You can provide more than one parent email &mdash; both parents will get the invite and can decide who signs up.',
     'Don&rsquo;t have your full roster yet? No problem &mdash; you can add players later.',
     'Users can update their emails inside the app at any time.',
   ] },
