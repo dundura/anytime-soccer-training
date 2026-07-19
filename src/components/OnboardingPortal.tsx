@@ -675,7 +675,7 @@ export default function OnboardingPortal() {
                   </button>
                   {questionSent && <span className="block text-green-700 font-semibold mt-1">✓ Sent — we&rsquo;ll get back to you shortly!</span>}
                 </p>
-                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-3">
                   <button
                     onClick={() => { setShowOverview(false); setShowIntro(true); setError(''); }}
                     className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
@@ -689,6 +689,16 @@ export default function OnboardingPortal() {
                     Next →
                   </button>
                 </div>
+                {doneCount > 0 && !allDone && (
+                  <p className="text-center mb-4">
+                    <button
+                      onClick={() => { setShowOverview(false); setWizardIndex(firstIncomplete(coach)); setError(''); }}
+                      className="text-sm text-gray-500 font-medium hover:text-red hover:underline transition-colors"
+                    >
+                      or skip to where you left off →
+                    </button>
+                  </p>
+                )}
               </div>
             ) : showIndexInfo ? (
               <div>
