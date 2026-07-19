@@ -123,7 +123,12 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
   {
     icon: '⭐',
     title: 'Pinning Folders',
-    body: <>Click the star button next to any folder to pin it to your favorites.</>,
+    body: (
+      <>
+        <p className="mb-3">There are three ways to utilize <strong className="text-navy font-semibold">My Favorites</strong>.</p>
+        <p>Click the star button next to any folder to pin it to your favorites.</p>
+      </>
+    ),
   },
   {
     icon: '🎬',
