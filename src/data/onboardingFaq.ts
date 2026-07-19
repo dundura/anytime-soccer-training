@@ -212,7 +212,10 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       </div>
       <p style="font-weight:700;color:#0F3154;margin:16px 0 8px;">How to Assign</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <p style="margin:0;">From the <strong>Coach&rsquo;s Board</strong>, click <strong>Build Training Plan</strong>, then assign it the same way you assign folders.</p>
+        <ul style="margin:0;">
+          <li>From the <strong>Coach&rsquo;s Board</strong>, click <strong>Build Training Plan</strong>.</li>
+          <li>Assign it the same way you assign folders.</li>
+        </ul>
       </div>
     `,
   },
