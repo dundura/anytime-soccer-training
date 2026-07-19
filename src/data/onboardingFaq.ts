@@ -192,23 +192,36 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: 'Assigning Program Folders',
     answer: `
-      <p>Training is organized by <strong>skill areas</strong>, <strong>programs</strong>, and <strong>folders</strong> &mdash; the folders house the videos.</p>
-      <p>For example, <strong>Ball Mastery</strong> is a skill area, <strong>1,000 Touch</strong> is a program, and <strong>P1:</strong> is the first folder.</p>
+      <p>Training is organized by <strong>skill areas</strong>, <strong>programs</strong>, and <strong>folders</strong> &mdash; the folders house the videos. For example, <strong>Ball Mastery</strong> is a skill area, <strong>1,000 Touch</strong> is a program, and <strong>P1:</strong> is the first folder.</p>
       <p style="font-weight:700;color:#0F3154;margin:16px 0 8px;">Types of Folders</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <ul style="margin:0;">
-          <li><strong>Curated Curriculum</strong> &mdash; folders by skill area, in our recommended order (rotates programs for variety).</li>
-          <li><strong>All Programs</strong> &mdash; lists every folder in each respective program.</li>
-          <li><strong>30-Day Plans</strong> &mdash; 30-day plans by skill area.</li>
-          <li><strong>Favorites</strong> &mdash; your own folders (add videos in Key Skills).</li>
-        </ul>
+      <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
+          <p style="margin:5px 0 0;"><strong>All Programs</strong> &mdash; lists every folder in each respective program.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
+          <p style="margin:5px 0 0;"><strong>Curated Curriculum</strong> &mdash; folders by skill area, in our recommended order (rotates programs for variety).</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">3</span>
+          <p style="margin:5px 0 0;"><strong>30-Day Plans</strong> &mdash; 30-day plans by skill area.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">4</span>
+          <p style="margin:5px 0 0;"><strong>Favorites</strong> &mdash; your own folders (add videos in Key Skills).</p>
+        </div>
       </div>
       <p style="font-weight:700;color:#0F3154;margin:16px 0 8px;">How to Assign</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <ul style="margin:0;">
-          <li>Click <strong>pin/board</strong> next to a folder.</li>
-          <li>Click the <strong>person icon</strong> and select your players.</li>
-        </ul>
+      <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
+          <p style="margin:5px 0 0;">Click <strong>pin/board</strong> next to a folder.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
+          <p style="margin:5px 0 0;">Click the <strong>person icon</strong> and select your players.</p>
+        </div>
       </div>
     `,
   },
