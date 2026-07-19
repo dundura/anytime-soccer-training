@@ -28,6 +28,7 @@ const SETUP_TIPS: { icon: string; title: string; body: React.ReactNode }[] = [
           <>Add a player profile for each child — <strong className="text-navy font-semibold">up to four</strong>.</>,
           <>All profiles share the same login email, but each can have its own <strong className="text-navy font-semibold">contact email</strong> (it can even be the same as your login email).</>,
           <>The contact email is where <strong className="text-navy font-semibold">training alerts and other notifications</strong> are sent.</>,
+          <>Archive or delete a profile by clicking <strong className="text-navy font-semibold">Edit</strong>, then <strong className="text-navy font-semibold">Archive Profile</strong>.</>,
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2.5">
             <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
