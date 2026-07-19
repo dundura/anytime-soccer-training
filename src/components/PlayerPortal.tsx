@@ -62,7 +62,7 @@ export default function PlayerPortal() {
             ) : screen === 'how' ? (
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">How it Works</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">Each step has its own page with everything you need.</p>
+                <p className="text-gray-700 leading-relaxed mb-4">We&rsquo;ve broken the key features and training information into pages you can reference. Use this as a guide to get the most out of the program.</p>
 
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
                   <ol className="space-y-4">
