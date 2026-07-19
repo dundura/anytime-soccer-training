@@ -7,12 +7,12 @@ const TOKEN_KEY = 'astPlayerPortalToken';
 const SCREEN_KEY = 'astPlayerPortalScreen';
 const ADMIN_KEY = 'astPlayerPortalAdmin';
 const LEFTOFF_KEY = 'astPlayerPortalLeftOff';
-const CONTENT_SCREENS: readonly string[] = ['how', 'philosophy', 'steps', 'gettingStarted'];
-const SCREENS = ['welcome', 'how', 'steps', 'philosophy', 'gettingStarted', 'index'] as const;
+const CONTENT_SCREENS: readonly string[] = ['how', 'steps', 'philosophy', 'whereToStart', 'gettingStarted'];
+const SCREENS = ['welcome', 'how', 'steps', 'philosophy', 'whereToStart', 'gettingStarted', 'index'] as const;
 
 type Player = { name: string; email: string; checklist: Record<string, boolean | 'skipped'> };
 type Mode = 'signin' | 'register' | 'forgot' | 'reset';
-type Screen = 'welcome' | 'how' | 'steps' | 'philosophy' | 'gettingStarted' | 'index';
+type Screen = 'welcome' | 'how' | 'steps' | 'philosophy' | 'whereToStart' | 'gettingStarted' | 'index';
 
 const OFFERINGS: React.ReactNode[] = [
   <><strong className="text-navy font-semibold">Get started the right way</strong> — know exactly where to begin.</>,
@@ -661,6 +661,10 @@ export default function PlayerPortal() {
                     <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
                     <span className="text-sm font-semibold text-red hover:underline">Our Training Philosophy</span>
                   </button>
+                  <button onClick={() => setScreen('whereToStart')} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left">
+                    <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
+                    <span className="text-sm font-semibold text-red hover:underline">Where to Start</span>
+                  </button>
                   <button onClick={() => setScreen('gettingStarted')} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left">
                     <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
                     <span className="text-sm font-semibold text-red hover:underline">How to Start Your Training</span>
@@ -792,13 +796,37 @@ export default function PlayerPortal() {
                     &larr; Back
                   </button>
                   <button
-                    onClick={() => openComplete('philosophy', 'Our Training Philosophy', () => setScreen('gettingStarted'))}
+                    onClick={() => openComplete('philosophy', 'Our Training Philosophy', () => setScreen('whereToStart'))}
                     className={`w-full sm:w-auto ${isDone('philosophy') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
                   >
                     Next &rarr;
                   </button>
                 </div>
                 {pageActions('philosophy', 'Our Training Philosophy')}
+              </div>
+            ) : screen === 'whereToStart' ? (
+              /* ---------- Where to Start ---------- */
+              <div>
+                <h2 className="text-navy text-xl font-extrabold mb-3">Where do beginners and experienced players start?</h2>
+                <p className="text-gray-700 leading-relaxed mb-3">We recommend <strong className="text-navy font-semibold">all players start with the first folders</strong> and follow the program in order.</p>
+                <p className="text-gray-700 leading-relaxed mb-3">The difference between experienced players and beginners is in the <strong className="text-navy font-semibold">levels of volume, variety, and variations</strong>.</p>
+                <p className="text-gray-700 leading-relaxed mb-3">For example, a beginner may start with only the <strong className="text-navy font-semibold">1,000 Touch Ball Mastery</strong> program.</p>
+                <p className="text-gray-700 leading-relaxed mb-6">An experienced player can handle <strong className="text-navy font-semibold">multiple ball mastery programs</strong>, as well as training programs in other skill areas.</p>
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
+                  <button
+                    onClick={() => setScreen('philosophy')}
+                    className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    &larr; Back
+                  </button>
+                  <button
+                    onClick={() => openComplete('whereToStart', 'Where to Start', () => setScreen('gettingStarted'))}
+                    className={`w-full sm:w-auto ${isDone('whereToStart') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
+                  >
+                    Next &rarr;
+                  </button>
+                </div>
+                {pageActions('whereToStart', 'Where to Start')}
               </div>
             ) : (
               /* ---------- Getting Started ---------- */
