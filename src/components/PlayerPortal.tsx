@@ -6,6 +6,8 @@ const API = 'https://api.anytime-soccer.com';
 const TOKEN_KEY = 'astPlayerPortalToken';
 const SCREEN_KEY = 'astPlayerPortalScreen';
 const ADMIN_KEY = 'astPlayerPortalAdmin';
+const LEFTOFF_KEY = 'astPlayerPortalLeftOff';
+const CONTENT_SCREENS: readonly string[] = ['how', 'steps', 'gettingStarted'];
 const SCREENS = ['welcome', 'how', 'steps', 'gettingStarted', 'index'] as const;
 
 type Player = { name: string; email: string; checklist: Record<string, boolean | 'skipped'> };
@@ -216,6 +218,42 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'Custom Plan',
     body: <>You pick the folders and build your plan.</>,
   },
+  {
+    icon: '🗺️',
+    title: 'Recommended Training Timeline',
+    body: (
+      <>
+        <p className="mb-4 font-bold text-navy">Where do I start?</p>
+        {[
+          {
+            when: 'Day 1',
+            text: <>Start with the <strong className="text-navy font-semibold">1,000 Touch Ball Mastery</strong> program — it gives you a good basis to get touches quickly and see how the program works.</>,
+            pills: ['🎯 1,000 Touch Ball Mastery'],
+          },
+          {
+            when: 'Week 2',
+            text: <>Now that you&rsquo;re familiar with the program, do our core skills — Ball Mastery, Juggling, Dribbling, and Wall Passing. Go to <strong className="text-navy font-semibold">All Programs</strong> and do the first video in each section.</>,
+            pills: ['🎯 Ball Mastery', '🤹 Juggling', '🏃 Dribbling', '🧱 Wall Passing'],
+          },
+          {
+            when: 'Week 2 or 3',
+            text: <>Either pin the desired folders to your <strong className="text-navy font-semibold">Favorites</strong> and work through them, or build one of our training plans. The <strong className="text-navy font-semibold">Skill Builder</strong> plan is a good place to start.</>,
+            pills: ['❤️ Favorites', '🛠️ Skill Builder'],
+          },
+        ].map((s, i, arr) => (
+          <div key={i} className={i < arr.length - 1 ? 'mb-5' : ''}>
+            <p className="text-red font-extrabold text-xs uppercase tracking-wide mb-1">{s.when}</p>
+            <p className="mb-2">{s.text}</p>
+            <div className="flex flex-wrap gap-2">
+              {s.pills.map((p, j) => (
+                <span key={j} className="inline-flex items-center bg-white border border-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-navy">{p}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </>
+    ),
+  },
 ];
 
 const HOW_IT_WORKS: React.ReactNode[] = [
@@ -238,6 +276,7 @@ export default function PlayerPortal() {
   const [notice, setNotice] = useState('');
   const [busy, setBusy] = useState(false);
   const [screen, setScreen] = useState<Screen>('welcome');
+  const [leftOff, setLeftOff] = useState<Screen | null>(null);
   const [setupStep, setSetupStep] = useState(0);
   const [gsStep, setGsStep] = useState(0);
   const [showQuestion, setShowQuestion] = useState(false);
@@ -272,6 +311,8 @@ export default function PlayerPortal() {
         setPlayer(data.player);
         const view = params.get('view');
         const savedScreen = localStorage.getItem(SCREEN_KEY) as Screen | null;
+        const lo = localStorage.getItem(LEFTOFF_KEY) as Screen | null;
+        if (lo && CONTENT_SCREENS.includes(lo)) setLeftOff(lo);
         if (view === 'steps') setScreen('how');
         else if (view === 'index') setScreen('index');
         else if (savedScreen && (SCREENS as readonly string[]).includes(savedScreen)) setScreen(savedScreen);
@@ -283,7 +324,10 @@ export default function PlayerPortal() {
 
   // Remember the current screen so a page refresh returns the user to it.
   useEffect(() => {
-    if (!loading && player) localStorage.setItem(SCREEN_KEY, screen);
+    if (!loading && player) {
+      localStorage.setItem(SCREEN_KEY, screen);
+      if (CONTENT_SCREENS.includes(screen)) { localStorage.setItem(LEFTOFF_KEY, screen); setLeftOff(screen); }
+    }
   }, [screen, loading, player]);
 
   const submitAuth = async () => {
@@ -621,6 +665,11 @@ export default function PlayerPortal() {
                 >
                   Get Started &rarr;
                 </button>
+                {leftOff && leftOff !== 'welcome' && (
+                  <button onClick={() => setScreen(leftOff)} className="w-full text-center text-sm text-gray-500 hover:text-navy font-semibold mt-3">
+                    Skip to where you left off &rarr;
+                  </button>
+                )}
               </div>
             ) : screen === 'how' ? (
               /* ---------- How it Works ---------- */
@@ -647,8 +696,8 @@ export default function PlayerPortal() {
                     &larr; Back
                   </button>
                   <button
-                    onClick={() => (isDone('how') ? setScreen('steps') : openComplete('how', 'How it Works', () => setScreen('steps')))}
-                    className={`w-full sm:w-auto ${isDone('how') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
+                    onClick={() => setScreen('steps')}
+                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
                     Next &rarr;
                   </button>
@@ -675,12 +724,8 @@ export default function PlayerPortal() {
                     &larr; Back
                   </button>
                   <button
-                    onClick={() => {
-                      const advance = () => { if (setupStep < SETUP_TIPS.length - 1) setSetupStep(setupStep + 1); else setScreen('gettingStarted'); };
-                      if (isDone(`accountSetup:${setupStep}`)) advance();
-                      else openComplete(`accountSetup:${setupStep}`, `Account Setup — ${SETUP_TIPS[setupStep].title}`, advance);
-                    }}
-                    className={`w-full sm:w-auto ${isDone(`accountSetup:${setupStep}`) ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
+                    onClick={() => { if (setupStep < SETUP_TIPS.length - 1) setSetupStep(setupStep + 1); else setScreen('gettingStarted'); }}
+                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
                     Next &rarr;
                   </button>
@@ -707,12 +752,8 @@ export default function PlayerPortal() {
                     &larr; Back
                   </button>
                   <button
-                    onClick={() => {
-                      const advance = () => { if (gsStep < GETTING_STARTED_TIPS.length - 1) setGsStep(gsStep + 1); else setScreen('index'); };
-                      if (isDone(`gettingStarted:${gsStep}`)) advance();
-                      else openComplete(`gettingStarted:${gsStep}`, `How to Start Your Training — ${GETTING_STARTED_TIPS[gsStep].title}`, advance);
-                    }}
-                    className={`w-full sm:w-auto ${isDone(`gettingStarted:${gsStep}`) ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
+                    onClick={() => { if (gsStep < GETTING_STARTED_TIPS.length - 1) setGsStep(gsStep + 1); else setScreen('index'); }}
+                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
                     Next &rarr;
                   </button>
