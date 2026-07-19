@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 
 const API = 'https://api.anytime-soccer.com';
 const TOKEN_KEY = 'astPlayerPortalToken';
+const SCREEN_KEY = 'astPlayerPortalScreen';
+const SCREENS = ['welcome', 'how', 'steps', 'index'] as const;
 
 type Player = { name: string; email: string; checklist: Record<string, boolean | 'skipped'> };
 type Mode = 'signin' | 'register' | 'forgot' | 'reset';
@@ -52,13 +54,21 @@ export default function PlayerPortal() {
       .then(data => {
         setToken(saved);
         setPlayer(data.player);
-        if (params.get('view') === 'steps') setScreen('how');
-        else if (params.get('view') === 'index') setScreen('index');
+        const view = params.get('view');
+        const savedScreen = localStorage.getItem(SCREEN_KEY) as Screen | null;
+        if (view === 'steps') setScreen('how');
+        else if (view === 'index') setScreen('index');
+        else if (savedScreen && (SCREENS as readonly string[]).includes(savedScreen)) setScreen(savedScreen);
         else setScreen('welcome');
       })
       .catch(() => localStorage.removeItem(TOKEN_KEY))
       .finally(() => setLoading(false));
   }, []);
+
+  // Remember the current screen so a page refresh returns the user to it.
+  useEffect(() => {
+    if (!loading && player) localStorage.setItem(SCREEN_KEY, screen);
+  }, [screen, loading, player]);
 
   const submitAuth = async () => {
     setError(''); setNotice(''); setBusy(true);
