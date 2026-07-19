@@ -21,8 +21,6 @@ type Coach = {
 const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean }[] = [
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
-  { key: 'tip_roster2', title: 'Roster FAQs: Player Emails', dataIndex: 18, section: 'Pre-Onboarding', tip: true },
-  { key: 'tip_roster3', title: 'Adding New Players', dataIndex: 19, section: 'Pre-Onboarding', tip: true },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: 2, section: 'Pre-Onboarding' },
   { key: 'tip_paywall', title: 'Quick Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Pre-Onboarding', tip: true },
@@ -58,6 +56,25 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
 const stepNumber = (i: number) => STEPS.slice(0, i + 1).filter(x => !x.tip).length;
 const NUMBERED_TOTAL = STEPS.filter(x => !x.tip).length;
 
+const ROSTER_SECTIONS: { heading: string; items: string[] }[] = [
+  { heading: 'Coach Contact', items: [
+    'We only need the coach&rsquo;s phone number.',
+    'Include the coach on the roster and indicate they&rsquo;re the coach &mdash; their child will be a player.',
+  ] },
+  { heading: 'Parent Emails &amp; Roster', items: [
+    'You can provide more than one parent email &mdash; both parents get the invite and can decide who signs up.',
+    'Don&rsquo;t have your full roster yet? No problem &mdash; you can add players later.',
+    'Emails can be updated later &mdash; not a problem.',
+  ] },
+  { heading: 'Player Emails', items: [
+    'Parents can also sign up with a different email than the one you provided &mdash; that&rsquo;s fine.',
+    'Older player? Use their email if they&rsquo;ll be the primary contact.',
+  ] },
+  { heading: 'Adding New Players', items: [
+    'To onboard new players, simply email us the parent name, child name, and email.',
+  ] },
+];
+
 const NEXT_STEPS = [
   'We’ll invite your parents to join the team',
   'We’ll send you and your parents helpful getting-started information',
@@ -77,6 +94,7 @@ export default function OnboardingPortal() {
   const [busy, setBusy] = useState(false);
   const [saving, setSaving] = useState(false);
   const [wizardIndex, setWizardIndex] = useState(0);
+  const [rosterSection, setRosterSection] = useState(0);
   const [showIntro, setShowIntro] = useState(true);
   const [showOverview, setShowOverview] = useState(false);
   const [showIndex, setShowIndex] = useState(false);
@@ -135,6 +153,8 @@ export default function OnboardingPortal() {
       .catch(() => localStorage.removeItem(TOKEN_KEY))
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => { setRosterSection(0); }, [wizardIndex]);
 
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
@@ -267,6 +287,8 @@ export default function OnboardingPortal() {
   const stepDone = !!stepState;
   const stepSkipped = stepState === 'skipped';
   const stepData = step.faqIndex == null ? COACH_ONBOARDING_STEPS[step.dataIndex] : null;
+  const isRosterStepper = step.key === 'tip_roster';
+  const rosterLast = ROSTER_SECTIONS.length - 1;
 
   const inputClass = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-navy placeholder:text-gray focus:outline-none focus:ring-2 focus:ring-red/30 focus:border-red';
 
@@ -552,7 +574,28 @@ export default function OnboardingPortal() {
                 )}
 
                 {/* Full step instructions */}
-                {stepData ? (
+                {isRosterStepper ? (
+                  <div className="mb-6">
+                    <p className="text-gray-700 leading-relaxed mb-4">Before you download the roster template in the next step, we want to cover some FAQs.</p>
+                    {(stepDone ? ROSTER_SECTIONS.map((_, i) => i) : [rosterSection]).map(si => {
+                      const sec = ROSTER_SECTIONS[si];
+                      return (
+                        <div key={si} className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
+                          <p className="text-xs font-extrabold uppercase tracking-wide text-red mb-3">{sec.heading.replace('&amp;', '&')}</p>
+                          <ol className="space-y-3">
+                            {sec.items.map((it, ii) => (
+                              <li key={ii} className="flex items-start gap-3">
+                                <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{ii + 1}</span>
+                                <span className="text-gray-700 leading-relaxed pt-1" dangerouslySetInnerHTML={{ __html: it }} />
+                              </li>
+                            ))}
+                          </ol>
+                        </div>
+                      );
+                    })}
+                    {!stepDone && <p className="text-center text-xs text-gray-500 font-semibold">Section {rosterSection + 1} of {ROSTER_SECTIONS.length}</p>}
+                  </div>
+                ) : stepData ? (
                   <CoachStepContent step={stepData} hideCta />
                 ) : step.faqIndex != null ? (
                   <div
@@ -603,7 +646,9 @@ export default function OnboardingPortal() {
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-6">
                   <button
                     onClick={() => {
-                      if (wizardIndex === 0) { setShowOverview(true); } else { setWizardIndex(wizardIndex - 1); }
+                      if (isRosterStepper && !stepDone && rosterSection > 0) { setRosterSection(rosterSection - 1); }
+                      else if (wizardIndex === 0) { setShowOverview(true); }
+                      else { setWizardIndex(wizardIndex - 1); }
                       setError('');
                     }}
                     className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
@@ -642,6 +687,14 @@ export default function OnboardingPortal() {
                           I Understand ✓
                         </button>
                       )}
+                      {isRosterStepper && !stepDone && rosterSection < rosterLast ? (
+                        <button
+                          onClick={() => { setRosterSection(rosterSection + 1); setError(''); }}
+                          className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                        >
+                          Next →
+                        </button>
+                      ) : (
                       <button
                         onClick={() => {
                           if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } }
@@ -652,6 +705,7 @@ export default function OnboardingPortal() {
                       >
                         {saving ? 'Saving…' : stepDone ? 'Next →' : 'Continue →'}
                       </button>
+                      )}
                     </>
                   ) : !stepDone ? (
                     <button
