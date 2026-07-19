@@ -10,10 +10,10 @@ type Mode = 'signin' | 'register' | 'forgot' | 'reset';
 type Screen = 'welcome' | 'how' | 'steps' | 'index';
 
 const OFFERINGS: React.ReactNode[] = [
-  <><strong className="text-navy font-semibold">5,000+ follow-along videos</strong> — every skill, age, and level covered.</>,
-  <><strong className="text-navy font-semibold">Homework & training plans</strong> from your coach or created by you.</>,
-  <><strong className="text-navy font-semibold">Challenges, leaderboards & awards</strong> that keep training fun.</>,
-  <><strong className="text-navy font-semibold">Progress & streak tracking</strong> so you can see how far you&rsquo;ve come.</>,
+  <><strong className="text-navy font-semibold">Get started the right way</strong> — know exactly where to begin.</>,
+  <><strong className="text-navy font-semibold">Learn the key features</strong> — homework, training plans, challenges & leaderboards.</>,
+  <><strong className="text-navy font-semibold">Get your questions answered</strong> — the most common ones, all in one place.</>,
+  <><strong className="text-navy font-semibold">Make the most of the program</strong> — 5,000+ videos and everything it offers.</>,
 ];
 
 const HOW_IT_WORKS: React.ReactNode[] = [
@@ -269,7 +269,7 @@ export default function PlayerPortal() {
                 <p className="text-gray-700 leading-relaxed mb-4">
                   Anytime Soccer Training is <strong className="text-navy font-semibold">easy to use</strong> — but this portal is designed to help you <strong className="text-navy font-semibold">maximize your training</strong> and <strong className="text-navy font-semibold">get started on the right foot</strong>. Think of it as your guide to the key features and everything the program has to offer.
                 </p>
-                <p className="text-gray-700 leading-relaxed mb-3">Here&rsquo;s what the program gives you:</p>
+                <p className="text-gray-700 leading-relaxed mb-3">Here&rsquo;s why we built it:</p>
 
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
                   <ol className="space-y-4">
