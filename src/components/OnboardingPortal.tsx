@@ -523,6 +523,7 @@ export default function OnboardingPortal() {
                 <ol className="space-y-4">
                   {[
                     <>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong>.</>,
+                    <>You can <strong className="text-navy font-semibold">skip a step</strong> and come back to it &mdash; but every step must be completed to finish onboarding and get started.</>,
                     <><strong className="text-navy font-semibold">Already done a step?</strong> Mark it complete and move on.</>,
                     <>Have a question? Click <strong className="text-navy font-semibold">Ask us here</strong> and we&rsquo;ll be in touch.</>,
                   ].map((item, i) => (
