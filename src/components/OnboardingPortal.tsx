@@ -454,18 +454,20 @@ export default function OnboardingPortal() {
                   Welcome to <strong className="text-navy font-semibold">Anytime Soccer Training</strong> — we&rsquo;re excited to have your team!
                 </p>
                 <p className="text-gray-700 leading-relaxed mb-3">Getting set up has three parts:</p>
-                <ol className="space-y-3 mb-4">
-                  {[
-                    <><strong className="text-navy font-semibold">Pre-Onboarding</strong> — a few quick steps before we begin.</>,
-                    <><strong className="text-navy font-semibold">Onboarding</strong> — the steps that get your team live in the app.</>,
-                    <><strong className="text-navy font-semibold">FAQs</strong> — answering common questions so you&rsquo;re set up for success.</>,
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{i + 1}</span>
-                      <span className="text-gray-700 leading-relaxed pt-1">{item}</span>
-                    </li>
-                  ))}
-                </ol>
+                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
+                  <ol className="space-y-4">
+                    {[
+                      <><strong className="text-navy font-semibold">Pre-Onboarding</strong> — a few quick steps before we begin.</>,
+                      <><strong className="text-navy font-semibold">Onboarding</strong> — the steps that get your team live in the app.</>,
+                      <><strong className="text-navy font-semibold">FAQs</strong> — answering common questions so you&rsquo;re set up for success.</>,
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{i + 1}</span>
+                        <span className="text-gray-700 leading-relaxed pt-1">{item}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
                 <p className="text-gray-700 leading-relaxed mb-4">
                   Every step is designed to get your team set up quickly — so your players can start <strong className="text-navy font-semibold">training from day one</strong>.
                 </p>
