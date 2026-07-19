@@ -61,7 +61,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Pay Your Invoice',
     body: `
-      <p>Once we receive your roster, we&rsquo;ll generate your invoice and send it via Stripe. As soon as it&rsquo;s paid, onboarding begins.</p>
+      <p>We&rsquo;ll send your invoice via Stripe once we receive your roster. <strong>As soon as you&rsquo;ve paid it, confirm this step below</strong> &mdash; that&rsquo;s when onboarding begins.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
@@ -75,6 +75,9 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
           <p style="margin:6px 0 0;"><strong>Parents pay nothing</strong> &mdash; each player gets a team code for 365 days of full access.</p>
         </div>
+      </div>
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:16px 20px;margin:16px 0;">
+        <p style="margin:0;color:#166534;"><strong>Please confirm you&rsquo;ve received and paid your invoice</strong> to continue.</p>
       </div>
     `,
   },
