@@ -783,6 +783,7 @@ export default function PlayerPortal() {
                     </li>
                   ))}
                 </ol>
+                <p className="text-gray-700 leading-relaxed mb-6">That&rsquo;s why every move has a <strong className="text-navy font-semibold">dedicated video</strong>, and the curriculum <strong className="text-navy font-semibold">stacks each skill area</strong>.</p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
                   <button
                     onClick={() => setScreen('steps')}
