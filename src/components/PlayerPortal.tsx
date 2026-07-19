@@ -11,7 +11,7 @@ type Screen = 'welcome' | 'how' | 'steps' | 'index';
 
 const OFFERINGS: React.ReactNode[] = [
   <><strong className="text-navy font-semibold">Get started the right way</strong> — know exactly where to begin.</>,
-  <><strong className="text-navy font-semibold">Learn the key features</strong> — training plans, challenges & leaderboards.</>,
+  <><strong className="text-navy font-semibold">Key features</strong> — training plans, challenges & leaderboards.</>,
   <><strong className="text-navy font-semibold">Get your questions answered</strong> — all in one place.</>,
   <><strong className="text-navy font-semibold">Make the most of the program</strong> — design training plans that fit your needs.</>,
 ];
