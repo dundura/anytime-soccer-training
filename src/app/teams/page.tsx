@@ -80,12 +80,20 @@ export default function TeamsPage() {
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-bold text-navy mb-3">Teams</h1>
           <p className="text-gray text-lg">Getting started guides for coaches, parents, and teams</p>
-          <Link
-            href="/onboarding-portal?view=index"
-            className="inline-block mt-5 bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
-          >
-            Onboarding Portal →
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-5">
+            <Link
+              href="/onboarding-portal?view=index"
+              className="inline-block bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+            >
+              Onboarding Portal →
+            </Link>
+            <Link
+              href="/player-portal"
+              className="inline-block bg-navy hover:bg-navy/90 text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+            >
+              Player Portal →
+            </Link>
+          </div>
         </div>
 
         {/* Explore the App */}
