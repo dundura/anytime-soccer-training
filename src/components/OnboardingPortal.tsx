@@ -64,7 +64,7 @@ const ROSTER_SECTIONS: { heading: string; items: string[] }[] = [
   { heading: 'Parent Emails &amp; Roster', items: [
     'You can provide more than one parent email &mdash; both parents get the invite and can decide who signs up.',
     'Don&rsquo;t have your full roster yet? No problem &mdash; you can add players later.',
-    'Emails can be updated later &mdash; not a problem.',
+    'Users can update their emails inside the app at any time.',
   ] },
   { heading: 'Player Emails', items: [
     'Parents can also sign up with a different email than the one you provided &mdash; that&rsquo;s fine.',
