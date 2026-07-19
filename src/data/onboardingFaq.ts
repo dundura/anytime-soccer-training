@@ -173,7 +173,8 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: 'Assigning Program Folders',
     answer: `
-      <p style="font-weight:700;color:#0F3154;margin:0 0 8px;">Types of Folders</p>
+      <p>Training is organized by <strong>skill areas</strong>, <strong>programs</strong>, and <strong>folders</strong> &mdash; the folders house the videos.</p>
+      <p style="font-weight:700;color:#0F3154;margin:16px 0 8px;">Types of Folders</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <ul style="margin:0;">
           <li><strong>Curated Curriculum</strong> &mdash; folders by skill area, in our recommended order (rotates skills for variety).</li>
