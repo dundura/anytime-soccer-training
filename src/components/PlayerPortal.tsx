@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const API = 'https://api.anytime-soccer.com';
 const TOKEN_KEY = 'astPlayerPortalToken';
 const SCREEN_KEY = 'astPlayerPortalScreen';
+const ADMIN_KEY = 'astPlayerPortalAdmin';
 const SCREENS = ['welcome', 'how', 'steps', 'gettingStarted', 'index'] as const;
 
 type Player = { name: string; email: string; checklist: Record<string, boolean | 'skipped'> };
@@ -101,8 +102,8 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     body: (
       <>
         <p className="mb-3">Puts the programs in a <strong className="text-navy font-semibold">recommended order</strong> — giving your training <strong className="text-navy font-semibold">structure and variety</strong>.</p>
-        <p className="mb-3">For example, Ball Mastery flows through <strong className="text-navy font-semibold">1,000 Touch</strong>, <strong className="text-navy font-semibold">101 Ball Mastery</strong>, <strong className="text-navy font-semibold">One Cone</strong>, <strong className="text-navy font-semibold">Two Cone</strong>, and more — delivering videos from each in a <strong className="text-navy font-semibold">round robin</strong>.</p>
-        <p>We recommend pinning the folders to your <strong className="text-navy font-semibold">Favorites</strong> or the <strong className="text-navy font-semibold">My Plan</strong> section and working through them.</p>
+        <p className="mb-3">For example, Ball Mastery starts with <strong className="text-navy font-semibold">1,000 Touch</strong>, <strong className="text-navy font-semibold">101 Ball Mastery</strong>, <strong className="text-navy font-semibold">One Cone</strong>, <strong className="text-navy font-semibold">Two Cone</strong>, and more — delivering videos from each in a <strong className="text-navy font-semibold">round robin</strong>.</p>
+        <p>We recommend pinning the folders to your <strong className="text-navy font-semibold">Favorites</strong> or the <strong className="text-navy font-semibold">My Plan</strong> section.</p>
       </>
     ),
   },
@@ -111,11 +112,30 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'My Plan',
     body: (
       <>
-        <p className="mb-3">Save folders and videos into your <strong className="text-navy font-semibold">My Plan</strong> for convenience — everything you&rsquo;re working on, all in one place.</p>
+        <p className="mb-3">Save folders and videos into your <strong className="text-navy font-semibold">My Plan</strong> — everything you&rsquo;re working on, all in one place.</p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1784497330132-l6s39e.png" alt="My Plan section" className="w-full rounded-lg border border-blue-100 mb-3" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1784497206092-l5kzpb.png" alt="Saving to My Plan" className="w-full rounded-lg border border-blue-100" />
+      </>
+    ),
+  },
+  {
+    icon: '⭐',
+    title: 'Custom Folders and Favorites',
+    body: (
+      <>
+        <p className="mb-3">Favorites have two main steps:</p>
+        <ol className="space-y-3">
+          {[
+            <>Create a folder.</>,
+          ].map((item, i) => (
+            <li key={i} className="flex items-start gap-2.5">
+              <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
+              <span className="pt-0.5">{item}</span>
+            </li>
+          ))}
+        </ol>
       </>
     ),
   },
@@ -157,6 +177,10 @@ export default function PlayerPortal() {
   const [completeTarget, setCompleteTarget] = useState<{ key: string; title: string; onAffirm?: () => void } | null>(null);
   const [stepChoice, setStepChoice] = useState<'affirm' | 'question' | null>(null);
   const [saving, setSaving] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [extraEmail, setExtraEmail] = useState('');
+  const [pageSent, setPageSent] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   // On load: pick up a ?reset= link, then restore any saved session.
   useEffect(() => {
@@ -166,6 +190,7 @@ export default function PlayerPortal() {
       setResetToken(rt);
       setMode('reset');
     }
+    if (localStorage.getItem(ADMIN_KEY) === '1') setIsAdmin(true);
     const saved = localStorage.getItem(TOKEN_KEY);
     if (!saved) { setLoading(false); return; }
     fetch(`${API}/player-portal/state`, { headers: { Authorization: saved } })
@@ -216,6 +241,7 @@ export default function PlayerPortal() {
         window.history.replaceState({}, '', '/player-portal');
       }
       localStorage.setItem(TOKEN_KEY, data.token);
+      if (data.admin) { setIsAdmin(true); localStorage.setItem(ADMIN_KEY, '1'); } else { setIsAdmin(false); localStorage.removeItem(ADMIN_KEY); }
       setToken(data.token);
       setPlayer(data.player);
       setScreen('welcome');
@@ -228,6 +254,8 @@ export default function PlayerPortal() {
 
   const signOut = () => {
     localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(ADMIN_KEY);
+    setIsAdmin(false);
     setToken(null);
     setPlayer(null);
     setMode('signin');
@@ -285,12 +313,47 @@ export default function PlayerPortal() {
     setSaving(false);
   };
 
-  // Reusable footer: just the "Ask a question" link (completion happens via the Next button).
+  const emailPage = async (title: string) => {
+    if (!token) return;
+    setSaving(true);
+    try {
+      const html = contentRef.current ? contentRef.current.innerHTML : '';
+      await fetch(`${API}/player-portal/email-page`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: token },
+        body: JSON.stringify({ title, html, extraEmail: extraEmail.trim() }),
+      });
+      setPageSent(true);
+      setTimeout(() => setPageSent(false), 6000);
+    } catch { /* non-blocking */ } finally { setSaving(false); }
+  };
+
+  // Reusable footer: "Ask a question" link + (admin only) email-this-page tool.
   const pageActions = (_key: string, title: string) => (
-    <div className="mt-6 pt-4 border-t border-gray-100 flex justify-center">
+    <div className="mt-6 pt-4 border-t border-gray-100 flex flex-col items-center gap-3">
       <button onClick={() => openQuestion(title)} className="text-sm text-red hover:text-red-dark font-semibold">
         Have a question? Ask us here
       </button>
+      {isAdmin && (
+        <div className="w-full bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 text-center">
+          <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-2">Admin</p>
+          <input
+            type="email"
+            value={extraEmail}
+            onChange={e => setExtraEmail(e.target.value)}
+            placeholder="Also send to (optional email)"
+            className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 mb-3 focus:outline-none focus:ring-2 focus:ring-amber-300"
+          />
+          <button
+            onClick={() => emailPage(title)}
+            disabled={saving}
+            className="bg-navy hover:bg-navy/90 text-white font-bold py-2.5 px-6 rounded-xl transition-colors disabled:opacity-60"
+          >
+            {saving ? 'Sending…' : '📧 Email This Page to the User'}
+          </button>
+          {pageSent && <p className="text-green-700 font-semibold text-sm mt-2">✓ Sent{player ? ` to ${player.email}` : ''}</p>}
+        </div>
+      )}
     </div>
   );
 
@@ -342,9 +405,12 @@ export default function PlayerPortal() {
                 )}
               </div>
               {player && (
-                <button onClick={signOut} className="text-white/60 hover:text-white text-xs font-semibold">
-                  Sign out
-                </button>
+                <div className="flex items-center gap-2">
+                  {isAdmin && <span className="bg-amber-400 text-navy text-[10px] font-extrabold uppercase tracking-wide px-2 py-0.5 rounded-full">Admin</span>}
+                  <button onClick={signOut} className="text-white/60 hover:text-white text-xs font-semibold">
+                    Sign out
+                  </button>
+                </div>
               )}
             </div>
             <h1 className="text-white text-2xl font-extrabold">
@@ -490,7 +556,7 @@ export default function PlayerPortal() {
                 <h2 className="text-navy text-xl font-extrabold mb-3">How it Works</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">We&rsquo;ve broken the key features into pages you can reference.</p>
 
-                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
+                <div ref={contentRef} className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
                   <ol className="space-y-4">
                     {HOW_IT_WORKS.map((item, i) => (
                       <li key={i} className="flex items-start gap-3">
@@ -523,7 +589,7 @@ export default function PlayerPortal() {
                 <h2 className="text-navy text-xl font-extrabold mb-3">Account Setup</h2>
                 <p className="text-gray-700 leading-relaxed mb-5">By now, you&rsquo;ve already created your account. Below are additional tips.</p>
 
-                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-2">
+                <div ref={contentRef} className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-2">
                   <p className="text-navy font-bold mb-2">{SETUP_TIPS[setupStep].icon} {SETUP_TIPS[setupStep].title}</p>
                   <div className="text-gray-700 leading-relaxed">{SETUP_TIPS[setupStep].body}</div>
                 </div>
@@ -538,11 +604,11 @@ export default function PlayerPortal() {
                   </button>
                   <button
                     onClick={() => {
-                      if (setupStep < SETUP_TIPS.length - 1) setSetupStep(setupStep + 1);
-                      else if (isDone('accountSetup')) setScreen('gettingStarted');
-                      else openComplete('accountSetup', 'Account Setup', () => setScreen('gettingStarted'));
+                      const advance = () => { if (setupStep < SETUP_TIPS.length - 1) setSetupStep(setupStep + 1); else setScreen('gettingStarted'); };
+                      if (isDone(`accountSetup:${setupStep}`)) advance();
+                      else openComplete(`accountSetup:${setupStep}`, `Account Setup — ${SETUP_TIPS[setupStep].title}`, advance);
                     }}
-                    className={`w-full sm:w-auto ${setupStep === SETUP_TIPS.length - 1 && isDone('accountSetup') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
+                    className={`w-full sm:w-auto ${isDone(`accountSetup:${setupStep}`) ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
                   >
                     Next &rarr;
                   </button>
@@ -555,7 +621,7 @@ export default function PlayerPortal() {
                 <h2 className="text-navy text-xl font-extrabold mb-3">How to Start Your Training</h2>
                 <p className="text-gray-700 leading-relaxed mb-5">Getting started is easy — but the best way depends on your preference, so we&rsquo;ll cover a few options.</p>
 
-                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-2">
+                <div ref={contentRef} className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-2">
                   <p className="text-navy font-bold mb-2">{GETTING_STARTED_TIPS[gsStep].icon} {GETTING_STARTED_TIPS[gsStep].title}</p>
                   <div className="text-gray-700 leading-relaxed">{GETTING_STARTED_TIPS[gsStep].body}</div>
                 </div>
@@ -570,11 +636,11 @@ export default function PlayerPortal() {
                   </button>
                   <button
                     onClick={() => {
-                      if (gsStep < GETTING_STARTED_TIPS.length - 1) setGsStep(gsStep + 1);
-                      else if (isDone('gettingStarted')) setScreen('index');
-                      else openComplete('gettingStarted', 'How to Start Your Training', () => setScreen('index'));
+                      const advance = () => { if (gsStep < GETTING_STARTED_TIPS.length - 1) setGsStep(gsStep + 1); else setScreen('index'); };
+                      if (isDone(`gettingStarted:${gsStep}`)) advance();
+                      else openComplete(`gettingStarted:${gsStep}`, `How to Start Your Training — ${GETTING_STARTED_TIPS[gsStep].title}`, advance);
                     }}
-                    className={`w-full sm:w-auto ${gsStep === GETTING_STARTED_TIPS.length - 1 && isDone('gettingStarted') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
+                    className={`w-full sm:w-auto ${isDone(`gettingStarted:${gsStep}`) ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
                   >
                     Next &rarr;
                   </button>

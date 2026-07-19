@@ -2,9 +2,20 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import CollapsibleChecklist from '@/components/CollapsibleChecklist';
 
+const OG_IMAGE = 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1784474398158-pbjc26.png';
+
 export const metadata: Metadata = {
   title: 'Pre Onboarding | Anytime Soccer Training',
   description: "Before you start onboarding: send us your roster and pay your invoice.",
+  openGraph: {
+    title: 'Pre Onboarding | Anytime Soccer Training',
+    description: "Before you start onboarding: send us your roster and pay your invoice.",
+    images: [{ url: OG_IMAGE, width: 1731, height: 909 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: [OG_IMAGE],
+  },
 };
 
 type ChecklistItem = { label: string; href?: string };

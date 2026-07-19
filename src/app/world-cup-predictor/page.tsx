@@ -82,6 +82,13 @@ export default function WorldCupPredictorPage() {
         </div>
       </section>
 
+      {/* Predictor + Live Leaderboard tabs */}
+      <section className="py-10 md:py-16 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <WorldCupTabs />
+        </div>
+      </section>
+
       {/* Latest Results */}
       <section className="pb-10 md:pb-14 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -134,13 +141,6 @@ export default function WorldCupPredictorPage() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Predictor + Live Leaderboard tabs */}
-      <section className="py-10 md:py-16 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <WorldCupTabs />
         </div>
       </section>
 
