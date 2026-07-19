@@ -79,10 +79,19 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'All Programs',
     body: (
       <>
-        <p className="mb-3">Click <strong className="text-navy font-semibold">All Programs</strong> and start with the core skill areas — <strong className="text-navy font-semibold">Ball Mastery</strong>, <strong className="text-navy font-semibold">Dribbling</strong>, and <strong className="text-navy font-semibold">Wall Passing</strong>.</p>
-        <p className="mb-3">In <strong className="text-navy font-semibold">Ball Mastery</strong>, start with the <strong className="text-navy font-semibold">1,000 Touch Ball Mastery</strong> program and the folder <strong className="text-navy font-semibold">P1: Toe Taps, Tick Tocks, Stationary, Pause &amp; Moving</strong>.</p>
-        <p className="mb-3">In <strong className="text-navy font-semibold">Dribbling</strong>, start with the <strong className="text-navy font-semibold">Ronaldinho Freestyle Dribbling</strong> program and the folder <strong className="text-navy font-semibold">P1: Ronaldinho Freestyle Dribbling</strong>.</p>
-        <p>In <strong className="text-navy font-semibold">Wall Passing</strong>, start with the <strong className="text-navy font-semibold">101 Wall Passing Drills</strong> program and the folder <strong className="text-navy font-semibold">P1: 101 Wall Passing Part 1</strong>.</p>
+        <p className="mb-3">Click <strong className="text-navy font-semibold">All Programs</strong> and start with the core skill areas — <strong className="text-navy font-semibold">Ball Mastery</strong>, <strong className="text-navy font-semibold">Dribbling</strong>, and <strong className="text-navy font-semibold">Wall Passing</strong>:</p>
+        <ul className="space-y-2">
+          {[
+            <><strong className="text-navy font-semibold">1,000 Touch Ball Mastery</strong> program and the folder <strong className="text-navy font-semibold">P1: Toe Taps, Tick Tocks, Stationary, Pause &amp; Moving</strong>.</>,
+            <><strong className="text-navy font-semibold">Ronaldinho Freestyle Dribbling</strong> program and the folder <strong className="text-navy font-semibold">P1: Ronaldinho Freestyle Dribbling</strong>.</>,
+            <><strong className="text-navy font-semibold">101 Wall Passing Drills</strong> program and the folder <strong className="text-navy font-semibold">P1: 101 Wall Passing Part 1</strong>.</>,
+          ].map((item, i) => (
+            <li key={i} className="flex items-start gap-2">
+              <span className="text-red font-bold leading-6">•</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
       </>
     ),
   },
