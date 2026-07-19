@@ -136,6 +136,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
             {[
               <>Click <strong className="text-navy font-semibold">My Favorites</strong> and create a folder.</>,
               <>Click inside any training folder and pin videos to your favorites.</>,
+              <>Add those videos to the folder (select all for faster assigning).</>,
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-2.5">
                 <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
