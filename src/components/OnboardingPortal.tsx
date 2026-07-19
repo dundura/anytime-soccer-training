@@ -117,6 +117,7 @@ export default function OnboardingPortal() {
   const [questionSent, setQuestionSent] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [missingSent, setMissingSent] = useState(false);
+  const [indexFilter, setIndexFilter] = useState<'all' | 'outstanding'>('all');
   const [extraEmail, setExtraEmail] = useState('');
   const [pageSent, setPageSent] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -422,27 +423,68 @@ export default function OnboardingPortal() {
             ) : showIndex && coach ? (
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-4">Index</h2>
+                {(() => {
+                  const remaining = STEPS.filter(s => !s.final && coach.checklist[s.key] !== true).length;
+                  return remaining > 0 ? (
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-4 flex items-center gap-3">
+                      <span className="text-xl">📋</span>
+                      <p className="text-sm text-amber-800 font-semibold">
+                        {remaining} step{remaining === 1 ? '' : 's'} still outstanding — tap any <span className="text-red">To do</span> step below to jump in.
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 mb-4 flex items-center gap-3">
+                      <span className="text-xl">✓</span>
+                      <p className="text-sm text-green-800 font-semibold">All steps complete — nice work!</p>
+                    </div>
+                  );
+                })()}
+                <div className="flex border border-gray-200 rounded-lg overflow-hidden mb-4 max-w-xs">
+                  {(['all', 'outstanding'] as const).map(f => (
+                    <button
+                      key={f}
+                      onClick={() => setIndexFilter(f)}
+                      className={`flex-1 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${indexFilter === f ? 'bg-navy text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}
+                    >
+                      {f === 'all' ? 'All steps' : 'Outstanding'}
+                    </button>
+                  ))}
+                </div>
                 <div className="border border-gray-200 rounded-xl overflow-hidden mb-6 divide-y divide-gray-100">
-                  <a href="/onboarding-portal" className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
-                    <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
-                    <span className="text-sm font-semibold text-red hover:underline">Welcome</span>
-                  </a>
-                  <a href="/onboarding-portal?view=steps" className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
-                    <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
-                    <span className="text-sm font-semibold text-red hover:underline">How it Works</span>
-                  </a>
+                  {indexFilter === 'all' && (
+                    <>
+                      <a href="/onboarding-portal" className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
+                        <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
+                        <span className="text-sm font-semibold text-red hover:underline">Welcome</span>
+                      </a>
+                      <a href="/onboarding-portal?view=steps" className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
+                        <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
+                        <span className="text-sm font-semibold text-red hover:underline">How it Works</span>
+                      </a>
+                    </>
+                  )}
                   {STEPS.map((st, i) => {
-                    const done = !!coach.checklist[st.key];
+                    const done = coach.checklist[st.key] === true;
                     const skipped = coach.checklist[st.key] === 'skipped';
+                    const outstanding = !done && !skipped;
+                    if (indexFilter === 'outstanding' && done) return null;
                     return (
-                      <a key={st.key} href={`/onboarding-portal?step=${i + 1}`} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
+                      <a key={st.key} href={`/onboarding-portal?step=${i + 1}`} className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-50 ${outstanding ? 'bg-red/5' : ''}`}>
                         <span className={`w-6 text-center font-bold text-xs ${skipped ? 'text-amber-500' : done ? 'text-green-600' : 'text-gray-300'}`}>
                           {skipped ? '→' : done ? '✓' : st.tip ? '💡' : stepNumber(i)}
                         </span>
-                        <span className="text-sm font-semibold text-red hover:underline">{st.title}</span>
+                        <span className={`text-sm font-semibold hover:underline ${done ? 'text-gray-400' : 'text-red'}`}>{st.title}</span>
+                        {!st.final && (
+                          <span className={`ml-auto flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${done ? 'bg-green-100 text-green-700' : skipped ? 'bg-amber-100 text-amber-700' : 'bg-red/10 text-red'}`}>
+                            {done ? 'Done' : skipped ? 'Skipped' : 'To do'}
+                          </span>
+                        )}
                       </a>
                     );
                   })}
+                  {indexFilter === 'outstanding' && STEPS.every(s => coach.checklist[s.key] === true) && (
+                    <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">🎉 Nothing outstanding — every step is complete!</p>
+                  )}
                 </div>
                 {isAdmin && (
                   <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4 text-center">
