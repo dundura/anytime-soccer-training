@@ -158,7 +158,14 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: 'How do I assign homework?',
     answer: `
-      <p>Homework is organized into <strong>3 key categories</strong>: <strong>folders</strong>, <strong>plans</strong>, and <strong>custom folders</strong>.</p>
+      <p>Homework is organized into <strong>3 key categories</strong>:</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <ul style="margin:0;">
+          <li><strong>Program Folders</strong></li>
+          <li><strong>Recurring Training Plans</strong></li>
+          <li><strong>Favorites (custom folders)</strong></li>
+        </ul>
+      </div>
       <p>We&rsquo;ll go over each one in the next few pages.</p>
     `,
   },
