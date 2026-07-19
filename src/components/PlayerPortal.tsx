@@ -154,7 +154,7 @@ export default function PlayerPortal() {
   const [sendingQuestion, setSendingQuestion] = useState(false);
   const [questionSent, setQuestionSent] = useState(false);
   const [showComplete, setShowComplete] = useState(false);
-  const [completeTarget, setCompleteTarget] = useState<{ key: string; title: string } | null>(null);
+  const [completeTarget, setCompleteTarget] = useState<{ key: string; title: string; onAffirm?: () => void } | null>(null);
   const [stepChoice, setStepChoice] = useState<'affirm' | 'question' | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -267,14 +267,16 @@ export default function PlayerPortal() {
     } catch { /* non-blocking */ } finally { setSendingQuestion(false); }
   };
 
-  const openComplete = (key: string, title: string) => { setCompleteTarget({ key, title }); setStepChoice(null); setShowComplete(true); };
+  const openComplete = (key: string, title: string, onAffirm?: () => void) => { setCompleteTarget({ key, title, onAffirm }); setStepChoice(null); setShowComplete(true); };
 
   const submitComplete = async () => {
     if (!completeTarget || !stepChoice) return;
     setSaving(true);
     if (stepChoice === 'affirm') {
       await saveChecklist({ ...(player?.checklist || {}), [completeTarget.key]: true });
+      const cb = completeTarget.onAffirm;
       setShowComplete(false);
+      cb?.();
     } else {
       const title = completeTarget.title;
       setShowComplete(false);
@@ -283,19 +285,9 @@ export default function PlayerPortal() {
     setSaving(false);
   };
 
-  // Reusable footer: Mark Complete + Ask a question, shown on each content page.
-  const pageActions = (key: string, title: string) => (
-    <div className="mt-6 pt-4 border-t border-gray-100 flex flex-col items-center gap-3">
-      {isDone(key) ? (
-        <p className="text-green-700 font-bold text-sm">&#10003; Marked complete</p>
-      ) : (
-        <button
-          onClick={() => openComplete(key, title)}
-          className="w-full sm:w-auto bg-navy hover:bg-navy/90 text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
-        >
-          Mark Complete &#10003;
-        </button>
-      )}
+  // Reusable footer: just the "Ask a question" link (completion happens via the Next button).
+  const pageActions = (_key: string, title: string) => (
+    <div className="mt-6 pt-4 border-t border-gray-100 flex justify-center">
       <button onClick={() => openQuestion(title)} className="text-sm text-red hover:text-red-dark font-semibold">
         Have a question? Ask us here
       </button>
@@ -520,7 +512,7 @@ export default function PlayerPortal() {
                     &larr; Back
                   </button>
                   <button
-                    onClick={() => setScreen('steps')}
+                    onClick={() => openComplete('how', 'How it Works', () => setScreen('steps'))}
                     className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
                     Next &rarr;
@@ -548,7 +540,7 @@ export default function PlayerPortal() {
                     &larr; Back
                   </button>
                   <button
-                    onClick={() => { if (setupStep < SETUP_TIPS.length - 1) setSetupStep(setupStep + 1); else setScreen('gettingStarted'); }}
+                    onClick={() => { if (setupStep < SETUP_TIPS.length - 1) setSetupStep(setupStep + 1); else openComplete('accountSetup', 'Account Setup', () => setScreen('gettingStarted')); }}
                     className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
                     Next &rarr;
@@ -575,14 +567,12 @@ export default function PlayerPortal() {
                   >
                     &larr; Back
                   </button>
-                  {gsStep < GETTING_STARTED_TIPS.length - 1 && (
-                    <button
-                      onClick={() => setGsStep(gsStep + 1)}
-                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
-                    >
-                      Next &rarr;
-                    </button>
-                  )}
+                  <button
+                    onClick={() => { if (gsStep < GETTING_STARTED_TIPS.length - 1) setGsStep(gsStep + 1); else openComplete('gettingStarted', 'How to Start Your Training', () => setScreen('index')); }}
+                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    Next &rarr;
+                  </button>
                 </div>
                 {pageActions('gettingStarted', 'How to Start Your Training')}
               </div>
