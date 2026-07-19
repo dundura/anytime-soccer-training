@@ -107,6 +107,21 @@ export default function PlayerPortal() {
 
   const goHome = () => { setScreen('welcome'); setError(''); };
 
+  const resetProgress = async () => {
+    if (!token) return;
+    if (!window.confirm('Reset your progress and start the guide from the beginning?')) return;
+    try {
+      await fetch(`${API}/player-portal/checklist`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: token },
+        body: JSON.stringify({ checklist: {} }),
+      });
+    } catch { /* non-blocking */ }
+    setPlayer(p => (p ? { ...p, checklist: {} } : p));
+    setScreen('welcome');
+    setError('');
+  };
+
   return (
     <section className="py-16 bg-background min-h-screen">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -132,7 +147,7 @@ export default function PlayerPortal() {
                 )}
                 {player && (
                   <button
-                    onClick={() => { signOut(); setMode('forgot'); }}
+                    onClick={resetProgress}
                     className="inline-flex items-center gap-1 bg-white/15 border border-white/30 text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-white/25 transition-colors"
                   >
                     Reset
