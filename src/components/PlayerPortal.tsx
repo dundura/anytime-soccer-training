@@ -182,7 +182,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
   {
     icon: '🔁',
     title: 'Recurring Training Plans',
-    body: <>Content coming soon.</>,
+    body: <>Coming soon — we&rsquo;re putting this section together. Check back shortly!</>,
   },
 ];
 
