@@ -171,12 +171,19 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: 'How do I assign homework?',
     answer: `
       <p>Homework is organized into <strong>3 key categories</strong>:</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <ul style="margin:0;">
-          <li><strong>Program Folders</strong></li>
-          <li><strong>Recurring Training Plans</strong></li>
-          <li><strong>Favorites (custom folders)</strong></li>
-        </ul>
+      <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
+          <p style="margin:0;"><strong>Program Folders</strong></p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
+          <p style="margin:0;"><strong>Recurring Training Plans</strong></p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">3</span>
+          <p style="margin:0;"><strong>Favorites (custom folders)</strong></p>
+        </div>
       </div>
       <p>We&rsquo;ll go over each one in the next few pages.</p>
     `,
@@ -246,12 +253,19 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: 'Can my team have multiple team managers?',
     answer: `
       <p><strong>Yes.</strong> Once the team manager joins, you can update their role:</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <ul style="margin:0;">
-          <li>Click <strong>Roster</strong>.</li>
-          <li>Click their name.</li>
-          <li>Update their role to <strong>Manager</strong>.</li>
-        </ul>
+      <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
+          <p style="margin:5px 0 0;">Click <strong>Roster</strong>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
+          <p style="margin:5px 0 0;">Click their name.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">3</span>
+          <p style="margin:5px 0 0;">Update their role to <strong>Manager</strong>.</p>
+        </div>
       </div>
       <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:14px 16px;margin-top:12px;">
         <p style="margin:0;color:#92400e;">Parent coaches should add a profile for themselves and their children using the program &mdash; just like you did initially.</p>
