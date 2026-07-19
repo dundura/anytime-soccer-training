@@ -152,7 +152,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
   },
   {
     icon: '🎬',
-    title: 'Favorite Videos',
+    title: 'Pinning Individual Videos',
     body: <>Content coming soon.</>,
   },
   {
