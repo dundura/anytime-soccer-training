@@ -39,7 +39,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_not_on_team', title: 'I see that players have joined the app, but they’re not on my team', dataIndex: -1, faqIndex: 10, section: 'FAQs', tip: true },
   { key: 'faq_add_players', title: 'How do I add players to my team?', dataIndex: -1, faqIndex: 3, section: 'FAQs', tip: true },
   { key: 'faq_remove_players', title: 'How do I remove players from my team?', dataIndex: -1, faqIndex: 4, section: 'FAQs', tip: true },
-  { key: 'faq_managers', title: 'Can my team have multiple team managers?', dataIndex: -1, faqIndex: 17, section: 'FAQs', tip: true },
+  { key: 'faq_managers', title: 'Can my team have multiple team managers?', dataIndex: -1, faqIndex: 16, section: 'FAQs', tip: true },
   { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'FAQs', tip: true },
   { key: 'faq_assign_hw', title: 'How do I assign homework?', dataIndex: -1, faqIndex: 12, section: 'FAQs', tip: true, plainNext: true },
   { key: 'faq_folders', title: 'Assigning Program Folders', dataIndex: -1, faqIndex: 13, section: 'FAQs', tip: true },
@@ -624,12 +624,22 @@ export default function OnboardingPortal() {
                     ← Back
                   </button>
                   <button
-                    onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowOverview(false); setError(''); }}
+                    onClick={() => { setWizardIndex(0); setShowOverview(false); setError(''); }}
                     className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
                     Next →
                   </button>
                 </div>
+                {doneCount > 0 && !allDone && (
+                  <p className="text-center mb-2">
+                    <button
+                      onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowOverview(false); setError(''); }}
+                      className="text-sm text-navy font-semibold underline hover:text-red transition-colors"
+                    >
+                      Jump to where you left off →
+                    </button>
+                  </p>
+                )}
               </div>
             ) : (
               <div>
@@ -682,7 +692,7 @@ export default function OnboardingPortal() {
                 ) : step.faqIndex != null ? (
                   <div
                     className="mb-6 space-y-3 text-gray-700 leading-relaxed text-sm [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1.5 [&_li]:marker:text-red [&_strong]:text-navy [&_strong]:font-semibold"
-                    dangerouslySetInnerHTML={{ __html: ONBOARDING_FAQ[step.faqIndex].answer }}
+                    dangerouslySetInnerHTML={{ __html: ONBOARDING_FAQ[step.faqIndex]?.answer || '' }}
                   />
                 ) : null}
 
