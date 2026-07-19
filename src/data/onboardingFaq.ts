@@ -198,7 +198,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
   },
   {
     category: 'Team Management',
-    question: 'Assigning training plans',
+    question: 'Assigning recurring training plans',
     answer: `
       <p>Training plans are recurring plans that you set and forget.</p>
       <p style="font-weight:700;color:#0F3154;margin:16px 0 8px;">Types of Plans</p>
