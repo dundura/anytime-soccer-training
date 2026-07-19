@@ -57,7 +57,15 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'How training is organized',
     body: (
       <>
-        <p className="mb-3">The training is broken down into <strong className="text-navy font-semibold">Skill Areas</strong>, <strong className="text-navy font-semibold">Programs</strong>, <strong className="text-navy font-semibold">Folders</strong>, and <strong className="text-navy font-semibold">Recurring Training Plans</strong>.</p>
+        <p className="mb-2">The training is broken down into:</p>
+        <ul className="space-y-1.5 mb-3">
+          {['Skill Areas', 'Programs', 'Folders', 'Recurring Training Plans'].map((t) => (
+            <li key={t} className="flex items-start gap-2">
+              <span className="text-red font-bold leading-6">•</span>
+              <span className="font-semibold text-navy">{t}</span>
+            </li>
+          ))}
+        </ul>
         <p>We&rsquo;ll go over how to get started with each — pick whichever fits you best.</p>
       </>
     ),
