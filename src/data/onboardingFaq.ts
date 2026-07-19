@@ -353,6 +353,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:16px 18px;margin-top:12px;">
         <p style="margin:0 0 10px;color:#DC373E;font-weight:700;">✗ Coaches who struggle</p>
         <ul style="margin:0;color:#b91c1c;padding-left:18px;">
+          <li style="margin-bottom:6px;">Don&rsquo;t meet and set clear expectations with the families.</li>
           <li style="margin-bottom:6px;">Don&rsquo;t actively assign homework.</li>
           <li style="margin-bottom:6px;">Never mention it at training.</li>
           <li style="margin-bottom:6px;">Assume the kids will do it on their own.</li>
