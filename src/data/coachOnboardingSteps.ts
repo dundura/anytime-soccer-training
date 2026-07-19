@@ -333,7 +333,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
-          <p style="margin:6px 0 0;"><strong>Add players anytime.</strong> As your roster changes, adding more players is quick and easy.</p>
+          <p style="margin:6px 0 0;"><strong>Add players anytime.</strong> As your roster grows, add new players to your team and purchase their full access &mdash; all directly in the app.</p>
         </div>
       </div>
     `,
