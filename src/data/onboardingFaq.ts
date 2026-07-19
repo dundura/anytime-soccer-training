@@ -193,6 +193,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: 'Assigning Program Folders',
     answer: `
       <p>Training is organized by <strong>skill areas</strong>, <strong>programs</strong>, and <strong>folders</strong> &mdash; the folders house the videos.</p>
+      <p>For example, <strong>Ball Mastery</strong> is a skill area, <strong>1,000 Touch</strong> is a program, and <strong>P1:</strong> is the first folder.</p>
       <p style="font-weight:700;color:#0F3154;margin:16px 0 8px;">Types of Folders</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <ul style="margin:0;">
