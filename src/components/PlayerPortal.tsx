@@ -51,6 +51,14 @@ const SETUP_TIPS: { icon: string; title: string; body: React.ReactNode }[] = [
   },
 ];
 
+const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode }[] = [
+  {
+    icon: '▶️',
+    title: 'Just press play',
+    body: <>Content coming soon.</>,
+  },
+];
+
 const HOW_IT_WORKS: React.ReactNode[] = [
   <>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete &#10003;</strong> — this keeps track of what you&rsquo;ve covered and flags when new content is added.</>,
   <>You can <strong className="text-navy font-semibold">skip a step</strong> and come back to it.</>,
@@ -72,6 +80,7 @@ export default function PlayerPortal() {
   const [busy, setBusy] = useState(false);
   const [screen, setScreen] = useState<Screen>('welcome');
   const [setupStep, setSetupStep] = useState(0);
+  const [gsStep, setGsStep] = useState(0);
 
   // On load: pick up a ?reset= link, then restore any saved session.
   useEffect(() => {
@@ -409,13 +418,28 @@ export default function PlayerPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">Getting Started</h2>
                 <p className="text-gray-700 leading-relaxed mb-5">Getting started is easy — but the best way depends on your preference, so we&rsquo;ll cover a few options.</p>
+
+                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-2">
+                  <p className="text-navy font-bold mb-2">{GETTING_STARTED_TIPS[gsStep].icon} {GETTING_STARTED_TIPS[gsStep].title}</p>
+                  <div className="text-gray-700 leading-relaxed">{GETTING_STARTED_TIPS[gsStep].body}</div>
+                </div>
+                <p className="text-gray-400 text-xs font-semibold text-center mb-6">Tip {gsStep + 1} of {GETTING_STARTED_TIPS.length}</p>
+
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
                   <button
-                    onClick={() => setScreen('steps')}
+                    onClick={() => { if (gsStep > 0) setGsStep(gsStep - 1); else setScreen('steps'); }}
                     className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
                     &larr; Back
                   </button>
+                  {gsStep < GETTING_STARTED_TIPS.length - 1 && (
+                    <button
+                      onClick={() => setGsStep(gsStep + 1)}
+                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                    >
+                      Next &rarr;
+                    </button>
+                  )}
                 </div>
               </div>
             )}
