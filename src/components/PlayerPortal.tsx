@@ -63,7 +63,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
             <><strong className="text-navy font-semibold">All Programs</strong> — all skill areas grouped by programs.</>,
             <><strong className="text-navy font-semibold">Curated Curriculum</strong> — all skill areas organized in a recommended order.</>,
             <><strong className="text-navy font-semibold">Custom Folders and Favorites</strong> — create your own video folders.</>,
-            <><strong className="text-navy font-semibold">Recurring Training Plans</strong> — schedule sessions that repeat automatically, so training stays consistent.</>,
+            <><strong className="text-navy font-semibold">Recurring Training Plans</strong> — schedule sessions that repeat automatically.</>,
           ].map((item, i) => (
             <li key={i} className="flex items-start gap-2.5">
               <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
