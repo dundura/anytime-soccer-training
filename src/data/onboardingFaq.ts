@@ -148,9 +148,9 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: 'What are the 30-day plans?',
     answer: `
-      <p>The full video curriculum introduces <strong>one move at a time</strong>, then combines them. Our 30-day plans select only the <strong>review videos</strong> &mdash; estimated to take about <strong>30 days</strong> to finish.</p>
+      <p>The curriculum teaches <strong>one move at a time</strong>, then combines them. 30-day plans pull only the <strong>review videos</strong> &mdash; about <strong>30 days</strong> of training.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <p style="margin:0;">Review videos include <strong>4&ndash;6 moves per video</strong>, making them excellent for touching most skills in a truncated way.</p>
+        <p style="margin:0;">Each review video packs <strong>4&ndash;6 moves</strong>, so players touch most skills quickly.</p>
       </div>
     `,
   },
