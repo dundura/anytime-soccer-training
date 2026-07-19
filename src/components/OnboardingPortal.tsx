@@ -56,7 +56,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
 const stepNumber = (i: number) => STEPS.slice(0, i + 1).filter(x => !x.tip).length;
 const NUMBERED_TOTAL = STEPS.filter(x => !x.tip).length;
 
-const ROSTER_SECTIONS: { heading: string; items: string[] }[] = [
+const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
   { heading: 'Coach Contact', items: [
     'We only need the coach&rsquo;s phone number.',
     'Include the coach on the roster and indicate they&rsquo;re the coach &mdash; their child will be a player.',
@@ -72,7 +72,7 @@ const ROSTER_SECTIONS: { heading: string; items: string[] }[] = [
   ] },
   { heading: 'Adding New Players', items: [
     'To onboard new players, simply email us the parent name, child name, and email.',
-  ] },
+  ], note: 'New players can&rsquo;t replace an existing player for free &mdash; the original already has 365-day access.' },
 ];
 
 const NEXT_STEPS = [
@@ -590,6 +590,11 @@ export default function OnboardingPortal() {
                               </li>
                             ))}
                           </ol>
+                          {sec.note && (
+                            <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 mt-3">
+                              <p className="text-sm text-red font-semibold" dangerouslySetInnerHTML={{ __html: sec.note }} />
+                            </div>
+                          )}
                         </div>
                       );
                     })}
