@@ -21,6 +21,7 @@ type Coach = {
 const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean }[] = [
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
+  { key: 'tip_roster2', title: 'Roster FAQs: Player Emails', dataIndex: 18, section: 'Pre-Onboarding', tip: true },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: 2, section: 'Pre-Onboarding' },
   { key: 'tip_paywall', title: 'Quick Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Pre-Onboarding', tip: true },

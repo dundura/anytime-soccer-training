@@ -50,20 +50,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
           <p style="margin:6px 0 0;">Emails can be updated later &mdash; not a problem.</p>
         </div>
-        <div style="border-top:1px solid #dbeafe;margin:4px 0 16px;"></div>
-        <p style="margin:0 0 14px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:#DC373E;">Player Emails</p>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;">To onboard new players, simply email us the parent name, child name, and email.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:6px 0 0;">Parents can also sign up with a different email than the one you provided &mdash; that&rsquo;s fine.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
-          <p style="margin:6px 0 0;">Older player? Use their email if they&rsquo;ll be the primary contact.</p>
-        </div>
       </div>
     `,
     ctaLabel: 'Book Demo',
@@ -371,6 +357,26 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <p>That&rsquo;s everything! Once every step is complete, confirm below and we&rsquo;ll take it from there.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
         <p style="margin:0;">The confirm button unlocks when <strong>every step is done</strong>.</p>
+      </div>
+    `,
+  },
+  {
+    title: 'Roster FAQs: Player Emails',
+    body: `
+      <p>A few more notes on player emails before you continue.</p>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:6px 0 0;">To onboard new players, simply email us the parent name, child name, and email.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;">Parents can also sign up with a different email than the one you provided &mdash; that&rsquo;s fine.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:6px 0 0;">Older player? Use their email if they&rsquo;ll be the primary contact.</p>
+        </div>
       </div>
     `,
   },
