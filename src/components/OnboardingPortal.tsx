@@ -18,7 +18,7 @@ type Coach = {
 };
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
-const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean }[] = [
+const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean; plainNext?: boolean }[] = [
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
@@ -40,7 +40,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_add_players', title: 'How do I add players to my team?', dataIndex: -1, faqIndex: 3, section: 'FAQs', tip: true },
   { key: 'faq_remove_players', title: 'How do I remove players from my team?', dataIndex: -1, faqIndex: 4, section: 'FAQs', tip: true },
   { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'FAQs', tip: true },
-  { key: 'faq_assign_hw', title: 'How do I assign homework?', dataIndex: -1, faqIndex: 12, section: 'FAQs', tip: true },
+  { key: 'faq_assign_hw', title: 'How do I assign homework?', dataIndex: -1, faqIndex: 12, section: 'FAQs', tip: true, plainNext: true },
   { key: 'faq_folders', title: 'Assigning folders', dataIndex: -1, faqIndex: 13, section: 'FAQs', tip: true },
   { key: 'faq_assign_plans', title: 'Assigning training plans', dataIndex: -1, faqIndex: 14, section: 'FAQs', tip: true },
   { key: 'faq_plans', title: 'What are the different training plans?', dataIndex: -1, faqIndex: 9, section: 'FAQs', tip: true },
@@ -699,6 +699,14 @@ export default function OnboardingPortal() {
                           className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
                         >
                           Next →
+                        </button>
+                      ) : step.plainNext && !stepDone ? (
+                        <button
+                          onClick={() => setStep(step.key, true, true)}
+                          disabled={saving}
+                          className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
+                        >
+                          {saving ? 'Saving…' : 'Next →'}
                         </button>
                       ) : (
                       <button
