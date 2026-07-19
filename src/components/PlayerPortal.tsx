@@ -27,7 +27,7 @@ const SETUP_TIPS: { icon: string; title: string; body: React.ReactNode }[] = [
   {
     icon: '🔗',
     title: 'Linking Profiles',
-    body: <>Content coming soon.</>,
+    body: <>Often siblings train together. When you <strong className="text-navy font-semibold">link their profiles</strong>, all linked profiles get <strong className="text-navy font-semibold">training credit</strong> for the same session. You can link profiles from your <strong className="text-navy font-semibold">account dashboard</strong>.</>,
   },
 ];
 
