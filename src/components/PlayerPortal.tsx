@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const OFFERINGS: React.ReactNode[] = [
   <><strong className="text-navy font-semibold">Well over 5,000+ follow-along videos</strong> — every skill, age, and level covered.</>,
-  <><strong className="text-navy font-semibold">Homework & training plans</strong> from your coach, right in the app.</>,
+  <><strong className="text-navy font-semibold">Homework & recurring training plans</strong> from your coach or created by you.</>,
   <><strong className="text-navy font-semibold">Challenges, leaderboards & awards</strong> that keep training fun.</>,
   <><strong className="text-navy font-semibold">Progress & streak tracking</strong> so you can see how far you&rsquo;ve come.</>,
 ];
