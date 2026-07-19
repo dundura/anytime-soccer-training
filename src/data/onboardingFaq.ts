@@ -7,6 +7,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     answer: `
       <p>Every account has a <strong>login email</strong> (used to sign in) and a <strong>contact email</strong> (where alerts go) &mdash; handy when a child has their own email but a parent created the account.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0 0 8px;font-weight:700;color:#0F3154;">How to Update</p>
         <ul style="margin:0;">
           <li><strong>Login email:</strong> Account Management &rarr; update your email.</li>
           <li><strong>Contact email:</strong> click Edit next to the profile &rarr; update it.</li>
