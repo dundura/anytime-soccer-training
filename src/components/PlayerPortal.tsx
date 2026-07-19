@@ -98,7 +98,12 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
   {
     icon: '📚',
     title: 'Curated Curriculum',
-    body: <>The Curated Curriculum puts the programs in a <strong className="text-navy font-semibold">recommended order</strong> — giving your training <strong className="text-navy font-semibold">structure and variety</strong>.</>,
+    body: (
+      <>
+        <p className="mb-3">The Curated Curriculum puts the programs in a <strong className="text-navy font-semibold">recommended order</strong> — giving your training <strong className="text-navy font-semibold">structure and variety</strong>.</p>
+        <p>For example, Ball Mastery flows through <strong className="text-navy font-semibold">1,000 Touch</strong>, <strong className="text-navy font-semibold">101 Ball Mastery</strong>, <strong className="text-navy font-semibold">One Cone</strong>, <strong className="text-navy font-semibold">Two Cone</strong>, and more — delivering videos from each in a <strong className="text-navy font-semibold">round robin</strong>.</p>
+      </>
+    ),
   },
   {
     icon: '⭐',
