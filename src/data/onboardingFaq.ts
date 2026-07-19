@@ -266,14 +266,22 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: "My kids have not used the program as much as I expected. Any suggestions?",
     answer: `
-      <p>Two quick moves to get your team going:</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <ul style="margin:0;">
-          <li style="margin-bottom:8px;"><strong>Start a team contest</strong> and announce it at your next training.</li>
-          <li><strong>Set a personal goal for every player</strong> &mdash; it&rsquo;s the biggest driver of consistency.</li>
-        </ul>
+      <p>A few quick moves to get your team going:</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
+          <p style="margin:5px 0 0;"><strong>Start a team contest</strong> and announce it at your next training.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
+          <p style="margin:5px 0 0;"><strong>Set a personal goal for every player</strong> &mdash; it&rsquo;s the biggest driver of consistency.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">3</span>
+          <p style="margin:5px 0 0;"><strong>Demo the app in person</strong> and give the players a specific video goal for that week.</p>
+        </div>
       </div>
-      <p>Need a hand setting these up? Email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
+      <p>We understand that building habits can be difficult, but a little nudge on your part goes a long way.</p>
     `,
   },
   {
