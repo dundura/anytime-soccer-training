@@ -198,7 +198,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <ul style="margin:0;">
           <li><strong>Skill Builder</strong> &mdash; pulls from the full curriculum by skill area.</li>
-          <li><strong>Weekly Plan</strong> &mdash; delivers skill areas into each day automatically.</li>
+          <li><strong>Weekly Plan</strong> &mdash; also pulls from the full curriculum, but organizes the skill videos by day &mdash; delivering skill areas into each day automatically.</li>
           <li><strong>30-Day Monthly Plan</strong> &mdash; a guided month built from the 30-Day folders.</li>
           <li><strong>Custom Plan</strong> &mdash; folders you pick yourself.</li>
         </ul>
