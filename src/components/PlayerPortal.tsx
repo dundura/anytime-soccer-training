@@ -339,7 +339,7 @@ export default function PlayerPortal() {
               /* ---------- Account Setup ---------- */
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">Account Setup</h2>
-                <p className="text-gray-700 leading-relaxed mb-5">Let&rsquo;s get your account set up so you&rsquo;re ready to train.</p>
+                <p className="text-gray-700 leading-relaxed mb-5">By now, you&rsquo;ve likely already created your account. Below are a few helpful tips.</p>
                 <button
                   onClick={() => setScreen('how')}
                   className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
