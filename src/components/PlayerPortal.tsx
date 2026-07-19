@@ -125,7 +125,15 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'My Favorites',
     body: (
       <>
-        <p className="mb-4">There are three ways to utilize <strong className="text-navy font-semibold">My Favorites</strong>.</p>
+        <p className="mb-2">There are three ways to utilize <strong className="text-navy font-semibold">My Favorites</strong>:</p>
+        <ol className="space-y-1.5 mb-4">
+          {['Pinning folders', 'Pinning individual videos', 'Creating custom folders'].map((t, i) => (
+            <li key={i} className="flex items-start gap-2.5">
+              <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
+              <span className="pt-0.5">{t}</span>
+            </li>
+          ))}
+        </ol>
         <p className="text-navy font-bold mb-1">Pinning Folders</p>
         <p className="mb-3">Click the star button next to any folder to pin it to your favorites.</p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
