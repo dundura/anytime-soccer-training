@@ -76,7 +76,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
   },
   {
     icon: '⚽',
-    title: 'Curated Program Folders',
+    title: 'All Programs',
     body: (
       <>
         <p className="mb-3">Click <strong className="text-navy font-semibold">All Programs</strong> and start with the core skill areas — <strong className="text-navy font-semibold">Ball Mastery</strong>, <strong className="text-navy font-semibold">Dribbling</strong>, and <strong className="text-navy font-semibold">Wall Passing</strong>.</p>
