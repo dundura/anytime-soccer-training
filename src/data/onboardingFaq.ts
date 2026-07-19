@@ -47,13 +47,14 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: 'How do I add players to my team?',
     answer: `
+      <p>You can add players from the <strong>Player Onboard</strong> section.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <ul style="margin:0 0 10px;">
           <li>Click your team and open the <strong>Coach&rsquo;s Board</strong>.</li>
           <li>Click <strong>New Players</strong> (at the top), then <strong>Player Onboard</strong>.</li>
           <li>Enter the player&rsquo;s email into <strong>Add Player</strong>.</li>
         </ul>
-        <p style="margin:0;">If they already have an Anytime Soccer Training account, they&rsquo;ll automatically be added to the team. If not, click the invite button in the app.</p>
+        <p style="margin:0;">They&rsquo;ll get an invite; if they already have an account, they can join in one click.</p>
       </div>
       <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-top:12px;">
         <p style="margin:0;color:#DC373E;font-weight:600;">If you already have 15 or more players, we&rsquo;ll charge the card on file and send you a team code for that player.</p>
