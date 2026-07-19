@@ -331,4 +331,33 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       </div>
     `,
   },
+  {
+    category: 'Team Management',
+    question: 'What do successful coaches do differently?',
+    answer: `
+      <p>The difference usually comes down to a few simple habits.</p>
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px 18px;">
+        <p style="margin:0 0 10px;color:#166534;font-weight:700;">✓ Successful coaches</p>
+        <ul style="margin:0;color:#166534;padding-left:18px;">
+          <li style="margin-bottom:6px;">Speak with parents during a team meeting and set clear expectations.</li>
+          <li style="margin-bottom:6px;">Assign homework on day 1.</li>
+          <li style="margin-bottom:6px;">Set a specific, measurable goal for every player.</li>
+          <li style="margin-bottom:6px;">Create a team challenge (or other challenges) and announce it in person.</li>
+          <li style="margin-bottom:6px;">Demo the app so players know how to use it.</li>
+          <li style="margin-bottom:6px;">Acknowledge players at training for their progress.</li>
+          <li>Give a regular nudge and check progress on the board.</li>
+        </ul>
+      </div>
+      <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:16px 18px;margin-top:12px;">
+        <p style="margin:0 0 10px;color:#DC373E;font-weight:700;">✗ Coaches who struggle</p>
+        <ul style="margin:0;color:#b91c1c;padding-left:18px;">
+          <li style="margin-bottom:6px;">Assign videos but never follow up.</li>
+          <li style="margin-bottom:6px;">Set no clear goal or expectations.</li>
+          <li style="margin-bottom:6px;">Never mention it at training.</li>
+          <li>Assume the kids will do it on their own.</li>
+        </ul>
+      </div>
+      <p>Don&rsquo;t expect that early interest alone will keep players consistent over time &mdash; without coach engagement, interest fades, just like any other activity. A little structure and follow-up from you makes all the difference.</p>
+    `,
+  },
 ];

@@ -51,6 +51,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_skip_videos', title: 'What happens if kids skip videos?', dataIndex: -1, faqIndex: 7, section: 'FAQs', tip: true },
   { key: 'faq_hw_complete', title: 'I got an email that a homework folder is complete, but the player hasn’t done the videos', dataIndex: -1, faqIndex: 8, section: 'FAQs', tip: true },
   { key: 'faq_low_usage', title: 'My kids have not used the program as much as I expected. Any suggestions?', dataIndex: -1, faqIndex: 15, section: 'FAQs', tip: true },
+  { key: 'faq_coach_habits', title: 'What do successful coaches do differently?', dataIndex: -1, faqIndex: 18, section: 'FAQs', tip: true },
   { key: 'final_confirm', title: 'Confirm & Finish', dataIndex: 17, section: 'FAQs', final: true },
 ];
 
