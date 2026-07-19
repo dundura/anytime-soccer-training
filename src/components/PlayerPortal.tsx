@@ -126,7 +126,9 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     body: (
       <>
         <p className="mb-3">There are three ways to utilize <strong className="text-navy font-semibold">My Favorites</strong>.</p>
-        <p>Click the star button next to any folder to pin it to your favorites.</p>
+        <p className="mb-3">Click the star button next to any folder to pin it to your favorites.</p>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1784500454200-4y689z.png" alt="Star button to pin a folder to favorites" className="w-full rounded-lg border border-blue-100" />
       </>
     ),
   },
