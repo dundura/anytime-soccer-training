@@ -223,34 +223,61 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'Recommended Training Timeline',
     body: (
       <>
-        <p className="mb-4 font-bold text-navy">Where do I start?</p>
-        {[
-          {
-            when: 'Day 1',
-            text: <>Start with the <strong className="text-navy font-semibold">1,000 Touch Ball Mastery</strong> program — it gives you a good basis to get touches quickly and see how the program works.</>,
-            pills: ['🎯 1,000 Touch Ball Mastery'],
-          },
-          {
-            when: 'Week 2',
-            text: <>Now that you&rsquo;re familiar with the program, do our core skills — Ball Mastery, Juggling, Dribbling, and Wall Passing. Go to <strong className="text-navy font-semibold">All Programs</strong> and do the first video in each section.</>,
-            pills: ['🎯 Ball Mastery', '🤹 Juggling', '🏃 Dribbling', '🧱 Wall Passing'],
-          },
-          {
-            when: 'Week 2 or 3',
-            text: <>Either pin the desired folders to your <strong className="text-navy font-semibold">Favorites</strong> and work through them, or build one of our training plans. The <strong className="text-navy font-semibold">Skill Builder</strong> plan is a good place to start.</>,
-            pills: ['❤️ Favorites', '🛠️ Skill Builder'],
-          },
-        ].map((s, i, arr) => (
-          <div key={i} className={i < arr.length - 1 ? 'mb-5' : ''}>
-            <p className="text-red font-extrabold text-xs uppercase tracking-wide mb-1">{s.when}</p>
-            <p className="mb-2">{s.text}</p>
-            <div className="flex flex-wrap gap-2">
-              {s.pills.map((p, j) => (
-                <span key={j} className="inline-flex items-center bg-white border border-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-navy">{p}</span>
-              ))}
-            </div>
-          </div>
-        ))}
+        <p className="mb-3">These are our recommended stages for getting started:</p>
+        <ol className="space-y-3">
+          {[
+            <><strong className="text-navy font-semibold">Day 1</strong> — Get started with Ball Mastery.</>,
+            <><strong className="text-navy font-semibold">Week 2</strong> — Add other skill areas.</>,
+            <><strong className="text-navy font-semibold">Week 2 or 3</strong> — Pin folders to Favorites or select a training plan.</>,
+          ].map((item, i) => (
+            <li key={i} className="flex items-start gap-2.5">
+              <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
+              <span className="pt-0.5">{item}</span>
+            </li>
+          ))}
+        </ol>
+      </>
+    ),
+  },
+  {
+    icon: '🎯',
+    title: 'Day 1',
+    body: (
+      <>
+        <p className="mb-3">Start with the <strong className="text-navy font-semibold">1,000 Touch Ball Mastery</strong> program — it gives you a good basis to get touches quickly and see how the program works.</p>
+        <div className="flex flex-wrap gap-2">
+          {['🎯 1,000 Touch Ball Mastery'].map((p, j) => (
+            <span key={j} className="inline-flex items-center bg-white border border-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-navy">{p}</span>
+          ))}
+        </div>
+      </>
+    ),
+  },
+  {
+    icon: '📅',
+    title: 'Week 2',
+    body: (
+      <>
+        <p className="mb-3">Now that you&rsquo;re familiar with the program, do our core skills — Ball Mastery, Juggling, Dribbling, and Wall Passing. Go to <strong className="text-navy font-semibold">All Programs</strong> and do the first video in each section.</p>
+        <div className="flex flex-wrap gap-2">
+          {['🎯 Ball Mastery', '🤹 Juggling', '🏃 Dribbling', '🧱 Wall Passing'].map((p, j) => (
+            <span key={j} className="inline-flex items-center bg-white border border-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-navy">{p}</span>
+          ))}
+        </div>
+      </>
+    ),
+  },
+  {
+    icon: '📆',
+    title: 'Week 2 or 3',
+    body: (
+      <>
+        <p className="mb-3">Either pin the desired folders to your <strong className="text-navy font-semibold">Favorites</strong> and work through them, or build one of our training plans. The <strong className="text-navy font-semibold">Skill Builder</strong> plan is a good place to start.</p>
+        <div className="flex flex-wrap gap-2">
+          {['❤️ Favorites', '🛠️ Skill Builder'].map((p, j) => (
+            <span key={j} className="inline-flex items-center bg-white border border-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-navy">{p}</span>
+          ))}
+        </div>
       </>
     ),
   },
