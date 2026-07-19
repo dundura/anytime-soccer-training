@@ -864,8 +864,8 @@ export default function OnboardingPortal() {
               <button
                 onClick={async () => {
                   if (!stepChoice) return;
-                  if (stepChoice === 'question') { setShowCompleteConfirm(false); setShowQuestion(true); setError(''); }
-                  else { await setStep(step.key, true, true); setShowCompleteConfirm(false); }
+                  await setStep(step.key, true, true, stepChoice === 'question' ? 'needs_help' : undefined);
+                  setShowCompleteConfirm(false);
                 }}
                 disabled={saving || !stepChoice}
                 className="flex-1 bg-red hover:bg-red-dark text-white font-bold py-2.5 rounded-xl transition-colors disabled:opacity-40"
