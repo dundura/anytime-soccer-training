@@ -849,7 +849,7 @@ export default function PlayerPortal() {
               /* ---------- More on Experienced Players ---------- */
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">More on Experienced Players</h2>
-                <p className="text-gray-700 leading-relaxed mb-3">Experienced players should still start with the first folders &mdash; what changes is how much they take on and how quickly they add to it.</p>
+                <p className="text-gray-700 leading-relaxed mb-3">As mentioned before, experienced players should still start with the first folders &mdash; what changes is how much they take on and how quickly they add to it.</p>
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 mb-3">
                   <p className="text-gray-700 leading-relaxed"><strong className="text-navy font-semibold">30-Day Plans</strong> are a good jump start for experienced players.</p>
                 </div>
