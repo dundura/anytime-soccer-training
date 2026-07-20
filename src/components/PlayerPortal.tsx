@@ -186,9 +186,9 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'Recurring Training Plans',
     body: (
       <>
-        <p className="mb-3">There are four types of training plans:</p>
+        <p className="mb-3">There are three types of training plans:</p>
         <ol className="space-y-2">
-          {['Skill Builder', 'Weekly Plan', '30-Day Monthly Plan', 'Custom Plan'].map((t, i) => (
+          {['Weekly Plan', '30-Day Monthly Plan', 'Custom Plan'].map((t, i) => (
             <li key={i} className="flex items-start gap-2.5">
               <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
               <span className="pt-0.5 font-semibold text-navy">{t}</span>
@@ -197,11 +197,6 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
         </ol>
       </>
     ),
-  },
-  {
-    icon: '🛠️',
-    title: 'Skill Builder',
-    body: <>Pulls from every video in our curriculum and separates them by skill area, so you can focus on exactly the skills you want to build.</>,
   },
   {
     icon: '📅',
@@ -274,9 +269,8 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     body: (
       <>
         <p className="mb-3">Either pin the desired folders to your <strong className="text-navy font-semibold">Favorites</strong> and work through them, or build one of our training plans.</p>
-        <p className="mb-3">The <strong className="text-navy font-semibold">Skill Builder</strong> plan is a good place to start.</p>
         <div className="flex flex-wrap gap-2">
-          {['❤️ Favorites', '🛠️ Skill Builder'].map((p, j) => (
+          {['❤️ Favorites'].map((p, j) => (
             <span key={j} className="inline-flex items-center bg-white border border-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-navy">{p}</span>
           ))}
         </div>
