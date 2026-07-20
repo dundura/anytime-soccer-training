@@ -796,7 +796,8 @@ export default function PlayerPortal() {
                     ))}
                   </ol>
                 </div>
-                <p className="text-gray-700 leading-relaxed mb-6">That&rsquo;s why every move has a <strong className="text-navy font-semibold">dedicated video</strong>, and the curriculum <strong className="text-navy font-semibold">stacks each skill area</strong>.</p>
+                <p className="text-gray-700 leading-relaxed mb-3">That&rsquo;s why every move has a <strong className="text-navy font-semibold">dedicated video</strong>, and the curriculum <strong className="text-navy font-semibold">stacks each skill area</strong>.</p>
+                <p className="text-gray-700 leading-relaxed mb-6">This process is a <strong className="text-navy font-semibold">cheat code for individual development</strong> — it provides max reps and a variety that can only be accomplished with the aid of technology.</p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
                   <button
                     onClick={() => setScreen('steps')}
