@@ -508,6 +508,16 @@ export default function ClubBudgetCalculator() {
     formulaRow(ws1, 31, 'Cost per player / year',       'IF(B29>0,B22/B29,0)',          Math.round(costPP),                $,  C.veryLightGray, C.text, false);
     formulaRow(ws1, 32, 'Cost per training hr / player','IF(B29>0,B22/B29/'+Math.round(totalHrs)+',0)', parseFloat(cph.toFixed(2)), $2, C.veryLightGray, C.text, false);
     dataRow(ws1, 33, 'Total training hours / year',    Math.round(totalHrs),            num,  true);
+    spacer(ws1, 34);
+    sectionRow(ws1, 35, 'REVENUE INPUTS', 2, '374151');
+    dataRow(ws1, 36, 'Players',                 totalPlayers, num, false);
+    dataRow(ws1, 37, 'Season fee / player',     fee,          $,   true);
+    dataRow(ws1, 38, 'Season length (months)',  months,       num, false);
+    spacer(ws1, 39);
+    sectionRow(ws1, 40, 'EXPENSE INPUTS', 2, '374151');
+    dataRow(ws1, 41, 'Practices / week',        sessions,     num, false);
+    dataRow(ws1, 42, 'Coach salary / mo',       headCoach,    $,   true);
+    dataRow(ws1, 43, 'Field rental / hr',       fieldHr,      $,   false);
 
     // ── SHEET 2: REVENUE ─────────────────────────────────────────────
     const ws2 = wb.addWorksheet('Revenue');
