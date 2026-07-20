@@ -7,12 +7,12 @@ const TOKEN_KEY = 'astPlayerPortalToken';
 const SCREEN_KEY = 'astPlayerPortalScreen';
 const ADMIN_KEY = 'astPlayerPortalAdmin';
 const LEFTOFF_KEY = 'astPlayerPortalLeftOff';
-const CONTENT_SCREENS: readonly string[] = ['how', 'steps', 'philosophy', 'whereToStart', 'gettingStarted'];
-const SCREENS = ['welcome', 'how', 'steps', 'philosophy', 'whereToStart', 'gettingStarted', 'index'] as const;
+const CONTENT_SCREENS: readonly string[] = ['how', 'steps', 'philosophy', 'whereToStart', 'experienced', 'gettingStarted'];
+const SCREENS = ['welcome', 'how', 'steps', 'philosophy', 'whereToStart', 'experienced', 'gettingStarted', 'index'] as const;
 
 type Player = { name: string; email: string; checklist: Record<string, boolean | 'skipped'> };
 type Mode = 'signin' | 'register' | 'forgot' | 'reset';
-type Screen = 'welcome' | 'how' | 'steps' | 'philosophy' | 'whereToStart' | 'gettingStarted' | 'index';
+type Screen = 'welcome' | 'how' | 'steps' | 'philosophy' | 'whereToStart' | 'experienced' | 'gettingStarted' | 'index';
 
 const OFFERINGS: React.ReactNode[] = [
   <><strong className="text-navy font-semibold">Get started the right way</strong> — know exactly where to begin.</>,
@@ -60,7 +60,7 @@ const GETTING_STARTED_TIPS: { icon: string; title: string; body: React.ReactNode
     title: 'How training is organized',
     body: (
       <>
-        <ol className="space-y-3 mb-3">
+        <ol className="space-y-5 mb-3">
           {[
             <><strong className="text-navy font-semibold">All Programs</strong> — all skill areas grouped by programs.</>,
             <><strong className="text-navy font-semibold">Curated Curriculum</strong> — programs organized in a recommended order.</>,
@@ -672,6 +672,10 @@ export default function PlayerPortal() {
                     <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
                     <span className="text-sm font-semibold text-red hover:underline">Where to Start</span>
                   </button>
+                  <button onClick={() => setScreen('experienced')} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left">
+                    <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
+                    <span className="text-sm font-semibold text-red hover:underline">More on Experienced Players</span>
+                  </button>
                   <button onClick={() => setScreen('gettingStarted')} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left">
                     <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
                     <span className="text-sm font-semibold text-red hover:underline">How to Start Your Training</span>
@@ -832,13 +836,47 @@ export default function PlayerPortal() {
                     &larr; Back
                   </button>
                   <button
-                    onClick={() => nextAction('whereToStart', 'Where to Start', () => setScreen('gettingStarted'))}
+                    onClick={() => nextAction('whereToStart', 'Where to Start', () => setScreen('experienced'))}
                     className={`w-full sm:w-auto ${isDone('whereToStart') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
                   >
                     Next &rarr;
                   </button>
                 </div>
                 {pageActions('whereToStart', 'Where to Start')}
+              </div>
+            ) : screen === 'experienced' ? (
+              /* ---------- More on Experienced Players ---------- */
+              <div>
+                <h2 className="text-navy text-xl font-extrabold mb-3">More on Experienced Players</h2>
+                <p className="text-gray-700 leading-relaxed mb-3">Experienced players still start with the first folders &mdash; what changes is how much they take on and how quickly they add to it.</p>
+                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 mb-3">
+                  <p className="text-gray-700 leading-relaxed"><strong className="text-navy font-semibold">30-Day Plans</strong> are a good jump start for experienced players.</p>
+                </div>
+                <p className="text-gray-700 leading-relaxed mb-4">The 30-Day Plan videos have <strong className="text-navy font-semibold">four to six moves per video</strong>, making them a great way to cover many moves in a <strong className="text-navy font-semibold">quicker progression</strong>.</p>
+                <p className="text-gray-700 leading-relaxed mb-2">Start with:</p>
+                <ol className="space-y-3 mb-6">
+                  {['Int/Advanced Ball Mastery', '30-Day Dribbling', '30-Day Wall Passing'].map((t, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{i + 1}</span>
+                      <span className="pt-1 font-semibold text-navy">{t}</span>
+                    </li>
+                  ))}
+                </ol>
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
+                  <button
+                    onClick={() => setScreen('whereToStart')}
+                    className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    &larr; Back
+                  </button>
+                  <button
+                    onClick={() => nextAction('experienced', 'More on Experienced Players', () => setScreen('gettingStarted'))}
+                    className={`w-full sm:w-auto ${isDone('experienced') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
+                  >
+                    Next &rarr;
+                  </button>
+                </div>
+                {pageActions('experienced', 'More on Experienced Players')}
               </div>
             ) : (
               /* ---------- Getting Started ---------- */
@@ -854,7 +892,7 @@ export default function PlayerPortal() {
 
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
                   <button
-                    onClick={() => { if (gsStep > 0) setGsStep(gsStep - 1); else setScreen('steps'); }}
+                    onClick={() => { if (gsStep > 0) setGsStep(gsStep - 1); else setScreen('experienced'); }}
                     className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
                     &larr; Back
