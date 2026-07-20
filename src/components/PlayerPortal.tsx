@@ -666,7 +666,7 @@ export default function PlayerPortal() {
                   </button>
                   <button onClick={() => setScreen('philosophy')} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left">
                     <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
-                    <span className="text-sm font-semibold text-red hover:underline">Our Training Philosophy</span>
+                    <span className="text-sm font-semibold text-red hover:underline">Our In-home Training Philosophy</span>
                   </button>
                   <button onClick={() => setScreen('whereToStart')} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left">
                     <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
@@ -784,13 +784,13 @@ export default function PlayerPortal() {
                 {pageActions('accountSetup', 'Account Setup')}
               </div>
             ) : screen === 'philosophy' ? (
-              /* ---------- Our Training Philosophy ---------- */
+              /* ---------- Our In-home Training Philosophy ---------- */
               <div>
-                <h2 className="text-navy text-xl font-extrabold mb-3">Our Training Philosophy</h2>
-                <p className="text-gray-700 leading-relaxed mb-3">Our goal is to deliver <strong className="text-navy font-semibold">world-class individual training</strong> that&rsquo;s easy for players to follow and stick with.</p>
-                <p className="text-gray-700 leading-relaxed mb-3">It&rsquo;s based on the <strong className="text-navy font-semibold">brain science</strong> around how kids learn.</p>
-                <p className="text-gray-700 leading-relaxed mb-2">Our method is based on:</p>
+                <h2 className="text-navy text-xl font-extrabold mb-3">Our In-home Training Philosophy</h2>
+                <p className="text-gray-700 leading-relaxed mb-3">Our goal is to deliver <strong className="text-navy font-semibold">affordable world-class individual training</strong> that&rsquo;s easy for players to follow and stick with.</p>
+                <p className="text-gray-700 leading-relaxed mb-2">It&rsquo;s based on the <strong className="text-navy font-semibold">brain science</strong> around how kids learn. Our method is based on:</p>
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
+                  <h3 className="text-navy font-extrabold mb-4">The Triple V Approach</h3>
                   <ol className="space-y-3">
                     {['Volume of Repetitions', 'Variety of Skill Areas', 'Variation of Skill Moves'].map((t, i) => (
                       <li key={i} className="flex items-start gap-3">
@@ -810,13 +810,13 @@ export default function PlayerPortal() {
                     &larr; Back
                   </button>
                   <button
-                    onClick={() => nextAction('philosophy', 'Our Training Philosophy', () => setScreen('whereToStart'))}
+                    onClick={() => nextAction('philosophy', 'Our In-home Training Philosophy', () => setScreen('whereToStart'))}
                     className={`w-full sm:w-auto ${isDone('philosophy') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
                   >
                     Next &rarr;
                   </button>
                 </div>
-                {pageActions('philosophy', 'Our Training Philosophy')}
+                {pageActions('philosophy', 'Our In-home Training Philosophy')}
               </div>
             ) : screen === 'whereToStart' ? (
               /* ---------- Where to Start ---------- */
