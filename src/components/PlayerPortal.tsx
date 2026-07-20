@@ -442,6 +442,13 @@ export default function PlayerPortal() {
 
   const openComplete = (key: string, title: string, onAffirm?: () => void) => { setCompleteTarget({ key, title, onAffirm }); setStepChoice(null); setShowComplete(true); };
 
+  // Next: confirm popup only the first time. Once a page is marked complete it just
+  // advances — the popup comes back only if the checklist is reset.
+  const nextAction = (key: string, title: string, onAffirm: () => void) => {
+    if (isDone(key)) onAffirm();
+    else openComplete(key, title, onAffirm);
+  };
+
   const submitComplete = async () => {
     if (!completeTarget || !stepChoice) return;
     setSaving(true);
@@ -733,7 +740,7 @@ export default function PlayerPortal() {
                     &larr; Back
                   </button>
                   <button
-                    onClick={() => openComplete('how', 'How it Works', () => setScreen('steps'))}
+                    onClick={() => nextAction('how', 'How it Works', () => setScreen('steps'))}
                     className={`w-full sm:w-auto ${isDone('how') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
                   >
                     Next &rarr;
@@ -763,7 +770,7 @@ export default function PlayerPortal() {
                   <button
                     onClick={() => {
                       const advance = () => { if (setupStep < SETUP_TIPS.length - 1) setSetupStep(setupStep + 1); else setScreen('philosophy'); };
-                      openComplete(`accountSetup:${setupStep}`, `Account Setup — ${SETUP_TIPS[setupStep].title}`, advance);
+                      nextAction(`accountSetup:${setupStep}`, `Account Setup — ${SETUP_TIPS[setupStep].title}`, advance);
                     }}
                     className={`w-full sm:w-auto ${isDone(`accountSetup:${setupStep}`) ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
                   >
@@ -779,14 +786,16 @@ export default function PlayerPortal() {
                 <p className="text-gray-700 leading-relaxed mb-3">Our goal is to deliver <strong className="text-navy font-semibold">world-class individual training</strong> that&rsquo;s easy for players to follow and stick with.</p>
                 <p className="text-gray-700 leading-relaxed mb-3">It&rsquo;s based on the <strong className="text-navy font-semibold">brain science</strong> around how kids learn.</p>
                 <p className="text-gray-700 leading-relaxed mb-2">Our method is based on:</p>
-                <ol className="space-y-2 mb-6">
-                  {['Volume of Repetitions', 'Variety of Skill Areas', 'Variation of Skill Moves'].map((t, i) => (
-                    <li key={i} className="flex items-start gap-2.5">
-                      <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{i + 1}</span>
-                      <span className="pt-0.5 font-semibold text-navy">{t}</span>
-                    </li>
-                  ))}
-                </ol>
+                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
+                  <ol className="space-y-3">
+                    {['Volume of Repetitions', 'Variety of Skill Areas', 'Variation of Skill Moves'].map((t, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{i + 1}</span>
+                        <span className="pt-1 font-semibold text-navy">{t}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
                 <p className="text-gray-700 leading-relaxed mb-6">That&rsquo;s why every move has a <strong className="text-navy font-semibold">dedicated video</strong>, and the curriculum <strong className="text-navy font-semibold">stacks each skill area</strong>.</p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
                   <button
@@ -796,7 +805,7 @@ export default function PlayerPortal() {
                     &larr; Back
                   </button>
                   <button
-                    onClick={() => openComplete('philosophy', 'Our Training Philosophy', () => setScreen('whereToStart'))}
+                    onClick={() => nextAction('philosophy', 'Our Training Philosophy', () => setScreen('whereToStart'))}
                     className={`w-full sm:w-auto ${isDone('philosophy') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
                   >
                     Next &rarr;
@@ -809,7 +818,9 @@ export default function PlayerPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">Where do beginners and experienced players start?</h2>
                 <p className="text-gray-700 leading-relaxed mb-3">We recommend <strong className="text-navy font-semibold">all players start with the first folders</strong> and follow the program in order.</p>
-                <p className="text-gray-700 leading-relaxed mb-3">The difference between experienced players and beginners is in the <strong className="text-navy font-semibold">levels of volume, variety, and variations</strong>.</p>
+                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 mb-3">
+                  <p className="text-gray-700 leading-relaxed">The difference between experienced players and beginners is in the <strong className="text-navy font-semibold">levels of volume, variety, and variations</strong>.</p>
+                </div>
                 <p className="text-gray-700 leading-relaxed mb-3">For example, a beginner may start with only the <strong className="text-navy font-semibold">1,000 Touch Ball Mastery</strong> program.</p>
                 <p className="text-gray-700 leading-relaxed mb-6">An experienced player can handle <strong className="text-navy font-semibold">multiple ball mastery programs</strong>, as well as training programs in other skill areas.</p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
@@ -820,7 +831,7 @@ export default function PlayerPortal() {
                     &larr; Back
                   </button>
                   <button
-                    onClick={() => openComplete('whereToStart', 'Where to Start', () => setScreen('gettingStarted'))}
+                    onClick={() => nextAction('whereToStart', 'Where to Start', () => setScreen('gettingStarted'))}
                     className={`w-full sm:w-auto ${isDone('whereToStart') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
                   >
                     Next &rarr;
@@ -850,7 +861,7 @@ export default function PlayerPortal() {
                   <button
                     onClick={() => {
                       const advance = () => { if (gsStep < GETTING_STARTED_TIPS.length - 1) setGsStep(gsStep + 1); else setScreen('index'); };
-                      openComplete(`gettingStarted:${gsStep}`, `How to Start Your Training — ${GETTING_STARTED_TIPS[gsStep].title}`, advance);
+                      nextAction(`gettingStarted:${gsStep}`, `How to Start Your Training — ${GETTING_STARTED_TIPS[gsStep].title}`, advance);
                     }}
                     className={`w-full sm:w-auto ${isDone(`gettingStarted:${gsStep}`) ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'} text-white font-bold py-2.5 px-8 rounded-xl transition-colors`}
                   >
