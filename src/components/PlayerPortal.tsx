@@ -850,10 +850,11 @@ export default function PlayerPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">More on Experienced Players</h2>
                 <p className="text-gray-700 leading-relaxed mb-3">As mentioned before, experienced players should still start with the first folders &mdash; what changes is how much they take on and how quickly they add to it.</p>
+                <p className="text-gray-700 leading-relaxed mb-3">One way to accelerate that variety is our <strong className="text-navy font-semibold">30-Day Plans</strong>. Each video works <strong className="text-navy font-semibold">four to six different moves</strong>, so a player covers far more ground in the same session.</p>
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 mb-3">
                   <p className="text-gray-700 leading-relaxed"><strong className="text-navy font-semibold">30-Day Plans</strong> are a good jump start for experienced players.</p>
                 </div>
-                <p className="text-gray-700 leading-relaxed mb-4">The 30-Day Plan videos have <strong className="text-navy font-semibold">four to six moves per video</strong>, making them a great way to cover many moves in a <strong className="text-navy font-semibold">quicker progression</strong>.</p>
+                <p className="text-gray-700 leading-relaxed mb-4">That makes them a great way to cover many moves in a <strong className="text-navy font-semibold">quicker progression</strong>.</p>
                 <p className="text-gray-700 leading-relaxed mb-2">Start with:</p>
                 <ol className="space-y-3 mb-6">
                   {['Int/Advanced Ball Mastery', '30-Day Dribbling', '30-Day Wall Passing'].map((t, i) => (
