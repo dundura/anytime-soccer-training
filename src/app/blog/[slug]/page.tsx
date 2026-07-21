@@ -19,8 +19,11 @@ function buildTOC(html: string): { toc: { id: string; text: string }[]; content:
   const usedIds = new Map<string, number>();
 
   const content = html.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (match, attrs, inner) => {
-    const text = inner.replace(/<[^>]+>/g, '').trim();
-    if (!text) return match;
+    const rawText = inner.replace(/<[^>]+>/g, '').trim();
+    if (!rawText) return match;
+    // Strip a leading list number (e.g. "1. ") so numbered listicle headings
+    // don't get double-numbered by the auto-numbered "In this article" box.
+    const text = rawText.replace(/^\d+\.\s*/, '');
     let id = slugify(text);
     if (usedIds.has(id)) {
       const n = usedIds.get(id)! + 1;
