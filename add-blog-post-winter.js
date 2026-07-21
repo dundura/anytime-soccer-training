@@ -15,7 +15,7 @@ const newPost = {
   slug: "how-to-practice-soccer-in-the-winter-cold-weather-training-at-home",
   date: "Mon, 20 Jul 2026 10:00:00 +0000",
   content,
-  excerpt: "When the fields freeze and it's dark by dinnertime, how do serious soccer families keep training? We read hundreds of parent replies and rounded up what actually works — futsal, indoor gyms, a wall and a soft ball, and follow-along video training — plus the free resources to turn a small indoor space into your child's biggest development leap.",
+  excerpt: "When the fields freeze and it's dark by dinnertime, how do serious soccer families keep developing? Winter is actually one of the best technical-development windows of the year — if you use it right. Here's what works, from futsal and indoor gyms to a wall and a soft ball and follow-along video training, plus the free resources to turn a small indoor space into your child's biggest leap forward.",
   categories: ["Blog", "Parent Guide", "Youth Soccer", "At-Home Training"],
   tags: ["winter soccer training", "indoor soccer", "futsal", "at-home training", "ball mastery", "cold weather training", "soccer touches", "youth development", "parent guide"],
   featuredImage: "",
