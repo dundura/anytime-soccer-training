@@ -18,7 +18,7 @@ const newPost = {
   excerpt: "When the fields freeze and it's dark by dinnertime, how do serious soccer families keep developing? Winter is actually one of the best technical-development windows of the year — if you use it right. Here's what works, from futsal and indoor gyms to a wall and a soft ball and follow-along video training, plus the free resources to turn a small indoor space into your child's biggest leap forward.",
   categories: ["Blog", "Parent Guide", "Youth Soccer", "At-Home Training"],
   tags: ["winter soccer training", "indoor soccer", "futsal", "at-home training", "ball mastery", "cold weather training", "soccer touches", "youth development", "parent guide"],
-  featuredImage: "",
+  featuredImage: "https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1784595451672-kwrjgo.png",
   thumbnailId: ""
 }
 
