@@ -11,7 +11,7 @@ const maxId = posts.reduce((m, p) => Math.max(m, Number(p.id) || 0), 0)
 
 const newPost = {
   id: maxId + 1,
-  title: "How Is Everyone Managing Soccer Practice in the Winter? What Hundreds of Parents Actually Do",
+  title: "10 Ways to Keep Your Kid Improving at Soccer All Winter (Even When It's Freezing Outside)",
   slug: "how-to-practice-soccer-in-the-winter-cold-weather-training-at-home",
   date: "Mon, 20 Jul 2026 10:00:00 +0000",
   content,
