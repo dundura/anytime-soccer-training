@@ -321,10 +321,10 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
           <div style="margin:6px 0 0;">
-            <p style="margin:0;"><strong>Your players get access.</strong> We add <strong>roster slots</strong> to your account.</p>
-            <ul style="margin:8px 0 0;padding-left:18px;">
-              <li style="margin:0 0 6px;">When a player joins, go to <strong>Upgrade Player</strong> and upgrade them with an allocated slot.</li>
-              <li style="margin:0;">That gives them <strong>365 days of full access</strong> to all training videos, homework, and plans.</li>
+            <p style="margin:0;">We add <strong>free access slots</strong> to your account.</p>
+            <ul style="margin:8px 0 0;padding-left:22px;list-style:disc;">
+              <li style="margin:0 0 6px;list-style:disc;display:list-item;">When a player joins, go to <strong>Upgrade Player</strong> and upgrade them with a free access slot.</li>
+              <li style="margin:0;list-style:disc;display:list-item;">That gives them <strong>365 days of full access</strong>.</li>
             </ul>
           </div>
         </div>
