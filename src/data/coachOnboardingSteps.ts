@@ -320,7 +320,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
-          <p style="margin:6px 0 0;"><strong>Your players get access.</strong> Once your invoice is paid, <strong>roster slots</strong> are added to your account. When a player joins, go to <strong>Upgrade Player</strong> and upgrade them with an allocated slot &mdash; that gives them <strong>365 days of full access</strong> to all training videos, homework, and plans.</p>
+          <div style="margin:6px 0 0;">
+            <p style="margin:0;"><strong>Your players get access.</strong> We add <strong>roster slots</strong> to your account.</p>
+            <ul style="margin:8px 0 0;padding-left:18px;">
+              <li style="margin:0 0 6px;">When a player joins, go to <strong>Upgrade Player</strong> and upgrade them with an allocated slot.</li>
+              <li style="margin:0;">That gives them <strong>365 days of full access</strong> to all training videos, homework, and plans.</li>
+            </ul>
+          </div>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
