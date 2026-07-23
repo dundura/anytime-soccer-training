@@ -8,10 +8,10 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <p>Every account has a <strong>login email</strong> (used to sign in) and a <strong>contact email</strong> (where alerts go) &mdash; handy when a child has their own email but a parent created the account.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <p style="margin:0 0 8px;font-weight:700;color:#0F3154;">How to Update</p>
-        <ul style="margin:0;">
-          <li><strong>Login email:</strong> Account Management &rarr; update your email.</li>
-          <li><strong>Contact email:</strong> click Edit next to the profile &rarr; update it.</li>
-        </ul>
+        <ol style="margin:0;padding-left:22px;">
+          <li style="margin:0 0 4px;list-style:decimal;"><strong>Login email:</strong> Account Management &rarr; update your email.</li>
+          <li style="list-style:decimal;"><strong>Contact email:</strong> click Edit next to the profile &rarr; update it.</li>
+        </ol>
       </div>
     `,
   },
@@ -34,11 +34,11 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     answer: `
       <p>The exact name may be different. A few options:</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <ul style="margin:0;">
-          <li>Search <strong>part</strong> of the name (e.g. &ldquo;Anytime&rdquo; for &ldquo;Anytime Soccer Training&rdquo;).</li>
-          <li>Re-invite from <strong>New Players &rarr; Player Onboard</strong> &mdash; the invite includes the correct team name.</li>
-          <li>Or send them the onboarding link we shared &mdash; it has instructions.</li>
-        </ul>
+        <ol style="margin:0;padding-left:22px;">
+          <li style="margin:0 0 4px;list-style:decimal;">Search <strong>part</strong> of the name (e.g. &ldquo;Anytime&rdquo; for &ldquo;Anytime Soccer Training&rdquo;).</li>
+          <li style="margin:0 0 4px;list-style:decimal;">Re-invite from <strong>New Players &rarr; Player Onboard</strong> &mdash; the invite includes the correct team name.</li>
+          <li style="list-style:decimal;">Or send them the onboarding link we shared &mdash; it has instructions.</li>
+        </ol>
       </div>
       <p>Still stuck? Email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
     `,
@@ -148,11 +148,11 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <p>Some players join the app but forget to join the team. You can automatically add them by <strong>re-inviting them</strong>.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <p style="margin:0 0 8px;font-weight:700;color:#0F3154;">To re-invite a player:</p>
-        <ul style="margin:0;">
-          <li>Go to your team, open the <strong>New Players</strong> dropdown, and click <strong>Player Onboard</strong>.</li>
-          <li>Resend the invite.</li>
-          <li>They&rsquo;ll get an invite; if they already have an account, they can join in one click.</li>
-        </ul>
+        <ol style="margin:0;padding-left:22px;">
+          <li style="margin:0 0 4px;list-style:decimal;">Go to your team, open the <strong>New Players</strong> dropdown, and click <strong>Player Onboard</strong>.</li>
+          <li style="margin:0 0 4px;list-style:decimal;">Resend the invite.</li>
+          <li style="list-style:decimal;">They&rsquo;ll get an invite; if they already have an account, they can join in one click.</li>
+        </ol>
       </div>
     `,
   },
