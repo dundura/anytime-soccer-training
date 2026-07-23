@@ -353,7 +353,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
           <li>Don&rsquo;t ask the Anytime team for help.</li>
         </ul>
       </div>
-      <p>Don&rsquo;t expect that early interest alone will keep players consistent over time &mdash; without coach engagement, interest fades, just like any other activity. A little structure and follow-up from you makes all the difference.</p>
+      <p>Don&rsquo;t expect that early interest alone will keep players consistent over time &mdash; <strong>without coach engagement, interest fades,</strong> just like any other activity. A little structure and follow-up from you makes all the difference.</p>
     `,
   },
 ];
