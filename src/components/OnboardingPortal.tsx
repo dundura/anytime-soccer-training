@@ -24,6 +24,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
   { key: 'payment_overview', title: 'How payment works', dataIndex: 18, section: 'Pre-Onboarding', info: true },
   { key: 'renewing', title: 'How to renew our team', dataIndex: 19, section: 'Pre-Onboarding', info: true, plainNext: true },
+  { key: 'paying-additional', title: 'Paying for additional players', dataIndex: 20, section: 'Pre-Onboarding', info: true, plainNext: true },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: 2, section: 'Pre-Onboarding' },
   { key: 'tip_paywall', title: 'Quick Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Pre-Onboarding', tip: true },
   { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding', info: true },
@@ -910,7 +911,7 @@ export default function OnboardingPortal() {
                         <button
                           onClick={() => setStep(step.key, true, true)}
                           disabled={saving}
-                          className={`w-full sm:w-auto text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60 ${step.key === 'renewing' ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'}`}
+                          className={`w-full sm:w-auto text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60 ${(step.key === 'renewing' || step.key === 'paying-additional') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'}`}
                         >
                           {saving ? 'Saving…' : 'Next →'}
                         </button>

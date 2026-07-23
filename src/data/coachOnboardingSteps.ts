@@ -367,4 +367,10 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       </div>
     `,
   },
+  {
+    title: 'Paying for Additional Players',
+    body: `
+      <p>You can add additional players and pay for their access directly inside the app.</p>
+    `,
+  },
 ];
