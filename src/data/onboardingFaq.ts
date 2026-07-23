@@ -64,7 +64,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         <p style="margin:0;">They&rsquo;ll get an invite; if they already have an account, they can join in one click.</p>
       </div>
       <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-top:12px;">
-        <p style="margin:0;color:#DC373E;font-weight:600;">If you already have 15 or more players, we&rsquo;ll charge the card on file and send you a team code for that player.</p>
+        <p style="margin:0;color:#DC373E;font-weight:600;">If you already have 15 or more players, we&rsquo;ll charge the card on file and send you a team code for that player, and add a free access slot to your account.</p>
       </div>
     `,
   },
@@ -73,11 +73,11 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: 'How do I remove players from my team?',
     answer: `
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <ul style="margin:0;">
-          <li>Go to your team and click <strong>Roster</strong>.</li>
-          <li>Click the player&rsquo;s name.</li>
-          <li>From their profile, click <strong>Remove from Team</strong>.</li>
-        </ul>
+        <ol style="margin:0;padding-left:22px;">
+          <li style="margin:0 0 4px;list-style:decimal;">Go to your team and click <strong>Roster</strong>.</li>
+          <li style="margin:0 0 4px;list-style:decimal;">Click the player&rsquo;s name.</li>
+          <li style="list-style:decimal;">From their profile, click <strong>Remove from Team</strong>.</li>
+        </ol>
       </div>
     `,
   },
