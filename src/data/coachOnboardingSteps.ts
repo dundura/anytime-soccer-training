@@ -372,9 +372,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     body: `
       <p>You can add additional players and pay for their access directly inside the app.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
           <p style="margin:6px 0 0;">From your team, click <strong>Player Onboard</strong> and add the players.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;">Then click <strong>Upgrade Players</strong> and purchase the additional free access slots.</p>
         </div>
       </div>
     `,
