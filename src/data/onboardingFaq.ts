@@ -95,7 +95,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     answer: `
       <p><strong>Keep it simple to start.</strong> We recommend <strong>Ball Mastery</strong> first, then adding <strong>Wall Passing</strong>, <strong>Dribbling</strong>, <strong>1v1</strong>, and more as the kids settle in.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <p style="margin:0;">Prefer set-and-forget? Build a plan like <strong>Skill Builder</strong> &mdash; recurring, no upkeep.</p>
+        <p style="margin:0;">Prefer set-and-forget? Build a <strong>Weekly Training Plan</strong> &mdash; recurring, no upkeep.</p>
       </div>
     `,
   },
@@ -123,10 +123,6 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: 'What are the different training plans?',
     answer: `
-      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;margin-bottom:10px;">
-        <p style="margin:0 0 6px;"><span style="font-size:17px;">🛠️</span> <strong>Skill Builder</strong></p>
-        <p style="margin:0;color:#64748b;">Pulls from every video in our curriculum and separates them by skill area, so you can focus on exactly the skills you want to build.</p>
-      </div>
       <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;margin-bottom:10px;">
         <p style="margin:0 0 6px;"><span style="font-size:17px;">📅</span> <strong>Weekly Plan</strong></p>
         <p style="margin:0;color:#64748b;">Pulls from the full curriculum and puts the skill areas into each day of the week &mdash; delivered automatically, no setup needed.</p>
@@ -234,18 +230,14 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
-          <p style="margin:5px 0 0;"><strong>Skill Builder</strong> &mdash; pulls from the full curriculum by skill area.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
           <p style="margin:5px 0 0;"><strong>Weekly Plan</strong> &mdash; organizes the skill videos by day, delivering skill areas into each day automatically.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">3</span>
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
           <p style="margin:5px 0 0;"><strong>30-Day Monthly Plan</strong> &mdash; a guided month built from the 30-Day folders.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">4</span>
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">3</span>
           <p style="margin:5px 0 0;"><strong>Custom Plan</strong> &mdash; folders you pick yourself.</p>
         </div>
       </div>
