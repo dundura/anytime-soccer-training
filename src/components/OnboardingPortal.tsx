@@ -936,13 +936,6 @@ export default function OnboardingPortal() {
                       >
                         {saving ? 'Saving…' : 'Continue →'}
                       </button>
-                      <button
-                        onClick={() => setStep(step.key, 'skipped', true)}
-                        disabled={saving}
-                        className="text-sm text-gray-400 hover:text-gray-600 font-semibold underline disabled:opacity-60"
-                      >
-                        Skip this step →
-                      </button>
                     </>
                   ) : (
                     <>
