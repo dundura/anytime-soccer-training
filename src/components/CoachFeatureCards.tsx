@@ -52,7 +52,7 @@ export default function CoachFeatureCards() {
             Practice Ends. Their<br /><span className="text-red">Development Shouldn't.</span>
           </h2>
           <p className="text-lg text-[#64748b] mt-4 max-w-2xl mx-auto">
-            Give every player structured homework, real accountability, and a reason to train — without adding a single minute to your practice schedule.
+            Give every player structured homework, real accountability, and a reason to train.
           </p>
         </div>
 

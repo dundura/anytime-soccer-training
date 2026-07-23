@@ -39,7 +39,7 @@ export default function TabbedVideoSection({ title, subtitle, hideCta, compact }
                 {subtitle !== undefined ? (
                   subtitle && <p className="text-gray text-lg max-w-xl mx-auto">{subtitle}</p>
                 ) : (
-                  <p className="text-gray text-lg max-w-xl mx-auto">One week. Seven skills. Follow along and watch your player improve.</p>
+                  <p className="text-gray text-lg max-w-xl mx-auto">Follow along and watch your player improve.</p>
                 )}
               </div>
             )}
@@ -99,7 +99,7 @@ export default function TabbedVideoSection({ title, subtitle, hideCta, compact }
                   {subtitle !== undefined ? (
                     subtitle && <p className="text-gray text-lg max-w-xl mx-auto">{subtitle}</p>
                   ) : (
-                    <p className="text-gray text-lg max-w-xl mx-auto">One week. Seven skills. Follow along and watch your player improve.</p>
+                    <p className="text-gray text-lg max-w-xl mx-auto">Follow along and watch your player improve.</p>
                   )}
                 </div>
               )}
