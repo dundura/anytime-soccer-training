@@ -267,14 +267,18 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Quick Tip: If a Parent Hits a Paywall',
     body: `
-      <p>One of the most common questions we get: <strong>a parent hits a paywall</strong>. That means they didn&rsquo;t apply the team code.</p>
+      <p>One of the most common questions we get: <strong>a parent hits a paywall</strong>. That means they didn&rsquo;t apply the team code or you have not applied an upgrade slot.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;">When that happens, send them the <strong>onboarding link we provide</strong> &mdash; it includes the team code and instructions to add it.</p>
+          <p style="margin:6px 0 0;">If you were provided a team code, send them the <strong>onboarding link we provide</strong> &mdash; it includes the team code and instructions to add it.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;">If you purchased <strong>free access slots</strong>, apply them in the <strong>Upgrade</strong> section within your team.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
           <p style="margin:6px 0 0;">Still having issues? Have them email <a href="mailto:megan@anytime-soccer.com" style="color:#DC373E;font-weight:600;">Megan Chambers</a>.</p>
         </div>
       </div>
@@ -331,6 +335,30 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
           <p style="margin:6px 0 0;"><strong>Add players anytime.</strong> As your roster grows, add new players to your team and <strong>purchase additional slots</strong> to upgrade them &mdash; all directly in the app.</p>
+        </div>
+      </div>
+    `,
+  },
+  {
+    title: 'Renewing & Adding Members',
+    body: `
+      <p>Already up and running? Here&rsquo;s how access renewals and adding new players work.</p>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:6px 0 0;"><strong>Access lasts a full year.</strong> When you purchase access for a player, it&rsquo;s good for <strong>365 days</strong>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;"><strong>To add or renew players, send us your updated roster and pay the invoice.</strong> Same simple process as before.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:6px 0 0;"><strong>We add the access slots</strong> to your account &mdash; the same way as your original players.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
+          <p style="margin:6px 0 0;"><strong>You upgrade each player once they join your team</strong> &mdash; right under <strong>Upgrade Players</strong> in your dashboard.</p>
         </div>
       </div>
     `,
