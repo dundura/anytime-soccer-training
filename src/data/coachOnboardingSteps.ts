@@ -340,20 +340,16 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
   },
   {
-    title: 'Renewing & Adding Members',
+    title: 'Renewing members',
     body: `
       <p>Quick steps for renewing members.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;"><strong>To add or renew players, just send us the new players and pay the invoice.</strong> Same simple process as before.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
           <p style="margin:6px 0 0;"><strong>We add the access slots</strong> to your account &mdash; the same way as your original players.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
           <p style="margin:6px 0 0;"><strong>You upgrade each player once they join your team</strong> &mdash; right under <strong>Upgrade Players</strong> in your dashboard.</p>
         </div>
       </div>
