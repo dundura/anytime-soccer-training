@@ -845,6 +845,14 @@ export default function OnboardingPortal() {
                   >
                     ← Back
                   </button>
+                  {!step.final && wizardIndex < STEPS.length - 1 && (
+                    <button
+                      onClick={() => { setWizardIndex(wizardIndex + 1); setError(''); }}
+                      className="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-500 hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
+                    >
+                      Skip
+                    </button>
+                  )}
                   {stepData && stepData.ctaHref && (
                     <a
                       href={stepData!.ctaHref}
@@ -879,8 +887,8 @@ export default function OnboardingPortal() {
                       Next →
                     </button>
                   ) : (
-                    // Every step: Next opens the confirm popup. It's the ONLY way
-                    // to move forward, so a step can never be skipped.
+                    // Next always opens the confirm popup — no shortcut logic.
+                    // (To move on without confirming, use Skip.)
                     <button
                       onClick={() => { setStepChoice(null); setShowCompleteConfirm(true); }}
                       disabled={saving}
