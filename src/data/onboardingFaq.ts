@@ -433,7 +433,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: 'Start a team contest',
     answer: `
       <p>A great way to boost participation is to <strong>start a team contest</strong> and announce it at training.</p>
-      <p>You can run a contest inside the app and set a prize for the team and highest ranking player.</p>
+      <p>Create a contest inside the app and set a prize for the team and highest ranking player.</p>
     `,
   },
   {
