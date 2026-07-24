@@ -334,7 +334,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
   },
   {
-    title: 'How to renew a team',
+    title: 'How Payment Works - Renewing teams',
     body: `
       <p>There are two ways: email us your roster, or invite new players individually.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">

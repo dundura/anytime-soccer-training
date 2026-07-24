@@ -24,7 +24,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
   { key: 'payment_overview', title: 'How payment works', dataIndex: 18, section: 'Pre-Onboarding', info: true },
-  { key: 'renewing', title: 'How to renew a team', dataIndex: 19, section: 'Pre-Onboarding', info: true, plainNext: true },
+  { key: 'renewing', title: 'How Payment Works - Renewing teams', dataIndex: 19, section: 'Pre-Onboarding', info: true, plainNext: true },
   { key: 'paying-additional', title: 'Paying for new players', dataIndex: 20, section: 'Pre-Onboarding', info: true, plainNext: true },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: 2, section: 'Pre-Onboarding' },
   { key: 'tip_paywall', title: 'Quick Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Pre-Onboarding', tip: true },
