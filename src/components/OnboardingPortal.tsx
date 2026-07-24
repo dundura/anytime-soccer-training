@@ -638,16 +638,6 @@ export default function OnboardingPortal() {
                 >
                   {doneCount === 0 ? 'Get Started →' : 'Continue →'}
                 </button>
-                {doneCount > 0 && !allDone && (
-                  <p className="text-center mb-4">
-                    <button
-                      onClick={() => { setShowIntro(false); setWizardIndex(firstIncomplete(coach)); setError(''); }}
-                      className="text-sm text-gray-500 font-medium hover:text-red hover:underline transition-colors"
-                    >
-                      or skip to where you left off →
-                    </button>
-                  </p>
-                )}
 
               </div>
             ) : showOverview ? (
@@ -659,9 +649,9 @@ export default function OnboardingPortal() {
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
                 <ol className="space-y-4">
                   {[
-                    <>When you finish a step, hit <strong className="text-navy font-semibold">Mark Complete ✓</strong>.</>,
-                    <>You can <strong className="text-navy font-semibold">skip a step</strong> and come back to it &mdash; but every step must be completed to finish onboarding and get started.</>,
-                    <><strong className="text-navy font-semibold">Already done a step?</strong> Mark it complete and move on.</>,
+                    <>Read each page, then <strong className="text-navy font-semibold">confirm it</strong> to move on.</>,
+                    <><strong className="text-navy font-semibold">Every step must be completed</strong> to finish onboarding and get started.</>,
+                    <><strong className="text-navy font-semibold">Already done a step?</strong> Confirm it and continue.</>,
                     <>Have a question? Click <strong className="text-navy font-semibold">Ask us here</strong> and we&rsquo;ll be in touch.</>,
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-3">
@@ -687,16 +677,6 @@ export default function OnboardingPortal() {
                     Next →
                   </button>
                 </div>
-                {doneCount > 0 && !allDone && (
-                  <p className="text-center mb-4">
-                    <button
-                      onClick={() => { setShowOverview(false); setWizardIndex(firstIncomplete(coach)); setError(''); }}
-                      className="text-sm text-gray-500 font-medium hover:text-red hover:underline transition-colors"
-                    >
-                      or skip to where you left off →
-                    </button>
-                  </p>
-                )}
               </div>
             ) : showIndexInfo ? (
               <div>
