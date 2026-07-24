@@ -64,7 +64,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
-          <p style="margin:5px 0 0;">Click <strong>New Players</strong> (at the top), then <strong>Player Onboard</strong>.</p>
+          <p style="margin:5px 0 0;">Click <strong>New Players Onboard</strong>.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
