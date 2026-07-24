@@ -54,7 +54,6 @@ export const ONBOARDING_FAQ: FaqItem[] = [
           <p style="margin:6px 0 0;">Or send them the onboarding link we shared &mdash; it has instructions.</p>
         </div>
       </div>
-      <p>Still stuck? Email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
     `,
   },
   {
