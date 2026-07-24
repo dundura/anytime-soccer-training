@@ -233,7 +233,9 @@ export default function OnboardingPortal() {
     setForm({ name: '', email: '', password: '', club: '' });
   };
 
-  const setStep = async (key: string, value: boolean | 'skipped', advance = false, actionOverride?: string) => {
+  // notify: only the completion popup sends the per-step email. Plain Next
+  // navigation saves progress but must never trigger a notification.
+  const setStep = async (key: string, value: boolean | 'skipped', advance = false, actionOverride?: string, notify = false) => {
     if (!coach || !token) return;
     const stepDef = STEPS.find(s => s.key === key);
     setError('');
@@ -246,8 +248,9 @@ export default function OnboardingPortal() {
         body: JSON.stringify({
           checklist,
           completedStep: value === true ? key : null,
-          stepAction: actionOverride || (value === true ? 'completed' : value === 'skipped' ? 'skipped' : null),
-          stepTitle: stepDef ? stepDef.title : key,
+          // The backend emails only when both stepAction and stepTitle are present.
+          stepAction: notify ? (actionOverride || (value === true ? 'completed' : value === 'skipped' ? 'skipped' : null)) : null,
+          stepTitle: notify ? (stepDef ? stepDef.title : key) : null,
         }),
       });
       if (!res.ok) throw new Error();
@@ -905,18 +908,32 @@ export default function OnboardingPortal() {
                     >
                       Next →
                     </button>
-                  ) : (
-                    // Every other step: a single green Next that marks the step
-                    // complete (if it isn't already) and moves on. Never skips.
+                  ) : stepDone ? (
+                    // Already done: green Next just moves on — no email.
                     <button
-                      onClick={() => {
-                        if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } }
-                        else { setStep(step.key, true, true); }
-                      }}
+                      onClick={() => { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } }}
+                      className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                    >
+                      Next →
+                    </button>
+                  ) : (step.info || step.tip) ? (
+                    // Info / tip: green Next saves progress and moves on, no email.
+                    <button
+                      onClick={() => setStep(step.key, true, true)}
                       disabled={saving}
                       className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
                     >
                       {saving ? 'Saving…' : 'Next →'}
+                    </button>
+                  ) : (
+                    // Action step: the confirm popup is what marks it complete and
+                    // sends the per-step notification.
+                    <button
+                      onClick={() => { setStepChoice(null); setShowCompleteConfirm(true); }}
+                      disabled={saving}
+                      className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
+                    >
+                      {saving ? 'Saving…' : 'Continue →'}
                     </button>
                   )}
                 </div>
@@ -1033,7 +1050,7 @@ export default function OnboardingPortal() {
               <button
                 onClick={async () => {
                   if (!stepChoice) return;
-                  await setStep(step.key, true, true, stepChoice === 'question' ? 'needs_help' : undefined);
+                  await setStep(step.key, true, true, stepChoice === 'question' ? 'needs_help' : undefined, true);
                   setShowCompleteConfirm(false);
                 }}
                 disabled={saving || !stepChoice}

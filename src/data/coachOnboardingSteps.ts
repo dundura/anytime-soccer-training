@@ -389,7 +389,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       </div>
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;margin:16px 0;">
         <p style="margin:0 0 6px;color:#166534;"><strong>Invites are automatically sent.</strong></p>
-        <p style="margin:0;color:#166534;">Ask Megan for a getting-started link to share with your parents.</p>
+        <p style="margin:0;color:#166534;">Also, you can ask Megan for a getting-started link to share with your parents.</p>
       </div>
     `,
   },
