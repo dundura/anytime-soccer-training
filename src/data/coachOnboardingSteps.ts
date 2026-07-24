@@ -83,14 +83,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Create Your Account',
     body: `
-      <p>Fill in the registration form and add profiles for yourself and your children using the program.</p>
+      <p>Fill in the registration form to create your account.</p>
     `,
     subSteps: [
       {
         title: 'Go to anytime-soccer.com & Join for Free',
         videoHref: 'https://youtu.be/Vd2IkI3bQdM?si=urfwji2FLhUMYpGH',
         moreInfoHref: 'https://www.anytime-soccer.com/how-to-create-your-anytime-soccer-training-account?utm_source=email&utm_medium=email%20marketing',
-        sectionHeading: 'Create Account',
       },
       {
         title: 'Enter Your Team Code',
@@ -104,17 +103,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       },
       {
         title: 'Sign In to Your Account',
-      },
-      {
-        title: 'Click "Add Profile"',
-        description: 'Add a profile for yourself and your children (not team).',
-        videoHref: 'https://youtu.be/oE_GsRgfEdA?si=8RqaXFv_LKxXIXNY',
-        moreInfoHref: 'https://www.anytime-soccer.com/adding-an-anytime-soccer-training-player-profile?utm_source=email&utm_medium=email%20marketing',
-        sectionHeading: 'Add Profiles',
-      },
-      {
-        title: 'Contact Emails',
-        description: 'Use the same contact email for all profiles, or different ones.',
       },
     ],
   },
@@ -259,7 +247,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Quick Tip: Creating Your Team',
     body: `
-      <p>Next we&rsquo;ll ask you to create your team. All you need to do is fill out the <strong>Create Team form</strong> and let us know once it&rsquo;s done.</p>
+      <p>Next we&rsquo;ll ask you to create your team. Fill out the <strong>Create Team form</strong> and let us know once it&rsquo;s done.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
         <p style="margin:0;"><strong>Don&rsquo;t change the team name during onboarding</strong> &mdash; this is what the parents will search for.</p>
       </div>
@@ -393,5 +381,23 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         <p style="margin:0;color:#166534;">Also, you can ask Megan for a getting-started link to share with your parents.</p>
       </div>
     `,
+  },
+  {
+    title: 'Add Profiles',
+    body: `
+      <p>Add profiles for yourself and your children using the program.</p>
+    `,
+    subSteps: [
+      {
+        title: 'Click "Add Profile"',
+        description: 'Add a profile for yourself and your children (not team).',
+        videoHref: 'https://youtu.be/oE_GsRgfEdA?si=8RqaXFv_LKxXIXNY',
+        moreInfoHref: 'https://www.anytime-soccer.com/adding-an-anytime-soccer-training-player-profile?utm_source=email&utm_medium=email%20marketing',
+      },
+      {
+        title: 'Contact Emails',
+        description: 'Use the same contact email for all profiles, or different ones.',
+      },
+    ],
   },
 ];
