@@ -433,7 +433,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Boosting Usage',
     question: 'Start a team contest',
     answer: `
-      <p>One of the easiest ways to boost participation is to <strong>start a team contest</strong> and announce it at your next training &mdash; a little friendly competition goes a long way.</p>
+      <p>One of the easiest ways to boost participation is to <strong>start a team contest</strong> and announce it at your next training.</p>
       <p>You can run a contest right inside the app and set a prize for the team and player who does the most videos.</p>
     `,
   },
