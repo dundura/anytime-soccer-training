@@ -64,14 +64,10 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
-          <p style="margin:5px 0 0;">Click your team and open the <strong>Coach&rsquo;s Board</strong>.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
           <p style="margin:5px 0 0;">Click <strong>New Players</strong> (at the top), then <strong>Player Onboard</strong>.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">3</span>
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
           <p style="margin:5px 0 0;">Enter the player&rsquo;s email into <strong>Add Player</strong>.</p>
         </div>
         <p style="margin:0;">They&rsquo;ll get an invite; if they already have an account, they are automatically added.</p>
