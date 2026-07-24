@@ -455,11 +455,11 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     `,
   },
   {
-    category: 'Wrap Up',
+    category: 'Getting Started',
     question: 'What are your expectations?',
     answer: `
-      <p>Before you finish, we&rsquo;d love to understand what success looks like for you and your team.</p>
-      <p>Knowing your goals and expectations helps us support you the right way.</p>
+      <p>Let&rsquo;s start by understanding what success looks like for you and your team.</p>
+      <p>Knowing your expectations up front helps us support you the right way.</p>
     `,
   },
 ];

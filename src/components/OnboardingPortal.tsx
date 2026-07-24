@@ -20,6 +20,7 @@ type Coach = {
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
 const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean; plainNext?: boolean; quiz?: { prompt: string; options: string[] } }[] = [
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
+  { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'What are you hoping to get out of the program?', options: ['Improve individual player skills', 'Build consistent training habits', 'Supplement our team training', 'Long-term player development'] } },
   { key: 'roster_intro', title: 'Overview: Upgrading Players', dataIndex: 22, section: 'Pre-Onboarding', info: true, plainNext: true },
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
@@ -65,7 +66,6 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'commit_demo', title: '3. Show the app at training', dataIndex: -1, faqIndex: 27, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to discuss the app at training.', options: ['Yes', 'No'] } },
   { key: 'faq_coach_habits', title: 'Successful coaches', dataIndex: -1, faqIndex: 18, section: 'FAQs', tip: true },
   { key: 'faq_struggle', title: 'Coaches who struggle', dataIndex: -1, faqIndex: 23, section: 'FAQs', tip: true },
-  { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'FAQs', tip: true },
   { key: 'final_confirm', title: 'Confirm & Finish', dataIndex: 17, section: 'FAQs', final: true },
 ];
 
