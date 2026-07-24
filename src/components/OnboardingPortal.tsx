@@ -82,7 +82,7 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
     'Multiple children? Provide a line for each child using the same email.',
     'Users can update their emails inside the app at any time.',
   ] },
-  { heading: 'Player Emails', items: [
+  { heading: 'More on Emails', items: [
     'Parents can also sign up with a different email than the one you provided &mdash; that&rsquo;s fine.',
     'Older player? You can provide their email if they&rsquo;ll be the account creator.',
   ] },
