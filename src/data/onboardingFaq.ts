@@ -406,4 +406,14 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       </div>
     `,
   },
+  {
+    category: 'Team Management',
+    question: 'What are custom plans?',
+    answer: `
+      <p>Operate like the weekly plans, but only include the <strong>folders you select</strong>.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0;">For example, you can create a custom plan that includes only <strong>101 Ball Mastery</strong> folders and <strong>50 Top 1v1 Moves</strong> folders.</p>
+      </div>
+    `,
+  },
 ];
