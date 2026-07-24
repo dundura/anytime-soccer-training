@@ -442,6 +442,9 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: 'Set a personal goal for every player',
     answer: `
       <p><strong>Set a personal challenge for every player.</strong> This is the single biggest driver of consistency &mdash; when a player has their own target, they show up.</p>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:16px 18px;margin:16px 0;">
+        <p style="margin:0;color:#0F3154;font-weight:600;">From your team menu, click <strong>Set Personal Challenge</strong>.</p>
+      </div>
       <p>Keep them small and achievable so players build the habit.</p>
     `,
   },
