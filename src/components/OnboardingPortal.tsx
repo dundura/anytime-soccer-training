@@ -86,7 +86,7 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
     'Parents can also sign up with a different email than the one you provided &mdash; that&rsquo;s fine.',
     'Older player? You can provide their email if they&rsquo;ll be the account creator.',
   ] },
-  { heading: 'Adding New Players', items: [
+  { heading: 'Adding Players Later', items: [
     'Also add them directly in the app via the <strong>Player Onboard</strong> tab.',
   ] },
   { heading: 'Player Turnover', items: [
