@@ -63,6 +63,11 @@ const stepNumber = (i: number) => STEPS.slice(0, i + 1).filter(x => !x.tip).leng
 const NUMBERED_TOTAL = STEPS.filter(x => !x.tip).length;
 
 const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
+  { heading: 'Before You Start', items: [
+    'Roster templates are for teams joining Anytime Soccer Training for the first time.',
+    'Renewing members can submit a roster or add new players inside the app.',
+    'Before you download the roster template, we want to cover some FAQs.',
+  ] },
   { heading: 'Coach Contact', items: [
     'For the coach, include the same roster info plus their phone number.',
     'Include the coach on the roster and indicate they&rsquo;re the coach &mdash; their child will be the player on the same line.',
@@ -752,7 +757,6 @@ export default function OnboardingPortal() {
                 <div ref={contentRef}>
                 {isRosterStepper ? (
                   <div className="mb-6">
-                    <p className="text-gray-700 leading-relaxed mb-4">Roster templates are for teams joining Anytime Soccer Training for the first time. Renewing members can submit a roster or add new players inside the app. Before you download the roster template, we want to cover some FAQs.</p>
                     {[rosterSection].map(si => {
                       const sec = ROSTER_SECTIONS[si];
                       return (
