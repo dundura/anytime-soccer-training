@@ -452,7 +452,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: 'Demo the app in person',
     answer: `
       <p><strong>Demo the app in person</strong> and give the players a specific video goal for that week.</p>
-      <p>Pull up a video at training, do it together, and tell them exactly what to complete before the next session. Seeing it in person removes the guesswork for families.</p>
+      <p>Pull up a video at training, do it together, and tell them exactly what to complete before the next session. Seeing it in person removes the guesswork for families. Take a moment before or after practice to answer questions and make sure everyone knows how to access the homework.</p>
     `,
   },
 ];
