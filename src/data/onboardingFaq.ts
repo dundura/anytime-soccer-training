@@ -228,17 +228,6 @@ export const ONBOARDING_FAQ: FaqItem[] = [
           <p style="margin:5px 0 0;"><strong>Favorites</strong> &mdash; your own folders (add videos in Key Skills).</p>
         </div>
       </div>
-      <p style="font-weight:700;color:#0F3154;margin:16px 0 8px;">How to Assign</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
-          <p style="margin:5px 0 0;">Click <strong>pin/board</strong> next to a folder.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
-          <p style="margin:5px 0 0;">Click the <strong>person icon</strong> and select your players.</p>
-        </div>
-      </div>
     `,
   },
   {
@@ -259,17 +248,6 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">3</span>
           <p style="margin:5px 0 0;"><strong>Custom Plan</strong> &mdash; folders you pick yourself.</p>
-        </div>
-      </div>
-      <p style="font-weight:700;color:#0F3154;margin:16px 0 8px;">How to Assign</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
-          <p style="margin:5px 0 0;">From the <strong>Coach&rsquo;s Board</strong>, click <strong>Build Training Plan</strong>.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
-          <p style="margin:5px 0 0;">Assign it the same way you assign folders.</p>
         </div>
       </div>
     `,
@@ -374,6 +352,40 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         </ul>
       </div>
       <p>Don&rsquo;t expect that early interest alone will keep players consistent over time &mdash; <strong>without coach engagement, interest fades,</strong> just like any other activity. A little structure and follow-up from you makes all the difference.</p>
+    `,
+  },
+  {
+    category: 'Team Management',
+    question: 'How to Assign',
+    answer: `
+      <p>Once you&rsquo;ve found a folder, assign it to your players in two steps.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
+          <p style="margin:5px 0 0;">Click <strong>pin/board</strong> next to a folder.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
+          <p style="margin:5px 0 0;">Click the <strong>person icon</strong> and select your players.</p>
+        </div>
+      </div>
+    `,
+  },
+  {
+    category: 'Team Management',
+    question: 'How to Assign',
+    answer: `
+      <p>Once you&rsquo;ve chosen a plan, assign it in two steps.</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
+          <p style="margin:5px 0 0;">From the <strong>Coach&rsquo;s Board</strong>, click <strong>Build Training Plan</strong>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
+          <p style="margin:5px 0 0;">Assign it the same way you assign folders.</p>
+        </div>
+      </div>
     `,
   },
 ];
