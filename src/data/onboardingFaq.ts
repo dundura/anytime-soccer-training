@@ -6,12 +6,15 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: "What's the difference between the login email and the contact email, and how do I update them?",
     answer: `
       <p>Every account has a <strong>login email</strong> (used to sign in) and a <strong>contact email</strong> (where alerts go) &mdash; handy when a child has their own email but a parent created the account.</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <p style="margin:0 0 8px;font-weight:700;color:#0F3154;">How to Update</p>
-        <ol style="margin:0;padding-left:22px;">
-          <li style="margin:0 0 4px;list-style:decimal;"><strong>Login email:</strong> Account Management &rarr; update your email.</li>
-          <li style="list-style:decimal;"><strong>Contact email:</strong> click Edit next to the profile &rarr; update it.</li>
-        </ol>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:6px 0 0;"><strong>Login email:</strong> Account Management &rarr; update your email.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;"><strong>Contact email:</strong> click Edit next to the profile &rarr; update it.</p>
+        </div>
       </div>
     `,
   },
@@ -20,11 +23,15 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: 'What if I have more than one child using the program?',
     answer: `
       <p>Add up to <strong>4 profiles per account</strong>, all under one login. Each can join the same or a different team, and a team code applies to all of them.</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <ul style="margin:0;">
-          <li><strong>Add a profile:</strong> log in &rarr; Add a Profile &rarr; Save.</li>
-          <li><strong>Link profiles</strong> (for shared training credit): click the link icon next to a profile, then log in with the one to link.</li>
-        </ul>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:6px 0 0;"><strong>Add a profile:</strong> log in &rarr; Add a Profile &rarr; Save.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;"><strong>Link profiles</strong> (for shared training credit): click the link icon next to a profile, then log in with the one to link.</p>
+        </div>
       </div>
     `,
   },
@@ -33,12 +40,19 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: "Parents can't find our team when they search — what should I do?",
     answer: `
       <p>The exact name may be different. A few options:</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <ol style="margin:0;padding-left:22px;">
-          <li style="margin:0 0 4px;list-style:decimal;">Search <strong>part</strong> of the name (e.g. &ldquo;Anytime&rdquo; for &ldquo;Anytime Soccer Training&rdquo;).</li>
-          <li style="margin:0 0 4px;list-style:decimal;">Re-invite from <strong>New Players &rarr; Player Onboard</strong> &mdash; the invite includes the correct team name.</li>
-          <li style="list-style:decimal;">Or send them the onboarding link we shared &mdash; it has instructions.</li>
-        </ol>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:6px 0 0;">Search <strong>part</strong> of the name (e.g. &ldquo;Anytime&rdquo; for &ldquo;Anytime Soccer Training&rdquo;).</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;">Re-invite from <strong>New Players &rarr; Player Onboard</strong> &mdash; the invite includes the correct team name.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:6px 0 0;">Or send them the onboarding link we shared &mdash; it has instructions.</p>
+        </div>
       </div>
       <p>Still stuck? Email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
     `,
@@ -72,12 +86,19 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: 'How do I remove players from my team?',
     answer: `
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
-        <ol style="margin:0;padding-left:22px;">
-          <li style="margin:0 0 4px;list-style:decimal;">Go to your team and click <strong>Roster</strong>.</li>
-          <li style="margin:0 0 4px;list-style:decimal;">Click the player&rsquo;s name.</li>
-          <li style="list-style:decimal;">From their profile, click <strong>Remove from Team</strong>.</li>
-        </ol>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:6px 0 0;">Go to your team and click <strong>Roster</strong>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;">Click the player&rsquo;s name.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:6px 0 0;">From their profile, click <strong>Remove from Team</strong>.</p>
+        </div>
       </div>
     `,
   },
@@ -142,13 +163,20 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: "I see that players have joined the app, but they're not on my team",
     answer: `
       <p>Some players join the app but forget to join the team. You can automatically add them by <strong>re-inviting them</strong>.</p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <p style="margin:0 0 8px;font-weight:700;color:#0F3154;">To re-invite a player:</p>
-        <ol style="margin:0;padding-left:22px;">
-          <li style="margin:0 0 4px;list-style:decimal;">Go to your team, open the <strong>New Players</strong> dropdown, and click <strong>Player Onboard</strong>.</li>
-          <li style="margin:0 0 4px;list-style:decimal;">Resend the invite.</li>
-          <li style="list-style:decimal;">They&rsquo;ll get an invite; if they already have an account, they can join in one click.</li>
-        </ol>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:6px 0 0;">Go to your team, open the <strong>New Players</strong> dropdown, and click <strong>Player Onboard</strong>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;">Resend the invite.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:6px 0 0;">They&rsquo;ll get an invite; if they already have an account, they can join in one click.</p>
+        </div>
       </div>
     `,
   },
