@@ -720,7 +720,7 @@ export default function OnboardingPortal() {
               </div>
             ) : (
               <div>
-                <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-1">Page {wizardIndex + 1} of {STEPS.length}</p>
+                <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-1">Page {wizardIndex + 1}</p>
                 <h2 className="text-navy text-xl font-extrabold mb-4">{step.title}</h2>
 
                 {stepDone && (
