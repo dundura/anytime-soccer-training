@@ -878,17 +878,9 @@ export default function OnboardingPortal() {
                     >
                       Next →
                     </button>
-                  ) : stepDone ? (
-                    // Done: green Next just moves on — no email.
-                    <button
-                      onClick={() => { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } }}
-                      className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
-                    >
-                      Next →
-                    </button>
                   ) : (
-                    // Not done: red button opens the confirm popup — that's what
-                    // marks the step complete and sends the per-step notification.
+                    // Every step: Next opens the confirm popup. It's the ONLY way
+                    // to move forward, so a step can never be skipped.
                     <button
                       onClick={() => { setStepChoice(null); setShowCompleteConfirm(true); }}
                       disabled={saving}
