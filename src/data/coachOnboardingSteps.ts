@@ -302,7 +302,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'How Payment Works',
     body: `
-      <p>Here&rsquo;s the big picture &mdash; billing is simple and handled entirely by us.</p>
+      <p>There are two categories of team &mdash; <strong>New Teams</strong> and <strong>Renewing teams</strong>. We&rsquo;ll walk through the payment steps for both.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
