@@ -442,7 +442,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     answer: `
       <p>This is the single biggest driver of consistency &mdash; when a player has their own target, they show up.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:16px 18px;margin:16px 0;">
-        <p style="margin:0;color:#0F3154;font-weight:600;">From your team menu, click <strong>Set Personal Challenge</strong>.</p>
+        <p style="margin:0;color:#0F3154;font-weight:600;">From your team menu, click <strong>Set Personal Challenge</strong>. It takes seconds.</p>
       </div>
     `,
   },
