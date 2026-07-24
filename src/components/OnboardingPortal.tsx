@@ -715,9 +715,6 @@ export default function OnboardingPortal() {
                   </ul>
                   <p className="text-gray-700 leading-relaxed mt-4">Use the <strong className="text-navy font-semibold">Outstanding</strong> filter at the top of the Index to see only what&rsquo;s left to do.</p>
                 </div>
-                <p className="text-center text-sm text-gray-600 mb-3">
-                  You can open the Index any time from the menu at the top of the page.
-                </p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
                   <button
                     onClick={() => { setShowIndexInfo(false); setShowOverview(true); setError(''); }}
