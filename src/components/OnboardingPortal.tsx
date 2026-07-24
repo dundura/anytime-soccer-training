@@ -79,8 +79,7 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
     'Older player? You can provide their email if they&rsquo;ll be the account creator.',
   ] },
   { heading: 'Adding New Players', items: [
-    'To onboard new players, simply email us the parent name, child name, and email.',
-    'You can also add them directly in the app via the <strong>Player Onboard</strong> tab, then upgrade them in the <strong>Upgrade Player</strong> tab.',
+    'Also add them directly in the app via the <strong>Player Onboard</strong> tab.',
   ] },
   { heading: 'Player Turnover', items: [
     'You can remove a player from your team anytime.',
@@ -768,7 +767,7 @@ export default function OnboardingPortal() {
                 {isRosterStepper ? (
                   <div className="mb-6">
                     <p className="text-gray-700 leading-relaxed mb-4">Before you download the roster template in the next step, we want to cover some FAQs.</p>
-                    {(stepDone ? ROSTER_SECTIONS.map((_, i) => i) : [rosterSection]).map(si => {
+                    {[rosterSection].map(si => {
                       const sec = ROSTER_SECTIONS[si];
                       return (
                         <div key={si} className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
@@ -789,7 +788,7 @@ export default function OnboardingPortal() {
                         </div>
                       );
                     })}
-                    {!stepDone && <p className="text-center text-xs text-gray-500 font-semibold">Section {rosterSection + 1} of {ROSTER_SECTIONS.length}</p>}
+                    <p className="text-center text-xs text-gray-500 font-semibold">Section {rosterSection + 1} of {ROSTER_SECTIONS.length}</p>
                   </div>
                 ) : stepData ? (
                   <CoachStepContent step={stepData} hideCta />
@@ -864,7 +863,7 @@ export default function OnboardingPortal() {
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-6">
                   <button
                     onClick={() => {
-                      if (isRosterStepper && !stepDone && rosterSection > 0) { setRosterSection(rosterSection - 1); }
+                      if (isRosterStepper && rosterSection > 0) { setRosterSection(rosterSection - 1); }
                       else if (wizardIndex === 0) { setShowOverview(true); }
                       else { setWizardIndex(wizardIndex - 1); }
                       setError('');
@@ -898,65 +897,27 @@ export default function OnboardingPortal() {
                         {saving ? 'Saving…' : othersDone ? 'Confirm — Onboarding Complete ✓' : 'Complete All Steps to Confirm'}
                       </button>
                     )
-                  ) : (step.info || step.tip) ? (
-                    <>
-                      {isRosterStepper && !stepDone && rosterSection < rosterLast ? (
-                        <button
-                          onClick={() => { setRosterSection(rosterSection + 1); setError(''); }}
-                          className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
-                        >
-                          Next →
-                        </button>
-                      ) : step.plainNext && !stepDone ? (
-                        <button
-                          onClick={() => setStep(step.key, true, true)}
-                          disabled={saving}
-                          className={`w-full sm:w-auto text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60 ${(step.key === 'renewing' || step.key === 'paying-additional') ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'}`}
-                        >
-                          {saving ? 'Saving…' : 'Next →'}
-                        </button>
-                      ) : (
-                      <button
-                        onClick={() => {
-                          if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } }
-                          else { setStepChoice(null); setShowCompleteConfirm(true); }
-                        }}
-                        disabled={saving}
-                        className={`w-full sm:w-auto font-bold py-2.5 px-8 rounded-xl transition-colors text-white disabled:opacity-60 ${stepDone ? 'bg-green-600 hover:bg-green-700' : 'bg-red hover:bg-red-dark'}`}
-                      >
-                        {saving ? 'Saving…' : stepDone ? 'Next →' : 'Continue →'}
-                      </button>
-                      )}
-                    </>
-                  ) : !stepDone ? (
-                    <>
-                      <button
-                        onClick={() => { setStepChoice(null); setShowCompleteConfirm(true); }}
-                        disabled={saving}
-                        className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
-                      >
-                        {saving ? 'Saving…' : 'Continue →'}
-                      </button>
-                    </>
+                  ) : isRosterStepper && rosterSection < rosterLast ? (
+                    // Roster FAQs: one section per page, green Next after each.
+                    <button
+                      onClick={() => { setRosterSection(rosterSection + 1); setError(''); }}
+                      className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                    >
+                      Next →
+                    </button>
                   ) : (
-                    <>
-                      {!stepSkipped && (
-                        <button
-                          disabled
-                          className="w-full sm:w-auto bg-green-500 text-white font-bold py-2.5 px-6 rounded-xl cursor-default"
-                        >
-                          I Have Completed This Step ✓
-                        </button>
-                      )}
-                      {wizardIndex < STEPS.length - 1 && (
-                        <button
-                          onClick={() => { setWizardIndex(wizardIndex + 1); setError(''); }}
-                          className="w-full sm:w-auto bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
-                        >
-                          Next →
-                        </button>
-                      )}
-                    </>
+                    // Every other step: a single green Next that marks the step
+                    // complete (if it isn't already) and moves on. Never skips.
+                    <button
+                      onClick={() => {
+                        if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } }
+                        else { setStep(step.key, true, true); }
+                      }}
+                      disabled={saving}
+                      className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
+                    >
+                      {saving ? 'Saving…' : 'Next →'}
+                    </button>
                   )}
                 </div>
               </div>
