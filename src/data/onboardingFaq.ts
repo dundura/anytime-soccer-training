@@ -159,7 +159,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
   },
   {
     category: 'Team Management',
-    question: "I see that players have joined the app, but they're not on my team",
+    question: "Players have joined the app, but they're not on my team",
     answer: `
       <p>Some players join the app but forget to join the team. You can automatically add them by <strong>re-inviting them</strong>.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
