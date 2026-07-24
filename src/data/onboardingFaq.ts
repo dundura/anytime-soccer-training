@@ -454,4 +454,12 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <p>Before or after practice show the app and make sure everyone knows how to access the homework.</p>
     `,
   },
+  {
+    category: 'Wrap Up',
+    question: 'What are your expectations?',
+    answer: `
+      <p>Before you finish, we&rsquo;d love to understand what success looks like for you and your team.</p>
+      <p>Knowing your goals and expectations helps us support you the right way.</p>
+    `,
+  },
 ];
