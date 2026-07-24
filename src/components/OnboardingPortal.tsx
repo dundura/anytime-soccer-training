@@ -61,7 +61,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_hw_complete', title: 'I got an email that a homework folder is complete, but the player hasn’t done the videos', dataIndex: -1, faqIndex: 8, section: 'FAQs', tip: true },
   { key: 'faq_low_usage', title: 'My players are not using the program as much as I expected - what can I do?', dataIndex: -1, faqIndex: 24, section: 'FAQs', tip: true },
   { key: 'commit_contest', title: 'Start a team contest', dataIndex: -1, faqIndex: 25, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to start a team contest and announce it at my next training.', options: ['Yes', 'No'] } },
-  { key: 'commit_goals', title: 'Set a personal goal for every player', dataIndex: -1, faqIndex: 26, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to set a personal goal for every player.', options: ['Yes', 'No'] } },
+  { key: 'commit_goals', title: 'Set a personal challenge for every player', dataIndex: -1, faqIndex: 26, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to set a personal challenge for every player.', options: ['Yes', 'No'] } },
   { key: 'commit_demo', title: 'Demo the app in person', dataIndex: -1, faqIndex: 27, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to demo the app in person and give the players a weekly video goal.', options: ['Yes', 'No'] } },
   { key: 'faq_coach_habits', title: 'Successful coaches', dataIndex: -1, faqIndex: 18, section: 'FAQs', tip: true },
   { key: 'faq_struggle', title: 'Coaches who struggle', dataIndex: -1, faqIndex: 23, section: 'FAQs', tip: true },

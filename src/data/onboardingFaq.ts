@@ -441,8 +441,8 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Boosting Usage',
     question: 'Set a personal goal for every player',
     answer: `
-      <p><strong>Set a personal goal for every player.</strong> This is the single biggest driver of consistency &mdash; when a player has their own target, they show up.</p>
-      <p>Goals can be as simple as a number of videos or minutes each week. Keep them small and achievable so players build the habit.</p>
+      <p><strong>Set a personal challenge for every player.</strong> This is the single biggest driver of consistency &mdash; when a player has their own target, they show up.</p>
+      <p>Keep them small and achievable so players build the habit.</p>
     `,
   },
   {
