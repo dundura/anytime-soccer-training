@@ -59,7 +59,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_equipment', title: 'Do my players need equipment and a lot of space?', dataIndex: -1, faqIndex: 17, section: 'FAQs', tip: true },
   { key: 'faq_skip_videos', title: 'What happens if kids skip videos?', dataIndex: -1, faqIndex: 7, section: 'FAQs', tip: true },
   { key: 'faq_hw_complete', title: 'I got an email that a homework folder is complete, but the player hasn’t done the videos', dataIndex: -1, faqIndex: 8, section: 'FAQs', tip: true },
-  { key: 'faq_low_usage', title: 'My participation is lower than expected - what can I do?', dataIndex: -1, faqIndex: 24, section: 'FAQs', tip: true },
+  { key: 'faq_low_usage', title: 'Participation is lower than expected - what can I do?', dataIndex: -1, faqIndex: 24, section: 'FAQs', tip: true },
   { key: 'commit_contest', title: 'Start a team contest', dataIndex: -1, faqIndex: 25, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to start a team contest and announce it at my next training.', options: ['Yes', 'No'] } },
   { key: 'commit_goals', title: 'Set a personal challenge for every player', dataIndex: -1, faqIndex: 26, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to set a personal challenge for every player.', options: ['Yes', 'No'] } },
   { key: 'commit_demo', title: 'Demo the app in person', dataIndex: -1, faqIndex: 27, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to demo the app in person and give the players a weekly video goal.', options: ['Yes', 'No'] } },

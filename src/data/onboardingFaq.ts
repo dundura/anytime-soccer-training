@@ -424,8 +424,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Boosting Usage',
     question: 'My players are not using the program as much as I expected',
     answer: `
-      <p>Over the next few pages we&rsquo;ll share <strong>suggestions that have proven to increase participation</strong>.</p>
-      <p>Each one takes only a couple of seconds.</p>
+      <p>Over the next few pages we&rsquo;ll share <strong>suggestions that have proven to increase participation</strong>. Each takes seconds.</p>
       <p>To help support you, we&rsquo;re asking in advance if these are tactics you will consider.</p>
     `,
   },
