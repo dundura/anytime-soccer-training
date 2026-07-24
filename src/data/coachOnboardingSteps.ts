@@ -412,7 +412,12 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;"><strong>New teams</strong> submit your roster and pay the invoice.</p>
+          <div style="margin:6px 0 0;">
+            <p style="margin:0 0 6px;"><strong>New teams</strong> submit your roster and pay the invoice.</p>
+            <ul style="margin:0;padding-left:20px;list-style:disc;">
+              <li style="list-style:disc;">The roster template is provided later.</li>
+            </ul>
+          </div>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
