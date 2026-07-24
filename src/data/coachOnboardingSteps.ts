@@ -367,7 +367,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Paying for New Players',
     body: `
-      <p>You can add additional players and pay for their access directly inside the app.</p>
+      <p>You can add players and pay for their access directly inside the app.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:0 0 16px;">Option 2 &mdash; Paying for New Players inside the App</p>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
