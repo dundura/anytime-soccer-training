@@ -20,7 +20,7 @@ type Coach = {
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
 const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean; plainNext?: boolean }[] = [
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
-  { key: 'roster_intro', title: 'Rosters: start here', dataIndex: 22, section: 'Pre-Onboarding', info: true, plainNext: true },
+  { key: 'roster_intro', title: 'Overview: Upgrading Players', dataIndex: 22, section: 'Pre-Onboarding', info: true, plainNext: true },
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
   { key: 'payment_overview', title: 'How payment works', dataIndex: 18, section: 'Pre-Onboarding', info: true },
