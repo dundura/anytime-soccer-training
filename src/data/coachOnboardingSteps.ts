@@ -248,7 +248,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
-          <p style="margin:6px 0 0;">Already have an account? Enter the team code in the <strong>Account Management</strong> section.</p>
+          <p style="margin:6px 0 0;">Already have an account? Enter the team code in the <strong>Account Management</strong> section. (Optional)</p>
         </div>
       </div>
     `,
