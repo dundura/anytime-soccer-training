@@ -138,7 +138,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     answer: `
       <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;margin-bottom:10px;">
         <p style="margin:0 0 6px;"><span style="font-size:17px;">📅</span> <strong>Weekly Plan</strong></p>
-        <p style="margin:0;color:#64748b;">Pulls from the full curriculum and puts the skill areas into each day of the week &mdash; delivered automatically, no setup needed.</p>
+        <p style="margin:0;color:#64748b;">Pulls from the full curriculum and puts the skill areas into each day of the week &mdash; delivered automatically.</p>
       </div>
       <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;margin-bottom:10px;">
         <p style="margin:0 0 6px;"><span style="font-size:17px;">📆</span> <strong>30-Day Monthly Plan</strong></p>
@@ -384,6 +384,24 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
           <p style="margin:5px 0 0;">Assign it the same way you assign folders.</p>
+        </div>
+      </div>
+    `,
+  },
+  {
+    category: 'Team Management',
+    question: 'What are weekly plans?',
+    answer: `
+      <p>Pulls from the <strong>full curriculum</strong> and puts the skill areas into <strong>each day of the week</strong> &mdash; delivered automatically.</p>
+      <p style="font-weight:700;color:#0F3154;margin:16px 0 8px;">Key Features</p>
+      <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
+          <p style="margin:5px 0 0;">Delivers <strong>single-move videos</strong> and <strong>review videos</strong>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">2</span>
+          <p style="margin:5px 0 0;">Can <strong>auto-renew</strong> &mdash; set and forget.</p>
         </div>
       </div>
     `,
