@@ -625,13 +625,6 @@ export default function OnboardingPortal() {
                   Every step is designed to get your team set up quickly — so your players can start <strong className="text-navy font-semibold">training from day one</strong>.
                 </p>
 
-                <p className="text-center text-sm text-gray-600 mb-3">
-                  Question?{' '}
-                  <button onClick={() => { setShowQuestion(true); setError(''); }} className="text-red font-semibold hover:underline">
-                    Ask us here
-                  </button>
-                  {questionSent && <span className="block text-green-700 font-semibold mt-1">✓ Sent — we&rsquo;ll get back to you shortly!</span>}
-                </p>
                 <button
                   onClick={() => { setShowIntro(false); setShowOverview(true); setError(''); }}
                   className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors mb-3"
@@ -673,13 +666,6 @@ export default function OnboardingPortal() {
                   ))}
                 </ol>
                 </div>
-                <p className="text-center text-sm text-gray-600 mb-3">
-                  Question?{' '}
-                  <button onClick={() => { setShowQuestion(true); setError(''); }} className="text-red font-semibold hover:underline">
-                    Ask us here
-                  </button>
-                  {questionSent && <span className="block text-green-700 font-semibold mt-1">✓ Sent — we&rsquo;ll get back to you shortly!</span>}
-                </p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-3">
                   <button
                     onClick={() => { setShowOverview(false); setShowIntro(true); setError(''); }}
