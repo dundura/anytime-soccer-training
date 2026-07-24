@@ -65,9 +65,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Pay Your Invoice',
     body: `
       <p><strong>If you submitted a roster:</strong> we&rsquo;ll send your invoice via Stripe. Once paid, confirm below &mdash; that&rsquo;s when onboarding begins.</p>
-      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:16px 20px;margin:16px 0;">
-        <p style="margin:0;color:#166534;"><strong>Please confirm you&rsquo;ve received and paid your invoice</strong> to continue.</p>
-      </div>
       <p><strong>Adding players inside the app instead?</strong> There&rsquo;s no invoice here &mdash; just mark this step complete and move on.</p>
     `,
   },
