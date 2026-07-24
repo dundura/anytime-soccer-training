@@ -159,7 +159,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         <p style="margin:0 0 8px;font-weight:700;color:#0F3154;">To re-invite a player:</p>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;">Go to your team, open the <strong>New Players</strong> dropdown, and click <strong>Player Onboard</strong>.</p>
+          <p style="margin:6px 0 0;">Go to your team and click <strong>Player Onboard</strong>.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
