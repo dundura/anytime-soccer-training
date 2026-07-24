@@ -425,6 +425,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: 'My players are not using the program as much as I expected',
     answer: `
       <p>Building a new habits can take time. Over the next few pages we&rsquo;ll share a few <strong>simple suggestions that have proven to work</strong>.</p>
+      <p>Each one takes only a couple of seconds, and we&rsquo;ll ask whether you plan to try it.</p>
     `,
   },
   {
