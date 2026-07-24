@@ -72,9 +72,6 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         </div>
         <p style="margin:0;">They&rsquo;ll get an invite; if they already have an account, they are automatically added.</p>
       </div>
-      <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-top:12px;">
-        <p style="margin:0;color:#DC373E;font-weight:600;">If you already have 15 or more players, we&rsquo;ll charge the card on file and send you a team code for that player, and add a free access slot to your account.</p>
-      </div>
     `,
   },
   {
