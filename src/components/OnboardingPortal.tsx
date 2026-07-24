@@ -36,6 +36,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'tip_team', title: 'Quick Tip: Creating Your Team', dataIndex: 14, section: 'Onboarding', tip: true },
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding' },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
+  { key: 'complete_portal', title: 'Complete Portal Onboarding Steps', dataIndex: 23, section: 'Onboarding', info: true },
   { key: 'parents_informed', title: 'Reply to Megan: team name & parents informed', dataIndex: 8, section: 'Onboarding' },
 { key: 'faq_intro', title: 'Common FAQs', dataIndex: 16, section: 'FAQs', info: true },
   { key: 'faq_emails', title: 'What’s the difference between the login email and the contact email, and how do I update them?', dataIndex: -1, faqIndex: 0, section: 'FAQs', tip: true },

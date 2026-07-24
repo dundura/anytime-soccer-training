@@ -433,4 +433,10 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       </div>
     `,
   },
+  {
+    title: 'Complete Portal Onboarding Steps',
+    body: `
+      <p>Before you notify Megan, work through the rest of the steps in this portal &mdash; they walk you through setup and the key features that get your team going.</p>
+    `,
+  },
 ];
