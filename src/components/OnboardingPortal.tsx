@@ -477,7 +477,7 @@ export default function OnboardingPortal() {
                       </a>
                       <a href="/onboarding-portal?view=steps" className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
                         <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
-                        <span className="text-sm font-semibold text-red hover:underline">How it Works</span>
+                        <span className="text-sm font-semibold text-red hover:underline">How Onboarding Works</span>
                       </a>
                     </>
                   )}
@@ -643,7 +643,7 @@ export default function OnboardingPortal() {
               </div>
             ) : showOverview ? (
               <div>
-                <h2 className="text-navy text-xl font-extrabold mb-3">How it Works</h2>
+                <h2 className="text-navy text-xl font-extrabold mb-3">How Onboarding Works</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
                   Each step has its own page with everything you need.
                 </p>
