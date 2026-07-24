@@ -700,7 +700,7 @@ export default function OnboardingPortal() {
                       <span className="text-gray-700 text-sm">steps still outstanding.</span>
                     </li>
                   </ul>
-                  <p className="text-gray-700 leading-relaxed mt-4">Use the <strong className="text-navy font-semibold">Outstanding</strong> filter to see only what&rsquo;s left to do.</p>
+                  <p className="text-gray-700 leading-relaxed mt-4">Use the <strong className="text-navy font-semibold">Outstanding</strong> filter to see only what&rsquo;s left.</p>
                 </div>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
                   <button
