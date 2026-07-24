@@ -130,7 +130,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       },
       {
         title: 'Complete the Form',
-        description: "Don't change your team name during onboarding — it's what parents search to join.",
       },
     ],
   },
