@@ -450,7 +450,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Boosting Usage',
     question: 'Demo the app in person',
     answer: `
-      <p><strong>Demo the app in person</strong> and make sure players know how to access their homework.</p>
+      <p><strong>Show the app in person</strong> and make sure players know how to access their homework.</p>
       <p>Before or after practice show the app and make sure everyone knows how to access the homework.</p>
     `,
   },
