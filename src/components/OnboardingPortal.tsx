@@ -20,7 +20,7 @@ type Coach = {
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
 const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean; plainNext?: boolean; quiz?: { prompt: string; options: string[] } }[] = [
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
-  { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Training outside of team practice is an expectation I set with my team, and I expect at least 75% active engagement.', options: ['Agree', 'Disagree'] } },
+  { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Which best describes your expectations for your team?', options: ['Training outside of practice is an expectation I’ve set with my team — I’m aiming for at least 75% active engagement.', 'My team is highly motivated. It’s optional, but I’m excited to see how they respond.', 'This is an optional program — if they train, that’s a win; if not, no pressure.'] } },
   { key: 'roster_intro', title: 'Overview: Upgrading Players', dataIndex: 22, section: 'Pre-Onboarding', info: true, plainNext: true },
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
