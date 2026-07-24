@@ -71,7 +71,7 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
     'Before downloading the template, we want to cover some FAQs.',
   ] },
   { heading: 'Coach Contact', items: [
-    'For the coach, include the same roster info plus their phone number.',
+    'Phone number &mdash; include the coach&rsquo;s phone number.',
     'Include the coach on the roster and indicate they&rsquo;re the coach &mdash; their child will be the player on the same line.',
     'Don&rsquo;t have a player? Leave the player name blank.',
   ] },
