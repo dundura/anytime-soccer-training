@@ -650,7 +650,7 @@ export default function OnboardingPortal() {
                 <ol className="space-y-4">
                   {[
                     <>Read each page, then <strong className="text-navy font-semibold">confirm it</strong> to move on.</>,
-                    <><strong className="text-navy font-semibold">Every step must be completed</strong> to finish onboarding and get started.</>,
+                    <><strong className="text-navy font-semibold">Every step must be completed</strong> before we start.</>,
                     <><strong className="text-navy font-semibold">Already done a step?</strong> Confirm it and continue.</>,
                     <>Have a question? Click <strong className="text-navy font-semibold">Ask us here</strong> and we&rsquo;ll be in touch.</>,
                   ].map((item, i) => (
