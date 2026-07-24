@@ -451,7 +451,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: 'Demo the app in person',
     answer: `
       <p><strong>Demo the app in person</strong> and make sure players know how to access their homework.</p>
-      <p>Before or after practice, answer questions and make sure everyone knows how to access the homework.</p>
+      <p>Before or after practice show the app and make sure everyone knows how to access the homework.</p>
     `,
   },
 ];
