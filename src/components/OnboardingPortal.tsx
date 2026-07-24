@@ -720,7 +720,6 @@ export default function OnboardingPortal() {
               </div>
             ) : (
               <div>
-                <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-1">{wizardIndex + 1}</p>
                 <h2 className="text-navy text-xl font-extrabold mb-4">{step.title}</h2>
 
                 {stepDone && (
@@ -899,6 +898,7 @@ export default function OnboardingPortal() {
                     </button>
                   )}
                 </div>
+                <p className="text-center text-xs font-bold text-gray-400 mt-4">{wizardIndex + 1}</p>
               </div>
             )}
           </div>
