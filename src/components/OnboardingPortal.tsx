@@ -752,7 +752,7 @@ export default function OnboardingPortal() {
                 <div ref={contentRef}>
                 {isRosterStepper ? (
                   <div className="mb-6">
-                    <p className="text-gray-700 leading-relaxed mb-4">Before you download the roster template in the next step, we want to cover some FAQs.</p>
+                    <p className="text-gray-700 leading-relaxed mb-4">Before you download the roster template, we want to cover some FAQs.</p>
                     {[rosterSection].map(si => {
                       const sec = ROSTER_SECTIONS[si];
                       return (

@@ -232,7 +232,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Roster FAQs',
     body: `
-      <p>Before you download the roster template in the next step, we want to cover some FAQs.</p>
+      <p>Before you download the roster template, we want to cover some FAQs.</p>
     `,
   },
   {
