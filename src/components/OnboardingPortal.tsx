@@ -54,7 +54,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_plans_assign', title: 'How to Assign', dataIndex: -1, faqIndex: 20, section: 'FAQs', tip: true },
   { key: 'faq_weekly', title: 'More on Weekly Plans', dataIndex: -1, faqIndex: 21, section: 'FAQs', tip: true },
   { key: 'faq_30day', title: 'More on 30-Day Plans', dataIndex: -1, faqIndex: 11, section: 'FAQs', tip: true },
-  { key: 'faq_custom', title: 'What are custom plans?', dataIndex: -1, faqIndex: 22, section: 'FAQs', tip: true },
+  { key: 'faq_custom', title: 'More on Custom Plans', dataIndex: -1, faqIndex: 22, section: 'FAQs', tip: true },
   { key: 'faq_homework', title: 'Which homework do you recommend I start with?', dataIndex: -1, faqIndex: 6, section: 'FAQs', tip: true },
   { key: 'faq_equipment', title: 'Do my players need equipment and a lot of space?', dataIndex: -1, faqIndex: 17, section: 'FAQs', tip: true },
   { key: 'faq_skip_videos', title: 'What happens if kids skip videos?', dataIndex: -1, faqIndex: 7, section: 'FAQs', tip: true },
