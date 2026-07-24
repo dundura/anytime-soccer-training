@@ -83,8 +83,8 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
     'Users can update their emails inside the app at any time.',
   ] },
   { heading: 'More on Emails', items: [
-    'Parents can also sign up with a different email than the one you provided &mdash; that&rsquo;s fine.',
-    'Older player? You can provide their email if they&rsquo;ll be the account creator.',
+    'Parents can also sign up with a different email than the one you provided in the roster.',
+    'Older players can provide their email if they&rsquo;ll be the account creator.',
   ] },
   { heading: 'Adding Players Later', items: [
     'Once we onboard the initial roster, you can add them directly in the app via the <strong>Player Onboard</strong> tab.',
