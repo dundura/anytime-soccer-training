@@ -420,4 +420,28 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       </div>
     `,
   },
+  {
+    category: 'Boosting Usage',
+    question: 'Start a team contest',
+    answer: `
+      <p>One of the easiest ways to boost participation is to <strong>start a team contest</strong> and announce it at your next training &mdash; a little friendly competition goes a long way.</p>
+      <p>You can run a contest right inside the app (Team Leaderboard) or keep it simple with a prize for the player who does the most videos this week.</p>
+    `,
+  },
+  {
+    category: 'Boosting Usage',
+    question: 'Set a personal goal for every player',
+    answer: `
+      <p><strong>Set a personal goal for every player.</strong> This is the single biggest driver of consistency &mdash; when a player has their own target, they show up.</p>
+      <p>Goals can be as simple as a number of videos or minutes each week. Keep them small and achievable so players build the habit.</p>
+    `,
+  },
+  {
+    category: 'Boosting Usage',
+    question: 'Demo the app in person',
+    answer: `
+      <p><strong>Demo the app in person</strong> and give the players a specific video goal for that week.</p>
+      <p>Pull up a video at training, do it together, and tell them exactly what to complete before the next session. Seeing it in person removes the guesswork for families.</p>
+    `,
+  },
 ];

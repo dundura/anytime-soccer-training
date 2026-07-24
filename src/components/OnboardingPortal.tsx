@@ -59,7 +59,9 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_equipment', title: 'Do my players need equipment and a lot of space?', dataIndex: -1, faqIndex: 17, section: 'FAQs', tip: true },
   { key: 'faq_skip_videos', title: 'What happens if kids skip videos?', dataIndex: -1, faqIndex: 7, section: 'FAQs', tip: true },
   { key: 'faq_hw_complete', title: 'I got an email that a homework folder is complete, but the player hasn’t done the videos', dataIndex: -1, faqIndex: 8, section: 'FAQs', tip: true },
-  { key: 'faq_low_usage', title: 'My kids have not used the program as much as I expected. Any suggestions?', dataIndex: -1, faqIndex: 15, section: 'FAQs', tip: true },
+  { key: 'commit_contest', title: 'Start a team contest', dataIndex: -1, faqIndex: 24, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to start a team contest and announce it at my next training.', options: ['Yes', 'No'] } },
+  { key: 'commit_goals', title: 'Set a personal goal for every player', dataIndex: -1, faqIndex: 25, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to set a personal goal for every player.', options: ['Yes', 'No'] } },
+  { key: 'commit_demo', title: 'Demo the app in person', dataIndex: -1, faqIndex: 26, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to demo the app in person and give the players a weekly video goal.', options: ['Yes', 'No'] } },
   { key: 'faq_coach_habits', title: 'Successful coaches', dataIndex: -1, faqIndex: 18, section: 'FAQs', tip: true },
   { key: 'faq_struggle', title: 'Coaches who struggle', dataIndex: -1, faqIndex: 23, section: 'FAQs', tip: true },
   { key: 'faq_engagement', title: 'Keys to adoption', dataIndex: -1, section: 'FAQs', tip: true, quiz: { prompt: 'I believe that the combination of player motivation, parent buy-in, high coach engagement, and quality of the program are the keys to adoption and success.', options: ['Agree', 'Disagree'] } },
@@ -776,6 +778,33 @@ export default function OnboardingPortal() {
                     dangerouslySetInnerHTML={{ __html: ONBOARDING_FAQ[step.faqIndex]?.answer || '' }}
                   />
                 ) : null}
+
+                {step.quiz && (
+                  <div className="mb-6">
+                    <p className="text-navy font-semibold text-base leading-relaxed mb-4">{step.quiz.prompt}</p>
+                    {stepDone ? (
+                      <p className="text-green-700 font-semibold text-sm">✓ Thanks — your answer has been recorded.</p>
+                    ) : (
+                      <div className="flex flex-col gap-2">
+                        {step.quiz.options.map(opt => (
+                          <label
+                            key={opt}
+                            className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${quizAnswer === opt ? 'border-red bg-red-50' : 'border-gray-200 hover:bg-gray-50'}`}
+                          >
+                            <input
+                              type="radio"
+                              name="quizAnswer"
+                              checked={quizAnswer === opt}
+                              onChange={() => setQuizAnswer(opt)}
+                              className="accent-red-600 w-4 h-4"
+                            />
+                            <span className="text-sm font-bold text-navy">{opt}</span>
+                          </label>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {step.key === 'onboarding_begins' && (
                   <ul className="mb-6 space-y-3">
