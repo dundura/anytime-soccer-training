@@ -74,7 +74,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">3</span>
           <p style="margin:5px 0 0;">Enter the player&rsquo;s email into <strong>Add Player</strong>.</p>
         </div>
-        <p style="margin:0;">They&rsquo;ll get an invite; if they already have an account, they can join in one click.</p>
+        <p style="margin:0;">They&rsquo;ll get an invite; if they already have an account, they are automatically added.</p>
       </div>
       <div style="background:#fef2f2;border-radius:8px;padding:14px 16px;margin-top:12px;">
         <p style="margin:0;color:#DC373E;font-weight:600;">If you already have 15 or more players, we&rsquo;ll charge the card on file and send you a team code for that player, and add a free access slot to your account.</p>
@@ -174,7 +174,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
-          <p style="margin:6px 0 0;">They&rsquo;ll get an invite; if they already have an account, they can join in one click.</p>
+          <p style="margin:6px 0 0;">They&rsquo;ll get an invite; if they already have an account, they are automatically added.</p>
         </div>
       </div>
     `,
