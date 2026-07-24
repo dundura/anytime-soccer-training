@@ -620,7 +620,7 @@ export default function OnboardingPortal() {
                     {[
                       <><strong className="text-navy font-semibold">Pre-Onboarding</strong> — a few quick steps before we begin.</>,
                       <><strong className="text-navy font-semibold">Onboarding</strong> — the steps that get your team live in the app.</>,
-                      <><strong className="text-navy font-semibold">FAQs</strong> — answering common questions so you&rsquo;re set up for success.</>,
+                      <><strong className="text-navy font-semibold">FAQs</strong> — answering common questions.</>,
                     ].map((item, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{i + 1}</span>
