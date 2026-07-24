@@ -422,6 +422,14 @@ export const ONBOARDING_FAQ: FaqItem[] = [
   },
   {
     category: 'Boosting Usage',
+    question: 'My players are not using the program as much as I expected',
+    answer: `
+      <p>Don&rsquo;t worry &mdash; this is completely normal, especially in the early weeks. Building a new habit takes time, and almost every team goes through a slow start.</p>
+      <p>Over the next few pages we&rsquo;ll share a few <strong>simple suggestions that have proven to work</strong> for coaches just like you. Each one takes only a couple of minutes, and we&rsquo;ll ask whether you plan to try it.</p>
+    `,
+  },
+  {
+    category: 'Boosting Usage',
     question: 'Start a team contest',
     answer: `
       <p>One of the easiest ways to boost participation is to <strong>start a team contest</strong> and announce it at your next training &mdash; a little friendly competition goes a long way.</p>
