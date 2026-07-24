@@ -909,31 +909,22 @@ export default function OnboardingPortal() {
                       Next →
                     </button>
                   ) : stepDone ? (
-                    // Already done: green Next just moves on — no email.
+                    // Done: green Next just moves on — no email.
                     <button
                       onClick={() => { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } }}
                       className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
                     >
                       Next →
                     </button>
-                  ) : (step.info || step.tip) ? (
-                    // Info / tip: green Next saves progress and moves on, no email.
-                    <button
-                      onClick={() => setStep(step.key, true, true)}
-                      disabled={saving}
-                      className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
-                    >
-                      {saving ? 'Saving…' : 'Next →'}
-                    </button>
                   ) : (
-                    // Action step: the confirm popup is what marks it complete and
-                    // sends the per-step notification.
+                    // Not done: red button opens the confirm popup — that's what
+                    // marks the step complete and sends the per-step notification.
                     <button
                       onClick={() => { setStepChoice(null); setShowCompleteConfirm(true); }}
                       disabled={saving}
-                      className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
+                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
                     >
-                      {saving ? 'Saving…' : 'Continue →'}
+                      {saving ? 'Saving…' : 'Next →'}
                     </button>
                   )}
                 </div>
