@@ -418,7 +418,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
             <p style="margin:0 0 6px;"><strong>Renewing members</strong> have two options:</p>
             <ul style="margin:0;padding-left:20px;list-style:disc;">
               <li style="margin:0 0 4px;list-style:disc;">Submit a roster of just the new players.</li>
-              <li style="list-style:disc;">Or add those players individually inside the app.</li>
+              <li style="list-style:disc;">Or add new players inside the app.</li>
             </ul>
           </div>
         </div>
