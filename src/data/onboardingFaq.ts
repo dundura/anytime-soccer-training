@@ -444,7 +444,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:16px 18px;margin:16px 0;">
         <p style="margin:0;color:#0F3154;font-weight:600;">From your team menu, click <strong>Set Personal Challenge</strong>.</p>
       </div>
-      <p>Keep them small and achievable. Challenge everyone on the team in seconds.</p>
+      <p>Keep them small and achievable.</p>
     `,
   },
   {
