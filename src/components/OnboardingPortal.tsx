@@ -48,7 +48,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_managers', title: 'Can my team have multiple team managers?', dataIndex: -1, faqIndex: 16, section: 'FAQs', tip: true },
   { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'FAQs', tip: true },
   { key: 'faq_assign_hw', title: 'How do I assign homework?', dataIndex: -1, faqIndex: 12, section: 'FAQs', tip: true, plainNext: true },
-  { key: 'faq_folders', title: 'Types of Folders', dataIndex: -1, faqIndex: 13, section: 'FAQs', tip: true },
+  { key: 'faq_folders', title: 'About Program Folders', dataIndex: -1, faqIndex: 13, section: 'FAQs', tip: true },
   { key: 'faq_folders_assign', title: 'How to Assign', dataIndex: -1, faqIndex: 19, section: 'FAQs', tip: true },
   { key: 'faq_assign_plans', title: 'Types of Plans', dataIndex: -1, faqIndex: 14, section: 'FAQs', tip: true },
   { key: 'faq_plans_assign', title: 'How to Assign', dataIndex: -1, faqIndex: 20, section: 'FAQs', tip: true },
