@@ -87,7 +87,7 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
     'Older players can provide their email if they&rsquo;ll be the account creator.',
   ] },
   { heading: 'Adding Players Later', items: [
-    'Once we onboard the initial roster, you can add them directly in the app via the <strong>Player Onboard</strong> tab.',
+    'Once we onboard the initial roster, you can add them directly in the app via the <strong>Player Onboard</strong> tab or send them to us using the roster template.',
   ] },
   { heading: 'Player Turnover', items: [
     'You can remove a player from your team anytime.',
