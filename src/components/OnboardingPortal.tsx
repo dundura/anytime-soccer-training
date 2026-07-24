@@ -683,7 +683,7 @@ export default function OnboardingPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">The Index</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  The <strong className="text-navy font-semibold">Index</strong> is your table of contents &mdash; it lists every page so you can jump straight to any step.
+                  The <strong className="text-navy font-semibold">Index</strong> lists every page so you can jump straight to any step.
                 </p>
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
                   <p className="text-gray-700 leading-relaxed mb-3">It also shows you <strong className="text-navy font-semibold">which steps are still outstanding</strong>:</p>
