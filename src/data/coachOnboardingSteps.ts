@@ -387,7 +387,10 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <p style="margin:6px 0 0;">Once the players join your team, grant them <strong>365-day access</strong> using one of your slots.</p>
         </div>
       </div>
-      <p>Email <a href="mailto:megan@anytime-soccer.com" style="color:#DC373E;font-weight:600;">megan@anytime-soccer.com</a> if you have any questions.</p>
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;margin:16px 0;">
+        <p style="margin:0 0 6px;color:#166534;"><strong>Invites are automatically sent.</strong></p>
+        <p style="margin:0;color:#166534;">Ask Megan for a getting-started link to share with your parents.</p>
+      </div>
     `,
   },
 ];
