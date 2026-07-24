@@ -18,7 +18,7 @@ type Coach = {
 };
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
-const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean; plainNext?: boolean }[] = [
+const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean; plainNext?: boolean; quiz?: { prompt: string; options: string[] } }[] = [
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
   { key: 'roster_intro', title: 'Overview: Upgrading Players', dataIndex: 22, section: 'Pre-Onboarding', info: true, plainNext: true },
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
@@ -60,7 +60,9 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_skip_videos', title: 'What happens if kids skip videos?', dataIndex: -1, faqIndex: 7, section: 'FAQs', tip: true },
   { key: 'faq_hw_complete', title: 'I got an email that a homework folder is complete, but the player hasn’t done the videos', dataIndex: -1, faqIndex: 8, section: 'FAQs', tip: true },
   { key: 'faq_low_usage', title: 'My kids have not used the program as much as I expected. Any suggestions?', dataIndex: -1, faqIndex: 15, section: 'FAQs', tip: true },
-  { key: 'faq_coach_habits', title: 'What do successful coaches do differently?', dataIndex: -1, faqIndex: 18, section: 'FAQs', tip: true },
+  { key: 'faq_coach_habits', title: 'Successful coaches', dataIndex: -1, faqIndex: 18, section: 'FAQs', tip: true },
+  { key: 'faq_struggle', title: 'Coaches who struggle', dataIndex: -1, faqIndex: 23, section: 'FAQs', tip: true },
+  { key: 'faq_engagement', title: 'Keys to adoption', dataIndex: -1, section: 'FAQs', tip: true, quiz: { prompt: 'I believe that the combination of player motivation, parent buy-in, high coach engagement, and quality of the program are the keys to adoption and success.', options: ['Agree', 'Disagree'] } },
   { key: 'final_confirm', title: 'Confirm & Finish', dataIndex: 17, section: 'FAQs', final: true },
 ];
 
@@ -119,6 +121,7 @@ export default function OnboardingPortal() {
   const [saving, setSaving] = useState(false);
   const [wizardIndex, setWizardIndex] = useState(0);
   const [rosterSection, setRosterSection] = useState(0);
+  const [quizAnswer, setQuizAnswer] = useState<string>('');
   const [showIntro, setShowIntro] = useState(true);
   const [showOverview, setShowOverview] = useState(false);
   const [showIndex, setShowIndex] = useState(false);
@@ -188,7 +191,7 @@ export default function OnboardingPortal() {
       .finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => { setRosterSection(0); }, [wizardIndex]);
+  useEffect(() => { setRosterSection(0); setQuizAnswer(''); }, [wizardIndex]);
 
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
@@ -247,7 +250,7 @@ export default function OnboardingPortal() {
 
   // notify: only the completion popup sends the per-step email. Plain Next
   // navigation saves progress but must never trigger a notification.
-  const setStep = async (key: string, value: boolean | 'skipped', advance = false, actionOverride?: string, notify = false) => {
+  const setStep = async (key: string, value: boolean | 'skipped', advance = false, actionOverride?: string, notify = false, answer?: string) => {
     if (!coach || !token) return;
     const stepDef = STEPS.find(s => s.key === key);
     setError('');
@@ -263,6 +266,7 @@ export default function OnboardingPortal() {
           // The backend emails only when both stepAction and stepTitle are present.
           stepAction: notify ? (actionOverride || (value === true ? 'completed' : value === 'skipped' ? 'skipped' : null)) : null,
           stepTitle: notify ? (stepDef ? stepDef.title : key) : null,
+          stepAnswer: notify && answer ? answer : null,
         }),
       });
       if (!res.ok) throw new Error();
@@ -633,9 +637,6 @@ export default function OnboardingPortal() {
                     ))}
                   </ol>
                 </div>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Every step is designed to get your team set up quickly.
-                </p>
 
                 <button
                   onClick={() => { setShowIntro(false); setShowOverview(true); setError(''); }}
@@ -890,6 +891,15 @@ export default function OnboardingPortal() {
                     >
                       Next →
                     </button>
+                  ) : step.quiz ? (
+                    // Quiz page: Next submits the selected answer (goes in the email).
+                    <button
+                      onClick={() => { if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } } else { setStep(step.key, true, true, undefined, true, quizAnswer); } }}
+                      disabled={saving || (!stepDone && !quizAnswer)}
+                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
+                    >
+                      {saving ? 'Saving…' : 'Next →'}
+                    </button>
                   ) : (
                     // Next always opens the confirm popup — no shortcut logic.
                     // (To move on without confirming, use Skip.)
@@ -910,7 +920,7 @@ export default function OnboardingPortal() {
 
         {/* Contact */}
         <div className="mt-8 bg-navy rounded-2xl px-8 py-8 text-center text-white">
-          <h3 className="text-lg font-bold mb-4">Questions? We&rsquo;re Here to Help!</h3>
+          <h3 className="text-lg font-bold mb-4">Questions?</h3>
           <div className="flex flex-col items-center gap-2">
             <span className="font-semibold text-base">Megan Chambers</span>
             <span className="text-white/70 text-sm">Team Success Manager</span>

@@ -276,7 +276,6 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         </div>
       </div>
       <p>We understand that building habits can be difficult, but a little nudge on your part &mdash; and a <strong>specific, measurable goal</strong> &mdash; goes a long way.</p>
-      <p>Want more ideas? Email <a href="mailto:megan@anytime-soccer.com" style="color:#0F3154;font-weight:600;">megan@anytime-soccer.com</a>.</p>
     `,
   },
   {
@@ -340,18 +339,6 @@ export const ONBOARDING_FAQ: FaqItem[] = [
           <li>Keep it simple.</li>
         </ul>
       </div>
-      <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:16px 18px;margin-top:12px;">
-        <p style="margin:0 0 10px;color:#DC373E;font-weight:700;">✗ Coaches who struggle</p>
-        <ul style="margin:0;color:#b91c1c;padding-left:18px;">
-          <li style="margin-bottom:6px;">Don&rsquo;t meet and set clear expectations with the families.</li>
-          <li style="margin-bottom:6px;">Don&rsquo;t actively assign homework.</li>
-          <li style="margin-bottom:6px;">Never mention it at training.</li>
-          <li style="margin-bottom:6px;">Assume the kids will do it on their own.</li>
-          <li style="margin-bottom:6px;">Unintentionally make things complicated.</li>
-          <li>Don&rsquo;t ask the Anytime team for help.</li>
-        </ul>
-      </div>
-      <p>Don&rsquo;t expect that early interest alone will keep players consistent over time &mdash; <strong>without coach engagement, interest fades,</strong> just like any other activity. A little structure and follow-up from you makes all the difference.</p>
     `,
   },
   {
@@ -413,6 +400,23 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       <p>Operate like the weekly plans, but only include the <strong>folders you select</strong>.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;">
         <p style="margin:0;">For example, you can create a custom plan that includes only <strong>101 Ball Mastery</strong> folders and <strong>50 Top 1v1 Moves</strong> folders.</p>
+      </div>
+    `,
+  },
+  {
+    category: 'Team Management',
+    question: 'Coaches who struggle',
+    answer: `
+      <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:16px 18px;">
+        <p style="margin:0 0 10px;color:#DC373E;font-weight:700;">✗ Coaches who struggle</p>
+        <ul style="margin:0;color:#b91c1c;padding-left:18px;">
+          <li style="margin-bottom:6px;">Don&rsquo;t meet and set clear expectations with the families.</li>
+          <li style="margin-bottom:6px;">Don&rsquo;t actively assign homework.</li>
+          <li style="margin-bottom:6px;">Never mention it at training.</li>
+          <li style="margin-bottom:6px;">Assume the kids will do it on their own.</li>
+          <li style="margin-bottom:6px;">Unintentionally make things complicated.</li>
+          <li>Don&rsquo;t ask the Anytime team for help.</li>
+        </ul>
       </div>
     `,
   },
