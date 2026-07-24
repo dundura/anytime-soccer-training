@@ -37,7 +37,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
   },
   {
     category: 'Joining a Team',
-    question: "Parents can't find our team when they search — what should I do?",
+    question: "Parents can't find our team — what should I do?",
     answer: `
       <p>The exact name may be different. A few options:</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
