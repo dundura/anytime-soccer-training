@@ -611,7 +611,7 @@ export default function OnboardingPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">Getting Started</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Welcome to <strong className="text-navy font-semibold">Anytime Soccer Training</strong> — we&rsquo;re excited to have your team!
+                  Welcome to <strong className="text-navy font-semibold">Anytime Soccer Training</strong>!
                 </p>
                 <p className="text-gray-700 leading-relaxed mb-3">Getting set up has three parts:</p>
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
@@ -629,7 +629,7 @@ export default function OnboardingPortal() {
                   </ol>
                 </div>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Every step is designed to get your team set up quickly — so your players can start <strong className="text-navy font-semibold">training from day one</strong>.
+                  Every step is designed to get your team set up quickly.
                 </p>
 
                 <button
