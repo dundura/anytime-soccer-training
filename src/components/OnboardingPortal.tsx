@@ -144,7 +144,8 @@ export default function OnboardingPortal() {
 
   const firstIncomplete = (c: Coach) => {
     const idx = STEPS.findIndex(s => !c.checklist[s.key] && !s.bonus);
-    return idx === -1 ? STEPS.length - 1 : idx;
+    // When every required step is done, land on Confirm & Finish (not a bonus page after it).
+    return idx === -1 ? STEPS.findIndex(s => s.final) : idx;
   };
 
   // Restore session (or enter reset mode from an emailed link)
