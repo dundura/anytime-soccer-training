@@ -5,12 +5,22 @@
       "q": "Where do I start?",
       "steps": [
         {
-          "text": "Start with the 1,000 Touch Ball Mastery program. It gets you touches quickly and shows you how a program works.",
+          "text": "On day one we recommend starting with ball mastery. Ball mastery is one of the most important skills you can build, it needs very little space and no equipment. Below are a few ball mastery programs we recommend.",
           "links": [
             {
               "ic": "🎯",
               "label": "1,000 Touch Ball Mastery",
               "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
+            },
+            {
+              "ic": "🎯",
+              "label": "101 Ball Mastery",
+              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_101_BALL_MASTERY_DRILLS_DATA"
+            },
+            {
+              "ic": "🎯",
+              "label": "Two Cone Ball Mastery",
+              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_TWO_CONE_FILTER_DATA"
             }
           ]
         }
