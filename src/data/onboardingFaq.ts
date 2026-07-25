@@ -460,4 +460,60 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     answer: `
     `,
   },
+  {
+    category: 'Roster FAQs',
+    question: 'Coach Contact',
+    answer: `
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:18px 20px;margin:8px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span><p style="margin:4px 0 0;"><strong>Phone number</strong> &mdash; include the coach&rsquo;s phone number.</p></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span><p style="margin:4px 0 0;">Include the coach on the roster and indicate they&rsquo;re the coach &mdash; their child will be the player on the same line.</p></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span><p style="margin:4px 0 0;">Don&rsquo;t have a player? Leave the player name blank.</p></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span><p style="margin:4px 0 0;">Teams can have multiple coaches. Once they join, you will update their role as team manager.</p></div>
+      </div>
+    `,
+  },
+  {
+    category: 'Roster FAQs',
+    question: 'Parent Emails & Roster',
+    answer: `
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:18px 20px;margin:8px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span><p style="margin:4px 0 0;">You can provide more than one parent email &mdash; both parents will get the invite and can decide who signs up.</p></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span><p style="margin:4px 0 0;">You can submit a partial roster and add players later.</p></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span><p style="margin:4px 0 0;">Multiple children? Provide a line for each child using the same email.</p></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span><p style="margin:4px 0 0;">Users can update their emails inside the app at any time.</p></div>
+      </div>
+    `,
+  },
+  {
+    category: 'Roster FAQs',
+    question: 'More on Emails',
+    answer: `
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:18px 20px;margin:8px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span><p style="margin:4px 0 0;">Parents can also sign up with a different email than the one you provided in the roster.</p></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span><p style="margin:4px 0 0;">Older players can provide their email if they&rsquo;ll be the account creator.</p></div>
+      </div>
+    `,
+  },
+  {
+    category: 'Roster FAQs',
+    question: 'Adding Players Later',
+    answer: `
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:18px 20px;margin:8px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span><p style="margin:4px 0 0;">Once we onboard the initial roster, you can add them directly in the app via the <strong>Player Onboard</strong> tab or send them to us using the roster template.</p></div>
+      </div>
+    `,
+  },
+  {
+    category: 'Roster FAQs',
+    question: 'Player Turnover',
+    answer: `
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:18px 20px;margin:8px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span><p style="margin:4px 0 0;">You can remove a player from your team anytime.</p></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span><p style="margin:4px 0 0;">Their account and 365-day access stay with them.</p></div>
+      </div>
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;margin:14px 0 0;">
+        <p style="margin:0;color:#166534;">New players are additions &mdash; not replacements for a player who left. Upgrades are only $10 per player per year.</p>
+      </div>
+    `,
+  },
 ];

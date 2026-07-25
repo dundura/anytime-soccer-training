@@ -63,6 +63,11 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_skip_videos', title: 'What happens if kids skip videos?', dataIndex: -1, faqIndex: 7, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_hw_complete', title: 'I got an email that a homework folder is complete, but the player hasn’t done the videos', dataIndex: -1, faqIndex: 8, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_profiles', title: 'What if I have more than one child using the program?', dataIndex: -1, faqIndex: 1, section: 'Bonus', tip: true, bonus: true },
+  { key: 'bonus_coach_contact', title: 'Coach Contact', dataIndex: -1, faqIndex: 29, section: 'Bonus', tip: true, bonus: true },
+  { key: 'bonus_parent_emails', title: 'Parent Emails & Roster', dataIndex: -1, faqIndex: 30, section: 'Bonus', tip: true, bonus: true },
+  { key: 'bonus_more_emails', title: 'More on Emails', dataIndex: -1, faqIndex: 31, section: 'Bonus', tip: true, bonus: true },
+  { key: 'bonus_adding_later', title: 'Adding Players Later', dataIndex: -1, faqIndex: 32, section: 'Bonus', tip: true, bonus: true },
+  { key: 'bonus_player_turnover', title: 'Player Turnover', dataIndex: -1, faqIndex: 33, section: 'Bonus', tip: true, bonus: true },
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
@@ -75,29 +80,6 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
     'Renewing members can <strong>submit a roster or add new players inside the app.</strong>',
     'See the bonus section for roster template FAQs.',
   ] },
-  { heading: 'Coach Contact', items: [
-    '<strong>Phone number</strong> &mdash; include the coach&rsquo;s phone number.',
-    'Include the coach on the roster and indicate they&rsquo;re the coach &mdash; their child will be the player on the same line.',
-    'Don&rsquo;t have a player? Leave the player name blank.',
-    'Teams can have multiple coaches. Once they join, you will update their role as team manager.',
-  ] },
-  { heading: 'Parent Emails &amp; Roster', items: [
-    'You can provide more than one parent email &mdash; both parents will get the invite and can decide who signs up.',
-    'You can submit a partial roster and add players later.',
-    'Multiple children? Provide a line for each child using the same email.',
-    'Users can update their emails inside the app at any time.',
-  ] },
-  { heading: 'More on Emails', items: [
-    'Parents can also sign up with a different email than the one you provided in the roster.',
-    'Older players can provide their email if they&rsquo;ll be the account creator.',
-  ] },
-  { heading: 'Adding Players Later', items: [
-    'Once we onboard the initial roster, you can add them directly in the app via the <strong>Player Onboard</strong> tab or send them to us using the roster template.',
-  ] },
-  { heading: 'Player Turnover', items: [
-    'You can remove a player from your team anytime.',
-    'Their account and 365-day access stay with them.',
-  ], note: 'New players are additions &mdash; not replacements for a player who left. Upgrades are only $10 per player per year.' },
 ];
 
 const NEXT_STEPS = [
