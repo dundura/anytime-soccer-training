@@ -191,6 +191,15 @@
           ]
         }
       ]
+    },
+    {
+      "q": "More coming soon",
+      "steps": [
+        {
+          "label": "More Coming Soon",
+          "text": "We are adding more questions to this guide. If there is something you want covered, tell us and we will write it up."
+        }
+      ]
     }
   ],
   "coach": [
