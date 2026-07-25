@@ -182,6 +182,11 @@
               "ic": "🧱",
               "label": "30-Day Wall Passing",
               "to": "/my-training-sessions/1309"
+            },
+            {
+              "ic": "📆",
+              "label": "All 30-Day Plans",
+              "to": "/my-training?tab=thirty-day"
             }
           ]
         }
