@@ -63,6 +63,15 @@
           ]
         }
       ]
+    },
+    {
+      "q": "Should I skip videos?",
+      "steps": [
+        {
+          "label": "Skip Freely — the Folder Is a Menu, Not a Test",
+          "text": "Yes, skip whatever is not useful today. Folders run easiest to hardest, so it is normal to move past ones your player already owns.\n\nA few things to keep in mind:\n\n• If a drill is too easy, move down the folder until it challenges them\n\n• If a drill is too hard, go back a few videos and build up to it\n\n• Skipping is not falling behind — nothing is marked late, and the next video is always there"
+        }
+      ]
     }
   ],
   "coach": [
