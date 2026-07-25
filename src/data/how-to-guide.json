@@ -87,7 +87,11 @@
       "steps": [
         {
           "label": "Everyone Starts in the Same Place",
-          "text": "We recommend all players start with the first folders and follow the program in order.\n\n• The difference between experienced players and beginners is in the levels of **volume, variety, and variations**.\n\n• For example, a beginner may start with only the 1,000 Touch Ball Mastery program.\n\n• An experienced player can handle multiple ball mastery programs, as well as training programs in other skill areas.",
+          "text": "We recommend all players start with the first folders and follow the program in order.\n\n• The difference between experienced players and beginners is in the levels of **volume, variety, and variations**."
+        },
+        {
+          "label": "Beginner",
+          "text": "A beginner may start with only the 1,000 Touch Ball Mastery program.",
           "links": [
             {
               "ic": "🎯",
@@ -95,6 +99,10 @@
               "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
             }
           ]
+        },
+        {
+          "label": "Experienced",
+          "text": "An experienced player can handle multiple ball mastery programs, as well as training programs in other skill areas."
         }
       ]
     },
