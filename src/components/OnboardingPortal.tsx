@@ -73,7 +73,7 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
   { heading: 'Before You Start', items: [
     'Roster templates are for teams joining Anytime Soccer Training for the first time.',
     'Renewing members can <strong>submit a roster or add new players inside the app.</strong>',
-    'Before downloading the template, we want to cover some FAQs.',
+    'See the bonus section for roster template FAQs.',
   ] },
   { heading: 'Coach Contact', items: [
     '<strong>Phone number</strong> &mdash; include the coach&rsquo;s phone number.',
