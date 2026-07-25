@@ -31,7 +31,6 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'add_profiles', title: 'Add profiles', dataIndex: 21, section: 'Onboarding' },
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding' },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
-  { key: 'complete_portal', title: 'Complete Portal Onboarding Steps', dataIndex: 23, section: 'Onboarding', info: true },
   { key: 'parents_informed', title: 'Reply to Megan: team name & parents informed', dataIndex: 8, section: 'Onboarding', quiz: { prompt: 'Confirm your reply to Megan:', options: ['I sent Megan my team name and let her know the parents are informed.', 'I’m adding players individually'] } },
 { key: 'faq_intro', title: 'Common FAQs', dataIndex: 16, section: 'FAQs', info: true },
   { key: 'faq_profiles', title: 'What if I have more than one child using the program?', dataIndex: -1, faqIndex: 1, section: 'FAQs', tip: true },
