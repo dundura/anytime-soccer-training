@@ -45,11 +45,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_folders_assign', title: 'How to Assign Program Folders', dataIndex: -1, faqIndex: 19, section: 'FAQs', tip: true },
   { key: 'faq_assign_plans', title: 'Types of Plans', dataIndex: -1, faqIndex: 14, section: 'FAQs', tip: true },
   { key: 'faq_plans_assign', title: 'How to Assign', dataIndex: -1, faqIndex: 20, section: 'FAQs', tip: true },
-  { key: 'faq_weekly', title: 'More on Weekly Plans', dataIndex: -1, faqIndex: 21, section: 'FAQs', tip: true },
-  { key: 'faq_30day', title: 'More on 30-Day Plans', dataIndex: -1, faqIndex: 11, section: 'FAQs', tip: true },
-  { key: 'faq_custom', title: 'More on Custom Plans', dataIndex: -1, faqIndex: 22, section: 'FAQs', tip: true },
   { key: 'faq_homework', title: 'Which homework do you recommend I start with?', dataIndex: -1, faqIndex: 6, section: 'FAQs', tip: true },
-  { key: 'faq_equipment', title: 'Do my players need equipment and a lot of space?', dataIndex: -1, faqIndex: 17, section: 'FAQs', tip: true },
   { key: 'faq_skip_videos', title: 'What happens if kids skip videos?', dataIndex: -1, faqIndex: 7, section: 'FAQs', tip: true },
   { key: 'faq_hw_complete', title: 'I got an email that a homework folder is complete, but the player hasn’t done the videos', dataIndex: -1, faqIndex: 8, section: 'FAQs', tip: true },
   { key: 'faq_low_usage', title: 'Participation is lower than expected - what can I do?', dataIndex: -1, faqIndex: 24, section: 'FAQs', tip: true },
@@ -65,6 +61,10 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'tip_paywall', title: 'Bonus Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_emails', title: 'What’s the difference between the login email and the contact email, and how do I update them?', dataIndex: -1, faqIndex: 0, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_weekly', title: 'More on Weekly Plans', dataIndex: -1, faqIndex: 21, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_30day', title: 'More on 30-Day Plans', dataIndex: -1, faqIndex: 11, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_custom', title: 'More on Custom Plans', dataIndex: -1, faqIndex: 22, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_equipment', title: 'Do my players need equipment and a lot of space?', dataIndex: -1, faqIndex: 17, section: 'Bonus', tip: true, bonus: true },
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
