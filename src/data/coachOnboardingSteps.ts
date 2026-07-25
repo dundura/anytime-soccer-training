@@ -417,6 +417,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
             <p style="margin:0 0 6px;"><strong>New teams</strong> submit your roster and pay the invoice.</p>
             <ul style="margin:0;padding-left:20px;list-style:disc;">
               <li style="list-style:disc;">The roster template is provided later.</li>
+              <li style="list-style:disc;">Once paid, we add free access slots that you apply to your players.</li>
             </ul>
           </div>
         </div>
