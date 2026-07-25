@@ -155,7 +155,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Notify Megan',
     body: `
-      <p><strong>New teams:</strong> reply to Megan and confirm below.</p>
     `,
   },
   {
