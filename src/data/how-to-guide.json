@@ -31,8 +31,8 @@
       "q": "Do you recommend a training plan?",
       "steps": [
         {
-          "label": "Yes — Once You Know What You Want to Work On",
-          "text": "Yes. Spend your first week or two just training and getting a feel for the programs. Once you know the skills you want to improve, a plan takes the guesswork out of it.\n\nInstead of choosing videos every day, a plan sets your videos and a weekly goal. You train, mark them done, and the plan moves you on. If you are not sure which one to pick, start with Skill Builder — you choose your skill areas and how many weeks you want to train, and it builds the rest around you.",
+          "label": "Yes — But It Depends on Your Preference",
+          "text": "Yes! But it also depends on your preference. For example, training plans are recurring and give you a guided plan. However, some users prefer sticking with a few folders.\n\nPersonally, I use both. I built a custom plan for my son to do after school, and favorite folders and videos when I train him outside.",
           "links": [
             {
               "ic": "📅",
@@ -40,9 +40,9 @@
               "to": "/build-my-plan"
             },
             {
-              "ic": "⚽",
-              "label": "My Training Plans",
-              "to": "/my-training"
+              "ic": "⭐",
+              "label": "My Favorites",
+              "to": "/my-training?tab=favorites"
             }
           ]
         }
