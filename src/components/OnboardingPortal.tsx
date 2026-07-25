@@ -33,7 +33,6 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
   { key: 'parents_informed', title: 'Reply to Megan: team name & parents informed', dataIndex: 8, section: 'Onboarding', quiz: { prompt: 'Confirm your reply to Megan:', options: ['I sent Megan my team name and let her know the parents are informed.', 'I’m adding players individually'] } },
 { key: 'faq_intro', title: 'Common FAQs', dataIndex: 16, section: 'FAQs', info: true },
-  { key: 'faq_profiles', title: 'What if I have more than one child using the program?', dataIndex: -1, faqIndex: 1, section: 'FAQs', tip: true },
   { key: 'faq_find_team', title: 'Parents can’t find our team — what should I do?', dataIndex: -1, faqIndex: 2, section: 'FAQs', tip: true },
   { key: 'faq_not_on_team', title: 'Players have joined the app, but they’re not on my team', dataIndex: -1, faqIndex: 10, section: 'FAQs', tip: true },
   { key: 'faq_add_players', title: 'How do I add players to my team?', dataIndex: -1, faqIndex: 3, section: 'FAQs', tip: true },
@@ -63,6 +62,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_equipment', title: 'Do my players need equipment and a lot of space?', dataIndex: -1, faqIndex: 17, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_skip_videos', title: 'What happens if kids skip videos?', dataIndex: -1, faqIndex: 7, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_hw_complete', title: 'I got an email that a homework folder is complete, but the player hasn’t done the videos', dataIndex: -1, faqIndex: 8, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_profiles', title: 'What if I have more than one child using the program?', dataIndex: -1, faqIndex: 1, section: 'Bonus', tip: true, bonus: true },
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
