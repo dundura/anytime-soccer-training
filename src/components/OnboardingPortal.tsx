@@ -46,8 +46,6 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_assign_plans', title: 'Types of Plans', dataIndex: -1, faqIndex: 14, section: 'FAQs', tip: true },
   { key: 'faq_plans_assign', title: 'How to Assign', dataIndex: -1, faqIndex: 20, section: 'FAQs', tip: true },
   { key: 'faq_homework', title: 'Which homework do you recommend I start with?', dataIndex: -1, faqIndex: 6, section: 'FAQs', tip: true },
-  { key: 'faq_skip_videos', title: 'What happens if kids skip videos?', dataIndex: -1, faqIndex: 7, section: 'FAQs', tip: true },
-  { key: 'faq_hw_complete', title: 'I got an email that a homework folder is complete, but the player hasn’t done the videos', dataIndex: -1, faqIndex: 8, section: 'FAQs', tip: true },
   { key: 'faq_low_usage', title: 'Participation is lower than expected - what can I do?', dataIndex: -1, faqIndex: 24, section: 'FAQs', tip: true },
   { key: 'commit_contest', title: '1. Start a team contest', dataIndex: -1, faqIndex: 25, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to start a team contest.', options: ['Yes', 'No'] } },
   { key: 'commit_goals', title: '2. Set personal player challenges', dataIndex: -1, faqIndex: 26, section: 'FAQs', tip: true, quiz: { prompt: 'I plan set personal challenges.', options: ['Yes', 'No'] } },
@@ -65,6 +63,8 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_30day', title: 'More on 30-Day Plans', dataIndex: -1, faqIndex: 11, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_custom', title: 'More on Custom Plans', dataIndex: -1, faqIndex: 22, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_equipment', title: 'Do my players need equipment and a lot of space?', dataIndex: -1, faqIndex: 17, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_skip_videos', title: 'What happens if kids skip videos?', dataIndex: -1, faqIndex: 7, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_hw_complete', title: 'I got an email that a homework folder is complete, but the player hasn’t done the videos', dataIndex: -1, faqIndex: 8, section: 'Bonus', tip: true, bonus: true },
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
@@ -494,14 +494,16 @@ export default function OnboardingPortal() {
                     const done = coach.checklist[st.key] === true;
                     const skipped = coach.checklist[st.key] === 'skipped';
                     const outstanding = !done && !skipped;
-                    if (indexFilter === 'outstanding' && done) return null;
+                    if (indexFilter === 'outstanding' && (done || st.bonus)) return null;
                     return (
                       <a key={st.key} href={`/onboarding-portal?step=${i + 1}`} className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-50 ${outstanding ? 'bg-red/5' : ''}`}>
-                        <span className={`w-6 text-center font-bold text-xs ${skipped ? 'text-amber-500' : done ? 'text-green-600' : 'text-gray-300'}`}>
-                          {skipped ? '→' : done ? '✓' : st.tip ? '💡' : stepNumber(i)}
+                        <span className={`w-6 text-center font-bold text-xs ${st.bonus ? 'text-amber-500' : skipped ? 'text-amber-500' : done ? 'text-green-600' : 'text-gray-300'}`}>
+                          {st.bonus ? '★' : skipped ? '→' : done ? '✓' : st.tip ? '💡' : stepNumber(i)}
                         </span>
-                        <span className={`text-sm font-semibold hover:underline ${done ? 'text-gray-400' : 'text-red'}`}>{st.title}</span>
-                        {!st.final && (
+                        <span className={`text-sm font-semibold hover:underline ${st.bonus ? 'text-navy' : done ? 'text-gray-400' : 'text-red'}`}>{st.title}</span>
+                        {st.bonus ? (
+                          <span className="ml-auto flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">★ Bonus</span>
+                        ) : !st.final && (
                           <span className={`ml-auto flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${done ? 'bg-green-100 text-green-700' : skipped ? 'bg-amber-100 text-amber-700' : 'bg-red/10 text-red'}`}>
                             {done ? 'Done' : skipped ? 'Skipped' : 'To do'}
                           </span>
@@ -738,6 +740,9 @@ export default function OnboardingPortal() {
               </div>
             ) : (
               <div>
+                {step.bonus && (
+                  <span className="inline-block text-[10px] font-extrabold uppercase tracking-wide px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 mb-2">★ Optional bonus — not required to finish</span>
+                )}
                 <h2 className="text-navy text-xl font-extrabold mb-4">{step.title}</h2>
 
                 {stepDone && (
