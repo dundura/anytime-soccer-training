@@ -83,6 +83,11 @@
               "ic": "🎯",
               "label": "Set a Weekly Goal",
               "to": "/dashboardChild/stats"
+            },
+            {
+              "ic": "🏆",
+              "label": "My Training Reward",
+              "to": "/trainingGoal/"
             }
           ]
         }
@@ -119,6 +124,11 @@
           "label": "Experienced",
           "text": "An experienced player can handle multiple ball mastery programs, as well as training programs in other skill areas.",
           "links": [
+            {
+              "ic": "🎯",
+              "label": "1,000 Touch Ball Mastery",
+              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
+            },
             {
               "ic": "🎯",
               "label": "101 Ball Mastery",
