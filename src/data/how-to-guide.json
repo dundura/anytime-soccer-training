@@ -118,6 +118,16 @@
               "ic": "🎯",
               "label": "Four Cone Ball Mastery",
               "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_FOUR_CONE_FILTER_DATA"
+            },
+            {
+              "ic": "🎯",
+              "label": "Lateral Ball Mastery",
+              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_LATERAL_FILTER_DATA"
+            },
+            {
+              "ic": "🎯",
+              "label": "Midfielder Ball Mastery",
+              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_MIDFIELDER_FILTER_DATA"
             }
           ]
         }
