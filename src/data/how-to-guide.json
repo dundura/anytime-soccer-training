@@ -31,13 +31,18 @@
       "q": "Do you recommend a training plan?",
       "steps": [
         {
-          "label": "Yes — But It Depends on Your Preference",
-          "text": "Yes! But it also depends on your preference. For example, training plans are recurring and give you a guided plan. However, some users prefer sticking with a few folders.\n\nPersonally, I use both. I built a custom plan for my son to do after school, and favorite folders and videos when I train him outside.",
+          "label": "Yes — It Depends on Your Preference",
+          "text": "Yes! It depends on how you like to train. Training plans are recurring and give you a guided path. Some users prefer sticking with a few favorite folders instead.\n\nI use both. I built a custom plan for my son's after-school training, and I favorite folders and videos for when we train outside together.",
           "links": [
             {
               "ic": "📅",
               "label": "Get a Training Plan",
               "to": "/build-my-plan"
+            },
+            {
+              "ic": "⭐",
+              "label": "My Favorites",
+              "to": "/my-training?tab=favorites"
             }
           ]
         }
