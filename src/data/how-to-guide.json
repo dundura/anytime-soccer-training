@@ -67,7 +67,7 @@
             {
               "ic": "🎯",
               "label": "Set a Weekly Goal",
-              "to": "/trainingGoal/"
+              "to": "/dashboardChild/stats"
             }
           ]
         }
