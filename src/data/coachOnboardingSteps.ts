@@ -155,20 +155,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Notify Megan',
     body: `
-      <p><strong>New teams:</strong> reply to Megan with two things.</p>
-      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;"><strong>Your team name</strong> &mdash; use the exact name from the app.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:6px 0 0;"><strong>That parents are informed</strong> &mdash; we&rsquo;ll begin onboarding within 48 hours.</p>
-        </div>
-      </div>
-      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;margin:16px 0;">
-        <p style="margin:0;color:#166534;">Renewing members, or those adding players individually, can click <strong>Next</strong> and move on.</p>
-      </div>
+      <p><strong>New teams:</strong> reply to Megan and confirm below.</p>
     `,
   },
   {
