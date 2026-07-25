@@ -38,11 +38,6 @@
               "ic": "📅",
               "label": "Get a Training Plan",
               "to": "/build-my-plan"
-            },
-            {
-              "ic": "⭐",
-              "label": "My Favorites",
-              "to": "/my-training?tab=favorites"
             }
           ]
         }
