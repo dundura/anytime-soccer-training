@@ -680,6 +680,12 @@ export default function OnboardingPortal() {
                     ← Back
                   </button>
                   <button
+                    onClick={() => { setShowOverview(false); setWizardIndex(0); setError(''); }}
+                    className="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-500 hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    Skip
+                  </button>
+                  <button
                     onClick={() => { setShowOverview(false); setShowIndexInfo(true); setError(''); }}
                     className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
@@ -717,6 +723,12 @@ export default function OnboardingPortal() {
                     className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
                     ← Back
+                  </button>
+                  <button
+                    onClick={() => { setShowIndexInfo(false); setWizardIndex(0); setError(''); }}
+                    className="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-500 hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    Skip
                   </button>
                   <button
                     onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowIndexInfo(false); setError(''); }}
