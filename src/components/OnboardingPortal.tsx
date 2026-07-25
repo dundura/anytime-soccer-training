@@ -34,14 +34,12 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'complete_portal', title: 'Complete Portal Onboarding Steps', dataIndex: 23, section: 'Onboarding', info: true },
   { key: 'parents_informed', title: 'Reply to Megan: team name & parents informed', dataIndex: 8, section: 'Onboarding', quiz: { prompt: 'Confirm your reply to Megan:', options: ['I sent Megan my team name', 'I let Megan know that I have informed the parents.'] } },
 { key: 'faq_intro', title: 'Common FAQs', dataIndex: 16, section: 'FAQs', info: true },
-  { key: 'faq_emails', title: 'What’s the difference between the login email and the contact email, and how do I update them?', dataIndex: -1, faqIndex: 0, section: 'FAQs', tip: true },
   { key: 'faq_profiles', title: 'What if I have more than one child using the program?', dataIndex: -1, faqIndex: 1, section: 'FAQs', tip: true },
   { key: 'faq_find_team', title: 'Parents can’t find our team — what should I do?', dataIndex: -1, faqIndex: 2, section: 'FAQs', tip: true },
   { key: 'faq_not_on_team', title: 'Players have joined the app, but they’re not on my team', dataIndex: -1, faqIndex: 10, section: 'FAQs', tip: true },
   { key: 'faq_add_players', title: 'How do I add players to my team?', dataIndex: -1, faqIndex: 3, section: 'FAQs', tip: true },
   { key: 'faq_remove_players', title: 'How do I remove players from my team?', dataIndex: -1, faqIndex: 4, section: 'FAQs', tip: true },
   { key: 'faq_managers', title: 'Can my team have multiple team managers?', dataIndex: -1, faqIndex: 16, section: 'FAQs', tip: true },
-  { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'FAQs', tip: true },
   { key: 'faq_assign_hw', title: 'How do I assign homework?', dataIndex: -1, faqIndex: 12, section: 'FAQs', tip: true, plainNext: true },
   { key: 'faq_folders', title: 'About Program Folders', dataIndex: -1, faqIndex: 13, section: 'FAQs', tip: true },
   { key: 'faq_folders_assign', title: 'How to Assign Program Folders', dataIndex: -1, faqIndex: 19, section: 'FAQs', tip: true },
@@ -65,6 +63,8 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'renewing', title: 'How Payment Works - Renewing teams', dataIndex: 19, section: 'Bonus', info: true, bonus: true },
   { key: 'paying-additional', title: 'Paying for new players', dataIndex: 20, section: 'Bonus', info: true, bonus: true },
   { key: 'tip_paywall', title: 'Bonus Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_emails', title: 'What’s the difference between the login email and the contact email, and how do I update them?', dataIndex: -1, faqIndex: 0, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'Bonus', tip: true, bonus: true },
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
