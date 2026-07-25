@@ -3,7 +3,6 @@
   "player": [
     {
       "q": "Where do I start?",
-      "intro": "Take your first few weeks in three stages — do them in order and the rest of the app makes sense.",
       "steps": [
         {
           "label": "Day 1",
@@ -13,48 +12,6 @@
               "ic": "🎯",
               "label": "1,000 Touch Ball Mastery",
               "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
-            }
-          ]
-        },
-        {
-          "label": "Week 2",
-          "text": "Now do our four core skills — Ball Mastery, Juggling, Dribbling and Wall Passing. Go to All Programs and do the first video in each section.",
-          "links": [
-            {
-              "ic": "🎯",
-              "label": "Ball Mastery",
-              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
-            },
-            {
-              "ic": "🤹",
-              "label": "Juggling",
-              "to": "/dashboardChild/all-programs?category=SET_JUGGLING_AND_AERIAL_CONTROL_DATA_PARENT&subCategory=SET_JUGGLING_BEG_FILTER_DATA"
-            },
-            {
-              "ic": "🏃",
-              "label": "Dribbling",
-              "to": "/dashboardChild/all-programs?category=SET_DRIBBLING_AND_TURNS_DATA&subCategory=SET_FREESTYLE_FILTER_DATA"
-            },
-            {
-              "ic": "🧱",
-              "label": "Wall Passing",
-              "to": "/dashboardChild/all-programs?category=SET_PASSING_WALL_AND_RECEIVING_DATA&subCategory=SET_WALL_PASSING_DATA"
-            }
-          ]
-        },
-        {
-          "label": "Week 2 or 3",
-          "text": "Either pin the folders you like to your favorites and work through them, or build yourself a training plan. Skill Builder is a good first plan.",
-          "links": [
-            {
-              "ic": "⭐",
-              "label": "My Favorites",
-              "to": "/my-training?tab=favorites"
-            },
-            {
-              "ic": "🛠️",
-              "label": "Get a Training Plan",
-              "to": "/build-my-plan"
             }
           ]
         }
