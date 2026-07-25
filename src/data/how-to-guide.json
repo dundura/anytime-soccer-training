@@ -1,0 +1,126 @@
+{
+  "version": 1,
+  "player": [
+    {
+      "q": "Where do I start?",
+      "intro": "Take your first few weeks in three stages — do them in order and the rest of the app makes sense.",
+      "steps": [
+        {
+          "label": "Day 1",
+          "text": "Start with the 1,000 Touch Ball Mastery program. It gets you touches quickly and shows you how a program works.",
+          "links": [
+            {
+              "ic": "🎯",
+              "label": "1,000 Touch Ball Mastery",
+              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
+            }
+          ]
+        },
+        {
+          "label": "Week 2",
+          "text": "Now do our four core skills — Ball Mastery, Juggling, Dribbling and Wall Passing. Go to All Programs and do the first video in each section.",
+          "links": [
+            {
+              "ic": "🎯",
+              "label": "Ball Mastery",
+              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
+            },
+            {
+              "ic": "🤹",
+              "label": "Juggling",
+              "to": "/dashboardChild/all-programs?category=SET_JUGGLING_AND_AERIAL_CONTROL_DATA_PARENT&subCategory=SET_JUGGLING_BEG_FILTER_DATA"
+            },
+            {
+              "ic": "🏃",
+              "label": "Dribbling",
+              "to": "/dashboardChild/all-programs?category=SET_DRIBBLING_AND_TURNS_DATA&subCategory=SET_FREESTYLE_FILTER_DATA"
+            },
+            {
+              "ic": "🧱",
+              "label": "Wall Passing",
+              "to": "/dashboardChild/all-programs?category=SET_PASSING_WALL_AND_RECEIVING_DATA&subCategory=SET_WALL_PASSING_DATA"
+            }
+          ]
+        },
+        {
+          "label": "Week 2 or 3",
+          "text": "Either pin the folders you like to your favorites and work through them, or build yourself a training plan. Skill Builder is a good first plan.",
+          "links": [
+            {
+              "ic": "⭐",
+              "label": "My Favorites",
+              "to": "/my-training?tab=favorites"
+            },
+            {
+              "ic": "🛠️",
+              "label": "Get a Training Plan",
+              "to": "/build-my-plan"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "coach": [
+    {
+      "q": "Where do I start?",
+      "intro": "Your first three weeks as a coach. Do them in order — each one sets up the next.",
+      "steps": [
+        {
+          "label": "Day 1",
+          "text": "Set up the team and set your goals: team name, logo, and the weekly training goal you want players held to.",
+          "links": [
+            {
+              "ic": "✏️",
+              "label": "Edit Team & Set Goals",
+              "to": "/teams/dashboard?nav=goals"
+            }
+          ]
+        },
+        {
+          "label": "Week 1",
+          "text": "Get your players on. Onboard the ones waiting to join, then check the roster so you know who is actually active.",
+          "links": [
+            {
+              "ic": "➕",
+              "label": "New Player Onboard",
+              "to": "/teams/dashboard?nav=pending&view=view"
+            },
+            {
+              "ic": "👥",
+              "label": "Roster",
+              "to": "/teams/dashboard?nav=roster"
+            }
+          ]
+        },
+        {
+          "label": "Week 1",
+          "text": "Assign the first homework from the Coach’s Board. Start small — one folder with a due date beats a long list nobody finishes.",
+          "links": [
+            {
+              "ic": "📋",
+              "label": "Coach's Board",
+              "to": "/teams/dashboard?nav=coach-board&view=view"
+            }
+          ]
+        },
+        {
+          "label": "Week 2",
+          "text": "Check who trained, then run something competitive. The 24 to 48 Hour Challenge is the easiest one to start with.",
+          "links": [
+            {
+              "ic": "📊",
+              "label": "Training Report",
+              "to": "/teams/dashboard?nav=training-report"
+            },
+            {
+              "ic": "⚡",
+              "label": "Coach's Challenge",
+              "to": "/teams/dashboard?nav=challenge"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

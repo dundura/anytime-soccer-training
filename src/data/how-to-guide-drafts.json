@@ -1,0 +1,725 @@
+{
+  "note": "Not served. Move an entry into how-to-guide.json (player or coach array) to publish it.",
+  "player": [
+    {
+      "q": "How do I find a drill or skill move?",
+      "intro": "There are two ways in, depending on whether you know the name of the move.",
+      "steps": [
+        {
+          "text": "If you know the move by name — Maradona, elastico, roulette — use Search Key Skill Moves and type it in.",
+          "links": [
+            {
+              "ic": "🔍",
+              "label": "Search Key Skill Moves",
+              "to": "/dashboardChild/keySkillMoves"
+            }
+          ]
+        },
+        {
+          "text": "If you are browsing, open All Programs and pick a skill area on the left, then a sub-category.",
+          "links": [
+            {
+              "ic": "📚",
+              "label": "All Programs",
+              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
+            }
+          ]
+        },
+        {
+          "text": "Open the folder to see the videos inside it. Each folder runs easiest to hardest, so start at the top."
+        }
+      ]
+    },
+    {
+      "q": "How do I mark a video as done?",
+      "intro": "Your progress, points and streak all come from videos you have marked done — so do this every session.",
+      "steps": [
+        {
+          "text": "Open the video and train along with it."
+        },
+        {
+          "text": "When you finish, tap the Mark as Done / complete button under the player."
+        },
+        {
+          "text": "The video gets a green check and the minutes are added to your training time."
+        },
+        {
+          "text": "If you marked one by mistake, tap it again to undo it."
+        }
+      ]
+    },
+    {
+      "q": "How do I get a training plan?",
+      "intro": "A plan tells you what to train each week so you are not choosing from scratch every day.",
+      "steps": [
+        {
+          "text": "Go to Get a Training Plan.",
+          "links": [
+            {
+              "ic": "📅",
+              "label": "Get a Training Plan",
+              "to": "/build-my-plan"
+            }
+          ]
+        },
+        {
+          "text": "Pick the plan type — Skill Builder if you are not sure — then choose the skill areas you want to work on."
+        },
+        {
+          "text": "Choose how many weeks you want to run it for and confirm."
+        },
+        {
+          "text": "Your plan then shows up under Training Plans, and that is where you train from each day.",
+          "links": [
+            {
+              "ic": "⚽",
+              "label": "Training Plans",
+              "to": "/my-training"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "How does my weekly plan work?",
+      "intro": "Every plan works the same way: a weekly goal plus a day pointer that you move yourself.",
+      "steps": [
+        {
+          "text": "Each week has a target — a number of videos and an amount of training time."
+        },
+        {
+          "text": "Train the videos shown for the day you are on."
+        },
+        {
+          "text": "Tap Mark done to move to the next day. Nothing moves on automatically, so you can never fall behind."
+        },
+        {
+          "text": "When the last day is done, the plan is complete and you can build a new one."
+        }
+      ]
+    },
+    {
+      "q": "How do I save videos I want to come back to?",
+      "intro": "Favorites are your own shortlist — folders and videos you want on hand.",
+      "steps": [
+        {
+          "text": "Tap the star / heart on any video or folder to pin it."
+        },
+        {
+          "text": "Everything you pin collects under My Favorites.",
+          "links": [
+            {
+              "ic": "⭐",
+              "label": "My Favorites",
+              "to": "/my-training?tab=favorites"
+            }
+          ]
+        },
+        {
+          "text": "Tap the star again to unpin it."
+        }
+      ]
+    },
+    {
+      "q": "How do I join a team?",
+      "intro": "Your coach starts the team — you join it, you do not create it.",
+      "steps": [
+        {
+          "text": "Ask your coach for the team join link or code."
+        },
+        {
+          "text": "Open the link and confirm the player you are joining as."
+        },
+        {
+          "text": "The team then shows under My Teams.",
+          "links": [
+            {
+              "ic": "🛡️",
+              "label": "My Teams",
+              "to": "/teams"
+            }
+          ]
+        },
+        {
+          "text": "If the link does not work, check with your coach that your spot on the team is still open."
+        }
+      ]
+    },
+    {
+      "q": "Where do I find my homework?",
+      "intro": "Homework is what your coach has assigned to you specifically.",
+      "steps": [
+        {
+          "text": "Open Homework from the menu.",
+          "links": [
+            {
+              "ic": "📖",
+              "label": "Homework",
+              "to": "/teams/dashboard?nav=homework&tab=individual"
+            }
+          ]
+        },
+        {
+          "text": "Work through the folders your coach assigned — anything with a due date is shown first."
+        },
+        {
+          "text": "Mark each video done as you go. Your coach sees your progress on their board."
+        }
+      ]
+    },
+    {
+      "q": "How does the Leaderboard work?",
+      "intro": "The leaderboard ranks players on what they have actually trained.",
+      "steps": [
+        {
+          "text": "You earn your place by completing videos and logging training time — marking videos done is what counts."
+        },
+        {
+          "text": "Open the Leaderboard to see where you sit.",
+          "links": [
+            {
+              "ic": "🏆",
+              "label": "Leaderboard",
+              "to": "/leaderboard"
+            }
+          ]
+        },
+        {
+          "text": "Use the tabs to switch between boards — overall, streaks, levels and team boards."
+        },
+        {
+          "text": "Rankings refresh regularly, so train today and check back."
+        }
+      ]
+    },
+    {
+      "q": "How do I earn badges?",
+      "intro": "Badges are awarded automatically for hitting milestones — you do not have to claim them.",
+      "steps": [
+        {
+          "text": "Keep completing videos and logging training time."
+        },
+        {
+          "text": "When you cross a milestone the badge is added to your collection."
+        },
+        {
+          "text": "See everything you have earned under My Badges.",
+          "links": [
+            {
+              "ic": "🎖️",
+              "label": "My Badges",
+              "to": "/player-badges"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "What is the Travel Passport?",
+      "intro": "The passport turns your training into a trip around the world.",
+      "steps": [
+        {
+          "text": "Every block of videos you complete earns you a stamp."
+        },
+        {
+          "text": "Each stamp moves you on to the next country."
+        },
+        {
+          "text": "Open Travel Passport to see your stamps and where you are headed next.",
+          "links": [
+            {
+              "ic": "🛂",
+              "label": "Travel Passport",
+              "to": "/passport"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "Where can I see my progress?",
+      "intro": "Goals & Reports is the full picture — time trained, videos done and how you are trending.",
+      "steps": [
+        {
+          "text": "Open Goals & Reports.",
+          "links": [
+            {
+              "ic": "🎯",
+              "label": "Goals & Reports",
+              "to": "/reports"
+            }
+          ]
+        },
+        {
+          "text": "Set a weekly goal so the reports have something to measure you against."
+        },
+        {
+          "text": "Check back weekly — the trend matters more than any single day."
+        }
+      ]
+    },
+    {
+      "q": "How do I add a highlight clip?",
+      "intro": "Player Highlights is where your own clips live, separate from the training videos.",
+      "steps": [
+        {
+          "text": "Open Player Highlights.",
+          "links": [
+            {
+              "ic": "🎬",
+              "label": "Player Highlights",
+              "to": "/player-clips"
+            }
+          ]
+        },
+        {
+          "text": "Tap to upload and choose the clip from your phone or computer."
+        },
+        {
+          "text": "Give it a title so people know what they are watching, then save."
+        }
+      ]
+    },
+    {
+      "q": "Where is my public profile?",
+      "intro": "Your profile is what coaches and other players see.",
+      "steps": [
+        {
+          "text": "Open My Public Profile from the menu — it shows your badges, level and training totals."
+        },
+        {
+          "text": "Keep training to fill it out; everything on it is earned, not entered."
+        }
+      ]
+    },
+    {
+      "q": "Are there video walkthroughs?",
+      "intro": "Yes — the Learning Center has short videos covering the same ground as this guide.",
+      "steps": [
+        {
+          "text": "Open the Learning Center.",
+          "links": [
+            {
+              "ic": "🎥",
+              "label": "Learning Center",
+              "to": "/learning-center"
+            }
+          ]
+        },
+        {
+          "text": "Start with How to Get Started, then How to Use the All Programs Area."
+        }
+      ]
+    },
+    {
+      "q": "Something is not working — who do I ask?",
+      "intro": "Try these in order before anything else.",
+      "steps": [
+        {
+          "text": "Pull down to refresh, or close the app and open it again."
+        },
+        {
+          "text": "If a video will not play, check you are on a good connection — the player drops quality on weak signal."
+        },
+        {
+          "text": "If it is about your team, your homework or your spot on a team, ask your coach first."
+        },
+        {
+          "text": "Still stuck? Contact us and tell us the player name and what screen you were on.",
+          "links": [
+            {
+              "ic": "✉️",
+              "label": "Contact Us",
+              "to": "/contactUs"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "coach": [
+    {
+      "q": "How do I get players onto my team?",
+      "intro": "Players join your team — you do not create their accounts for them.",
+      "steps": [
+        {
+          "text": "Send your players the team join link. They open it and confirm which player they are joining as."
+        },
+        {
+          "text": "Anyone waiting to be let on shows under New Player Onboard — approve them there.",
+          "links": [
+            {
+              "ic": "➕",
+              "label": "New Player Onboard",
+              "to": "/teams/dashboard?nav=pending&view=view"
+            }
+          ]
+        },
+        {
+          "text": "Once they are on, they appear in the Roster.",
+          "links": [
+            {
+              "ic": "👥",
+              "label": "Roster",
+              "to": "/teams/dashboard?nav=roster"
+            }
+          ]
+        },
+        {
+          "text": "If a player says the link does not work, check you still have an open spot on the team."
+        }
+      ]
+    },
+    {
+      "q": "How do I give a player full access?",
+      "intro": "Full access comes from a slot on your coach account — you hold the slots and apply them to players.",
+      "steps": [
+        {
+          "text": "Open Upgrade Players to see the slots you have and who is using them.",
+          "links": [
+            {
+              "ic": "🏷️",
+              "label": "Upgrade Players",
+              "to": "/teams/dashboard?nav=manage-players&view=view"
+            }
+          ]
+        },
+        {
+          "text": "Apply a slot to a player and their account upgrades straight away."
+        },
+        {
+          "text": "Out of slots? Buy more from the same screen — they sit on your account until you use them."
+        },
+        {
+          "text": "A player joining a team with slots available is upgraded automatically, so you do not have to do it twice."
+        }
+      ]
+    },
+    {
+      "q": "How do I assign homework?",
+      "intro": "Homework is how you tell a player exactly what to train this week.",
+      "steps": [
+        {
+          "text": "Open the Coach’s Board.",
+          "links": [
+            {
+              "ic": "📋",
+              "label": "Coach's Board",
+              "to": "/teams/dashboard?nav=coach-board&view=view"
+            }
+          ]
+        },
+        {
+          "text": "Pick the folder or videos you want assigned."
+        },
+        {
+          "text": "Choose who gets it — the whole team, or just the players who need that skill."
+        },
+        {
+          "text": "Set a due date. Anything with a due date is what players see first."
+        }
+      ]
+    },
+    {
+      "q": "How do I see who has done their homework?",
+      "intro": "Everything a player marks done flows straight back to you.",
+      "steps": [
+        {
+          "text": "Open the Coach’s Board to see each player against what you assigned them.",
+          "links": [
+            {
+              "ic": "📋",
+              "label": "Coach's Board",
+              "to": "/teams/dashboard?nav=coach-board&view=view"
+            }
+          ]
+        },
+        {
+          "text": "For the written-up version, open the Homework Report.",
+          "links": [
+            {
+              "ic": "📋",
+              "label": "Homework Report",
+              "to": "/teams/dashboard?nav=homework&tab=report"
+            }
+          ]
+        },
+        {
+          "text": "To see one player in detail — every video, when they did it — open Player Detail.",
+          "links": [
+            {
+              "ic": "👤",
+              "label": "Player Detail",
+              "to": "/training/video-completions"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "How do I chase a player who has fallen behind?",
+      "intro": "Nudge before you chase — most players just forgot.",
+      "steps": [
+        {
+          "text": "On the Coach’s Board, send a reminder to any player with overdue homework. You can send to one player or to everyone overdue at once.",
+          "links": [
+            {
+              "ic": "📋",
+              "label": "Coach's Board",
+              "to": "/teams/dashboard?nav=coach-board&view=view"
+            }
+          ]
+        },
+        {
+          "text": "Send a thumbs up to the players who did train. Recognition moves the group more than chasing does."
+        },
+        {
+          "text": "If a player has gone quiet for weeks, message them directly.",
+          "links": [
+            {
+              "ic": "📨",
+              "label": "Messages",
+              "to": "/messages"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "How do I set a goal for the team?",
+      "intro": "A weekly goal gives every report something to measure against.",
+      "steps": [
+        {
+          "text": "Open Edit Team & Set Goals and set the weekly training target.",
+          "links": [
+            {
+              "ic": "✏️",
+              "label": "Edit Team & Set Goals",
+              "to": "/teams/dashboard?nav=goals"
+            }
+          ]
+        },
+        {
+          "text": "For individual targets, set them per player under Player Goals.",
+          "links": [
+            {
+              "ic": "🎯",
+              "label": "Player Goals",
+              "to": "/teams"
+            }
+          ]
+        },
+        {
+          "text": "Review against the goal weekly in the Training Report.",
+          "links": [
+            {
+              "ic": "📊",
+              "label": "Training Report",
+              "to": "/teams/dashboard?nav=training-report"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "Which challenge should I run?",
+      "intro": "Different challenges suit different problems — pick by what your team needs this week.",
+      "steps": [
+        {
+          "text": "Team gone quiet? Run the 24 to 48 Hour Challenge — short window, quick spike in training.",
+          "links": [
+            {
+              "ic": "⚡",
+              "label": "Coach's Challenge",
+              "to": "/teams/dashboard?nav=challenge"
+            }
+          ]
+        },
+        {
+          "text": "Want something running all month? Use the Team Contest or the Monthly Challenge.",
+          "links": [
+            {
+              "ic": "🏆",
+              "label": "Team Contest",
+              "to": "/teams/dashboard?nav=contest"
+            }
+          ]
+        },
+        {
+          "text": "Want players competing head to head? Point them at Challenge Teammates and the 1v1 boards."
+        },
+        {
+          "text": "Want a long, steady target? The Player Race runs the whole team toward one distance."
+        }
+      ]
+    },
+    {
+      "q": "Where does my team rank against other teams?",
+      "intro": "The team boards rank your whole club against everyone else on the platform.",
+      "steps": [
+        {
+          "text": "Team Leaderboard is the headline board — total team training.",
+          "links": [
+            {
+              "ic": "🏆",
+              "label": "Team Leaderboard",
+              "to": "/team-leaderboard"
+            }
+          ]
+        },
+        {
+          "text": "Team Race ranks teams by distance covered.",
+          "links": [
+            {
+              "ic": "🌍",
+              "label": "Team Race",
+              "to": "/team-race"
+            }
+          ]
+        },
+        {
+          "text": "Team Levels ranks teams by the levels their players have reached.",
+          "links": [
+            {
+              "ic": "⭐",
+              "label": "Team Levels",
+              "to": "/team-level-leaders"
+            }
+          ]
+        },
+        {
+          "text": "All three move off the same thing: players marking videos done."
+        }
+      ]
+    },
+    {
+      "q": "What reports do I get?",
+      "intro": "Four reports, each answering a different question.",
+      "steps": [
+        {
+          "text": "Training Report — did the team train this week?",
+          "links": [
+            {
+              "ic": "📊",
+              "label": "Training Report",
+              "to": "/teams/dashboard?nav=training-report"
+            }
+          ]
+        },
+        {
+          "text": "Homework Report — did they do what I assigned?",
+          "links": [
+            {
+              "ic": "📋",
+              "label": "Homework Report",
+              "to": "/teams/dashboard?nav=homework&tab=report"
+            }
+          ]
+        },
+        {
+          "text": "Player Detail — what exactly has this one player done?",
+          "links": [
+            {
+              "ic": "👤",
+              "label": "Player Detail",
+              "to": "/training/video-completions"
+            }
+          ]
+        },
+        {
+          "text": "Club Report — the shareable summary for parents and club staff."
+        }
+      ]
+    },
+    {
+      "q": "How do I get parents to see the progress?",
+      "intro": "Parents stay bought in when they can see the work — send them something they can open.",
+      "steps": [
+        {
+          "text": "Send the Club Report link — it opens outside the app, so parents do not need a login."
+        },
+        {
+          "text": "Post wins to Team Posts so the whole group sees who is training.",
+          "links": [
+            {
+              "ic": "💬",
+              "label": "Team Posts",
+              "to": "/teams/teamPosts"
+            }
+          ]
+        },
+        {
+          "text": "Point parents at their own player’s public profile for badges and totals."
+        }
+      ]
+    },
+    {
+      "q": "A player says something is not working — what do I check?",
+      "intro": "Work down this list before escalating; it is nearly always one of the first three.",
+      "steps": [
+        {
+          "text": "Check they are on the right team in the Roster, and that their account has full access.",
+          "links": [
+            {
+              "ic": "👥",
+              "label": "Roster",
+              "to": "/teams/dashboard?nav=roster"
+            }
+          ]
+        },
+        {
+          "text": "If videos are locked, they need a slot applying.",
+          "links": [
+            {
+              "ic": "🏷️",
+              "label": "Upgrade Players",
+              "to": "/teams/dashboard?nav=manage-players&view=view"
+            }
+          ]
+        },
+        {
+          "text": "If homework looks empty to them, confirm the assignment actually went to that player on the Coach’s Board.",
+          "links": [
+            {
+              "ic": "📋",
+              "label": "Coach's Board",
+              "to": "/teams/dashboard?nav=coach-board&view=view"
+            }
+          ]
+        },
+        {
+          "text": "Still stuck? Contact us with the team name, the player name and what screen they were on.",
+          "links": [
+            {
+              "ic": "✉️",
+              "label": "Contact Us",
+              "to": "/contactUs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "Are there video walkthroughs?",
+      "intro": "Yes — the Learning Center covers the same ground in short videos.",
+      "steps": [
+        {
+          "text": "Open the Learning Center.",
+          "links": [
+            {
+              "ic": "🎥",
+              "label": "Learning Center",
+              "to": "/learning-center"
+            }
+          ]
+        },
+        {
+          "text": "Start with How to Get Started, then How to Use the All Programs Area."
+        },
+        {
+          "text": "These are worth sending to new players in their first week."
+        }
+      ]
+    }
+  ]
+}
