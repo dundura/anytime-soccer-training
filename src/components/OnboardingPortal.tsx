@@ -46,8 +46,6 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'commit_contest', title: '1. Start a team contest', dataIndex: -1, faqIndex: 25, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to start a team contest.', options: ['Yes', 'No'] } },
   { key: 'commit_goals', title: '2. Set personal player challenges', dataIndex: -1, faqIndex: 26, section: 'FAQs', tip: true, quiz: { prompt: 'I plan set personal challenges.', options: ['Yes', 'No'] } },
   { key: 'commit_demo', title: '3. Show the app at training', dataIndex: -1, faqIndex: 27, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to discuss the app at training.', options: ['Yes', 'No'] } },
-  { key: 'faq_coach_habits', title: 'Successful coaches', dataIndex: -1, faqIndex: 18, section: 'FAQs', tip: true },
-  { key: 'faq_struggle', title: 'Coaches who struggle', dataIndex: -1, faqIndex: 23, section: 'FAQs', tip: true },
   { key: 'final_confirm', title: 'Confirm & Finish', dataIndex: 17, section: 'FAQs', final: true },
   { key: 'payment_overview', title: 'How payment works - New Teams', dataIndex: 18, section: 'Bonus', info: true, bonus: true },
   { key: 'renewing', title: 'How Payment Works - Renewing teams', dataIndex: 19, section: 'Bonus', info: true, bonus: true },
@@ -68,6 +66,8 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'bonus_adding_later', title: 'Adding Players Later', dataIndex: -1, faqIndex: 32, section: 'Bonus', tip: true, bonus: true },
   { key: 'bonus_player_turnover', title: 'Player Turnover', dataIndex: -1, faqIndex: 33, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_homework', title: 'Which homework do you recommend I start with?', dataIndex: -1, faqIndex: 6, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_coach_habits', title: 'Successful coaches', dataIndex: -1, faqIndex: 18, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_struggle', title: 'Coaches who struggle', dataIndex: -1, faqIndex: 23, section: 'Bonus', tip: true, bonus: true },
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
