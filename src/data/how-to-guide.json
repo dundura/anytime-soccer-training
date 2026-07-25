@@ -205,23 +205,16 @@
   "coach": [
     {
       "q": "Where do I start?",
-      "intro": "Your first three weeks as a coach. Do them in order — each one sets up the next.",
       "steps": [
         {
-          "label": "Day 1",
-          "text": "Set up the team and set your goals: team name, logo, and the weekly training goal you want players held to.",
+          "label": "Your First Three Weeks as a Coach",
+          "text": "Do these in order — each one sets up the next.\n\n• **Day 1** — set up the team and set your goals: team name, logo, and the weekly training goal you want players held to.\n\n• **Week 1** — get your players on. Onboard the ones waiting to join, then check the roster so you know who is actually active.\n\n• **Week 1** — assign the first homework from the Coach's Board. Start small: one folder with a due date beats a long list nobody finishes.\n\n• **Week 2** — check who trained, then run something competitive. The 24 to 48 Hour Challenge is the easiest one to start with.",
           "links": [
             {
               "ic": "✏️",
               "label": "Edit Team & Set Goals",
               "to": "/teams/dashboard?nav=goals"
-            }
-          ]
-        },
-        {
-          "label": "Week 1",
-          "text": "Get your players on. Onboard the ones waiting to join, then check the roster so you know who is actually active.",
-          "links": [
+            },
             {
               "ic": "➕",
               "label": "New Player Onboard",
@@ -231,24 +224,12 @@
               "ic": "👥",
               "label": "Roster",
               "to": "/teams/dashboard?nav=roster"
-            }
-          ]
-        },
-        {
-          "label": "Week 1",
-          "text": "Assign the first homework from the Coach’s Board. Start small — one folder with a due date beats a long list nobody finishes.",
-          "links": [
+            },
             {
               "ic": "📋",
               "label": "Coach's Board",
               "to": "/teams/dashboard?nav=coach-board&view=view"
-            }
-          ]
-        },
-        {
-          "label": "Week 2",
-          "text": "Check who trained, then run something competitive. The 24 to 48 Hour Challenge is the easiest one to start with.",
-          "links": [
+            },
             {
               "ic": "📊",
               "label": "Training Report",
