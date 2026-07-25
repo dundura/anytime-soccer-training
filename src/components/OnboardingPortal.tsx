@@ -44,7 +44,6 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_folders', title: 'About Program Folders', dataIndex: -1, faqIndex: 13, section: 'FAQs', tip: true },
   { key: 'faq_folders_assign', title: 'How to Assign Program Folders', dataIndex: -1, faqIndex: 19, section: 'FAQs', tip: true },
   { key: 'faq_assign_plans', title: 'Types of Plans', dataIndex: -1, faqIndex: 14, section: 'FAQs', tip: true },
-  { key: 'faq_plans_assign', title: 'How to Assign', dataIndex: -1, faqIndex: 20, section: 'FAQs', tip: true },
   { key: 'faq_homework', title: 'Which homework do you recommend I start with?', dataIndex: -1, faqIndex: 6, section: 'FAQs', tip: true },
   { key: 'faq_low_usage', title: 'Participation is lower than expected - what can I do?', dataIndex: -1, faqIndex: 24, section: 'FAQs', tip: true },
   { key: 'commit_contest', title: '1. Start a team contest', dataIndex: -1, faqIndex: 25, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to start a team contest.', options: ['Yes', 'No'] } },
