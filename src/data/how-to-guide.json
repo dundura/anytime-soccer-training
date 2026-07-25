@@ -72,6 +72,48 @@
           "text": "The program stacks skills — one new move per video, each building on the last.\n\n• **INTRO** — teaches a new move\n\n• **QR** — quick review of recent moves\n\n• **FR** — full review of a block\n\nReviews bring back earlier moves automatically, so your child can train on their own without you having to manage or re-teach anything. Skip a video, though, and later reviews may reference a move they missed.\n\n**Exceptions:**\n\n• Strong jugglers can skip the early juggling build-up\n\n• No space/equipment? Skip and return later"
         }
       ]
+    },
+    {
+      "q": "Where do beginners and experienced players start?",
+      "steps": [
+        {
+          "label": "Everyone Starts in the Same Place",
+          "text": "We recommend all players start with the first folders and follow the program in order.\n\nThe difference between experienced players and beginners is in the levels of **volume, variety, and variations**.\n\nFor example, a beginner may start with only the 1,000 Touch Ball Mastery program.\n\nAn experienced player can handle multiple ball mastery programs, as well as training programs in other skill areas.",
+          "links": [
+            {
+              "ic": "🎯",
+              "label": "1,000 Touch Ball Mastery",
+              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "More on experienced players",
+      "steps": [
+        {
+          "label": "Same Start, More Volume and Variety",
+          "text": "As mentioned before, experienced players should still start with the first folders — what changes is how much they take on and how quickly they add to it.\n\nOne way to accelerate that variety is our **30-Day Plans**. Each video works four to six different moves, so a player covers far more ground in the same session.\n\nStart with:",
+          "links": [
+            {
+              "ic": "🎯",
+              "label": "1. Int/Advanced Ball Mastery",
+              "to": "/my-training-sessions/1303"
+            },
+            {
+              "ic": "🏃",
+              "label": "2. 30-Day Dribbling",
+              "to": "/my-training-sessions/1312"
+            },
+            {
+              "ic": "🧱",
+              "label": "3. 30-Day Wall Passing",
+              "to": "/my-training-sessions/1309"
+            }
+          ]
+        }
+      ]
     }
   ],
   "coach": [
