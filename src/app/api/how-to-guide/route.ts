@@ -21,8 +21,10 @@ const GUIDE_FILE = path.join(process.cwd(), "src/data/how-to-guide.json");
 const CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
-  // Five minutes, so an edit is live quickly without every app load hitting us.
-  "Cache-Control": "public, max-age=300, s-maxage=300, stale-while-revalidate=3600",
+  // Browsers revalidate every load (a 304 is cheap) so an edit shows up on the
+  // next refresh rather than up to five minutes later; the CDN still caches, so
+  // the revalidation rarely reaches this function.
+  "Cache-Control": "public, max-age=0, must-revalidate, s-maxage=60, stale-while-revalidate=3600",
 };
 
 export async function GET() {
