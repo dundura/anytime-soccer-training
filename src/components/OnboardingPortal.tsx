@@ -27,7 +27,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'payment_overview', title: 'How payment works - New Teams', dataIndex: 18, section: 'Pre-Onboarding', info: true },
   { key: 'renewing', title: 'How Payment Works - Renewing teams', dataIndex: 19, section: 'Pre-Onboarding', info: true, plainNext: true },
   { key: 'paying-additional', title: 'Paying for new players', dataIndex: 20, section: 'Pre-Onboarding', info: true, plainNext: true },
-  { key: 'invoice', title: 'Pay your invoice', dataIndex: 2, section: 'Pre-Onboarding' },
+  { key: 'invoice', title: 'Pay your invoice', dataIndex: -1, section: 'Pre-Onboarding', quiz: { prompt: 'How is your team getting set up?', options: ['I paid the invoice', 'I purchased slots inside the app'] } },
   { key: 'tip_paywall', title: 'Quick Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Pre-Onboarding', tip: true },
   { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding', info: true },
   { key: 'survey', title: 'Take the Coaching Engagement Survey', dataIndex: 3, section: 'Onboarding' },
