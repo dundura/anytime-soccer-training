@@ -97,6 +97,11 @@
               "ic": "🎯",
               "label": "1,000 Touch Ball Mastery",
               "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
+            },
+            {
+              "ic": "🎯",
+              "label": "101 Ball Mastery",
+              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_101_BALL_MASTERY_DRILLS_DATA"
             }
           ]
         },
