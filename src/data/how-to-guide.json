@@ -47,6 +47,27 @@
           ]
         }
       ]
+    },
+    {
+      "q": "How long should my child train?",
+      "steps": [
+        {
+          "label": "Short and Often Beats Long and Rare",
+          "text": "15 to 20 minutes a day is plenty for most players. Training little and often builds far more touches over a season than one long session a week, and it is much easier to stick to.\n\nIf your child only has a few days a week, that still works. Pick the days, keep them short, and let the streak build. What matters is coming back tomorrow, not how long today was.",
+          "links": [
+            {
+              "ic": "📅",
+              "label": "Get a Training Plan",
+              "to": "/build-my-plan"
+            },
+            {
+              "ic": "🎯",
+              "label": "Set a Weekly Goal",
+              "to": "/reports"
+            }
+          ]
+        }
+      ]
     }
   ],
   "coach": [
