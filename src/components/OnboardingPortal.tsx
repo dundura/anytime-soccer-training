@@ -18,23 +18,17 @@ type Coach = {
 };
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
-const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean; plainNext?: boolean; quiz?: { prompt: string; options: string[] } }[] = [
+const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean; plainNext?: boolean; bonus?: boolean; quiz?: { prompt: string; options: string[] } }[] = [
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
   { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Which best describes your expectations for your team?', options: ['Training outside practice is an expectation I’ve set — I’m aiming for 75%+ engagement, and if it’s slow I’ll use the competition features to boost it.', 'My team is motivated. It’s optional, but I’m excited to see how they respond, and I’ll do some of the competition features.', 'Optional — if they train, great; if not, no pressure.'] } },
   { key: 'roster_intro', title: 'Overview: Upgrading Players', dataIndex: 22, section: 'Pre-Onboarding', info: true, plainNext: true },
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
-  { key: 'payment_overview', title: 'How payment works - New Teams', dataIndex: 18, section: 'Pre-Onboarding', info: true },
-  { key: 'renewing', title: 'How Payment Works - Renewing teams', dataIndex: 19, section: 'Pre-Onboarding', info: true, plainNext: true },
-  { key: 'paying-additional', title: 'Paying for new players', dataIndex: 20, section: 'Pre-Onboarding', info: true, plainNext: true },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: -1, section: 'Pre-Onboarding', quiz: { prompt: 'How is your team getting set up?', options: ['I paid the invoice', 'I purchased slots inside the app'] } },
-  { key: 'tip_paywall', title: 'Quick Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Pre-Onboarding', tip: true },
   { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding', info: true },
   { key: 'survey', title: 'Take the Coaching Engagement Survey', dataIndex: 3, section: 'Onboarding' },
-  { key: 'tip_account', title: 'Quick Tip: Accounts & Profiles', dataIndex: 13, section: 'Onboarding', tip: true },
   { key: 'account', title: 'Create your account', dataIndex: 4, section: 'Onboarding' },
   { key: 'add_profiles', title: 'Add profiles', dataIndex: 21, section: 'Onboarding' },
-  { key: 'tip_team', title: 'Quick Tip: Creating Your Team', dataIndex: 14, section: 'Onboarding', tip: true },
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding' },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
   { key: 'complete_portal', title: 'Complete Portal Onboarding Steps', dataIndex: 23, section: 'Onboarding', info: true },
@@ -67,11 +61,15 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_coach_habits', title: 'Successful coaches', dataIndex: -1, faqIndex: 18, section: 'FAQs', tip: true },
   { key: 'faq_struggle', title: 'Coaches who struggle', dataIndex: -1, faqIndex: 23, section: 'FAQs', tip: true },
   { key: 'final_confirm', title: 'Confirm & Finish', dataIndex: 17, section: 'FAQs', final: true },
+  { key: 'payment_overview', title: 'How payment works - New Teams', dataIndex: 18, section: 'Bonus', info: true, bonus: true },
+  { key: 'renewing', title: 'How Payment Works - Renewing teams', dataIndex: 19, section: 'Bonus', info: true, bonus: true },
+  { key: 'paying-additional', title: 'Paying for new players', dataIndex: 20, section: 'Bonus', info: true, bonus: true },
+  { key: 'tip_paywall', title: 'Bonus Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Bonus', tip: true, bonus: true },
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
-const stepNumber = (i: number) => STEPS.slice(0, i + 1).filter(x => !x.tip).length;
-const NUMBERED_TOTAL = STEPS.filter(x => !x.tip).length;
+const stepNumber = (i: number) => STEPS.slice(0, i + 1).filter(x => !x.tip && !x.bonus).length;
+const NUMBERED_TOTAL = STEPS.filter(x => !x.tip && !x.bonus).length;
 
 const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
   { heading: 'Before You Start', items: [
@@ -145,7 +143,7 @@ export default function OnboardingPortal() {
   const [sendingQuestion, setSendingQuestion] = useState(false);
 
   const firstIncomplete = (c: Coach) => {
-    const idx = STEPS.findIndex(s => !c.checklist[s.key]);
+    const idx = STEPS.findIndex(s => !c.checklist[s.key] && !s.bonus);
     return idx === -1 ? STEPS.length - 1 : idx;
   };
 
@@ -287,7 +285,7 @@ export default function OnboardingPortal() {
     setSaving(true);
     setError('');
     try {
-      const missing = STEPS.filter(st => !st.final && coach.checklist[st.key] !== true).map(st => st.title);
+      const missing = STEPS.filter(st => !st.final && !st.bonus && coach.checklist[st.key] !== true).map(st => st.title);
       const res = await fetch(`${API}/portal-onboarding/email-missing`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: token },
@@ -372,7 +370,7 @@ export default function OnboardingPortal() {
   };
 
   const doneCount = coach ? STEPS.filter(s => coach.checklist[s.key]).length : 0;
-  const othersDone = coach ? STEPS.filter(s => !s.final).every(s => coach.checklist[s.key] === true) : false;
+  const othersDone = coach ? STEPS.filter(s => !s.final && !s.bonus).every(s => coach.checklist[s.key] === true) : false;
   const allDone = doneCount === STEPS.length;
   const step = STEPS[wizardIndex];
   const stepState = coach ? coach.checklist[step.key] : undefined;
@@ -453,7 +451,7 @@ export default function OnboardingPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-4">Index</h2>
                 {(() => {
-                  const remaining = STEPS.filter(s => !s.final && coach.checklist[s.key] !== true).length;
+                  const remaining = STEPS.filter(s => !s.final && !s.bonus && coach.checklist[s.key] !== true).length;
                   return remaining > 0 ? (
                     <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-4 flex items-center gap-3">
                       <span className="text-xl">📋</span>
@@ -892,12 +890,12 @@ export default function OnboardingPortal() {
                   >
                     ← Back
                   </button>
-                  {!step.final && wizardIndex < STEPS.length - 1 && (
+                  {!step.bonus && wizardIndex < STEPS.length - 1 && (
                     <button
                       onClick={() => { setWizardIndex(wizardIndex + 1); setError(''); }}
                       className="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-500 hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
                     >
-                      Skip
+                      {step.final ? 'Bonus →' : 'Skip'}
                     </button>
                   )}
                   {stepData && stepData.ctaHref && (
@@ -942,6 +940,16 @@ export default function OnboardingPortal() {
                     >
                       {saving ? 'Saving…' : 'Next →'}
                     </button>
+                  ) : step.bonus ? (
+                    // Bonus reference pages: plain Next to browse, no completion popup.
+                    wizardIndex < STEPS.length - 1 ? (
+                      <button
+                        onClick={() => { setWizardIndex(wizardIndex + 1); setError(''); }}
+                        className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                      >
+                        Next →
+                      </button>
+                    ) : null
                   ) : (
                     // Next always opens the confirm popup — no shortcut logic.
                     // (To move on without confirming, use Skip.)
