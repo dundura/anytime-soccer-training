@@ -258,7 +258,9 @@
         {
           "text": "Training plans are recurring plans that you set and forget.\n\n**Types of plans**\n\n• **Weekly Plan** — organizes the skill videos by day, delivering skill areas into each day automatically.\n\n• **30-Day Monthly Plan** — a weekly plan built from the 30-Day folders.\n\n• **Custom Plan** — weekly videos based on the folders you pick yourself."
         }
-      ]
+      ],
+      "key": "eng_plans",
+      "silent": true
     },
     {
       "q": "Send an Email Reminder",
