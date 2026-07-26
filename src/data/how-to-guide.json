@@ -277,10 +277,10 @@
       "key": "eng_email"
     },
     {
-      "q": "Demo the App In-Person",
+      "q": "Show the App at Training",
       "steps": [
         {
-          "text": "Five minutes at practice showing players how to train removes most of the questions you would otherwise field all season."
+          "text": "Show the app at training and make sure players know how to access their homework.\n\nBefore or after practice, show the app and make sure everyone knows how to find their homework."
         }
       ],
       "key": "eng_demo"
