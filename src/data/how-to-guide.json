@@ -204,6 +204,14 @@
   ],
   "coach": [
     {
+      "q": "How it works",
+      "steps": [
+        {
+          "text": "This is your coach checklist. Each page is one task that gets your players training.\n\n• Work through them in order — each one takes a few minutes.\n\n• Tap **Mark Complete** when you have done a task, and your engagement score goes up.\n\n• Some tasks tick themselves — assign homework or create a contest and we detect it.\n\nYou will get an email confirming each task, with the next one to do."
+        }
+      ]
+    },
+    {
       "q": "Upload Your Team Logo",
       "steps": [
         {
