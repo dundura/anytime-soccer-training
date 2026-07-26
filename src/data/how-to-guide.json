@@ -289,7 +289,7 @@
       "q": "Set Player Goals",
       "steps": [
         {
-          "text": "Give each player a target of their own. A goal with a name on it gets taken more seriously than a team average.",
+          "text": "Set your team's training goal for each period.",
           "links": [
             {
               "ic": "🎯",
