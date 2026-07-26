@@ -289,7 +289,7 @@
       "q": "Set Player Goals",
       "steps": [
         {
-          "text": "Set your team's training goal for each period.\n\n**A few tips**",
+          "text": "Set your team's training goal for each period.\n\n**A few tips**\n\n• You can set the team goal for everyone at once.\n\n• This goal appears on the roster.\n\n• You can also set an individual goal.",
           "links": [
             {
               "ic": "🎯",
