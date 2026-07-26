@@ -207,7 +207,8 @@
       "q": "How it works",
       "steps": [
         {
-          "text": "We have distilled the key drivers of engagement down to these tasks. Each one has a step-by-step guide to help you through it.\n\n• Work through them in order — each takes a few seconds.\n\n• Tap **Mark Complete** when a task is done to increase your engagement score.\n\n• Some tasks tick themselves — assign homework or create a contest and we detect it.\n\nYou will get an email confirming each task, with the next one to do."
+          "label": "Welcome!",
+          "text": "We've distilled the key drivers of participation down to these tasks. Each one comes with a step-by-step guide to walk you through it."
         }
       ]
     },
