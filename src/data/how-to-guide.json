@@ -207,38 +207,13 @@
       "q": "Where do I start?",
       "steps": [
         {
-          "label": "Your First Three Weeks as a Coach",
-          "text": "Do these in order — each one sets up the next.\n\n• **Day 1** — upload your team logo. Show team pride: a logo gets players excited and signals ownership.\n\n• **Day 1** — set your team name and the weekly training goal you want players held to.\n\n• **Week 1** — get your players on. Onboard the ones waiting to join, then check the roster so you know who is actually active.\n\n• **Week 1** — assign the first homework from the Coach's Board. Start small: one folder with a due date beats a long list nobody finishes.\n\n• **Week 2** — check who trained, then run something competitive. The 24 to 48 Hour Challenge is the easiest one to start with.",
+          "label": "Start by Uploading Your Team Logo",
+          "text": "Show team pride by uploading your logo. It gets players excited and signals ownership.",
           "links": [
             {
               "ic": "✏️",
               "label": "Edit Team & Set Goals",
               "to": "/teams/dashboard?nav=goals"
-            },
-            {
-              "ic": "➕",
-              "label": "New Player Onboard",
-              "to": "/teams/dashboard?nav=pending&view=view"
-            },
-            {
-              "ic": "👥",
-              "label": "Roster",
-              "to": "/teams/dashboard?nav=roster"
-            },
-            {
-              "ic": "📋",
-              "label": "Coach's Board",
-              "to": "/teams/dashboard?nav=coach-board&view=view"
-            },
-            {
-              "ic": "📊",
-              "label": "Training Report",
-              "to": "/teams/dashboard?nav=training-report"
-            },
-            {
-              "ic": "⚡",
-              "label": "Coach's Challenge",
-              "to": "/teams/dashboard?nav=challenge"
             }
           ]
         }
