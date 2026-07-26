@@ -231,7 +231,9 @@
             }
           ]
         }
-      ]
+      ],
+      "key": "eng_homework",
+      "autoKey": "hasHomework"
     },
     {
       "q": "Send an Email Reminder",
@@ -239,7 +241,8 @@
         {
           "text": "Nudge the players who have not started yet. Most of them have simply forgotten."
         }
-      ]
+      ],
+      "key": "eng_email"
     },
     {
       "q": "Demo the App In-Person",
@@ -247,7 +250,8 @@
         {
           "text": "Five minutes at practice showing players how to train removes most of the questions you would otherwise field all season."
         }
-      ]
+      ],
+      "key": "eng_demo"
     },
     {
       "q": "Set Player Goals",
@@ -262,7 +266,9 @@
             }
           ]
         }
-      ]
+      ],
+      "key": "eng_player_goals",
+      "autoKey": "hasPersonalGoal"
     },
     {
       "q": "Create a Coach's Challenge",
@@ -277,7 +283,9 @@
             }
           ]
         }
-      ]
+      ],
+      "key": "eng_coach_challenge",
+      "autoKey": "hasChallenge"
     },
     {
       "q": "Create a Personal Challenge",
@@ -292,7 +300,8 @@
             }
           ]
         }
-      ]
+      ],
+      "key": "eng_personal_challenge"
     },
     {
       "q": "Create a Team Contest",
@@ -307,7 +316,9 @@
             }
           ]
         }
-      ]
+      ],
+      "key": "eng_contest",
+      "autoKey": "hasContest"
     },
     {
       "q": "Set a Team Level Goal",
@@ -322,7 +333,8 @@
             }
           ]
         }
-      ]
+      ],
+      "key": "eng_level_goal"
     },
     {
       "q": "Give Player Recognition in Practice",
@@ -330,7 +342,8 @@
         {
           "text": "Call out the players who trained, in front of the group. Recognition moves a team further than chasing does."
         }
-      ]
+      ],
+      "key": "eng_recognition"
     },
     {
       "q": "Nominate an MVP 🌟",
@@ -345,7 +358,8 @@
             }
           ]
         }
-      ]
+      ],
+      "key": "eng_mvp"
     }
   ]
 }
