@@ -250,7 +250,9 @@
         {
           "text": "Training is organized by skill areas, programs, and folders — the folders house the videos. For example, **Ball Mastery** is a skill area, **1,000 Touch** is a program, and **P1:** is the first folder.\n\n**Types of folders**\n\n• **All Programs** — lists every folder in each respective program.\n\n• **Curated Curriculum** — folders by skill area, in our recommended order (rotates programs for variety).\n\n• **30-Day Plans** — 30-day plans by skill area.\n\n• **Favorites** — your own folders (add videos in Key Skills)."
         }
-      ]
+      ],
+      "key": "eng_folders",
+      "silent": true
     },
     {
       "q": "Types of Plans",
