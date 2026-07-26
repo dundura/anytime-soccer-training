@@ -204,10 +204,9 @@
   ],
   "coach": [
     {
-      "q": "How it works",
+      "q": "Welcome",
       "steps": [
         {
-          "label": "Welcome!",
           "text": "We've distilled the key drivers of participation down to these tasks. Each one comes with a step-by-step guide to walk you through it."
         }
       ]
