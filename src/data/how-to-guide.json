@@ -231,12 +231,12 @@
       "q": "Assign Homework",
       "steps": [
         {
-          "text": "Follow these steps to assign homework.",
+          "text": "Follow these steps to assign homework.\n\n• Go to your Coach's Board.",
           "links": [
             {
-              "ic": "📖",
-              "label": "Go →",
-              "to": "/teams/dashboard?nav=homework"
+              "ic": "📋",
+              "label": "Coach's Board",
+              "to": "/teams/dashboard?nav=coach-board&view=view"
             }
           ]
         }
