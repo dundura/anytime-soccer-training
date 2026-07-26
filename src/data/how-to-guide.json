@@ -324,7 +324,7 @@
       "autoKey": "hasChallenge"
     },
     {
-      "q": "Create a Personal Challenge",
+      "q": "Set Personal Player Challenges",
       "steps": [
         {
           "text": "This is the single biggest driver of consistency — when a player has their own target, they show up.",
