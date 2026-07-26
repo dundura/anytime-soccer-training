@@ -310,7 +310,7 @@
       "q": "Create a Coach's Challenge",
       "steps": [
         {
-          "text": "A recurring challenge that keeps players motivated.\n\n**How it works**\n\n• Set the target: how many videos players need to complete.\n\n• Pick the date it ends.\n\n• Add a prize for the winner.\n\n• After each period, players who reach their goal get a win.\n\n• The first player to reach the target wins is the winner.",
+          "text": "A recurring challenge that keeps players motivated.\n\n**How it works**\n\n• Set the target: how many videos players need to complete.\n\n• Pick the date it ends.\n\n• Add a prize for the ultimate champion.\n\n• After each period, players who reach their goal get a win.\n\n• The first player to reach the target wins is the ultimate champion.",
           "links": [
             {
               "ic": "⚡",
@@ -327,7 +327,7 @@
       "q": "Create a Personal Challenge",
       "steps": [
         {
-          "text": "Set a challenge for one player — useful for the player who needs pulling along on their own.",
+          "text": "This is the single biggest driver of consistency — when a player has their own target, they show up.",
           "links": [
             {
               "ic": "🏅",
