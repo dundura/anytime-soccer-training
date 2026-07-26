@@ -204,10 +204,9 @@
   ],
   "coach": [
     {
-      "q": "Step One",
+      "q": "Upload Your Team Logo",
       "steps": [
         {
-          "label": "Upload Your Team Logo",
           "text": "Show team pride — upload your logo. It gets players excited and signals ownership.",
           "links": [
             {
