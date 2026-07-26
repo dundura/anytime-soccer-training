@@ -211,7 +211,7 @@
           "links": [
             {
               "ic": "✏️",
-              "label": "Edit Team & Set Goals",
+              "label": "Edit Team",
               "to": "/teams/dashboard?nav=goals"
             }
           ]
