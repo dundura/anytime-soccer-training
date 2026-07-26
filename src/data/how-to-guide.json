@@ -248,7 +248,14 @@
       "q": "Send an Email Reminder",
       "steps": [
         {
-          "text": "Nudge the players who have not started yet. Most of them have simply forgotten."
+          "text": "Many parents need a reminder. To send one, follow these steps:\n\n• Go to New Player Onboard.\n\n• Click **Send Reminder**.\n\n• The reminder only goes to players who have not joined yet.\n\n• Players who already have accounts are added to the team automatically.",
+          "links": [
+            {
+              "ic": "➕",
+              "label": "New Player Onboard",
+              "to": "/teams/dashboard?nav=pending&view=view"
+            }
+          ]
         }
       ],
       "key": "eng_email"
