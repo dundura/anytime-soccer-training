@@ -289,7 +289,7 @@
       "q": "Set Player Goals",
       "steps": [
         {
-          "text": "Set your team's training goal for each period.",
+          "text": "Set your team's training goal for each period.\n\n**A few tips**",
           "links": [
             {
               "ic": "🎯",
