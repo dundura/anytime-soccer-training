@@ -231,7 +231,7 @@
       "q": "Assign Homework",
       "steps": [
         {
-          "text": "Follow these steps to assign homework.\n\n• Go to your Coach's Board.\n\n• Click **Add Homework**.",
+          "text": "Follow these steps to assign homework.\n\n• Go to your Coach's Board.\n\n• Click **Add Homework**.\n\n• Select the program area, or build a plan.",
           "links": [
             {
               "ic": "📋",
