@@ -258,7 +258,7 @@
             {
               "ic": "🎯",
               "label": "Go →",
-              "to": "/teams/player-goals/"
+              "to": "/teams/player-goals/{teamId}"
             }
           ]
         }
@@ -288,7 +288,7 @@
             {
               "ic": "🏅",
               "label": "Go →",
-              "to": "/teams/personal-challenge/"
+              "to": "/teams/personal-challenge/{teamId}"
             }
           ]
         }
@@ -341,7 +341,7 @@
             {
               "ic": "🌟",
               "label": "Go →",
-              "to": "/teams/mvp/"
+              "to": "/teams/mvp/{teamId}"
             }
           ]
         }
