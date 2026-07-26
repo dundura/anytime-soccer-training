@@ -217,6 +217,135 @@
           ]
         }
       ]
+    },
+    {
+      "q": "Assign Homework",
+      "steps": [
+        {
+          "text": "Assign a folder to your players with a due date. Start small — one folder beats a long list nobody finishes.",
+          "links": [
+            {
+              "ic": "📖",
+              "label": "Go →",
+              "to": "/teams/dashboard?nav=homework"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "Send an Email Reminder",
+      "steps": [
+        {
+          "text": "Nudge the players who have not started yet. Most of them have simply forgotten."
+        }
+      ]
+    },
+    {
+      "q": "Demo the App In-Person",
+      "steps": [
+        {
+          "text": "Five minutes at practice showing players how to train removes most of the questions you would otherwise field all season."
+        }
+      ]
+    },
+    {
+      "q": "Set Player Goals",
+      "steps": [
+        {
+          "text": "Give each player a target of their own. A goal with a name on it gets taken more seriously than a team average.",
+          "links": [
+            {
+              "ic": "🎯",
+              "label": "Go →",
+              "to": "/teams/player-goals/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "Create a Coach's Challenge",
+      "steps": [
+        {
+          "text": "Set a short challenge for the group. A deadline moves a team more than a reminder does.",
+          "links": [
+            {
+              "ic": "⚡",
+              "label": "Go →",
+              "to": "/teams/dashboard?nav=challenge"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "Create a Personal Challenge",
+      "steps": [
+        {
+          "text": "Set a challenge for one player — useful for the player who needs pulling along on their own.",
+          "links": [
+            {
+              "ic": "🏅",
+              "label": "Go →",
+              "to": "/teams/personal-challenge/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "Create a Team Contest",
+      "steps": [
+        {
+          "text": "Run a contest across the whole team so training becomes something they compare with each other.",
+          "links": [
+            {
+              "ic": "🏆",
+              "label": "Go →",
+              "to": "/teams/dashboard?nav=contest"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "Set a Team Level Goal",
+      "steps": [
+        {
+          "text": "Pick the level you want the team to reach. It gives the season a finish line.",
+          "links": [
+            {
+              "ic": "⭐",
+              "label": "Go →",
+              "to": "/teams/roster"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "Give Player Recognition in Practice",
+      "steps": [
+        {
+          "text": "Call out the players who trained, in front of the group. Recognition moves a team further than chasing does."
+        }
+      ]
+    },
+    {
+      "q": "Nominate an MVP 🌟",
+      "steps": [
+        {
+          "text": "Nominate the player who put the work in. It is the cheapest motivation you have.",
+          "links": [
+            {
+              "ic": "🌟",
+              "label": "Go →",
+              "to": "/teams/mvp/"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
