@@ -213,7 +213,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Roster FAQs',
     body: `
-      <p>Roster templates are for teams joining Anytime Soccer Training for the first time. Renewing members can <strong>submit a roster or add new players inside the app.</strong> See the bonus section for roster template FAQs.</p>
+      <p>Roster templates are for teams joining Anytime Soccer Training for the first time. Renewing members can <strong>submit a roster or add new players inside the app and purchase their slots.</strong> See the bonus section for roster template FAQs.</p>
     `,
   },
   {

@@ -77,7 +77,7 @@ const NUMBERED_TOTAL = STEPS.filter(x => !x.tip && !x.bonus).length;
 const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
   { heading: 'Before You Start', items: [
     'Roster templates are for teams joining Anytime Soccer Training for the first time.',
-    'Renewing members can <strong>submit a roster or add new players inside the app.</strong>',
+    'Renewing members can <strong>submit a roster or add new players inside the app and purchase their slots.</strong>',
     'See the bonus section for roster template FAQs.',
   ] },
 ];
