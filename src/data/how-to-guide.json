@@ -184,15 +184,15 @@
       ]
     },
     {
-      "q": "Skill Assessment",
+      "q": "Skill Challenge",
       "steps": [
         {
           "label": "Test your juggling",
-          "text": "The Skill Assessment gives you a number to train against — and something to beat next month. We are starting with juggling.\n\n**⚽ How it works**\n\n• **Set your ultimate goal — the number you are chasing.**\n\n• **Every time you try, add a record: the ball you used, how many juggles, and the date.**\n\n• **Your highest sits next to your goal, and the table keeps every attempt so you can watch it climb.**\n\n**🎾 Three balls, three goals**\n\nA regular ball, a size 1 ball and a tennis ball each keep their own goal and their own records — 100 with a tennis ball is a very different feat from 100 with a size 5.",
+          "text": "The Skill Challenge gives you a number to train against — and something to beat next month. We are starting with juggling.\n\n**⚽ How it works**\n\n• **Set your ultimate goal — the number you are chasing.**\n\n• **Every time you try, add a record: the ball you used, how many juggles, and the date.**\n\n• **Your highest sits next to your goal, and the table keeps every attempt so you can watch it climb.**\n\n**🎾 Three balls, three goals**\n\nA regular ball, a size 1 ball and a tennis ball each keep their own goal and their own records — 100 with a tennis ball is a very different feat from 100 with a size 5.",
           "links": [
             {
               "ic": "⚽",
-              "label": "Juggling Assessment",
+              "label": "Juggling Challenge",
               "to": "/skill-challenge/juggling"
             },
             {
