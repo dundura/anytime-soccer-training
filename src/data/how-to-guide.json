@@ -431,10 +431,14 @@
       "q": "Step 2: Decide how you will use the program",
       "steps": [
         {
-          "text": "The way players use the program comes down to two things: where they plan to train, and how many skills they want to practice."
-        },
+          "text": "How you use the program comes down to two things: **where you plan to train**, and **what skills you want to practice**.\n\nThe next two steps cover each one."
+        }
+      ]
+    },
+    {
+      "q": "Step 3: Where you plan to train",
+      "steps": [
         {
-          "label": "Where you plan to train",
           "text": "**At home or inside** — a garage, a hallway, a bedroom. Ten minutes before school, a few more after dinner. The goal is volume of touches, not a full session, and training inside works better than people expect. Pick from:\n\n• **Ball Mastery**\n\n• **Wall Passing**\n\n• **Tight Space Dribbling**\n\n• **Juggling** *\n\n• **1v1 Moves** *\n\n* These need modifying for indoor space — smaller touches, a softer or smaller ball, and no full-power strikes.\n\n**Outside / on the field** — with space and a goal you can train everything: finishing, passing over distance, full-speed dribbling and 1v1s. Use a training plan so the session has a shape rather than picking videos as you go.",
           "links": [
             {
@@ -468,9 +472,13 @@
               "to": "/build-my-plan"
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "q": "Step 4: What skills you plan to practice",
+      "steps": [
         {
-          "label": "What skills you plan to practice",
           "text": "How many areas you take on should match the time you actually have.\n\n• **One area** — 1,000 Touch Ball Mastery on its own is plenty to start, and builds the habit.\n\n• **Two or three** — add wall passing or dribbling once ball mastery feels routine.\n\n• **More than that** — only if you are training most days, or on the field with real time to fill.\n\nWhichever you pick, work through each area in order rather than jumping around. The videos build on each other, and the reviews bring earlier moves back for you.",
           "links": [
             {
