@@ -431,16 +431,12 @@
       "q": "Step 2: Decide how you will use the program",
       "steps": [
         {
-          "label": "Three main ways players use it",
-          "text": "The way players use the program comes down to two things: where they plan to train, and how many skills they want to practice.\n\n• **At home** — extra touches in short bursts.\n\n• **Inside** — a garage, a hallway, a bedroom.\n\n• **On the field** — full training sessions with room to run."
+          "label": "Two main ways players use it",
+          "text": "The way players use the program comes down to two things: where they plan to train, and how many skills they want to practice.\n\n• **At home or inside** — extra touches in short bursts, in a garage, a hallway or a bedroom.\n\n• **On the field** — full training sessions with room to run."
         },
         {
-          "label": "At home — extra touches",
-          "text": "Ten minutes before school, a few more after dinner. The goal is volume of touches, not a full session.\n\nBall mastery is built for this — no equipment, no space, and you can stop and start whenever."
-        },
-        {
-          "label": "Inside — limited space",
-          "text": "Training inside works better than people expect. These are the areas to pick:\n\n• **Ball Mastery**\n\n• **Wall Passing**\n\n• **Tight Space Dribbling**\n\n• **Juggling** *\n\n• **1v1 Moves** *\n\n\\* These need modifying for indoor space — smaller touches, a softer or smaller ball, and no full-power strikes.",
+          "label": "Where you plan to train",
+          "text": "**At home or inside** — a garage, a hallway, a bedroom. Ten minutes before school, a few more after dinner. The goal is volume of touches, not a full session, and training inside works better than people expect. Pick from:\n\n• **Ball Mastery**\n\n• **Wall Passing**\n\n• **Tight Space Dribbling**\n\n• **Juggling** *\n\n• **1v1 Moves** *\n\n* These need modifying for indoor space — smaller touches, a softer or smaller ball, and no full-power strikes.\n\n**On the field** — with space and a goal you can train everything: finishing, passing over distance, full-speed dribbling and 1v1s. Use a training plan so the session has a shape rather than picking videos as you go.",
           "links": [
             {
               "ic": "🎯",
@@ -466,17 +462,22 @@
               "ic": "⚔️",
               "label": "1v1 Moves *",
               "to": "/dashboardChild/all-programs?category=SET_1V1_FINISHING_DATA&subCategory=SET_1V1_MOVES_DATA"
-            }
-          ]
-        },
-        {
-          "label": "On the field — full sessions",
-          "text": "With space and a goal you can train everything — finishing, passing over distance, full-speed dribbling and 1v1s.\n\nUse a training plan so the session has a shape rather than picking videos as you go.",
-          "links": [
+            },
             {
               "ic": "📅",
               "label": "Get a Training Plan",
               "to": "/build-my-plan"
+            }
+          ]
+        },
+        {
+          "label": "What skills you plan to practice",
+          "text": "How many areas you take on should match the time you actually have.\n\n• **One area** — 1,000 Touch Ball Mastery on its own is plenty to start, and builds the habit.\n\n• **Two or three** — add wall passing or dribbling once ball mastery feels routine.\n\n• **More than that** — only if you are training most days, or on the field with real time to fill.\n\nWhichever you pick, work through each area in order rather than jumping around. The videos build on each other, and the reviews bring earlier moves back for you.",
+          "links": [
+            {
+              "ic": "📚",
+              "label": "All Programs",
+              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
             }
           ]
         }
