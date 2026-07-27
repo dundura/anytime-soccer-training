@@ -2,15 +2,6 @@
   "version": 1,
   "player": [
     {
-      "q": "How to start your training",
-      "steps": [
-        {
-          "label": "Program Structure",
-          "text": "Before we get to where to start, let's go over how Anytime Soccer Training is put together.\n\n**📋 How training is organized**\n\n• **All Programs** — all skill areas grouped by programs.\n\n• **Curated Curriculum** — programs organized in a recommended order.\n\n• **Custom Folders and Favorites** — create your own video folders.\n\n• **Recurring Training Plans** — recurring sessions that auto update.\n\nWe will cover each — pick what fits you best."
-        }
-      ]
-    },
-    {
       "q": "Where do I start?",
       "steps": [
         {
