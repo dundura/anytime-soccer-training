@@ -345,9 +345,13 @@ export default function OnboardingPortal() {
     }
   };
 
-  const doneCount = coach ? STEPS.filter(s => coach.checklist[s.key]).length : 0;
+  // Progress is measured against the steps a coach actually has to do. Bonus
+  // pages are optional reference, so counting them meant finishing everything
+  // required still showed well short of 100%.
+  const REQUIRED_STEPS = STEPS.filter(s => !s.bonus);
+  const doneCount = coach ? REQUIRED_STEPS.filter(s => coach.checklist[s.key]).length : 0;
   const othersDone = coach ? STEPS.filter(s => !s.final && !s.bonus).every(s => coach.checklist[s.key] === true) : false;
-  const allDone = doneCount === STEPS.length;
+  const allDone = doneCount === REQUIRED_STEPS.length;
   const step = STEPS[wizardIndex];
   const stepState = coach ? coach.checklist[step.key] : undefined;
   const stepDone = !!stepState;
@@ -403,9 +407,9 @@ export default function OnboardingPortal() {
             {coach && !showIntro && !showIndexInfo && !showIndex && !showFaq && (
               <div className="mt-4">
                 <div className="h-2 bg-white/20 rounded-full overflow-hidden">
-                  <div className="h-full bg-red rounded-full transition-all" style={{ width: `${(doneCount / STEPS.length) * 100}%` }} />
+                  <div className="h-full bg-red rounded-full transition-all" style={{ width: `${(doneCount / REQUIRED_STEPS.length) * 100}%` }} />
                 </div>
-                <p className="text-white/60 text-xs font-semibold mt-1.5">{Math.round((doneCount / STEPS.length) * 100)}% complete</p>
+                <p className="text-white/60 text-xs font-semibold mt-1.5">{Math.round((doneCount / REQUIRED_STEPS.length) * 100)}% complete</p>
               </div>
             )}
           </div>
