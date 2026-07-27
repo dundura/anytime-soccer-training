@@ -431,7 +431,8 @@
       "q": "Step 2: Decide how you will use the program",
       "steps": [
         {
-          "text": "How you use the program comes down to two things: **where you plan to train**, and **what skills you want to practice**.\n\nThe next two steps cover each one."
+          "label": "Two things to decide",
+          "text": "How you use the program comes down to two things:\n\n• **Where you plan to train**\n\n• **What skills you want to practice**\n\nThe next two steps cover each one."
         }
       ]
     },
