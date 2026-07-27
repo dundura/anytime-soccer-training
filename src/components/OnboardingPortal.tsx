@@ -33,12 +33,6 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
   { key: 'parents_informed', title: 'Reply to Megan: team name & parents informed', dataIndex: 8, section: 'Onboarding', quiz: { prompt: 'Confirm your reply to Megan:', options: ['I sent Megan my team name and let her know the parents are informed.', 'I’m adding players individually'] } },
 { key: 'faq_intro', title: 'Common FAQs', dataIndex: 16, section: 'FAQs', info: true },
-  { key: 'faq_find_team', title: 'Parents can’t find our team — what should I do?', dataIndex: -1, faqIndex: 2, section: 'FAQs', tip: true },
-  { key: 'faq_not_on_team', title: 'Players have joined the app, but they’re not on my team', dataIndex: -1, faqIndex: 10, section: 'FAQs', tip: true },
-  { key: 'faq_add_players', title: 'How do I add players to my team?', dataIndex: -1, faqIndex: 3, section: 'FAQs', tip: true },
-  { key: 'faq_remove_players', title: 'How do I remove players from my team?', dataIndex: -1, faqIndex: 4, section: 'FAQs', tip: true },
-  { key: 'faq_managers', title: 'Can my team have multiple team managers?', dataIndex: -1, faqIndex: 16, section: 'FAQs', tip: true },
-  { key: 'faq_folders_assign', title: 'How to Assign Homework', dataIndex: -1, faqIndex: 19, section: 'FAQs', tip: true },
   { key: 'faq_low_usage', title: 'Participation is lower than expected - what can I do?', dataIndex: -1, faqIndex: 24, section: 'FAQs', tip: true },
   { key: 'commit_contest', title: '1. Start a team contest', dataIndex: -1, faqIndex: 25, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to start a team contest.', options: ['Yes', 'No'] } },
   { key: 'commit_goals', title: '2. Set personal player challenges', dataIndex: -1, faqIndex: 26, section: 'FAQs', tip: true, quiz: { prompt: 'I plan set personal challenges.', options: ['Yes', 'No'] } },
@@ -68,6 +62,12 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_homework', title: 'Which homework do you recommend I start with?', dataIndex: -1, faqIndex: 6, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_coach_habits', title: 'Successful coaches', dataIndex: -1, faqIndex: 18, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_struggle', title: 'Coaches who struggle', dataIndex: -1, faqIndex: 23, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_find_team', title: 'Parents can’t find our team — what should I do?', dataIndex: -1, faqIndex: 2, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_not_on_team', title: 'Players have joined the app, but they’re not on my team', dataIndex: -1, faqIndex: 10, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_add_players', title: 'How do I add players to my team?', dataIndex: -1, faqIndex: 3, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_remove_players', title: 'How do I remove players from my team?', dataIndex: -1, faqIndex: 4, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_managers', title: 'Can my team have multiple team managers?', dataIndex: -1, faqIndex: 16, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_folders_assign', title: 'How to Assign Homework', dataIndex: -1, faqIndex: 19, section: 'Bonus', tip: true, bonus: true },
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
@@ -104,7 +104,6 @@ export default function OnboardingPortal() {
   const [rosterSection, setRosterSection] = useState(0);
   const [quizAnswer, setQuizAnswer] = useState<string>('');
   const [showIntro, setShowIntro] = useState(true);
-  const [showOverview, setShowOverview] = useState(false);
   const [showIndex, setShowIndex] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showFaq, setShowFaq] = useState(false);
@@ -153,11 +152,7 @@ export default function OnboardingPortal() {
         if (stepParam >= 1 && stepParam <= STEPS.length) {
           setWizardIndex(stepParam - 1);
           setShowIntro(false);
-        } else if (params.get('view') === 'steps') {
-          setWizardIndex(firstIncomplete(data.coach));
-          setShowIntro(false);
-          setShowOverview(true);
-        } else if (params.get('view') === 'indexinfo') {
+        } else if (params.get('view') === 'steps' || params.get('view') === 'indexinfo') {
           setWizardIndex(firstIncomplete(data.coach));
           setShowIntro(false);
           setShowIndexInfo(true);
@@ -178,9 +173,9 @@ export default function OnboardingPortal() {
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
     if (!coach || typeof window === 'undefined') return;
-    const url = showFaq ? '/onboarding-portal?view=faq' : showIndex ? '/onboarding-portal?view=index' : showIndexInfo ? '/onboarding-portal?view=indexinfo' : showOverview ? '/onboarding-portal?view=steps' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
+    const url = showFaq ? '/onboarding-portal?view=faq' : showIndex ? '/onboarding-portal?view=index' : showIndexInfo ? '/onboarding-portal?view=indexinfo' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
     window.history.replaceState(null, '', url);
-  }, [coach, showIntro, showOverview, showIndex, showIndexInfo, showFaq, wizardIndex]);
+  }, [coach, showIntro, showIndex, showIndexInfo, showFaq, wizardIndex]);
 
   const submitAuth = async () => {
     setError('');
@@ -336,7 +331,7 @@ export default function OnboardingPortal() {
       const res = await fetch(`${API}/portal-onboarding/question`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: token },
-        body: JSON.stringify({ question: questionText.trim(), stepTitle: showIntro || showOverview ? '' : STEPS[wizardIndex].title }),
+        body: JSON.stringify({ question: questionText.trim(), stepTitle: showIntro ? '' : STEPS[wizardIndex].title }),
       });
       if (!res.ok) throw new Error();
       setQuestionText('');
@@ -371,7 +366,7 @@ export default function OnboardingPortal() {
             <div className="flex items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => { setShowIntro(true); setShowOverview(false); setShowIndexInfo(false); setShowIndex(false); setShowFaq(false); setError(''); }}
+                  onClick={() => { setShowIntro(true); setShowIndexInfo(false); setShowIndex(false); setShowFaq(false); setError(''); }}
                   className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                 >
                   🏠 Home
@@ -405,7 +400,7 @@ export default function OnboardingPortal() {
             {!coach && (
               <p className="text-white/70 text-sm mt-1">Sign in to walk through your team setup step by step.</p>
             )}
-            {coach && !showIntro && !showOverview && !showIndexInfo && !showIndex && !showFaq && (
+            {coach && !showIntro && !showIndexInfo && !showIndex && !showFaq && (
               <div className="mt-4">
                 <div className="h-2 bg-white/20 rounded-full overflow-hidden">
                   <div className="h-full bg-red rounded-full transition-all" style={{ width: `${(doneCount / STEPS.length) * 100}%` }} />
@@ -464,10 +459,6 @@ export default function OnboardingPortal() {
                       <a href="/onboarding-portal" className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
                         <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
                         <span className="text-sm font-semibold text-red hover:underline">Welcome</span>
-                      </a>
-                      <a href="/onboarding-portal?view=steps" className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
-                        <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
-                        <span className="text-sm font-semibold text-red hover:underline">How Onboarding Works</span>
                       </a>
                     </>
                   )}
@@ -623,56 +614,12 @@ export default function OnboardingPortal() {
                 </div>
 
                 <button
-                  onClick={() => { setShowIntro(false); setShowOverview(true); setError(''); }}
+                  onClick={() => { setShowIntro(false); setShowIndexInfo(true); setError(''); }}
                   className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors mb-3"
                 >
                   {doneCount === 0 ? 'Get Started →' : 'Continue →'}
                 </button>
 
-              </div>
-            ) : showOverview ? (
-              <div>
-                <h2 className="text-navy text-xl font-extrabold mb-3">How Onboarding Works</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Each step has its own page with everything you need.
-                </p>
-                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
-                <ol className="space-y-4">
-                  {[
-                    <>Read each page, then <strong className="text-navy font-semibold">confirm it</strong> to move on.</>,
-                    <><strong className="text-navy font-semibold">Every step must be completed</strong> before we start.</>,
-                    <><strong className="text-navy font-semibold">Already done a step?</strong> Confirm it and continue.</>,
-                    <>Have a question? Click <strong className="text-navy font-semibold">Ask us here</strong> and we&rsquo;ll be in touch.</>,
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <span className="flex-shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-navy text-white font-bold text-base">
-                        {i + 1}
-                      </span>
-                      <span className="text-gray-700 leading-relaxed pt-1">{item}</span>
-                    </li>
-                  ))}
-                </ol>
-                </div>
-                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-3">
-                  <button
-                    onClick={() => { setShowOverview(false); setShowIntro(true); setError(''); }}
-                    className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
-                  >
-                    ← Back
-                  </button>
-                  <button
-                    onClick={() => { setShowOverview(false); setWizardIndex(0); setError(''); }}
-                    className="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-500 hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
-                  >
-                    Skip
-                  </button>
-                  <button
-                    onClick={() => { setShowOverview(false); setShowIndexInfo(true); setError(''); }}
-                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
-                  >
-                    Next →
-                  </button>
-                </div>
               </div>
             ) : showIndexInfo ? (
               <div>
@@ -700,7 +647,7 @@ export default function OnboardingPortal() {
                 </div>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
                   <button
-                    onClick={() => { setShowIndexInfo(false); setShowOverview(true); setError(''); }}
+                    onClick={() => { setShowIndexInfo(false); setShowIntro(true); setError(''); }}
                     className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
                     ← Back
@@ -868,7 +815,7 @@ export default function OnboardingPortal() {
                   <button
                     onClick={() => {
                       if (isRosterStepper && rosterSection > 0) { setRosterSection(rosterSection - 1); }
-                      else if (wizardIndex === 0) { setShowOverview(true); }
+                      else if (wizardIndex === 0) { setShowIndexInfo(true); }
                       else { setWizardIndex(wizardIndex - 1); }
                       setError('');
                     }}
