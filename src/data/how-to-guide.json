@@ -5,7 +5,7 @@
       "q": "Where do I start?",
       "steps": [
         {
-          "text": "On day one, we recommend starting with ball mastery.\n\n• It's one of the most important skills you can learn.\n\n• You don't need any equipment.\n\n• You can do it in your living room, your garage, or out on the field.\n\nHere are a few ball mastery programs to get you started.",
+          "text": "On day one, we recommend starting with ball mastery.\n\n• **It's one of the most important skills you can learn.**\n\n• **You don't need any equipment.**\n\n• **You can do it in your living room, your garage, or out on the field.**\n\nHere are a few ball mastery programs to get you started.",
           "links": [
             {
               "ic": "🎯",
@@ -47,7 +47,7 @@
       "steps": [
         {
           "label": "Yes — But It Depends on Your Preference",
-          "text": "Training plans are recurring and give you a guided path.\n\n• However, some users prefer sticking with a few folders and working through them at their own pace.\n\n• I use both.\n\n• I built a custom plan for my son's after-school training, and I favorite folders we use for longer training sessions.",
+          "text": "Training plans are recurring and give you a guided path.\n\n• **However, some users prefer sticking with a few folders and working through them at their own pace.**\n\n• **I use both.**\n\n• **I built a custom plan for my son's after-school training, and I favorite folders we use for longer training sessions.**",
           "links": [
             {
               "ic": "📅",
@@ -68,7 +68,7 @@
       "steps": [
         {
           "label": "The Key to Success: Train at a Level They Can Stick With",
-          "text": "We call this **MEEE** — the Minimum Extra Effort they can do with Enthusiasm.\n\nA few things to keep in mind:\n\n• Consistency beats intensity — even **20 minutes a week** can meaningfully improve a player's skill\n\n• Sit down with your child and set a weekly goal together, one they can realistically handle\n\n• Let them help pick the goal — a goal they chose is a goal they'll keep",
+          "text": "We call this **MEEE** — the Minimum Extra Effort they can do with Enthusiasm.\n\nA few things to keep in mind:\n\n• Consistency beats intensity — even **20 minutes a week** can meaningfully improve a player's skill\n\n• **Sit down with your child and set a weekly goal together, one they can realistically handle**\n\n• **Let them help pick the goal — a goal they chose is a goal they'll keep**",
           "links": [
             {
               "ic": "🎯",
@@ -89,7 +89,7 @@
       "steps": [
         {
           "label": "No — With a Few Exceptions",
-          "text": "The program stacks skills — one new move per video, each building on the last.\n\n• **INTRO** — teaches a new move\n\n• **QR** — quick review of recent moves\n\n• **FR** — full review of a block\n\nReviews bring back earlier moves automatically, so your child can train on their own without you having to manage or re-teach anything. Skip a video, though, and later reviews may reference a move they missed.\n\n**Exceptions:**\n\n• Strong jugglers can skip the early juggling build-up\n\n• No space/equipment? Skip and return later"
+          "text": "The program stacks skills — one new move per video, each building on the last.\n\n• **INTRO** — teaches a new move\n\n• **QR** — quick review of recent moves\n\n• **FR** — full review of a block\n\nReviews bring back earlier moves automatically, so your child can train on their own without you having to manage or re-teach anything. Skip a video, though, and later reviews may reference a move they missed.\n\n**Exceptions:**\n\n• **Strong jugglers can skip the early juggling build-up**\n\n• **No space/equipment? Skip and return later**"
         }
       ]
     },
@@ -157,7 +157,7 @@
       "steps": [
         {
           "label": "Same Start, More Volume and Variety",
-          "text": "As mentioned before, experienced players should still start with the first folders — what changes is how much they take on and how quickly they add to it.\n\n• Another way to accelerate that variety is our **30-Day Plans**\n\n• Each video works four to six different moves\n\n• A player covers far more ground in the same session\n\nStart with:",
+          "text": "As mentioned before, experienced players should still start with the first folders — what changes is how much they take on and how quickly they add to it.\n\n• Another way to accelerate that variety is our **30-Day Plans**\n\n• **Each video works four to six different moves**\n\n• **A player covers far more ground in the same session**\n\nStart with:",
           "links": [
             {
               "ic": "🎯",
@@ -188,7 +188,7 @@
       "steps": [
         {
           "label": "Test your juggling",
-          "text": "The Skill Assessment gives you a number to train against — and something to beat next month. We are starting with juggling.\n\n**⚽ How it works**\n\n• Set your ultimate goal — the number you are chasing.\n\n• Every time you try, add a record: the ball you used, how many juggles, and the date.\n\n• Your highest sits next to your goal, and the table keeps every attempt so you can watch it climb.\n\n**🎾 Three balls, three goals**\n\nA regular ball, a size 1 ball and a tennis ball each keep their own goal and their own records — 100 with a tennis ball is a very different feat from 100 with a size 5.",
+          "text": "The Skill Assessment gives you a number to train against — and something to beat next month. We are starting with juggling.\n\n**⚽ How it works**\n\n• **Set your ultimate goal — the number you are chasing.**\n\n• **Every time you try, add a record: the ball you used, how many juggles, and the date.**\n\n• **Your highest sits next to your goal, and the table keeps every attempt so you can watch it climb.**\n\n**🎾 Three balls, three goals**\n\nA regular ball, a size 1 ball and a tennis ball each keep their own goal and their own records — 100 with a tennis ball is a very different feat from 100 with a size 5.",
           "links": [
             {
               "ic": "⚽",
@@ -408,6 +408,88 @@
         }
       ],
       "key": "eng_mvp"
+    }
+  ],
+  "steps": [
+    {
+      "q": "Step 1: Start with 1,000 Touch Ball Mastery",
+      "steps": [
+        {
+          "label": "Get used to how the program works",
+          "text": "Start here, whatever level you are.\n\n1,000 Touch Ball Mastery is the best way to get used to the program and understand how it works — how the videos build on each other, how reviews bring earlier moves back, and how much a short session actually covers.\n\n• **You don't need equipment or space.**\n\n• **The moves stack, so you are learning the system as well as the skill.**\n\n• **Once this feels familiar, everything else in the program makes sense.**",
+          "links": [
+            {
+              "ic": "🎯",
+              "label": "1,000 Touch Ball Mastery",
+              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "Step 2: Decide how you will use the program",
+      "steps": [
+        {
+          "label": "Three ways players use it",
+          "text": "How you train shapes what you should pick. Most players use one of these three — and plenty use more than one.\n\n• **At home** — extra touches in short bursts.\n\n• **Inside** — a garage, a hallway, a bedroom.\n\n• **On the field** — full training sessions with room to run."
+        },
+        {
+          "label": "At home — extra touches",
+          "text": "Ten minutes before school, a few more after dinner. The goal is volume of touches, not a full session.\n\nBall mastery is built for this — no equipment, no space, and you can stop and start whenever."
+        },
+        {
+          "label": "Inside — limited space",
+          "text": "Training inside works better than people expect. These are the areas to pick:\n\n• **Ball Mastery**\n\n• **Wall Passing**\n\n• **Tight Space Dribbling**\n\n• **Juggling** *\n\n• **1v1 Moves** *\n\n\\* These need modifying for indoor space — smaller touches, a softer or smaller ball, and no full-power strikes.",
+          "links": [
+            {
+              "ic": "🎯",
+              "label": "Ball Mastery",
+              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
+            },
+            {
+              "ic": "🧱",
+              "label": "Wall Passing",
+              "to": "/dashboardChild/all-programs?category=SET_PASSING_WALL_AND_RECEIVING_DATA&subCategory=SET_WALL_PASSING_DATA"
+            },
+            {
+              "ic": "🌀",
+              "label": "Tight Space Dribbling",
+              "to": "/dashboardChild/tightSpaceDribbling"
+            },
+            {
+              "ic": "⚽",
+              "label": "Juggling *",
+              "to": "/dashboardChild/all-programs?category=SET_JUGGLING_AND_AERIAL_CONTROL_DATA_PARENT&subCategory=SET_JUGGLING_BEG_FILTER_DATA"
+            },
+            {
+              "ic": "⚔️",
+              "label": "1v1 Moves *",
+              "to": "/dashboardChild/all-programs?category=SET_1V1_FINISHING_DATA&subCategory=SET_1V1_MOVES_DATA"
+            }
+          ]
+        },
+        {
+          "label": "On the field — full sessions",
+          "text": "With space and a goal you can train everything — finishing, passing over distance, full-speed dribbling and 1v1s.\n\nUse a training plan so the session has a shape rather than picking videos as you go.",
+          "links": [
+            {
+              "ic": "📅",
+              "label": "Get a Training Plan",
+              "to": "/build-my-plan"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "More coming soon",
+      "steps": [
+        {
+          "label": "More Coming Soon",
+          "text": "We are adding more steps to this guide. If there is something you want covered, tell us and we will write it up."
+        }
+      ]
     }
   ]
 }
