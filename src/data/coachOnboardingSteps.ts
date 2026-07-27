@@ -262,18 +262,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
   },
   {
-    title: 'Common FAQs',
-    body: `
-      <p>🎉 <strong>Megan has been notified</strong>. There&rsquo;s one final step before we onboard your parents.</p>
-      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;">Just a few quick FAQs to set you up for success &mdash; complete each one to finish.</p>
-        </div>
-      </div>
-    `,
-  },
-  {
     title: 'Confirm & Finish',
     body: `
       <p>That&rsquo;s everything! Once every step is complete, confirm below and we&rsquo;ll take it from there.</p>
