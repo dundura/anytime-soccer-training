@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "player": [
     {
       "q": "Where do I start?",
@@ -199,6 +199,52 @@
               "ic": "🎯",
               "label": "Practice juggling",
               "to": "/dashboardChild/all-programs?category=SET_JUGGLING_AND_AERIAL_CONTROL_DATA_PARENT&subCategory=SET_JUGGLING_CHALLENGES_FILTER_DATA"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "Where is the shooting?",
+      "steps": [
+        {
+          "label": "Finishing is where shooting lives",
+          "text": "Shooting sits under **Finishing** — that is the name we use for striking the ball at goal, because most of our work pairs the strike with the touch before it.\n\n**⚽ Two ways in**\n\n• **Clinical Finishing** — the full set, from rapid fire repetition to volleys, half volleys and control-then-finish.\n\n• **Dribbling & Finishing** — beat someone first, then finish. Closest to what happens in a game.\n\n• **Quick Snap Finishing** — quick strike drills: get the shot away fast, before a defender closes you down.\n\n• **1v1 Moves & Finishing** — beat the defender, then bury it.\n\n• **Attacking Winger** — coming in off the flank: cut inside, cross, or finish yourself.\n\n• **Passing & Finishing** — with a partner: pass, move, receive and strike.\n\n**🥅 What you need**\n\n• **Bring several balls.** Finishing works best struck one after another — fetching a single ball after every shot turns a ten minute session into thirty.\n\n• A goal helps but is not required. A wall, a rebounder or two cones as a target will do.\n\n• **Change the set-up to suit you.** Move the cones closer or further out, shorten the run, swap the goal for a target on a wall — whatever fits the space you have. The drill matters more than the measurements.\n\n**📅 Make it a plan**\n\nIf finishing is the thing you want to fix, build a custom plan around it rather than dipping in and out. Pick the finishing folders you like, set how many videos a day, and it becomes the work you show up to — which is how it actually improves.",
+          "links": [
+            {
+              "ic": "🥅",
+              "label": "Clinical Finishing",
+              "to": "/dashboardChild/all-programs?category=SET_CLINICAL_FINISHING_DATA&subCategory=SET_FREESTYLE_DRIBBLING_FINISHING_DATA"
+            },
+            {
+              "ic": "⚽",
+              "label": "Dribbling & Finishing",
+              "to": "/dashboardChild/videoSeries/Dribbling%20%26%20Finishing/true"
+            },
+            {
+              "ic": "⚡",
+              "label": "Quick Snap Finishing",
+              "to": "/dashboardChild/videoSeries/P1%3A%20Quick%20Snap%20Finishing/true"
+            },
+            {
+              "ic": "⚔️",
+              "label": "1v1 Moves & Finishing",
+              "to": "/dashboardChild/videoSeries/1vs1%20Moves%20%26%20Finishing/true"
+            },
+            {
+              "ic": "🏃",
+              "label": "Attacking Winger",
+              "to": "/dashboardChild/videoSeries/Attacking%20Winger/true"
+            },
+            {
+              "ic": "🤝",
+              "label": "Passing & Finishing",
+              "to": "/dashboardChild/videoSeries/Passing%20Warmup%20Finishing/true"
+            },
+            {
+              "ic": "📅",
+              "label": "Build a Custom Plan",
+              "to": "/build-my-plan"
             }
           ]
         }
