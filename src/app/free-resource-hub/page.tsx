@@ -132,7 +132,7 @@ export default function FreeResourceHubPage() {
           <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-4 block">FREE RESOURCES</span>
           <h1 className="text-3xl md:text-4xl font-bold text-navy mb-3">Free Resources for Players, Parents &amp; Coaches</h1>
           <p className="text-lg text-navy max-w-xl mx-auto">
-            Training plans, ebooks, calculators and communities — all free. Start anywhere below.
+            Training plans, ebooks, calculators and communities — all free.
           </p>
         </div>
       </section>
@@ -143,36 +143,38 @@ export default function FreeResourceHubPage() {
         section's end, which is most of what makes a jump menu useful.
       */}
       <div className="relative bg-background">
-        <nav
-          aria-label="Jump to a section"
-          className="sticky top-16 z-40 bg-white shadow-[0_2px_12px_rgba(15,49,84,0.08)]"
-        >
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-3">
-            <p className="hidden sm:block shrink-0 text-[10px] font-bold uppercase tracking-[1.5px] text-gray">
-              On this page
-            </p>
-            {/* Scrolls sideways rather than wrapping, so the bar stays one line
-                deep on a phone and never eats the screen. */}
-            <ul className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {SECTIONS.map((s) => (
-                <li key={s.id} className="shrink-0">
-                  <a
-                    href={`#${s.id}`}
-                    className="block rounded-full bg-background hover:bg-red hover:text-white px-4 py-1.5 text-[13px] font-bold text-navy whitespace-nowrap transition-colors"
-                  >
-                    {s.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            {/* Anchor, not a scroll script — keeps the page a server component. */}
-            <a
-              href="#top"
-              className="ml-auto shrink-0 rounded-full border border-navy/15 hover:border-red hover:text-red px-3 py-1.5 text-[13px] font-bold text-navy/70 transition-colors"
-              aria-label="Back to top"
-            >
-              ↑ Top
-            </a>
+        {/* The nav itself is transparent and full width so it can stick; the
+            white is a capsule that hugs its contents and centres, rather than a
+            band across the page. */}
+        <nav aria-label="Jump to a section" className="sticky top-16 z-40 py-3">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center">
+            {/* Scrolls sideways rather than wrapping, so the capsule stays one
+                line deep on a phone and never eats the screen. */}
+            <div className="inline-flex items-center gap-2 sm:gap-3 max-w-full overflow-x-auto bg-white rounded-full shadow-[0_4px_20px_rgba(15,49,84,0.10)] px-3 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <p className="hidden sm:block shrink-0 text-[10px] font-bold uppercase tracking-[1.5px] text-gray pl-1">
+                On this page
+              </p>
+              {/* Anchor, not a scroll script — keeps the page a server component. */}
+              <a
+                href="#top"
+                className="shrink-0 rounded-full border border-navy/15 hover:border-red hover:text-red px-3 py-1.5 text-[13px] font-bold text-navy/70 transition-colors"
+                aria-label="Back to top"
+              >
+                ↑ Top
+              </a>
+              <ul className="flex gap-2">
+                {SECTIONS.map((s) => (
+                  <li key={s.id} className="shrink-0">
+                    <a
+                      href={`#${s.id}`}
+                      className="block rounded-full bg-background hover:bg-red hover:text-white px-4 py-1.5 text-[13px] font-bold text-navy whitespace-nowrap transition-colors"
+                    >
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </nav>
 
