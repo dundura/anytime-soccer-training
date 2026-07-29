@@ -111,8 +111,7 @@ const COMMUNITIES = [
   },
 ];
 
-// The jump menu. One list drives both the wide-screen rail and the narrow
-// sticky bar, so a new section only has to be named once.
+// The jump menu — one list, so a new section only has to be named once.
 const SECTIONS = [
   { id: 'plans', label: 'Training Plans' },
   { id: 'calculators', label: 'Calculators' },
@@ -120,67 +119,66 @@ const SECTIONS = [
   { id: 'community', label: 'Community' },
 ];
 
-// Header is h-16 (64px) and sticky; the jump bar sits under it. Anchored
-// sections need to clear both or they land behind them.
-const ANCHOR = 'scroll-mt-32';
+// Header is h-16 (64px) and sticky, and the jump bar sits under it. Anchored
+// sections must clear both or they land behind them.
+const ANCHOR = 'scroll-mt-36';
 
 export default function FreeResourceHubPage() {
   return (
     <>
-      {/*
-        Two presentations of the same menu. A left rail needs room outside the
-        max-w-6xl content column, which only exists from 2xl up — below that it
-        would sit on top of the cards, so those widths get a sticky bar instead.
-      */}
-      <nav
-        aria-label="Jump to a section"
-        className="hidden 2xl:block fixed left-8 top-1/2 -translate-y-1/2 z-40"
-      >
-        <p className="text-[10px] font-bold uppercase tracking-[1.5px] text-gray mb-3 pl-4">On this page</p>
-        <ul className="space-y-1">
-          {SECTIONS.map((s) => (
-            <li key={s.id}>
-              <a
-                href={`#${s.id}`}
-                className="block border-l-2 border-transparent hover:border-red pl-4 py-1.5 text-sm font-semibold text-navy/70 hover:text-red transition-colors"
-              >
-                {s.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      {/* ===== PAGE INTRO ===== */}
+      <section id="top" className="pt-10 pb-8 bg-background scroll-mt-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-4 block">FREE RESOURCES</span>
+          <h1 className="text-3xl md:text-4xl font-bold text-navy mb-3">Free Resources for Players, Parents &amp; Coaches</h1>
+          <p className="text-lg text-navy max-w-xl mx-auto">
+            Training plans, ebooks, calculators and communities — all free. Start anywhere below.
+          </p>
+        </div>
+      </section>
 
-      <nav
-        aria-label="Jump to a section"
-        className="2xl:hidden sticky top-16 z-40 bg-white/95 backdrop-blur border-b border-navy/10"
-      >
-        {/* Scrolls sideways rather than wrapping, so the bar stays one line
-            deep on a phone and never eats the screen. */}
-        <ul className="flex gap-2 overflow-x-auto px-4 py-2.5 max-w-6xl mx-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {SECTIONS.map((s) => (
-            <li key={s.id} className="shrink-0">
-              <a
-                href={`#${s.id}`}
-                className="block rounded-full bg-background hover:bg-red hover:text-white px-4 py-1.5 text-[13px] font-bold text-navy whitespace-nowrap transition-colors"
-              >
-                {s.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      {/*
+        Everything below shares one wrapper so the menu's sticky container spans
+        the whole page. Inside a single section it would unstick at that
+        section's end, which is most of what makes a jump menu useful.
+      */}
+      <div className="relative bg-background">
+        <nav
+          aria-label="Jump to a section"
+          className="sticky top-16 z-40 bg-white shadow-[0_2px_12px_rgba(15,49,84,0.08)]"
+        >
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-3">
+            <p className="hidden sm:block shrink-0 text-[10px] font-bold uppercase tracking-[1.5px] text-gray">
+              On this page
+            </p>
+            {/* Scrolls sideways rather than wrapping, so the bar stays one line
+                deep on a phone and never eats the screen. */}
+            <ul className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {SECTIONS.map((s) => (
+                <li key={s.id} className="shrink-0">
+                  <a
+                    href={`#${s.id}`}
+                    className="block rounded-full bg-background hover:bg-red hover:text-white px-4 py-1.5 text-[13px] font-bold text-navy whitespace-nowrap transition-colors"
+                  >
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            {/* Anchor, not a scroll script — keeps the page a server component. */}
+            <a
+              href="#top"
+              className="ml-auto shrink-0 rounded-full border border-navy/15 hover:border-red hover:text-red px-3 py-1.5 text-[13px] font-bold text-navy/70 transition-colors"
+              aria-label="Back to top"
+            >
+              ↑ Top
+            </a>
+          </div>
+        </nav>
 
       {/* ===== TRAINING PLANS ===== */}
-      <section id="plans" className={`pt-10 pb-20 bg-background ${ANCHOR}`}>
+      <section id="plans" className={`pt-12 pb-20 bg-background ${ANCHOR}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-4 block">TRAINING PLANS</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">Free Training Plans</h2>
-            <p className="text-lg text-navy max-w-xl mx-auto">
-              Structured plans delivered to your inbox. Just press play and train.
-            </p>
-          </div>
 
           {/* 7-Day Plan + Survey — side by side */}
           <div className="grid md:grid-cols-2 gap-6 mb-6">
@@ -377,6 +375,8 @@ export default function FreeResourceHubPage() {
           </div>
         </div>
       </section>
+
+      </div>{/* end sticky-menu wrapper */}
 
       {/* ===== FINAL CTA ===== */}
       <section className="bg-navy py-20 text-center">
