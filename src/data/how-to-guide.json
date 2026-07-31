@@ -225,6 +225,11 @@
               "ic": "⭐",
               "label": "My Favorites",
               "to": "/my-training?tab=favorites"
+            },
+            {
+              "ic": "📅",
+              "label": "Build a Custom Plan",
+              "to": "/build-my-plan?view=custom-plan"
             }
           ]
         }
