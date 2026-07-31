@@ -209,7 +209,7 @@
       "steps": [
         {
           "label": "Yes! Three easy ways to do it",
-          "text": "You do not have to use our plans as they come — you can pick your own videos and build a plan around exactly what your player needs.\n\n• **Pin as you browse** — in **All Programs**, pin either a whole folder or a single video straight to your plan. Quickest route if you already know the programs you want.\n\n• **Hand-pick the moves** — in **Search Key Skill Moves**, search for the skill you want to work on, pin the videos you like to **My Favorites**, then make a folder and add them to it. Best when you are choosing by what your player needs rather than by program.\n\n• **Build a custom plan from folders** — pick the folders you want them working through and the plan is built from them. A middle ground: more structured than a pile of favourites, less work than picking every video by hand.",
+          "text": "There are three main ways to build individualized plans.\n\n• **Pin folders and videos to My Plan** — in **All Programs**, pin either a whole folder or a single video straight to your plan. This creates a short-cut list of what you want to work on.\n\n• **Pin videos and folders to your Favorites** — in **Search Key Skill Moves**, find exactly what your player needs.\n\n  • Search for the skill you want to work on.\n  • Pin the videos you like to **My Favorites**.\n  • Make a folder and add them to it.\n  • Best when you are choosing by what your player needs rather than by program.\n\n• **Build a custom plan from folders** — pick the folders you want them working through and the plan is built from them. A middle ground: more structured than a pile of favourites, less work than picking every video by hand.",
           "links": [
             {
               "ic": "📚",
@@ -225,33 +225,6 @@
               "ic": "⭐",
               "label": "My Favorites",
               "to": "/my-training?tab=favorites"
-            }
-          ]
-        },
-        {
-          "label": "Splitting it across the week",
-          "text": "Worth knowing before you start: none of these split the work into days for you. The videos sit in the plan and your player works through them at their own pace.\n\nIf you want a day-by-day structure — say five days, each with its own focus — **make a folder per day**. Name them **Day 1**, **Day 2** and so on, put the right videos in each, and your player opens the folder for that day.\n\nA little more setup at the start, and it gives you exact control over what they do on each day.",
-          "links": [
-            {
-              "ic": "⚽",
-              "label": "Training Plans",
-              "to": "/my-training"
-            }
-          ]
-        },
-        {
-          "label": "How your player sees it",
-          "text": "Once it is in their plan, they open it from **Training Plans** — there is nothing to send them.\n\nIf you get stuck at any step, use the **Help Line** and we will walk you through it.",
-          "links": [
-            {
-              "ic": "⚽",
-              "label": "Training Plans",
-              "to": "/my-training"
-            },
-            {
-              "ic": "💬",
-              "label": "Help Line",
-              "to": "/help-line"
             }
           ]
         }
