@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HelpLineWidget from "@/components/HelpLineWidget";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 
 const geistSans = Geist({
@@ -39,6 +40,8 @@ export default function RootLayout({
 <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        {/* Site-wide, so a visitor can ask from whatever page raised the question. */}
+        <HelpLineWidget />
       </body>
     </html>
   );
