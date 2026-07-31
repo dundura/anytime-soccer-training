@@ -286,10 +286,19 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
-          <p style="margin:6px 0 0;"><strong>You pay the invoice.</strong> As soon as it&rsquo;s paid, onboarding begins.</p>
+          <div style="margin:6px 0 0;">
+            <p style="margin:0;"><strong>Club upgrades.</strong></p>
+            <ul style="margin:8px 0 0;padding-left:22px;list-style:disc;">
+              <li style="margin:0;list-style:disc;display:list-item;">Clubs can buy and upgrade players on behalf of their coaches, so a coach never has to handle payment.</li>
+            </ul>
+          </div>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
+          <p style="margin:6px 0 0;"><strong>You pay the invoice.</strong> As soon as it&rsquo;s paid, onboarding begins.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
           <div style="margin:6px 0 0;">
             <p style="margin:0;">We add <strong>free access slots</strong> to your account.</p>
             <ul style="margin:8px 0 0;padding-left:22px;list-style:disc;">
@@ -299,7 +308,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           </div>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">6</span>
           <p style="margin:6px 0 0;"><strong>Add players anytime.</strong> As your roster grows, add new players to your team and <strong>purchase additional slots</strong> to upgrade them &mdash; all directly in the app.</p>
         </div>
       </div>
