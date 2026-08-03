@@ -426,13 +426,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     body: `
       <p style="margin:0 0 12px;">Here are the steps going forward:</p>
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px 18px;margin:0 0 14px;">
-        <ol style="margin:0;padding-left:20px;line-height:1.9;">
-          <li>You <strong>add them to the team</strong>.</li>
-          <li>Then you click <strong>Invite</strong> next to their email.</li>
-          <li><strong>Purchase a slot</strong> for them.</li>
-          <li>When they join your team, click <strong>Upgrade</strong> next to their name.</li>
-          <li>They have access to all the videos.</li>
-          <li>We will send you a link that you can share with them.</li>
+        <ol style="margin:0;padding-left:22px;line-height:1.9;list-style:decimal;">
+          <li style="list-style:decimal;display:list-item;"><strong>Add them</strong> via the New Player Onboarding page.</li>
+          <li style="list-style:decimal;display:list-item;">Then click <strong>Invite</strong> next to their email.</li>
+          <li style="list-style:decimal;display:list-item;"><strong>Purchase a free access slot</strong>.</li>
+          <li style="list-style:decimal;display:list-item;">When they join your team, click <strong>Upgrade</strong> next to their name.</li>
+          <li style="list-style:decimal;display:list-item;">This gives them <strong>365 day access</strong> to all the training content.</li>
+          <li style="list-style:decimal;display:list-item;">Megan will send you a <strong>getting-started information link</strong> that you can share with the players.</li>
         </ol>
       </div>
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;">
