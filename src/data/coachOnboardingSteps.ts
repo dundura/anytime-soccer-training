@@ -421,4 +421,23 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <p>Before you notify Megan, work through the rest of the steps in this portal &mdash; they walk you through setup and the key features that get your team going.</p>
     `,
   },
+  {
+    title: 'Quick Reminder: Adding Players',
+    body: `
+      <p style="margin:0 0 12px;">Here are the steps going forward:</p>
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px 18px;margin:0 0 14px;">
+        <ol style="margin:0;padding-left:20px;line-height:1.9;">
+          <li>You <strong>add them to the team</strong>.</li>
+          <li>Then you click <strong>Invite</strong> next to their email.</li>
+          <li><strong>Purchase a slot</strong> for them.</li>
+          <li>When they join your team, click <strong>Upgrade</strong> next to their name.</li>
+          <li>They have access to all the videos.</li>
+          <li>We will send you a link that you can share with them.</li>
+        </ol>
+      </div>
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;">
+        <p style="margin:0;color:#166534;">Adding a player does not notify them &mdash; step 2 is what sends the invite.</p>
+      </div>
+    `,
+  },
 ];

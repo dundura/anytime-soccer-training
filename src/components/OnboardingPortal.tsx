@@ -40,6 +40,7 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'payment_overview', title: 'How payment works - New Teams', dataIndex: 17, section: 'Bonus', info: true, bonus: true },
   { key: 'renewing', title: 'How Payment Works - Renewing teams', dataIndex: 18, section: 'Bonus', info: true, bonus: true },
   { key: 'paying-additional', title: 'Paying for new players', dataIndex: 19, section: 'Bonus', info: true, bonus: true },
+  { key: 'adding_players_reminder', title: 'Quick reminder on adding players', dataIndex: 23, section: 'Bonus', info: true, bonus: true },
   { key: 'tip_paywall', title: 'Bonus Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_emails', title: 'What’s the difference between the login email and the contact email, and how do I update them?', dataIndex: -1, faqIndex: 0, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'Bonus', tip: true, bonus: true },
