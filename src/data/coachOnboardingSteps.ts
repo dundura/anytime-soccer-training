@@ -425,15 +425,31 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Quick Reminder: Adding Players',
     body: `
       <p style="margin:0 0 12px;">Here are the steps going forward:</p>
-      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px 18px;margin:0 0 14px;">
-        <ol style="margin:0;padding-left:22px;line-height:1.9;list-style:decimal;">
-          <li style="list-style:decimal;display:list-item;"><strong>Add them</strong> via the New Player Onboarding page.</li>
-          <li style="list-style:decimal;display:list-item;">Then click <strong>Invite</strong> next to their email.</li>
-          <li style="list-style:decimal;display:list-item;"><strong>Purchase a free access slot</strong>.</li>
-          <li style="list-style:decimal;display:list-item;">When they join your team, click <strong>Upgrade</strong> next to their name.</li>
-          <li style="list-style:decimal;display:list-item;">This gives them <strong>365 day access</strong> to all the training content.</li>
-          <li style="list-style:decimal;display:list-item;">Megan will send you a <strong>getting-started information link</strong> that you can share with the players.</li>
-        </ol>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:6px 0 0;"><strong>Add them</strong> via the New Player Onboarding page.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;">Then click <strong>Invite</strong> next to their email.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:6px 0 0;"><strong>Purchase a free access slot</strong>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
+          <p style="margin:6px 0 0;">When they join your team, click <strong>Upgrade</strong> next to their name.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
+          <p style="margin:6px 0 0;">This gives them <strong>365 day access</strong> to all the training content.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">6</span>
+          <p style="margin:6px 0 0;">Megan will send you a <strong>getting-started information link</strong> that you can share with the players.</p>
+        </div>
       </div>
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;">
         <p style="margin:0;color:#166534;">Adding a player does not notify them &mdash; step 2 is what sends the invite.</p>
