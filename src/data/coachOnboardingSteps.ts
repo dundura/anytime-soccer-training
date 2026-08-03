@@ -359,7 +359,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
-          <p style="margin:6px 0 0;">Once the players join your team, grant them <strong>365-day access</strong> using one of your slots.</p>
+          <p style="margin:6px 0 0;"><strong>Once the players join your team</strong>, grant them <strong>365-day access</strong> using one of your slots.</p>
         </div>
       </div>
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;margin:16px 0;">
