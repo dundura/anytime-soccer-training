@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import PodcastContactForm from '@/components/PodcastContactForm';
+import { getRecentEpisodes } from '@/lib/podcast';
 
 export const metadata: Metadata = {
   title: 'The Inside Scoop Podcast — Anytime Soccer Training',
@@ -24,7 +25,9 @@ const TOP_EPISODES = [
   },
 ];
 
-const RECENT_EPISODES = [
+// Only used if the RSS feed cannot be read — see src/lib/podcast.ts. A stale
+// list beats an empty section, which reads as an abandoned show.
+const FALLBACK_EPISODES = [
   { title: "My Game Model (From a Dad Who Never Played)", date: 'Feb 22, 2026', duration: '18 min', url: 'https://podcasters.spotify.com/pod/show/anytime-soccer/episodes/My-Game-Model-From-a-Dad-Who-Never-Played-e3fegtk' },
   { title: "Recap of Some of My Core Beliefs About Youth Soccer Development", date: 'Feb 22, 2026', duration: '19 min', url: 'https://podcasters.spotify.com/pod/show/anytime-soccer/episodes/Recap-of-Some-of-My-Core-Beliefs-About-Youth-Soccer-Development-e3fegqm' },
   { title: "How Anytime Soccer Training Actually Works (And What It Can't Do)", date: 'Feb 22, 2026', duration: '31 min', url: 'https://podcasters.spotify.com/pod/show/anytime-soccer/episodes/How-Anytime-Soccer-Training-Actually-Works-And-What-It-Cant-Do-e3fegma' },
@@ -38,7 +41,10 @@ const RECENT_EPISODES = [
 
 const VIDEO_IDS = ['gGYWD_uzlZE', 'ZkkJqZscFso', 'l5IWHHn62U0'];
 
-export default function PodcastPage() {
+export default async function PodcastPage() {
+  const fromFeed = await getRecentEpisodes(9);
+  const recentEpisodes = fromFeed.length ? fromFeed : FALLBACK_EPISODES;
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex flex-col md:flex-row gap-8">
@@ -159,7 +165,7 @@ export default function PodcastPage() {
           <div className="bg-white rounded-2xl border border-gray-200 p-6">
             <h2 className="text-lg font-bold text-navy mb-4">Recent Episodes</h2>
             <div className="space-y-3">
-              {RECENT_EPISODES.map((ep, i) => (
+              {recentEpisodes.map((ep, i) => (
                 <a
                   key={i}
                   href={ep.url}
@@ -170,7 +176,7 @@ export default function PodcastPage() {
                   <span className="shrink-0 w-8 h-8 rounded-lg bg-red/10 text-red flex items-center justify-center text-sm font-bold">{i + 1}</span>
                   <div className="flex-1 min-w-0">
                     <span className="block font-semibold text-sm text-navy group-hover:text-red transition-colors">{ep.title}</span>
-                    <span className="block text-xs text-gray mt-1">{ep.date} &middot; {ep.duration}</span>
+                    <span className="block text-xs text-gray mt-1">{[ep.date, ep.duration].filter(Boolean).join(' · ')}</span>
                   </div>
                   <span className="shrink-0 text-gray text-xs ml-auto">&#8599;</span>
                 </a>
