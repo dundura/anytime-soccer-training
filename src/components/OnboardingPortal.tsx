@@ -627,28 +627,29 @@ export default function OnboardingPortal() {
               </div>
             ) : showIndexInfo ? (
               <div>
-                <h2 className="text-navy text-xl font-extrabold mb-3">The Index</h2>
+                <h2 className="text-navy text-xl font-extrabold mb-3">Before We Start</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  The <strong className="text-navy font-semibold">Index</strong> lists every page so you can jump straight to any step.
+                  Welcome &mdash; what follows are the <strong className="text-navy font-semibold">key steps</strong> to getting your team up and running.
                 </p>
-                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-6">
-                  <p className="text-gray-700 leading-relaxed mb-3">It also shows you <strong className="text-navy font-semibold">which steps are still outstanding</strong>:</p>
-                  <ul className="space-y-2.5">
-                    <li className="flex items-center gap-3">
-                      <span className="flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-green-100 text-green-700">Done</span>
-                      <span className="text-gray-700 text-sm">steps you&rsquo;ve completed.</span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <span className="flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Skipped</span>
-                      <span className="text-gray-700 text-sm">steps you passed over to revisit later.</span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <span className="flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-red/10 text-red">To do</span>
-                      <span className="text-gray-700 text-sm">steps still outstanding.</span>
-                    </li>
-                  </ul>
-                  <p className="text-gray-700 leading-relaxed mt-4">Use the <strong className="text-navy font-semibold">Outstanding</strong> filter to see only what&rsquo;s left.</p>
+                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
+                  <ol className="space-y-4">
+                    {[
+                      <><strong className="text-navy font-semibold">Get your players in.</strong> Send us your roster and we&rsquo;ll load it for you, or invite players individually &mdash; whichever is easier.</>,
+                      <><strong className="text-navy font-semibold">Pay for their access.</strong> Settle the invoice for the roster you sent, or pay for players individually inside the app. You can do both.</>,
+                      <><strong className="text-navy font-semibold">Work through this portal.</strong> The onboarding steps that follow, including the engagement survey.</>,
+                      <><strong className="text-navy font-semibold">Notify your parents.</strong> Let them know the team is set up and how to join.</>,
+                      <><strong className="text-navy font-semibold">Email Megan.</strong> Tell her the team name you created in the app and that your parents have been notified.</>,
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{i + 1}</span>
+                        <span className="text-gray-700 leading-relaxed pt-1">{item}</span>
+                      </li>
+                    ))}
+                  </ol>
                 </div>
+                <p className="text-gray-600 text-sm leading-relaxed mb-6">
+                  Work through them in order where you can, and skip anything that doesn&rsquo;t apply &mdash; your progress saves as you go, and the <strong className="text-navy font-semibold">Index</strong> shows what&rsquo;s done, skipped, and still outstanding.
+                </p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
                   <button
                     onClick={() => { setShowIndexInfo(false); setShowIntro(true); setError(''); }}
