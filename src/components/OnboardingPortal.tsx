@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { COACH_ONBOARDING_STEPS } from '@/data/coachOnboardingSteps';
+import { DIRECTOR_ONBOARDING_STEPS } from '@/data/directorOnboardingSteps';
 import CoachStepContent from '@/components/CoachStepContent';
 import FaqSearch from '@/components/FaqSearch';
 import { ONBOARDING_FAQ } from '@/data/onboardingFaq';
@@ -9,16 +10,23 @@ import { ONBOARDING_FAQ } from '@/data/onboardingFaq';
 const API = 'https://api.anytime-soccer.com';
 const TOKEN_KEY = 'astPortalToken';
 
+type Audience = 'coach' | 'director';
+
 type Coach = {
   name: string;
   email: string;
   club: string | null;
   teamName: string | null;
+  // Absent on accounts created before the director path existed — treated as
+  // 'coach' everywhere, so old rows keep the flow they signed up for.
+  audience?: Audience;
   checklist: Record<string, boolean | 'skipped'>;
 };
 
+type PortalStep = { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean; plainNext?: boolean; bonus?: boolean; quiz?: { prompt: string; options: string[] } };
+
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
-const STEPS: { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean; plainNext?: boolean; bonus?: boolean; quiz?: { prompt: string; options: string[] } }[] = [
+const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
   { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Which best describes your expectations for your team?', options: ['Training outside practice is an expectation I’ve set — I’m aiming for 75%+ engagement, and if it’s slow I’ll use the competition features to boost it.', 'My team is motivated. It’s optional, but I’m excited to see how they respond, and I’ll do some of the competition features.', 'Optional — if they train, great; if not, no pressure.'] } },
   { key: 'roster_intro', title: 'Overview: Upgrading Players', dataIndex: 21, section: 'Pre-Onboarding', info: true, plainNext: true },
@@ -70,9 +78,22 @@ const STEPS: { key: string; title: string; dataIndex: number; section: string; n
   { key: 'faq_folders_assign', title: 'How to Assign Homework', dataIndex: -1, faqIndex: 19, section: 'Bonus', tip: true, bonus: true },
 ];
 
+// The club-director path. Short on purpose: a director arriving here is
+// deciding, not setting up, so it answers what it costs and what expanding
+// involves rather than walking them through app configuration. Their coaches
+// each get the coach path above once the club commits.
+const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
+  { key: 'dir_pricing', title: 'What it costs', dataIndex: 0, section: 'Your Club' },
+  { key: 'dir_structure', title: 'How a club is structured', dataIndex: 1, section: 'Your Club', info: true },
+  { key: 'dir_seasons', title: 'Adding and removing players each season', dataIndex: 2, section: 'Your Club', info: true },
+  { key: 'dir_coaches', title: 'Getting your coaches set up', dataIndex: 3, section: 'Rolling Out' },
+  { key: 'dir_parents', title: 'Rolling it out to parents', dataIndex: 4, section: 'Rolling Out' },
+  { key: 'final_confirm', title: 'Talk to Megan', dataIndex: 5, section: 'Rolling Out', final: true },
+];
+
 // Tips are unnumbered; numbered position of the step at index i
-const stepNumber = (i: number) => STEPS.slice(0, i + 1).filter(x => !x.tip && !x.bonus).length;
-const NUMBERED_TOTAL = STEPS.filter(x => !x.tip && !x.bonus).length;
+const stepNumber = (steps: PortalStep[], i: number) => steps.slice(0, i + 1).filter(x => !x.tip && !x.bonus).length;
+const numberedTotal = (steps: PortalStep[]) => steps.filter(x => !x.tip && !x.bonus).length;
 
 const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
   { heading: 'Before You Start', items: [
@@ -96,6 +117,9 @@ export default function OnboardingPortal() {
   const [resetToken, setResetToken] = useState('');
   const [notice, setNotice] = useState('');
   const [form, setForm] = useState({ name: '', email: '', password: '', club: '' });
+  // Which path a NEW account is signing up for. An existing account's audience
+  // comes from the server, so this only matters on the register screen.
+  const [signupAudience, setSignupAudience] = useState<Audience>('coach');
   const [teamNameInput, setTeamNameInput] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -184,7 +208,7 @@ export default function OnboardingPortal() {
     try {
       const path = mode === 'register' ? 'register' : mode === 'forgot' ? 'forgot' : mode === 'reset' ? 'reset' : 'login';
       const body =
-        mode === 'register' ? { name: form.name, email: form.email, password: form.password, club: form.club }
+        mode === 'register' ? { name: form.name, email: form.email, password: form.password, club: form.club, audience: signupAudience }
         : mode === 'forgot' ? { email: form.email }
         : mode === 'reset' ? { token: resetToken, password: form.password }
         : { email: form.email, password: form.password };
@@ -345,6 +369,13 @@ export default function OnboardingPortal() {
     }
   };
 
+  // One portal, two audiences. Everything below reads `STEPS` and `STEP_DATA`
+  // without caring which path it is on — only these three lines switch.
+  const audience: Audience = coach?.audience === 'director' ? 'director' : 'coach';
+  const STEPS = audience === 'director' ? DIRECTOR_PORTAL_STEPS : COACH_PORTAL_STEPS;
+  const STEP_DATA = audience === 'director' ? DIRECTOR_ONBOARDING_STEPS : COACH_ONBOARDING_STEPS;
+  const NUMBERED_TOTAL = numberedTotal(STEPS);
+
   // Progress is measured against the steps a coach actually has to do. Bonus
   // pages are optional reference, so counting them meant finishing everything
   // required still showed well short of 100%.
@@ -356,7 +387,7 @@ export default function OnboardingPortal() {
   const stepState = coach ? coach.checklist[step.key] : undefined;
   const stepDone = !!stepState;
   const stepSkipped = stepState === 'skipped';
-  const stepData = step.faqIndex == null ? COACH_ONBOARDING_STEPS[step.dataIndex] : null;
+  const stepData = step.faqIndex == null ? STEP_DATA[step.dataIndex] : null;
   const isRosterStepper = step.key === 'tip_roster';
   const rosterLast = ROSTER_SECTIONS.length - 1;
 
@@ -399,7 +430,7 @@ export default function OnboardingPortal() {
               )}
             </div>
             <h1 className="text-white text-2xl font-extrabold">
-              {showFaq ? 'Frequently Asked Questions' : coach && showIntro ? `Welcome, ${coach.name.split(' ')[0]}!` : 'Coach Onboarding Portal'}
+              {showFaq ? 'Frequently Asked Questions' : coach && showIntro ? `Welcome, ${coach.name.split(' ')[0]}!` : audience === 'director' ? 'Club Portal' : 'Coach Onboarding Portal'}
             </h1>
             {!coach && (
               <p className="text-white/70 text-sm mt-1">Sign in to walk through your team setup step by step.</p>
@@ -474,7 +505,7 @@ export default function OnboardingPortal() {
                     return (
                       <a key={st.key} href={`/onboarding-portal?step=${i + 1}`} className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-50 ${outstanding ? 'bg-red/5' : ''}`}>
                         <span className={`w-6 text-center font-bold text-xs ${st.bonus ? 'text-amber-500' : skipped ? 'text-amber-500' : done ? 'text-green-600' : 'text-gray-300'}`}>
-                          {st.bonus ? '★' : skipped ? '→' : done ? '✓' : st.tip ? '💡' : stepNumber(i)}
+                          {st.bonus ? '★' : skipped ? '→' : done ? '✓' : st.tip ? '💡' : stepNumber(STEPS, i)}
                         </span>
                         <span className={`text-sm font-semibold hover:underline ${st.bonus ? 'text-navy' : done ? 'text-gray-400' : 'text-red'}`}>{st.title}</span>
                         {st.bonus ? (
@@ -550,9 +581,31 @@ export default function OnboardingPortal() {
                 <div className="space-y-3">
                   {mode === 'register' && (
                     <>
+                      {/* The two audiences want different things, so ask once up
+                          front rather than making a director wade through a
+                          team-setup checklist to find what it costs. */}
+                      <div>
+                        <p className="text-sm font-bold text-navy mb-2">Which describes you?</p>
+                        <div className="space-y-2">
+                          {([
+                            { value: 'coach', label: 'I’m onboarding my team', hint: 'You’re set up with us and getting your team going.' },
+                            { value: 'director', label: 'I’m bringing my club on', hint: 'You’re looking at AST for a club and want to know what’s involved.' },
+                          ] as const).map(opt => (
+                            <button
+                              key={opt.value}
+                              type="button"
+                              onClick={() => setSignupAudience(opt.value)}
+                              className={`w-full text-left px-4 py-3 rounded-xl border-2 transition-colors ${signupAudience === opt.value ? 'border-navy bg-blue-50' : 'border-gray-200 bg-white hover:bg-gray-50'}`}
+                            >
+                              <span className={`block font-bold text-sm ${signupAudience === opt.value ? 'text-navy' : 'text-gray-700'}`}>{opt.label}</span>
+                              <span className="block text-xs text-gray-500 mt-0.5">{opt.hint}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                       <input className={inputClass} placeholder="Your name" value={form.name}
                         onChange={e => setForm({ ...form, name: e.target.value })} />
-                      <input className={inputClass} placeholder="Club or organization (optional)" value={form.club}
+                      <input className={inputClass} placeholder={signupAudience === 'director' ? 'Club name' : 'Club or organization (optional)'} value={form.club}
                         onChange={e => setForm({ ...form, club: e.target.value })} />
                     </>
                   )}
@@ -597,18 +650,24 @@ export default function OnboardingPortal() {
               </div>
             ) : showIntro ? (
               <div>
-                <h2 className="text-navy text-xl font-extrabold mb-3">Getting Started</h2>
+                <h2 className="text-navy text-xl font-extrabold mb-3">{audience === 'director' ? 'Bringing Your Club On' : 'Getting Started'}</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
                   Welcome to <strong className="text-navy font-semibold">Anytime Soccer Training</strong>!
                 </p>
-                <p className="text-gray-700 leading-relaxed mb-3">Getting set up has three parts:</p>
+                <p className="text-gray-700 leading-relaxed mb-3">
+                  {audience === 'director' ? 'This covers three things:' : 'Getting set up has three parts:'}
+                </p>
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
                   <ol className="space-y-4">
-                    {[
+                    {(audience === 'director' ? [
+                      <><strong className="text-navy font-semibold">What it costs</strong> — per-player pricing, and the club rate.</>,
+                      <><strong className="text-navy font-semibold">How it works</strong> — how teams are structured, and how you handle each new season.</>,
+                      <><strong className="text-navy font-semibold">Rolling out</strong> — getting your coaches and parents going.</>,
+                    ] : [
                       <><strong className="text-navy font-semibold">Pre-Onboarding</strong> — a few quick steps before we begin.</>,
                       <><strong className="text-navy font-semibold">Onboarding</strong> — the steps that get your team live in the app.</>,
                       <><strong className="text-navy font-semibold">FAQs</strong> — answering common questions.</>,
-                    ].map((item, i) => (
+                    ]).map((item, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{i + 1}</span>
                         <span className="text-gray-700 leading-relaxed pt-1">{item}</span>
@@ -629,17 +688,23 @@ export default function OnboardingPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">Before We Start</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Welcome &mdash; what follows are the <strong className="text-navy font-semibold">key steps</strong> to getting your team up and running.
+                  {audience === 'director' ? 'Here’s what bringing your club on looks like.' : 'Here’s how to get your team set up.'}
                 </p>
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
                   <ol className="space-y-4">
-                    {[
-                      <><strong className="text-navy font-semibold">Get your players in.</strong> Send us your roster and we&rsquo;ll load it for you, or invite players individually &mdash; whichever is easier.</>,
-                      <><strong className="text-navy font-semibold">Pay for their access.</strong> Settle the invoice for the roster you sent, or pay for players individually inside the app. You can do both.</>,
-                      <><strong className="text-navy font-semibold">Work through this portal.</strong> The onboarding steps that follow, including the engagement survey.</>,
-                      <><strong className="text-navy font-semibold">Notify your parents.</strong> Let them know the team is set up and how to join.</>,
-                      <><strong className="text-navy font-semibold">Email Megan.</strong> Tell her the team name you created in the app and that your parents have been notified.</>,
-                    ].map((item, i) => (
+                    {(audience === 'director' ? [
+                      <><strong className="text-navy font-semibold">See what it costs.</strong> $10 per player per year, or $8 once you&rsquo;re at five teams.</>,
+                      <><strong className="text-navy font-semibold">Understand the setup.</strong> How teams work, and what each new season involves.</>,
+                      <><strong className="text-navy font-semibold">Get your coaches going.</strong> Each runs their own team &mdash; we onboard them.</>,
+                      <><strong className="text-navy font-semibold">Tell your parents.</strong> One club announcement, plus a link per team.</>,
+                      <><strong className="text-navy font-semibold">Email Megan.</strong> She&rsquo;ll quote your club and create the teams.</>,
+                    ] : [
+                      <><strong className="text-navy font-semibold">Add your players.</strong> Send us your roster, or invite players yourself &mdash; whatever&rsquo;s easiest.</>,
+                      <><strong className="text-navy font-semibold">Pay for access.</strong> Pay by roster invoice or per player in the app &mdash; or both.</>,
+                      <><strong className="text-navy font-semibold">Complete this portal.</strong> Includes the engagement survey.</>,
+                      <><strong className="text-navy font-semibold">Notify your parents.</strong> Let them know the team&rsquo;s ready and how to join.</>,
+                      <><strong className="text-navy font-semibold">Email Megan.</strong> Give her your team name and confirm parents were notified.</>,
+                    ]).map((item, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{i + 1}</span>
                         <span className="text-gray-700 leading-relaxed pt-1">{item}</span>
@@ -648,7 +713,7 @@ export default function OnboardingPortal() {
                   </ol>
                 </div>
                 <p className="text-gray-600 text-sm leading-relaxed mb-6">
-                  Work through them in order where you can, and skip anything that doesn&rsquo;t apply &mdash; your progress saves as you go, and the <strong className="text-navy font-semibold">Index</strong> shows what&rsquo;s done, skipped, and still outstanding.
+                  Go in order if you can, skip what doesn&rsquo;t apply. Your progress saves automatically, and the <strong className="text-navy font-semibold">Index</strong> shows what&rsquo;s done, skipped, or still open.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
                   <button
