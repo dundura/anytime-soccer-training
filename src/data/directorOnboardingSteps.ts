@@ -29,23 +29,41 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     body: `
       <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:0 0 10px;">The Rate</p>
       <p>Pricing is per player, per year &mdash; and it drops once you reach 75 players.</p>
-      <p>After your initial payment, you are only charged for additional players <strong>when they activate their account</strong>. You pay for the families who actually use the program, not for names on a roster.</p>
       <div style="${BOX}">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
           <p style="margin:6px 0 0;"><strong>$10 per player, per year</strong> &mdash; standard rate.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
           <p style="margin:6px 0 0;"><strong>$8 per player, per year</strong> &mdash; once you have 75 players or more.</p>
         </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:6px 0 0;"><strong>One free coach account</strong> &mdash; per team.</p>
+        </div>
       </div>
-      <p>The discount is based on <strong>player count</strong>, and it must be <strong>paid in advance</strong> to lock in the rate. After that you are only charged when new players join.</p>
+      <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:24px 0 10px;">Payment</p>
+      <div style="${BOX}">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:6px 0 0;"><strong>You submit your rosters</strong> &mdash; all of your teams, using the roster template we provide.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:6px 0 0;"><strong>You buy 75 slots up front.</strong></p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:6px 0 0;"><strong>You do not pay again until more than 75 players join</strong> &mdash; then we charge your card $8 per player.</p>
+        </div>
+      </div>
+      <p>So you only pay for players who actually use the program.</p>
       <div style="${GREEN}">
-        <p style="margin:0 0 6px;color:#166534;"><strong>For a 220-player club:</strong></p>
-        <p style="margin:0;color:#166534;">That is <strong>$1,760 per year</strong> paid up front &mdash; every player, all year.</p>
+        <p style="margin:0 0 10px;color:#166534;"><strong>Example &mdash; a club with 10 teams:</strong></p>
+        <p style="margin:0 0 8px;color:#166534;">75 slots up front at $8 = <strong>$600</strong>. Coaches free.</p>
+        <p style="margin:0;color:#166534;">Player 76 joins &rarr; card charged $8. Player 77 joins &rarr; $8. And so on.</p>
       </div>
-      <p>Each team gets one free coach account.</p>
     `,
   },
   {
