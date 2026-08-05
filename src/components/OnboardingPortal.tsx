@@ -699,10 +699,10 @@ export default function OnboardingPortal() {
                       <><strong className="text-navy font-semibold">Tell your parents.</strong> One club announcement, plus a link per team.</>,
                       <><strong className="text-navy font-semibold">Email Megan.</strong> She&rsquo;ll quote your club and create the teams.</>,
                     ] : [
-                      <><strong className="text-navy font-semibold">Add your players.</strong> Send us your roster, or invite players yourself &mdash; whatever&rsquo;s easiest.</>,
-                      <><strong className="text-navy font-semibold">Pay for access.</strong> Pay by roster invoice or per player in the app &mdash; or both.</>,
+                      <><strong className="text-navy font-semibold">Add players.</strong> Send roster (new teams), or invite players yourself.</>,
+                      <><strong className="text-navy font-semibold">Pay for access.</strong> Pay by roster invoice and/or per player in the app.</>,
                       <><strong className="text-navy font-semibold">Complete this portal.</strong> Includes the engagement survey.</>,
-                      <><strong className="text-navy font-semibold">Notify your parents.</strong> Let them know the team&rsquo;s ready and how to join.</>,
+                      <><strong className="text-navy font-semibold">Notify parents.</strong> Let them know the team&rsquo;s ready and how to join.</>,
                       <><strong className="text-navy font-semibold">Email Megan.</strong> Give her your team name and confirm parents were notified.</>,
                     ]).map((item, i) => (
                       <li key={i} className="flex items-start gap-3">
@@ -713,7 +713,7 @@ export default function OnboardingPortal() {
                   </ol>
                 </div>
                 <p className="text-gray-600 text-sm leading-relaxed mb-6">
-                  Go in order if you can, skip what doesn&rsquo;t apply. Your progress saves automatically, and the <strong className="text-navy font-semibold">Index</strong> shows what&rsquo;s done, skipped, or still open.
+                  Go in order if you can. Your progress saves automatically, and the <strong className="text-navy font-semibold">Index</strong> shows what&rsquo;s done, skipped, or still open.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
                   <button
