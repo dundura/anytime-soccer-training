@@ -25,9 +25,11 @@ const GREEN = 'background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;pa
 
 export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
-    title: 'What It Costs',
+    title: 'How Pricing Works',
     body: `
-      <p>Pricing is per player, per year &mdash; and it drops once your club is running five or more teams.</p>
+      <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:0 0 10px;">The Rate</p>
+      <p>Pricing is per player, per year &mdash; and it drops once you reach 75 players.</p>
+      <p>After your initial payment, you are only charged for additional players <strong>when they activate their account</strong>. You pay for the families who actually use the program, not for names on a roster.</p>
       <div style="${BOX}">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
@@ -35,15 +37,15 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:6px 0 0;"><strong>$8 per player, per year</strong> &mdash; once you have five teams or more.</p>
+          <p style="margin:6px 0 0;"><strong>$8 per player, per year</strong> &mdash; once you have 75 players or more.</p>
         </div>
       </div>
-      <p>The discount is based on <strong>team count</strong>, not player count. Five teams gets you the $8 rate whether those teams are small or full.</p>
+      <p>The discount is based on <strong>player count</strong>, and it must be <strong>paid in advance</strong> to lock in the rate. After that you are only charged when new players join.</p>
       <div style="${GREEN}">
         <p style="margin:0 0 6px;color:#166534;"><strong>For a 220-player club:</strong></p>
-        <p style="margin:0;color:#166534;">That is <strong>$1,760 per year</strong> at the five-team rate &mdash; every player, every coach, all year.</p>
+        <p style="margin:0;color:#166534;">That is <strong>$1,760 per year</strong> paid up front &mdash; every player, all year.</p>
       </div>
-      <p>There is no per-coach charge and no setup fee. Coaches, managers and assistant coaches are free.</p>
+      <p>Each team gets one free coach account.</p>
     `,
   },
   {

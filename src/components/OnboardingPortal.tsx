@@ -83,7 +83,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
 // involves rather than walking them through app configuration. Their coaches
 // each get the coach path above once the club commits.
 const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
-  { key: 'dir_pricing', title: 'What it costs', dataIndex: 0, section: 'Your Club' },
+  { key: 'dir_pricing', title: 'How pricing works', dataIndex: 0, section: 'Your Club' },
   { key: 'dir_structure', title: 'How a club is structured', dataIndex: 1, section: 'Your Club', info: true },
   { key: 'dir_seasons', title: 'Adding and removing players each season', dataIndex: 2, section: 'Your Club', info: true },
   { key: 'dir_coaches', title: 'Getting your coaches set up', dataIndex: 3, section: 'Rolling Out' },
@@ -659,19 +659,19 @@ export default function OnboardingPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">What brings you here?</h2>
                 <p className="text-gray-700 leading-relaxed mb-5">
-                  Pick the one that fits. You can switch at any time from the welcome page.
+                  Pick the one that fits.
                 </p>
                 <div className="space-y-3 mb-6">
                   {([
                     {
                       value: 'coach',
                       label: 'I’m onboarding my team',
-                      hint: 'You’re set up with us. This walks you through getting your team live — roster, payment, parents, the lot.',
+                      hint: 'This walks you through getting your team live — roster, payment, parents, the lot.',
                     },
                     {
                       value: 'director',
                       label: 'I’m bringing my club on',
-                      hint: 'You’re looking at AST for a club. This covers what it costs, how teams are structured, and what each season involves.',
+                      hint: 'You’re exploring AST for your club. Here’s what it covers: pricing, team onboarding, and getting set up.',
                     },
                   ] as const).map(opt => {
                     const current = audience === opt.value;
@@ -704,9 +704,9 @@ export default function OnboardingPortal() {
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
                   <ol className="space-y-4">
                     {(audience === 'director' ? [
-                      <><strong className="text-navy font-semibold">What it costs</strong> — per-player pricing, and the club rate.</>,
-                      <><strong className="text-navy font-semibold">How it works</strong> — how teams are structured, and how you handle each new season.</>,
-                      <><strong className="text-navy font-semibold">Rolling out</strong> — getting your coaches and parents going.</>,
+                      <><strong className="text-navy font-semibold">Pricing</strong> — per-player rates, and the club rate.</>,
+                      <><strong className="text-navy font-semibold">Team onboarding</strong> — how teams are structured, and how you handle each new season.</>,
+                      <><strong className="text-navy font-semibold">Getting set up</strong> — getting your coaches and parents going.</>,
                     ] : [
                       <><strong className="text-navy font-semibold">Pre-Onboarding</strong> — a few quick steps before we begin.</>,
                       <><strong className="text-navy font-semibold">Onboarding</strong> — the steps that get your team live in the app.</>,
@@ -721,7 +721,13 @@ export default function OnboardingPortal() {
                 </div>
 
                 <button
-                  onClick={() => { setShowIntro(false); setShowIndexInfo(true); setError(''); }}
+                  onClick={() => {
+                    setShowIntro(false);
+                    setError('');
+                    // The club path skips the key-steps page: its three bullets
+                    // above already say the same thing, so it read as a repeat.
+                    if (audience !== 'director') setShowIndexInfo(true);
+                  }}
                   className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors mb-3"
                 >
                   {doneCount === 0 ? 'Get Started →' : 'Continue →'}
@@ -739,23 +745,19 @@ export default function OnboardingPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">Before We Start</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  {audience === 'director' ? 'Here’s what bringing your club on looks like.' : 'Here’s how to get your team set up.'}
+                  Here&rsquo;s how to get your team set up.
                 </p>
+                {/* Coach path only — the club path skips this screen, so there is
+                    no director variant to keep in step here. */}
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
                   <ol className="space-y-4">
-                    {(audience === 'director' ? [
-                      <><strong className="text-navy font-semibold">See what it costs.</strong> $10 per player per year, or $8 once you&rsquo;re at five teams.</>,
-                      <><strong className="text-navy font-semibold">Understand the setup.</strong> How teams work, and what each new season involves.</>,
-                      <><strong className="text-navy font-semibold">Get your coaches going.</strong> Each runs their own team &mdash; we onboard them.</>,
-                      <><strong className="text-navy font-semibold">Tell your parents.</strong> One club announcement, plus a link per team.</>,
-                      <><strong className="text-navy font-semibold">Email Megan.</strong> She&rsquo;ll quote your club and create the teams.</>,
-                    ] : [
+                    {[
                       <><strong className="text-navy font-semibold">Add players.</strong> Send roster (new teams), or invite players yourself.</>,
-                      <><strong className="text-navy font-semibold">Pay for access.</strong> Pay by roster invoice and/or per player in the app.</>,
+                      <><strong className="text-navy font-semibold">Pay for access.</strong> Pay invoice and/or per player in the app.</>,
                       <><strong className="text-navy font-semibold">Complete this portal.</strong> Includes the engagement survey.</>,
-                      <><strong className="text-navy font-semibold">Notify parents.</strong> Let them know the team&rsquo;s ready and how to join.</>,
-                      <><strong className="text-navy font-semibold">Email Megan.</strong> Give her your team name and confirm parents were notified.</>,
-                    ]).map((item, i) => (
+                      <><strong className="text-navy font-semibold">Notify parents.</strong> Edit and share our welcome email.</>,
+                      <><strong className="text-navy font-semibold">Email Megan.</strong> Reply with team name and confirmation that the parents were notified.</>,
+                    ].map((item, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{i + 1}</span>
                         <span className="text-gray-700 leading-relaxed pt-1">{item}</span>
