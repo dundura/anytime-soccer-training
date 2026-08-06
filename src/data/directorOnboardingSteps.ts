@@ -28,7 +28,7 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'How Pricing Works',
     body: `
       <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:0 0 10px;">The Rate</p>
-      <p>Pricing is per player, per year &mdash; and it drops once you reach 75 players.</p>
+      <p>Pricing is per player, per year &mdash; and it drops once you reach 75 players (5 teams).</p>
       <div style="${BOX}">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
@@ -43,52 +43,64 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <p style="margin:6px 0 0;"><strong>One free coach account</strong> &mdash; per team.</p>
         </div>
       </div>
-    `,
-  },
-  {
-    title: 'Payment',
-    body: `
+      <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:28px 0 10px;">Payment</p>
       <div style="${BOX}">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;"><strong>You submit your rosters</strong> &mdash; all of your teams, using the roster template we provide.</p>
+          <div style="margin:6px 0 0;">
+            <p style="margin:0;"><strong>Submit your rosters</strong> using our template.</p>
+            <p style="margin:4px 0 0;color:#475569;font-size:14px;">Not all at once &mdash; coaches can send theirs when ready.</p>
+          </div>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:6px 0 0;"><strong>You buy 75 slots up front.</strong></p>
+          <p style="margin:6px 0 0;"><strong>Pay the invoice for your first 75 players.</strong></p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
-          <p style="margin:6px 0 0;"><strong>You do not pay again until more than 75 players join</strong> &mdash; then we charge your card $8 per player.</p>
+          <div style="margin:6px 0 0;">
+            <p style="margin:0;"><strong>That covers your first 75 players &mdash; done.</strong></p>
+            <p style="margin:4px 0 0;color:#475569;font-size:14px;">Only from player 76 onward do we charge your card, $8 each as they join.</p>
+          </div>
         </div>
       </div>
       <p>So you only pay for players who actually use the program.</p>
       <div style="${GREEN}">
         <p style="margin:0 0 10px;color:#166534;"><strong>Example &mdash; a club with 10 teams:</strong></p>
-        <p style="margin:0 0 8px;color:#166534;">75 slots up front at $8 = <strong>$600</strong>. Coaches free.</p>
-        <p style="margin:0;color:#166534;">Player 76 joins &rarr; card charged $8. Player 77 joins &rarr; $8. And so on.</p>
+        <p style="margin:0 0 8px;color:#166534;">They buy <strong>75 slots</strong> up front at $8 each &mdash; <strong>$600</strong>. Coaches free.</p>
+        <p style="margin:0;color:#166534;">Player 76 joins &rarr; <strong>one more slot</strong>, $8 on the card. Player 77 &rarr; another slot, $8. And so on &mdash; a slot per player, only as they join.</p>
       </div>
     `,
   },
   {
-    title: 'How a Club Is Structured',
+    title: 'How Onboarding Works',
     body: `
-      <p>Before you roll anything out, it helps to know how the pieces fit together.</p>
+      <p>Each of your coaches goes through the same short sequence.</p>
       <div style="${BOX}">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;"><strong>Each team is set up separately</strong> in the app, with its own coach, its own roster and its own homework.</p>
+          <p style="margin:6px 0 0;"><strong>Coach joins a 15&ndash;20 minute online demo.</strong></p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:6px 0 0;"><strong>Players join their own team</strong> using a team code, or by requesting to join and having their coach approve them.</p>
+          <p style="margin:6px 0 0;"><strong>Coach sends us their roster</strong> using our template.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:6px 0 0;"><strong>Coach creates their team</strong> inside the app.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
+          <p style="margin:6px 0 0;"><strong>We invite the parents</strong> &mdash; with everything they need to create an account and join their team.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
-          <p style="margin:6px 0 0;"><strong>You can see the whole club</strong> through the club report, so you are not chasing individual coaches for numbers.</p>
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
+          <p style="margin:6px 0 0;"><strong>Coach assigns homework</strong> and sets up challenges and fun contests.</p>
         </div>
       </div>
-      <p>Coaches run their own teams day to day. You are not in the middle of it unless you want to be.</p>
+      <div style="${GREEN}">
+        <p style="margin:0;color:#166534;">We walk your coaches through every step, and support them for as long as they need it.</p>
+      </div>
     `,
   },
   {

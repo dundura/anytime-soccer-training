@@ -84,12 +84,11 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
 // each get the coach path above once the club commits.
 const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
   { key: 'dir_pricing', title: 'How pricing works', dataIndex: 0, section: 'Your Club' },
-  { key: 'dir_payment', title: 'Payment', dataIndex: 1, section: 'Your Club' },
-  { key: 'dir_structure', title: 'How a club is structured', dataIndex: 2, section: 'Your Club', info: true },
-  { key: 'dir_seasons', title: 'Adding and removing players each season', dataIndex: 3, section: 'Your Club', info: true },
-  { key: 'dir_coaches', title: 'Getting your coaches set up', dataIndex: 4, section: 'Rolling Out' },
-  { key: 'dir_parents', title: 'Rolling it out to parents', dataIndex: 5, section: 'Rolling Out' },
-  { key: 'final_confirm', title: 'Talk to Megan', dataIndex: 6, section: 'Rolling Out', final: true },
+  { key: 'dir_structure', title: 'How a club is structured', dataIndex: 1, section: 'Your Club', info: true },
+  { key: 'dir_seasons', title: 'Adding and removing players each season', dataIndex: 2, section: 'Your Club', info: true },
+  { key: 'dir_coaches', title: 'Getting your coaches set up', dataIndex: 3, section: 'Rolling Out' },
+  { key: 'dir_parents', title: 'Rolling it out to parents', dataIndex: 4, section: 'Rolling Out' },
+  { key: 'final_confirm', title: 'Talk to Megan', dataIndex: 5, section: 'Rolling Out', final: true },
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
