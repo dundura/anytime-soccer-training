@@ -43,7 +43,11 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <p style="margin:6px 0 0;"><strong>One free coach account</strong> &mdash; per team.</p>
         </div>
       </div>
-      <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:24px 0 10px;">Payment</p>
+    `,
+  },
+  {
+    title: 'Payment',
+    body: `
       <div style="${BOX}">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
