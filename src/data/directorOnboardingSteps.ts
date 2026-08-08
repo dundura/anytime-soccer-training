@@ -74,7 +74,9 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
           <div style="margin:6px 0 0;">
             <p style="margin:0;"><strong>Submit your rosters</strong> using our template.</p>
-            <p style="margin:4px 0 0;color:#475569;font-size:14px;">Coaches can submit partial rosters and each coach can submit them at their own pace.</p>
+            <ul style="margin:6px 0 0;padding-left:18px;color:#475569;font-size:14px;">
+              <li style="margin:0;">Coaches can submit partial rosters, and each coach can submit at their own pace.</li>
+            </ul>
           </div>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
@@ -85,11 +87,13 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
           <div style="margin:6px 0 0;">
             <p style="margin:0;"><strong>That covers your first 75 players &mdash; done.</strong></p>
-            <p style="margin:4px 0 0;color:#475569;font-size:14px;">Only from player 76 onward do we charge your card, $8 each as they join.</p>
+            <ul style="margin:6px 0 0;padding-left:18px;color:#475569;font-size:14px;">
+              <li style="margin:0;">Only from player 76 onward do we charge your card, $8 each as they join.</li>
+              <li style="margin:4px 0 0;">So you only pay for players who actually use the program.</li>
+            </ul>
           </div>
         </div>
       </div>
-      <p>So you only pay for players who actually use the program.</p>
     `,
   },
   {
