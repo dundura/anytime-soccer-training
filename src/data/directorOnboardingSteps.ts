@@ -25,6 +25,27 @@ const GREEN = 'background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;pa
 
 export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
+    // Titled with the headline itself rather than "About …", so the page shows
+    // one heading instead of a title stacked on top of a near-identical line.
+    title: 'The Complete Soccer Training Platform for Your Club',
+    body: `
+      <p>Some of the benefits that come with your subscription:</p>
+      <div style="${BOX}">
+        ${[
+          'Follow-along sessions for every skill',
+          'Assign homework folders or recurring plans &mdash; customizable for individual players',
+          'Create contests and track player progress',
+          'Built for all ages, all skill levels',
+          'Unlimited teams, easy roster management',
+        ].map((item, i, all) => `
+        <div style="display:flex;gap:12px;align-items:flex-start;${i < all.length - 1 ? 'margin-bottom:14px;' : ''}">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#DC373E;color:#fff;font-size:13px;font-weight:700;margin-top:2px;">&#10003;</span>
+          <p style="margin:0;">${item}</p>
+        </div>`).join('')}
+      </div>
+    `,
+  },
+  {
     title: 'How Pricing Works',
     body: `
       <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:0 0 10px;">The Rate</p>
