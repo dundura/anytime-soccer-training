@@ -29,7 +29,7 @@ export default function ForCoachesLearnPage() {
 
               {/* Left — copy + form */}
               <div className="relative z-10">
-                <h1 className="text-[clamp(28px,4vw,48px)] font-extrabold text-white leading-tight tracking-tight mb-5">
+                <h1 className="text-[clamp(22px,2.8vw,34px)] font-extrabold text-white leading-tight tracking-tight mb-5">
                   Learn why coaches choose<br />
                   <span className="text-red">Anytime Soccer Training.</span>
                 </h1>

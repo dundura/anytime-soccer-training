@@ -63,7 +63,6 @@ export default function ForCoachesLearnForm() {
       {status === "error" && (
         <p className="text-red-300 text-sm text-center">Something went wrong — please try again.</p>
       )}
-      <p className="text-white/50 text-xs text-center">No credit card. No commitment. Unsubscribe anytime.</p>
     </form>
   );
 }

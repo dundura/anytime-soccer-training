@@ -63,7 +63,6 @@ export default function ClubInfoForm() {
       {status === "error" && (
         <p className="text-red text-sm text-center">Something went wrong — please try again.</p>
       )}
-      <p className="text-[#94a3b8] text-xs text-center">No credit card. No commitment. Unsubscribe anytime.</p>
     </form>
   );
 }
