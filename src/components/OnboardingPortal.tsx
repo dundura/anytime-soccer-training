@@ -728,6 +728,12 @@ export default function OnboardingPortal() {
                   onClick={() => {
                     setShowIntro(false);
                     setError('');
+                    // Starting means starting at the beginning. wizardIndex is
+                    // seeded with the first *incomplete* step, which counts a
+                    // skipped step as handled — so someone who skipped page one
+                    // and came back via Home was dropped onto page three.
+                    // Continue still resumes; only Get Started resets.
+                    if (doneCount === 0) setWizardIndex(0);
                     // The club path skips the key-steps page: its three bullets
                     // above already say the same thing, so it read as a repeat.
                     if (audience !== 'director') setShowIndexInfo(true);
@@ -950,7 +956,11 @@ export default function OnboardingPortal() {
                   >
                     ← Back
                   </button>
-                  {!step.bonus && wizardIndex < STEPS.length - 1 && (
+                  {/* No Skip on the club path. It is six short pages a director
+                      reads in order to decide, not a checklist with steps that
+                      might not apply — and skipping left them landing several
+                      pages in on the way back. */}
+                  {audience !== 'director' && !step.bonus && wizardIndex < STEPS.length - 1 && (
                     <button
                       onClick={() => { setWizardIndex(wizardIndex + 1); setError(''); }}
                       className="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-500 hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"

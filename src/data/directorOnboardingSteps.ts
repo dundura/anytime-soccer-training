@@ -162,20 +162,15 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Talk to Megan',
     body: `
-      <p>Finish below and we will email you, Megan and Neil to say your club is ready to learn more &mdash; Megan will follow up with a quote and get your teams created.</p>
-      <div style="${GREEN}">
-        <p style="margin:0 0 6px;color:#166534;"><strong>Have ready:</strong></p>
-        <p style="margin:0;color:#166534;">Your club name, roughly how many teams and players you are looking at, and when your season starts.</p>
-      </div>
-      <p>Two things you can get started on now:</p>
+      <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:0 0 10px;">Next Steps</p>
       <div style="${BOX}">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#DC373E;color:#fff;font-size:13px;font-weight:700;margin-top:2px;">&#10003;</span>
-          <p style="margin:0;"><a href="https://www.anytime-soccer.com/team-demo-request-anytime-soccer-training" target="_blank" rel="noopener noreferrer" style="color:#DC373E;font-weight:700;">Book a demo</a> &mdash; 15&ndash;20 minutes, and group demos are available for your coaches.</p>
+          <p style="margin:0;"><strong>Finish below</strong> &mdash; we let Megan know you are interested, and we will be in touch.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#DC373E;color:#fff;font-size:13px;font-weight:700;margin-top:2px;">&#10003;</span>
-          <p style="margin:0;"><a href="https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa" target="_blank" rel="noopener noreferrer" style="color:#DC373E;font-weight:700;">Get the roster template</a> &mdash; your coaches can start filling theirs in at their own pace.</p>
+          <p style="margin:0;"><a href="https://www.anytime-soccer.com/team-demo-request-anytime-soccer-training" target="_blank" rel="noopener noreferrer" style="color:#DC373E;font-weight:700;">Book a call</a> &mdash; 15&ndash;20 minutes, and group calls are available for your coaches.</p>
         </div>
       </div>
     `,
