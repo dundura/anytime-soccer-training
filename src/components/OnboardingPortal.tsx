@@ -459,7 +459,7 @@ export default function OnboardingPortal() {
               )}
             </div>
             <h1 className="text-white text-2xl font-extrabold">
-              {showFaq ? 'Frequently Asked Questions' : coach && showIntro ? `Welcome, ${coach.name.split(' ')[0]}!` : audience === 'director' ? 'Club Portal' : 'Coach Onboarding Portal'}
+              {showFaq ? 'Frequently Asked Questions' : coach && showIntro ? `Welcome, ${coach.name.split(' ')[0]}!` : audience === 'director' ? 'Club Portal' : 'Anytime Soccer Onboarding Portal'}
             </h1>
             {!coach && (
               <p className="text-white/70 text-sm mt-1">Sign in to walk through your team setup step by step.</p>
