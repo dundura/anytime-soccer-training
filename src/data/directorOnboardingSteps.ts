@@ -74,7 +74,7 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
           <div style="margin:6px 0 0;">
             <p style="margin:0;"><strong>Submit your rosters</strong> using our template.</p>
-            <p style="margin:4px 0 0;color:#475569;font-size:14px;">Not all at once &mdash; coaches can send theirs when ready.</p>
+            <p style="margin:4px 0 0;color:#475569;font-size:14px;">Coaches can submit partial rosters and each coach can submit them at their own pace.</p>
           </div>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
