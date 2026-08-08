@@ -32,7 +32,7 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <p>Some of the benefits that come with your subscription:</p>
       <div style="${BOX}">
         ${[
-          'Follow-along sessions for every skill',
+          'Follow-along sessions for every skill and age',
           'Assign homework folders or recurring plans &mdash; customizable for individual players',
           'Create contests and track player progress',
           'Built for all ages, all skill levels',
