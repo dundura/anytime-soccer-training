@@ -25,6 +25,26 @@ const GREEN = 'background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;pa
 
 export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
+    title: 'About Anytime Soccer Training',
+    body: `
+      <p style="font-size:19px;font-weight:800;color:#0F3154;line-height:1.35;margin:0 0 16px;">The Complete Soccer Training Platform for Your Club</p>
+      <p>Some of the benefits that come with your subscription:</p>
+      <div style="${BOX}">
+        ${[
+          'Follow-along sessions for every skill',
+          'Assign homework folders or recurring plans &mdash; customizable for individual players',
+          'Create contests and track player progress',
+          'Built for all ages, all skill levels',
+          'Unlimited teams, easy roster management',
+        ].map((item, i, all) => `
+        <div style="display:flex;gap:12px;align-items:flex-start;${i < all.length - 1 ? 'margin-bottom:14px;' : ''}">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#DC373E;color:#fff;font-size:13px;font-weight:700;margin-top:2px;">&#10003;</span>
+          <p style="margin:0;">${item}</p>
+        </div>`).join('')}
+      </div>
+    `,
+  },
+  {
     title: 'How Pricing Works',
     body: `
       <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:0 0 10px;">The Rate</p>
@@ -149,7 +169,7 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <p style="margin:6px 0 0;"><strong>We handle the rosters</strong> &mdash; send them in and we load them, so your coaches are not typing names in one at a time.</p>
         </div>
       </div>
-      <p>Coaches do not pay anything and do not need a separate licence.</p>
+      <p>Coaches do not pay anything and do not need a separate license.</p>
     `,
   },
   {
