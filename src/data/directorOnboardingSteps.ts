@@ -170,7 +170,7 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#DC373E;color:#fff;font-size:13px;font-weight:700;margin-top:2px;">&#10003;</span>
-          <p style="margin:0;"><a href="https://www.anytime-soccer.com/team-demo-request-anytime-soccer-training" target="_blank" rel="noopener noreferrer" style="color:#DC373E;font-weight:700;">Book a call</a> &mdash; 15&ndash;20 minutes, and group calls are available for your coaches.</p>
+          <p style="margin:0;"><a href="https://www.anytime-soccer.com/team-demo-request-anytime-soccer-training" target="_blank" rel="noopener noreferrer" style="color:#DC373E;font-weight:700;">Book a call</a> &mdash; and we will be in touch.</p>
         </div>
       </div>
     `,
