@@ -7,37 +7,37 @@ const features = [
     icon: "\u{1F3AF}",
     title: "Create Teams",
     description: "Set up your squad in seconds",
-    video: "https://player.vimeo.com/progressive_redirect/playback/1169303012/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=c734dc10fea1c8c23648cdce45060f9fa4a5c3b58d91e3d1166bea1336d6c6eb",
+    video: "https://vz-61d41acf-acf.b-cdn.net/142b3f7d-68fc-47fb-b4b7-6e92c6e5210e/play_720p.mp4",
   },
   {
     icon: "\u{1F4CB}",
     title: "Build Your Roster",
     description: "Add players and manage your lineup",
-    video: "https://player.vimeo.com/progressive_redirect/playback/1169302955/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=397999004d244a61df927c2ecc56fbefcfb40b2e0b9ca3b6436cb16925f94dd4",
+    video: "https://vz-61d41acf-acf.b-cdn.net/b55cc896-5b9e-4c67-bf4d-6ae0adeb0c67/play_720p.mp4",
   },
   {
     icon: "\u{1F4DA}",
     title: "Assign Homework",
     description: "Send structured training to every player",
-    video: "https://player.vimeo.com/progressive_redirect/playback/1169302980/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=1538e99ab9202f4db963fdf9c231130c154ac8d11e90bc7e912c7c912881c5c6",
+    video: "https://vz-61d41acf-acf.b-cdn.net/a98fa1aa-d9d8-48a8-ac35-f6258d42f9a2/play_720p.mp4",
   },
   {
     icon: "\u{1F3C6}",
     title: "Create Competitions",
     description: "Drive friendly competition across your team",
-    video: "https://player.vimeo.com/progressive_redirect/playback/1169303020/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=5f7589b67658329b3c754291c49f3bc76b74ac990c214e0f5c9f5eeb6f15c5cf",
+    video: "https://vz-61d41acf-acf.b-cdn.net/2b5ab4b9-a4f1-4e9d-ace0-0368bf5ba1a6/play_720p.mp4",
   },
   {
     icon: "\u{1F4CA}",
     title: "Track Progress",
     description: "See every completed session in real time",
-    video: "https://player.vimeo.com/progressive_redirect/playback/1169302940/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=d7ec2be5b7f101dc9ca09dc1ce2cf82f8134927a7c7506103375717d7168034b",
+    video: "https://vz-61d41acf-acf.b-cdn.net/1ba61fe3-1e41-4850-8d76-8f315dfbd181/play_720p.mp4",
   },
   {
     icon: "\u{1F4B0}",
     title: "Raise Money",
     description: "Fund your team through training subscriptions",
-    video: "https://player.vimeo.com/progressive_redirect/playback/1169302963/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=687134569779f1635d1b4fb59172dc78d33ee3fba58ec743e581f70c887e2957",
+    video: "https://vz-61d41acf-acf.b-cdn.net/3ea9d24d-2b9f-4956-aea3-dc432ea05cf3/play_720p.mp4",
   },
 ];
 

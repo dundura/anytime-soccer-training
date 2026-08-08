@@ -10,9 +10,12 @@ export default function HeroVideo() {
     const iframe = iframeRef.current;
     if (!iframe?.contentWindow) return;
     const next = !muted;
+    // Bunny speaks the Player.js protocol, which needs a `context` field and a
+    // different origin. Vimeo's bare { method, value } message is ignored here,
+    // so the button would have looked like it worked and done nothing.
     iframe.contentWindow.postMessage(
-      JSON.stringify({ method: 'setVolume', value: next ? 0 : 1 }),
-      'https://player.vimeo.com'
+      JSON.stringify({ context: 'player.js', version: '0.0.11', method: next ? 'mute' : 'unmute' }),
+      'https://iframe.mediadelivery.net'
     );
     setMuted(next);
   }
@@ -21,7 +24,7 @@ export default function HeroVideo() {
     <div className="block bg-navy rounded-2xl shadow-[0_25px_80px_rgba(15,49,84,0.15)] overflow-hidden relative">
       <iframe
         ref={iframeRef}
-        src="https://player.vimeo.com/video/817761649?autoplay=1&muted=1&loop=1&title=0&byline=0&portrait=0&api=1"
+        src="https://iframe.mediadelivery.net/embed/721481/ff1c143e-b567-4262-9a03-30007cbdff31?autoplay=true&muted=true&loop=true&preload=true&playsinline=true"
         className="w-full aspect-video"
         allow="autoplay; fullscreen; picture-in-picture"
         allowFullScreen

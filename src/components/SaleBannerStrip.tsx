@@ -7,11 +7,11 @@ const SALE_END = new Date('2026-06-02T23:59:59-05:00');
 const SIGNUP_URL = 'https://app.anytime-soccer.com/auth/registerFree';
 
 const SKILLS = [
-  { label: 'Ball Mastery', video: 'https://player.vimeo.com/progressive_redirect/playback/1169251911/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=454345d4a02d6620937239318c150798b6cf0e75d2903f30b26c1c4137b20693' },
-  { label: 'Dribbling',    video: 'https://player.vimeo.com/progressive_redirect/playback/1169251905/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=ee829d62eed3d0045bd4b11fc2ed7f144fa87439124fb5870a3db4c757dbed55' },
-  { label: 'Juggling',     video: 'https://player.vimeo.com/progressive_redirect/playback/1169251894/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=feae5ad2df7c4f5414d2e19c076b147e83708023db78c3184f4131122bb9c675' },
-  { label: 'Passing',      video: 'https://player.vimeo.com/progressive_redirect/playback/1169251868/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=f4368d3f829c7e85e3250c6f4c27a1d1e827fe24261c1b6f59f031ae13b2841d' },
-  { label: '1v1',          video: 'https://player.vimeo.com/progressive_redirect/playback/1169251839/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=d830cba85f2636bc209aaca55ac8d7a5a30e6900934b27162223c7e9b497a829' },
+  { label: 'Ball Mastery', video: 'https://vz-61d41acf-acf.b-cdn.net/207aad0d-a703-42a8-a6a4-3974a27be429/play_720p.mp4' },
+  { label: 'Dribbling',    video: 'https://vz-61d41acf-acf.b-cdn.net/fdc38f95-1a3d-48ee-ac06-0aef5c925e1d/play_720p.mp4' },
+  { label: 'Juggling',     video: 'https://vz-61d41acf-acf.b-cdn.net/686e7576-4a74-4d42-af05-2a4f73aa362a/play_720p.mp4' },
+  { label: 'Passing',      video: 'https://vz-61d41acf-acf.b-cdn.net/d3a89428-ecab-493f-a16e-2fb4b87970c5/play_720p.mp4' },
+  { label: '1v1',          video: 'https://vz-61d41acf-acf.b-cdn.net/ab40df6d-b4dc-4825-a632-ad8a5f02f764/play_720p.mp4' },
 ];
 
 function pad(n: number) { return String(n).padStart(2, '0'); }
