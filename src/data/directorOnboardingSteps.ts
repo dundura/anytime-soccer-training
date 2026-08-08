@@ -97,16 +97,6 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
   },
   {
-    title: 'Example',
-    body: `
-      <div style="${GREEN}">
-        <p style="margin:0 0 10px;color:#166534;"><strong>Example &mdash; a club with 10 teams:</strong></p>
-        <p style="margin:0 0 8px;color:#166534;">They buy <strong>75 slots</strong> up front at $8 each &mdash; <strong>$600</strong>. Coaches free.</p>
-        <p style="margin:0;color:#166534;">Player 76 joins &rarr; <strong>one more slot</strong>, $8 on the card. Player 77 &rarr; another slot, $8. And so on &mdash; a slot per player, only as they join.</p>
-      </div>
-    `,
-  },
-  {
     title: 'How Onboarding Works',
     body: `
       <p>Each of your coaches goes through the same short sequence.</p>
