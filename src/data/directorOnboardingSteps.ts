@@ -35,7 +35,6 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           'Follow-along sessions for every skill and age',
           'Assign homework folders or recurring plans &mdash; customizable for individual players',
           'Create contests and track player progress',
-          'Built for all ages, all skill levels',
           'Unlimited teams, easy roster management',
         ].map((item, i, all) => `
         <div style="display:flex;gap:12px;align-items:flex-start;${i < all.length - 1 ? 'margin-bottom:14px;' : ''}">
@@ -75,7 +74,7 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <div style="margin:6px 0 0;">
             <p style="margin:0;"><strong>Submit your rosters</strong> using our template.</p>
             <ul style="margin:6px 0 0;padding-left:20px;color:#475569;font-size:14px;list-style:disc outside;">
-              <li style="margin:0;display:list-item;">Coaches can submit partial rosters, and each coach can submit at their own pace.</li>
+              <li style="margin:0;display:list-item;">Partial rosters are fine, and coaches can send theirs at different times.</li>
             </ul>
           </div>
         </div>
