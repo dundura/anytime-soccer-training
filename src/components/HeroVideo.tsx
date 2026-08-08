@@ -4,30 +4,34 @@ import { useState, useRef } from 'react';
 
 export default function HeroVideo() {
   const [muted, setMuted] = useState(true);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
+  // A native <video> rather than Bunny's iframe. Browsers only autoplay a
+  // cross-origin iframe under conditions we cannot see or control, and the
+  // hero was staying paused; a muted inline <video> is the one autoplay path
+  // that is reliable everywhere. It also makes muting a property set instead
+  // of a postMessage whose delivery we cannot confirm. Same Bunny file, and
+  // the same approach the other video sections on this site already use.
   function toggleMute() {
-    const iframe = iframeRef.current;
-    if (!iframe?.contentWindow) return;
+    const video = videoRef.current;
+    if (!video) return;
     const next = !muted;
-    // Bunny speaks the Player.js protocol, which needs a `context` field and a
-    // different origin. Vimeo's bare { method, value } message is ignored here,
-    // so the button would have looked like it worked and done nothing.
-    iframe.contentWindow.postMessage(
-      JSON.stringify({ context: 'player.js', version: '0.0.11', method: next ? 'mute' : 'unmute' }),
-      'https://iframe.mediadelivery.net'
-    );
+    video.muted = next;
+    if (!next) video.play().catch(() => {});
     setMuted(next);
   }
 
   return (
     <div className="block bg-navy rounded-2xl shadow-[0_25px_80px_rgba(15,49,84,0.15)] overflow-hidden relative">
-      <iframe
-        ref={iframeRef}
-        src="https://iframe.mediadelivery.net/embed/721481/ff1c143e-b567-4262-9a03-30007cbdff31?autoplay=true&muted=true&loop=true&preload=true&playsinline=true"
-        className="w-full aspect-video"
-        allow="autoplay; fullscreen; picture-in-picture"
-        allowFullScreen
+      <video
+        ref={videoRef}
+        src="https://vz-61d41acf-acf.b-cdn.net/ff1c143e-b567-4262-9a03-30007cbdff31/play_720p.mp4"
+        className="w-full aspect-video object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
         title="Anytime Soccer Training Demo"
       />
       <button
