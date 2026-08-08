@@ -147,11 +147,11 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
-          <p style="margin:6px 0 0;"><strong>New players</strong> &mdash; add them the same way you did the first time: send the roster, or have them join and approve them.</p>
+          <p style="margin:6px 0 0;"><strong>New players</strong> &mdash; add them the same way you did the first time: send the roster.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
-          <p style="margin:6px 0 0;"><strong>New teams</strong> &mdash; created in the app the same way as your first, one per team, each with its own coach.</p>
+          <p style="margin:6px 0 0;"><strong>New teams</strong> &mdash; create in the app the same way as before.</p>
         </div>
       </div>
       <div style="${GREEN}">
