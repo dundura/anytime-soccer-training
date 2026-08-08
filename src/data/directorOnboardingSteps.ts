@@ -156,7 +156,7 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       </div>
       <div style="${GREEN}">
         <p style="margin:0 0 6px;color:#166534;"><strong>On billing at renewal:</strong></p>
-        <p style="margin:0;color:#166534;">Talk to Megan before the season starts and she will square up the count &mdash; you pay for the players you actually have, not the ones you had last year.</p>
+        <p style="margin:0;color:#166534;">Pay for the 75 slots upfront and we charge the remainder as they join.</p>
       </div>
     `,
   },
