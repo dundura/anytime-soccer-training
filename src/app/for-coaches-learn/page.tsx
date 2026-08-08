@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ForCoachesLearnForm from '@/components/ForCoachesLearnForm';
+import ClubInfoForm from '@/components/ClubInfoForm';
 import { AutoplayYouTube } from '@/components/AutoplayYouTube';
 import CoachFeatureCards from '@/components/CoachFeatureCards';
 import WhoIsItForTabs from '@/components/WhoIsItForTabs';
@@ -28,15 +29,17 @@ export default function ForCoachesLearnPage() {
 
               {/* Left — copy + form */}
               <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-6 text-white">
-                  <span>&#9889;</span> <span className="text-red">5,000+</span> Follow-Along Videos
-                </div>
                 <h1 className="text-[clamp(28px,4vw,48px)] font-extrabold text-white leading-tight tracking-tight mb-5">
                   Learn why coaches choose<br />
                   <span className="text-red">Anytime Soccer Training.</span>
                 </h1>
 
                 <ForCoachesLearnForm />
+              </div>
+
+              {/* Right — video, with the social proof sitting under it */}
+              <div className="relative">
+                <AutoplayYouTube videoId="LOv6Jbk8Bac" title="Coach AST Review" />
 
                 <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap mt-6">
                   <div className="flex items-center gap-2.5">
@@ -52,23 +55,6 @@ export default function ForCoachesLearnPage() {
                   <div className="text-sm text-white/60">
                     <strong className="text-white block">Trusted by 50,000+ players</strong>
                     in 80+ countries worldwide
-                  </div>
-                </div>
-              </div>
-
-              {/* Right — video */}
-              <div className="relative">
-                <div className="hidden lg:flex mb-4 justify-end">
-                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s', animationDelay: '1.5s' }}>
-                    <div className="w-11 h-11 rounded-xl bg-[rgba(15,49,84,0.1)] flex items-center justify-center text-xl">&#128202;</div>
-                    <div className="text-sm text-gray"><strong className="text-navy block">Assign Homework</strong>Coaches monitor training</div>
-                  </div>
-                </div>
-                <AutoplayYouTube videoId="LOv6Jbk8Bac" title="Coach AST Review" />
-                <div className="hidden lg:flex mt-4 justify-start">
-                  <div className="flex bg-white rounded-xl px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.25)] items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
-                    <div className="w-11 h-11 rounded-xl bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-xl">&#10003;</div>
-                    <div className="text-sm text-gray"><strong className="text-navy block">Track Progress</strong>See every completed session</div>
                   </div>
                 </div>
               </div>
@@ -169,6 +155,19 @@ export default function ForCoachesLearnPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* CLUB SETUP */}
+      <section className="py-16 px-5 bg-[#f0f4f8] text-center">
+        <div className="max-w-[700px] mx-auto">
+          <h2 className="text-[clamp(24px,4vw,36px)] font-bold text-navy leading-tight mb-3">
+            Looking to get your <span className="text-red">whole club</span> set up?
+          </h2>
+          <p className="text-lg text-[#64748b] mb-8">
+            Leave your details and Megan, our Team Success Manager, will walk you through onboarding, club pricing, and the steps to get your teams going.
+          </p>
+          <ClubInfoForm />
         </div>
       </section>
 
