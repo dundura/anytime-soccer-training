@@ -25,26 +25,6 @@ const GREEN = 'background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;pa
 
 export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
-    title: 'About Anytime Soccer Training',
-    body: `
-      <p style="font-size:19px;font-weight:800;color:#0F3154;line-height:1.35;margin:0 0 16px;">The Complete Soccer Training Platform for Your Club</p>
-      <p>Some of the benefits that come with your subscription:</p>
-      <div style="${BOX}">
-        ${[
-          'Follow-along sessions for every skill',
-          'Assign homework folders or recurring plans &mdash; customizable for individual players',
-          'Create contests and track player progress',
-          'Built for all ages, all skill levels',
-          'Unlimited teams, easy roster management',
-        ].map((item, i, all) => `
-        <div style="display:flex;gap:12px;align-items:flex-start;${i < all.length - 1 ? 'margin-bottom:14px;' : ''}">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#DC373E;color:#fff;font-size:13px;font-weight:700;margin-top:2px;">&#10003;</span>
-          <p style="margin:0;">${item}</p>
-        </div>`).join('')}
-      </div>
-    `,
-  },
-  {
     title: 'How Pricing Works',
     body: `
       <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:0 0 10px;">The Rate</p>
@@ -63,7 +43,11 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <p style="margin:6px 0 0;"><strong>One free coach account</strong> &mdash; per team.</p>
         </div>
       </div>
-      <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:28px 0 10px;">Payment</p>
+    `,
+  },
+  {
+    title: 'Payment',
+    body: `
       <div style="${BOX}">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
@@ -85,6 +69,11 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
       </div>
       <p>So you only pay for players who actually use the program.</p>
+    `,
+  },
+  {
+    title: 'Example',
+    body: `
       <div style="${GREEN}">
         <p style="margin:0 0 10px;color:#166534;"><strong>Example &mdash; a club with 10 teams:</strong></p>
         <p style="margin:0 0 8px;color:#166534;">They buy <strong>75 slots</strong> up front at $8 each &mdash; <strong>$600</strong>. Coaches free.</p>
