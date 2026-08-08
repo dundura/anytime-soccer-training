@@ -161,60 +161,24 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
   },
   {
-    title: 'Getting Your Coaches Set Up',
-    body: `
-      <p>Your coaches each run their own team, so each of them needs a few minutes of setup.</p>
-      <div style="${BOX}">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;"><strong>Send Megan your team list</strong> &mdash; team names and the coach for each one.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:6px 0 0;"><strong>Each coach gets their own onboarding</strong> &mdash; the same portal you are in now, pointed at setting up one team.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
-          <p style="margin:6px 0 0;"><strong>We handle the rosters</strong> &mdash; send them in and we load them, so your coaches are not typing names in one at a time.</p>
-        </div>
-      </div>
-      <p>Coaches do not pay anything and do not need a separate license.</p>
-    `,
-  },
-  {
-    title: 'Rolling It Out to Parents',
-    body: `
-      <p>The clubs that get real use out of this are the ones where parents hear about it from the club, not just from an app.</p>
-      <div style="${BOX}">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;"><strong>One club-wide announcement</strong> explaining what it is and that the club is providing it.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:6px 0 0;"><strong>A getting-started link per team</strong> &mdash; ask Megan and she will send you one for each, ready to forward to parents.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
-          <p style="margin:6px 0 0;"><strong>Coaches assign the first homework</strong> in week one, so there is something waiting when parents log in.</p>
-        </div>
-      </div>
-      <div style="${GREEN}">
-        <p style="margin:0;color:#166534;">That last one matters more than it sounds. An empty account is the fastest way to lose a family in week one.</p>
-      </div>
-    `,
-  },
-  {
     title: 'Talk to Megan',
     body: `
-      <p>When you are ready to talk numbers for your club, Megan will put together a quote and get your teams created.</p>
+      <p>Finish below and we will email you, Megan and Neil to say your club is ready to learn more &mdash; Megan will follow up with a quote and get your teams created.</p>
       <div style="${GREEN}">
-        <p style="margin:0 0 6px;color:#166534;"><strong>Tell her:</strong></p>
+        <p style="margin:0 0 6px;color:#166534;"><strong>Have ready:</strong></p>
         <p style="margin:0;color:#166534;">Your club name, roughly how many teams and players you are looking at, and when your season starts.</p>
       </div>
-      <p>She will confirm your rate, set up the teams and get your coaches their onboarding links.</p>
+      <p>Two things you can get started on now:</p>
+      <div style="${BOX}">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#DC373E;color:#fff;font-size:13px;font-weight:700;margin-top:2px;">&#10003;</span>
+          <p style="margin:0;"><a href="https://www.anytime-soccer.com/team-demo-request-anytime-soccer-training" target="_blank" rel="noopener noreferrer" style="color:#DC373E;font-weight:700;">Book a demo</a> &mdash; 15&ndash;20 minutes, and group demos are available for your coaches.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#DC373E;color:#fff;font-size:13px;font-weight:700;margin-top:2px;">&#10003;</span>
+          <p style="margin:0;"><a href="https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa" target="_blank" rel="noopener noreferrer" style="color:#DC373E;font-weight:700;">Get the roster template</a> &mdash; your coaches can start filling theirs in at their own pace.</p>
+        </div>
+      </div>
     `,
-    ctaLabel: 'Email Megan',
-    ctaHref: 'mailto:megan@anytime-soccer.com?subject=Club%20enquiry',
   },
 ];
