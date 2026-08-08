@@ -134,7 +134,7 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Adding and Removing Players Each Season',
     body: `
-      <p>This is the question every club asks in year two, so here it is plainly: <strong>you do not start over each season.</strong></p>
+      <p><strong>You do not start over each season.</strong></p>
       <div style="${BOX}">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
