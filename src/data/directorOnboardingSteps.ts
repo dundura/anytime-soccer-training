@@ -103,7 +103,12 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <div style="${BOX}">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;"><strong>Coach joins a 15&ndash;20 minute online demo.</strong></p>
+          <div style="margin:6px 0 0;">
+            <p style="margin:0;"><strong>Coach joins a 15&ndash;20 minute online demo.</strong></p>
+            <ul style="margin:6px 0 0;padding-left:20px;color:#475569;font-size:14px;list-style:disc outside;">
+              <li style="margin:0;display:list-item;">Group demos available.</li>
+            </ul>
+          </div>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
@@ -115,7 +120,7 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
-          <p style="margin:6px 0 0;"><strong>We invite the parents</strong> &mdash; with everything they need to create an account and join their team.</p>
+          <p style="margin:6px 0 0;"><strong>We invite the parents</strong> &mdash; with information to create an account and join their team.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
