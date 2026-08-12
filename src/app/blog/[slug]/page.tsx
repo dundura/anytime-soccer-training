@@ -80,7 +80,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   if (!post) notFound();
 
   const { toc, content: contentWithIds } = buildTOC(post.content);
-  const showTOC = toc.length >= 3;
+  // A post can ship its own styled table of contents by marking its wrapper with
+  // data-custom-toc. Without this, such a post renders two tables of contents:
+  // its own, plus the auto-built one below. The h2 ids are still generated
+  // either way, so the post's own links keep working.
+  const hasCustomTOC = /data-custom-toc/.test(post.content);
+  const showTOC = toc.length >= 3 && !hasCustomTOC;
 
   return (
     <article className="pt-4 pb-12 bg-background">
