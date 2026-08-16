@@ -516,4 +516,18 @@ export const ONBOARDING_FAQ: FaqItem[] = [
       </div>
     `,
   },
+  {
+    category: "Team Management",
+    question: "How do I change my team name?",
+    answer: `
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:18px 20px;margin:8px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span><p style="margin:4px 0 0;">Go to <strong>your team</strong>.</p></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span><p style="margin:4px 0 0;">Click <strong>Edit Team</strong> in the side menu.</p></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span><p style="margin:4px 0 0;">Change the name and save.</p></div>
+      </div>
+      <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px 18px;margin:14px 0 0;">
+        <p style="margin:0;color:#991b1b;"><strong>Wait until every player has joined before changing the name.</strong> Players search for your team by name to join &mdash; rename it early and the ones who have not joined yet will not find you.</p>
+      </div>
+    `,
+  },
 ];
