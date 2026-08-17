@@ -12,6 +12,7 @@
               "ic": "⚡",
               "label": "Start with Quick Start",
               "sub": "No setup at all — four videos a day. The easiest way to learn how the program works.",
+              "lead": true,
               "to": "/quick-start"
             }
           ]
