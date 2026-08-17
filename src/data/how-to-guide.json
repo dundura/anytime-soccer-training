@@ -10,21 +10,9 @@
           "links": [
             {
               "ic": "⚡",
-              "label": "1. Start with Quick Start",
+              "label": "Start with Quick Start",
               "sub": "No setup at all — four videos a day. The easiest way to learn how the program works.",
               "to": "/quick-start"
-            },
-            {
-              "ic": "🌱",
-              "label": "2. Pick a ready-made plan",
-              "sub": "Beginner, Intermediate or Advanced — the videos are chosen for you.",
-              "to": "/build-my-plan"
-            },
-            {
-              "ic": "📅",
-              "label": "3. Or build your own",
-              "sub": "Build a weekly, 30-day or custom plan.",
-              "to": "/build-my-plan"
             }
           ]
         }
