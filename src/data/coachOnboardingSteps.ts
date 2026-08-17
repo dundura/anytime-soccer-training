@@ -400,8 +400,8 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
       </div>
       <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;margin:16px 0;">
-        <p style="margin:0 0 6px;color:#92400e;"><strong>If your club pays, skip step 3 &mdash; there is nothing to buy.</strong></p>
-        <p style="margin:0;color:#92400e;">Your slots are already on your account. You are only clicking <strong>Upgrade Players</strong> to grant each player their 365-day access.</p>
+        <p style="margin:0 0 6px;color:#92400e;"><strong>If your club has paid, no payment is needed &mdash; skip step 3.</strong></p>
+        <p style="margin:0;color:#92400e;">We add the slots to your account for you. All you do is click <strong>Upgrade Players</strong> and grant each player their 365-day access. You are never asked to pay.</p>
       </div>
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;margin:16px 0;">
         <p style="margin:0 0 6px;color:#166534;"><strong>Once they are added, invite them.</strong></p>
