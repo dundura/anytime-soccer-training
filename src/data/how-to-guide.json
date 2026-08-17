@@ -2,7 +2,7 @@
   "version": 2,
   "player": [
     {
-      "q": "Where do I start?",
+      "q": "Where do I start? — Part 1: Quick Start",
       "steps": [
         {
           "label": "Start with Quick Start",
@@ -14,7 +14,12 @@
               "to": "/quick-start"
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "q": "Where do I start? — Part 2: Pick a plan",
+      "steps": [
         {
           "label": "Then pick a plan",
           "text": "A plan organizes the videos by day and week.",
@@ -35,7 +40,12 @@
               "to": "/build-my-plan"
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "q": "Where do I start? — Part 3: Ball mastery folders",
+      "steps": [
         {
           "text": "Ball mastery is a great place to start. No equipment set-up or much space required.",
           "links": [
@@ -124,14 +134,30 @@
       "q": "Where do beginners and experienced players start?",
       "steps": [
         {
-          "label": "Beginners: start with the Beginner plan",
-          "text": "Start the **Beginner plan**. The folders and the order are already chosen, so there is nothing to set up.\n\nOr choose the **1,000 Touch Ball Mastery** program and start there instead, working through it in order.",
+          "label": "We recommend a plan",
+          "text": "Start with the **Beginner**, **Intermediate** or **Advanced** plan — the folders and the order are already chosen.",
           "links": [
             {
               "ic": "🌱",
               "label": "Beginner plan",
               "to": "/build-my-plan"
             },
+            {
+              "ic": "🌿",
+              "label": "Intermediate plan",
+              "to": "/build-my-plan"
+            },
+            {
+              "ic": "🔥",
+              "label": "Advanced plan",
+              "to": "/build-my-plan"
+            }
+          ]
+        },
+        {
+          "label": "Beginner: recommended folders",
+          "text": "Or here are some recommended folders to start with.",
+          "links": [
             {
               "ic": "🎯",
               "label": "1,000 Touch Ball Mastery",
@@ -174,9 +200,6 @@
               "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_MIDFIELDER_FILTER_DATA"
             }
           ]
-        },
-        {
-          "text": "This is just one example. A beginner may focus on one type of ball mastery, where an experienced player should do several types — while still following them in order."
         }
       ]
     },
