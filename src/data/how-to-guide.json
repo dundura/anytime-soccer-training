@@ -119,7 +119,7 @@
       "steps": [
         {
           "label": "We recommend a plan",
-          "text": "Start with the **Beginner** plan — the folders and the order are already chosen. **Intermediate** and **Advanced** are there too, for a player already past that.",
+          "text": "Start with the **Beginner** plan.",
           "links": [
             {
               "ic": "🌱",
