@@ -44,7 +44,7 @@
       ]
     },
     {
-      "q": "Where do I start? — Part 3: Ball mastery folders",
+      "q": "Recommended Ball Mastery Folders",
       "steps": [
         {
           "text": "Ball mastery is a great place to start. No equipment set-up or much space required.",
@@ -85,27 +85,11 @@
       ]
     },
     {
-      "q": "Do you recommend a training plan?",
-      "steps": [
-        {
-          "label": "Yes",
-          "text": "Training plans are recurring and give you a guided path.\n\n• **Prebuilt** — Beginner, Intermediate or Advanced, already chosen for you\n\n• **Weekly or 30-day** — a weekly goal, or one skill area for four weeks\n\n• **Custom** — build your own\n\nChoose the one that fits you.",
-          "links": [
-            {
-              "ic": "📅",
-              "label": "Get a Training Plan",
-              "to": "/build-my-plan"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "q": "How long should my child train?",
       "steps": [
         {
           "label": "The Key to Success: Train at a Level They Can Stick With",
-          "text": "We call this **MEEE** — the Minimum Extra Effort they can do with Enthusiasm.\n\nA few things to keep in mind:\n\n• Consistency beats intensity — even **20 minutes a week** can meaningfully improve a player's skill\n\n• **Sit down with your child and set a weekly goal together, one they can realistically handle**\n\n• **Let them help pick the goal — a goal they chose is a goal they'll keep**",
+          "text": "We call this **MEEE** — the Minimum Extra Effort they can do with Enthusiasm.\n\n| Age | Level | Recommended time |\n| --- | --- | --- |\n| U8 | Recreational | 20–30 min a week |\n| U10 | Recreational | 30–60 min a week |\n| U10 | Competitive | 1–2 hours a week |\n| U12 | Recreational | 1 hour a week |\n| U12 | Competitive | 2–3 hours a week |\n| U15 | Competitive | 3–4 hours a week |\n| U16+ | Competitive / academy | 4–5 hours a week |\n\nOutside of team practice. Consistency beats intensity — even **20 minutes a week** meaningfully improves a player's skill.\n\n• **Set the weekly goal together, one they can realistically handle**\n\n• **Let them help pick it — a goal they chose is a goal they'll keep**",
           "links": [
             {
               "ic": "🎯",
