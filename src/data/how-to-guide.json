@@ -131,11 +131,11 @@
       ]
     },
     {
-      "q": "Where do beginners and experienced players start?",
+      "q": "Where do beginners start?",
       "steps": [
         {
           "label": "We recommend a plan",
-          "text": "Start with the **Beginner**, **Intermediate** or **Advanced** plan — the folders and the order are already chosen.",
+          "text": "Start with the **Beginner** plan — the folders and the order are already chosen. **Intermediate** and **Advanced** are there too, for a player already past that.",
           "links": [
             {
               "ic": "🌱",
@@ -155,49 +155,13 @@
           ]
         },
         {
-          "label": "Beginner: recommended folders",
+          "label": "Recommended folders",
           "text": "Or here are some recommended folders to start with.",
           "links": [
             {
               "ic": "🎯",
               "label": "1,000 Touch Ball Mastery",
               "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
-            }
-          ]
-        },
-        {
-          "label": "Experienced",
-          "text": "An experienced player can handle multiple ball mastery programs, as well as training programs in other skill areas.",
-          "links": [
-            {
-              "ic": "🎯",
-              "label": "1,000 Touch Ball Mastery",
-              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
-            },
-            {
-              "ic": "🎯",
-              "label": "101 Ball Mastery",
-              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_101_BALL_MASTERY_DRILLS_DATA"
-            },
-            {
-              "ic": "🎯",
-              "label": "Two Cone Ball Mastery",
-              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_TWO_CONE_FILTER_DATA"
-            },
-            {
-              "ic": "🎯",
-              "label": "Four Cone Ball Mastery",
-              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_FOUR_CONE_FILTER_DATA"
-            },
-            {
-              "ic": "🎯",
-              "label": "Lateral Ball Mastery",
-              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_LATERAL_FILTER_DATA"
-            },
-            {
-              "ic": "🎯",
-              "label": "Midfielder Ball Mastery",
-              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_MIDFIELDER_FILTER_DATA"
             }
           ]
         }
