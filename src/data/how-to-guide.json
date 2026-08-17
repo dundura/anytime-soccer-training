@@ -10,8 +10,21 @@
           "links": [
             {
               "ic": "⚡",
-              "label": "Quick Start",
+              "label": "1. Start with Quick Start",
+              "sub": "No setup at all — four videos a day. The easiest way to learn how the program works.",
               "to": "/quick-start"
+            },
+            {
+              "ic": "🌱",
+              "label": "2. Pick a ready-made plan",
+              "sub": "Beginner, Intermediate or Advanced — the videos are chosen for you.",
+              "to": "/build-my-plan"
+            },
+            {
+              "ic": "📅",
+              "label": "3. Or build your own",
+              "sub": "Build a weekly, 30-day or custom plan.",
+              "to": "/build-my-plan"
             }
           ]
         }
@@ -90,8 +103,8 @@
       "q": "How long should my child train?",
       "steps": [
         {
-          "label": "Recommended weekly training times",
-          "text": "| Age | Recreational | Competitive |\n| --- | --- | --- |\n| U8 | 20–30 min | 30–60 min |\n| U10 | 30–60 min | 1–2 hours |\n| U12 | 1 hour | 2–3 hours |\n| U15 | 1–2 hours | 3–4 hours |\n| U16+ | 2 hours | 4–5 hours |\n\n**More tips**\n\n• These are outside of team practice\n\n• Consistency beats intensity — even **20 minutes a week** meaningfully improves a player's skill\n\n• **Set the weekly goal together, one they can realistically handle**\n\n• **Let them help pick it — a goal they chose is a goal they'll keep**",
+          "label": "The Key to Success: Train at a Level They Can Stick With",
+          "text": "**Recommended weekly times**\n\n| Age | Recreational | Competitive |\n| --- | --- | --- |\n| U8 | 20–30 min | 30–60 min |\n| U10 | 30–60 min | 1–2 hours |\n| U12 | 1 hour | 2–3 hours |\n| U15 | 1–2 hours | 3–4 hours |\n| U16+ | 2 hours | 4–5 hours |\n\n**Other tips**\n\n• These are outside of team practice\n\n• Consistency beats intensity — even **20 minutes a week** meaningfully improves a player's skill\n\n• **Set the weekly goal together, one they can realistically handle**\n\n• **Let them help pick it — a goal they chose is a goal they'll keep**",
           "links": [
             {
               "ic": "🎯",
