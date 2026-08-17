@@ -37,7 +37,7 @@
           ]
         },
         {
-          "text": "Or work through the folders yourself, in order. These are the ones we suggest starting with.",
+          "text": "Or work through the key ball mastery folders yourself, in order. These are the ones we suggest starting with.",
           "links": [
             {
               "ic": "🎯",
@@ -70,7 +70,7 @@
               "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_MIDFIELDER_FILTER_DATA"
             }
           ],
-          "label": "Or work through the folders"
+          "label": "Or work through key ball mastery folders"
         }
       ]
     },
@@ -78,18 +78,13 @@
       "q": "Do you recommend a training plan?",
       "steps": [
         {
-          "label": "Yes — But It Depends on Your Preference",
-          "text": "Training plans are recurring and give you a guided path.\n\n• **However, some users prefer sticking with a few folders and working through them at their own pace.**\n\n• **I use both.**\n\n• **I built a custom plan for my son's after-school training, and I favorite folders we use for longer training sessions.**",
+          "label": "Yes",
+          "text": "Training plans are recurring and give you a guided path.\n\n• **Prebuilt** — Beginner, Intermediate or Advanced, already chosen for you\n\n• **Weekly or 30-day** — a weekly goal, or one skill area for four weeks\n\n• **Custom** — build your own\n\nChoose the one that fits you.",
           "links": [
             {
               "ic": "📅",
               "label": "Get a Training Plan",
               "to": "/build-my-plan"
-            },
-            {
-              "ic": "⭐",
-              "label": "My Favorites",
-              "to": "/my-training?tab=favorites"
             }
           ]
         }
