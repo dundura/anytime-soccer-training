@@ -40,18 +40,25 @@
       "steps": [
         {
           "label": "Pick the Intermediate plan",
-          "text": "Experienced players should pick the **Intermediate plan** — the same start, with more volume and variety built in.\n\n• Another way to accelerate that variety is our **30-Day Plans**\n\n• **Each video works four to six different moves**\n\n• **A player covers far more ground in the same session**",
+          "text": "Experienced players should pick the **Intermediate plan** — the same start, with more volume and variety built in.",
           "links": [
             {
-              "ic": "🌿",
-              "label": "Intermediate plan",
+              "ic": "⚡",
+              "label": "Intermediate",
+              "sub": "Ready for More.\nBall mastery · Juggling · Dribbling · Wall passing & passing · 1v1 · Turns",
+              "to": "/build-my-plan"
+            },
+            {
+              "ic": "🔥",
+              "label": "Advanced",
+              "sub": "Already training — go deeper.\nBall mastery · Juggling · Dribbling\nPassing · 1v1 · Finishing · Fitness",
               "to": "/build-my-plan"
             }
           ]
         },
         {
           "label": "Other suggested folders",
-          "text": "These are some other folders worth working through.",
+          "text": "If you would rather work through a folder without a plan, these are some recommendations.",
           "links": [
             {
               "ic": "🎯",
@@ -82,7 +89,7 @@
       "steps": [
         {
           "label": "The Key to Success: Train at a Level They Can Stick With",
-          "text": "**Recommended weekly times**\n\n| Age | Recreational | Competitive |\n| --- | --- | --- |\n| U8 | 20–30 min | 30–60 min |\n| U10 | 30–60 min | 1–2 hours |\n| U12 | 1 hour | 2–3 hours |\n| U15 | 1–2 hours | 3–4 hours |\n| U16+ | 2 hours | 4–5 hours |\n\n**Other tips**\n\n• These are outside of team practice\n\n• Consistency beats intensity — even **20 minutes a week** meaningfully improves a player's skill\n\n• **Set the weekly goal together, one they can realistically handle**\n\n• **Let them help pick it — a goal they chose is a goal they'll keep**",
+          "text": "**Recommended weekly times**\n\n| Age | Recreational | Competitive |\n| --- | --- | --- |\n| U8 | 20–30 min | 30–60 min |\n| U10 | 30–60 min | 1–2 hours |\n| U12 | 1 hour | 2–3 hours |\n| U15 | 1–2 hours | 3–4 hours |\n| U16+ | 2 hours | 4–5 hours |\n\n**Other tips**\n\n• Consistency beats intensity — even **20 minutes a week** meaningfully improves a player's skill\n\n• **Set the weekly goal together, one they can realistically handle**\n\n• **Let them help pick it — a goal they chose is a goal they'll keep**",
           "links": [
             {
               "ic": "🎯",
@@ -103,7 +110,7 @@
       "steps": [
         {
           "label": "No — With a Few Exceptions",
-          "text": "The program stacks skills — one new move per video, each building on the last.\n\n• **INTRO** — teaches a new move\n\n• **QR** — quick review of recent moves\n\n• **FR** — full review of a block\n\nReviews bring earlier moves back on their own. Skip a video and a later review may use a move they never learned.\n\n**Exceptions:**\n\n• **Strong jugglers can skip the early juggling build-up**\n\n• **No space/equipment? Skip and return later**"
+          "text": "The program stacks skills — one new move per video, each building on the last.\n\n• **INTRO** — teaches a new move\n\n• **QR** — quick review of recent moves\n\n• **FR** — full review of a block\n\n**Exceptions:**\n\n• **Strong jugglers can skip the early juggling build-up**\n\n• **No space/equipment? Skip and return later**"
         }
       ]
     },
