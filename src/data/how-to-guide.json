@@ -18,122 +18,15 @@
       ]
     },
     {
-      "q": "Pick a Plan",
-      "steps": [
-        {
-          "label": "Then pick a plan",
-          "text": "A plan organizes the videos by day and week.",
-          "links": [
-            {
-              "ic": "🌱",
-              "label": "Pick a prebuilt plan",
-              "to": "/build-my-plan"
-            },
-            {
-              "ic": "📆",
-              "label": "30-Day Plans",
-              "to": "/my-training?tab=thirty-day"
-            },
-            {
-              "ic": "📅",
-              "label": "Build your own",
-              "to": "/build-my-plan"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "q": "Recommended Ball Mastery Folders",
-      "steps": [
-        {
-          "text": "Ball mastery is a great place to start. No equipment set-up or much space required.",
-          "links": [
-            {
-              "ic": "🎯",
-              "label": "1,000 Touch Ball Mastery",
-              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
-            },
-            {
-              "ic": "🎯",
-              "label": "101 Ball Mastery",
-              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_101_BALL_MASTERY_DRILLS_DATA"
-            },
-            {
-              "ic": "🎯",
-              "label": "Two Cone Ball Mastery",
-              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_TWO_CONE_FILTER_DATA"
-            },
-            {
-              "ic": "🎯",
-              "label": "Four Cone Ball Mastery",
-              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_FOUR_CONE_FILTER_DATA"
-            },
-            {
-              "ic": "🎯",
-              "label": "Lateral Ball Mastery",
-              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_LATERAL_FILTER_DATA"
-            },
-            {
-              "ic": "🎯",
-              "label": "Midfielder Ball Mastery",
-              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_MIDFIELDER_FILTER_DATA"
-            }
-          ],
-          "label": "Or work through key ball mastery folders"
-        }
-      ]
-    },
-    {
-      "q": "How long should my child train?",
-      "steps": [
-        {
-          "label": "Recommended weekly training times",
-          "text": "| Age | Recreational | Competitive |\n| --- | --- | --- |\n| U8 | 20–30 min | 30–60 min |\n| U10 | 30–60 min | 1–2 hours |\n| U12 | 1 hour | 2–3 hours |\n| U15 | 1–2 hours | 3–4 hours |\n| U16+ | 2 hours | 4–5 hours |\n\n**More tips**\n\n• These are outside of team practice\n\n• Consistency beats intensity — even **20 minutes a week** meaningfully improves a player's skill\n\n• **Set the weekly goal together, one they can realistically handle**\n\n• **Let them help pick it — a goal they chose is a goal they'll keep**",
-          "links": [
-            {
-              "ic": "🎯",
-              "label": "Set a Weekly Goal",
-              "to": "/dashboardChild/stats"
-            },
-            {
-              "ic": "🏆",
-              "label": "My Training Reward",
-              "to": "/trainingGoal/"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "q": "Should I skip videos?",
-      "steps": [
-        {
-          "label": "No — With a Few Exceptions",
-          "text": "The program stacks skills — one new move per video, each building on the last.\n\n• **INTRO** — teaches a new move\n\n• **QR** — quick review of recent moves\n\n• **FR** — full review of a block\n\nReviews bring earlier moves back on their own. Skip a video and a later review may use a move they never learned.\n\n**Exceptions:**\n\n• **Strong jugglers can skip the early juggling build-up**\n\n• **No space/equipment? Skip and return later**"
-        }
-      ]
-    },
-    {
       "q": "Where do beginners start?",
       "steps": [
         {
           "label": "We recommend a plan",
-          "text": "Start with the **Beginner** plan.",
+          "text": "Start with the **Beginner** plan. It has the four key skill areas that every player should master.",
           "links": [
             {
               "ic": "🌱",
               "label": "Beginner plan",
-              "to": "/build-my-plan"
-            },
-            {
-              "ic": "🌿",
-              "label": "Intermediate plan",
-              "to": "/build-my-plan"
-            },
-            {
-              "ic": "🔥",
-              "label": "Advanced plan",
               "to": "/build-my-plan"
             }
           ]
@@ -152,7 +45,7 @@
       ]
     },
     {
-      "q": "More on experienced players",
+      "q": "Where do experienced players start?",
       "steps": [
         {
           "label": "Pick the Intermediate plan",
@@ -194,6 +87,36 @@
       ]
     },
     {
+      "q": "How long should my child train?",
+      "steps": [
+        {
+          "label": "Recommended weekly training times",
+          "text": "| Age | Recreational | Competitive |\n| --- | --- | --- |\n| U8 | 20–30 min | 30–60 min |\n| U10 | 30–60 min | 1–2 hours |\n| U12 | 1 hour | 2–3 hours |\n| U15 | 1–2 hours | 3–4 hours |\n| U16+ | 2 hours | 4–5 hours |\n\n**More tips**\n\n• These are outside of team practice\n\n• Consistency beats intensity — even **20 minutes a week** meaningfully improves a player's skill\n\n• **Set the weekly goal together, one they can realistically handle**\n\n• **Let them help pick it — a goal they chose is a goal they'll keep**",
+          "links": [
+            {
+              "ic": "🎯",
+              "label": "Set a Weekly Goal",
+              "to": "/dashboardChild/stats"
+            },
+            {
+              "ic": "🏆",
+              "label": "My Training Reward",
+              "to": "/trainingGoal/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "q": "Should I skip videos?",
+      "steps": [
+        {
+          "label": "No — With a Few Exceptions",
+          "text": "The program stacks skills — one new move per video, each building on the last.\n\n• **INTRO** — teaches a new move\n\n• **QR** — quick review of recent moves\n\n• **FR** — full review of a block\n\nReviews bring earlier moves back on their own. Skip a video and a later review may use a move they never learned.\n\n**Exceptions:**\n\n• **Strong jugglers can skip the early juggling build-up**\n\n• **No space/equipment? Skip and return later**"
+        }
+      ]
+    },
+    {
       "q": "Skill Challenge",
       "steps": [
         {
@@ -209,22 +132,6 @@
               "ic": "🎯",
               "label": "Practice juggling",
               "to": "/dashboardChild/all-programs?category=SET_JUGGLING_AND_AERIAL_CONTROL_DATA_PARENT&subCategory=SET_JUGGLING_CHALLENGES_FILTER_DATA"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "q": "Can I build my own plan?",
-      "steps": [
-        {
-          "label": "Yes — build a custom plan",
-          "text": "Add the folders you want and build it.",
-          "links": [
-            {
-              "ic": "📅",
-              "label": "Build a Custom Plan",
-              "to": "/build-my-plan?view=custom-plan"
             }
           ]
         }
