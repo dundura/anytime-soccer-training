@@ -29,6 +29,8 @@
             {
               "ic": "🌱",
               "label": "Beginner",
+              "accent": "#16a34a",
+              "tint": "linear-gradient(135deg, #f0fdf4 0%, #fff 100%)",
               "sub": "New to training on your own.\nBall mastery · Juggling · Dribbling\nWall passing",
               "to": "/build-my-plan"
             }
@@ -46,12 +48,16 @@
             {
               "ic": "⚡",
               "label": "Intermediate",
+              "accent": "#2563eb",
+              "tint": "linear-gradient(135deg, #eff6ff 0%, #fff 100%)",
               "sub": "Ready for More.\nBall mastery · Juggling · Dribbling · Wall passing & passing · 1v1 · Turns",
               "to": "/build-my-plan"
             },
             {
               "ic": "🔥",
               "label": "Advanced",
+              "accent": "#dc373e",
+              "tint": "linear-gradient(135deg, #fff5f5 0%, #fff 100%)",
               "sub": "Already training — go deeper.\nBall mastery · Juggling · Dribbling\nPassing · 1v1 · Finishing · Fitness",
               "to": "/build-my-plan"
             }
