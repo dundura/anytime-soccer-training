@@ -88,8 +88,8 @@
       "q": "How long should my child train?",
       "steps": [
         {
-          "label": "The Key to Success: Train at a Level They Can Stick With",
-          "text": "We call this **MEEE** — the Minimum Extra Effort they can do with Enthusiasm.\n\n**Weekly times**\n\n| Age | Recreational | Competitive |\n| --- | --- | --- |\n| U8 | 20–30 min | 30–60 min |\n| U10 | 30–60 min | 1–2 hours |\n| U12 | 1 hour | 2–3 hours |\n| U15 | 1–2 hours | 3–4 hours |\n| U16+ | 2 hours | 4–5 hours |\n\nOutside of team practice. Consistency beats intensity — even **20 minutes a week** meaningfully improves a player's skill.\n\n• **Set the weekly goal together, one they can realistically handle**\n\n• **Let them help pick it — a goal they chose is a goal they'll keep**",
+          "label": "Recommended weekly training times",
+          "text": "| Age | Recreational | Competitive |\n| --- | --- | --- |\n| U8 | 20–30 min | 30–60 min |\n| U10 | 30–60 min | 1–2 hours |\n| U12 | 1 hour | 2–3 hours |\n| U15 | 1–2 hours | 3–4 hours |\n| U16+ | 2 hours | 4–5 hours |\n\n**More tips**\n\n• These are outside of team practice\n\n• Consistency beats intensity — even **20 minutes a week** meaningfully improves a player's skill\n\n• **Set the weekly goal together, one they can realistically handle**\n\n• **Let them help pick it — a goal they chose is a goal they'll keep**",
           "links": [
             {
               "ic": "🎯",
@@ -110,7 +110,7 @@
       "steps": [
         {
           "label": "No — With a Few Exceptions",
-          "text": "The program stacks skills — one new move per video, each building on the last.\n\n• **INTRO** — teaches a new move\n\n• **QR** — quick review of recent moves\n\n• **FR** — full review of a block\n\nReviews bring back earlier moves automatically, so your child can train on their own without you having to manage or re-teach anything. Skip a video, though, and later reviews may reference a move they missed.\n\n**Exceptions:**\n\n• **Strong jugglers can skip the early juggling build-up**\n\n• **No space/equipment? Skip and return later**"
+          "text": "The program stacks skills — one new move per video, each building on the last.\n\n• **INTRO** — teaches a new move\n\n• **QR** — quick review of recent moves\n\n• **FR** — full review of a block\n\nReviews bring earlier moves back on their own. Skip a video and a later review may use a move they never learned.\n\n**Exceptions:**\n\n• **Strong jugglers can skip the early juggling build-up**\n\n• **No space/equipment? Skip and return later**"
         }
       ]
     },
