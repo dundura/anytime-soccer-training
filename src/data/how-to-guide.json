@@ -17,7 +17,7 @@
         },
         {
           "label": "Then pick a plan",
-          "text": "A plan chooses the videos for you and gives the week a shape.\n\n• **Prebuilt** — Beginner, Intermediate or Advanced\n\n• **Weekly or 30-day** — a weekly goal, or one skill area for four weeks\n\n• **Custom** — build your own",
+          "text": "A plan organizes the videos by day and week.",
           "links": [
             {
               "ic": "🌱",
