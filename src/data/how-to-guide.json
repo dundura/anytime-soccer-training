@@ -6,7 +6,7 @@
       "steps": [
         {
           "label": "Start with Quick Start",
-          "text": "On day one, start with **Quick Start**. It's ball mastery, already picked for you.",
+          "text": "On day one, start with **Quick Start**. It's hand-picked ball mastery, to help you become familiar with the program.",
           "links": [
             {
               "ic": "⚡",
@@ -22,24 +22,14 @@
       "q": "Where do beginners start?",
       "steps": [
         {
-          "label": "We recommend a plan",
+          "label": "We recommend the Beginner Plan",
           "text": "Start with the **Beginner** plan. It has the four key skill areas that every player should master.",
           "links": [
             {
               "ic": "🌱",
-              "label": "Beginner plan",
+              "label": "Beginner",
+              "sub": "New to training on your own.\nBall mastery · Juggling · Dribbling\nWall passing",
               "to": "/build-my-plan"
-            }
-          ]
-        },
-        {
-          "label": "Recommended folders",
-          "text": "Or here are some recommended folders to start with.",
-          "links": [
-            {
-              "ic": "🎯",
-              "label": "1,000 Touch Ball Mastery",
-              "to": "/dashboardChild/all-programs?category=SET_BALL_MASTERY_SKILL_AREA_DATA&subCategory=SET_1000_TOUCH_FILTER_DATA"
             }
           ]
         }
