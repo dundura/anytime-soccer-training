@@ -30,6 +30,13 @@ const CORS = {
   "Cache-Control": "public, max-age=0, must-revalidate, s-maxage=60, stale-while-revalidate=3600",
 };
 
+// Never prerendered, never revalidated on a timer: the response is built per
+// request from the imported JSON. Importing the file was not enough on its own —
+// builds kept serving a cached copy of this route's output, so the app showed
+// wording several commits old while every deployment reported Ready.
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export async function GET() {
   return NextResponse.json(guide, { headers: CORS });
 }
