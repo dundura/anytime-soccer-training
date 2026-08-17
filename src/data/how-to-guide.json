@@ -6,7 +6,7 @@
       "steps": [
         {
           "label": "Start with Quick Start",
-          "text": "On day one, start with **Quick Start**. It's ball mastery, already picked for you — four videos a day, nothing to set up.",
+          "text": "On day one, start with **Quick Start**. It's ball mastery, already picked for you.",
           "links": [
             {
               "ic": "⚡",
@@ -16,7 +16,7 @@
           ]
         },
         {
-          "label": "Then, if you want a plan, pick one",
+          "label": "Then pick a plan",
           "text": "A plan chooses the videos for you and gives the week a shape.\n\n• **Prebuilt** — Beginner, Intermediate or Advanced\n\n• **Weekly or 30-day** — a weekly goal, or one skill area for four weeks\n\n• **Custom** — build your own",
           "links": [
             {
