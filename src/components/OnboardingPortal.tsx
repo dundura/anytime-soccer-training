@@ -31,7 +31,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Which best describes your expectations for your team?', options: ['Training outside practice is an expectation I’ve set — I’m aiming for 75%+ engagement, and if it’s slow I’ll use the competition features to boost it.', 'My team is motivated. It’s optional, but I’m excited to see how they respond, and I’ll do some of the competition features.', 'Optional — if they train, great; if not, no pressure.'] } },
   { key: 'roster_intro', title: 'Overview: Upgrading Players', dataIndex: 22, section: 'Pre-Onboarding', info: true, plainNext: true },
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
-  { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
+  { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding', quiz: { prompt: 'How would you like your players added?', options: ['I’m sending my roster', 'Send me an invite link instead — I won’t be sending a roster'] } },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: -1, section: 'Pre-Onboarding', quiz: { prompt: 'How is your team getting set up?', options: ['I paid the invoice', 'I will purchase slots inside the app (after onboarding steps complete)', 'My club paid the invoice'] } },
   { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding', info: true },
   { key: 'survey', title: 'Take the Coaching Engagement Survey', dataIndex: 3, section: 'Onboarding' },
@@ -99,7 +99,7 @@ const numberedTotal = (steps: PortalStep[]) => steps.filter(x => !x.tip && !x.bo
 
 const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
   { heading: 'Before You Start', items: [
-    'Roster templates are for teams joining Anytime Soccer Training for the first time.',
+    'Roster templates are for teams joining for the first time and teams with several roster changes.',
     'Renewing members can <strong>submit a roster or add new players inside the app and purchase their slots.</strong>',
     'See the bonus section for roster template FAQs.',
   ] },
