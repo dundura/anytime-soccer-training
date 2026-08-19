@@ -178,7 +178,7 @@ export default function ForCoachesLearnPage() {
             Ready to give your players <span className="text-red">a real advantage?</span>
           </h2>
           <p className="text-lg text-[#64748b] mb-6">
-            Join clubs worldwide who are developing better players and strengthening family relationships—starting at just $6 per player per year.
+            Join clubs worldwide who are developing better players and strengthening family relationships—$10 per player per year, 20% off with 5+ teams.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a
