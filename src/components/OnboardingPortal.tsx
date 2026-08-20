@@ -105,19 +105,10 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
   ] },
 ];
 
-// The onboarding notification emails, kept next to the steps they mirror so the
-// two stay in step. `key` matches NOTIFICATIONS in the backend's
-// portalOnboarding/notifications.js — that is what /notify is asked to send.
-//
-// Every one goes to the coach with megan@anytime-soccer.com on CC and
-// neil@anytime-soccer.com on BCC.
-const EMAIL_SEQUENCE: { n: number; key: string; subject: string; purpose: string; step: string }[] = [
-  { n: 1, key: 'welcome', subject: 'Welcome aboard — we’re so glad you’re here!', purpose: 'Their first step is creating the portal account — that is all this email asks for. Everything else follows from there.', step: 'Welcome' },
-  { n: 2, key: 'reminder', subject: 'Just checking in — your onboarding portal account', purpose: 'From Megan. Fires automatically 24h after the welcome, only if the account is still unclaimed.', step: 'Welcome' },
-  { n: 3, key: 'rosterTemplate', subject: 'Your roster template — and what happens next', purpose: 'From Megan. For a coach who answered that they are sending a roster — hands them the template and says the invoice follows.', step: 'Send us your roster' },
-  { n: 4, key: 'invitePath', subject: 'Next step: your invoice', purpose: 'From Megan. For a coach who chose the invite link over sending a roster — invoice for the 10-player minimum, then the steps up to sharing the family link.', step: 'Send us your roster' },
-  { n: 5, key: 'addPlayers', subject: 'Adding more players to your team', purpose: 'From Megan. Follows the invoice email — how free access slots work, and how to add players beyond the initial invoice.', step: 'Send us your roster' },
-];
+// The notification sequence is served by the backend (GET
+// /portal-onboarding/notifications) rather than duplicated here — a second copy
+// of each subject went stale the moment a template was edited.
+type Notification = { key: string; n: number; subject: string; purpose: string; from: string };
 
 const NEXT_STEPS = [
   'We’ll invite your parents to join the team',
@@ -274,6 +265,18 @@ export default function OnboardingPortal() {
       setBusy(false);
     }
   };
+
+  // Admin-only: the email sequence, from the backend.
+  const [emailSequence, setEmailSequence] = useState<Notification[]>([]);
+  useEffect(() => {
+    if (!isAdmin || !token) return;
+    fetch(`${API}/portal-onboarding/notifications`, {
+      headers: { Authorization: token, 'X-Admin-Token': localStorage.getItem('astPortalAdminToken') || '' },
+    })
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => { if (d?.notifications) setEmailSequence(d.notifications); })
+      .catch(() => {});
+  }, [isAdmin, token]);
 
   // Admin-only: expand one notification to read the copy. Fetched from the
   // backend rather than duplicated here, so the preview always matches what
@@ -680,7 +683,10 @@ export default function OnboardingPortal() {
                         <span className="text-[10px] font-extrabold uppercase tracking-wide text-amber-700">Notifications</span>
                         <span className="text-[10px] font-semibold text-amber-700/70">Admin only · sends to {coach.email}</span>
                       </div>
-                      {EMAIL_SEQUENCE.map(e => (
+                      {!emailSequence.length && (
+                        <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">Loading the sequence…</p>
+                      )}
+                      {emailSequence.map(e => (
                         <div key={e.n}>
                           <div className="flex items-start gap-3 px-4 py-3">
                             <span className="w-6 text-center font-bold text-xs text-amber-500 pt-0.5">✉</span>
