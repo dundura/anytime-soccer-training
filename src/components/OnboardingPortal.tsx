@@ -23,11 +23,16 @@ type Coach = {
   checklist: Record<string, boolean | 'skipped'>;
 };
 
-type PortalStep = { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean; plainNext?: boolean; bonus?: boolean; quiz?: { prompt: string; options: string[] }; checks?: { prompt: string; items: string[] } };
+type PortalStep = { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean; plainNext?: boolean; bonus?: boolean; quiz?: { prompt: string; options: string[] }; checks?: { prompt: string; items: string[] }; ack?: { label: string } };
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
 const COACH_PORTAL_STEPS: PortalStep[] = [
-  { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding' },
+  { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding',
+    quiz: { prompt: 'Which applies to you?', options: [
+      'I already attended a demo',
+      'I don’t plan to attend a demo',
+    ] },
+    ack: { label: 'I understand Neil will call once onboarding is complete, to walk through homework and the rest of the team features' } },
   { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Which best describes your expectations for your team?', options: ['Training outside practice is an expectation I’ve set — I’m aiming for 75%+ engagement, and if it’s slow I’ll use the competition features to boost it.', 'My team is motivated. It’s optional, but I’m excited to see how they respond, and I’ll do some of the competition features.', 'Optional — if they train, great; if not, no pressure.'] } },
   { key: 'roster_intro', title: 'Overview: Upgrading Players', dataIndex: 22, section: 'Pre-Onboarding', info: true, plainNext: true },
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
@@ -152,6 +157,7 @@ export default function OnboardingPortal() {
   const [wizardIndex, setWizardIndex] = useState(0);
   const [rosterSection, setRosterSection] = useState(0);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const [ackChecked, setAckChecked] = useState(false);
   const [quizAnswer, setQuizAnswer] = useState<string>('');
   const [showIntro, setShowIntro] = useState(true);
   const [showIndex, setShowIndex] = useState(false);
@@ -223,7 +229,7 @@ export default function OnboardingPortal() {
       .finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => { setRosterSection(0); setQuizAnswer(''); setCheckedItems([]); }, [wizardIndex]);
+  useEffect(() => { setRosterSection(0); setQuizAnswer(''); setCheckedItems([]); setAckChecked(false); }, [wizardIndex]);
 
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
@@ -1142,6 +1148,19 @@ export default function OnboardingPortal() {
                     )}
                   </div>
                 )}
+                {step.ack && !stepDone && (
+                  <div className="mb-6">
+                    <label className={`flex items-start gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${ackChecked ? 'border-red bg-red-50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                      <input
+                        type="checkbox"
+                        checked={ackChecked}
+                        onChange={() => setAckChecked(v => !v)}
+                        className="accent-red-600 w-4 h-4 mt-0.5"
+                      />
+                      <span className="text-sm font-bold text-navy">{step.ack.label}</span>
+                    </label>
+                  </div>
+                )}
                 {step.quiz && (
                   <div className="mb-6">
                     <p className="text-navy font-semibold text-base leading-relaxed mb-4">{step.quiz.prompt}</p>
@@ -1281,8 +1300,8 @@ export default function OnboardingPortal() {
                   ) : step.quiz ? (
                     // Quiz page: Next submits the selected answer (goes in the email).
                     <button
-                      onClick={() => { if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } } else { setStep(step.key, true, true, undefined, true, step.checks ? `${quizAnswer}${checkedItems.length ? ' — confirmed: ' + checkedItems.join(', ') : ''}` : quizAnswer); } }}
-                      disabled={saving || (!stepDone && !quizAnswer)}
+                      onClick={() => { if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } } else { setStep(step.key, true, true, undefined, true, step.checks ? `${quizAnswer}${checkedItems.length ? ' — confirmed: ' + checkedItems.join(', ') : ''}` : step.ack ? `${quizAnswer} — acknowledged: ${step.ack.label}` : quizAnswer); } }}
+                      disabled={saving || (!stepDone && (!quizAnswer || (!!step.ack && !ackChecked)))}
                       className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
                     >
                       {saving ? 'Saving…' : 'Next →'}
