@@ -105,6 +105,16 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
   ] },
 ];
 
+// The onboarding email sequence, kept next to the steps it mirrors so the two
+// stay in step when either changes. Admin-only reference for now — nothing here
+// sends anything yet; `step` names the portal step each email is pushing toward.
+//
+// When these do send: every one goes to the coach with megan@anytime-soccer.com
+// on CC and neil@anytime-soccer.com on BCC.
+const EMAIL_SEQUENCE: { n: number; subject: string; purpose: string; step: string }[] = [
+  { n: 1, subject: 'Welcome aboard — we’re so glad you’re here!', purpose: 'Sent when the account is created. First step is creating their portal account; roster or invite parents directly; about 10 minutes. Flags that more emails are coming and that Megan will check in.', step: 'Welcome' },
+];
+
 const NEXT_STEPS = [
   'We’ll invite your parents to join the team',
   'We’ll send you and your parents helpful getting-started information',
@@ -571,6 +581,34 @@ export default function OnboardingPortal() {
                       {saving ? 'Sending…' : '📧 Email Missing Steps to Coach'}
                     </button>
                     {missingSent && <p className="text-green-700 font-semibold text-sm mt-2">✓ Sent to {coach.email}</p>}
+                  </div>
+                )}
+                {isAdmin && (
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4">
+                    <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-1">Admin · Email sequence</p>
+                    <p className="text-xs text-amber-800/80 mb-3">Planned only — none of these send yet.</p>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs border-collapse">
+                        <thead>
+                          <tr className="text-amber-700">
+                            <th className="py-2 pr-3 font-bold uppercase tracking-wide">#</th>
+                            <th className="py-2 pr-3 font-bold uppercase tracking-wide">Subject</th>
+                            <th className="py-2 pr-3 font-bold uppercase tracking-wide">Purpose</th>
+                            <th className="py-2 font-bold uppercase tracking-wide">Step</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-amber-200/70">
+                          {EMAIL_SEQUENCE.map(e => (
+                            <tr key={e.n} className="align-top">
+                              <td className="py-2 pr-3 font-bold text-amber-700 whitespace-nowrap">{e.n}</td>
+                              <td className="py-2 pr-3 font-semibold text-navy">{e.subject}</td>
+                              <td className="py-2 pr-3 text-gray-600">{e.purpose}</td>
+                              <td className="py-2 text-gray-500 whitespace-nowrap">{e.step}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
                 <div className="flex justify-center">
