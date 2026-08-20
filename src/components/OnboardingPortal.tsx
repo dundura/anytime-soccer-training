@@ -271,6 +271,31 @@ export default function OnboardingPortal() {
     }
   };
 
+  // Admin-only: expand one notification to read the copy. Fetched from the
+  // backend rather than duplicated here, so the preview always matches what
+  // the send would actually produce.
+  const [openPreview, setOpenPreview] = useState('');
+  const [previews, setPreviews] = useState<Record<string, { subject: string; html: string; from: string; replyTo: string | null; to: string; cc: string | null; live: boolean }>>({});
+  const [previewLoading, setPreviewLoading] = useState('');
+  const togglePreview = async (key: string) => {
+    if (openPreview === key) { setOpenPreview(''); return; }
+    setOpenPreview(key);
+    if (previews[key] || !token) return;
+    setPreviewLoading(key);
+    try {
+      const res = await fetch(`${API}/portal-onboarding/notification-preview?key=${encodeURIComponent(key)}`, {
+        headers: { Authorization: token, 'X-Admin-Token': localStorage.getItem('astPortalAdminToken') || '' },
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) setPreviews(p => ({ ...p, [key]: data }));
+      else setNotifyError(data.error || 'Could not load that preview.');
+    } catch {
+      setNotifyError('Could not load that preview.');
+    } finally {
+      setPreviewLoading('');
+    }
+  };
+
   // Admin-only: create a coach's portal account. The account is created
   // unclaimed (no password) and the welcome email fires in the same action, so
   // the coach still signs up themselves on the same email later.
@@ -309,11 +334,12 @@ export default function OnboardingPortal() {
   // coach holds the coach token too.
   const [notifySending, setNotifySending] = useState('');
   const [notifySent, setNotifySent] = useState('');
+  const [notifyError, setNotifyError] = useState('');
   const sendNotification = async (key: string) => {
     if (!token || notifySending) return;
     setNotifySending(key);
     setNotifySent('');
-    setError('');
+    setNotifyError('');
     try {
       const res = await fetch(`${API}/portal-onboarding/notify`, {
         method: 'POST',
@@ -325,10 +351,15 @@ export default function OnboardingPortal() {
         body: JSON.stringify({ key }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) { setError(data.error || 'Could not send that email.'); return; }
-      setNotifySent(key);
+      if (!res.ok) {
+        setNotifyError(res.status === 403
+          ? 'Admin sign-in required — sign out and sign back in with the master password.'
+          : (data.error || 'Could not send that email.'));
+        return;
+      }
+      setNotifySent(data.sentTo || key);
     } catch {
-      setError('Could not send that email.');
+      setNotifyError('Could not send that email.');
     } finally {
       setNotifySending('');
     }
@@ -646,24 +677,58 @@ export default function OnboardingPortal() {
                         <span className="text-[10px] font-semibold text-amber-700/70">Admin only · sends to {coach.email}</span>
                       </div>
                       {EMAIL_SEQUENCE.map(e => (
-                        <div key={e.n} className="flex items-start gap-3 px-4 py-3">
-                          <span className="w-6 text-center font-bold text-xs text-amber-500 pt-0.5">✉</span>
-                          <span className="min-w-0">
-                            <span className="block text-sm font-semibold text-navy">{e.subject}</span>
-                            <span className="block text-xs text-gray-500 mt-0.5">{e.purpose}</span>
-                          </span>
-                          <span className="ml-auto flex-shrink-0 flex flex-col items-end gap-1">
-                            <button
-                              onClick={() => sendNotification(e.key)}
-                              disabled={!!notifySending}
-                              className="text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full bg-navy text-white hover:bg-navy-light transition-colors disabled:opacity-50"
-                            >
-                              {notifySending === e.key ? 'Sending…' : 'Send'}
-                            </button>
-                            {notifySent === e.key && (
-                              <span className="text-[10px] font-semibold text-green-700">✓ Sent to {coach.email}</span>
-                            )}
-                          </span>
+                        <div key={e.n}>
+                          <div className="flex items-start gap-3 px-4 py-3">
+                            <span className="w-6 text-center font-bold text-xs text-amber-500 pt-0.5">✉</span>
+                            <span className="min-w-0">
+                              <span className="block text-sm font-semibold text-navy">{e.subject}</span>
+                              <span className="block text-xs text-gray-500 mt-0.5">{e.purpose}</span>
+                              <button
+                                onClick={() => togglePreview(e.key)}
+                                className="mt-1 text-[10px] font-bold uppercase tracking-wide text-red hover:underline"
+                              >
+                                {openPreview === e.key ? '▾ Close copy' : '▸ View copy'}
+                              </button>
+                            </span>
+                            <span className="ml-auto flex-shrink-0 flex flex-col items-end gap-1">
+                              <button
+                                onClick={() => sendNotification(e.key)}
+                                disabled={!!notifySending}
+                                className="text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full bg-navy text-white hover:bg-navy-light transition-colors disabled:opacity-50"
+                              >
+                                {notifySending === e.key ? 'Sending…' : 'Send'}
+                              </button>
+                              {notifySent && notifySending !== e.key && (
+                                <span className="text-[10px] font-semibold text-green-700 text-right">✓ Sent to {notifySent}</span>
+                              )}
+                              {notifyError && (
+                                <span className="text-[10px] font-semibold text-red text-right">{notifyError}</span>
+                              )}
+                            </span>
+                          </div>
+                          {openPreview === e.key && (
+                            <div className="px-4 pb-4">
+                              {previewLoading === e.key && <p className="text-xs text-gray-500 font-semibold">Loading…</p>}
+                              {previews[e.key] && (
+                                <div className="border border-gray-200 rounded-lg overflow-hidden">
+                                  <div className="bg-gray-50 px-3 py-2 text-[11px] text-gray-600 space-y-0.5">
+                                    <p><span className="font-bold text-gray-500">From:</span> {previews[e.key].from}</p>
+                                    {previews[e.key].replyTo && <p><span className="font-bold text-gray-500">Reply-To:</span> {previews[e.key].replyTo}</p>}
+                                    <p><span className="font-bold text-gray-500">To:</span> {previews[e.key].to}{previews[e.key].cc ? ` · CC ${previews[e.key].cc}` : ''}</p>
+                                    <p><span className="font-bold text-gray-500">Subject:</span> {previews[e.key].subject}</p>
+                                    {!previews[e.key].live && (
+                                      <p className="text-amber-700 font-semibold">Sends are not live — this goes to Neil, not the coach.</p>
+                                    )}
+                                  </div>
+                                  <iframe
+                                    title={`Preview: ${e.subject}`}
+                                    srcDoc={previews[e.key].html}
+                                    className="w-full h-96 bg-white border-0"
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          )}
                         </div>
                       ))}
                     </>
