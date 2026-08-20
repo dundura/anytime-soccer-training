@@ -720,11 +720,20 @@ export default function OnboardingPortal() {
                                       <p className="text-amber-700 font-semibold">Sends are not live — this goes to Neil, not the coach.</p>
                                     )}
                                   </div>
-                                  <iframe
-                                    title={`Preview: ${e.subject}`}
-                                    srcDoc={previews[e.key].html}
-                                    className="w-full h-96 bg-white border-0"
-                                  />
+                                  {/* The email is a fixed 600px table, which
+                                      overflows this panel. Scale it down rather
+                                      than side-scroll: the iframe is laid out
+                                      wider than the box and shrunk to fit, so
+                                      the whole width is visible at once. */}
+                                  <div className="overflow-hidden bg-white" style={{ height: 600 }}>
+                                    <iframe
+                                      title={`Preview: ${e.subject}`}
+                                      srcDoc={previews[e.key].html}
+                                      scrolling="no"
+                                      className="bg-white border-0"
+                                      style={{ width: '143%', height: 858, transform: 'scale(0.7)', transformOrigin: 'top left' }}
+                                    />
+                                  </div>
                                 </div>
                               )}
                             </div>
