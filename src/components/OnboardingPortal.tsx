@@ -35,7 +35,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'invoice', title: 'Pay your invoice', dataIndex: -1, section: 'Pre-Onboarding', quiz: { prompt: 'How is your team getting set up?', options: ['I paid the invoice', 'I will purchase slots inside the app (after onboarding steps complete)', 'My club paid the invoice'] } },
   { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding', info: true },
   { key: 'survey', title: 'Take the Coaching Engagement Survey', dataIndex: 3, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I completed the engagement survey'] } },
-  { key: 'account', title: 'Create your account', dataIndex: 4, section: 'Onboarding' },
+  { key: 'account', title: 'Create your account', dataIndex: 4, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my account'] } },
   { key: 'add_profiles', title: 'Add profiles', dataIndex: 21, section: 'Onboarding' },
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding' },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
