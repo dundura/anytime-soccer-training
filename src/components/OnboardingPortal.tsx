@@ -23,7 +23,7 @@ type Coach = {
   checklist: Record<string, boolean | 'skipped'>;
 };
 
-type PortalStep = { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean; plainNext?: boolean; bonus?: boolean; quiz?: { prompt: string; options: string[] } };
+type PortalStep = { key: string; title: string; dataIndex: number; section: string; needsTeamName?: boolean; note?: string; info?: boolean; tip?: boolean; faqIndex?: number; final?: boolean; plainNext?: boolean; bonus?: boolean; quiz?: { prompt: string; options: string[] }; checks?: { prompt: string; items: string[] } };
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
 const COACH_PORTAL_STEPS: PortalStep[] = [
@@ -39,11 +39,26 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'add_profiles', title: 'Add profiles', dataIndex: 21, section: 'Onboarding' },
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding' },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
-  { key: 'parents_informed', title: 'Reply to Megan: team name & parents informed', dataIndex: 8, section: 'Onboarding', quiz: { prompt: 'Confirm your reply to Megan:', options: ['I sent Megan my team name and let her know the parents are informed.', 'I’m adding players individually'] } },
   { key: 'faq_low_usage', title: 'Participation is lower than expected - what can I do?', dataIndex: -1, faqIndex: 24, section: 'FAQs', tip: true },
   { key: 'commit_contest', title: '1. Start a team contest', dataIndex: -1, faqIndex: 25, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to start a team contest.', options: ['Yes', 'No'] } },
   { key: 'commit_goals', title: '2. Set personal player challenges', dataIndex: -1, faqIndex: 26, section: 'FAQs', tip: true, quiz: { prompt: 'I plan set personal challenges.', options: ['Yes', 'No'] } },
   { key: 'commit_demo', title: '3. Show the app at training', dataIndex: -1, faqIndex: 27, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to discuss the app at training.', options: ['Yes', 'No'] } },
+  // Sits immediately before Confirm & Finish: the coach ticks off what they
+  // have actually done, so "ready to start" is something the portal records
+  // rather than a reply sitting in Megan's inbox.
+  { key: 'ready_check', title: 'Confirm what you have done', dataIndex: -1, section: 'FAQs',
+    checks: { prompt: 'Tick each one you have completed:', items: [
+      'I created my account',
+      'I created my team inside the app',
+      'I notified the parents',
+    ] },
+    // The choice is a radio, not a fourth checkbox: "ready now" and "ready
+    // later" are mutually exclusive, and this answer is what tells us whether
+    // to start inviting parents.
+    quiz: { prompt: 'Which of these is true?', options: [
+      'I am ready to get started',
+      'I am completing onboarding but will email Megan when ready',
+    ] } },
   { key: 'final_confirm', title: 'Confirm & Finish', dataIndex: 16, section: 'FAQs', final: true },
   { key: 'payment_overview', title: 'How payment works - New Teams', dataIndex: 17, section: 'Bonus', info: true, bonus: true },
   { key: 'club_payment', title: 'How Payment Works - Club Pays', dataIndex: 18, section: 'Bonus', info: true, bonus: true },
@@ -136,6 +151,7 @@ export default function OnboardingPortal() {
   const [saving, setSaving] = useState(false);
   const [wizardIndex, setWizardIndex] = useState(0);
   const [rosterSection, setRosterSection] = useState(0);
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
   const [quizAnswer, setQuizAnswer] = useState<string>('');
   const [showIntro, setShowIntro] = useState(true);
   const [showIndex, setShowIndex] = useState(false);
@@ -207,7 +223,7 @@ export default function OnboardingPortal() {
       .finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => { setRosterSection(0); setQuizAnswer(''); }, [wizardIndex]);
+  useEffect(() => { setRosterSection(0); setQuizAnswer(''); setCheckedItems([]); }, [wizardIndex]);
 
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
@@ -1011,7 +1027,7 @@ export default function OnboardingPortal() {
                       <><strong className="text-navy font-semibold">Pay for access.</strong> Pay invoice and/or per player in the app.</>,
                       <><strong className="text-navy font-semibold">Complete this portal.</strong> Includes the engagement survey.</>,
                       <><strong className="text-navy font-semibold">Notify parents.</strong> Edit and share our welcome email.</>,
-                      <><strong className="text-navy font-semibold">Email Megan.</strong> Reply with team name and confirmation that the parents were notified.</>,
+                      <><strong className="text-navy font-semibold">Confirm you're ready.</strong> Tick off what you've done and tell us you're ready to start.</>,
                     ].map((item, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{i + 1}</span>
@@ -1101,6 +1117,34 @@ export default function OnboardingPortal() {
                   />
                 ) : null}
 
+                {step.checks && (
+                  <div className="mb-6">
+                    <p className="text-navy font-semibold text-base leading-relaxed mb-4">{step.checks.prompt}</p>
+                    {stepDone ? (
+                      <p className="text-green-700 font-semibold text-sm">✓ Thanks — we have this recorded.</p>
+                    ) : (
+                      <div className="flex flex-col gap-2">
+                        {step.checks.items.map(item => {
+                          const on = checkedItems.includes(item);
+                          return (
+                            <label
+                              key={item}
+                              className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${on ? 'border-red bg-red-50' : 'border-gray-200 hover:bg-gray-50'}`}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={on}
+                                onChange={() => setCheckedItems(prev => on ? prev.filter(i => i !== item) : [...prev, item])}
+                                className="accent-red-600 w-4 h-4"
+                              />
+                              <span className="text-sm font-bold text-navy">{item}</span>
+                            </label>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
                 {step.quiz && (
                   <div className="mb-6">
                     <p className="text-navy font-semibold text-base leading-relaxed mb-4">{step.quiz.prompt}</p>
@@ -1249,7 +1293,7 @@ export default function OnboardingPortal() {
                   ) : step.quiz ? (
                     // Quiz page: Next submits the selected answer (goes in the email).
                     <button
-                      onClick={() => { if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } } else { setStep(step.key, true, true, undefined, true, quizAnswer); } }}
+                      onClick={() => { if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } } else { setStep(step.key, true, true, undefined, true, step.checks ? `${quizAnswer}${checkedItems.length ? ' — confirmed: ' + checkedItems.join(', ') : ''}` : quizAnswer); } }}
                       disabled={saving || (!stepDone && !quizAnswer)}
                       className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
                     >
