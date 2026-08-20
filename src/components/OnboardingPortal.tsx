@@ -567,6 +567,13 @@ export default function OnboardingPortal() {
   const stepSkipped = stepState === 'skipped';
   const stepData = step.faqIndex == null ? STEP_DATA[step.dataIndex] : null;
   const isRosterStepper = step.key === 'tip_roster';
+  // The Onboarding Begins page lists the steps still to do as checkboxes, and
+  // every one has to be ticked. It is a gated step, so like the radio steps it
+  // saves straight through rather than opening the confirm popup.
+  const beginsItems = step.key === 'onboarding_begins'
+    ? STEPS.filter(s2 => s2.section === 'Onboarding' && s2.key !== 'onboarding_begins' && !s2.tip).map(s2 => s2.title)
+    : [];
+  const beginsUnmet = !!beginsItems.length && !beginsItems.every(t => checkedItems.includes(t));
   const rosterLast = ROSTER_SECTIONS.length - 1;
 
   const inputClass = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-navy placeholder:text-gray focus:outline-none focus:ring-2 focus:ring-red/30 focus:border-red';
@@ -1189,17 +1196,26 @@ export default function OnboardingPortal() {
                 )}
 
                 {step.key === 'onboarding_begins' && (
-                  <ul className="mb-6 space-y-3">
+                  <div className="mb-6 flex flex-col gap-2">
                     {STEPS.filter(s2 => s2.section === 'Onboarding' && s2.key !== 'onboarding_begins' && !s2.tip).map(s2 => {
-                      const stepComplete = !!coach.checklist[s2.key];
+                      const on = checkedItems.includes(s2.title);
                       return (
-                        <li key={s2.key} className="flex items-start gap-3">
-                          <span className="text-red font-bold mt-0.5">✅</span>
-                          <span className={stepComplete ? 'font-bold text-green-700 line-through' : 'font-bold text-navy'}>{s2.title}</span>
-                        </li>
+                        <label
+                          key={s2.key}
+                          className={`flex items-start gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${on ? 'border-red bg-red-50' : 'border-gray-200 hover:bg-gray-50'}`}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={on}
+                            onChange={() => setCheckedItems(prev => on ? prev.filter(i => i !== s2.title) : [...prev, s2.title])}
+                            className="accent-red-600 w-4 h-4 mt-0.5"
+                            disabled={stepDone}
+                          />
+                          <span className="text-sm font-bold text-navy">{s2.title}</span>
+                        </label>
                       );
                     })}
-                  </ul>
+                  </div>
                 )}
 
                 {step.note && (
@@ -1316,8 +1332,16 @@ export default function OnboardingPortal() {
                         Next →
                       </button>
                     ) : null
+                  ) : beginsItems.length ? (
+                    <button
+                      onClick={() => { if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } } else { setStep(step.key, true, true, undefined, true, `confirmed: ${checkedItems.join(', ')}`); } }}
+                      disabled={saving || (!stepDone && beginsUnmet)}
+                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
+                    >
+                      {saving ? 'Saving…' : 'Next →'}
+                    </button>
                   ) : (
-                    // Next always opens the confirm popup — no shortcut logic.
+                    // No gate on this step, so Next opens the confirm popup.
                     // (To move on without confirming, use Skip.)
                     <button
                       onClick={() => { setStepChoice(null); setShowCompleteConfirm(true); }}

@@ -203,10 +203,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Onboarding Begins!',
     body: `
       <p>Invoice paid? 🎉 <strong>Now onboarding begins.</strong></p>
-      <div style="background:#eff6ff;border-radius:8px;padding:14px 16px;margin:16px 0;">
-        <p style="margin:0;"><strong>Returning member?</strong> You&rsquo;ve likely done most of these &mdash; but please still complete the <strong>Coaching Engagement Survey</strong> so we can support you better.</p>
-      </div>
-      <p>Here&rsquo;s what&rsquo;s left:</p>
+      <p>I understand I need to complete each of these:</p>
     `,
   },
   {
