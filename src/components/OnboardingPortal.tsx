@@ -113,6 +113,8 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
 // neil@anytime-soccer.com on BCC.
 const EMAIL_SEQUENCE: { n: number; key: string; subject: string; purpose: string; step: string }[] = [
   { n: 1, key: 'welcome', subject: 'Welcome aboard — we’re so glad you’re here!', purpose: 'Their first step is creating the portal account — that is all this email asks for. Everything else follows from there.', step: 'Welcome' },
+  { n: 2, key: 'reminder', subject: 'Just checking in — your onboarding portal account', purpose: 'From Megan. Fires automatically 24h after the welcome, only if the account is still unclaimed.', step: 'Welcome' },
+  { n: 3, key: 'rosterTemplate', subject: 'Your roster template — and what happens next', purpose: 'From Megan. For a coach who answered that they are sending a roster — hands them the template and says the invoice follows.', step: 'Send us your roster' },
 ];
 
 const NEXT_STEPS = [

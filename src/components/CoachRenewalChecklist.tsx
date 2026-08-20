@@ -22,7 +22,7 @@ const sections: Section[] = [
     steps: [
       {
         text: (<>Submit updated team roster to <strong className="text-navy">Megan Chambers</strong> (skip if club already submitted)</>),
-        link: { href: "https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa", label: "Roster Template" },
+        link: { href: "https://drive.google.com/drive/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa", label: "Roster Template" },
       },
       { text: "Pay online invoice (sent via Stripe)" },
       {

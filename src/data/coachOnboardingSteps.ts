@@ -56,7 +56,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       </div>
     `,
     ctaLabel: 'Roster Template',
-    ctaHref: 'https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa',
+    ctaHref: 'https://drive.google.com/drive/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa',
   },
   {
     title: 'Pay Your Invoice',
@@ -177,7 +177,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     subSteps: [
       {
         title: 'Submit your updated roster to Megan',
-        moreInfoHref: 'https://drive.google.com/drive/u/1/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa',
+        moreInfoHref: 'https://drive.google.com/drive/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa',
         sectionHeading: 'Roster Update',
       },
       {
