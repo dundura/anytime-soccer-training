@@ -1036,9 +1036,6 @@ export default function OnboardingPortal() {
                     ))}
                   </ol>
                 </div>
-                <p className="text-gray-600 text-sm leading-relaxed mb-6">
-                  Go in order if you can. Your progress saves automatically, and the <strong className="text-navy font-semibold">Index</strong> shows what&rsquo;s done, skipped, or still open.
-                </p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
                   <button
                     onClick={() => { setShowIndexInfo(false); setShowIntro(true); setError(''); }}
