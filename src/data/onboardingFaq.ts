@@ -47,7 +47,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:6px 0 0;">Re-invite from <strong>New Players &rarr; Player Onboard</strong> &mdash; the invite includes the correct team name.</p>
+          <p style="margin:6px 0 0;">Re-invite from <strong>Manage &amp; Upgrade &rarr; New Player Onboard</strong> &mdash; the invite includes the correct team name.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
@@ -60,7 +60,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     category: 'Team Management',
     question: 'How do I add players to my team?',
     answer: `
-      <p>You can add players from the <strong>Player Onboard</strong> section.</p>
+      <p>You can add players from the <strong>Manage &amp; Upgrade</strong> section.</p>
       <div style="background:#eff6ff;border-radius:8px;padding:16px 18px;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;font-size:14px;">1</span>
@@ -159,7 +159,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
         <p style="margin:0 0 8px;font-weight:700;color:#0F3154;">To re-invite a player:</p>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;">Go to your team and click <strong>Player Onboard</strong>.</p>
+          <p style="margin:6px 0 0;">Go to your team and click <strong>Manage &amp; Upgrade</strong>.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
@@ -499,7 +499,7 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: 'Adding Players Later',
     answer: `
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:18px 20px;margin:8px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span><p style="margin:4px 0 0;">Once we onboard the initial roster, you can add them directly in the app via the <strong>Player Onboard</strong> tab or send them to us using the roster template.</p></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;"><span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span><p style="margin:4px 0 0;">Once we onboard the initial roster, you can add them directly in the app via the <strong>Manage &amp; Upgrade</strong> tab or send them to us using the roster template.</p></div>
       </div>
     `,
   },
