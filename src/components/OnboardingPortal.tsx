@@ -153,7 +153,7 @@ export default function OnboardingPortal() {
   const [questionSent, setQuestionSent] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [missingSent, setMissingSent] = useState(false);
-  const [indexFilter, setIndexFilter] = useState<'all' | 'outstanding'>('all');
+  const [indexFilter, setIndexFilter] = useState<'all' | 'outstanding' | 'notifications'>('all');
   const [showIndexInfo, setShowIndexInfo] = useState(false);
   const [extraEmail, setExtraEmail] = useState('');
   const [pageSent, setPageSent] = useState(false);
@@ -199,6 +199,11 @@ export default function OnboardingPortal() {
           setWizardIndex(firstIncomplete(data.coach));
           setShowIntro(false);
           setShowIndex(true);
+        } else if (params.get('view') === 'notifications') {
+          setWizardIndex(firstIncomplete(data.coach));
+          setShowIntro(false);
+          setShowIndex(true);
+          setIndexFilter('notifications');
         } else {
           setWizardIndex(firstIncomplete(data.coach));
         }
@@ -212,9 +217,9 @@ export default function OnboardingPortal() {
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
     if (!coach || typeof window === 'undefined') return;
-    const url = showFaq ? '/onboarding-portal?view=faq' : showIndex ? '/onboarding-portal?view=index' : showIndexInfo ? '/onboarding-portal?view=indexinfo' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
+    const url = showFaq ? '/onboarding-portal?view=faq' : showIndex ? (indexFilter === 'notifications' ? '/onboarding-portal?view=notifications' : '/onboarding-portal?view=index') : showIndexInfo ? '/onboarding-portal?view=indexinfo' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
     window.history.replaceState(null, '', url);
-  }, [coach, showIntro, showIndex, showIndexInfo, showFaq, wizardIndex]);
+  }, [coach, showIntro, showIndex, showIndexInfo, showFaq, wizardIndex, indexFilter]);
 
   const submitAuth = async () => {
     setError('');
@@ -263,6 +268,39 @@ export default function OnboardingPortal() {
       setError('Could not reach the server. Please try again.');
     } finally {
       setBusy(false);
+    }
+  };
+
+  // Admin-only: create a coach's portal account. The account is created
+  // unclaimed (no password) and the welcome email fires in the same action, so
+  // the coach still signs up themselves on the same email later.
+  const [newCoach, setNewCoach] = useState({ name: '', email: '', club: '', masterPassword: '' });
+  const [creating, setCreating] = useState(false);
+  const [createResult, setCreateResult] = useState('');
+  const [createError, setCreateError] = useState('');
+  const createCoach = async () => {
+    if (creating) return;
+    setCreating(true);
+    setCreateResult('');
+    setCreateError('');
+    try {
+      const res = await fetch(`${API}/portal-onboarding/admin-create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newCoach),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) { setCreateError(data.error || 'Could not create that account.'); return; }
+      setCreateResult(
+        data.live
+          ? `Created ${data.created} — welcome email sent to them.`
+          : `Created ${data.created} — welcome email went to ${data.welcomeSentTo}, NOT to the coach.`
+      );
+      setNewCoach(c => ({ name: '', email: '', club: '', masterPassword: c.masterPassword }));
+    } catch {
+      setCreateError('Could not create that account.');
+    } finally {
+      setCreating(false);
     }
   };
 
@@ -557,14 +595,14 @@ export default function OnboardingPortal() {
                     </div>
                   );
                 })()}
-                <div className="flex border border-gray-200 rounded-lg overflow-hidden mb-4 max-w-xs">
-                  {(['all', 'outstanding'] as const).map(f => (
+                <div className={`flex border border-gray-200 rounded-lg overflow-hidden mb-4 ${isAdmin ? 'max-w-md' : 'max-w-xs'}`}>
+                  {(isAdmin ? (['all', 'outstanding', 'notifications'] as const) : (['all', 'outstanding'] as const)).map(f => (
                     <button
                       key={f}
                       onClick={() => setIndexFilter(f)}
                       className={`flex-1 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${indexFilter === f ? 'bg-navy text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}
                     >
-                      {f === 'all' ? 'All steps' : 'Outstanding'}
+                      {f === 'all' ? 'All steps' : f === 'outstanding' ? 'Outstanding' : 'Notifications'}
                     </button>
                   ))}
                 </div>
@@ -577,7 +615,7 @@ export default function OnboardingPortal() {
                       </a>
                     </>
                   )}
-                  {STEPS.map((st, i) => {
+                  {indexFilter !== 'notifications' && STEPS.map((st, i) => {
                     const done = coach.checklist[st.key] === true;
                     const skipped = coach.checklist[st.key] === 'skipped';
                     const outstanding = !done && !skipped;
@@ -601,11 +639,11 @@ export default function OnboardingPortal() {
                   {indexFilter === 'outstanding' && STEPS.every(s => coach.checklist[s.key] === true) && (
                     <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">🎉 Nothing outstanding — every step is complete!</p>
                   )}
-                  {isAdmin && indexFilter === 'all' && (
+                  {isAdmin && indexFilter === 'notifications' && (
                     <>
                       <div className="flex items-center gap-2 px-4 py-2 bg-amber-50">
                         <span className="text-[10px] font-extrabold uppercase tracking-wide text-amber-700">Notifications</span>
-                        <span className="text-[10px] font-semibold text-amber-700/70">Admin only · nothing sends yet</span>
+                        <span className="text-[10px] font-semibold text-amber-700/70">Admin only · sends to {coach.email}</span>
                       </div>
                       {EMAIL_SEQUENCE.map(e => (
                         <div key={e.n} className="flex items-start gap-3 px-4 py-3">
@@ -631,7 +669,50 @@ export default function OnboardingPortal() {
                     </>
                   )}
                 </div>
-                {isAdmin && (
+                {isAdmin && indexFilter === 'notifications' && (
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4">
+                    <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-1">Create a coach&rsquo;s account</p>
+                    <p className="text-xs text-amber-800/80 mb-3">Creates the account unclaimed and sends the welcome email. They still sign up themselves on the same email.</p>
+                    <div className="grid gap-2 sm:grid-cols-2 mb-2">
+                      <input
+                        value={newCoach.name}
+                        onChange={ev => setNewCoach({ ...newCoach, name: ev.target.value })}
+                        placeholder="Coach name"
+                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                      />
+                      <input
+                        type="email"
+                        value={newCoach.email}
+                        onChange={ev => setNewCoach({ ...newCoach, email: ev.target.value })}
+                        placeholder="Coach email"
+                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                      />
+                      <input
+                        value={newCoach.club}
+                        onChange={ev => setNewCoach({ ...newCoach, club: ev.target.value })}
+                        placeholder="Club (optional)"
+                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                      />
+                      <input
+                        type="password"
+                        value={newCoach.masterPassword}
+                        onChange={ev => setNewCoach({ ...newCoach, masterPassword: ev.target.value })}
+                        placeholder="Super admin password"
+                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                      />
+                    </div>
+                    <button
+                      onClick={createCoach}
+                      disabled={creating || !newCoach.name.trim() || !newCoach.email.trim() || !newCoach.masterPassword}
+                      className="bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-6 rounded-xl transition-colors disabled:opacity-50"
+                    >
+                      {creating ? 'Creating…' : 'Create account & send welcome'}
+                    </button>
+                    {createResult && <p className="text-green-700 font-semibold text-sm mt-2">✓ {createResult}</p>}
+                    {createError && <p className="text-red font-semibold text-sm mt-2">{createError}</p>}
+                  </div>
+                )}
+                {isAdmin && indexFilter !== 'notifications' && (
                   <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4 text-center">
                     <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-2">Admin</p>
                     <input
