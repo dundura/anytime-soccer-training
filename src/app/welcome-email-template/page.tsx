@@ -55,8 +55,8 @@ export default function WelcomeEmailTemplatePage() {
                 <strong className="text-[#0f2642]">Download the file</strong> &mdash; opens in Word.
               </>,
               <>
-                <strong className="text-[#0f2642]">Add your name at the bottom.</strong> That is the
-                only part you have to change.
+                <strong className="text-[#0f2642]">Edit and make your own</strong> &mdash; or simply
+                add your name at the bottom.
               </>,
               <>
                 <strong className="text-[#0f2642]">Send it to your parents and players.</strong> Paste
