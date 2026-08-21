@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { COACH_ONBOARDING_STEPS } from '@/data/coachOnboardingSteps';
 import { DIRECTOR_ONBOARDING_STEPS } from '@/data/directorOnboardingSteps';
 import CoachStepContent from '@/components/CoachStepContent';
@@ -390,7 +390,8 @@ export default function OnboardingPortal() {
   // It cannot say whether they signed — a coach can finish every step and not
   // buy, or buy on a call before opening the portal — so the status is its own
   // field rather than something derived from progress.
-  type CrmCoach = { id: number; name: string; club: string; phone: string; email: string; status: string };
+  type CrmCoach = { id: number; name: string; club: string; phone: string; email: string; status: string; notes: string; stageId: number | null; createdAt: string | null };
+  type CrmStage = { id: number; name: string; sortOrder: number };
   const [crmCoaches, setCrmCoaches] = useState<CrmCoach[]>([]);
   const [crmStatuses, setCrmStatuses] = useState<string[]>([]);
   const [crmLoading, setCrmLoading] = useState(false);
@@ -400,6 +401,16 @@ export default function OnboardingPortal() {
   // Bumped to remount the row inputs when a save is rejected, so an
   // uncontrolled cell cannot keep displaying a value the server refused.
   const [crmNonce, setCrmNonce] = useState(0);
+  // Which row has its notes open. One at a time, like the notification
+  // previews above -- several open notes turn the table back into a wall of
+  // text, which is the thing the toggle exists to prevent.
+  const [crmOpenNotes, setCrmOpenNotes] = useState<number | null>(null);
+  const [crmStages, setCrmStages] = useState<CrmStage[]>([]);
+  // null = All, the default view. A number is a stage id.
+  const [crmStageView, setCrmStageView] = useState<number | null>(null);
+  const [crmNewStage, setCrmNewStage] = useState('');
+  const [crmAddingStage, setCrmAddingStage] = useState(false);
+  const [crmConfirmStageDelete, setCrmConfirmStageDelete] = useState<number | null>(null);
 
   const adminHeaders = () => ({
     Authorization: token || '',
@@ -416,7 +427,7 @@ export default function OnboardingPortal() {
         if (!r.ok) throw new Error(d.error || 'Could not load the coach list.');
         return d;
       })
-      .then(d => { setCrmCoaches(d.coaches || []); setCrmStatuses(d.statuses || []); })
+      .then(d => { setCrmCoaches(d.coaches || []); setCrmStatuses(d.statuses || []); setCrmStages(d.stages || []); })
       .catch(e => setCrmError(e.message))
       .finally(() => setCrmLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -424,7 +435,7 @@ export default function OnboardingPortal() {
 
   // One field at a time. Sending only what changed means two tabs editing
   // different columns of the same coach cannot overwrite each other.
-  const saveCrmField = async (id: number, field: 'status' | 'phone' | 'club' | 'name' | 'email', value: string) => {
+  const saveCrmField = async (id: number, field: 'status' | 'phone' | 'club' | 'name' | 'email' | 'notes' | 'stageId', value: string | number | null) => {
     if (!token) return;
     setCrmSaving(id);
     setCrmError('');
@@ -448,6 +459,83 @@ export default function OnboardingPortal() {
       setCrmNonce(n => n + 1);
     } finally {
       setCrmSaving(null);
+    }
+  };
+
+  const addCrmStage = async () => {
+    const name = crmNewStage.trim();
+    if (!name || !token || crmAddingStage) return;
+    setCrmAddingStage(true);
+    setCrmError('');
+    try {
+      const res = await fetch(`${API}/portal-onboarding/admin-stage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...adminHeaders() },
+        body: JSON.stringify({ name }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) { setCrmError(data.error || 'Could not add that stage.'); return; }
+      setCrmStages(data.stages || []);
+      setCrmNewStage('');
+    } catch {
+      setCrmError('Could not add that stage.');
+    } finally {
+      setCrmAddingStage(false);
+    }
+  };
+
+  // Deleting a stage empties it, it does not delete the people in it — they
+  // fall back to no stage and are still in All.
+  const deleteCrmStage = async (id: number) => {
+    if (!token) return;
+    setCrmError('');
+    try {
+      const res = await fetch(`${API}/portal-onboarding/admin-stage`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json', ...adminHeaders() },
+        body: JSON.stringify({ id }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) { setCrmError(data.error || 'Could not delete that stage.'); return; }
+      setCrmStages(data.stages || []);
+      setCrmCoaches(list => list.map(c => (c.stageId === id ? { ...c, stageId: null } : c)));
+      if (crmStageView === id) setCrmStageView(null);
+      setCrmConfirmStageDelete(null);
+    } catch {
+      setCrmError('Could not delete that stage.');
+    }
+  };
+
+  // Move a row one place within the list currently on screen, then persist the
+  // WHOLE order. Swapping against the visible neighbour is what makes this
+  // behave under a stage filter or a search: the row lands where the eye
+  // expects it, and the hidden rows keep their relative places.
+  const moveCrmCoach = async (visible: CrmCoach[], id: number, dir: -1 | 1) => {
+    const at = visible.findIndex(c => c.id === id);
+    const neighbour = visible[at + dir];
+    if (!neighbour || !token) return;
+
+    const next = [...crmCoaches];
+    const a = next.findIndex(c => c.id === id);
+    const b = next.findIndex(c => c.id === neighbour.id);
+    if (a < 0 || b < 0) return;
+    [next[a], next[b]] = [next[b], next[a]];
+    setCrmCoaches(next);
+
+    try {
+      const res = await fetch(`${API}/portal-onboarding/admin-coach-order`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', ...adminHeaders() },
+        body: JSON.stringify({ ids: next.map(c => c.id) }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setCrmError(data.error || 'Could not save that order.');
+        setCrmCoaches(crmCoaches);
+      }
+    } catch {
+      setCrmError('Could not save that order.');
+      setCrmCoaches(crmCoaches);
     }
   };
 
@@ -916,6 +1004,65 @@ export default function OnboardingPortal() {
                           className="ml-auto w-full sm:w-64 border border-amber-200 rounded-lg px-3 py-1.5 text-xs text-navy placeholder:text-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-amber-300"
                         />
                       </div>
+                      {/* Stage chips ARE the view: picking one filters the
+                          table to it. All is the default and always first, so
+                          there is never a stage you can be stuck inside. */}
+                      <div className="flex flex-wrap items-center gap-1.5 px-4 py-2 border-b border-gray-100">
+                        <button
+                          onClick={() => setCrmStageView(null)}
+                          className={`text-[11px] font-bold rounded-full border px-2.5 py-1 transition-colors ${
+                            crmStageView === null ? 'bg-navy text-white border-navy' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                          }`}
+                        >
+                          All <span className="opacity-60">{crmCoaches.length}</span>
+                        </button>
+                        {crmStages.map(st => {
+                          const n = crmCoaches.filter(c => c.stageId === st.id).length;
+                          const on = crmStageView === st.id;
+                          return (
+                            <span key={st.id} className="inline-flex items-center">
+                              <button
+                                onClick={() => setCrmStageView(on ? null : st.id)}
+                                className={`text-[11px] font-bold rounded-full border px-2.5 py-1 transition-colors ${
+                                  on ? 'bg-navy text-white border-navy' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                                }`}
+                              >
+                                {st.name} <span className="opacity-60">{n}</span>
+                              </button>
+                              {crmConfirmStageDelete === st.id ? (
+                                <span className="inline-flex items-center gap-1 ml-1">
+                                  <button onClick={() => deleteCrmStage(st.id)} className="text-[10px] font-extrabold uppercase bg-red text-white rounded-full px-2 py-0.5">Remove</button>
+                                  <button onClick={() => setCrmConfirmStageDelete(null)} className="text-[10px] font-bold uppercase text-gray-500 hover:text-navy">No</button>
+                                </span>
+                              ) : (
+                                <button
+                                  onClick={() => setCrmConfirmStageDelete(st.id)}
+                                  title={`Remove the ${st.name} stage`}
+                                  className="ml-0.5 text-gray-300 hover:text-red text-xs leading-none px-1"
+                                >
+                                  &times;
+                                </button>
+                              )}
+                            </span>
+                          );
+                        })}
+                        <span className="inline-flex items-center gap-1 ml-1">
+                          <input
+                            value={crmNewStage}
+                            onChange={ev => setCrmNewStage(ev.target.value)}
+                            onKeyDown={ev => { if (ev.key === 'Enter') addCrmStage(); }}
+                            placeholder="New stage"
+                            className="w-28 border border-gray-200 rounded-full px-2.5 py-1 text-[11px] text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                          />
+                          <button
+                            onClick={addCrmStage}
+                            disabled={!crmNewStage.trim() || crmAddingStage}
+                            className="text-[11px] font-bold rounded-full border border-navy text-navy px-2.5 py-1 hover:bg-navy hover:text-white transition-colors disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-navy"
+                          >
+                            {crmAddingStage ? 'Adding\u2026' : '+ Add'}
+                          </button>
+                        </span>
+                      </div>
                       {crmError && <p className="px-4 py-3 text-sm font-semibold text-red">{crmError}</p>}
                       {crmLoading && <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">Loading the coach list&hellip;</p>}
                       {!crmLoading && !crmCoaches.length && !crmError && (
@@ -923,11 +1070,21 @@ export default function OnboardingPortal() {
                       )}
                       {!crmLoading && !!crmCoaches.length && (() => {
                         const needle = crmSearch.trim().toLowerCase();
+                        const inStage = crmStageView === null
+                          ? crmCoaches
+                          : crmCoaches.filter(c => c.stageId === crmStageView);
                         const shown = needle
-                          ? crmCoaches.filter(c => `${c.name} ${c.club} ${c.email}`.toLowerCase().includes(needle))
-                          : crmCoaches;
+                          ? inStage.filter(c => `${c.name} ${c.club} ${c.email}`.toLowerCase().includes(needle))
+                          : inStage;
                         if (!shown.length) {
-                          return <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">Nobody matches &ldquo;{crmSearch}&rdquo;.</p>;
+                          const stageName = crmStages.find(st => st.id === crmStageView)?.name;
+                          return (
+                            <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">
+                              {needle
+                                ? <>Nobody matches &ldquo;{crmSearch}&rdquo;{stageName ? ` in ${stageName}` : ''}.</>
+                                : <>Nothing in {stageName || 'this view'} yet.</>}
+                            </p>
+                          );
                         }
                         const cellInput = 'w-full bg-transparent border border-transparent hover:border-gray-200 focus:border-amber-300 focus:bg-white rounded px-2 py-1 focus:outline-none';
                         return (
@@ -935,17 +1092,47 @@ export default function OnboardingPortal() {
                             <table className="w-full text-left text-sm">
                               <thead>
                                 <tr className="bg-gray-50 text-[10px] font-extrabold uppercase tracking-wide text-gray-500">
-                                  <th className="px-3 py-2 w-[18%]">Name</th>
-                                  <th className="px-3 py-2 w-[22%]">Club</th>
-                                  <th className="px-3 py-2 w-[14%]">Phone</th>
-                                  <th className="px-3 py-2 w-[28%]">Email</th>
-                                  <th className="px-3 py-2 w-[12%]">Status</th>
-                                  <th className="px-3 py-2 w-[6%] text-right">&nbsp;</th>
+                                  <th className="px-1 py-2 w-[3%] text-center">&nbsp;</th>
+                                  <th className="px-3 py-2 w-[14%]">Name</th>
+                                  <th className="px-3 py-2 w-[15%]">Club</th>
+                                  <th className="px-3 py-2 w-[10%]">Phone</th>
+                                  <th className="px-3 py-2 w-[21%]">Email</th>
+                                  <th className="px-3 py-2 w-[10%]">Status</th>
+                                  <th className="px-3 py-2 w-[12%]">Stage</th>
+                                  <th className="px-3 py-2 w-[8%]">Added</th>
+                                  <th className="px-3 py-2 w-[4%] text-center">Notes</th>
+                                  <th className="px-3 py-2 w-[3%] text-right">&nbsp;</th>
                                 </tr>
                               </thead>
                               <tbody className="divide-y divide-gray-100">
-                                {shown.map(c => (
-                                  <tr key={`${c.id}-${crmNonce}`} className={`align-middle ${crmSaving === c.id ? 'opacity-60' : ''}`}>
+                                {shown.map((c, i) => (
+                                  <Fragment key={`${c.id}-${crmNonce}`}>
+                                  <tr className={`align-middle ${crmSaving === c.id ? 'opacity-60' : ''}`}>
+                                    {/* Order is hand-set and saved whole, so what
+                                        is stored is always exactly what is on
+                                        screen. Arrows rather than drag: a table
+                                        with editable cells in every column has
+                                        nowhere left to grab. */}
+                                    <td className="px-1 py-2 whitespace-nowrap text-center">
+                                      <span className="inline-flex flex-col leading-none">
+                                        <button
+                                          onClick={() => moveCrmCoach(shown, c.id, -1)}
+                                          disabled={i === 0}
+                                          title="Move up"
+                                          className="text-[9px] text-gray-300 hover:text-navy disabled:opacity-0 transition-colors"
+                                        >
+                                          &#9650;
+                                        </button>
+                                        <button
+                                          onClick={() => moveCrmCoach(shown, c.id, 1)}
+                                          disabled={i === shown.length - 1}
+                                          title="Move down"
+                                          className="text-[9px] text-gray-300 hover:text-navy disabled:opacity-0 transition-colors"
+                                        >
+                                          &#9660;
+                                        </button>
+                                      </span>
+                                    </td>
                                     {/* Every text cell saves on blur, not on each
                                         keystroke: a PUT per character races itself and
                                         the last response back wins rather than the last
@@ -996,6 +1183,50 @@ export default function OnboardingPortal() {
                                         ))}
                                       </select>
                                     </td>
+                                    {/* Setting a stage here is what moves the row
+                                        into that filtered view — there is no
+                                        separate "move to stage" action. */}
+                                    <td className="px-3 py-2 whitespace-nowrap">
+                                      <select
+                                        value={c.stageId === null ? '' : String(c.stageId)}
+                                        onChange={ev => saveCrmField(c.id, 'stageId', ev.target.value === '' ? null : Number(ev.target.value))}
+                                        className={`text-xs font-bold rounded-full border px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-amber-300 ${
+                                          c.stageId === null ? 'bg-white text-gray-400 border-gray-200' : 'bg-navy/5 text-navy border-navy/30'
+                                        }`}
+                                      >
+                                        <option value="">&mdash;</option>
+                                        {crmStages.map(st => (
+                                          <option key={st.id} value={st.id}>{st.name}</option>
+                                        ))}
+                                      </select>
+                                    </td>
+                                    <td className="px-3 py-2 whitespace-nowrap text-gray-500 text-xs">
+                                      {c.createdAt
+                                        ? new Date(c.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+                                        : '\u2014'}
+                                    </td>
+                                    {/* The toggle, not the notes. A column wide
+                                        enough to hold a written-up call would
+                                        squeeze every other column flat, so the
+                                        notes live in a sub-row that is closed
+                                        until asked for. The pip says a row has
+                                        notes without opening it. */}
+                                    <td className="px-3 py-2 whitespace-nowrap text-center">
+                                      <button
+                                        onClick={() => setCrmOpenNotes(open => (open === c.id ? null : c.id))}
+                                        title={c.notes ? 'Notes' : 'Add a note'}
+                                        className={`inline-flex items-center gap-1 text-xs font-bold rounded-full border px-2 py-1 transition-colors ${
+                                          crmOpenNotes === c.id
+                                            ? 'bg-navy text-white border-navy'
+                                            : c.notes
+                                              ? 'bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100'
+                                              : 'bg-white text-gray-400 border-gray-200 hover:border-gray-300 hover:text-gray-600'
+                                        }`}
+                                      >
+                                        <span>{crmOpenNotes === c.id ? '\u25be' : '\u25b8'}</span>
+                                        <span>{c.notes ? '\u2022' : '+'}</span>
+                                      </button>
+                                    </td>
                                     <td className="px-3 py-2 whitespace-nowrap text-right">
                                       {crmConfirmDelete === c.id ? (
                                         <span className="inline-flex items-center gap-1">
@@ -1023,6 +1254,24 @@ export default function OnboardingPortal() {
                                       )}
                                     </td>
                                   </tr>
+                                  {crmOpenNotes === c.id && (
+                                    <tr className="bg-amber-50/40">
+                                      <td colSpan={10} className="px-3 pb-3 pt-0">
+                                        <label className="block text-[10px] font-extrabold uppercase tracking-wide text-amber-700 mb-1">
+                                          Notes &mdash; {c.name || c.email}
+                                        </label>
+                                        <textarea
+                                          defaultValue={c.notes}
+                                          rows={5}
+                                          placeholder="Calls, what they asked for, what to do next\u2026"
+                                          onBlur={ev => { if (ev.target.value !== c.notes) saveCrmField(c.id, 'notes', ev.target.value); }}
+                                          className="w-full bg-white border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300 resize-y"
+                                        />
+                                        <p className="text-[11px] text-gray-500 mt-1">Saves when you click away.</p>
+                                      </td>
+                                    </tr>
+                                  )}
+                                  </Fragment>
                                 ))}
                               </tbody>
                             </table>
@@ -1034,7 +1283,7 @@ export default function OnboardingPortal() {
                 </div>
                 {isAdmin && indexFilter === 'crm' && (
                   <p className="text-xs text-gray-500 mb-4 px-1">
-                    {crmCoaches.length} on the portal. Every text cell saves when you click away; status saves as soon as you pick it.
+                    {crmCoaches.length} on the portal{crmStageView !== null ? `, ${crmCoaches.filter(c => c.stageId === crmStageView).length} in this stage` : ''}. Every text cell saves when you click away; status, stage and order save as soon as you change them.
                     Deleting removes the portal account &mdash; an unclaimed one stops being chased by the reminder emails, and a claimed one can sign up again on the same address.
                   </p>
                 )}
