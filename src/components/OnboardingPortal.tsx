@@ -1004,60 +1004,65 @@ export default function OnboardingPortal() {
                           className="ml-auto w-full sm:w-64 border border-amber-200 rounded-lg px-3 py-1.5 text-xs text-navy placeholder:text-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-amber-300"
                         />
                       </div>
-                      {/* Stage chips ARE the view: picking one filters the
-                          table to it. All is the default and always first, so
-                          there is never a stage you can be stuck inside. */}
-                      <div className="flex flex-wrap items-center gap-1.5 px-4 py-2 border-b border-gray-100">
-                        <button
-                          onClick={() => setCrmStageView(null)}
-                          className={`text-[11px] font-bold rounded-full border px-2.5 py-1 transition-colors ${
-                            crmStageView === null ? 'bg-navy text-white border-navy' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
-                          }`}
+                      {/* One dropdown, not a row of pills. Pills grow with the
+                          pipeline and push the search box off the line; a
+                          select stays one control however many stages exist.
+                          Remove acts on whatever is selected, so there is no
+                          per-stage × cluttering the list either. */}
+                      <div className="flex flex-wrap items-center gap-2 px-4 py-2 border-b border-gray-100">
+                        <label className="text-[10px] font-extrabold uppercase tracking-wide text-gray-500">View</label>
+                        <select
+                          value={crmStageView === null ? '' : String(crmStageView)}
+                          onChange={ev => { setCrmStageView(ev.target.value === '' ? null : Number(ev.target.value)); setCrmConfirmStageDelete(null); }}
+                          className="border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs font-bold text-navy bg-white focus:outline-none focus:ring-2 focus:ring-amber-300"
                         >
-                          All <span className="opacity-60">{crmCoaches.length}</span>
-                        </button>
-                        {crmStages.map(st => {
-                          const n = crmCoaches.filter(c => c.stageId === st.id).length;
-                          const on = crmStageView === st.id;
-                          return (
-                            <span key={st.id} className="inline-flex items-center">
+                          <option value="">All ({crmCoaches.length})</option>
+                          {crmStages.map(st => (
+                            <option key={st.id} value={st.id}>
+                              {st.name} ({crmCoaches.filter(c => c.stageId === st.id).length})
+                            </option>
+                          ))}
+                        </select>
+
+                        {crmStageView !== null && (
+                          crmConfirmStageDelete === crmStageView ? (
+                            <span className="inline-flex items-center gap-1">
                               <button
-                                onClick={() => setCrmStageView(on ? null : st.id)}
-                                className={`text-[11px] font-bold rounded-full border px-2.5 py-1 transition-colors ${
-                                  on ? 'bg-navy text-white border-navy' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
-                                }`}
+                                onClick={() => deleteCrmStage(crmStageView)}
+                                className="text-[10px] font-extrabold uppercase tracking-wide bg-red text-white rounded-full px-2.5 py-1 hover:bg-red-dark transition-colors"
                               >
-                                {st.name} <span className="opacity-60">{n}</span>
+                                Remove stage
                               </button>
-                              {crmConfirmStageDelete === st.id ? (
-                                <span className="inline-flex items-center gap-1 ml-1">
-                                  <button onClick={() => deleteCrmStage(st.id)} className="text-[10px] font-extrabold uppercase bg-red text-white rounded-full px-2 py-0.5">Remove</button>
-                                  <button onClick={() => setCrmConfirmStageDelete(null)} className="text-[10px] font-bold uppercase text-gray-500 hover:text-navy">No</button>
-                                </span>
-                              ) : (
-                                <button
-                                  onClick={() => setCrmConfirmStageDelete(st.id)}
-                                  title={`Remove the ${st.name} stage`}
-                                  className="ml-0.5 text-gray-300 hover:text-red text-xs leading-none px-1"
-                                >
-                                  &times;
-                                </button>
-                              )}
+                              <button
+                                onClick={() => setCrmConfirmStageDelete(null)}
+                                className="text-[10px] font-bold uppercase tracking-wide text-gray-500 hover:text-navy px-1"
+                              >
+                                Cancel
+                              </button>
                             </span>
-                          );
-                        })}
-                        <span className="inline-flex items-center gap-1 ml-1">
+                          ) : (
+                            <button
+                              onClick={() => setCrmConfirmStageDelete(crmStageView)}
+                              title="Remove this stage — the people in it stay, they just go back to no stage"
+                              className="text-[10px] font-bold uppercase tracking-wide text-gray-400 hover:text-red px-1 transition-colors"
+                            >
+                              Remove
+                            </button>
+                          )
+                        )}
+
+                        <span className="inline-flex items-center gap-1 ml-auto">
                           <input
                             value={crmNewStage}
                             onChange={ev => setCrmNewStage(ev.target.value)}
                             onKeyDown={ev => { if (ev.key === 'Enter') addCrmStage(); }}
                             placeholder="New stage"
-                            className="w-28 border border-gray-200 rounded-full px-2.5 py-1 text-[11px] text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                            className="w-32 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
                           />
                           <button
                             onClick={addCrmStage}
                             disabled={!crmNewStage.trim() || crmAddingStage}
-                            className="text-[11px] font-bold rounded-full border border-navy text-navy px-2.5 py-1 hover:bg-navy hover:text-white transition-colors disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-navy"
+                            className="text-xs font-bold rounded-lg border border-navy text-navy px-2.5 py-1.5 hover:bg-navy hover:text-white transition-colors disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-navy"
                           >
                             {crmAddingStage ? 'Adding\u2026' : '+ Add'}
                           </button>
