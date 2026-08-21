@@ -1777,7 +1777,9 @@ export default function OnboardingPortal() {
                           {/* Heading and overview sit on the page, not inside
                               the tinted box — same shape as every other step,
                               where the box holds the list and only the list. */}
-                          <h3 className="text-navy text-lg font-extrabold mb-2">{sec.heading.replace('&amp;', '&')}</h3>
+                          {/* Same treatment as "The Rate" and the other step
+                              eyebrows: red, uppercase, 13px, extrabold. */}
+                          <h3 className="text-[13px] font-extrabold uppercase tracking-wide text-red mb-2.5">{sec.heading.replace('&amp;', '&')}</h3>
                           {sec.overview && (
                             <p className="text-gray-700 leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: sec.overview }} />
                           )}

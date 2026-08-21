@@ -48,7 +48,7 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'How Pricing Works',
     body: `
       <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:0 0 10px;">The Rate</p>
-      <p>Pricing is per player, per year &mdash; and it drops once you reach 75 players (5 teams).</p>
+      <p>Pricing is per player, per year &mdash; and it drops once you reach 75 players.</p>
       <div style="${BOX}">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
