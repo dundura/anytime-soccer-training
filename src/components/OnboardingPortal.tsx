@@ -161,7 +161,6 @@ const PAYMENT_SECTIONS: StepSection[] = [
   {
     heading: 'Upgrade Your Players',
     overview: 'Coaches apply free access slots to the players on their team.',
-    lead: '<strong>Upgrade Players</strong> &mdash; every player needs a slot applied to their account.',
     items: [
       '<strong>We add the slots</strong> &mdash; free access slots go on your team.',
       '<strong>The coach applies them</strong> &mdash; one per player, as they join the team.',

@@ -92,7 +92,6 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
           <div style="margin:6px 0 0;">
-            <p style="margin:0;"><strong>Upgrade your players as they join.</strong></p>
             <ul style="margin:6px 0 0;padding-left:20px;color:#475569;font-size:14px;list-style:disc outside;">
               <li style="margin:0 0 0;display:list-item;">We add free access slots to your team.</li>
               <li style="margin:4px 0 0;display:list-item;">The coach applies a slot to each player as they join the team.</li>
