@@ -419,9 +419,9 @@ export default function OnboardingPortal() {
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok) setPreviews(p => ({ ...p, [key]: data }));
-      else setNotifyError(data.error || 'Could not load that preview.');
+      else setNotifyError({ key, message: data.error || 'Could not load that preview.' });
     } catch {
-      setNotifyError('Could not load that preview.');
+      setNotifyError({ key, message: 'Could not load that preview.' });
     } finally {
       setPreviewLoading('');
     }
@@ -683,13 +683,17 @@ export default function OnboardingPortal() {
   // is open. The admin token is separate from the coach token on purpose — the
   // coach holds the coach token too.
   const [notifySending, setNotifySending] = useState('');
-  const [notifySent, setNotifySent] = useState('');
-  const [notifyError, setNotifyError] = useState('');
+  // Which email was sent, and where it went. It has to be BOTH: holding only
+  // the address meant every row in the list matched, so sending one email put
+  // "Sent to <coach>" under all eleven and made it look like the whole
+  // sequence had just gone out.
+  const [notifySent, setNotifySent] = useState<{ key: string; to: string } | null>(null);
+  const [notifyError, setNotifyError] = useState<{ key: string; message: string } | null>(null);
   const sendNotification = async (key: string) => {
     if (!token || notifySending) return;
     setNotifySending(key);
-    setNotifySent('');
-    setNotifyError('');
+    setNotifySent(null);
+    setNotifyError(null);
     try {
       const res = await fetch(`${API}/portal-onboarding/notify`, {
         method: 'POST',
@@ -702,14 +706,17 @@ export default function OnboardingPortal() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setNotifyError(res.status === 403
-          ? 'Admin sign-in required — sign out and sign back in with the master password.'
-          : (data.error || 'Could not send that email.'));
+        setNotifyError({
+          key,
+          message: res.status === 403
+            ? 'Admin sign-in required — sign out and sign back in with the master password.'
+            : (data.error || 'Could not send that email.'),
+        });
         return;
       }
-      setNotifySent(data.sentTo || key);
+      setNotifySent({ key, to: data.sentTo || '' });
     } catch {
-      setNotifyError('Could not send that email.');
+      setNotifyError({ key, message: 'Could not send that email.' });
     } finally {
       setNotifySending('');
     }
@@ -1069,11 +1076,11 @@ export default function OnboardingPortal() {
                               >
                                 {notifySending === e.key ? 'Sending…' : 'Send'}
                               </button>
-                              {notifySent && notifySending !== e.key && (
-                                <span className="text-[10px] font-semibold text-green-700 text-right">✓ Sent to {notifySent}</span>
+                              {notifySent?.key === e.key && notifySending !== e.key && (
+                                <span className="text-[10px] font-semibold text-green-700 text-right">✓ Sent to {notifySent.to}</span>
                               )}
-                              {notifyError && (
-                                <span className="text-[10px] font-semibold text-red text-right">{notifyError}</span>
+                              {notifyError?.key === e.key && (
+                                <span className="text-[10px] font-semibold text-red text-right">{notifyError.message}</span>
                               )}
                             </span>
                           </div>
