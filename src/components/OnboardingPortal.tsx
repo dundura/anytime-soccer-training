@@ -506,6 +506,44 @@ export default function OnboardingPortal() {
     }
   };
 
+  // Add a CRM row. Sends nothing unless the box is ticked -- tracking somebody
+  // you are not ready to onboard is most of what this table is for.
+  const [crmNew, setCrmNew] = useState({ name: '', email: '', club: '', phone: '' });
+  const [crmNewWelcome, setCrmNewWelcome] = useState(false);
+  const [crmAdding, setCrmAdding] = useState(false);
+  const [crmAddResult, setCrmAddResult] = useState('');
+  const addCrmCoach = async () => {
+    if (!token || crmAdding || !crmNew.email.trim()) return;
+    setCrmAdding(true);
+    setCrmError('');
+    setCrmAddResult('');
+    try {
+      const res = await fetch(`${API}/portal-onboarding/admin-coach`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...adminHeaders() },
+        body: JSON.stringify({ ...crmNew, sendWelcome: crmNewWelcome }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) { setCrmError(data.error || 'Could not add that record.'); return; }
+      // Straight to the top: an unarranged row is what the backend sorts first
+      // anyway, so this matches where a reload would put it.
+      setCrmCoaches(list => [data.coach, ...list]);
+      setCrmAddResult(
+        data.welcomeSentTo
+          ? (data.live
+              ? `Added ${data.coach.email} — welcome email sent to them.`
+              : `Added ${data.coach.email} — welcome went to ${data.welcomeSentTo}, NOT to them.`)
+          : `Added ${data.coach.email} — nothing emailed.`
+      );
+      setCrmNew({ name: '', email: '', club: '', phone: '' });
+      setCrmNewWelcome(false);
+    } catch {
+      setCrmError('Could not add that record.');
+    } finally {
+      setCrmAdding(false);
+    }
+  };
+
   // Move a row one place within the list currently on screen, then persist the
   // WHOLE order. Swapping against the visible neighbour is what makes this
   // behave under a stage filter or a search: the row lands where the eye
@@ -1286,6 +1324,64 @@ export default function OnboardingPortal() {
                     </>
                   )}
                 </div>
+                {isAdmin && indexFilter === 'crm' && (
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4">
+                    <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-1">Add a record</p>
+                    <p className="text-xs text-amber-800/80 mb-3">
+                      Email is the only thing required &mdash; everything else can be filled in later, in the table.
+                      Nothing is sent unless you tick the box.
+                    </p>
+                    <div className="grid gap-2 sm:grid-cols-4 mb-3">
+                      <input
+                        value={crmNew.name}
+                        onChange={ev => setCrmNew({ ...crmNew, name: ev.target.value })}
+                        placeholder="Name"
+                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                      />
+                      <input
+                        type="email"
+                        value={crmNew.email}
+                        onChange={ev => setCrmNew({ ...crmNew, email: ev.target.value })}
+                        onKeyDown={ev => { if (ev.key === 'Enter') addCrmCoach(); }}
+                        placeholder="Email (required)"
+                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                      />
+                      <input
+                        value={crmNew.club}
+                        onChange={ev => setCrmNew({ ...crmNew, club: ev.target.value })}
+                        placeholder="Club"
+                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                      />
+                      <input
+                        value={crmNew.phone}
+                        onChange={ev => setCrmNew({ ...crmNew, phone: ev.target.value })}
+                        placeholder="Phone"
+                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                      />
+                    </div>
+                    <label className="flex items-start gap-2 mb-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={crmNewWelcome}
+                        onChange={ev => setCrmNewWelcome(ev.target.checked)}
+                        className="mt-0.5"
+                      />
+                      <span className="text-xs text-amber-900">
+                        <span className="font-bold">Also send the welcome email.</span>{' '}
+                        Starts the onboarding sequence &mdash; they get email 1 now, and the 24-hour reminder if they
+                        haven&rsquo;t signed up by tomorrow. Leave this off to just track them.
+                      </span>
+                    </label>
+                    <button
+                      onClick={addCrmCoach}
+                      disabled={crmAdding || !crmNew.email.trim()}
+                      className="bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-6 rounded-xl transition-colors disabled:opacity-50"
+                    >
+                      {crmAdding ? 'Adding\u2026' : crmNewWelcome ? '+ Add record & send welcome' : '+ Add record'}
+                    </button>
+                    {crmAddResult && <p className="text-green-700 font-semibold text-sm mt-2">&#10003; {crmAddResult}</p>}
+                  </div>
+                )}
                 {isAdmin && indexFilter === 'crm' && (
                   <p className="text-xs text-gray-500 mb-4 px-1">
                     {crmCoaches.length} on the portal{crmStageView !== null ? `, ${crmCoaches.filter(c => c.stageId === crmStageView).length} in this stage` : ''}. Every text cell saves when you click away; status, stage and order save as soon as you change them.
