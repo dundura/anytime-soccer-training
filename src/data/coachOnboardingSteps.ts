@@ -500,7 +500,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:6px 0 0;"><strong>Players who left the club</strong> &mdash; you remove them from the team roster. Their account stays theirs; they are simply no longer on your team.</p>
+          <p style="margin:6px 0 0;"><strong>Players who left the club</strong> &mdash; click their name on the roster and remove them.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
