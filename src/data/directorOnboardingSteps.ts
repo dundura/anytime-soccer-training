@@ -82,9 +82,9 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
           <div style="margin:6px 0 0;">
-            <p style="margin:0;"><strong>Pay the invoice we send for your first 75 players.</strong></p>
+            <p style="margin:0;"><strong>Pay the invoice we send for your first two teams.</strong></p>
             <ul style="margin:6px 0 0;padding-left:20px;color:#475569;font-size:14px;list-style:disc outside;">
-              <li style="margin:0 0 0;display:list-item;">Only from player 76 onward do we charge your card, $8 each as they join.</li>
+              <li style="margin:0 0 0;display:list-item;">Additional players &mdash; we charge the card on file once they onboard.</li>
               <li style="margin:4px 0 0;display:list-item;">So you only pay for players who actually use the program.</li>
             </ul>
           </div>
