@@ -57,8 +57,7 @@ export default function RosterTemplatePage() {
                 <strong className="text-[#0f2642]">Download the file</strong> &mdash; opens in Excel.
               </>,
               <>
-                <strong className="text-[#0f2642]">Add one row per player.</strong> The parent email
-                is the important one: that is the address the invitation goes to.
+                <strong className="text-[#0f2642]">Add one row per player.</strong>
               </>,
               <>
                 <strong className="text-[#0f2642]">Add yourself as a Coach.</strong> Use the{' '}
