@@ -147,7 +147,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <p>Please download the template to notify parents. You&rsquo;re welcome to edit it before sending.</p>
     `,
     ctaLabel: 'Download the Parent Welcome Template',
-    ctaHref: 'https://docs.google.com/document/d/1VAVT_sHrtvvb1rUbuNX4muqUthq1Tgn0/edit?tab=t.0',
+    ctaHref: 'https://www.anytime-soccer.com/welcome-email-template',
   },
   {
     title: 'Notify Megan',
@@ -189,7 +189,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       },
       {
         title: 'Send parents your intro email',
-        moreInfoHref: 'https://docs.google.com/document/d/1VAVT_sHrtvvb1rUbuNX4muqUthq1Tgn0/edit',
+        moreInfoHref: 'https://www.anytime-soccer.com/welcome-email-template',
         sectionHeading: 'Send Notifications',
       },
       {

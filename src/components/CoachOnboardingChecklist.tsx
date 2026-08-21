@@ -37,7 +37,7 @@ const sections: Section[] = [
     steps: [
       {
         text: "Coach sends introduction email to parents using template",
-        link: { href: "https://docs.google.com/document/d/1VAVT_sHrtvvb1rUbuNX4muqUthq1Tgn0/edit", label: "Email Template" },
+        link: { href: "https://www.anytime-soccer.com/welcome-email-template", label: "Email Template" },
       },
       {
         text: (<>Coach notifies <strong className="text-navy">Megan Chambers</strong> that parents have been notified</>),
