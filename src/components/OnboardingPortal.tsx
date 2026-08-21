@@ -397,6 +397,9 @@ export default function OnboardingPortal() {
   const [crmError, setCrmError] = useState('');
   const [crmSaving, setCrmSaving] = useState<number | null>(null);
   const [crmSearch, setCrmSearch] = useState('');
+  // Bumped to remount the row inputs when a save is rejected, so an
+  // uncontrolled cell cannot keep displaying a value the server refused.
+  const [crmNonce, setCrmNonce] = useState(0);
 
   const adminHeaders = () => ({
     Authorization: token || '',
@@ -421,7 +424,7 @@ export default function OnboardingPortal() {
 
   // One field at a time. Sending only what changed means two tabs editing
   // different columns of the same coach cannot overwrite each other.
-  const saveCrmField = async (id: number, field: 'status' | 'phone' | 'club' | 'name', value: string) => {
+  const saveCrmField = async (id: number, field: 'status' | 'phone' | 'club' | 'name' | 'email', value: string) => {
     if (!token) return;
     setCrmSaving(id);
     setCrmError('');
@@ -432,10 +435,42 @@ export default function OnboardingPortal() {
         body: JSON.stringify({ id, [field]: value }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) { setCrmError(data.error || 'Could not save that change.'); return; }
+      if (!res.ok) {
+        setCrmError(data.error || 'Could not save that change.');
+        // The inputs are uncontrolled, so a rejected value would sit in the
+        // cell looking saved. Remount the row to put the stored value back.
+        setCrmNonce(n => n + 1);
+        return;
+      }
       setCrmCoaches(list => list.map(c => (c.id === id ? data.coach : c)));
     } catch {
       setCrmError('Could not save that change.');
+      setCrmNonce(n => n + 1);
+    } finally {
+      setCrmSaving(null);
+    }
+  };
+
+  // Delete is two clicks, not a browser confirm(): the row asks in place and
+  // the second click does it. Nothing else in this portal opens a modal for a
+  // single action, and a native dialog blocks the whole page.
+  const [crmConfirmDelete, setCrmConfirmDelete] = useState<number | null>(null);
+  const deleteCrmCoach = async (id: number) => {
+    if (!token) return;
+    setCrmSaving(id);
+    setCrmError('');
+    try {
+      const res = await fetch(`${API}/portal-onboarding/admin-coach`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json', ...adminHeaders() },
+        body: JSON.stringify({ id }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) { setCrmError(data.error || 'Could not delete that coach.'); return; }
+      setCrmCoaches(list => list.filter(c => c.id !== id));
+      setCrmConfirmDelete(null);
+    } catch {
+      setCrmError('Could not delete that coach.');
     } finally {
       setCrmSaving(null);
     }
@@ -661,9 +696,14 @@ export default function OnboardingPortal() {
 
   const inputClass = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-navy placeholder:text-gray focus:outline-none focus:ring-2 focus:ring-red/30 focus:border-red';
 
+  // The portal is a max-w-2xl reading column: right for a wizard, far too
+  // narrow for a table. The CRM tab gets the full width of the page instead
+  // of being squeezed into the same column as the step list.
+  const wideView = showIndex && isAdmin && indexFilter === 'crm';
+
   return (
     <section className="py-16 bg-background min-h-screen">
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className={`${wideView ? 'max-w-[1600px]' : 'max-w-2xl'} mx-auto px-4 sm:px-6 lg:px-8`}>
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="bg-navy px-8 py-6">
             <div className="flex items-center justify-between gap-2 mb-3">
@@ -713,7 +753,7 @@ export default function OnboardingPortal() {
             )}
           </div>
 
-          <div className="px-8 py-8">
+          <div className={`${wideView ? 'px-4 sm:px-6' : 'px-8'} py-8`}>
             {showFaq ? (
               <div>
                 <FaqSearch items={ONBOARDING_FAQ} />
@@ -889,52 +929,63 @@ export default function OnboardingPortal() {
                         if (!shown.length) {
                           return <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">Nobody matches &ldquo;{crmSearch}&rdquo;.</p>;
                         }
+                        const cellInput = 'w-full bg-transparent border border-transparent hover:border-gray-200 focus:border-amber-300 focus:bg-white rounded px-2 py-1 focus:outline-none';
                         return (
                           <div className="overflow-x-auto">
                             <table className="w-full text-left text-sm">
                               <thead>
                                 <tr className="bg-gray-50 text-[10px] font-extrabold uppercase tracking-wide text-gray-500">
-                                  <th className="px-4 py-2">Name</th>
-                                  <th className="px-4 py-2">Club</th>
-                                  <th className="px-4 py-2">Phone</th>
-                                  <th className="px-4 py-2">Email</th>
-                                  <th className="px-4 py-2">Status</th>
+                                  <th className="px-3 py-2 w-[18%]">Name</th>
+                                  <th className="px-3 py-2 w-[22%]">Club</th>
+                                  <th className="px-3 py-2 w-[14%]">Phone</th>
+                                  <th className="px-3 py-2 w-[28%]">Email</th>
+                                  <th className="px-3 py-2 w-[12%]">Status</th>
+                                  <th className="px-3 py-2 w-[6%] text-right">&nbsp;</th>
                                 </tr>
                               </thead>
                               <tbody className="divide-y divide-gray-100">
                                 {shown.map(c => (
-                                  <tr key={c.id} className={crmSaving === c.id ? 'opacity-60' : ''}>
-                                    {/* Name, club and phone save on blur, not on every
-                                        keystroke: a PUT per character would race itself
-                                        and the last response back would win rather than
-                                        the last thing typed. */}
-                                    <td className="px-4 py-2">
+                                  <tr key={`${c.id}-${crmNonce}`} className={`align-middle ${crmSaving === c.id ? 'opacity-60' : ''}`}>
+                                    {/* Every text cell saves on blur, not on each
+                                        keystroke: a PUT per character races itself and
+                                        the last response back wins rather than the last
+                                        thing typed. */}
+                                    <td className="px-3 py-2 whitespace-nowrap">
                                       <input
                                         defaultValue={c.name}
+                                        placeholder="&mdash;"
                                         onBlur={ev => { if (ev.target.value !== c.name) saveCrmField(c.id, 'name', ev.target.value); }}
-                                        className="w-36 bg-transparent font-semibold text-navy border border-transparent hover:border-gray-200 focus:border-amber-300 rounded px-1.5 py-1 focus:outline-none"
+                                        className={`${cellInput} font-semibold text-navy placeholder:text-gray-300`}
                                       />
                                     </td>
-                                    <td className="px-4 py-2">
+                                    <td className="px-3 py-2 whitespace-nowrap">
                                       <input
                                         defaultValue={c.club}
                                         placeholder="&mdash;"
                                         onBlur={ev => { if (ev.target.value !== c.club) saveCrmField(c.id, 'club', ev.target.value); }}
-                                        className="w-36 bg-transparent text-gray-700 placeholder:text-gray-300 border border-transparent hover:border-gray-200 focus:border-amber-300 rounded px-1.5 py-1 focus:outline-none"
+                                        className={`${cellInput} text-gray-700 placeholder:text-gray-300`}
                                       />
                                     </td>
-                                    <td className="px-4 py-2">
+                                    <td className="px-3 py-2 whitespace-nowrap">
                                       <input
                                         defaultValue={c.phone}
                                         placeholder="&mdash;"
                                         onBlur={ev => { if (ev.target.value !== c.phone) saveCrmField(c.id, 'phone', ev.target.value); }}
-                                        className="w-32 bg-transparent text-gray-700 placeholder:text-gray-300 border border-transparent hover:border-gray-200 focus:border-amber-300 rounded px-1.5 py-1 focus:outline-none"
+                                        className={`${cellInput} text-gray-700 placeholder:text-gray-300`}
                                       />
                                     </td>
-                                    <td className="px-4 py-2">
-                                      <a href={`mailto:${c.email}`} className="text-red font-semibold hover:underline break-all">{c.email}</a>
+                                    {/* An address that wraps is unreadable and unusable
+                                        for copying. The cell never wraps; the table
+                                        scrolls sideways instead if the window is small. */}
+                                    <td className="px-3 py-2 whitespace-nowrap">
+                                      <input
+                                        type="email"
+                                        defaultValue={c.email}
+                                        onBlur={ev => { if (ev.target.value !== c.email) saveCrmField(c.id, 'email', ev.target.value); }}
+                                        className={`${cellInput} text-red font-semibold`}
+                                      />
                                     </td>
-                                    <td className="px-4 py-2">
+                                    <td className="px-3 py-2 whitespace-nowrap">
                                       <select
                                         value={c.status}
                                         onChange={ev => saveCrmField(c.id, 'status', ev.target.value)}
@@ -944,6 +995,32 @@ export default function OnboardingPortal() {
                                           <option key={st} value={st}>{crmLabel(st)}</option>
                                         ))}
                                       </select>
+                                    </td>
+                                    <td className="px-3 py-2 whitespace-nowrap text-right">
+                                      {crmConfirmDelete === c.id ? (
+                                        <span className="inline-flex items-center gap-1">
+                                          <button
+                                            onClick={() => deleteCrmCoach(c.id)}
+                                            className="text-[10px] font-extrabold uppercase tracking-wide bg-red text-white rounded-full px-2.5 py-1 hover:bg-red-dark transition-colors"
+                                          >
+                                            Delete
+                                          </button>
+                                          <button
+                                            onClick={() => setCrmConfirmDelete(null)}
+                                            className="text-[10px] font-bold uppercase tracking-wide text-gray-500 hover:text-navy px-1"
+                                          >
+                                            Cancel
+                                          </button>
+                                        </span>
+                                      ) : (
+                                        <button
+                                          onClick={() => setCrmConfirmDelete(c.id)}
+                                          title={`Delete ${c.email}`}
+                                          className="text-gray-300 hover:text-red text-base leading-none px-1 transition-colors"
+                                        >
+                                          &times;
+                                        </button>
+                                      )}
                                     </td>
                                   </tr>
                                 ))}
@@ -957,7 +1034,8 @@ export default function OnboardingPortal() {
                 </div>
                 {isAdmin && indexFilter === 'crm' && (
                   <p className="text-xs text-gray-500 mb-4 px-1">
-                    {crmCoaches.length} on the portal. Name, club and phone save when you click away; status saves as soon as you pick it.
+                    {crmCoaches.length} on the portal. Every text cell saves when you click away; status saves as soon as you pick it.
+                    Deleting removes the portal account &mdash; an unclaimed one stops being chased by the reminder emails, and a claimed one can sign up again on the same address.
                   </p>
                 )}
                 {isAdmin && indexFilter === 'notifications' && (
