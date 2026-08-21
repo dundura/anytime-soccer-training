@@ -105,7 +105,6 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
 // involves rather than walking them through app configuration. Their coaches
 // each get the coach path above once the club commits.
 const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
-  { key: 'dir_about', title: 'The complete training platform', dataIndex: 0, section: 'Your Club', info: true },
   { key: 'dir_pricing', title: 'How pricing works', dataIndex: 1, section: 'Your Club' },
   { key: 'dir_payment', title: 'Steps to Get Started', dataIndex: 2, section: 'Your Club' },
   { key: 'dir_onboarding', title: 'How onboarding works', dataIndex: 3, section: 'Your Club', info: true },
@@ -230,8 +229,6 @@ export default function OnboardingPortal() {
   const [showIndex, setShowIndex] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showFaq, setShowFaq] = useState(false);
-  const [showCompleteConfirm, setShowCompleteConfirm] = useState(false);
-  const [stepChoice, setStepChoice] = useState<'affirm' | 'question' | null>(null);
   const [showQuestion, setShowQuestion] = useState(false);
   const [questionText, setQuestionText] = useState('');
   const [questionSent, setQuestionSent] = useState(false);
@@ -239,6 +236,10 @@ export default function OnboardingPortal() {
   const [missingSent, setMissingSent] = useState(false);
   const [indexFilter, setIndexFilter] = useState<'all' | 'outstanding' | 'notifications' | 'crm'>('all');
   const [showIndexInfo, setShowIndexInfo] = useState(false);
+  // Before We Start has to be read, not scrolled past, so Next waits on it.
+  // Skip still goes straight through — an acknowledgement nobody can decline
+  // is not an acknowledgement.
+  const [indexInfoAck, setIndexInfoAck] = useState(false);
   const [extraEmail, setExtraEmail] = useState('');
   const [pageSent, setPageSent] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -1700,7 +1701,7 @@ export default function OnboardingPortal() {
                       <><strong className="text-navy font-semibold">Pay for access.</strong> Pay invoice and/or per player in the app.</>,
                       <><strong className="text-navy font-semibold">Complete this portal.</strong> Includes the engagement survey.</>,
                       <><strong className="text-navy font-semibold">Notify parents.</strong> Edit and share our welcome email.</>,
-                      <><strong className="text-navy font-semibold">Confirm you're ready.</strong> Tick off what you've done and tell us you're ready to start.</>,
+                      <><strong className="text-navy font-semibold">Confirm you're ready.</strong> Tell us you're ready to start.</>,
                     ].map((item, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{i + 1}</span>
@@ -1709,6 +1710,16 @@ export default function OnboardingPortal() {
                     ))}
                   </ol>
                 </div>
+                <label className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 mb-4 cursor-pointer transition-colors ${indexInfoAck ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                  <input
+                    type="radio"
+                    name="indexInfoAck"
+                    checked={indexInfoAck}
+                    onChange={() => setIndexInfoAck(true)}
+                    className="w-4 h-4 accent-green-600"
+                  />
+                  <span className="text-sm font-bold text-navy">I understand</span>
+                </label>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
                   <button
                     onClick={() => { setShowIndexInfo(false); setShowIntro(true); setError(''); }}
@@ -1724,7 +1735,8 @@ export default function OnboardingPortal() {
                   </button>
                   <button
                     onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowIndexInfo(false); setError(''); }}
-                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                    disabled={!indexInfoAck}
+                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
                   >
                     Next →
                   </button>
@@ -1931,18 +1943,21 @@ export default function OnboardingPortal() {
                   >
                     ← Back
                   </button>
-                  {/* No Skip on the club path. It is six short pages a director
-                      reads in order to decide, not a checklist with steps that
-                      might not apply — and skipping left them landing several
-                      pages in on the way back. */}
-                  {audience !== 'director' && !step.bonus && wizardIndex < STEPS.length - 1 && (
-                    <button
-                      onClick={() => { setWizardIndex(wizardIndex + 1); setError(''); }}
-                      className="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-500 hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
-                    >
-                      {step.final ? 'Bonus →' : 'Skip'}
-                    </button>
-                  )}
+                  {/* Skip is on every page, both paths included. Any page can
+                      be one that does not apply to you, and a page you cannot
+                      move past without answering it is a page you leave.
+                      On the last page there is nothing ahead, so it goes to the
+                      Index rather than nowhere. */}
+                  <button
+                    onClick={() => {
+                      if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); }
+                      else { setShowIndex(true); }
+                      setError('');
+                    }}
+                    className="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-500 hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
+                  >
+                    {step.final && wizardIndex < STEPS.length - 1 ? 'Bonus →' : 'Skip'}
+                  </button>
                   {stepData && stepData.ctaHref && (
                     <a
                       href={stepData!.ctaHref}
@@ -2006,10 +2021,18 @@ export default function OnboardingPortal() {
                       {saving ? 'Saving…' : 'Next →'}
                     </button>
                   ) : (
-                    // No gate on this step, so Next opens the confirm popup.
-                    // (To move on without confirming, use Skip.)
+                    // No gate on this step: Next marks it done and moves on.
+                    //
+                    // This used to open a confirm dialog with the same two
+                    // choices on every page. A modal that asks the identical
+                    // question each time stops being read, and pages that need
+                    // an actual answer carry their own radio buttons inline —
+                    // where the question can be about that page.
+                    //
+                    // Still notifies, exactly as confirming in the dialog did,
+                    // so Megan's view of who has done what is unchanged.
                     <button
-                      onClick={() => { setStepChoice(null); setShowCompleteConfirm(true); }}
+                      onClick={() => { if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } } else { setStep(step.key, true, true, undefined, true); } }}
                       disabled={saving}
                       className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
                     >
@@ -2040,66 +2063,6 @@ export default function OnboardingPortal() {
           </div>
         </div>
       </div>
-
-      {/* Step completion confirmation modal */}
-      {showCompleteConfirm && coach && (
-        <div
-          onClick={() => !saving && setShowCompleteConfirm(false)}
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4"
-        >
-          <div onClick={e => e.stopPropagation()} className="bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden">
-            <div className="px-6 pt-6 pb-2 text-center">
-              <div className="text-4xl mb-3">{(step.info || step.tip) ? '💡' : '✅'}</div>
-              <h2 className="text-navy text-lg font-extrabold mb-2">Before you continue</h2>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                <strong className="text-navy">{step.title}</strong>
-              </p>
-            </div>
-            <div className="flex flex-col gap-2 px-6 pt-3 pb-4">
-              <label className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${stepChoice === 'question' ? 'border-red bg-red-50' : 'border-gray-200 hover:bg-gray-50'}`}>
-                <input
-                  type="radio"
-                  name="stepChoice"
-                  checked={stepChoice === 'question'}
-                  onChange={() => setStepChoice('question')}
-                  className="accent-red-600 w-4 h-4"
-                />
-                <span className="text-sm font-bold text-navy">I have a question</span>
-              </label>
-              <label className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${stepChoice === 'affirm' ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:bg-gray-50'}`}>
-                <input
-                  type="radio"
-                  name="stepChoice"
-                  checked={stepChoice === 'affirm'}
-                  onChange={() => setStepChoice('affirm')}
-                  className="accent-green-600 w-4 h-4"
-                />
-                <span className="text-sm font-bold text-navy">{(step.info || step.tip) ? 'I understand ✓' : 'I have completed this step ✓'}</span>
-              </label>
-            </div>
-            <div className="flex gap-3 px-6 pb-5">
-              <button
-                onClick={() => setShowCompleteConfirm(false)}
-                disabled={saving}
-                className="flex-1 bg-white border-2 border-gray-200 text-navy font-bold py-2.5 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-60"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={async () => {
-                  if (!stepChoice) return;
-                  await setStep(step.key, true, true, stepChoice === 'question' ? 'needs_help' : undefined, true);
-                  setShowCompleteConfirm(false);
-                }}
-                disabled={saving || !stepChoice}
-                className="flex-1 bg-red hover:bg-red-dark text-white font-bold py-2.5 rounded-xl transition-colors disabled:opacity-40"
-              >
-                {saving ? 'Saving…' : 'Submit'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Reset confirmation modal */}
       {showResetConfirm && (
