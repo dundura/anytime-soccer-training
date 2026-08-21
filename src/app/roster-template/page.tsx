@@ -43,9 +43,6 @@ export default function RosterTemplatePage() {
           >
             ⬇ Download the Excel Template
           </a>
-          <p className="text-white/50 text-[13px] mt-3">
-            Excel workbook (.xlsx) &middot; 50 rows &middot; opens in Excel, Numbers or Google Sheets
-          </p>
         </div>
       </section>
 
