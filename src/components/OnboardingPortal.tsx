@@ -105,7 +105,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
 // involves rather than walking them through app configuration. Their coaches
 // each get the coach path above once the club commits.
 const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
-  { key: 'dir_pricing', title: 'How pricing works', dataIndex: 1, section: 'Your Club' },
+  { key: 'dir_pricing', title: 'How pricing works', dataIndex: 1, section: 'Your Club', ack: { label: 'I understand' } },
   { key: 'dir_payment', title: 'Steps to Get Started', dataIndex: 2, section: 'Your Club' },
   { key: 'dir_onboarding', title: 'How onboarding works', dataIndex: 3, section: 'Your Club', info: true },
   { key: 'dir_seasons', title: 'Adding and removing players each season', dataIndex: 4, section: 'Your Club', info: true },
@@ -122,7 +122,7 @@ const numberedTotal = (steps: PortalStep[]) => steps.filter(x => !x.tip && !x.bo
 // it, but they all render as one numbered list — the lead just comes first and
 // in bold. A section with no lead simply starts at its first item, which is how
 // the roster page has always read and what keeps it unchanged here.
-type StepSection = { heading: string; lead?: string; items: string[]; note?: string };
+type StepSection = { heading: string; overview?: string; lead?: string; items: string[]; note?: string };
 
 const ROSTER_SECTIONS: StepSection[] = [
   { heading: 'Before You Start', items: [
@@ -1769,8 +1769,15 @@ export default function OnboardingPortal() {
                     {[rosterSection].map(si => {
                       const sec = stepSections[si];
                       return (
-                        <div key={si} className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
-                          <p className="text-xs font-extrabold uppercase tracking-wide text-red mb-3">{sec.heading.replace('&amp;', '&')}</p>
+                        <div key={si}>
+                          {/* Heading and overview sit on the page, not inside
+                              the tinted box — same shape as every other step,
+                              where the box holds the list and only the list. */}
+                          <h3 className="text-navy text-lg font-extrabold mb-2">{sec.heading.replace('&amp;', '&')}</h3>
+                          {sec.overview && (
+                            <p className="text-gray-700 leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: sec.overview }} />
+                          )}
+                          <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
                           {/* The lead is line 1 of the same list, not a badge
                               with bullets hanging off it — every line on the
                               screen counts 1, 2, 3, and reads the same weight
@@ -1788,6 +1795,7 @@ export default function OnboardingPortal() {
                               <p className="text-sm text-red font-semibold" dangerouslySetInnerHTML={{ __html: sec.note }} />
                             </div>
                           )}
+                          </div>
                         </div>
                       );
                     })}
@@ -1830,14 +1838,17 @@ export default function OnboardingPortal() {
                     )}
                   </div>
                 )}
+                {/* A radio, not a checkbox: this is an acknowledgement, and a
+                    box you can untick invites the reading that it is optional. */}
                 {step.ack && !stepDone && (
                   <div className="mb-6">
-                    <label className={`flex items-start gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${ackChecked ? 'border-red bg-red-50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                    <label className={`flex items-start gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${ackChecked ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:bg-gray-50'}`}>
                       <input
-                        type="checkbox"
+                        type="radio"
+                        name="stepAck"
                         checked={ackChecked}
-                        onChange={() => setAckChecked(v => !v)}
-                        className="accent-red-600 w-4 h-4 mt-0.5"
+                        onChange={() => setAckChecked(true)}
+                        className="accent-green-600 w-4 h-4 mt-0.5"
                       />
                       <span className="text-sm font-bold text-navy">{step.ack.label}</span>
                     </label>
@@ -2032,9 +2043,9 @@ export default function OnboardingPortal() {
                     // Still notifies, exactly as confirming in the dialog did,
                     // so Megan's view of who has done what is unchanged.
                     <button
-                      onClick={() => { if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } } else { setStep(step.key, true, true, undefined, true); } }}
-                      disabled={saving}
-                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-60"
+                      onClick={() => { if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } } else { setStep(step.key, true, true, undefined, true, step.ack ? `acknowledged: ${step.ack.label}` : undefined); } }}
+                      disabled={saving || (!stepDone && !!step.ack && !ackChecked)}
+                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
                     >
                       {saving ? 'Saving…' : 'Next →'}
                     </button>
