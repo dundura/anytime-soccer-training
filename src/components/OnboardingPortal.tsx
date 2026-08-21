@@ -136,29 +136,33 @@ const ROSTER_SECTIONS: StepSection[] = [
 // screen each. What the invoice covers belongs WITH paying it: "$8 from player
 // 76" is the answer to "what am I signing up for", and a club reading the
 // invoice step is asking exactly that.
+// Each line leads with what it IS in bold, then says what that means. A club
+// reading this is scanning for the shape of the commitment, and a wall of
+// full sentences makes them read all of it to find any of it.
 const PAYMENT_SECTIONS: StepSection[] = [
   {
     heading: 'Submitting Your Rosters',
-    lead: 'Coaches or club rep submit rosters for each team.',
+    overview: 'We provide the roster template &mdash; it&rsquo;s what we use to invite families to join.',
+    lead: '<strong>Submit Roster</strong> &mdash; coaches or your club rep send one for each team.',
     items: [
-      'Partial rosters are fine, and coaches can send theirs at different times.',
-      'We use the roster to invite families to the platform.',
+      '<strong>Partial rosters are fine</strong> &mdash; coaches can send theirs at different times.',
+      '<strong>Inviting families</strong> &mdash; we send the invites ourselves, once your roster is in.',
     ],
   },
   {
     heading: 'Paying the Invoice',
-    lead: 'Pay the invoice we send for your first 75 players.',
+    lead: '<strong>Pay the Invoice</strong> &mdash; we send it for your first 75 players.',
     items: [
-      'Only from player 76 onward do we charge your card, $8 each as they join.',
-      'So you only pay for players who actually use the program.',
+      '<strong>Player 76 onward</strong> &mdash; $8 each, charged to your card as they join.',
+      '<strong>No waste</strong> &mdash; you only pay for players who actually use the program.',
     ],
   },
   {
     heading: 'Upgrade Your Players',
-    lead: 'Upgrade your players as they join.',
+    lead: '<strong>Upgrade Players</strong> &mdash; every player needs a slot applied to their account.',
     items: [
-      'We add free access slots to your team.',
-      'The coach applies a slot to each player as they join the team.',
+      '<strong>We add the slots</strong> &mdash; free access slots go on your team.',
+      '<strong>The coach applies them</strong> &mdash; one per player, as they join the team.',
     ],
   },
 ];
