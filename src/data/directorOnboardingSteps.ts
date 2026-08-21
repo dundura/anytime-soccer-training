@@ -33,7 +33,7 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <div style="${BOX}">
         ${[
           'Follow-along sessions for every skill and age',
-          'Assign homework folders or recurring plans &mdash; customizable for individual players',
+          'Assign homework folders or recurring plans',
           'Create contests and track player progress',
           'Unlimited teams, easy roster management',
         ].map((item, i, all) => `

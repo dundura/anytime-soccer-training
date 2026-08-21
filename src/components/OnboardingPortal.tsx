@@ -119,9 +119,10 @@ const numberedTotal = (steps: PortalStep[]) => steps.filter(x => !x.tip && !x.bo
 
 // A step that is really several steps, walked one at a time inside the page.
 //
-// `lead` is the thing being done; `items` are what you need to know about it.
-// A section with no lead numbers its items instead, which is how the roster
-// page has always read and what keeps it unchanged here.
+// `lead` is the thing being done and `items` are what you need to know about
+// it, but they all render as one numbered list — the lead just comes first and
+// in bold. A section with no lead simply starts at its first item, which is how
+// the roster page has always read and what keeps it unchanged here.
 type StepSection = { heading: string; lead?: string; items: string[]; note?: string };
 
 const ROSTER_SECTIONS: StepSection[] = [
@@ -1759,33 +1760,17 @@ export default function OnboardingPortal() {
                       return (
                         <div key={si} className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
                           <p className="text-xs font-extrabold uppercase tracking-wide text-red mb-3">{sec.heading.replace('&amp;', '&')}</p>
-                          {sec.lead ? (
-                            // The numbered badge carries the position in the
-                            // sequence, so the bullets underneath stay bullets
-                            // — they are notes on this step, not further steps.
-                            <div className="flex items-start gap-3">
-                              <span className="flex-shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-navy text-white font-bold">{si + 1}</span>
-                              <div className="pt-1">
-                                <p className="text-navy font-bold leading-relaxed" dangerouslySetInnerHTML={{ __html: sec.lead }} />
-                                {!!sec.items.length && (
-                                  <ul className="mt-2 pl-5 space-y-1.5 list-disc text-gray-600 text-sm marker:text-red">
-                                    {sec.items.map((it, ii) => (
-                                      <li key={ii} className="leading-relaxed" dangerouslySetInnerHTML={{ __html: it }} />
-                                    ))}
-                                  </ul>
-                                )}
-                              </div>
-                            </div>
-                          ) : (
-                            <ol className="space-y-3">
-                              {sec.items.map((it, ii) => (
-                                <li key={ii} className="flex items-start gap-3">
-                                  <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{ii + 1}</span>
-                                  <span className="text-gray-700 leading-relaxed pt-1" dangerouslySetInnerHTML={{ __html: it }} />
-                                </li>
-                              ))}
-                            </ol>
-                          )}
+                          {/* The lead is line 1 of the same list, not a badge
+                              with bullets hanging off it — every line on the
+                              screen counts 1, 2, 3. */}
+                          <ol className="space-y-3">
+                            {(sec.lead ? [`<strong>${sec.lead}</strong>`, ...sec.items] : sec.items).map((it, ii) => (
+                              <li key={ii} className="flex items-start gap-3">
+                                <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{ii + 1}</span>
+                                <span className="text-gray-700 leading-relaxed pt-1 [&_strong]:text-navy" dangerouslySetInnerHTML={{ __html: it }} />
+                              </li>
+                            ))}
+                          </ol>
                           {sec.note && (
                             <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 mt-3">
                               <p className="text-sm text-red font-semibold" dangerouslySetInnerHTML={{ __html: sec.note }} />
