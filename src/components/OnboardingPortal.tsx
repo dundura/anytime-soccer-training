@@ -149,7 +149,6 @@ const PAYMENT_SECTIONS: StepSection[] = [
     heading: 'Paying the Invoice',
     lead: 'Pay the invoice we send for your first 75 players.',
     items: [
-      'That covers your first 75 players &mdash; done.',
       'Only from player 76 onward do we charge your card, $8 each as they join.',
       'So you only pay for players who actually use the program.',
     ],
@@ -1774,9 +1773,10 @@ export default function OnboardingPortal() {
                           <p className="text-xs font-extrabold uppercase tracking-wide text-red mb-3">{sec.heading.replace('&amp;', '&')}</p>
                           {/* The lead is line 1 of the same list, not a badge
                               with bullets hanging off it — every line on the
-                              screen counts 1, 2, 3. */}
+                              screen counts 1, 2, 3, and reads the same weight
+                              as the ones after it. */}
                           <ol className="space-y-3">
-                            {(sec.lead ? [`<strong>${sec.lead}</strong>`, ...sec.items] : sec.items).map((it, ii) => (
+                            {(sec.lead ? [sec.lead, ...sec.items] : sec.items).map((it, ii) => (
                               <li key={ii} className="flex items-start gap-3">
                                 <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{ii + 1}</span>
                                 <span className="text-gray-700 leading-relaxed pt-1 [&_strong]:text-navy" dangerouslySetInnerHTML={{ __html: it }} />
