@@ -223,6 +223,23 @@ const CRM_STATUS_CLASS: Record<string, string> = {
 };
 const crmLabel = (s: string) => CRM_STATUS_LABEL[s] || s.replace(/_/g, ' ');
 
+// The day counter: the number that was typed, plus the days since it was typed.
+//
+// Nothing runs overnight to make this tick. Type 0 today and tomorrow the same
+// stored row reads 1, because the subtraction is done when the page renders.
+//
+// Both ends are floored to midnight before subtracting, so a number set at 11pm
+// reads 1 the next morning rather than only after a full 24 hours have run.
+const crmDaysShown = (count: number | null, setAt: string | null) => {
+  if (count === null || count === undefined) return null;
+  if (!setAt) return count;
+  const then = new Date(setAt);
+  if (Number.isNaN(then.getTime())) return count;
+  const midnight = (d: Date) => Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
+  const elapsed = Math.round((midnight(new Date()) - midnight(then)) / 86400000);
+  return count + Math.max(0, elapsed);
+};
+
 type Notification = { key: string; n: number; subject: string; purpose: string; from: string };
 
 const NEXT_STEPS = [
@@ -467,7 +484,7 @@ export default function OnboardingPortal() {
   // It cannot say whether they signed — a coach can finish every step and not
   // buy, or buy on a call before opening the portal — so the status is its own
   // field rather than something derived from progress.
-  type CrmCoach = { id: number; name: string; club: string; phone: string; email: string; status: string; notes: string; stageId: number | null; createdAt: string | null };
+  type CrmCoach = { id: number; name: string; club: string; phone: string; email: string; status: string; notes: string; stageId: number | null; createdAt: string | null; daysCount: number | null; daysSetAt: string | null };
   type CrmStage = { id: number; name: string; sortOrder: number };
   const [crmCoaches, setCrmCoaches] = useState<CrmCoach[]>([]);
   const [crmStatuses, setCrmStatuses] = useState<string[]>([]);
@@ -512,7 +529,7 @@ export default function OnboardingPortal() {
 
   // One field at a time. Sending only what changed means two tabs editing
   // different columns of the same coach cannot overwrite each other.
-  const saveCrmField = async (id: number, field: 'status' | 'phone' | 'club' | 'name' | 'email' | 'notes' | 'stageId', value: string | number | null) => {
+  const saveCrmField = async (id: number, field: 'status' | 'phone' | 'club' | 'name' | 'email' | 'notes' | 'stageId' | 'days', value: string | number | null) => {
     if (!token) return;
     setCrmSaving(id);
     setCrmError('');
@@ -1227,12 +1244,13 @@ export default function OnboardingPortal() {
                                 <tr className="bg-gray-50 text-[10px] font-extrabold uppercase tracking-wide text-gray-500">
                                   <th className="px-1 py-2 w-[3%] text-center">&nbsp;</th>
                                   <th className="px-3 py-2 w-[14%]">Name</th>
-                                  <th className="px-3 py-2 w-[15%]">Club</th>
+                                  <th className="px-3 py-2 w-[13%]">Club</th>
                                   <th className="px-3 py-2 w-[10%]">Phone</th>
-                                  <th className="px-3 py-2 w-[21%]">Email</th>
+                                  <th className="px-3 py-2 w-[18%]">Email</th>
                                   <th className="px-3 py-2 w-[10%]">Status</th>
                                   <th className="px-3 py-2 w-[12%]">Stage</th>
                                   <th className="px-3 py-2 w-[8%]">Added</th>
+                                  <th className="px-2 py-2 w-[5%] text-right">Days</th>
                                   <th className="px-3 py-2 w-[4%] text-center">Notes</th>
                                   <th className="px-3 py-2 w-[3%] text-right">&nbsp;</th>
                                 </tr>
@@ -1338,6 +1356,27 @@ export default function OnboardingPortal() {
                                         ? new Date(c.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
                                         : '\u2014'}
                                     </td>
+                                    {/* Type a number, and it counts itself up from
+                                        there — nothing runs overnight, the days
+                                        since it was typed are added at render.
+                                        Typing again restarts it from the new
+                                        number, today. */}
+                                    <td className="px-2 py-2 whitespace-nowrap text-right">
+                                      <input
+                                        type="number"
+                                        min={0}
+                                        defaultValue={crmDaysShown(c.daysCount, c.daysSetAt) ?? ''}
+                                        placeholder="&mdash;"
+                                        title={c.daysSetAt ? `${c.daysCount} set ${new Date(c.daysSetAt).toLocaleDateString()}` : 'Type a number and it counts up daily'}
+                                        onBlur={ev => {
+                                          const shown = crmDaysShown(c.daysCount, c.daysSetAt);
+                                          const typed = ev.target.value.trim();
+                                          if (typed === String(shown ?? '')) return;
+                                          saveCrmField(c.id, 'days', typed === '' ? null : Number(typed));
+                                        }}
+                                        className={`${cellInput} w-14 text-right tabular-nums font-semibold text-gray-600 placeholder:text-gray-300 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+                                      />
+                                    </td>
                                     {/* The toggle, not the notes. A column wide
                                         enough to hold a written-up call would
                                         squeeze every other column flat, so the
@@ -1389,7 +1428,7 @@ export default function OnboardingPortal() {
                                   </tr>
                                   {crmOpenNotes === c.id && (
                                     <tr className="bg-amber-50/40">
-                                      <td colSpan={10} className="px-3 pb-3 pt-0">
+                                      <td colSpan={11} className="px-3 pb-3 pt-0">
                                         <label className="block text-[10px] font-extrabold uppercase tracking-wide text-amber-700 mb-1">
                                           Notes &mdash; {c.name || c.email}
                                         </label>
