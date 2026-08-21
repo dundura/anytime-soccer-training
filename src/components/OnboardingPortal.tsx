@@ -109,7 +109,7 @@ const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
   { key: 'dir_pricing', title: 'How pricing works', dataIndex: 1, section: 'Your Club', ack: { label: 'I understand' } },
   { key: 'dir_payment', title: 'Steps to Get Started', dataIndex: 2, section: 'Your Club' },
   { key: 'dir_onboarding', title: 'How Coach Onboarding Works', dataIndex: 3, section: 'Your Club', info: true, ack: { label: 'I understand' } },
-  { key: 'dir_seasons', title: 'Adding and removing players each season', dataIndex: 4, section: 'Your Club', info: true },
+  { key: 'dir_seasons', title: 'Adding and removing players each season', dataIndex: 4, section: 'Your Club', info: true, ack: { label: 'I understand' } },
   { key: 'final_confirm', title: 'Talk to Megan', dataIndex: 5, section: 'Rolling Out', final: true },
 ];
 
