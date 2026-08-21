@@ -106,7 +106,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
 // each get the coach path above once the club commits.
 const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
   { key: 'dir_pricing', title: 'How pricing works', dataIndex: 1, section: 'Your Club', ack: { label: 'I understand' } },
-  { key: 'dir_payment', title: 'Steps to Get Started', dataIndex: 2, section: 'Your Club', ack: { label: 'I understand' } },
+  { key: 'dir_payment', title: 'Steps to Get Started', dataIndex: 2, section: 'Your Club' },
   { key: 'dir_onboarding', title: 'How Coach Onboarding Works', dataIndex: 3, section: 'Your Club', info: true, ack: { label: 'I understand' } },
   { key: 'dir_seasons', title: 'Adding and removing players each season', dataIndex: 4, section: 'Your Club', info: true },
   { key: 'final_confirm', title: 'Talk to Megan', dataIndex: 5, section: 'Rolling Out', final: true },
@@ -173,8 +173,15 @@ const PAYMENT_SECTIONS: StepSection[] = [
     overview: 'Coaches apply free access slots to the players on their team.',
     items: [
       '<strong>We add the slots</strong> &mdash; once the invoice is paid, they go on your coach&rsquo;s profile.',
-      '<strong>The coach applies them</strong> &mdash; one per player, as they join the team.',
+      '<strong>The coach applies them</strong> &mdash; as they join the team.',
     ],
+  },
+  {
+    // The last screen is the sequence itself, ticked off line by line. A single
+    // "I understand" under a list is one click that says nothing about whether
+    // the list was read; five say which parts were.
+    heading: 'I Understand the Steps',
+    items: [],
     recap: [
       'Club/Coach submits roster',
       'Club pays invoice',
@@ -889,6 +896,11 @@ export default function OnboardingPortal() {
     : [];
   const beginsUnmet = !!beginsItems.length && !beginsItems.every(t => checkedItems.includes(t));
   const rosterLast = (stepSections?.length || 1) - 1;
+  // The recap on the screen currently showing, and whether it is still
+  // outstanding. Next waits on it the same way the checklist steps wait on
+  // theirs — a page that asks you to confirm each line has to mean it.
+  const activeRecap = isSectionStepper ? stepSections?.[rosterSection]?.recap : undefined;
+  const recapUnmet = !!activeRecap?.length && !activeRecap.every(r => checkedItems.includes(r));
 
   const inputClass = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-navy placeholder:text-gray focus:outline-none focus:ring-2 focus:ring-red/30 focus:border-red';
 
@@ -1801,6 +1813,7 @@ export default function OnboardingPortal() {
                           {sec.overview && (
                             <p className="text-gray-700 leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: sec.overview }} />
                           )}
+                          {(sec.lead || !!sec.items.length) && (
                           <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
                           {/* The lead is line 1 of the same list, not a badge
                               with bullets hanging off it — every line on the
@@ -1820,18 +1833,28 @@ export default function OnboardingPortal() {
                             </div>
                           )}
                           </div>
+                          )}
                           {!!sec.recap?.length && (
-                            <div className="border border-gray-200 rounded-xl px-5 py-4 mb-4">
-                              <p className="text-[13px] font-extrabold uppercase tracking-wide text-red mb-3">I Understand the Steps</p>
-                              <ol className="space-y-2">
-                                {sec.recap.map((r, ri) => (
-                                  <li key={ri} className="flex items-start gap-3">
-                                    <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{ri + 1}</span>
-                                    <span className="text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: r }} />
+                            <ol className="space-y-2 mb-4">
+                              {sec.recap.map((r, ri) => {
+                                const on = checkedItems.includes(r);
+                                return (
+                                  <li key={ri}>
+                                    <label className={`flex items-start gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${on ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                                      <input
+                                        type="radio"
+                                        name={`recap-${si}-${ri}`}
+                                        checked={on}
+                                        onChange={() => setCheckedItems(prev => prev.includes(r) ? prev : [...prev, r])}
+                                        className="accent-green-600 w-4 h-4 mt-0.5"
+                                      />
+                                      <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{ri + 1}</span>
+                                      <span className="text-navy text-sm font-bold leading-relaxed" dangerouslySetInnerHTML={{ __html: r }} />
+                                    </label>
                                   </li>
-                                ))}
-                              </ol>
-                            </div>
+                                );
+                              })}
+                            </ol>
                           )}
                         </div>
                       );
@@ -2084,7 +2107,7 @@ export default function OnboardingPortal() {
                     // so Megan's view of who has done what is unchanged.
                     <button
                       onClick={() => { if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } } else { setStep(step.key, true, true, undefined, true, step.ack ? `acknowledged: ${step.ack.label}` : undefined); } }}
-                      disabled={saving || (!stepDone && !!step.ack && !ackChecked)}
+                      disabled={saving || (!stepDone && ((!!step.ack && !ackChecked) || recapUnmet))}
                       className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
                     >
                       {saving ? 'Saving…' : 'Next →'}
