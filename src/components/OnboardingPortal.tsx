@@ -107,7 +107,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
 const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
   { key: 'dir_about', title: 'The complete training platform', dataIndex: 0, section: 'Your Club', info: true },
   { key: 'dir_pricing', title: 'How pricing works', dataIndex: 1, section: 'Your Club' },
-  { key: 'dir_payment', title: 'Payment', dataIndex: 2, section: 'Your Club' },
+  { key: 'dir_payment', title: 'Steps to Get Started', dataIndex: 2, section: 'Your Club' },
   { key: 'dir_onboarding', title: 'How onboarding works', dataIndex: 3, section: 'Your Club', info: true },
   { key: 'dir_seasons', title: 'Adding and removing players each season', dataIndex: 4, section: 'Your Club', info: true },
   { key: 'final_confirm', title: 'Talk to Megan', dataIndex: 5, section: 'Rolling Out', final: true },
@@ -117,13 +117,59 @@ const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
 const stepNumber = (steps: PortalStep[], i: number) => steps.slice(0, i + 1).filter(x => !x.tip && !x.bonus).length;
 const numberedTotal = (steps: PortalStep[]) => steps.filter(x => !x.tip && !x.bonus).length;
 
-const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
+// A step that is really several steps, walked one at a time inside the page.
+//
+// `lead` is the thing being done; `items` are what you need to know about it.
+// A section with no lead numbers its items instead, which is how the roster
+// page has always read and what keeps it unchanged here.
+type StepSection = { heading: string; lead?: string; items: string[]; note?: string };
+
+const ROSTER_SECTIONS: StepSection[] = [
   { heading: 'Before You Start', items: [
     'Roster templates are for teams joining for the first time and teams with several roster changes.',
     'Renewing members can <strong>submit a roster or add new players inside the app and purchase their slots.</strong>',
     'See the bonus section for roster template FAQs.',
   ] },
 ];
+
+// Club portal — Steps to Get Started. Three things a club does, in order, one
+// screen each. What the invoice covers belongs WITH paying it: "$8 from player
+// 76" is the answer to "what am I signing up for", and a club reading the
+// invoice step is asking exactly that.
+const PAYMENT_SECTIONS: StepSection[] = [
+  {
+    heading: 'Submitting Your Rosters',
+    lead: 'Coaches or club rep submit rosters for each team.',
+    items: [
+      'Partial rosters are fine, and coaches can send theirs at different times.',
+      'We use the roster to invite families to the platform.',
+    ],
+  },
+  {
+    heading: 'Paying the Invoice',
+    lead: 'Pay the invoice we send for your first 75 players.',
+    items: [
+      'That covers your first 75 players &mdash; done.',
+      'Only from player 76 onward do we charge your card, $8 each as they join.',
+      'So you only pay for players who actually use the program.',
+    ],
+  },
+  {
+    heading: 'Upgrade Your Players',
+    lead: 'Upgrade your players as they join.',
+    items: [
+      'We add free access slots to your team.',
+      'The coach applies a slot to each player as they join the team.',
+    ],
+  },
+];
+
+// Keyed by step, so adding another in-page stepper is one entry here rather
+// than another `step.key === ...` special case threaded through the wizard.
+const STEP_SECTIONS: Record<string, StepSection[]> = {
+  tip_roster: ROSTER_SECTIONS,
+  dir_payment: PAYMENT_SECTIONS,
+};
 
 // The notification sequence is served by the backend (GET
 // /portal-onboarding/notifications) rather than duplicated here — a second copy
@@ -810,7 +856,8 @@ export default function OnboardingPortal() {
   const stepDone = !!stepState;
   const stepSkipped = stepState === 'skipped';
   const stepData = step.faqIndex == null ? STEP_DATA[step.dataIndex] : null;
-  const isRosterStepper = step.key === 'tip_roster';
+  const stepSections = STEP_SECTIONS[step.key];
+  const isSectionStepper = !!stepSections;
   // The Onboarding Begins page lists the steps still to do as checkboxes, and
   // every one has to be ticked. It is a gated step, so like the radio steps it
   // saves straight through rather than opening the confirm popup.
@@ -818,7 +865,7 @@ export default function OnboardingPortal() {
     ? STEPS.filter(s2 => s2.section === 'Onboarding' && s2.key !== 'onboarding_begins' && !s2.tip).map(s2 => s2.title)
     : [];
   const beginsUnmet = !!beginsItems.length && !beginsItems.every(t => checkedItems.includes(t));
-  const rosterLast = ROSTER_SECTIONS.length - 1;
+  const rosterLast = (stepSections?.length || 1) - 1;
 
   const inputClass = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-navy placeholder:text-gray focus:outline-none focus:ring-2 focus:ring-red/30 focus:border-red';
 
@@ -1705,21 +1752,40 @@ export default function OnboardingPortal() {
 
                 {/* Full step instructions */}
                 <div ref={contentRef}>
-                {isRosterStepper ? (
+                {isSectionStepper && stepSections ? (
                   <div className="mb-6">
                     {[rosterSection].map(si => {
-                      const sec = ROSTER_SECTIONS[si];
+                      const sec = stepSections[si];
                       return (
                         <div key={si} className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
                           <p className="text-xs font-extrabold uppercase tracking-wide text-red mb-3">{sec.heading.replace('&amp;', '&')}</p>
-                          <ol className="space-y-3">
-                            {sec.items.map((it, ii) => (
-                              <li key={ii} className="flex items-start gap-3">
-                                <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{ii + 1}</span>
-                                <span className="text-gray-700 leading-relaxed pt-1" dangerouslySetInnerHTML={{ __html: it }} />
-                              </li>
-                            ))}
-                          </ol>
+                          {sec.lead ? (
+                            // The numbered badge carries the position in the
+                            // sequence, so the bullets underneath stay bullets
+                            // — they are notes on this step, not further steps.
+                            <div className="flex items-start gap-3">
+                              <span className="flex-shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-navy text-white font-bold">{si + 1}</span>
+                              <div className="pt-1">
+                                <p className="text-navy font-bold leading-relaxed" dangerouslySetInnerHTML={{ __html: sec.lead }} />
+                                {!!sec.items.length && (
+                                  <ul className="mt-2 pl-5 space-y-1.5 list-disc text-gray-600 text-sm marker:text-red">
+                                    {sec.items.map((it, ii) => (
+                                      <li key={ii} className="leading-relaxed" dangerouslySetInnerHTML={{ __html: it }} />
+                                    ))}
+                                  </ul>
+                                )}
+                              </div>
+                            </div>
+                          ) : (
+                            <ol className="space-y-3">
+                              {sec.items.map((it, ii) => (
+                                <li key={ii} className="flex items-start gap-3">
+                                  <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{ii + 1}</span>
+                                  <span className="text-gray-700 leading-relaxed pt-1" dangerouslySetInnerHTML={{ __html: it }} />
+                                </li>
+                              ))}
+                            </ol>
+                          )}
                           {sec.note && (
                             <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 mt-3">
                               <p className="text-sm text-red font-semibold" dangerouslySetInnerHTML={{ __html: sec.note }} />
@@ -1728,7 +1794,7 @@ export default function OnboardingPortal() {
                         </div>
                       );
                     })}
-                    <p className="text-center text-xs text-gray-500 font-semibold">Section {rosterSection + 1} of {ROSTER_SECTIONS.length}</p>
+                    <p className="text-center text-xs text-gray-500 font-semibold">Step {rosterSection + 1} of {stepSections.length}</p>
                   </div>
                 ) : stepData ? (
                   <CoachStepContent step={stepData} hideCta />
@@ -1871,7 +1937,7 @@ export default function OnboardingPortal() {
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-6">
                   <button
                     onClick={() => {
-                      if (isRosterStepper && rosterSection > 0) { setRosterSection(rosterSection - 1); }
+                      if (isSectionStepper && rosterSection > 0) { setRosterSection(rosterSection - 1); }
                       else if (wizardIndex === 0) { setShowIndexInfo(true); }
                       else { setWizardIndex(wizardIndex - 1); }
                       setError('');
@@ -1917,8 +1983,10 @@ export default function OnboardingPortal() {
                         {saving ? 'Saving…' : othersDone ? 'Confirm — Onboarding Complete ✓' : 'Complete All Steps to Confirm'}
                       </button>
                     )
-                  ) : isRosterStepper && rosterSection < rosterLast ? (
-                    // Roster FAQs: one section per page, green Next after each.
+                  ) : isSectionStepper && rosterSection < rosterLast ? (
+                    // An in-page stepper: one section per screen, green Next
+                    // between them. The step itself is not complete until the
+                    // last section, where the normal red Next takes over.
                     <button
                       onClick={() => { setRosterSection(rosterSection + 1); setError(''); }}
                       className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-8 rounded-xl transition-colors"

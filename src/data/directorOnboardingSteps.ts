@@ -66,29 +66,37 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
   },
   {
-    title: 'Payment',
+    title: 'Steps to Get Started',
     body: `
       <div style="${BOX}">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
           <div style="margin:6px 0 0;">
-            <p style="margin:0;"><strong>Submit your rosters</strong> using our template.</p>
+            <p style="margin:0;"><strong>Coaches or club rep submit rosters for each team.</strong></p>
             <ul style="margin:6px 0 0;padding-left:20px;color:#475569;font-size:14px;list-style:disc outside;">
-              <li style="margin:0;display:list-item;">Partial rosters are fine, and coaches can send theirs at different times.</li>
+              <li style="margin:0 0 0;display:list-item;">Partial rosters are fine, and coaches can send theirs at different times.</li>
+              <li style="margin:4px 0 0;display:list-item;">We use the roster to invite families to the platform.</li>
             </ul>
           </div>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:6px 0 0;"><strong>Pay the invoice we send for your first 75 players.</strong></p>
+          <div style="margin:6px 0 0;">
+            <p style="margin:0;"><strong>Pay the invoice we send for your first 75 players.</strong></p>
+            <ul style="margin:6px 0 0;padding-left:20px;color:#475569;font-size:14px;list-style:disc outside;">
+              <li style="margin:0 0 0;display:list-item;">That covers your first 75 players &mdash; done.</li>
+              <li style="margin:4px 0 0;display:list-item;">Only from player 76 onward do we charge your card, $8 each as they join.</li>
+              <li style="margin:4px 0 0;display:list-item;">So you only pay for players who actually use the program.</li>
+            </ul>
+          </div>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
           <div style="margin:6px 0 0;">
-            <p style="margin:0;"><strong>That covers your first 75 players &mdash; done.</strong></p>
+            <p style="margin:0;"><strong>Upgrade your players as they join.</strong></p>
             <ul style="margin:6px 0 0;padding-left:20px;color:#475569;font-size:14px;list-style:disc outside;">
-              <li style="margin:0;display:list-item;">Only from player 76 onward do we charge your card, $8 each as they join.</li>
-              <li style="margin:4px 0 0;display:list-item;">So you only pay for players who actually use the program.</li>
+              <li style="margin:0 0 0;display:list-item;">We add free access slots to your team.</li>
+              <li style="margin:4px 0 0;display:list-item;">The coach applies a slot to each player as they join the team.</li>
             </ul>
           </div>
         </div>
