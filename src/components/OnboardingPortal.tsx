@@ -128,6 +128,26 @@ const ROSTER_SECTIONS: { heading: string; items: string[]; note?: string }[] = [
 // The notification sequence is served by the backend (GET
 // /portal-onboarding/notifications) rather than duplicated here — a second copy
 // of each subject went stale the moment a template was edited.
+// CRM status vocabulary. The backend owns the list (it validates against its
+// own copy and sends it down with the coaches); this only supplies the wording
+// and colour, and falls back gracefully so a status added server-side shows up
+// here as itself rather than as a blank cell.
+const CRM_STATUS_LABEL: Record<string, string> = {
+  not_started: 'Not started',
+  in_process: 'In process',
+  won: 'Won',
+  lost: 'Lost',
+  on_hold: 'On hold',
+};
+const CRM_STATUS_CLASS: Record<string, string> = {
+  not_started: 'bg-gray-100 text-gray-600 border-gray-200',
+  in_process: 'bg-amber-100 text-amber-800 border-amber-300',
+  won: 'bg-green-100 text-green-800 border-green-300',
+  lost: 'bg-red/10 text-red border-red/30',
+  on_hold: 'bg-blue-100 text-blue-800 border-blue-300',
+};
+const crmLabel = (s: string) => CRM_STATUS_LABEL[s] || s.replace(/_/g, ' ');
+
 type Notification = { key: string; n: number; subject: string; purpose: string; from: string };
 
 const NEXT_STEPS = [
@@ -170,7 +190,7 @@ export default function OnboardingPortal() {
   const [questionSent, setQuestionSent] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [missingSent, setMissingSent] = useState(false);
-  const [indexFilter, setIndexFilter] = useState<'all' | 'outstanding' | 'notifications'>('all');
+  const [indexFilter, setIndexFilter] = useState<'all' | 'outstanding' | 'notifications' | 'crm'>('all');
   const [showIndexInfo, setShowIndexInfo] = useState(false);
   const [extraEmail, setExtraEmail] = useState('');
   const [pageSent, setPageSent] = useState(false);
@@ -221,6 +241,11 @@ export default function OnboardingPortal() {
           setShowIntro(false);
           setShowIndex(true);
           setIndexFilter('notifications');
+        } else if (params.get('view') === 'crm') {
+          setWizardIndex(firstIncomplete(data.coach));
+          setShowIntro(false);
+          setShowIndex(true);
+          setIndexFilter('crm');
         } else {
           setWizardIndex(firstIncomplete(data.coach));
         }
@@ -234,7 +259,7 @@ export default function OnboardingPortal() {
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
     if (!coach || typeof window === 'undefined') return;
-    const url = showFaq ? '/onboarding-portal?view=faq' : showIndex ? (indexFilter === 'notifications' ? '/onboarding-portal?view=notifications' : '/onboarding-portal?view=index') : showIndexInfo ? '/onboarding-portal?view=indexinfo' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
+    const url = showFaq ? '/onboarding-portal?view=faq' : showIndex ? (indexFilter === 'notifications' ? '/onboarding-portal?view=notifications' : indexFilter === 'crm' ? '/onboarding-portal?view=crm' : '/onboarding-portal?view=index') : showIndexInfo ? '/onboarding-portal?view=indexinfo' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
     window.history.replaceState(null, '', url);
   }, [coach, showIntro, showIndex, showIndexInfo, showFaq, wizardIndex, indexFilter]);
 
@@ -328,7 +353,7 @@ export default function OnboardingPortal() {
   // Admin-only: create a coach's portal account. The account is created
   // unclaimed (no password) and the welcome email fires in the same action, so
   // the coach still signs up themselves on the same email later.
-  const [newCoach, setNewCoach] = useState({ name: '', email: '', club: '', masterPassword: '' });
+  const [newCoach, setNewCoach] = useState({ name: '', email: '', club: '', phone: '', masterPassword: '' });
   const [creating, setCreating] = useState(false);
   const [createResult, setCreateResult] = useState('');
   const [createError, setCreateError] = useState('');
@@ -350,11 +375,69 @@ export default function OnboardingPortal() {
           ? `Created ${data.created} — welcome email sent to them.`
           : `Created ${data.created} — welcome email went to ${data.welcomeSentTo}, NOT to the coach.`
       );
-      setNewCoach(c => ({ name: '', email: '', club: '', masterPassword: c.masterPassword }));
+      setNewCoach(c => ({ name: '', email: '', club: '', phone: '', masterPassword: c.masterPassword }));
     } catch {
       setCreateError('Could not create that account.');
     } finally {
       setCreating(false);
+    }
+  };
+
+  // Admin-only: the CRM. Every account on the portal in one table, with a
+  // status Neil sets by hand.
+  //
+  // The checklist already says how far through the steps a coach has clicked.
+  // It cannot say whether they signed — a coach can finish every step and not
+  // buy, or buy on a call before opening the portal — so the status is its own
+  // field rather than something derived from progress.
+  type CrmCoach = { id: number; name: string; club: string; phone: string; email: string; status: string };
+  const [crmCoaches, setCrmCoaches] = useState<CrmCoach[]>([]);
+  const [crmStatuses, setCrmStatuses] = useState<string[]>([]);
+  const [crmLoading, setCrmLoading] = useState(false);
+  const [crmError, setCrmError] = useState('');
+  const [crmSaving, setCrmSaving] = useState<number | null>(null);
+  const [crmSearch, setCrmSearch] = useState('');
+
+  const adminHeaders = () => ({
+    Authorization: token || '',
+    'X-Admin-Token': (typeof window !== 'undefined' && localStorage.getItem('astPortalAdminToken')) || '',
+  });
+
+  useEffect(() => {
+    if (!isAdmin || !token || indexFilter !== 'crm') return;
+    setCrmLoading(true);
+    setCrmError('');
+    fetch(`${API}/portal-onboarding/admin-coaches`, { headers: adminHeaders() })
+      .then(async r => {
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(d.error || 'Could not load the coach list.');
+        return d;
+      })
+      .then(d => { setCrmCoaches(d.coaches || []); setCrmStatuses(d.statuses || []); })
+      .catch(e => setCrmError(e.message))
+      .finally(() => setCrmLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAdmin, token, indexFilter]);
+
+  // One field at a time. Sending only what changed means two tabs editing
+  // different columns of the same coach cannot overwrite each other.
+  const saveCrmField = async (id: number, field: 'status' | 'phone' | 'club' | 'name', value: string) => {
+    if (!token) return;
+    setCrmSaving(id);
+    setCrmError('');
+    try {
+      const res = await fetch(`${API}/portal-onboarding/admin-coach`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', ...adminHeaders() },
+        body: JSON.stringify({ id, [field]: value }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) { setCrmError(data.error || 'Could not save that change.'); return; }
+      setCrmCoaches(list => list.map(c => (c.id === id ? data.coach : c)));
+    } catch {
+      setCrmError('Could not save that change.');
+    } finally {
+      setCrmSaving(null);
     }
   };
 
@@ -662,14 +745,14 @@ export default function OnboardingPortal() {
                     </div>
                   );
                 })()}
-                <div className={`flex border border-gray-200 rounded-lg overflow-hidden mb-4 ${isAdmin ? 'max-w-md' : 'max-w-xs'}`}>
-                  {(isAdmin ? (['all', 'outstanding', 'notifications'] as const) : (['all', 'outstanding'] as const)).map(f => (
+                <div className={`flex border border-gray-200 rounded-lg overflow-hidden mb-4 ${isAdmin ? 'max-w-xl' : 'max-w-xs'}`}>
+                  {(isAdmin ? (['all', 'outstanding', 'notifications', 'crm'] as const) : (['all', 'outstanding'] as const)).map(f => (
                     <button
                       key={f}
                       onClick={() => setIndexFilter(f)}
                       className={`flex-1 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${indexFilter === f ? 'bg-navy text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}
                     >
-                      {f === 'all' ? 'All steps' : f === 'outstanding' ? 'Outstanding' : 'Notifications'}
+                      {f === 'all' ? 'All steps' : f === 'outstanding' ? 'Outstanding' : f === 'notifications' ? 'Notifications' : 'CRM'}
                     </button>
                   ))}
                 </div>
@@ -682,7 +765,7 @@ export default function OnboardingPortal() {
                       </a>
                     </>
                   )}
-                  {indexFilter !== 'notifications' && STEPS.map((st, i) => {
+                  {indexFilter !== 'notifications' && indexFilter !== 'crm' && STEPS.map((st, i) => {
                     const done = coach.checklist[st.key] === true;
                     const skipped = coach.checklist[st.key] === 'skipped';
                     const outstanding = !done && !skipped;
@@ -781,7 +864,102 @@ export default function OnboardingPortal() {
                       ))}
                     </>
                   )}
+                  {isAdmin && indexFilter === 'crm' && (
+                    <>
+                      <div className="flex flex-wrap items-center gap-2 px-4 py-2 bg-amber-50">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wide text-amber-700">CRM</span>
+                        <span className="text-[10px] font-semibold text-amber-700/70">Admin only &middot; everyone on the portal</span>
+                        <input
+                          value={crmSearch}
+                          onChange={ev => setCrmSearch(ev.target.value)}
+                          placeholder="Filter by name, club or email"
+                          className="ml-auto w-full sm:w-64 border border-amber-200 rounded-lg px-3 py-1.5 text-xs text-navy placeholder:text-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-amber-300"
+                        />
+                      </div>
+                      {crmError && <p className="px-4 py-3 text-sm font-semibold text-red">{crmError}</p>}
+                      {crmLoading && <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">Loading the coach list&hellip;</p>}
+                      {!crmLoading && !crmCoaches.length && !crmError && (
+                        <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">Nobody on the portal yet.</p>
+                      )}
+                      {!crmLoading && !!crmCoaches.length && (() => {
+                        const needle = crmSearch.trim().toLowerCase();
+                        const shown = needle
+                          ? crmCoaches.filter(c => `${c.name} ${c.club} ${c.email}`.toLowerCase().includes(needle))
+                          : crmCoaches;
+                        if (!shown.length) {
+                          return <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">Nobody matches &ldquo;{crmSearch}&rdquo;.</p>;
+                        }
+                        return (
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-left text-sm">
+                              <thead>
+                                <tr className="bg-gray-50 text-[10px] font-extrabold uppercase tracking-wide text-gray-500">
+                                  <th className="px-4 py-2">Name</th>
+                                  <th className="px-4 py-2">Club</th>
+                                  <th className="px-4 py-2">Phone</th>
+                                  <th className="px-4 py-2">Email</th>
+                                  <th className="px-4 py-2">Status</th>
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-gray-100">
+                                {shown.map(c => (
+                                  <tr key={c.id} className={crmSaving === c.id ? 'opacity-60' : ''}>
+                                    {/* Name, club and phone save on blur, not on every
+                                        keystroke: a PUT per character would race itself
+                                        and the last response back would win rather than
+                                        the last thing typed. */}
+                                    <td className="px-4 py-2">
+                                      <input
+                                        defaultValue={c.name}
+                                        onBlur={ev => { if (ev.target.value !== c.name) saveCrmField(c.id, 'name', ev.target.value); }}
+                                        className="w-36 bg-transparent font-semibold text-navy border border-transparent hover:border-gray-200 focus:border-amber-300 rounded px-1.5 py-1 focus:outline-none"
+                                      />
+                                    </td>
+                                    <td className="px-4 py-2">
+                                      <input
+                                        defaultValue={c.club}
+                                        placeholder="&mdash;"
+                                        onBlur={ev => { if (ev.target.value !== c.club) saveCrmField(c.id, 'club', ev.target.value); }}
+                                        className="w-36 bg-transparent text-gray-700 placeholder:text-gray-300 border border-transparent hover:border-gray-200 focus:border-amber-300 rounded px-1.5 py-1 focus:outline-none"
+                                      />
+                                    </td>
+                                    <td className="px-4 py-2">
+                                      <input
+                                        defaultValue={c.phone}
+                                        placeholder="&mdash;"
+                                        onBlur={ev => { if (ev.target.value !== c.phone) saveCrmField(c.id, 'phone', ev.target.value); }}
+                                        className="w-32 bg-transparent text-gray-700 placeholder:text-gray-300 border border-transparent hover:border-gray-200 focus:border-amber-300 rounded px-1.5 py-1 focus:outline-none"
+                                      />
+                                    </td>
+                                    <td className="px-4 py-2">
+                                      <a href={`mailto:${c.email}`} className="text-red font-semibold hover:underline break-all">{c.email}</a>
+                                    </td>
+                                    <td className="px-4 py-2">
+                                      <select
+                                        value={c.status}
+                                        onChange={ev => saveCrmField(c.id, 'status', ev.target.value)}
+                                        className={`text-xs font-bold rounded-full border px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-amber-300 ${CRM_STATUS_CLASS[c.status] || 'bg-gray-100 text-gray-600 border-gray-200'}`}
+                                      >
+                                        {(crmStatuses.length ? crmStatuses : Object.keys(CRM_STATUS_LABEL)).map(st => (
+                                          <option key={st} value={st}>{crmLabel(st)}</option>
+                                        ))}
+                                      </select>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        );
+                      })()}
+                    </>
+                  )}
                 </div>
+                {isAdmin && indexFilter === 'crm' && (
+                  <p className="text-xs text-gray-500 mb-4 px-1">
+                    {crmCoaches.length} on the portal. Name, club and phone save when you click away; status saves as soon as you pick it.
+                  </p>
+                )}
                 {isAdmin && indexFilter === 'notifications' && (
                   <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4">
                     <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-1">Create a coach&rsquo;s account</p>
@@ -807,6 +985,12 @@ export default function OnboardingPortal() {
                         className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
                       />
                       <input
+                        value={newCoach.phone}
+                        onChange={ev => setNewCoach({ ...newCoach, phone: ev.target.value })}
+                        placeholder="Phone (optional)"
+                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                      />
+                      <input
                         type="password"
                         value={newCoach.masterPassword}
                         onChange={ev => setNewCoach({ ...newCoach, masterPassword: ev.target.value })}
@@ -825,7 +1009,7 @@ export default function OnboardingPortal() {
                     {createError && <p className="text-red font-semibold text-sm mt-2">{createError}</p>}
                   </div>
                 )}
-                {isAdmin && indexFilter !== 'notifications' && (
+                {isAdmin && indexFilter !== 'notifications' && indexFilter !== 'crm' && (
                   <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4 text-center">
                     <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-2">Admin</p>
                     <input
