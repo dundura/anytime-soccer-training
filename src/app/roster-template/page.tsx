@@ -32,8 +32,7 @@ export default function RosterTemplatePage() {
             Player Signup Form
           </h1>
           <p className="text-white/75 text-[15px] leading-relaxed max-w-[560px] mb-7">
-            One row per player. We use this to invite your families to the platform and to set your
-            team up — so it is the piece that gets your players training.
+            One row per player. We use this to invite your families to the platform.
           </p>
 
           {/* The whole reason this page exists. It has to be the first thing you can act on. */}
