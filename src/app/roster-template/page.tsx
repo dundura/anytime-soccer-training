@@ -54,9 +54,7 @@ export default function RosterTemplatePage() {
           <ol className="space-y-4 mb-10">
             {[
               <>
-                <strong className="text-[#0f2642]">Download the file</strong> and open it in Excel,
-                Numbers, or Google Sheets. It is yours &mdash; there is nothing to request access to
-                and no copy to make.
+                <strong className="text-[#0f2642]">Download the file</strong> &mdash; opens in Excel.
               </>,
               <>
                 <strong className="text-[#0f2642]">Add one row per player.</strong> The parent email
