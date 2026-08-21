@@ -106,8 +106,8 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
 // each get the coach path above once the club commits.
 const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
   { key: 'dir_pricing', title: 'How pricing works', dataIndex: 1, section: 'Your Club', ack: { label: 'I understand' } },
-  { key: 'dir_payment', title: 'Steps to Get Started', dataIndex: 2, section: 'Your Club' },
-  { key: 'dir_onboarding', title: 'How onboarding works', dataIndex: 3, section: 'Your Club', info: true },
+  { key: 'dir_payment', title: 'Steps to Get Started', dataIndex: 2, section: 'Your Club', ack: { label: 'I understand' } },
+  { key: 'dir_onboarding', title: 'How Coach Onboarding Works', dataIndex: 3, section: 'Your Club', info: true, ack: { label: 'I understand' } },
   { key: 'dir_seasons', title: 'Adding and removing players each season', dataIndex: 4, section: 'Your Club', info: true },
   { key: 'final_confirm', title: 'Talk to Megan', dataIndex: 5, section: 'Rolling Out', final: true },
 ];
@@ -122,7 +122,17 @@ const numberedTotal = (steps: PortalStep[]) => steps.filter(x => !x.tip && !x.bo
 // it, but they all render as one numbered list — the lead just comes first and
 // in bold. A section with no lead simply starts at its first item, which is how
 // the roster page has always read and what keeps it unchanged here.
-type StepSection = { heading: string; overview?: string; lead?: string; items: string[]; note?: string };
+type StepSection = {
+  heading: string;
+  overview?: string;
+  lead?: string;
+  items: string[];
+  note?: string;
+  // A closing recap of the whole step, shown on the section that carries it.
+  // Three screens in, the sequence is the thing that has to have landed, and
+  // the acknowledgement underneath is asking about exactly this list.
+  recap?: string[];
+};
 
 const ROSTER_SECTIONS: StepSection[] = [
   { heading: 'Before You Start', items: [
@@ -162,8 +172,15 @@ const PAYMENT_SECTIONS: StepSection[] = [
     heading: 'Upgrade Your Players',
     overview: 'Coaches apply free access slots to the players on their team.',
     items: [
-      '<strong>We add the slots</strong> &mdash; free access slots go on your team.',
+      '<strong>We add the slots</strong> &mdash; once the invoice is paid, they go on your coach&rsquo;s profile.',
       '<strong>The coach applies them</strong> &mdash; one per player, as they join the team.',
+    ],
+    recap: [
+      'Club/Coach submits roster',
+      'Club pays invoice',
+      'AST adds free access slots',
+      'Coach applies the free slots to players on the team',
+      'Club is only paying for players who actually use the program',
     ],
   },
 ];
@@ -1803,6 +1820,19 @@ export default function OnboardingPortal() {
                             </div>
                           )}
                           </div>
+                          {!!sec.recap?.length && (
+                            <div className="border border-gray-200 rounded-xl px-5 py-4 mb-4">
+                              <p className="text-[13px] font-extrabold uppercase tracking-wide text-red mb-3">I Understand the Steps</p>
+                              <ol className="space-y-2">
+                                {sec.recap.map((r, ri) => (
+                                  <li key={ri} className="flex items-start gap-3">
+                                    <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{ri + 1}</span>
+                                    <span className="text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: r }} />
+                                  </li>
+                                ))}
+                              </ol>
+                            </div>
+                          )}
                         </div>
                       );
                     })}
@@ -1846,8 +1876,11 @@ export default function OnboardingPortal() {
                   </div>
                 )}
                 {/* A radio, not a checkbox: this is an acknowledgement, and a
-                    box you can untick invites the reading that it is optional. */}
-                {step.ack && !stepDone && (
+                    box you can untick invites the reading that it is optional.
+                    On a step walked in sections it waits for the last one —
+                    asking someone to confirm they understand on screen 1 of 3
+                    is asking before they have been told. */}
+                {step.ack && !stepDone && (!isSectionStepper || rosterSection === rosterLast) && (
                   <div className="mb-6">
                     <label className={`flex items-start gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer transition-colors ${ackChecked ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:bg-gray-50'}`}>
                       <input

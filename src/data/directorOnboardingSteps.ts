@@ -102,7 +102,7 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
   },
   {
-    title: 'How Onboarding Works',
+    title: 'How Coach Onboarding Works',
     body: `
       <p>Each of your coaches goes through the same short sequence.</p>
       <div style="${BOX}">
@@ -117,7 +117,7 @@ export const DIRECTOR_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:6px 0 0;"><strong>Coach sends us their roster</strong> using our template.</p>
+          <p style="margin:6px 0 0;"><strong>Coach/Club sends us their roster</strong> using our template.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
