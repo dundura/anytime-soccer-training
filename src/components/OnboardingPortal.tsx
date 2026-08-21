@@ -151,6 +151,7 @@ const PAYMENT_SECTIONS: StepSection[] = [
   },
   {
     heading: 'Paying the Invoice',
+    overview: 'Pay the invoice online, and coaches apply free access slots to their players.',
     lead: '<strong>Pay the Invoice</strong> &mdash; we send it for your first 75 players.',
     items: [
       '<strong>Player 76 onward</strong> &mdash; $8 each, charged to your card as they join.',
