@@ -504,7 +504,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:6px 0 0;"><strong>Players who stayed</strong> &mdash; nothing to do. They keep their profile, their history and their progress.</p>
+          <p style="margin:6px 0 0;"><strong>Players who stayed</strong> &mdash; nothing to do. They keep their profile, their history and their progress. <strong>Even if they join a new team.</strong></p>
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
@@ -517,8 +517,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       </div>
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;margin:16px 0;">
         <p style="margin:0 0 6px;color:#166534;"><strong>Moving a player from another team &mdash; do they lose their stats?</strong></p>
-        <p style="margin:0 0 6px;color:#166534;">No. A player&rsquo;s account, video history and progress belong to the player, not to the team &mdash; teams are just groups. Put them on the roster for the new team and everything comes with them.</p>
-        <p style="margin:0;color:#166534;">Players who already have an account keep the one they have. They do not need a new one, and changing teams never resets anything.</p>
+        <p style="margin:0;color:#166534;">No. Progress belongs to the player, not the team. Add them to the new roster and it all comes with them.</p>
       </div>
     `,
   },
