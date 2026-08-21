@@ -61,7 +61,8 @@ export default function RosterTemplatePage() {
               </>,
               <>
                 <strong className="text-[#0f2642]">Add yourself as a Coach.</strong> Use the{' '}
-                <em>Coach or Player</em> dropdown. Every team gets one free coach account.
+                <em>Coach or Player</em> dropdown. Every team gets one free coach account. Include
+                your child on your row.
               </>,
               <>
                 <strong className="text-[#0f2642]">Send it back as an Excel file (.xlsx).</strong>{' '}
