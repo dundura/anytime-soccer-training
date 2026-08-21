@@ -66,11 +66,10 @@ export default function RosterTemplatePage() {
               </>,
               <>
                 <strong className="text-[#0f2642]">Send it back as an Excel file (.xlsx).</strong>{' '}
-                Reply to any email from Megan with it attached, or send it to{' '}
+                Send to{' '}
                 <a href="mailto:megan@anytime-soccer.com" className="text-[#DC373E] font-semibold hover:underline">
                   megan@anytime-soccer.com
                 </a>
-                .
               </>,
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-4">
