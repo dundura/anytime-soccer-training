@@ -8,17 +8,6 @@ export const metadata: Metadata = {
 
 const FILE = '/anytime-soccer-player-signup-form.xlsx';
 
-const COLUMNS: { name: string; note: string }[] = [
-  { name: 'Parent First Name', note: 'Who the invite is addressed to.' },
-  { name: 'Player First Name', note: "The player's name as they'll see it in the app." },
-  { name: 'Player Last Name', note: 'Helps us tell two Jacks apart.' },
-  { name: 'Parent Email Address', note: 'The one that matters — this is where the invite goes.' },
-  { name: 'Team Name', note: 'Exactly as you want it to appear on the team.' },
-  { name: 'Coach Phone Number', note: 'So we can reach you if something looks off.' },
-  { name: 'Coach or Player', note: 'Pick one from the dropdown. Coaches get a free account.' },
-  { name: 'Birth Year', note: 'Four digits — 2014, not 14.' },
-];
-
 export default function RosterTemplatePage() {
   return (
     <main>
@@ -84,25 +73,8 @@ export default function RosterTemplatePage() {
           <div className="bg-[#f0fdf4] border border-[#bbf7d0] rounded-xl px-5 py-4 mb-10">
             <p className="text-[#166534] font-bold text-sm mb-1">Partial rosters are fine.</p>
             <p className="text-[#166534] text-sm leading-relaxed">
-              Send what you have and the rest whenever you have it. Coaches on the same club can send
-              theirs at different times &mdash; nothing waits on everyone being ready at once.
+              Send what you have and the rest whenever you have it.
             </p>
-          </div>
-
-          <h2 className="text-[#0f2642] text-xl font-extrabold mb-4">What each column is for</h2>
-          <div className="border border-gray-200 rounded-xl overflow-hidden mb-10">
-            <table className="w-full text-left text-sm">
-              <tbody className="divide-y divide-gray-100">
-                {COLUMNS.map(col => (
-                  <tr key={col.name}>
-                    <td className="px-4 py-3 font-bold text-[#0f2642] align-top whitespace-nowrap">
-                      {col.name}
-                    </td>
-                    <td className="px-4 py-3 text-gray-600">{col.note}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
 
           <div className="bg-[#f4f5f7] rounded-xl px-5 py-5 text-center">

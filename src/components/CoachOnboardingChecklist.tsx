@@ -26,7 +26,7 @@ const sections: Section[] = [
       },
       {
         text: (<>Submit team roster to <strong className="text-navy">Megan Chambers</strong> (skip if club already submitted)</>),
-        link: { href: "https://drive.google.com/drive/folders/1UPIjsWN0pkbryFxMselsTOs3Gs2voNqa", label: "Roster Template" },
+        link: { href: "https://www.anytime-soccer.com/roster-template", label: "Roster Template" },
       },
       { text: "Pay online invoice (sent via Stripe)" },
     ],
