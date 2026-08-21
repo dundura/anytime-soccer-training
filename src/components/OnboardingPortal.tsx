@@ -155,7 +155,7 @@ const PAYMENT_SECTIONS: StepSection[] = [
     lead: '<strong>Pay the Invoice</strong> &mdash; we send it for your first two teams.',
     items: [
       '<strong>Additional players</strong> &mdash; we charge the card on file once they onboard.',
-      '<strong>No waste</strong> &mdash; you only pay for players who actually use the program.',
+      '<strong>Pay for players who train</strong> &mdash; you are only charged for the ones actually using the program.',
     ],
   },
   {
