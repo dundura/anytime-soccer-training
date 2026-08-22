@@ -425,7 +425,9 @@ export const ONBOARDING_FAQ: FaqItem[] = [
     question: 'My players are not using the program as much as I expected',
     answer: `
       <p>Over the next few pages we&rsquo;ll share <strong>suggestions that have proven to increase participation</strong>.</p>
-      <p>To help support you, we&rsquo;re asking in advance if these are tactics you will consider.</p>
+      <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:16px 0 0;">
+        <p style="margin:0;color:#7C2D12;">To help support you, we&rsquo;re asking in advance if these are tactics you will consider.</p>
+      </div>
     `,
   },
   {
