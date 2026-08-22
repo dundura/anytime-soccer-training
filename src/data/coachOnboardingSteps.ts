@@ -1,6 +1,9 @@
 export type CoachOnboardingSubStep = {
   title: string;
   description?: string;
+  /** Points under the step. Two facts about the same step read as a list, not
+   *  as a sentence that happens to contain a full stop. */
+  bullets?: string[];
   videoHref?: string;
   moreInfoHref?: string;
   extraLinkPrefix?: string;
@@ -447,7 +450,10 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     subSteps: [
       {
         title: 'Submit your roster and pay the invoice',
-        description: 'The roster template is provided later. Once paid, we add free access slots that you apply to players.',
+        bullets: [
+          'The roster template is provided later.',
+          'Once paid, we add free access slots that you apply to players.',
+        ],
       },
     ],
   },

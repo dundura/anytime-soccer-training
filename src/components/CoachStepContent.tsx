@@ -95,6 +95,13 @@ export default function CoachStepContent({ step, hideCta }: { step: CoachOnboard
                               {sub.description && (
                                 <p className="text-gray-700 leading-relaxed mb-1">{sub.description}</p>
                               )}
+                              {sub.bullets && (
+                                <ul className="list-disc pl-5 mb-1 space-y-1 text-gray-700 leading-relaxed">
+                                  {sub.bullets.map((b) => (
+                                    <li key={b}>{b}</li>
+                                  ))}
+                                </ul>
+                              )}
                               <div className="flex flex-wrap gap-x-4 gap-y-1">
                                 {sub.extraLinkHref && (
                                   <span className="text-gray-700 text-sm">
