@@ -73,7 +73,10 @@ export default function CoachStepContent({ step, hideCta }: { step: CoachOnboard
         return (
           <div className="mb-8 space-y-6">
             {groups.map((group, gi) => {
-              const isOpen = openGroups[gi] ?? false;
+              // Open by default. A heading exists to LABEL a group, not to hide
+              // it — collapsed, a coach has to guess which half applies to them
+              // before they can read either.
+              const isOpen = openGroups[gi] ?? true;
               counter = counterStart[gi];
               return (
                 <div key={gi} className="bg-blue-50 border border-blue-200 rounded-lg p-4">
