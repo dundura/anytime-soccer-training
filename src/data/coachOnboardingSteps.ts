@@ -39,10 +39,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <p style="margin:6px 0 0;"><strong>Renewing member?</strong> No need to rebook &mdash; we&rsquo;ll call to walk through the new features instead.</p>
         </div>
       </div>
-      <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:16px 0;">
-        <p style="margin:0 0 8px;font-weight:700;color:#9A3412;">Renewing members</p>
-        <p style="margin:0;color:#7C2D12;">You can submit a roster, or add new players inside the app and purchase their slots. We&rsquo;ll invoice you for new players, and you can upgrade existing players inside the app once their subscription expires.</p>
-      </div>
     `,
     ctaLabel: 'Book Demo',
     ctaHref: 'https://www.anytime-soccer.com/team-demo-request-anytime-soccer-training',
