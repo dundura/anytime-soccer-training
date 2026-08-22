@@ -482,7 +482,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
         bullets: [
           'Submit a roster of just the new players.',
           'Or add new players inside the app and purchase their slots.',
-          'Click Upgrade Players to buy them.',
+          'Click Upgrade Players within your team to buy them.',
         ],
       },
     ],
