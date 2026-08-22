@@ -442,7 +442,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Overview: Upgrading Players',
     body: `
-      <p><strong>You upgrade players by either paying the invoice we send and/or purchasing upgrade slots inside the app.</strong></p>
+      <p><strong>Upgrade players by either paying the invoice we send and/or purchasing upgrade slots inside the app.</strong></p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
@@ -466,16 +466,16 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           </div>
         </div>
       </div>
+      <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:16px 0;">
+        <p style="margin:0 0 8px;font-weight:700;color:#9A3412;">Renewing members</p>
+        <p style="margin:0;color:#7C2D12;">You can submit a roster, or add new players inside the app and purchase their slots. We&rsquo;ll invoice you for new players, and you can upgrade existing players inside the app once their subscription expires.</p>
+      </div>
     `,
   },
   {
     title: 'Complete Portal Onboarding Steps',
     body: `
       <p>Before you notify Megan, work through the rest of the steps in this portal &mdash; they walk you through setup and the key features that get your team going.</p>
-      <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:16px 0;">
-        <p style="margin:0 0 8px;font-weight:700;color:#9A3412;">Renewing members</p>
-        <p style="margin:0;color:#7C2D12;">You can submit a roster, or add new players inside the app and purchase their slots. We&rsquo;ll invoice you for new players, and you can upgrade existing players inside the app once their subscription expires.</p>
-      </div>
     `,
   },
   {
