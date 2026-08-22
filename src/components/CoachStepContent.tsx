@@ -151,6 +151,13 @@ export default function CoachStepContent({ step, hideCta }: { step: CoachOnboard
         );
       })()}
 
+      {step.afterSteps && (
+        <div
+          className="mb-6 space-y-4 text-gray-700 leading-relaxed [&_strong]:text-navy [&_strong]:font-semibold"
+          dangerouslySetInnerHTML={{ __html: step.afterSteps }}
+        />
+      )}
+
       {step.ctaHref && !hideCta && (
         <a
           href={step.ctaHref}

@@ -19,6 +19,9 @@ export type CoachOnboardingStep = {
   videoHref?: string;
   moreInfoHref?: string;
   hint?: string;
+  /** HTML shown AFTER the numbered steps — for a note that only makes sense
+   *  once you have read them. `body` renders above and would pre-empt it. */
+  afterSteps?: string;
 };
 
 export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
@@ -112,13 +115,14 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   },
   {
     title: 'Create Your Team',
-    // Renewing coaches read the four steps below and follow them literally,
-    // which leaves them with a second team and a roster split across both.
-    // Said before the steps, because after them it is already too late.
-    body: `
-      <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:0 0 8px;">
+    body: '',
+    // Below the numbered steps: a coach who is NOT renewing should read the
+    // four steps first, and this only makes sense once you know what creating
+    // a team involves.
+    afterSteps: `
+      <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:0 0 24px;">
         <p style="margin:0 0 8px;font-weight:700;color:#9A3412;">Renewing with a team you already have?</p>
-        <p style="margin:0;color:#7C2D12;">Don&rsquo;t create a new one. Keep your existing team and just <strong>update the team name</strong> for the new season &mdash; your players, history and settings all stay with it. Creating a second team splits your roster across both.</p>
+        <p style="margin:0;color:#7C2D12;">You can keep your existing team and just <strong>update the team name</strong>.</p>
       </div>
     `,
     subSteps: [
