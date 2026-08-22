@@ -57,6 +57,15 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <p style="margin:6px 0 0;"><strong>Roster not final?</strong> Send what you have and add the rest later.</p>
         </div>
       </div>
+      <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:16px 0;">
+        <p style="margin:0 0 8px;font-weight:700;color:#9A3412;">Renewing members</p>
+        <p style="margin:0 0 8px;color:#7C2D12;">You have two options:</p>
+        <ul style="margin:0 0 10px;padding-left:20px;color:#7C2D12;">
+          <li style="margin-bottom:4px;">Submit a roster of just the new players.</li>
+          <li>Or add new players inside the app and purchase their slots &mdash; click <strong>Upgrade Players</strong> to buy slots.</li>
+        </ul>
+        <p style="margin:0;color:#7C2D12;">We&rsquo;ll invoice you for new players, and you can upgrade existing players inside the app once their subscription expires.</p>
+      </div>
     `,
     ctaLabel: 'Roster Template',
     ctaHref: 'https://www.anytime-soccer.com/roster-template',
