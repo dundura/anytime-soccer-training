@@ -440,13 +440,25 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     ],
   },
   {
-    title: 'Overview: Upgrading Players',
+    title: 'Upgrading Players: Brand New Team',
     body: `
       <p><strong>Upgrade players by either paying the invoice we send and/or purchasing upgrade slots inside the app.</strong></p>
     `,
-    // Was two hand-built numbered divs in body. As subSteps they get the same
-    // numbering as every other step in the portal, so a coach is not reading a
-    // second visual language halfway through.
+    subSteps: [
+      {
+        title: 'Submit your roster and pay the invoice',
+        description: 'The roster template is provided later. Once paid, we add free access slots that you apply to players.',
+      },
+    ],
+  },
+  {
+    // Its own page rather than a second group on the previous one: the two
+    // routes have nothing to do with each other, and a coach reading both is
+    // reading half a page that does not apply to them.
+    title: 'Upgrading Players: Renewing or Self Onboard',
+    body: `
+      <p><strong>Upgrade players by either paying the invoice we send and/or purchasing upgrade slots inside the app.</strong></p>
+    `,
     afterSteps: `
       <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:0 0 24px;">
         <p style="margin:0 0 8px;font-weight:700;color:#9A3412;">Renewing members</p>
@@ -455,14 +467,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
     subSteps: [
       {
-        // A heading turns each into its own group, so a coach reads only the
-        // half that describes them instead of working out which applies.
-        sectionHeading: 'Brand New Team',
-        title: 'Submit your roster and pay the invoice',
-        description: 'The roster template is provided later. Once paid, we add free access slots that you apply to players.',
-      },
-      {
-        sectionHeading: 'Renewing and/or Self Onboard',
         title: 'Renewing members have two options',
         description: 'Submit a roster of just the new players, or add new players inside the app and purchase their slots — click Upgrade Players to buy them.',
       },

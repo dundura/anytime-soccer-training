@@ -1,14 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import type { CoachOnboardingStep } from '@/data/coachOnboardingSteps';
 
 /** Renders a coach onboarding step's full instructions (body, checklist,
  * grouped sub-steps, CTA, hint). Shared by the get-started-steps pages and
  * the Onboarding Portal wizard. */
 export default function CoachStepContent({ step, hideCta }: { step: CoachOnboardingStep; hideCta?: boolean }) {
-  const [openGroups, setOpenGroups] = useState<Record<number, boolean>>({});
-
   return (
     <>
       <div
@@ -73,26 +70,18 @@ export default function CoachStepContent({ step, hideCta }: { step: CoachOnboard
         return (
           <div className="mb-8 space-y-6">
             {groups.map((group, gi) => {
-              // Open by default. A heading exists to LABEL a group, not to hide
-              // it — collapsed, a coach has to guess which half applies to them
-              // before they can read either.
-              const isOpen = openGroups[gi] ?? true;
               counter = counterStart[gi];
               return (
                 <div key={gi} className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  {/* A label, not a control. It used to be a toggle that started
+                      closed, which hid the steps behind a click nobody knew to
+                      make. */}
                   {group.heading ? (
-                    <button
-                      type="button"
-                      onClick={() => setOpenGroups((prev) => ({ ...prev, [gi]: !isOpen }))}
-                      className="flex items-center justify-between w-full text-left mb-0"
-                    >
-                      <h2 className="text-sm font-bold uppercase tracking-wide text-red">
-                        {group.heading}
-                      </h2>
-                      <span className={`text-red transition-transform ${isOpen ? 'rotate-180' : ''}`}>▼</span>
-                    </button>
+                    <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-0">
+                      {group.heading}
+                    </h2>
                   ) : null}
-                  {(isOpen || !group.heading) && (
+                  {(
                     <ol className={`space-y-5 ${group.heading ? 'mt-3' : ''}`}>
                       {group.items.map((sub) => {
                         counter += 1;
