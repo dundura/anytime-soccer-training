@@ -60,10 +60,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <p style="margin:6px 0 0;"><strong>Roster not final?</strong> Send what you have and add the rest later.</p>
         </div>
       </div>
-      <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-left:4px solid #0F3154;border-radius:10px;padding:16px 18px;margin:16px 0;">
-        <p style="margin:0 0 8px;font-weight:700;color:#0F3154;font-size:16px;">Clubs With More Than One Team</p>
-        <p style="margin:0;color:#1e3a5f;">Pay the invoice for the first two teams. After that we charge the card on file for additional players and add free slots to your coaches&rsquo; accounts.</p>
-      </div>
     `,
     ctaLabel: 'Roster Template',
     ctaHref: 'https://www.anytime-soccer.com/roster-template',
@@ -446,6 +442,14 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Upgrading Players: Brand New Team',
     body: `
       <p><strong>Upgrade players by either paying the online invoice in advance and/or purchasing upgrade slots inside the app.</strong></p>
+    `,
+    // Under the step, because the rule only makes sense once you know what
+    // paying the invoice involves.
+    afterSteps: `
+      <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-left:4px solid #0F3154;border-radius:10px;padding:16px 18px;margin:0 0 24px;">
+        <p style="margin:0 0 8px;font-weight:700;color:#0F3154;font-size:16px;">Clubs With More Than One Team</p>
+        <p style="margin:0;color:#1e3a5f;">Pay the invoice for the first two teams. After that we charge the card on file for additional players and add free slots to your coaches&rsquo; accounts.</p>
+      </div>
     `,
     subSteps: [
       {
