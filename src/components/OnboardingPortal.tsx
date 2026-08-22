@@ -9,6 +9,9 @@ import { ONBOARDING_FAQ } from '@/data/onboardingFaq';
 
 const API = 'https://api.anytime-soccer.com';
 const TOKEN_KEY = 'astPortalToken';
+// Where the admin's own session waits while they look at a coach's portal.
+const ADMIN_RETURN_KEY = 'astPortalAdminReturn';
+const ADMIN_RETURN_WHO = 'astPortalAdminReturnWho';
 
 type Audience = 'coach' | 'director';
 
@@ -484,7 +487,7 @@ export default function OnboardingPortal() {
   // It cannot say whether they signed — a coach can finish every step and not
   // buy, or buy on a call before opening the portal — so the status is its own
   // field rather than something derived from progress.
-  type CrmCoach = { id: number; name: string; club: string; phone: string; email: string; website: string; status: string; notes: string; stageId: number | null; createdAt: string | null; daysCount: number | null; daysSetAt: string | null };
+  type CrmCoach = { id: number; coachId: number | null; name: string; club: string; phone: string; email: string; website: string; status: string; notes: string; stageId: number | null; createdAt: string | null; daysCount: number | null; daysSetAt: string | null };
   type CrmStage = { id: number; name: string; sortOrder: number };
   const [crmCoaches, setCrmCoaches] = useState<CrmCoach[]>([]);
   const [crmStatuses, setCrmStatuses] = useState<string[]>([]);
@@ -684,6 +687,59 @@ export default function OnboardingPortal() {
   // the second click does it. Nothing else in this portal opens a modal for a
   // single action, and a native dialog blocks the whole page.
   const [crmConfirmDelete, setCrmConfirmDelete] = useState<number | null>(null);
+
+  // Set while the admin is looking at somebody else's portal. Read from
+  // localStorage on mount rather than passed down, because getting there is a
+  // full page load: the token has to be in place before anything fetches.
+  const [viewingAs, setViewingAs] = useState('');
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(ADMIN_RETURN_KEY)) {
+        setViewingAs(localStorage.getItem(ADMIN_RETURN_WHO) || 'another coach');
+      }
+    } catch { /* private mode: no banner, and no way in either */ }
+  }, []);
+
+  const returnToAdmin = () => {
+    try {
+      const mine = localStorage.getItem(ADMIN_RETURN_KEY);
+      if (mine) localStorage.setItem(TOKEN_KEY, mine);
+      localStorage.removeItem(ADMIN_RETURN_KEY);
+      localStorage.removeItem(ADMIN_RETURN_WHO);
+    } catch { /* nothing to restore */ }
+    window.location.href = '/onboarding-portal?view=crm';
+  };
+
+  // Open a coach's own portal to see what they see.
+  //
+  // The admin's own token is kept under a second key first, so coming back is a
+  // click rather than signing in again — without it, looking at one coach's
+  // screen costs you your own session.
+  const openTheirPortal = async (leadId: number, who: string) => {
+    if (!token) return;
+    setCrmSaving(leadId);
+    setCrmError('');
+    try {
+      const res = await fetch(`${API}/portal-onboarding/admin-impersonate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...adminHeaders() },
+        body: JSON.stringify({ leadId }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.token) {
+        setCrmError(data.error || 'Could not open their portal.');
+        return;
+      }
+      localStorage.setItem(ADMIN_RETURN_KEY, token);
+      localStorage.setItem(ADMIN_RETURN_WHO, who || data.coach?.email || 'that coach');
+      localStorage.setItem(TOKEN_KEY, data.token);
+      window.location.href = '/onboarding-portal?view=steps';
+    } catch {
+      setCrmError('Could not open their portal.');
+    } finally {
+      setCrmSaving(null);
+    }
+  };
   const deleteCrmCoach = async (id: number) => {
     if (!token) return;
     setCrmSaving(id);
@@ -945,7 +1001,20 @@ export default function OnboardingPortal() {
 
   return (
     <section className="py-16 bg-background min-h-screen">
-      <div className={`${wideView ? 'max-w-[1600px]' : 'max-w-2xl'} mx-auto px-4 sm:px-6 lg:px-8`}>
+      {/* Whose portal this is. Loud on purpose: every control below acts on
+          THEIR account, and a checklist ticked by accident is their checklist. */}
+      {viewingAs && (
+        <div className="fixed top-0 inset-x-0 z-50 bg-amber-500 text-white text-sm font-bold px-4 py-2 flex items-center justify-center gap-3">
+          <span>Viewing the portal as {viewingAs}</span>
+          <button
+            onClick={returnToAdmin}
+            className="bg-white/20 hover:bg-white/30 rounded-full px-3 py-1 text-xs font-extrabold uppercase tracking-wide transition-colors"
+          >
+            Back to my account
+          </button>
+        </div>
+      )}
+      <div className={`${wideView ? 'max-w-[1600px]' : 'max-w-2xl'} mx-auto px-4 sm:px-6 lg:px-8 ${viewingAs ? 'pt-10' : ''}`}>
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="bg-navy px-8 py-6">
             <div className="flex items-center justify-between gap-2 mb-3">
@@ -1417,6 +1486,19 @@ export default function OnboardingPortal() {
                                       </button>
                                     </td>
                                     <td className="px-3 py-2 whitespace-nowrap text-right">
+                                      {/* Only shown when the row has an account
+                                          behind it. A button that explains it
+                                          cannot work is worse than no button. */}
+                                      {(c.coachId || c.email) && (
+                                        <button
+                                          onClick={() => openTheirPortal(c.id, c.name || c.email)}
+                                          disabled={crmSaving === c.id}
+                                          title={`Open ${c.name || c.email}'s portal`}
+                                          className="text-gray-300 hover:text-navy text-sm leading-none px-1 mr-1 transition-colors"
+                                        >
+                                          &#128065;
+                                        </button>
+                                      )}
                                       {crmConfirmDelete === c.id ? (
                                         <span className="inline-flex items-center gap-1">
                                           <button
