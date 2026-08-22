@@ -345,6 +345,8 @@ export default function OnboardingPortal() {
           setIndexFilter('crm');
         } else {
           setWizardIndex(firstIncomplete(data.coach));
+          // Directors have their own path and skip this screen.
+          if (data.coach.audience !== 'director') setShowIndexInfo(true);
         }
       })
       .catch(() => localStorage.removeItem(TOKEN_KEY))
@@ -1020,7 +1022,7 @@ export default function OnboardingPortal() {
             <div className="flex items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => { setShowIntro(false); setShowIndexInfo(false); setShowIndex(false); setShowFaq(false); setError(''); if (coach) setWizardIndex(firstIncomplete(coach)); }}
+                  onClick={() => { setShowIntro(false); setShowIndex(false); setShowFaq(false); setError(''); if (coach) setWizardIndex(firstIncomplete(coach)); setShowIndexInfo(audience !== 'director'); }}
                   className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                 >
                   🏠 Home
