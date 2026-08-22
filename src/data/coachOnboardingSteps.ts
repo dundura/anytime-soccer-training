@@ -57,21 +57,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <p style="margin:6px 0 0;"><strong>Roster not final?</strong> Send what you have and add the rest later.</p>
         </div>
       </div>
-      <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:16px 0;">
-        <p style="margin:0 0 12px;font-weight:700;color:#9A3412;font-size:16px;">Before You Send It</p>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#F97316;color:#fff;font-weight:700;font-size:14px;">1</span>
-          <p style="margin:3px 0 0;color:#7C2D12;">Roster templates are for teams joining for the first time and teams with several roster changes.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#F97316;color:#fff;font-weight:700;font-size:14px;">2</span>
-          <p style="margin:3px 0 0;color:#7C2D12;">Renewing members can submit a roster, or add new players inside the app and purchase their slots. We&rsquo;ll invoice you for new players, and you can upgrade existing players inside the app once their subscription expires.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#F97316;color:#fff;font-weight:700;font-size:14px;">3</span>
-          <p style="margin:3px 0 0;color:#7C2D12;">See the bonus section for roster template FAQs.</p>
-        </div>
-      </div>
       <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-left:4px solid #0F3154;border-radius:10px;padding:16px 18px;margin:16px 0;">
         <p style="margin:0 0 8px;font-weight:700;color:#0F3154;font-size:16px;">Clubs With More Than One Team</p>
         <p style="margin:0;color:#1e3a5f;">Pay the invoice for the first two teams. After that we charge the card on file for additional players and add free slots to your coaches&rsquo; accounts.</p>
@@ -487,6 +472,10 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Complete Portal Onboarding Steps',
     body: `
       <p>Before you notify Megan, work through the rest of the steps in this portal &mdash; they walk you through setup and the key features that get your team going.</p>
+      <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:16px 0;">
+        <p style="margin:0 0 8px;font-weight:700;color:#9A3412;">Renewing members</p>
+        <p style="margin:0;color:#7C2D12;">You can submit a roster, or add new players inside the app and purchase their slots. We&rsquo;ll invoice you for new players, and you can upgrade existing players inside the app once their subscription expires.</p>
+      </div>
     `,
   },
   {
