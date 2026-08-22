@@ -484,7 +484,7 @@ export default function OnboardingPortal() {
   // It cannot say whether they signed — a coach can finish every step and not
   // buy, or buy on a call before opening the portal — so the status is its own
   // field rather than something derived from progress.
-  type CrmCoach = { id: number; name: string; club: string; phone: string; email: string; status: string; notes: string; stageId: number | null; createdAt: string | null; daysCount: number | null; daysSetAt: string | null };
+  type CrmCoach = { id: number; name: string; club: string; phone: string; email: string; website: string; status: string; notes: string; stageId: number | null; createdAt: string | null; daysCount: number | null; daysSetAt: string | null };
   type CrmStage = { id: number; name: string; sortOrder: number };
   const [crmCoaches, setCrmCoaches] = useState<CrmCoach[]>([]);
   const [crmStatuses, setCrmStatuses] = useState<string[]>([]);
@@ -499,6 +499,10 @@ export default function OnboardingPortal() {
   // previews above -- several open notes turn the table back into a wall of
   // text, which is the thing the toggle exists to prevent.
   const [crmOpenNotes, setCrmOpenNotes] = useState<number | null>(null);
+  // Which row has its contact details open. Phone, email and website are three
+  // more columns the table cannot afford — and on a lead most of them are empty
+  // anyway, so they sit behind a + and open on the row being worked.
+  const [crmOpenContact, setCrmOpenContact] = useState<number | null>(null);
   const [crmStages, setCrmStages] = useState<CrmStage[]>([]);
   // null = All, the default view. A number is a stage id.
   // 'unstaged' | 'all' | a stage id.
@@ -534,7 +538,7 @@ export default function OnboardingPortal() {
 
   // One field at a time. Sending only what changed means two tabs editing
   // different columns of the same coach cannot overwrite each other.
-  const saveCrmField = async (id: number, field: 'status' | 'phone' | 'club' | 'name' | 'email' | 'notes' | 'stageId' | 'days', value: string | number | null) => {
+  const saveCrmField = async (id: number, field: 'status' | 'phone' | 'club' | 'name' | 'email' | 'website' | 'notes' | 'stageId' | 'days', value: string | number | null) => {
     if (!token) return;
     setCrmSaving(id);
     setCrmError('');
@@ -607,7 +611,7 @@ export default function OnboardingPortal() {
 
   // Add a CRM row. Sends nothing unless the box is ticked -- tracking somebody
   // you are not ready to onboard is most of what this table is for.
-  const [crmNew, setCrmNew] = useState({ name: '', email: '', club: '', phone: '' });
+  const [crmNew, setCrmNew] = useState({ name: '', email: '', club: '', phone: '', website: '' });
   const [crmNewWelcome, setCrmNewWelcome] = useState(false);
   const [crmAdding, setCrmAdding] = useState(false);
   const [crmAddResult, setCrmAddResult] = useState('');
@@ -634,7 +638,7 @@ export default function OnboardingPortal() {
               : `Added ${data.coach.email} — welcome went to ${data.welcomeSentTo}, NOT to them.`)
           : `Added ${data.coach.email} — nothing emailed.`
       );
-      setCrmNew({ name: '', email: '', club: '', phone: '' });
+      setCrmNew({ name: '', email: '', club: '', phone: '', website: '' });
       setCrmNewWelcome(false);
     } catch {
       setCrmError('Could not add that record.');
@@ -1256,12 +1260,11 @@ export default function OnboardingPortal() {
                               <thead>
                                 <tr className="bg-gray-50 text-[10px] font-extrabold uppercase tracking-wide text-gray-500">
                                   <th className="px-1 py-2 w-[3%] text-center">&nbsp;</th>
-                                  <th className="px-3 py-2 w-[14%]">Name</th>
-                                  <th className="px-3 py-2 w-[13%]">Club</th>
-                                  <th className="px-3 py-2 w-[10%]">Phone</th>
-                                  <th className="px-3 py-2 w-[18%]">Email</th>
-                                  <th className="px-3 py-2 w-[10%]">Status</th>
-                                  <th className="px-3 py-2 w-[12%]">Stage</th>
+                                  <th className="px-3 py-2 w-[20%]">Name</th>
+                                  <th className="px-3 py-2 w-[18%]">Club</th>
+                                  <th className="px-2 py-2 w-[5%] text-center">Contact</th>
+                                  <th className="px-3 py-2 w-[14%]">Status</th>
+                                  <th className="px-3 py-2 w-[16%]">Stage</th>
                                   <th className="px-3 py-2 w-[8%]">Added</th>
                                   <th className="px-2 py-2 w-[5%] text-right">Days</th>
                                   <th className="px-3 py-2 w-[4%] text-center">Notes</th>
@@ -1317,24 +1320,25 @@ export default function OnboardingPortal() {
                                         className={`${cellInput} text-gray-700 placeholder:text-gray-300`}
                                       />
                                     </td>
-                                    <td className="px-3 py-2 whitespace-nowrap">
-                                      <input
-                                        defaultValue={c.phone}
-                                        placeholder="&mdash;"
-                                        onBlur={ev => { if (ev.target.value !== c.phone) saveCrmField(c.id, 'phone', ev.target.value); }}
-                                        className={`${cellInput} text-gray-700 placeholder:text-gray-300`}
-                                      />
-                                    </td>
-                                    {/* An address that wraps is unreadable and unusable
-                                        for copying. The cell never wraps; the table
-                                        scrolls sideways instead if the window is small. */}
-                                    <td className="px-3 py-2 whitespace-nowrap">
-                                      <input
-                                        type="email"
-                                        defaultValue={c.email}
-                                        onBlur={ev => { if (ev.target.value !== c.email) saveCrmField(c.id, 'email', ev.target.value); }}
-                                        className={`${cellInput} text-red font-semibold`}
-                                      />
+                                    {/* Phone, email and website behind one control.
+                                        A lead usually has none of them — that is the
+                                        point of it being a lead — so three mostly
+                                        empty columns cost width the table needs for
+                                        the things you actually scan. */}
+                                    <td className="px-2 py-2 whitespace-nowrap text-center">
+                                      <button
+                                        onClick={() => setCrmOpenContact(open => (open === c.id ? null : c.id))}
+                                        title={c.email || c.phone || c.website || 'Add contact details'}
+                                        className={`inline-flex items-center gap-1 text-xs font-bold rounded-full border px-2 py-1 transition-colors ${
+                                          crmOpenContact === c.id
+                                            ? 'bg-navy text-white border-navy'
+                                            : (c.email || c.phone || c.website)
+                                              ? 'bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100'
+                                              : 'bg-white text-gray-400 border-gray-200 hover:border-gray-300 hover:text-gray-600'
+                                        }`}
+                                      >
+                                        {crmOpenContact === c.id ? '\u2212' : '+'}
+                                      </button>
                                     </td>
                                     <td className="px-3 py-2 whitespace-nowrap">
                                       <select
@@ -1439,9 +1443,55 @@ export default function OnboardingPortal() {
                                       )}
                                     </td>
                                   </tr>
+                                  {crmOpenContact === c.id && (
+                                    <tr className="bg-blue-50/30">
+                                      <td colSpan={9} className="px-3 pb-3 pt-0">
+                                        <div className="grid gap-2 sm:grid-cols-3">
+                                          <label className="block">
+                                            <span className="block text-[10px] font-extrabold uppercase tracking-wide text-gray-500 mb-1">Phone</span>
+                                            <input
+                                              defaultValue={c.phone}
+                                              placeholder="&mdash;"
+                                              onBlur={ev => { if (ev.target.value !== c.phone) saveCrmField(c.id, 'phone', ev.target.value); }}
+                                              className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                                            />
+                                          </label>
+                                          <label className="block">
+                                            <span className="block text-[10px] font-extrabold uppercase tracking-wide text-gray-500 mb-1">Email</span>
+                                            <input
+                                              type="email"
+                                              defaultValue={c.email}
+                                              placeholder="none yet"
+                                              onBlur={ev => { if (ev.target.value !== c.email) saveCrmField(c.id, 'email', ev.target.value); }}
+                                              className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-red font-semibold placeholder:text-gray-300 placeholder:font-normal focus:outline-none focus:ring-2 focus:ring-amber-300"
+                                            />
+                                          </label>
+                                          <label className="block">
+                                            <span className="block text-[10px] font-extrabold uppercase tracking-wide text-gray-500 mb-1">Website</span>
+                                            <input
+                                              defaultValue={c.website}
+                                              placeholder="&mdash;"
+                                              onBlur={ev => { if (ev.target.value !== c.website) saveCrmField(c.id, 'website', ev.target.value); }}
+                                              className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                                            />
+                                          </label>
+                                        </div>
+                                        {c.website && (
+                                          <a
+                                            href={/^https?:\/\//i.test(c.website) ? c.website : `https://${c.website}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-block mt-2 text-xs font-semibold text-red hover:underline"
+                                          >
+                                            Open {c.website} &rarr;
+                                          </a>
+                                        )}
+                                      </td>
+                                    </tr>
+                                  )}
                                   {crmOpenNotes === c.id && (
                                     <tr className="bg-amber-50/40">
-                                      <td colSpan={11} className="px-3 pb-3 pt-0">
+                                      <td colSpan={9} className="px-3 pb-3 pt-0">
                                         <label className="block text-[10px] font-extrabold uppercase tracking-wide text-amber-700 mb-1">
                                           Notes &mdash; {c.name || c.email}
                                         </label>
@@ -1470,8 +1520,8 @@ export default function OnboardingPortal() {
                   <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4">
                     <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-1">Add a record</p>
                     <p className="text-xs text-amber-800/80 mb-3">
-                      Email is the only thing required &mdash; everything else can be filled in later, in the table.
-                      Nothing is sent unless you tick the box.
+                      A name, a club, or an email &mdash; whichever you have. A lead with no address yet is
+                      exactly what this is for. Nothing is sent unless you tick the box.
                     </p>
                     <div className="grid gap-2 sm:grid-cols-4 mb-3">
                       <input
@@ -1485,7 +1535,7 @@ export default function OnboardingPortal() {
                         value={crmNew.email}
                         onChange={ev => setCrmNew({ ...crmNew, email: ev.target.value })}
                         onKeyDown={ev => { if (ev.key === 'Enter') addCrmCoach(); }}
-                        placeholder="Email (required)"
+                        placeholder="Email (if you have one)"
                         className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
                       />
                       <input
@@ -1498,6 +1548,12 @@ export default function OnboardingPortal() {
                         value={crmNew.phone}
                         onChange={ev => setCrmNew({ ...crmNew, phone: ev.target.value })}
                         placeholder="Phone"
+                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                      />
+                      <input
+                        value={crmNew.website}
+                        onChange={ev => setCrmNew({ ...crmNew, website: ev.target.value })}
+                        placeholder="Website"
                         className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
                       />
                     </div>
@@ -1516,7 +1572,7 @@ export default function OnboardingPortal() {
                     </label>
                     <button
                       onClick={addCrmCoach}
-                      disabled={crmAdding || !crmNew.email.trim()}
+                      disabled={crmAdding || !(crmNew.email.trim() || crmNew.name.trim() || crmNew.club.trim())}
                       className="bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-6 rounded-xl transition-colors disabled:opacity-50"
                     >
                       {crmAdding ? 'Adding\u2026' : crmNewWelcome ? '+ Add record & send welcome' : '+ Add record'}
