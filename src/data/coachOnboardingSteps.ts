@@ -447,6 +447,12 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     // Was two hand-built numbered divs in body. As subSteps they get the same
     // numbering as every other step in the portal, so a coach is not reading a
     // second visual language halfway through.
+    afterSteps: `
+      <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:0 0 24px;">
+        <p style="margin:0 0 8px;font-weight:700;color:#9A3412;">Renewing members</p>
+        <p style="margin:0;color:#7C2D12;">You can submit a roster, or add new players inside the app and purchase their slots. We&rsquo;ll invoice you for new players, and you can upgrade existing players inside the app once their subscription expires.</p>
+      </div>
+    `,
     subSteps: [
       {
         // A heading turns each into its own group, so a coach reads only the
@@ -458,9 +464,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       {
         sectionHeading: 'Renewing and/or Self Onboard',
         title: 'Renewing members have two options',
-        // The separate callout that used to sit under this said the same thing
-        // twice; its one extra fact — the invoicing rule — is folded in here.
-        description: 'Submit a roster of just the new players, or add new players inside the app and purchase their slots — click Upgrade Players to buy them. We’ll invoice you for new players, and you can upgrade existing players inside the app once their subscription expires.',
+        description: 'Submit a roster of just the new players, or add new players inside the app and purchase their slots — click Upgrade Players to buy them.',
       },
     ],
   },
