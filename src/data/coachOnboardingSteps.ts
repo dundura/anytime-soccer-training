@@ -442,7 +442,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Upgrading Players: Brand New Team',
     body: `
-      <p><strong>Upgrade players by either paying the invoice we send and/or purchasing upgrade slots inside the app.</strong></p>
+      <p><strong>Upgrade players by either paying the online invoice and/or purchasing upgrade slots inside the app.</strong></p>
     `,
     subSteps: [
       {
@@ -457,7 +457,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     // reading half a page that does not apply to them.
     title: 'Upgrading Players: Renewing or Self Onboard',
     body: `
-      <p><strong>Upgrade players by either paying the invoice we send and/or purchasing upgrade slots inside the app.</strong></p>
+      <p><strong>Upgrade players by either paying the online invoice and/or purchasing upgrade slots inside the app.</strong></p>
     `,
     afterSteps: `
       <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:0 0 24px;">
