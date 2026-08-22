@@ -473,8 +473,12 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
     subSteps: [
       {
-        title: 'Renewing members have two options',
-        description: 'Submit a roster of just the new players, or add new players inside the app and purchase their slots — click Upgrade Players to buy them.',
+        title: 'Method Two: two options',
+        bullets: [
+          'Submit a roster of just the new players.',
+          'Or add new players inside the app and purchase their slots.',
+          'Click Upgrade Players to buy them.',
+        ],
       },
     ],
   },
