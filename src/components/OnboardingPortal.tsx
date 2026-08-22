@@ -274,7 +274,7 @@ export default function OnboardingPortal() {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
   const [ackChecked, setAckChecked] = useState(false);
   const [quizAnswer, setQuizAnswer] = useState<string>('');
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(false);
   const [showIndex, setShowIndex] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showFaq, setShowFaq] = useState(false);
@@ -900,7 +900,7 @@ export default function OnboardingPortal() {
     setCoach({ ...coach, audience: next });
     setShowRoutePick(false);
     setWizardIndex(0);
-    setShowIntro(true);
+    setShowIntro(false);
     try {
       await fetch(`${API}/portal-onboarding/checklist`, {
         method: 'PUT',
@@ -926,7 +926,7 @@ export default function OnboardingPortal() {
       if (!res.ok) throw new Error();
       setCoach({ ...coach, checklist: {} });
       setWizardIndex(0);
-      setShowIntro(true);
+      setShowIntro(false);
     } catch {
       setError('Could not reset. Please try again.');
     } finally {
@@ -1020,7 +1020,7 @@ export default function OnboardingPortal() {
             <div className="flex items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => { setShowIntro(true); setShowIndexInfo(false); setShowIndex(false); setShowFaq(false); setError(''); }}
+                  onClick={() => { setShowIntro(false); setShowIndexInfo(false); setShowIndex(false); setShowFaq(false); setError(''); if (coach) setWizardIndex(firstIncomplete(coach)); }}
                   className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                 >
                   🏠 Home
