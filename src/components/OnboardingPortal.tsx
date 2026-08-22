@@ -1930,7 +1930,7 @@ export default function OnboardingPortal() {
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
                   <ol className="space-y-4">
                     {[
-                      <><strong className="text-navy font-semibold">Add players.</strong> Send roster (new teams), or invite players yourself.</>,
+                      <><strong className="text-navy font-semibold">Add players.</strong> Send roster, or invite players yourself.</>,
                       <><strong className="text-navy font-semibold">Pay for access.</strong> Pay invoice and/or per player in the app.</>,
                       <><strong className="text-navy font-semibold">Complete this portal.</strong> Includes the engagement survey.</>,
                       <><strong className="text-navy font-semibold">Notify parents.</strong> Edit and share our welcome email.</>,
