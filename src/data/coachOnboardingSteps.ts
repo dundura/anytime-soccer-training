@@ -468,7 +468,8 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     afterSteps: `
       <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:0 0 24px;">
         <p style="margin:0 0 8px;font-weight:700;color:#9A3412;">Renewing members</p>
-        <p style="margin:0;color:#7C2D12;">Because you have players with different subscription dates, you can submit a roster template with only new players, or add the new players inside the app. We&rsquo;ll invoice you for new players, and you can upgrade existing players inside the app once their subscription expires.</p>
+        <p style="margin:0 0 10px;color:#7C2D12;">Because you have players with different subscription dates, you can submit a roster template with only new players, or add the new players inside the app.</p>
+        <p style="margin:0;color:#7C2D12;">We&rsquo;ll invoice you for new players, and you can upgrade existing players inside the app once their subscription expires.</p>
       </div>
     `,
     subSteps: [
