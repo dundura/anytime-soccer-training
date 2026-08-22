@@ -449,7 +449,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
     subSteps: [
       {
-        title: 'Submit your roster and pay the invoice',
+        title: 'Method One: Submit your roster and pay the invoice in advance',
         bullets: [
           'The roster template is provided later.',
           'Once paid, we add free access slots that you apply to players.',
