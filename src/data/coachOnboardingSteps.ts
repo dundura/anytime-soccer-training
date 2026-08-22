@@ -112,7 +112,15 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   },
   {
     title: 'Create Your Team',
-    body: '',
+    // Renewing coaches read the four steps below and follow them literally,
+    // which leaves them with a second team and a roster split across both.
+    // Said before the steps, because after them it is already too late.
+    body: `
+      <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:0 0 8px;">
+        <p style="margin:0 0 8px;font-weight:700;color:#9A3412;">Renewing with a team you already have?</p>
+        <p style="margin:0;color:#7C2D12;">Don&rsquo;t create a new one. Keep your existing team and just <strong>update the team name</strong> for the new season &mdash; your players, history and settings all stay with it. Creating a second team splits your roster across both.</p>
+      </div>
+    `,
     subSteps: [
       {
         title: 'Log In and Choose Your Coach’s Profile',
