@@ -30,12 +30,6 @@ type PortalStep = { key: string; title: string; dataIndex: number; section: stri
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
 const COACH_PORTAL_STEPS: PortalStep[] = [
-  { key: 'demo', title: 'Book a demo', dataIndex: 0, section: 'Pre-Onboarding',
-    quiz: { prompt: 'Which applies to you?', options: [
-      'I already attended a demo',
-      'I don’t plan to attend a demo',
-    ] },
-    ack: { label: 'I understand Neil will call once onboarding is complete, to walk through homework and the rest of the team features' } },
   { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Which best describes your expectations for your team?', options: ['Training outside practice is an expectation I’ve set — I’m aiming for 75%+ engagement, and if it’s slow I’ll use the competition features to boost it.', 'My team is motivated. It’s optional, but I’m excited to see how they respond, and I’ll do some of the competition features.', 'Optional — if they train, great; if not, no pressure.'] } },
   { key: 'roster_intro', title: 'Upgrading Players: Brand New Team', dataIndex: 22, section: 'Pre-Onboarding', info: true, ack: { label: 'I understand' } },
   { key: 'roster_intro_renewing', title: 'Upgrading Players: Renewing or Self Onboard', dataIndex: 23, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Confirm before continuing:', options: ['I understand that within 7 days of a player joining my team, I need to apply a free access slot to their account'] } },
