@@ -446,9 +446,9 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     // Under the step, because the rule only makes sense once you know what
     // paying the invoice involves.
     afterSteps: `
-      <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-left:4px solid #0F3154;border-radius:10px;padding:16px 18px;margin:0 0 24px;">
-        <p style="margin:0 0 8px;font-weight:700;color:#0F3154;font-size:16px;">Clubs With More Than One Team</p>
-        <p style="margin:0;color:#1e3a5f;">Pay the invoice for the first two teams. After that we charge the card on file for additional players and add free slots to your coaches&rsquo; accounts.</p>
+      <div style="background:#F5F3FF;border:1px solid #C4B5FD;border-left:4px solid #7C3AED;border-radius:10px;padding:16px 18px;margin:0 0 24px;">
+        <p style="margin:0 0 8px;font-weight:700;color:#5B21B6;font-size:16px;">Clubs With More Than One Team</p>
+        <p style="margin:0;color:#4C1D95;">Pay the invoice for the first two teams. After that we charge the card on file for additional players and add free slots to your coaches&rsquo; accounts.</p>
       </div>
     `,
     subSteps: [
