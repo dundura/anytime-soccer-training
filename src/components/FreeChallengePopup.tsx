@@ -44,8 +44,8 @@ export default function FreeChallengePopup() {
         {/* Left - Image (hidden on mobile) */}
         <div className="hidden md:flex md:w-[45%] items-center justify-center overflow-hidden">
           <img
-            src="https://d2vm0l3c6tu9qp.cloudfront.net/Anytime-soccer-camp.webp"
-            alt="Anytime Soccer Training"
+            src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1787427659036-w51g3a.png"
+            alt="7-Day Training Plan"
             className="w-full h-full object-cover"
           />
         </div>

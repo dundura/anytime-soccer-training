@@ -122,7 +122,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     afterSteps: `
       <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:0 0 24px;">
         <p style="margin:0 0 8px;font-weight:700;color:#9A3412;">Renewing with a team you already have?</p>
-        <p style="margin:0;color:#7C2D12;">You can keep your existing team and just <strong>update the team name</strong>.</p>
+        <p style="margin:0;color:#7C2D12;">You can keep your existing team and just <strong>update the team name</strong>. Then update your roster by adding and removing players.</p>
       </div>
     `,
     subSteps: [
