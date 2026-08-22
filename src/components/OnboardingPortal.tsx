@@ -501,7 +501,12 @@ export default function OnboardingPortal() {
   const [crmOpenNotes, setCrmOpenNotes] = useState<number | null>(null);
   const [crmStages, setCrmStages] = useState<CrmStage[]>([]);
   // null = All, the default view. A number is a stage id.
-  const [crmStageView, setCrmStageView] = useState<number | null>(null);
+  // 'unstaged' | 'all' | a stage id.
+  //
+  // Defaults to unstaged, because the job this table is for is CLEARING the
+  // queue: the rows that need a decision are the ones nobody has filed yet, and
+  // "All" buries them under everything already dealt with.
+  const [crmStageView, setCrmStageView] = useState<'unstaged' | 'all' | number>('unstaged');
   const [crmNewStage, setCrmNewStage] = useState('');
   const [crmAddingStage, setCrmAddingStage] = useState(false);
   const [crmConfirmStageDelete, setCrmConfirmStageDelete] = useState<number | null>(null);
@@ -593,7 +598,7 @@ export default function OnboardingPortal() {
       if (!res.ok) { setCrmError(data.error || 'Could not delete that stage.'); return; }
       setCrmStages(data.stages || []);
       setCrmCoaches(list => list.map(c => (c.stageId === id ? { ...c, stageId: null } : c)));
-      if (crmStageView === id) setCrmStageView(null);
+      if (crmStageView === id) setCrmStageView('unstaged');
       setCrmConfirmStageDelete(null);
     } catch {
       setCrmError('Could not delete that stage.');
@@ -1157,11 +1162,16 @@ export default function OnboardingPortal() {
                       <div className="flex flex-wrap items-center gap-2 px-4 py-2 border-b border-gray-100">
                         <label className="text-[10px] font-extrabold uppercase tracking-wide text-gray-500">View</label>
                         <select
-                          value={crmStageView === null ? '' : String(crmStageView)}
-                          onChange={ev => { setCrmStageView(ev.target.value === '' ? null : Number(ev.target.value)); setCrmConfirmStageDelete(null); }}
+                          value={typeof crmStageView === 'number' ? String(crmStageView) : crmStageView}
+                          onChange={ev => {
+                            const v = ev.target.value;
+                            setCrmStageView(v === 'unstaged' || v === 'all' ? v : Number(v));
+                            setCrmConfirmStageDelete(null);
+                          }}
                           className="border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs font-bold text-navy bg-white focus:outline-none focus:ring-2 focus:ring-amber-300"
                         >
-                          <option value="">All ({crmCoaches.length})</option>
+                          <option value="unstaged">Not staged ({crmCoaches.filter(c => !c.stageId).length})</option>
+                          <option value="all">All ({crmCoaches.length})</option>
                           {crmStages.map(st => (
                             <option key={st.id} value={st.id}>
                               {st.name} ({crmCoaches.filter(c => c.stageId === st.id).length})
@@ -1169,7 +1179,7 @@ export default function OnboardingPortal() {
                           ))}
                         </select>
 
-                        {crmStageView !== null && (
+                        {typeof crmStageView === 'number' && (
                           crmConfirmStageDelete === crmStageView ? (
                             <span className="inline-flex items-center gap-1">
                               <button
@@ -1220,14 +1230,17 @@ export default function OnboardingPortal() {
                       )}
                       {!crmLoading && !!crmCoaches.length && (() => {
                         const needle = crmSearch.trim().toLowerCase();
-                        const inStage = crmStageView === null
-                          ? crmCoaches
+                        const inStage =
+                          crmStageView === 'all' ? crmCoaches
+                          : crmStageView === 'unstaged' ? crmCoaches.filter(c => !c.stageId)
                           : crmCoaches.filter(c => c.stageId === crmStageView);
                         const shown = needle
                           ? inStage.filter(c => `${c.name} ${c.club} ${c.email}`.toLowerCase().includes(needle))
                           : inStage;
                         if (!shown.length) {
-                          const stageName = crmStages.find(st => st.id === crmStageView)?.name;
+                          const stageName =
+                            crmStageView === 'unstaged' ? 'the queue'
+                            : crmStages.find(st => st.id === crmStageView)?.name;
                           return (
                             <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">
                               {needle
@@ -1513,7 +1526,7 @@ export default function OnboardingPortal() {
                 )}
                 {isAdmin && indexFilter === 'crm' && (
                   <p className="text-xs text-gray-500 mb-4 px-1">
-                    {crmCoaches.length} on the portal{crmStageView !== null ? `, ${crmCoaches.filter(c => c.stageId === crmStageView).length} in this stage` : ''}. Every text cell saves when you click away; status, stage and order save as soon as you change them.
+                    {crmCoaches.length} on the portal{typeof crmStageView === 'number' ? `, ${crmCoaches.filter(c => c.stageId === crmStageView).length} in this stage` : crmStageView === 'unstaged' ? `, ${crmCoaches.filter(c => !c.stageId).length} still to stage` : ''}. Every text cell saves when you click away; status, stage and order save as soon as you change them.
                     Deleting removes the portal account &mdash; an unclaimed one stops being chased by the reminder emails, and a claimed one can sign up again on the same address.
                   </p>
                 )}
