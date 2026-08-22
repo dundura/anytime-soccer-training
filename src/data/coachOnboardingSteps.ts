@@ -443,34 +443,26 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Overview: Upgrading Players',
     body: `
       <p><strong>Upgrade players by either paying the invoice we send and/or purchasing upgrade slots inside the app.</strong></p>
-      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <div style="margin:6px 0 0;">
-            <p style="margin:0 0 6px;"><strong>Submit your roster</strong> and pay the invoice.</p>
-            <ul style="margin:0;padding-left:20px;list-style:disc;">
-              <li style="list-style:disc;">The roster template is provided later.</li>
-              <li style="list-style:disc;">Once paid, we add free access slots that you apply to players.</li>
-            </ul>
-          </div>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <div style="margin:6px 0 0;">
-            <p style="margin:0 0 6px;"><strong>Renewing members</strong> have two options:</p>
-            <ul style="margin:0;padding-left:20px;list-style:disc;">
-              <li style="margin:0 0 4px;list-style:disc;">Submit a roster of just the new players.</li>
-              <li style="margin:0 0 4px;list-style:disc;">Or add new players inside the app and purchase their slots.</li>
-              <li style="list-style:disc;">Click <strong>Upgrade Players</strong> to purchase slots.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:16px 0;">
-        <p style="margin:0 0 8px;font-weight:700;color:#9A3412;">Renewing members</p>
-        <p style="margin:0;color:#7C2D12;">You can submit a roster, or add new players inside the app and purchase their slots. We&rsquo;ll invoice you for new players, and you can upgrade existing players inside the app once their subscription expires.</p>
-      </div>
     `,
+    // Was two hand-built numbered divs in body. As subSteps they get the same
+    // numbering as every other step in the portal, so a coach is not reading a
+    // second visual language halfway through.
+    subSteps: [
+      {
+        // A heading turns each into its own group, so a coach reads only the
+        // half that describes them instead of working out which applies.
+        sectionHeading: 'Brand New Team',
+        title: 'Submit your roster and pay the invoice',
+        description: 'The roster template is provided later. Once paid, we add free access slots that you apply to players.',
+      },
+      {
+        sectionHeading: 'Renewing and/or Self Onboard',
+        title: 'Renewing members have two options',
+        // The separate callout that used to sit under this said the same thing
+        // twice; its one extra fact — the invoicing rule — is folded in here.
+        description: 'Submit a roster of just the new players, or add new players inside the app and purchase their slots — click Upgrade Players to buy them. We’ll invoice you for new players, and you can upgrade existing players inside the app once their subscription expires.',
+      },
+    ],
   },
   {
     title: 'Complete Portal Onboarding Steps',
