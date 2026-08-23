@@ -330,6 +330,21 @@
       "autoKey": "hasContest"
     },
     {
+      "q": "Create a Race",
+      "steps": [
+        {
+          "text": "Set a prize and let them race for it. Three run side by side:\n\n• **Video Race** — first player to a number of videos wins.\n\n• **Streak Race** — whoever has the longest streak when the clock stops wins.\n\n• **Team Race** — the whole squad's videos added up, and everyone wins it together.\n\nYou type the prize, the target and how long they have.",
+          "links": [
+            {
+              "label": "🏁 Coach's Race",
+              "to": "/teams/coach-race/{teamId}"
+            }
+          ]
+        }
+      ],
+      "key": "eng_race"
+    },
+    {
       "q": "Set a Team Level Goal",
       "steps": [
         {
