@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "player": [
     {
       "q": "Where do I start?",
@@ -205,6 +205,22 @@
   ],
   "coach": [
     {
+      "q": "Check Onboarding List",
+      "steps": [
+        {
+          "text": "See who has joined and who has not.\n\n• The list shows every player you invited and whether they have created an account yet.\n\n• Chase the ones still pending — a player who never signs up never trains.\n\nClick New Player Onboard to open the list.",
+          "links": [
+            {
+              "ic": "➕",
+              "label": "New Player Onboard",
+              "to": "/teams/dashboard?nav=pending&view=view"
+            }
+          ]
+        }
+      ],
+      "key": "eng_onboarding"
+    },
+    {
       "q": "Upload Your Team Logo",
       "steps": [
         {
@@ -252,6 +268,22 @@
         }
       ],
       "key": "eng_email"
+    },
+    {
+      "q": "Upgrade Players",
+      "steps": [
+        {
+          "text": "Give full access to the players using it.\n\n• Upgraded players get every program, not just the free section.\n\n• Spend your slots on the ones who are actually training — the roster shows you who that is.\n\nClick Upgrade Players to manage them.",
+          "links": [
+            {
+              "ic": "🏷️",
+              "label": "Upgrade Players",
+              "to": "/teams/dashboard?nav=manage-players&view=view"
+            }
+          ]
+        }
+      ],
+      "key": "eng_upgrade"
     },
     {
       "q": "Show the App at Training",
