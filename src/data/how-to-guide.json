@@ -384,6 +384,86 @@
         }
       ],
       "key": "eng_mvp"
+    },
+    {
+      "q": "View Player Progress",
+      "ic": "📈",
+      "steps": [
+        {
+          "text": "One screen on how the whole roster is doing — who is training, who has stopped, and by how much.",
+          "links": [
+            {
+              "label": "📈 Player Progress",
+              "to": "/teams/player-progress/{teamId}"
+            }
+          ]
+        }
+      ],
+      "key": "pc_rep_progress"
+    },
+    {
+      "q": "Check the Training Report",
+      "ic": "📊",
+      "steps": [
+        {
+          "text": "What every player has watched, week by week. This is the one to open before a session, so you know who to ask about.",
+          "links": [
+            {
+              "label": "📊 Training Report",
+              "to": "/teams/dashboard?nav=training-report"
+            }
+          ]
+        }
+      ],
+      "key": "pc_rep_training"
+    },
+    {
+      "q": "Look at Player Detail",
+      "ic": "👤",
+      "steps": [
+        {
+          "text": "One player, video by video. Useful when a parent asks what their child has actually done.",
+          "links": [
+            {
+              "label": "👤 Player Detail",
+              "to": "/training/video-completions"
+            }
+          ]
+        }
+      ],
+      "key": "pc_rep_detail"
+    },
+    {
+      "q": "Check the Homework Report",
+      "ic": "📋",
+      "steps": [
+        {
+          "text": "Who finished what you assigned, and who did not. The fastest read on whether the homework landed.",
+          "links": [
+            {
+              "label": "📋 Homework Report",
+              "to": "/teams/dashboard?nav=homework&tab=report"
+            }
+          ]
+        }
+      ],
+      "key": "pc_rep_homework"
+    },
+    {
+      "q": "Share the Club Report",
+      "ic": "📈",
+      "steps": [
+        {
+          "text": "A summary built for the club rather than the team — something to send a director who wants to see it working.",
+          "links": [
+            {
+              "label": "📈 Club Report",
+              "to": "https://www.anytime-soccer.com/team-report/{teamId}"
+            }
+          ]
+        }
+      ],
+      "key": "pc_rep_club"
     }
   ],
   "steps": [
