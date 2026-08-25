@@ -503,6 +503,12 @@ export default function OnboardingPortal() {
   // more columns the table cannot afford — and on a lead most of them are empty
   // anyway, so they sit behind a + and open on the row being worked.
   const [crmOpenContact, setCrmOpenContact] = useState<number | null>(null);
+  // Which row has its email list open, and which send is in flight. Sending
+  // from here addresses the CRM row directly - before this, mailing a coach
+  // meant signing into their account first.
+  const [crmOpenEmail, setCrmOpenEmail] = useState<number | null>(null);
+  const [crmSendingKey, setCrmSendingKey] = useState('');
+  const [crmSentNote, setCrmSentNote] = useState('');
   const [crmStages, setCrmStages] = useState<CrmStage[]>([]);
   // null = All, the default view. A number is a stage id.
   // 'unstaged' | 'all' | a stage id.
@@ -519,6 +525,25 @@ export default function OnboardingPortal() {
     Authorization: token || '',
     'X-Admin-Token': (typeof window !== 'undefined' && localStorage.getItem('astPortalAdminToken')) || '',
   });
+
+  const sendCrmEmail = async (leadId: number, key: string, subject: string) => {
+    if (crmSendingKey) return;
+    setCrmSendingKey(leadId + ':' + key);
+    setCrmSentNote('');
+    try {
+      const res = await fetch(`${API}/portal-onboarding/notify-lead`, {
+        method: 'POST',
+        headers: { ...adminHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ leadId, key }),
+      });
+      const data = await res.json().catch(() => ({}));
+      setCrmSentNote(res.ok ? 'Sent "' + subject + '" to ' + data.sentTo : (data.error || 'Could not send that email.'));
+    } catch {
+      setCrmSentNote('Could not send that email.');
+    } finally {
+      setCrmSendingKey('');
+    }
+  };
 
   useEffect(() => {
     if (!isAdmin || !token || indexFilter !== 'crm') return;
@@ -1405,6 +1430,21 @@ export default function OnboardingPortal() {
                                       >
                                         {crmOpenContact === c.id ? '\u2212' : '+'}
                                       </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => { setCrmOpenEmail(open => (open === c.id ? null : c.id)); setCrmSentNote(''); }}
+                                        title={c.email ? 'Email ' + c.email : 'No email address on this row'}
+                                        disabled={!c.email}
+                                        className={`ml-1 inline-flex items-center text-xs font-bold rounded-full border px-2 py-1 transition-colors ${
+                                          crmOpenEmail === c.id
+                                            ? 'bg-navy text-white border-navy'
+                                            : c.email
+                                              ? 'bg-white text-gray-500 border-gray-200 hover:border-gray-300 hover:text-gray-700'
+                                              : 'bg-white text-gray-300 border-gray-100 cursor-not-allowed'
+                                        }`}
+                                      >
+                                        &#9993;
+                                      </button>
                                     </td>
                                     <td className="px-3 py-2 whitespace-nowrap">
                                       <select
@@ -1564,6 +1604,34 @@ export default function OnboardingPortal() {
                                           >
                                             Open {c.website} &rarr;
                                           </a>
+                                        )}
+                                      </td>
+                                    </tr>
+                                  )}
+                                  {crmOpenEmail === c.id && (
+                                    <tr className="bg-gray-50">
+                                      <td colSpan={9} className="px-3 pb-3 pt-0">
+                                        <p className="text-[10px] font-extrabold uppercase tracking-wide text-gray-500 mb-2">
+                                          Send to {c.name || c.email} &mdash; {c.email}
+                                        </p>
+                                        <div className="grid gap-1.5 sm:grid-cols-2">
+                                          {emailSequence.map(e => (
+                                            <button
+                                              key={e.key}
+                                              type="button"
+                                              onClick={() => sendCrmEmail(c.id, e.key, e.subject)}
+                                              disabled={!!crmSendingKey}
+                                              className="text-left bg-white border border-gray-200 rounded-lg px-3 py-2 hover:border-navy disabled:opacity-50 transition-colors"
+                                            >
+                                              <span className="block text-xs font-bold text-navy">
+                                                {crmSendingKey === c.id + ':' + e.key ? 'Sending...' : e.subject}
+                                              </span>
+                                              <span className="block text-[11px] text-gray-500">#{e.n} &middot; from {e.from}</span>
+                                            </button>
+                                          ))}
+                                        </div>
+                                        {crmSentNote && (
+                                          <p className="text-[11px] font-semibold text-navy mt-2">{crmSentNote}</p>
                                         )}
                                       </td>
                                     </tr>
