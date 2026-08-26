@@ -52,7 +52,7 @@ export default function TeamDemoPage() {
               {/* Price Badge */}
               <div className="bg-gradient-to-br from-[#c80b3d] to-[#e91e63] rounded-2xl p-8 text-center mt-8 relative overflow-hidden">
                 <div className="text-white text-[3.5rem] leading-none" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-                  ONLY $6
+                  ONLY $10
                 </div>
                 <div className="text-white/90 text-lg mt-1">per player, per year</div>
                 <div className="mt-4 pt-4 border-t border-white/30 text-white font-bold text-xl">
