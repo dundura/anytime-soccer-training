@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
+import DemoRequestForm from '@/components/DemoRequestForm';
 
 export const metadata: Metadata = {
   title: 'Request a Team Demo',
@@ -80,23 +80,7 @@ export default function TeamDemoPage() {
                 See how it works for your team in 15 minutes
               </p>
 
-              {/* GHL Form */}
-              <div className="min-h-[754px]">
-                <iframe
-                  src="https://api.leadconnectorhq.com/widget/form/Ooz8uy0XcXwo8oO2TQh9"
-                  style={{ width: '100%', height: '754px', border: 'none', borderRadius: '3px' }}
-                  id="inline-Ooz8uy0XcXwo8oO2TQh9"
-                  data-layout="{'id':'INLINE'}"
-                  data-trigger-type="alwaysShow"
-                  data-activation-type="alwaysActivated"
-                  data-deactivation-type="neverDeactivate"
-                  data-form-name="Team Demo Request Form"
-                  data-height="754"
-                  data-layout-iframe-id="inline-Ooz8uy0XcXwo8oO2TQh9"
-                  data-form-id="Ooz8uy0XcXwo8oO2TQh9"
-                  title="Team Demo Request Form"
-                />
-              </div>
+              <DemoRequestForm />
 
               <p className="text-center text-gray-400 text-sm mt-5">
                 &#128274; We respect your privacy. No spam, ever.
@@ -120,8 +104,6 @@ export default function TeamDemoPage() {
         </div>
       </div>
 
-      {/* GHL Form Script */}
-      <Script src="https://link.msgsndr.com/js/form_embed.js" strategy="afterInteractive" />
     </>
   );
 }
