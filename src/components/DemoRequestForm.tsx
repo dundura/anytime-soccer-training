@@ -21,8 +21,8 @@ type Field = { name: string; label: string; type?: string; required?: boolean; p
 const FIELDS: Field[] = [
   // First and last are separate here and joined on the way in: an email that
   // opens "Hi Coach Thompson," needs to know which half is which.
-  { name: 'firstName', label: 'First name', required: true, placeholder: 'Marcus', half: true },
-  { name: 'lastName', label: 'Last name', required: true, placeholder: 'Thompson', half: true },
+  { name: 'firstName', label: 'First name', required: true, placeholder: 'First', half: true },
+  { name: 'lastName', label: 'Last name', required: true, placeholder: 'Last', half: true },
   { name: 'organization', label: 'Club or team', required: true, placeholder: 'e.g. Raleigh United FC', half: true },
   { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'you@yourclub.com', half: true },
   { name: 'phone', label: 'Phone', type: 'tel', placeholder: '(555) 555-5555', half: true },
