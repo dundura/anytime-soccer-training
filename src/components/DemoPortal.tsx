@@ -252,7 +252,8 @@ export default function DemoPortal({ token }: { token: string | null }) {
   const remove = async (id: number) => {
     await act('delete', `${API}/demo-portal/leads/${id}`, { method: 'DELETE', headers: headers() }, 'Lead deleted');
     setConfirmDelete(null);
-    setOpenId(null);
+    // Only close the drawer if the lead being deleted is the one it is showing.
+    setOpenId((cur) => (cur === id ? null : cur));
   };
 
   const overdue = (l: Lead) =>
@@ -368,12 +369,13 @@ export default function DemoPortal({ token }: { token: string | null }) {
                 <th className="text-left px-3 py-2">Stage</th>
                 <th className="text-left px-3 py-2 hidden md:table-cell">Waiting</th>
                 <th className="text-left px-3 py-2 hidden md:table-cell">Next</th>
+                <th className="px-3 py-2 w-10"><span className="sr-only">Delete</span></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {loading && <tr><td colSpan={5} className="px-3 py-6 text-center text-gray-400 text-xs">Loading…</td></tr>}
+              {loading && <tr><td colSpan={6} className="px-3 py-6 text-center text-gray-400 text-xs">Loading…</td></tr>}
               {!loading && leads.length === 0 && (
-                <tr><td colSpan={5} className="px-3 py-8 text-center text-gray-400 text-xs">No demo requests yet.</td></tr>
+                <tr><td colSpan={6} className="px-3 py-8 text-center text-gray-400 text-xs">No demo requests yet.</td></tr>
               )}
               {leads.map((l) => (
                 <tr key={l.id} onClick={() => openLead(l.id)} className="cursor-pointer hover:bg-gray-50">
@@ -392,6 +394,20 @@ export default function DemoPortal({ token }: { token: string | null }) {
                     {l.nextFollowUpAt
                       ? <span className={overdue(l) ? 'text-red font-bold' : 'text-gray-500'}>{when(l.nextFollowUpAt)}</span>
                       : <span className="text-gray-300">—</span>}
+                  </td>
+                  {/* Confirms in the row rather than in a dialog: the row IS
+                      the thing being deleted, so it says which one without a
+                      modal having to name it. stopPropagation throughout, or
+                      the click opens the drawer underneath. */}
+                  <td className="px-3 py-2.5 text-right whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                    {confirmDelete === l.id ? (
+                      <span className="inline-flex gap-1">
+                        <button onClick={() => remove(l.id)} disabled={busy === 'delete'} className="px-2 py-1 rounded-lg bg-red text-white text-[10px] font-bold disabled:opacity-50">Delete</button>
+                        <button onClick={() => setConfirmDelete(null)} className="px-2 py-1 rounded-lg border border-gray-200 text-[10px] font-bold text-gray-500">Keep</button>
+                      </span>
+                    ) : (
+                      <button onClick={() => setConfirmDelete(l.id)} title="Delete this lead" className="text-gray-300 hover:text-red text-base leading-none px-1">&times;</button>
+                    )}
                   </td>
                 </tr>
               ))}
