@@ -77,7 +77,7 @@ export default function DemoRequestForm() {
           GOT IT — THANK YOU
         </h3>
         <p className="text-gray-600 leading-relaxed max-w-[340px] mx-auto">
-          Neil will come back to you personally, usually the same day. Check your inbox for a confirmation.
+          We will come back to you personally, usually the same day. Check your inbox for a confirmation.
         </p>
         <p className="text-gray-500 text-sm mt-5">
           In a hurry? Call <a href="tel:+18034311082" className="text-[#c80b3d] font-bold">803-431-1082</a>
