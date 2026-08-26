@@ -137,9 +137,6 @@ export default function DemoRequestForm() {
         {sending ? 'SENDING…' : 'REQUEST MY FREE DEMO'}
       </button>
 
-      <p className="text-center text-gray-400 text-xs mt-3">
-        15 minutes, no obligation. $10 per player, per year &mdash; coaches are free.
-      </p>
     </form>
   );
 }
