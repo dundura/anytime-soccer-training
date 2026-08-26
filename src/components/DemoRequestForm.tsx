@@ -25,7 +25,7 @@ const FIELDS: Field[] = [
   { name: 'lastName', label: 'Last name', required: true, placeholder: 'Last', half: true },
   { name: 'organization', label: 'Club or team', required: true, placeholder: 'e.g. Raleigh United FC', half: true },
   { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'you@yourclub.com', half: true },
-  { name: 'phone', label: 'Phone', type: 'tel', placeholder: '(555) 555-5555', half: true },
+  { name: 'phone', label: 'Phone', type: 'tel', required: true, placeholder: '(555) 555-5555', half: true },
   { name: 'playerCount', label: 'How many players?', type: 'number', placeholder: 'e.g. 40', half: true },
   { name: 'ageGroups', label: 'Age groups', placeholder: 'e.g. U9–U14', half: true },
   { name: 'location', label: 'Where are you based?', placeholder: 'City, State' },
