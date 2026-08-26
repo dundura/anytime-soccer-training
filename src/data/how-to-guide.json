@@ -403,6 +403,22 @@
       "key": "eng_recognition"
     },
     {
+      "q": "Give a Shoutout",
+      "steps": [
+        {
+          "text": "Post a shoutout on the team board so the whole squad sees it — a word at training is gone by the drive home, a shoutout is still there next week.\n\n**A few tips**\n\n• Name what they actually did — the drill, the streak, the extra session.\n\n• Download the card and send it to the parents.",
+          "links": [
+            {
+              "ic": "⭐",
+              "label": "Go →",
+              "to": "/teams/teamPosts"
+            }
+          ]
+        }
+      ],
+      "key": "eng_shoutout"
+    },
+    {
       "q": "Nominate an MVP",
       "steps": [
         {
