@@ -19,7 +19,10 @@ const API = 'https://api.anytime-soccer.com';
 type Field = { name: string; label: string; type?: string; required?: boolean; placeholder?: string; half?: boolean };
 
 const FIELDS: Field[] = [
-  { name: 'name', label: 'Your name', required: true, placeholder: 'Coach or director', half: true },
+  // First and last are separate here and joined on the way in: an email that
+  // opens "Hi Coach Thompson," needs to know which half is which.
+  { name: 'firstName', label: 'First name', required: true, placeholder: 'Marcus', half: true },
+  { name: 'lastName', label: 'Last name', required: true, placeholder: 'Thompson', half: true },
   { name: 'organization', label: 'Club or team', required: true, placeholder: 'e.g. Raleigh United FC', half: true },
   { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'you@yourclub.com', half: true },
   { name: 'phone', label: 'Phone', type: 'tel', placeholder: '(555) 555-5555', half: true },
