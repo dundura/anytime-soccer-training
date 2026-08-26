@@ -7,6 +7,8 @@ import CoachStepContent from '@/components/CoachStepContent';
 import FaqSearch from '@/components/FaqSearch';
 import { ONBOARDING_FAQ } from '@/data/onboardingFaq';
 
+import DemoPortal from './DemoPortal';
+
 const API = 'https://api.anytime-soccer.com';
 const TOKEN_KEY = 'astPortalToken';
 // Where the admin's own session waits while they look at a coach's portal.
@@ -278,7 +280,7 @@ export default function OnboardingPortal() {
   const [questionSent, setQuestionSent] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [missingSent, setMissingSent] = useState(false);
-  const [indexFilter, setIndexFilter] = useState<'all' | 'outstanding' | 'notifications' | 'crm'>('all');
+  const [indexFilter, setIndexFilter] = useState<'all' | 'outstanding' | 'notifications' | 'crm' | 'demos'>('all');
   const [showIndexInfo, setShowIndexInfo] = useState(false);
   // Before We Start has to be read, not scrolled past, so Next waits on it.
   // Skip still goes straight through — an acknowledgement nobody can decline
@@ -338,6 +340,11 @@ export default function OnboardingPortal() {
           setShowIntro(false);
           setShowIndex(true);
           setIndexFilter('crm');
+        } else if (params.get('view') === 'demos') {
+          setWizardIndex(firstIncomplete(data.coach));
+          setShowIntro(false);
+          setShowIndex(true);
+          setIndexFilter('demos');
         } else {
           setWizardIndex(firstIncomplete(data.coach));
           // Directors have their own path and skip this screen.
@@ -353,7 +360,7 @@ export default function OnboardingPortal() {
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
     if (!coach || typeof window === 'undefined') return;
-    const url = showFaq ? '/onboarding-portal?view=faq' : showIndex ? (indexFilter === 'notifications' ? '/onboarding-portal?view=notifications' : indexFilter === 'crm' ? '/onboarding-portal?view=crm' : '/onboarding-portal?view=index') : showIndexInfo ? '/onboarding-portal?view=indexinfo' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
+    const url = showFaq ? '/onboarding-portal?view=faq' : showIndex ? (indexFilter === 'notifications' ? '/onboarding-portal?view=notifications' : indexFilter === 'crm' ? '/onboarding-portal?view=crm' : indexFilter === 'demos' ? '/onboarding-portal?view=demos' : '/onboarding-portal?view=index') : showIndexInfo ? '/onboarding-portal?view=indexinfo' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
     window.history.replaceState(null, '', url);
   }, [coach, showIntro, showIndex, showIndexInfo, showFaq, wizardIndex, indexFilter]);
 
@@ -1019,7 +1026,7 @@ export default function OnboardingPortal() {
   // The portal is a max-w-2xl reading column: right for a wizard, far too
   // narrow for a table. The CRM tab gets the full width of the page instead
   // of being squeezed into the same column as the step list.
-  const wideView = showIndex && isAdmin && indexFilter === 'crm';
+  const wideView = showIndex && isAdmin && (indexFilter === 'crm' || indexFilter === 'demos');
 
   return (
     <section className="py-16 bg-background min-h-screen">
@@ -1119,16 +1126,17 @@ export default function OnboardingPortal() {
                   );
                 })()}
                 <div className={`flex border border-gray-200 rounded-lg overflow-hidden mb-4 ${isAdmin ? 'max-w-xl' : 'max-w-xs'}`}>
-                  {(isAdmin ? (['all', 'outstanding', 'notifications', 'crm'] as const) : (['all', 'outstanding'] as const)).map(f => (
+                  {(isAdmin ? (['all', 'outstanding', 'notifications', 'demos', 'crm'] as const) : (['all', 'outstanding'] as const)).map(f => (
                     <button
                       key={f}
                       onClick={() => setIndexFilter(f)}
                       className={`flex-1 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${indexFilter === f ? 'bg-navy text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}
                     >
-                      {f === 'all' ? 'All steps' : f === 'outstanding' ? 'Outstanding' : f === 'notifications' ? 'Notifications' : 'CRM'}
+                      {f === 'all' ? 'All steps' : f === 'outstanding' ? 'Outstanding' : f === 'notifications' ? 'Notifications' : f === 'demos' ? 'Demos' : 'CRM'}
                     </button>
                   ))}
                 </div>
+                {isAdmin && indexFilter === 'demos' && <DemoPortal token={token} />}
                 <div className="border border-gray-200 rounded-xl overflow-hidden mb-6 divide-y divide-gray-100">
                   {indexFilter === 'all' && (
                     <>
@@ -1138,7 +1146,7 @@ export default function OnboardingPortal() {
                       </a>
                     </>
                   )}
-                  {indexFilter !== 'notifications' && indexFilter !== 'crm' && STEPS.map((st, i) => {
+                  {indexFilter !== 'notifications' && indexFilter !== 'crm' && indexFilter !== 'demos' && STEPS.map((st, i) => {
                     const done = coach.checklist[st.key] === true;
                     const skipped = coach.checklist[st.key] === 'skipped';
                     const outstanding = !done && !skipped;
@@ -1782,7 +1790,7 @@ export default function OnboardingPortal() {
                     {createError && <p className="text-red font-semibold text-sm mt-2">{createError}</p>}
                   </div>
                 )}
-                {isAdmin && indexFilter !== 'notifications' && indexFilter !== 'crm' && (
+                {isAdmin && indexFilter !== 'notifications' && indexFilter !== 'crm' && indexFilter !== 'demos' && (
                   <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4 text-center">
                     <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-2">Admin</p>
                     <input
