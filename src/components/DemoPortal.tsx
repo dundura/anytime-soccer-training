@@ -40,7 +40,7 @@ type Lead = {
 };
 
 type Activity = { id: number; type: string; summary: string | null; body: string | null; occurredAt: string | null };
-type Template = { key: string; label: string };
+type Template = { key: string; step: number; label: string; stage: string | null; when: string | null; auto: boolean };
 
 const STAGE_TINT: Record<Stage, string> = {
   New: 'bg-red text-white',
@@ -108,6 +108,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
   const [callDraft, setCallDraft] = useState('');
   const [scheduleAt, setScheduleAt] = useState('');
   const [preview, setPreview] = useState<{ key: string; subject: string; html: string } | null>(null);
+  const [showSequence, setShowSequence] = useState(false);
   const [adding, setAdding] = useState(false);
   const [newLead, setNewLead] = useState({ name: '', email: '', phone: '', organization: '', location: '', playerCount: '' });
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
@@ -224,6 +225,15 @@ export default function DemoPortal({ token }: { token: string | null }) {
     }
   };
 
+  const previewSequence = async (key: string) => {
+    // No lead is open here, so the sample is rendered against the first one on
+    // the board. Reading the wording against a real club is the whole point;
+    // against a blank it says "Hi there" and tells you nothing.
+    const sample = leads[0];
+    if (!sample) { flash('Add a lead first - the samples are rendered against a real club.'); return; }
+    await openPreview(sample, key);
+  };
+
   const sendPreview = (lead: Lead) => {
     if (!preview) return;
     act('send', `${API}/demo-portal/leads/${lead.id}/email`, { method: 'POST', headers: jsonHeaders(), body: JSON.stringify({ template: preview.key, subject: preview.subject }) }, 'Sent to ' + lead.email)
@@ -257,6 +267,9 @@ export default function DemoPortal({ token }: { token: string | null }) {
   ]), [kpi]);
 
   const current = detail?.lead || leads.find((l) => l.id === openId) || null;
+  // A preview opened from the sequence panel has no open lead behind it, so it
+  // falls back to the first row. Without this the modal renders nothing at all.
+  const previewLead = current || leads[0] || null;
 
   return (
     <div className="mb-6">
@@ -270,6 +283,47 @@ export default function DemoPortal({ token }: { token: string | null }) {
 
       {note && <div className="mb-3 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">{note}</div>}
       {error && <div className="mb-3 px-3 py-2 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-semibold">{error}</div>}
+
+      <div className="border border-gray-200 rounded-xl bg-white mb-4 overflow-hidden">
+        <button
+          onClick={() => setShowSequence((v) => !v)}
+          className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50"
+        >
+          <span className="text-xs font-bold uppercase tracking-wide text-navy">
+            &#9993;&#65039; The email sequence <span className="text-gray-400 font-semibold normal-case tracking-normal">({templates.length} emails)</span>
+          </span>
+          <span className="text-gray-400 text-xs">{showSequence ? '▴' : '▾'}</span>
+        </button>
+        {showSequence && (
+          <div className="border-t border-gray-100 divide-y divide-gray-100">
+            {templates.map((t) => (
+              <div key={t.key} className="flex gap-3 px-4 py-3">
+                <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{t.step}</span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-bold text-navy">{t.label}</span>
+                    {t.stage && <span className="px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[10px] font-bold">{t.stage}</span>}
+                    {t.auto
+                      ? <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
+                      : <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">You send it</span>}
+                  </div>
+                  {t.when && <div className="text-[11px] text-gray-500 mt-0.5">{t.when}</div>}
+                </div>
+                <button
+                  onClick={() => previewSequence(t.key)}
+                  disabled={!!busy}
+                  className="shrink-0 self-start px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 disabled:opacity-50"
+                >
+                  {busy === 'preview:' + t.key ? '…' : 'Preview'}
+                </button>
+              </div>
+            ))}
+            <div className="px-4 py-3 bg-gray-50 text-[11px] text-gray-500">
+              Only the first is automatic. The rest are yours to send from a lead, and nothing goes out until you have seen the preview.
+            </div>
+          </div>
+        )}
+      </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-4">
         {kpiCards.map((c) => (
@@ -531,11 +585,13 @@ export default function DemoPortal({ token }: { token: string | null }) {
       )}
 
       {/* Email preview — nothing sends until this has been seen */}
-      {preview && current && (
+      {preview && (previewLead) && (
         <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" onClick={() => setPreview(null)}>
           <div className="bg-white rounded-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="px-5 py-4 border-b border-gray-100">
-              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">To {current.email}</div>
+              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">
+                {openId ? 'To ' + (previewLead.email || '') : 'Sample, rendered against ' + (previewLead.organization || previewLead.name || 'a lead')}
+              </div>
               <input
                 value={preview.subject}
                 onChange={(e) => setPreview({ ...preview, subject: e.target.value })}
@@ -545,9 +601,11 @@ export default function DemoPortal({ token }: { token: string | null }) {
             <div className="px-5 py-4 text-sm" dangerouslySetInnerHTML={{ __html: preview.html }} />
             <div className="px-5 py-4 border-t border-gray-100 flex justify-end gap-2">
               <button onClick={() => setPreview(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">Cancel</button>
-              <button onClick={() => sendPreview(current)} disabled={busy === 'send'} className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50">
-                {busy === 'send' ? 'Sending…' : 'Send'}
-              </button>
+              {openId && (
+                <button onClick={() => sendPreview(previewLead)} disabled={busy === 'send'} className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50">
+                  {busy === 'send' ? 'Sending…' : 'Send'}
+                </button>
+              )}
             </div>
           </div>
         </div>
