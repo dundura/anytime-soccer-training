@@ -77,13 +77,13 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
             )}
 
             <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#7ec8e3] mb-2">
-              Train anywhere. Improve everywhere.
+              Exclusive Partnership Offer
             </p>
-            <h1 className="text-[34px] md:text-[46px] font-extrabold text-white leading-[1.1] mb-4">
-              Give your player <span className="text-[#7ec8e3]">the edge.</span>
+            <h1 className="text-[34px] md:text-[46px] font-extrabold text-white uppercase tracking-wide leading-[1.1] mb-4">
+              Train Smarter.<br /><span className="text-[#7ec8e3]">Anytime.</span>
             </h1>
             <p className="text-[17px] text-white/85 leading-relaxed mb-7">
-              Short, structured soccer sessions players follow at home &mdash; plus the tools coaches need to assign work and see who actually did it.
+              {who ? `${who} just partnered with Anytime Soccer Training.` : 'One of our partners sent you here.'} Easy follow-along video sessions your player can do right at home &mdash; just a ball and the drive to improve.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 mb-4">
