@@ -86,6 +86,7 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
   const [payFor, setPayFor] = useState<Partner | null>(null);
   const [payRef, setPayRef] = useState('');
   const [openId, setOpenId] = useState<number | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
 
   const headers = useCallback(
     () => ({
@@ -158,6 +159,13 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
       { method: 'POST', headers: jsonHeaders(), body: JSON.stringify({ method: 'PayPal', reference: payRef }) },
       'Recorded');
     if (d) { setPayFor(null); setPayRef(''); }
+  };
+
+  // Refused server-side once they have commission history, so the button says
+  // so rather than letting the click fail with a message nobody expects.
+  const removePartner = async (p: Partner) => {
+    const d = await act('del' + p.id, `${API}/partner-program/admin/partners/${p.id}`, { method: 'DELETE', headers: headers() }, 'Partner deleted');
+    if (d) { setConfirmDelete(null); setOpenId(null); }
   };
 
   const saveSetting = (field: keyof Settings, value: string) =>
@@ -246,6 +254,23 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
             {p.status !== 'pending' && (
               <button onClick={() => saveField(p, 'status', p.status === 'active' ? 'paused' : 'active')} className="font-bold text-gray-500 hover:text-red">
                 {p.status === 'active' ? 'Pause this partner' : 'Reactivate'}
+              </button>
+            )}
+            {confirmDelete === p.id ? (
+              <span className="inline-flex items-center gap-2">
+                <span className="text-gray-600">Delete {p.name || p.code} for good?</span>
+                <button onClick={() => removePartner(p)} disabled={busy === 'del' + p.id} className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">
+                  {busy === 'del' + p.id ? '…' : 'Delete'}
+                </button>
+                <button onClick={() => setConfirmDelete(null)} className="px-2.5 py-1 rounded-lg border border-gray-200 text-[11px] font-bold text-gray-600">Keep</button>
+              </span>
+            ) : (
+              <button
+                onClick={() => setConfirmDelete(p.id)}
+                title={Number(p.paidCents) || Number(p.pendingCents) || Number(p.availableCents) ? 'They have earned — pause instead' : 'Delete this partner'}
+                className="font-bold text-gray-400 hover:text-red"
+              >
+                Delete partner
               </button>
             )}
           </div>
