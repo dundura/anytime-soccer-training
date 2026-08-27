@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TabbedVideoSection from '@/components/TabbedVideoSection';
 import PartnerClaimForm from '@/components/PartnerClaimForm';
 
@@ -21,6 +21,29 @@ type Partner = { found: boolean; name?: string | null; organization?: string | n
 
 export default function PartnerLanding({ partner, code }: { partner: Partner; code: string }) {
   const [open, setOpen] = useState(false);
+
+  // The offer opens itself. The visitor was sent here for a discount, so making
+  // them hunt for it wastes the referral - and the email is what makes the
+  // attribution survive a different device months later.
+  //
+  // Once per visitor, per partner: a popup that reappears on every visit stops
+  // being an offer and starts being an obstacle. Remembered in localStorage,
+  // which can throw in private mode, so the whole thing is guarded.
+  useEffect(() => {
+    if (!partner.hasDiscount || !code) return undefined;
+    const key = 'ast_offer_seen_' + code;
+    try {
+      if (window.localStorage.getItem(key)) return undefined;
+    } catch {
+      // Storage blocked. Show it - once now is better than never.
+    }
+    // A beat, so it lands after the page rather than on top of it.
+    const t = setTimeout(() => {
+      setOpen(true);
+      try { window.localStorage.setItem(key, '1'); } catch { /* nothing to do */ }
+    }, 900);
+    return () => clearTimeout(t);
+  }, [partner.hasDiscount, code]);
 
   const who = partner.organization || partner.name || '';
   const percent = partner.percent || 10;
