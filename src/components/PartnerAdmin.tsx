@@ -88,6 +88,8 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
   const [payRef, setPayRef] = useState('');
   const [openId, setOpenId] = useState<number | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
+  const [inviting, setInviting] = useState(false);
+  const [invite, setInvite] = useState({ name: '', email: '', note: '' });
 
   const headers = useCallback(
     () => ({
@@ -167,6 +169,11 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
   const removePartner = async (p: Partner) => {
     const d = await act('del' + p.id, `${API}/partner-program/admin/partners/${p.id}`, { method: 'DELETE', headers: headers() }, 'Partner deleted');
     if (d) { setConfirmDelete(null); setOpenId(null); }
+  };
+
+  const sendInvite = async () => {
+    const d = await act('invite', `${API}/partner-program/admin/invite`, { method: 'POST', headers: jsonHeaders(), body: JSON.stringify(invite) }, 'Invitation sent to ' + invite.email);
+    if (d) { setInviting(false); setInvite({ name: '', email: '', note: '' }); }
   };
 
   const saveSetting = (field: keyof Settings, value: string) =>
@@ -287,9 +294,14 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
           <h2 className="text-lg font-black text-navy">Partners</h2>
           <p className="text-xs text-gray-500">Referral links, commissions, and PayPal payouts.</p>
         </div>
-        <a href="/partner-program" target="_blank" rel="noreferrer" className="text-xs font-bold text-red hover:underline">
-          The apply page →
-        </a>
+        <div className="flex items-center gap-3">
+          <a href="/partner-program" target="_blank" rel="noreferrer" className="text-xs font-bold text-red hover:underline">
+            The apply page →
+          </a>
+          <button onClick={() => setInviting(true)} className="px-3 py-2 rounded-lg bg-navy text-white text-xs font-bold">
+            + Invite a partner
+          </button>
+        </div>
       </div>
 
       {note && <div className="mb-3 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">{note}</div>}
@@ -416,6 +428,46 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
           </div>
         )}
       </div>
+
+      {/* Invite. Sends the application page rather than creating a row: an
+          invitation nobody accepts should not sit on the board looking like a
+          pending application. */}
+      {inviting && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setInviting(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-md p-5" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-base font-black text-navy mb-1">Invite a partner</h3>
+            <p className="text-xs text-gray-500 mb-4">
+              They get the terms, what it pays, and a button to apply. Nothing is created until they accept.
+            </p>
+            <input
+              value={invite.name}
+              onChange={(e) => setInvite({ ...invite, name: e.target.value })}
+              placeholder="Their name"
+              className="w-full mb-2 px-3 py-2 rounded-lg border border-gray-200 text-sm"
+            />
+            <input
+              value={invite.email}
+              onChange={(e) => setInvite({ ...invite, email: e.target.value })}
+              placeholder="Their email"
+              type="email"
+              className="w-full mb-2 px-3 py-2 rounded-lg border border-gray-200 text-sm"
+            />
+            <textarea
+              value={invite.note}
+              onChange={(e) => setInvite({ ...invite, note: e.target.value })}
+              rows={3}
+              placeholder="A line from you (optional) — how you know them, or why you thought of them"
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm resize-none"
+            />
+            <div className="flex justify-end gap-2 mt-3">
+              <button onClick={() => setInviting(false)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">Cancel</button>
+              <button onClick={sendInvite} disabled={!invite.email.trim() || busy === 'invite'} className="px-4 py-2 rounded-lg bg-navy text-white text-xs font-bold disabled:opacity-50">
+                {busy === 'invite' ? 'Sending…' : 'Send invitation'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Record a payout */}
       {payFor && (
