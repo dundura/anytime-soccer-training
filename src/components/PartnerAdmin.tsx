@@ -38,6 +38,7 @@ type Partner = {
 type Settings = {
   id: number;
   individualFixedCents: number;
+  individualBasisPoints: number;
   teamBasisPoints: number;
   cookieDays: number;
   holdDays: number;
@@ -175,10 +176,10 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
   // money exact. Shown and typed in dollars and percent, because nobody thinks
   // in basis points.
   const RULE_FIELDS: { f: keyof Settings; label: string; hint: string; scale: number; prefix?: string; suffix?: string }[] = [
-    { f: 'individualFixedCents', label: 'Individual', hint: 'Flat, per individual membership', scale: 100, prefix: '$' },
+    { f: 'individualBasisPoints', label: 'Individual', hint: 'Of an individual membership, monthly or annual', scale: 100, suffix: '%' },
     { f: 'teamBasisPoints', label: 'Team', hint: "Of a team's first payment", scale: 100, suffix: '%' },
     { f: 'minimumPayoutCents', label: 'Minimum payout', hint: 'Below this it rolls to next month', scale: 100, prefix: '$' },
-    { f: 'cookieDays', label: 'Cookie', hint: 'How long a click keeps counting', scale: 1, suffix: 'days' },
+    { f: 'cookieDays', label: 'Cookie', hint: '36500 = never expires', scale: 1, suffix: 'days' },
     { f: 'holdDays', label: 'Hold', hint: 'Before a commission can be paid', scale: 1, suffix: 'days' },
   ];
 
@@ -364,8 +365,9 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
               </label>
             ))}
             <div className="sm:col-span-3 text-[11px] text-gray-500">
-              Currently: <strong>{money(settings.individualFixedCents)}</strong> per individual membership, <strong>{Number(settings.teamBasisPoints) / 100}%</strong> of a team&rsquo;s first payment.
-              Cleared after <strong>{settings.holdDays} days</strong>, paid over <strong>{money(settings.minimumPayoutCents)}</strong>.
+              Currently: <strong>{Number(settings.individualBasisPoints) / 100}%</strong> of an individual membership &mdash; {money(Math.round(5998 * Number(settings.individualBasisPoints) / 10000))} on the $59.98 annual plan, {money(Math.round(998 * Number(settings.individualBasisPoints) / 10000))} on a $9.98 month &mdash; and <strong>{Number(settings.teamBasisPoints) / 100}%</strong> of a team&rsquo;s first payment.
+              Cleared after <strong>{settings.holdDays} days</strong>, paid over <strong>{money(settings.minimumPayoutCents)}</strong>
+              {Number(settings.cookieDays) >= 3650 ? ', and a link never expires.' : `, and a click counts for ${settings.cookieDays} days.`}
             </div>
           </div>
         )}
