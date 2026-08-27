@@ -20,12 +20,14 @@ const API = 'https://api.anytime-soccer.com';
 
 type Row = { id: number; productType: string | null; grossCents: number; commissionCents: number; status: string; availableAt: string | null; createdAt: string | null };
 type Payout = { id: number; amountCents: number; method: string | null; reference: string | null; paidAt: string | null };
+type Claim = { id: number; name: string | null; email: string | null; organization: string | null; audience: string | null; claimedAt: string | null };
 type Data = {
   partner: { name: string | null; code: string; status: string; link: string };
-  totals: { pendingCents: number; availableCents: number; paidCents: number; conversions: number; clicks: number };
+  totals: { pendingCents: number; availableCents: number; paidCents: number; conversions: number; clicks: number; claims: number };
   rules: { individualFixedCents: number; teamBasisPoints: number; holdDays: number; minimumPayoutCents: number; cookieDays: number };
   commissions: Row[];
   payouts: Payout[];
+  claims: Claim[];
 };
 
 const money = (c: number | null | undefined) =>
@@ -102,7 +104,7 @@ export default function PartnerDashboard({ token }: { token: string }) {
   }
   if (!data) return <div className="text-center py-20 text-gray-400 text-sm">Loading…</div>;
 
-  const { partner, totals, rules, commissions, payouts } = data;
+  const { partner, totals, rules, commissions, payouts, claims = [] } = data;
   const available = Number(totals.availableCents) || 0;
   const minimum = Number(rules.minimumPayoutCents) || 0;
   const pctToMin = minimum > 0 ? Math.min(100, Math.round((available / minimum) * 100)) : 100;
@@ -150,7 +152,7 @@ export default function PartnerDashboard({ token }: { token: string }) {
             { label: 'Available now', value: money(available), note: available >= minimum ? 'Ready to be paid' : `${money(minimum - available)} to the ${money(minimum)} minimum`, tone: 'text-emerald-600' },
             { label: 'Still clearing', value: money(totals.pendingCents), note: `Clears ${rules.holdDays} days after the sale`, tone: 'text-amber-600' },
             { label: 'Paid to you', value: money(totals.paidCents), note: payouts.length ? `Last on ${day(payouts[0].paidAt)}` : 'Nothing paid yet', tone: 'text-[#1a2a3a]' },
-            { label: 'Link clicks', value: String(totals.clicks), note: `${totals.conversions} became customers`, tone: 'text-[#1a2a3a]' },
+            { label: 'People reached', value: String(totals.claims || totals.clicks), note: `${totals.clicks} clicks, ${totals.conversions} became customers`, tone: 'text-[#1a2a3a]' },
           ].map((m) => (
             <article key={m.label} className="bg-white border border-gray-200 rounded-2xl px-4 py-4">
               <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-1">{m.label}</div>
@@ -278,7 +280,46 @@ export default function PartnerDashboard({ token }: { token: string }) {
           )}
         </section>
 
-        {/* Next payout */}
+        {/* Who took the offer. The step between a click and a sale, and the only
+          part of the funnel a partner can act on: these are people they know. */}
+      {claims.length > 0 && (
+        <section className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">
+          <p className="text-[10px] font-bold tracking-wide uppercase text-gray-400">Your referrals</p>
+          <h3 className="text-[#1a2a3a] font-extrabold text-lg mb-3">Who claimed your offer</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-[10px] font-bold uppercase tracking-wide text-gray-400 border-b border-gray-100">
+                  <th className="text-left py-2">Name</th>
+                  <th className="text-left py-2">Club or team</th>
+                  <th className="text-left py-2">Looking for</th>
+                  <th className="text-left py-2">Claimed</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {claims.map((c) => (
+                  <tr key={c.id}>
+                    <td className="py-2.5">
+                      <span className="font-semibold text-[#1a2a3a] block">{c.name || '—'}</span>
+                      <span className="text-[11px] text-gray-500">{c.email}</span>
+                    </td>
+                    <td className="py-2.5 text-gray-500">{c.organization || '—'}</td>
+                    <td className="py-2.5 text-gray-500">
+                      {c.audience === 'team' ? 'A team' : c.audience === 'player' ? 'One player' : '—'}
+                    </td>
+                    <td className="py-2.5 text-gray-500">{day(c.claimedAt)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-[11px] text-gray-400 mt-3">
+            Claiming the code is not a purchase. These appear above as commissions once they buy.
+          </p>
+        </section>
+      )}
+
+      {/* Next payout */}
         <section className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="min-w-[200px]">
@@ -321,7 +362,7 @@ export default function PartnerDashboard({ token }: { token: string }) {
 
         <p className="text-center text-gray-400 text-xs pb-6">
           Keep this page to yourself — the link is the only thing protecting your numbers.<br />
-          Questions? <a href="mailto:neil@anytime-soccer.com" className="text-red font-bold">neil@anytime-soccer.com</a> · 803-431-1082
+          Questions? <a href="mailto:megan@anytime-soccer.com" className="text-red font-bold">megan@anytime-soccer.com</a> · 803-431-1082
         </p>
       </div>
     </div>
