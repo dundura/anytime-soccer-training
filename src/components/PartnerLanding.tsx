@@ -82,12 +82,17 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
                 </p>
 
                 <div className="flex flex-wrap gap-4">
-                  <a href={pricing} className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center no-underline">
+                  {/* Both CTAs go through the offer first. They were sent here
+                      for a discount, so leaving without it wastes the referral -
+                      and the email is the only attribution that survives a
+                      different device months later. The links themselves live
+                      inside the popup, so nobody is trapped. */}
+                  <button onClick={() => setOpen(true)} className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
                     Start Training Free &rarr;
-                  </a>
-                  <a href={demo} className="bg-transparent text-white border-2 border-white/60 px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center no-underline">
+                  </button>
+                  <button onClick={() => setOpen(true)} className="bg-transparent text-white border-2 border-white/60 px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
                     Request Team Demo
-                  </a>
+                  </button>
                 </div>
 
                 {partner.hasDiscount && code && (
@@ -167,7 +172,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
             >
               &times;
             </button>
-            <PartnerClaimForm code={code} percent={percent} who={who} />
+            <PartnerClaimForm code={code} percent={percent} who={who} demo={demo} pricing={pricing} />
           </div>
         </div>
       )}

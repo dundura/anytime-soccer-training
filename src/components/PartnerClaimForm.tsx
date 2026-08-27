@@ -16,7 +16,7 @@ const API = 'https://api.anytime-soccer.com';
 const INPUT =
   'w-full px-4 py-3 rounded-lg border border-[#7ec8e3]/40 bg-white text-[15px] text-[#1a2a3a] outline-none transition-colors focus:border-[#1a2a3a] focus:ring-2 focus:ring-[#7ec8e3]/30';
 
-export default function PartnerClaimForm({ code, percent, who }: { code: string; percent: number; who?: string }) {
+export default function PartnerClaimForm({ code, percent, who, demo, pricing }: { code: string; percent: number; who?: string; demo: string; pricing: string }) {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [organization, setOrganization] = useState('');
@@ -66,6 +66,17 @@ export default function PartnerClaimForm({ code, percent, who }: { code: string;
         <div className="text-4xl mb-3">&#9917;</div>
         <p className="text-[#1a2a3a] font-bold text-lg mb-1">You are on the list</p>
         <p className="text-sm text-gray">Your {percent}% off code is on its way to your inbox. Keep an eye out for it.</p>
+        <div className="mt-6 pt-5 border-t border-gray-100">
+          <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Now pick your next step</p>
+          <div className="flex flex-col sm:flex-row gap-2.5">
+            <a href={demo} className="flex-1 text-center bg-navy text-white font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-navy/90 transition-colors">
+              Book a demo
+            </a>
+            <a href={pricing} className="flex-1 text-center bg-red text-white font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-red-dark transition-colors">
+              Join for free
+            </a>
+          </div>
+        </div>
       </div>
     );
   }
@@ -87,6 +98,17 @@ export default function PartnerClaimForm({ code, percent, who }: { code: string;
         <p className="text-xs text-gray mt-4">
           Enter it at checkout for {percent}% off. It does not expire.
         </p>
+        <div className="mt-6 pt-5 border-t border-gray-100">
+          <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Now pick your next step</p>
+          <div className="flex flex-col sm:flex-row gap-2.5">
+            <a href={demo} className="flex-1 text-center bg-navy text-white font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-navy/90 transition-colors">
+              Book a demo
+            </a>
+            <a href={pricing} className="flex-1 text-center bg-red text-white font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-red-dark transition-colors">
+              Join for free
+            </a>
+          </div>
+        </div>
       </div>
     );
   }
