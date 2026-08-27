@@ -176,19 +176,6 @@ export default async function PartnerLandingPage({ params }: { params: Promise<{
 
       <TabbedVideoSection title="A Look Inside the Program" subtitle="See what your player will be doing. Real sessions. Real results." hideCta />
 
-      <section className="px-5 pb-12 bg-background text-center">
-        <div className="max-w-[800px] mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-navy mb-2">Give your players the extra edge.</h2>
-          <p className="text-gray text-base mb-4">Join thousands of players already training with Anytime Soccer Training.</p>
-          <a href={demo} className="bg-red text-white font-bold text-lg py-4 px-10 rounded-full no-underline hover:bg-red-dark transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-block">
-            Book Your Free Demo &rarr;
-          </a>
-          <p className="text-sm text-gray mt-6">
-            Questions? <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold no-underline">megan@anytime-soccer.com</a> &middot;{' '}
-            <a href="tel:803-431-1082" className="text-red font-semibold no-underline">803-431-1082</a>
-          </p>
-        </div>
-      </section>
     </>
   );
 }
