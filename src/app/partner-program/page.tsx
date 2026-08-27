@@ -1,21 +1,44 @@
 import type { Metadata } from 'next';
 import PartnerApplyForm from '@/components/PartnerApplyForm';
+import PartnerCommissionGuide from '@/components/PartnerCommissionGuide';
+
+const API = 'https://api.anytime-soccer.com';
 
 export const metadata: Metadata = {
   title: 'Partner Program',
   description: 'Earn on every club and family you send to Anytime Soccer Training. $15 per membership, 20% of a team\'s first payment.',
 };
 
-const TERMS = [
+// Built from the live rules rather than typed out, so the terms a partner
+// accepts and the ledger that pays them cannot say different things.
+const terms = (ind: number, team: number, hold: number, min: string): [string, string][] => [
   ['How you earn', 'You get a link. Anyone who joins Anytime Soccer Training through it is credited to you — and it does not expire. A coach who clicks today and signs their club up next season still counts as yours.'],
-  ['What it pays', '$15 for every individual annual membership, and 20% of a team\'s first payment. Team payments are usually the larger of the two.'],
-  ['When it clears', 'A commission is held for 30 days after the sale so refunds settle first. After that it is available to be paid.'],
-  ['How you are paid', 'By PayPal, monthly, once your available balance is over $50. Below that it rolls into the next month rather than being lost.'],
+  ['What it pays', ind + '% of every individual membership, monthly or annual, and ' + team + "% of a team's first payment. Teams are usually the larger of the two."],
+  ['When it clears', 'A commission is held for ' + hold + ' days after the sale so refunds settle first. After that it is available to be paid.'],
+  ['How you are paid', 'By PayPal, monthly, once your available balance is over ' + min + '. Below that it rolls into the next month rather than being lost.'],
   ['Refunds', 'If a customer refunds, the commission is reversed in proportion. A half refund takes back half.'],
   ['Approval', 'Applications are approved by hand. We will tell you either way.'],
 ];
 
-export default function PartnerProgramPage() {
+
+export const dynamic = 'force-dynamic';
+
+type Rates = { individualBasisPoints?: number; teamBasisPoints?: number; holdDays?: number; minimumPayoutCents?: number };
+
+export default async function PartnerProgramPage() {
+  // Read live rather than hard-coded, so this page cannot promise a rate the
+  // ledger no longer pays.
+  let rates: Rates = {};
+  try {
+    const res = await fetch(`${API}/partner-program/landing/rates`, { cache: 'no-store' });
+    if (res.ok) rates = await res.json();
+  } catch {
+    // The guide falls back to its own defaults.
+  }
+  const money = (cents: number) => '$' + (cents / 100).toLocaleString('en-US', { maximumFractionDigits: 2 });
+  const ind = (rates.individualBasisPoints ?? 3334) / 100;
+  const team = (rates.teamBasisPoints ?? 2000) / 100;
+
   return (
     <div className="bg-gradient-to-br from-[#0f2642] via-[#1a3a5c] to-[#0f2642] py-16 px-5" style={{ fontFamily: "'Source Sans Pro', sans-serif" }}>
       <div className="max-w-[1100px] mx-auto">
@@ -48,7 +71,7 @@ export default function PartnerProgramPage() {
               THE <span className="text-[#c80b3d]">TERMS</span>
             </h2>
             <div className="space-y-4">
-              {TERMS.map(([title, body]) => (
+              {terms(ind, team, rates.holdDays ?? 30, money(rates.minimumPayoutCents ?? 5000)).map(([title, body]) => (
                 <div key={title}>
                   <div className="text-white font-bold text-[15px]">{title}</div>
                   <p className="text-white/70 text-[15px] leading-relaxed">{body}</p>
@@ -61,7 +84,10 @@ export default function PartnerProgramPage() {
             <h2 className="text-[#0f2642] text-3xl text-center mb-2.5 tracking-[1px]" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
               APPLY TO JOIN
             </h2>
-            <p className="text-center text-gray-500 mb-8">Takes a minute. We approve by hand.</p>
+            <p className="text-center text-gray-500 mb-4">Takes a minute. We approve by hand.</p>
+            <div className="text-center mb-7">
+              <PartnerCommissionGuide rates={rates} />
+            </div>
             <PartnerApplyForm />
           </div>
         </div>
