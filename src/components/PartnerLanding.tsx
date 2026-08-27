@@ -131,7 +131,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
           discoverable by giving up an email, which is a reason to leave. */}
       <section className="bg-background px-4 sm:px-6 lg:px-8 py-10">
         <div className="max-w-7xl mx-auto">
-         <div className="bg-navy rounded-3xl px-6 py-12 md:px-12 md:py-14 max-w-[980px] mx-auto">
+         <div className="bg-navy rounded-3xl px-6 py-12 md:px-12 md:py-14">
           <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#7ec8e3] text-center mb-2">Choose the right path</p>
           <h2 className="text-2xl md:text-4xl font-extrabold text-white text-center mb-3">For your team &mdash; or your player.</h2>
           <p className="text-white/60 text-center mb-10 max-w-[520px] mx-auto">
@@ -211,7 +211,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
       {/* One last capture point at the bottom of the scroll. */}
       <section className="bg-background px-4 sm:px-6 lg:px-8 py-10">
-        <div className="max-w-[980px] mx-auto bg-[#c80b3d] rounded-3xl px-6 py-12 md:px-12 grid md:grid-cols-[1.3fr_1fr] gap-8 items-center">
+        <div className="max-w-7xl mx-auto bg-[#c80b3d] rounded-3xl px-6 py-12 md:px-12 grid md:grid-cols-[1.3fr_1fr] gap-8 items-center">
           <div>
             <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-white/70 mb-2">Start with the path that fits</p>
             <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-2">
