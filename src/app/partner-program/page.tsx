@@ -6,7 +6,7 @@ const API = 'https://api.anytime-soccer.com';
 
 export const metadata: Metadata = {
   title: 'Partner Program',
-  description: 'Earn on every club and family you send to Anytime Soccer Training. $15 per membership, 20% of a team\'s first payment.',
+  description: 'Earn on every club and family you send to Anytime Soccer Training - a share of every membership, and of a team\'s first payment.',
 };
 
 // Built from the live rules rather than typed out, so the terms a partner
@@ -55,8 +55,8 @@ export default async function PartnerProgramPage() {
           <div className="py-2 order-2 lg:order-1">
             <div className="grid grid-cols-2 gap-4 mb-8">
               {[
-                { n: '$15', l: 'per individual membership' },
-                { n: '20%', l: "of a team's first payment" },
+                { n: ind + '%', l: 'of every individual membership' },
+                { n: team + '%', l: "of a team's first payment" },
                 { n: 'Never', l: 'expires — a click counts for good' },
                 { n: 'Monthly', l: 'paid by PayPal' },
               ].map((s) => (
