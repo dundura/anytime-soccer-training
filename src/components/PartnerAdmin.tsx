@@ -29,6 +29,8 @@ type Partner = {
   approvedAt: string | null;
   createdAt: string | null;
   discountCode: string | null;
+  individualBasisPoints: number | null;
+  teamBasisPoints: number | null;
   clicks: number;
   pendingCents: number;
   availableCents: number;
@@ -271,6 +273,37 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
             ))}
           </div>
           {p.audience && <div className="text-xs text-gray-600 mb-2 whitespace-pre-wrap">{p.audience}</div>}
+
+          {/* Their own rate, where they have one. Blank means the programme
+              rate, so a partner negotiated onto something different keeps it
+              when the programme rate moves. */}
+          {settings && (
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+              {([
+                ['individualBasisPoints', 'Individual %', settings.individualBasisPoints],
+                ['teamBasisPoints', 'Team %', settings.teamBasisPoints],
+              ] as const).map(([f, label, fallback]) => (
+                <label key={f} className="block">
+                  <span className="text-[10px] font-bold uppercase tracking-wide text-gray-400">{label}</span>
+                  <input
+                    defaultValue={p[f] != null ? String(Number(p[f]) / 100) : ''}
+                    placeholder={String(Number(fallback) / 100)}
+                    inputMode="decimal"
+                    onBlur={(e) => {
+                      const raw = e.target.value.trim();
+                      const stored = raw === '' ? '' : String(Math.round(Number(raw) * 100));
+                      const now = p[f] != null ? String(p[f]) : '';
+                      if (stored !== now) saveField(p, f, stored);
+                    }}
+                    className="w-full mt-0.5 px-2 py-1.5 rounded-lg border border-gray-200 text-xs"
+                  />
+                  <span className="text-[10px] text-gray-400">
+                    {p[f] != null ? 'Their own rate' : 'Blank = programme rate'}
+                  </span>
+                </label>
+              ))}
+            </div>
+          )}
           <div className="flex flex-wrap items-center gap-3 text-[11px] text-gray-500">
             <span>Link: <code className="bg-white border border-gray-200 px-1.5 py-0.5 rounded">https://www.anytime-soccer.com/r/{p.code}</code></span>
             {p.dashboardToken && (
