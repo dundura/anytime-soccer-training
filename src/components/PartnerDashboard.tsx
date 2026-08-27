@@ -83,7 +83,8 @@ export default function PartnerDashboard({ token }: { token: string }) {
         </h1>
         <p className="text-gray-500 text-sm">
           {partner.status === 'active'
-            ? 'Your link is live. Anyone who joins through it in the next ' + rules.cookieDays + ' days is credited to you.'
+            ? 'Your link is live. Anyone who joins through it is credited to you'
+              + (rules.cookieDays >= 3650 ? ', and it does not expire.' : ' within ' + rules.cookieDays + ' days.')
             : 'Your account is ' + partner.status + '.'}
         </p>
       </div>

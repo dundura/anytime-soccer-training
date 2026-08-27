@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const TERMS = [
-  ['How you earn', 'You get a link. Anyone who joins Anytime Soccer Training through it is credited to you for 30 days from their click — they do not have to buy the same day.'],
+  ['How you earn', 'You get a link. Anyone who joins Anytime Soccer Training through it is credited to you — and it does not expire. A coach who clicks today and signs their club up next season still counts as yours.'],
   ['What it pays', '$15 for every individual annual membership, and 20% of a team\'s first payment. Team payments are usually the larger of the two.'],
   ['When it clears', 'A commission is held for 30 days after the sale so refunds settle first. After that it is available to be paid.'],
   ['How you are paid', 'By PayPal, monthly, once your available balance is over $50. Below that it rolls into the next month rather than being lost.'],
@@ -34,7 +34,7 @@ export default function PartnerProgramPage() {
               {[
                 { n: '$15', l: 'per individual membership' },
                 { n: '20%', l: "of a team's first payment" },
-                { n: '30 days', l: 'a click keeps counting' },
+                { n: 'Never', l: 'expires — a click counts for good' },
                 { n: 'Monthly', l: 'paid by PayPal' },
               ].map((s) => (
                 <div key={s.l} className="bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/10">
