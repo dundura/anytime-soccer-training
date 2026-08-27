@@ -103,7 +103,7 @@ export default function PartnerApplyForm() {
       <label className="flex items-start gap-2.5 mt-5 cursor-pointer">
         <input type="checkbox" checked={terms} onChange={(e) => setTerms(e.target.checked)} className="mt-1 accent-[#c80b3d] w-4 h-4" />
         <span className="text-[14px] text-gray-600 leading-relaxed">
-          I have read the program terms and agree to them — including that self-referrals and bidding on the Anytime Soccer Training brand name end the partnership.
+          I have read the program terms and agree to them.
         </span>
       </label>
 

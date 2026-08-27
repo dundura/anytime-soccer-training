@@ -12,7 +12,6 @@ const TERMS = [
   ['When it clears', 'A commission is held for 30 days after the sale so refunds settle first. After that it is available to be paid.'],
   ['How you are paid', 'By PayPal, monthly, once your available balance is over $50. Below that it rolls into the next month rather than being lost.'],
   ['Refunds', 'If a customer refunds, the commission is reversed in proportion. A half refund takes back half.'],
-  ['What is not allowed', 'Referring yourself, bidding on our brand name in paid search, or claiming to be Anytime Soccer Training. Any of those ends the partnership and any unpaid balance with it.'],
   ['Approval', 'Applications are approved by hand. We will tell you either way.'],
 ];
 
