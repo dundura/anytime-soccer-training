@@ -133,8 +133,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
           discoverable by giving up an email, which is a reason to leave. */}
       <section className="bg-background px-4 sm:px-6 lg:px-8 py-6">
         <div className="max-w-7xl mx-auto">
-         <div className="bg-navy rounded-3xl px-6 py-9 md:px-10 md:py-10">
-          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#7ec8e3] text-center mb-2">Choose the right path</p>
+         <div className="bg-navy rounded-3xl px-6 pt-7 pb-9 md:px-10 md:pt-7 md:pb-10">
           <h2 className="text-2xl md:text-[32px] font-extrabold text-white text-center mb-2">For your team &mdash; or your player.</h2>
           <p className="text-white/60 text-center mb-7 max-w-[520px] mx-auto">
             The same training library covers coach-led homework and families training on their own.
