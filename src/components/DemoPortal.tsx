@@ -264,6 +264,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
     { label: 'Open', value: Number(kpi.openCount || 0), tone: 'text-navy' },
     { label: 'Overdue', value: Number(kpi.overdueCount || 0), tone: Number(kpi.overdueCount || 0) > 0 ? 'text-red' : 'text-gray-400' },
     { label: 'Won', value: Number(kpi.wonCount || 0), tone: 'text-emerald-600' },
+    { label: 'Lost', value: Number(kpi.lostCount || 0), tone: 'text-gray-400' },
     { label: 'Open value', value: money(kpi.openValueCents), tone: 'text-navy' },
   ]), [kpi]);
 
@@ -340,7 +341,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
         )}
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-4">
+      <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 mb-4">
         {kpiCards.map((c) => (
           <div key={c.label} className="border border-gray-200 rounded-xl px-3 py-2 bg-white">
             <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">{c.label}</div>
