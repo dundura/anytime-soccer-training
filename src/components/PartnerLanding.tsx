@@ -62,7 +62,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
           background, copy left, the product playing on the right. A referred
           visitor should land somewhere that looks like the company they were
           just told about, not a one-off page. */}
-      <section className="pt-6 pb-12 md:pt-8 md:pb-10 bg-background">
+      <section className="pt-6 pb-3 md:pt-8 md:pb-3 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-navy rounded-3xl px-6 py-14 md:px-12 md:py-16 relative overflow-hidden">
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
@@ -131,7 +131,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
       {/* Plans. The popup gates every button, so without this the price is only
           discoverable by giving up an email, which is a reason to leave. */}
-      <section className="bg-background py-6">
+      <section className="bg-background pt-2 pb-3">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
          <div className="bg-navy rounded-3xl px-6 pt-7 pb-9 md:px-10 md:pt-7 md:pb-10">
           <h2 className="text-2xl md:text-[32px] font-extrabold text-white text-center mb-2">For your team &mdash; or your player.</h2>
@@ -189,7 +189,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
       {/* The questions a referred visitor actually has, including the one only
           this page provokes: does the link cost me anything. */}
-      <section className="bg-background pt-2 pb-6">
+      <section className="bg-background pt-3 pb-3">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
          <div className="bg-white border border-gray-200 rounded-3xl px-6 pt-7 pb-9 md:px-10 md:pb-10">
           <div className="max-w-[820px] mx-auto">
@@ -218,7 +218,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
       </section>
 
       {/* One last capture point at the bottom of the scroll. */}
-      <section className="bg-background py-6 pb-12">
+      <section className="bg-background pt-3 pb-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
          <div className="bg-[#c80b3d] rounded-3xl px-6 py-10 md:px-10">
           <div className="max-w-[820px] mx-auto grid md:grid-cols-[1.3fr_1fr] gap-8 items-center">
