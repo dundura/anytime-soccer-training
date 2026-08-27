@@ -22,6 +22,10 @@ type Partner = { found: boolean; name?: string | null; organization?: string | n
 
 export default function PartnerLanding({ partner, code }: { partner: Partner; code: string }) {
   const [open, setOpen] = useState(false);
+  // Which button they pressed. A coach and a parent want different next
+  // steps, and knowing which arrived is worth more than any field on the form.
+  const [intent, setIntent] = useState<'team' | 'player' | null>(null);
+  const ask = (audience: 'team' | 'player' | null) => { setIntent(audience); setOpen(true); };
 
   // The offer opens itself. The visitor was sent here for a discount, so making
   // them hunt for it wastes the referral - and the email is what makes the
@@ -87,16 +91,16 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
                       and the email is the only attribution that survives a
                       different device months later. The links themselves live
                       inside the popup, so nobody is trapped. */}
-                  <button onClick={() => setOpen(true)} className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
-                    Start Training Free &rarr;
+                  <button onClick={() => ask('team')} className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
+                    I&rsquo;m interested for my team &rarr;
                   </button>
-                  <button onClick={() => setOpen(true)} className="bg-transparent text-white border-2 border-white/60 px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
-                    Request Team Demo
+                  <button onClick={() => ask('player')} className="bg-transparent text-white border-2 border-white/60 px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
+                    I&rsquo;m interested for my player
                   </button>
                 </div>
 
                 {partner.hasDiscount && code && (
-                  <button onClick={() => setOpen(true)} className="mt-5 text-sm font-bold text-[#7ec8e3] underline underline-offset-4 hover:no-underline">
+                  <button onClick={() => ask(null)} className="mt-5 text-sm font-bold text-[#7ec8e3] underline underline-offset-4 hover:no-underline">
                     Get your {percent}% off code &rarr;
                   </button>
                 )}
@@ -131,11 +135,112 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
         </div>
       </section>
 
+      {/* Plans. The popup gates every button, so without this the price is only
+          discoverable by giving up an email, which is a reason to leave. */}
+      <section className="bg-navy px-5 py-14">
+        <div className="max-w-[900px] mx-auto">
+          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#7ec8e3] text-center mb-2">Choose the right path</p>
+          <h2 className="text-2xl md:text-4xl font-extrabold text-white text-center mb-3">For your team &mdash; or your player.</h2>
+          <p className="text-white/60 text-center mb-10 max-w-[520px] mx-auto">
+            The same training library covers coach-led homework and families training on their own.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-5">
+            <article className="bg-white rounded-2xl p-7">
+              <span className="inline-block text-[10px] font-extrabold uppercase tracking-wide text-[#c80b3d] mb-3">For coaches, teams and clubs</span>
+              <h3 className="text-xl font-extrabold text-navy mb-3">Team Training</h3>
+              <div className="flex items-end gap-2 mb-5">
+                <strong className="text-4xl font-extrabold text-navy leading-none">$10</strong>
+                <span className="text-sm text-gray leading-tight">per player<br />per year</span>
+              </div>
+              <ul className="space-y-2 mb-6">
+                {['Every coach account is free', 'Assign team or individual homework', 'See who actually completed it', 'Challenges, contests and leaderboards', '20% off at five or more teams'].map((li) => (
+                  <li key={li} className="flex gap-2 text-sm text-gray"><span className="text-[#c80b3d] font-bold">&#10003;</span>{li}</li>
+                ))}
+              </ul>
+              <button onClick={() => ask('team')} className="w-full bg-[#c80b3d] text-white font-bold text-sm py-3.5 rounded-lg hover:bg-red-dark transition-colors">
+                Book my free demo &rarr;
+              </button>
+            </article>
+
+            <article className="bg-white rounded-2xl p-7">
+              <span className="inline-block text-[10px] font-extrabold uppercase tracking-wide text-navy/50 mb-3">For individual players and families</span>
+              <h3 className="text-xl font-extrabold text-navy mb-3">Individual Training</h3>
+              <div className="flex items-end gap-2 mb-5">
+                <strong className="text-4xl font-extrabold text-navy leading-none">Free</strong>
+                <span className="text-sm text-gray leading-tight">plan available<br />start today</span>
+              </div>
+              <ul className="space-y-2 mb-6">
+                {['Follow-along training for ages 6-17', 'Ball mastery, dribbling, passing and more', 'Personalised sessions and progress tracking', 'Streaks, badges and rewards', 'Upgrade only when you are ready'].map((li) => (
+                  <li key={li} className="flex gap-2 text-sm text-gray"><span className="text-[#c80b3d] font-bold">&#10003;</span>{li}</li>
+                ))}
+              </ul>
+              <button onClick={() => ask('player')} className="w-full bg-white border-2 border-navy text-navy font-bold text-sm py-3.5 rounded-lg hover:bg-navy hover:text-white transition-colors">
+                Start training free &rarr;
+              </button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* The questions a referred visitor actually has, including the one only
+          this page provokes: does the link cost me anything. */}
+      <section className="bg-white px-5 py-14">
+        <div className="max-w-[820px] mx-auto">
+          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#c80b3d] mb-2">Questions before you start</p>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-8">Frequently asked questions</h2>
+          <div className="divide-y divide-gray-200 border-t border-b border-gray-200">
+            {[
+              ['Will using a referral link change my price?',
+                partner.hasDiscount
+                  ? `No. You pay what anyone else pays, less the ${percent}% this link gets you. Nothing is added for the referral.`
+                  : 'No. You pay exactly what anyone else pays. Nothing is added for the referral.'],
+              ['What age is this for?', 'Ages 6 to 17. Sessions are grouped by skill and difficulty, so a beginner and an experienced player can both use it.'],
+              ['How much should a player train?', 'Ten to fifteen minutes a day is enough to see a difference. The plans are built around that, not around hour-long sessions nobody finishes.'],
+              ['Do we need special equipment?', 'A ball and a few feet of space. Some sessions use cones, and anything works as a marker.'],
+              ['Can an individual player join without a team?', 'Yes. Families sign up on their own and get the full library. A coach or club is not required.'],
+              ['How does homework work?', 'A coach assigns a folder or a session, the player sees it when they open the app, and the coach sees who completed it.'],
+            ].map(([q, a]) => (
+              <details key={q} className="group py-4">
+                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none font-bold text-navy text-[15px]">
+                  {q}
+                  <span className="text-[#c80b3d] text-lg shrink-0 transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <p className="text-sm text-gray leading-relaxed mt-2.5">{a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <TabbedVideoSection
         title="A Look Inside the Program"
         subtitle="See what your player will be doing. Real sessions. Real results."
         hideCta
       />
+
+      {/* One last capture point at the bottom of the scroll. */}
+      <section className="bg-[#c80b3d] px-5 py-12">
+        <div className="max-w-[900px] mx-auto grid md:grid-cols-[1.3fr_1fr] gap-8 items-center">
+          <div>
+            <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-white/70 mb-2">Start with the path that fits</p>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-2">
+              Give your player more chances to improve.
+            </h2>
+            <p className="text-white/80 text-sm">
+              Train independently today, or see how Anytime Soccer Training works for your entire team.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3">
+            <button onClick={() => ask('team')} className="bg-white text-[#c80b3d] font-bold text-sm px-6 py-3.5 rounded-lg hover:bg-white/90 transition-colors">
+              Request team demo &rarr;
+            </button>
+            <button onClick={() => ask('player')} className="bg-transparent border-2 border-white text-white font-bold text-sm px-6 py-3.5 rounded-lg hover:bg-white hover:text-[#c80b3d] transition-colors">
+              Start individual training &rarr;
+            </button>
+          </div>
+        </div>
+      </section>
 
       {/* The discount, behind a click. */}
       {open && partner.hasDiscount && code && (
@@ -153,7 +258,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
             >
               &times;
             </button>
-            <PartnerClaimForm code={code} percent={percent} who={who} demo={demo} pricing={pricing} />
+            <PartnerClaimForm code={code} percent={percent} who={who} demo={demo} pricing={pricing} intent={intent} />
           </div>
         </div>
       )}

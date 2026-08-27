@@ -16,7 +16,7 @@ const API = 'https://api.anytime-soccer.com';
 const INPUT =
   'w-full px-4 py-3 rounded-lg border border-[#7ec8e3]/40 bg-white text-[15px] text-[#1a2a3a] outline-none transition-colors focus:border-[#1a2a3a] focus:ring-2 focus:ring-[#7ec8e3]/30';
 
-export default function PartnerClaimForm({ code, percent, who, demo, pricing }: { code: string; percent: number; who?: string; demo: string; pricing: string }) {
+export default function PartnerClaimForm({ code, percent, who, demo, pricing, intent }: { code: string; percent: number; who?: string; demo: string; pricing: string; intent?: 'team' | 'player' | null }) {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [organization, setOrganization] = useState('');
@@ -35,7 +35,7 @@ export default function PartnerClaimForm({ code, percent, who, demo, pricing }: 
       const res = await fetch(`${API}/partner-program/claim`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code, email, name, organization }),
+        body: JSON.stringify({ code, email, name, organization, audience: intent || null }),
       });
       const d = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(d.error || 'Something went wrong. Please try again.');
@@ -69,12 +69,17 @@ export default function PartnerClaimForm({ code, percent, who, demo, pricing }: 
         <div className="mt-6 pt-5 border-t border-gray-100">
           <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Now pick your next step</p>
           <div className="flex flex-col sm:flex-row gap-2.5">
-            <a href={demo} className="flex-1 text-center bg-navy text-white font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-navy/90 transition-colors">
-              Book a demo
-            </a>
-            <a href={pricing} className="flex-1 text-center bg-red text-white font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-red-dark transition-colors">
-              Join for free
-            </a>
+            {intent === 'player' ? (
+              <>
+                <a href={pricing} className="flex-1 text-center bg-red text-white font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-red-dark transition-colors">Join for free</a>
+                <a href={demo} className="flex-1 text-center bg-white border-2 border-navy text-navy font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-navy hover:text-white transition-colors">Book a demo</a>
+              </>
+            ) : (
+              <>
+                <a href={demo} className="flex-1 text-center bg-red text-white font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-red-dark transition-colors">Book a demo</a>
+                <a href={pricing} className="flex-1 text-center bg-white border-2 border-navy text-navy font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-navy hover:text-white transition-colors">Join for free</a>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -101,12 +106,17 @@ export default function PartnerClaimForm({ code, percent, who, demo, pricing }: 
         <div className="mt-6 pt-5 border-t border-gray-100">
           <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Now pick your next step</p>
           <div className="flex flex-col sm:flex-row gap-2.5">
-            <a href={demo} className="flex-1 text-center bg-navy text-white font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-navy/90 transition-colors">
-              Book a demo
-            </a>
-            <a href={pricing} className="flex-1 text-center bg-red text-white font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-red-dark transition-colors">
-              Join for free
-            </a>
+            {intent === 'player' ? (
+              <>
+                <a href={pricing} className="flex-1 text-center bg-red text-white font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-red-dark transition-colors">Join for free</a>
+                <a href={demo} className="flex-1 text-center bg-white border-2 border-navy text-navy font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-navy hover:text-white transition-colors">Book a demo</a>
+              </>
+            ) : (
+              <>
+                <a href={demo} className="flex-1 text-center bg-red text-white font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-red-dark transition-colors">Book a demo</a>
+                <a href={pricing} className="flex-1 text-center bg-white border-2 border-navy text-navy font-bold text-sm px-5 py-3 rounded-lg no-underline hover:bg-navy hover:text-white transition-colors">Join for free</a>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -117,6 +127,7 @@ export default function PartnerClaimForm({ code, percent, who, demo, pricing }: 
     <form onSubmit={submit} noValidate>
       <p className="text-[#1a2a3a] font-extrabold text-xl mb-1">Get {percent}% off</p>
       <p className="text-sm text-gray mb-5">
+        {intent === 'team' ? 'For your team. ' : intent === 'player' ? 'For your player. ' : ''}
         Tell us where to send it{who ? <> &mdash; your discount comes courtesy of {who}</> : null}.
       </p>
 
@@ -131,7 +142,7 @@ export default function PartnerClaimForm({ code, percent, who, demo, pricing }: 
         />
         <input
           type="text"
-          placeholder="Club or team (optional)"
+          placeholder={intent === 'player' ? 'Their club (optional)' : 'Club or team'}
           value={organization}
           onChange={(e) => setOrganization(e.target.value)}
           className={INPUT}
