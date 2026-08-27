@@ -7,10 +7,10 @@ import PartnerClaimForm from '@/components/PartnerClaimForm';
 /**
  * Where a partner's link lands.
  *
- * Deliberately short: a recommendation, one promise, two buttons, the proof
- * strip, and the videos. Somebody arriving here has been sent by a person they
- * trust — they need confirming, not convincing, and every extra section is a
- * chance to leave.
+ * Deliberately short: a recommendation, one promise, two buttons, three steps
+ * and the videos. Somebody arriving here has been sent by a person they trust —
+ * they need confirming, not convincing, and every extra section is a chance to
+ * leave.
  *
  * The discount lives in a popup rather than on the page. It is being traded for
  * an email, so putting it inline would either give it away or push the two
@@ -30,63 +30,80 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
   return (
     <>
+      {/* Hero: copy on the left, the thing being sold on the right. A wall of
+          centred text asks a visitor to imagine it; a photo of a player doing
+          the training shows them. */}
       <section className="bg-[#f0f4f8] px-5 py-10 md:py-14">
-        <div className="max-w-[820px] mx-auto text-center">
-          {who && (
-            <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-1.5 mb-5 shadow-sm">
-              <span className="text-[#c80b3d]">&#10003;</span>
-              <span className="text-sm font-semibold text-navy">Recommended by {who}</span>
+        <div className="max-w-[1000px] mx-auto grid md:grid-cols-[1.1fr_1fr] gap-8 md:gap-12 items-center">
+          <div>
+            {who && (
+              <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-1.5 mb-5 shadow-sm">
+                <span className="text-[#c80b3d] font-bold">&#10003;</span>
+                <span className="text-sm font-semibold text-navy">Recommended by {who}</span>
+              </div>
+            )}
+
+            <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#c80b3d] mb-2">
+              Train anywhere. Improve everywhere.
+            </p>
+            <h1 className="text-[34px] md:text-[44px] font-extrabold text-navy leading-[1.1] mb-4">
+              Give your player <span className="text-[#c80b3d]">the edge.</span>
+            </h1>
+            <p className="text-[17px] text-gray leading-relaxed mb-7">
+              Short, structured soccer sessions players follow at home &mdash; plus the tools coaches need to assign work and see who actually did it.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3 mb-4">
+              <a href={demo} className="text-center bg-[#c80b3d] text-white font-bold text-base px-7 py-3.5 rounded-lg no-underline hover:bg-red-dark transition-colors">
+                Request a team demo &rarr;
+              </a>
+              <a href={pricing} className="text-center bg-white border-2 border-navy text-navy font-bold text-base px-7 py-3.5 rounded-lg no-underline hover:bg-navy hover:text-white transition-colors">
+                Start training free
+              </a>
             </div>
-          )}
 
-          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#c80b3d] mb-2">
-            Train anywhere. Improve everywhere.
-          </p>
-          <h1 className="text-[34px] md:text-[46px] font-extrabold text-navy leading-[1.1] mb-4">
-            Give your player <span className="text-[#c80b3d]">the edge.</span>
-          </h1>
-          <p className="text-[17px] text-gray leading-relaxed max-w-[560px] mx-auto mb-7">
-            Short, structured soccer sessions players follow at home &mdash; plus the tools coaches need to assign work and see who actually did it.
-          </p>
+            {partner.hasDiscount && code && (
+              <button onClick={() => setOpen(true)} className="text-sm font-bold text-[#c80b3d] underline underline-offset-4 hover:no-underline">
+                Get your {percent}% off code &rarr;
+              </button>
+            )}
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-4">
-            <a href={demo} className="w-full sm:w-auto bg-[#c80b3d] text-white font-bold text-base px-8 py-3.5 rounded-lg no-underline hover:bg-red-dark transition-colors">
-              Request a team demo &rarr;
-            </a>
-            <a href={pricing} className="w-full sm:w-auto bg-white border-2 border-navy text-navy font-bold text-base px-8 py-3.5 rounded-lg no-underline hover:bg-navy hover:text-white transition-colors">
-              Start training free
-            </a>
+            <div className="flex flex-wrap gap-x-5 gap-y-2 mt-7 text-sm text-gray">
+              {['No credit card to start', 'Ages 6–17', '5,000+ videos'].map((p) => (
+                <span key={p} className="flex items-center gap-1.5">
+                  <span className="text-[#c80b3d] font-bold">&#10003;</span> {p}
+                </span>
+              ))}
+            </div>
           </div>
 
-          {partner.hasDiscount && code && (
-            <button onClick={() => setOpen(true)} className="text-sm font-bold text-[#c80b3d] underline underline-offset-4 hover:no-underline">
-              Get your {percent}% off code &rarr;
-            </button>
-          )}
-
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-7 text-sm text-gray">
-            {['No credit card to start', 'Ages 6–17', '5,000+ videos'].map((p) => (
-              <span key={p} className="flex items-center gap-1.5">
-                <span className="text-[#c80b3d] font-bold">&#10003;</span> {p}
-              </span>
-            ))}
+          <div className="rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.18)]">
+            <img
+              src="https://d2vm0l3c6tu9qp.cloudfront.net/Anytime-soccer-camp.webp"
+              alt="A young player following an at-home training session"
+              className="w-full h-[260px] md:h-[380px] object-cover object-[center_30%]"
+            />
           </div>
         </div>
       </section>
 
-      <section className="bg-navy px-5 py-6">
-        <div className="max-w-[820px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          {[
-            ['5,000+', 'follow-along videos'],
-            ['10–15', 'minutes a day'],
-            ['$10', 'per team player, per year'],
-            ['Anytime', 'phone, tablet or computer'],
-          ].map(([big, small]) => (
-            <div key={small}>
-              <strong className="block text-white text-2xl font-extrabold">{big}</strong>
-              <span className="text-white/60 text-xs">{small}</span>
-            </div>
-          ))}
+      {/* How it works — three steps, no more. */}
+      <section className="bg-white px-5 py-10">
+        <div className="max-w-[820px] mx-auto">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-navy text-center mb-8">How It Works</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              ['Create a free account', "It is free to start — no credit card."],
+              ['Pick a plan or book a demo', 'Coaches get a walkthrough. Families can start straight away.'],
+              ['Train at home', 'Hit play and follow along, ten to fifteen minutes a day.'],
+            ].map(([title, body], i) => (
+              <div key={title} className="text-center">
+                <div className="w-10 h-10 bg-[#c80b3d] text-white rounded-full flex items-center justify-center font-extrabold text-lg mx-auto mb-3">{i + 1}</div>
+                <h3 className="font-bold text-navy mb-1">{title}</h3>
+                <p className="text-sm text-gray">{body}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
