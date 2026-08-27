@@ -28,6 +28,7 @@ type Partner = {
   notes: string | null;
   approvedAt: string | null;
   createdAt: string | null;
+  discountCode: string | null;
   clicks: number;
   pendingCents: number;
   availableCents: number;
@@ -220,7 +221,7 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
       {openId === p.id && (
         <div className="px-4 pb-4 bg-gray-50/60">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
-            {([['name', 'Name'], ['email', 'Email'], ['phone', 'Phone'], ['organization', 'Club / audience'], ['payoutDetail', 'PayPal address']] as const).map(([f, label]) => (
+            {([['name', 'Name'], ['email', 'Email'], ['phone', 'Phone'], ['organization', 'Club / audience'], ['payoutDetail', 'PayPal address'], ['discountCode', 'Stripe discount code']] as const).map(([f, label]) => (
               <label key={f} className="block">
                 <span className="text-[10px] font-bold uppercase tracking-wide text-gray-400">{label}</span>
                 <input
@@ -240,6 +241,8 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
               </a>
             )}
             <span>Lifetime paid {money(p.paidCents)}</span>
+            {!p.discountCode && <span className="text-amber-700 font-bold">No Stripe code yet — their page cannot offer a discount</span>}
+            <a href={`/partner/${p.code}`} target="_blank" rel="noreferrer" className="text-red font-bold hover:underline">Their landing page →</a>
             {p.status !== 'pending' && (
               <button onClick={() => saveField(p, 'status', p.status === 'active' ? 'paused' : 'active')} className="font-bold text-gray-500 hover:text-red">
                 {p.status === 'active' ? 'Pause this partner' : 'Reactivate'}
