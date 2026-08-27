@@ -22,6 +22,7 @@ export default function PartnerClaimForm({ code, percent, who }: { code: string;
   const [organization, setOrganization] = useState('');
   const [sending, setSending] = useState(false);
   const [given, setGiven] = useState('');
+  const [claimed, setClaimed] = useState(false);
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
 
@@ -38,7 +39,8 @@ export default function PartnerClaimForm({ code, percent, who }: { code: string;
       });
       const d = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(d.error || 'Something went wrong. Please try again.');
-      setGiven(d.discountCode);
+      setGiven(d.discountCode || '');
+      setClaimed(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
     } finally {
@@ -55,6 +57,18 @@ export default function PartnerClaimForm({ code, percent, who }: { code: string;
       // Clipboard blocked; the code is on screen and in their inbox anyway.
     }
   };
+
+  if (claimed && !given) {
+    // Claimed before the partner's code was set up. The email is captured -
+    // which is the part that matters - and Neil is told to send the code on.
+    return (
+      <div className="text-center">
+        <div className="text-4xl mb-3">&#9917;</div>
+        <p className="text-[#1a2a3a] font-bold text-lg mb-1">You are on the list</p>
+        <p className="text-sm text-gray">Your {percent}% off code is on its way to your inbox. Keep an eye out for it.</p>
+      </div>
+    );
+  }
 
   if (given) {
     return (
