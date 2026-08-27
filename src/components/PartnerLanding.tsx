@@ -105,25 +105,20 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
               <div className="relative">
                 <HeroVideo />
-                {/* The trust strip belongs on the homepage, where a stranger
-                    needs convincing. Somebody sent by a partner has already had
-                    the recommendation; what they do not know is whether this is
-                    for one player or the whole club. */}
-                <div className="pt-6 border-t border-white/15 mt-4">
-                  <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#7ec8e3] mb-3">
-                    Perfect for individuals, teams or the entire club
-                  </p>
-                  <div className="grid sm:grid-cols-3 gap-4">
-                    {[
-                      ['One player', 'A parent signs up and their player trains at home.'],
-                      ['A team', 'A coach assigns homework and sees who actually did it.'],
-                      ['The whole club', 'Every team on the same programme, 20% off at five or more.'],
-                    ].map(([title, body]) => (
-                      <div key={title}>
-                        <strong className="block text-white text-sm mb-0.5">{title}</strong>
-                        <span className="text-white/60 text-[13px] leading-snug block">{body}</span>
-                      </div>
-                    ))}
+                <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap mt-4">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex gap-0.5">
+                      {[1, 2, 3, 4].map((i) => (
+                        <span key={i} className="inline-flex items-center justify-center w-6 h-6 bg-[#00b67a] text-white text-xs rounded-[3px]">&#9733;</span>
+                      ))}
+                      <span className="inline-flex items-center justify-center w-6 h-6 bg-gradient-to-r from-[#00b67a] from-50% to-[#dcdce6] to-50% text-white text-xs rounded-[3px]">&#9733;</span>
+                    </div>
+                    <span className="text-sm font-semibold text-white">4.9 (9,651)</span>
+                  </div>
+                  <div className="w-px h-8 bg-white/20 hidden sm:block" />
+                  <div className="text-sm text-white/60">
+                    <strong className="text-white block">Trusted by 50,000+ players</strong>
+                    in 80+ countries worldwide
                   </div>
                 </div>
               </div>
@@ -182,6 +177,12 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
         </div>
       </section>
 
+      <TabbedVideoSection
+        title="A Look Inside the Program"
+        subtitle="See what your player will be doing. Real sessions. Real results."
+        hideCta
+      />
+
       {/* The questions a referred visitor actually has, including the one only
           this page provokes: does the link cost me anything. */}
       <section className="bg-white px-5 py-14">
@@ -190,10 +191,6 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
           <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-8">Frequently asked questions</h2>
           <div className="divide-y divide-gray-200 border-t border-b border-gray-200">
             {[
-              ['Will using a referral link change my price?',
-                partner.hasDiscount
-                  ? `No. You pay what anyone else pays, less the ${percent}% this link gets you. Nothing is added for the referral.`
-                  : 'No. You pay exactly what anyone else pays. Nothing is added for the referral.'],
               ['What age is this for?', 'Ages 6 to 17. Sessions are grouped by skill and difficulty, so a beginner and an experienced player can both use it.'],
               ['How much should a player train?', 'Ten to fifteen minutes a day is enough to see a difference. The plans are built around that, not around hour-long sessions nobody finishes.'],
               ['Do we need special equipment?', 'A ball and a few feet of space. Some sessions use cones, and anything works as a marker.'],
@@ -212,15 +209,9 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
         </div>
       </section>
 
-      <TabbedVideoSection
-        title="A Look Inside the Program"
-        subtitle="See what your player will be doing. Real sessions. Real results."
-        hideCta
-      />
-
       {/* One last capture point at the bottom of the scroll. */}
-      <section className="bg-[#c80b3d] px-5 py-12">
-        <div className="max-w-[900px] mx-auto grid md:grid-cols-[1.3fr_1fr] gap-8 items-center">
+      <section className="bg-background px-4 sm:px-6 lg:px-8 py-10">
+        <div className="max-w-[980px] mx-auto bg-[#c80b3d] rounded-3xl px-6 py-12 md:px-12 grid md:grid-cols-[1.3fr_1fr] gap-8 items-center">
           <div>
             <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-white/70 mb-2">Start with the path that fits</p>
             <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-2">
