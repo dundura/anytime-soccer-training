@@ -24,7 +24,7 @@ type Claim = { id: number; name: string | null; email: string | null; organizati
 type Data = {
   partner: { name: string | null; code: string; status: string; link: string };
   totals: { pendingCents: number; availableCents: number; paidCents: number; conversions: number; clicks: number; claims: number };
-  rules: { individualFixedCents: number; teamBasisPoints: number; holdDays: number; minimumPayoutCents: number; cookieDays: number };
+  rules: { individualBasisPoints: number; teamBasisPoints: number; holdDays: number; minimumPayoutCents: number; cookieDays: number };
   commissions: Row[];
   payouts: Payout[];
   claims: Claim[];
@@ -203,8 +203,8 @@ export default function PartnerDashboard({ token }: { token: string }) {
 
             <div className="rounded-xl border border-gray-200 p-4 mb-3">
               <span className="block text-[10px] font-bold uppercase tracking-wide text-gray-500">Individual plans</span>
-              <strong className="block text-xl font-extrabold text-[#1a2a3a]">{money(rules.individualFixedCents)} each</strong>
-              <small className="text-xs text-gray-500">For every annual membership sold</small>
+              <strong className="block text-xl font-extrabold text-[#1a2a3a]">{Number(rules.individualBasisPoints) / 100}% commission</strong>
+              <small className="text-xs text-gray-500">Of every membership, monthly or annual</small>
             </div>
 
             <div className="flex gap-2.5 rounded-xl bg-gray-50 border border-gray-200 p-3">
