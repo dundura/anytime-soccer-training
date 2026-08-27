@@ -249,6 +249,19 @@ const NEXT_STEPS = [
   'Neil will give you a call to walk through homework and other team features',
 ];
 
+const ADMIN_VIEWS = ['notifications', 'demos', 'crm', 'partners', 'newsletters'] as const;
+type IndexFilter = 'all' | 'outstanding' | (typeof ADMIN_VIEWS)[number];
+
+const VIEW_LABELS: Record<IndexFilter, string> = {
+  all: 'All steps',
+  outstanding: 'Outstanding',
+  notifications: 'Notifications',
+  demos: 'Demos',
+  crm: 'CRM',
+  partners: 'Partners',
+  newsletters: 'Newsletters',
+};
+
 export default function OnboardingPortal() {
   const [token, setToken] = useState<string | null>(null);
   const [coach, setCoach] = useState<Coach | null>(null);
@@ -281,7 +294,8 @@ export default function OnboardingPortal() {
   const [questionSent, setQuestionSent] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [missingSent, setMissingSent] = useState(false);
-  const [indexFilter, setIndexFilter] = useState<'all' | 'outstanding' | 'notifications' | 'crm' | 'demos' | 'partners'>('all');
+  const [indexFilter, setIndexFilter] = useState<IndexFilter>('all');
+  const inAdminView = (ADMIN_VIEWS as readonly string[]).includes(indexFilter);
   const [showIndexInfo, setShowIndexInfo] = useState(false);
   // Before We Start has to be read, not scrolled past, so Next waits on it.
   // Skip still goes straight through — an acknowledgement nobody can decline
@@ -366,7 +380,7 @@ export default function OnboardingPortal() {
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
     if (!coach || typeof window === 'undefined') return;
-    const url = showFaq ? '/onboarding-portal?view=faq' : showIndex ? (indexFilter === 'notifications' ? '/onboarding-portal?view=notifications' : indexFilter === 'crm' ? '/onboarding-portal?view=crm' : indexFilter === 'demos' ? '/onboarding-portal?view=demos' : indexFilter === 'partners' ? '/onboarding-portal?view=partners' : '/onboarding-portal?view=index') : showIndexInfo ? '/onboarding-portal?view=indexinfo' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
+    const url = showFaq ? '/onboarding-portal?view=faq' : showIndex ? ((ADMIN_VIEWS as readonly string[]).includes(indexFilter) ? `/onboarding-portal?view=${indexFilter}` : '/onboarding-portal?view=index') : showIndexInfo ? '/onboarding-portal?view=indexinfo' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
     window.history.replaceState(null, '', url);
   }, [coach, showIntro, showIndex, showIndexInfo, showFaq, wizardIndex, indexFilter]);
 
@@ -1032,7 +1046,7 @@ export default function OnboardingPortal() {
   // The portal is a max-w-2xl reading column: right for a wizard, far too
   // narrow for a table. The CRM tab gets the full width of the page instead
   // of being squeezed into the same column as the step list.
-  const wideView = showIndex && isAdmin && (indexFilter === 'crm' || indexFilter === 'demos' || indexFilter === 'partners');
+  const wideView = showIndex && isAdmin && (indexFilter === 'crm' || indexFilter === 'demos' || indexFilter === 'partners' || indexFilter === 'newsletters');
 
   return (
     <section className="py-16 bg-background min-h-screen">
@@ -1131,17 +1145,42 @@ export default function OnboardingPortal() {
                     </div>
                   );
                 })()}
-                <div className={`flex border border-gray-200 rounded-lg overflow-hidden mb-4 ${isAdmin ? 'max-w-xl' : 'max-w-xs'}`}>
-                  {(isAdmin ? (['all', 'outstanding', 'notifications', 'demos', 'crm', 'partners'] as const) : (['all', 'outstanding'] as const)).map(f => (
-                    <button
-                      key={f}
-                      onClick={() => setIndexFilter(f)}
-                      className={`flex-1 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${indexFilter === f ? 'bg-navy text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}
-                    >
-                      {f === 'all' ? 'All steps' : f === 'outstanding' ? 'Outstanding' : f === 'notifications' ? 'Notifications' : f === 'demos' ? 'Demos' : f === 'partners' ? 'Partners' : 'CRM'}
-                    </button>
-                  ))}
-                </div>
+{isAdmin ? (
+                  <div className="mb-4 max-w-xs">
+                    <label htmlFor="portal-view" className="block text-[11px] font-bold uppercase tracking-wide text-gray-500 mb-1">View</label>
+                    <div className="relative">
+                      <select
+                        id="portal-view"
+                        value={indexFilter}
+                        onChange={e => setIndexFilter(e.target.value as IndexFilter)}
+                        className="w-full appearance-none bg-white border border-gray-300 rounded-lg py-2.5 pl-3 pr-9 text-sm font-semibold text-navy cursor-pointer hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
+                      >
+                        <optgroup label="Checklist">
+                          <option value="all">All steps</option>
+                          <option value="outstanding">Outstanding</option>
+                        </optgroup>
+                        <optgroup label="Admin">
+                          {ADMIN_VIEWS.map(v => (
+                            <option key={v} value={v}>{VIEW_LABELS[v]}</option>
+                          ))}
+                        </optgroup>
+                      </select>
+                      <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400 text-xs">&#9662;</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex border border-gray-200 rounded-lg overflow-hidden mb-4 max-w-xs">
+                    {(['all', 'outstanding'] as const).map(f => (
+                      <button
+                        key={f}
+                        onClick={() => setIndexFilter(f)}
+                        className={`flex-1 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${indexFilter === f ? 'bg-navy text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}
+                      >
+                        {VIEW_LABELS[f]}
+                      </button>
+                    ))}
+                  </div>
+                )}
                 {isAdmin && indexFilter === 'demos' && <DemoPortal token={token} />}
                 {isAdmin && indexFilter === 'partners' && <PartnerAdmin token={token} />}
                 <div className="border border-gray-200 rounded-xl overflow-hidden mb-6 divide-y divide-gray-100">
@@ -1153,7 +1192,7 @@ export default function OnboardingPortal() {
                       </a>
                     </>
                   )}
-                  {indexFilter !== 'notifications' && indexFilter !== 'crm' && indexFilter !== 'demos' && indexFilter !== 'partners' && STEPS.map((st, i) => {
+                  {!inAdminView && STEPS.map((st, i) => {
                     const done = coach.checklist[st.key] === true;
                     const skipped = coach.checklist[st.key] === 'skipped';
                     const outstanding = !done && !skipped;
@@ -1797,7 +1836,7 @@ export default function OnboardingPortal() {
                     {createError && <p className="text-red font-semibold text-sm mt-2">{createError}</p>}
                   </div>
                 )}
-                {isAdmin && indexFilter !== 'notifications' && indexFilter !== 'crm' && indexFilter !== 'demos' && indexFilter !== 'partners' && (
+                {isAdmin && !inAdminView && (
                   <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4 text-center">
                     <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-2">Admin</p>
                     <input
