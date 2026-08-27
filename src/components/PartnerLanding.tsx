@@ -178,7 +178,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
       </section>
 
       <TabbedVideoSection
-        title="A Look Inside the Program"
+        title="Pick a Session and Follow Along"
         subtitle="See what your player will be doing. Real sessions. Real results."
         hideCta
       />
