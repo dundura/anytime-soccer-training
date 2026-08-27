@@ -162,6 +162,20 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
   const saveSetting = (field: keyof Settings, value: string) =>
     act('set', `${API}/partner-program/admin/settings`, { method: 'PATCH', headers: jsonHeaders(), body: JSON.stringify({ [field]: value }) }, 'Rule saved');
 
+  // Stored in cents and basis points, because that is the only way to keep
+  // money exact. Shown and typed in dollars and percent, because nobody thinks
+  // in basis points.
+  const RULE_FIELDS: { f: keyof Settings; label: string; hint: string; scale: number; prefix?: string; suffix?: string }[] = [
+    { f: 'individualFixedCents', label: 'Individual', hint: 'Flat, per individual membership', scale: 100, prefix: '$' },
+    { f: 'teamBasisPoints', label: 'Team', hint: "Of a team's first payment", scale: 100, suffix: '%' },
+    { f: 'minimumPayoutCents', label: 'Minimum payout', hint: 'Below this it rolls to next month', scale: 100, prefix: '$' },
+    { f: 'cookieDays', label: 'Cookie', hint: 'How long a click keeps counting', scale: 1, suffix: 'days' },
+    { f: 'holdDays', label: 'Hold', hint: 'Before a commission can be paid', scale: 1, suffix: 'days' },
+  ];
+
+  // Trailing zeros off: "15" reads as a rule, "15.00" reads as a total.
+  const show = (raw: number, scale: number) => String(Number(((Number(raw) || 0) / scale).toFixed(2)));
+
   const pending = partners.filter((p) => p.status === 'pending');
   const active = partners.filter((p) => p.status !== 'pending');
   const totalAvailable = partners.reduce((a, p) => a + Number(p.availableCents || 0), 0);
@@ -300,20 +314,24 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
         </button>
         {showRules && settings && (
           <div className="border-t border-gray-100 px-4 py-3 grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {([
-              ['individualFixedCents', 'Individual, cents', 'A flat amount per individual membership'],
-              ['teamBasisPoints', 'Team, basis points', '2000 = 20% of the first team payment'],
-              ['cookieDays', 'Cookie days', 'How long a click keeps counting'],
-              ['holdDays', 'Hold days', 'Before a commission can be paid'],
-              ['minimumPayoutCents', 'Minimum payout, cents', 'Below this, it rolls to next month'],
-            ] as const).map(([f, label, hint]) => (
+            {RULE_FIELDS.map(({ f, label, hint, scale, prefix, suffix }) => (
               <label key={f} className="block">
                 <span className="text-[10px] font-bold uppercase tracking-wide text-gray-400">{label}</span>
-                <input
-                  defaultValue={String(settings[f] ?? '')}
-                  onBlur={(e) => { if (e.target.value !== String(settings[f] ?? '')) saveSetting(f, e.target.value); }}
-                  className="w-full mt-0.5 px-2 py-1.5 rounded-lg border border-gray-200 text-xs"
-                />
+                <span className="mt-0.5 flex items-center rounded-lg border border-gray-200 overflow-hidden bg-white">
+                  {prefix && <span className="pl-2 text-gray-400 text-xs">{prefix}</span>}
+                  <input
+                    inputMode="decimal"
+                    defaultValue={show(settings[f] as number, scale)}
+                    onBlur={(e) => {
+                      const typed = Number(e.target.value);
+                      if (!Number.isFinite(typed) || typed < 0) { e.target.value = show(settings[f] as number, scale); return; }
+                      const stored = Math.round(typed * scale);
+                      if (stored !== Number(settings[f])) saveSetting(f, String(stored));
+                    }}
+                    className="w-full px-2 py-1.5 text-xs outline-none"
+                  />
+                  {suffix && <span className="pr-2 text-gray-400 text-xs">{suffix}</span>}
+                </span>
                 <span className="text-[10px] text-gray-400">{hint}</span>
               </label>
             ))}
