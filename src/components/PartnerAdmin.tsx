@@ -47,6 +47,17 @@ type Settings = {
   teamPriceIds: string | null;
 };
 
+type Invite = {
+  id: number;
+  name: string | null;
+  email: string | null;
+  note: string | null;
+  invitedAt: string | null;
+  lastSentAt: string | null;
+  sendCount: number;
+  acceptedAt: string | null;
+};
+
 type Commission = {
   id: number;
   partnerName: string | null;
@@ -89,6 +100,8 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
   const [openId, setOpenId] = useState<number | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
   const [inviting, setInviting] = useState(false);
+  const [invites, setInvites] = useState<Invite[]>([]);
+  const [confirmDropInvite, setConfirmDropInvite] = useState<number | null>(null);
   const [invite, setInvite] = useState({ name: '', email: '', note: '' });
 
   const headers = useCallback(
@@ -118,7 +131,15 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
     }
   }, [headers]);
 
-  useEffect(() => { load(); }, [load]);
+  const loadInvites = useCallback(async () => {
+    try {
+      const res = await fetch(`${API}/partner-program/admin/invites`, { headers: headers() });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) setInvites(d.invites || []);
+    } catch { /* the invite list is a panel, not the page */ }
+  }, [headers]);
+
+  useEffect(() => { load(); loadInvites(); }, [load, loadInvites]);
 
   const loadLedger = useCallback(async () => {
     try {
@@ -139,6 +160,7 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
       if (!res.ok) throw new Error(d.error || 'That did not work.');
       flash(ok);
       await load();
+      await loadInvites();
       if (showLedger) await loadLedger();
       return d;
     } catch (e) {
@@ -428,6 +450,58 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
           </div>
         )}
       </div>
+
+      {/* Who has been asked. Separate from the partner list because an
+          invitation is not a partner - and this is the only record of who has
+          already been approached, which is what stops a second ask. */}
+      {invites.length > 0 && (
+        <div className="border border-gray-200 rounded-xl bg-white overflow-hidden mb-4">
+          <div className="px-4 py-2 bg-gray-50 text-[10px] font-bold uppercase tracking-wide text-gray-500">
+            Invitations ({invites.filter((i) => !i.acceptedAt).length} waiting)
+          </div>
+          {invites.map((i) => (
+            <div key={i.id} className="flex flex-wrap items-center gap-3 px-4 py-3 border-t border-gray-100">
+              <div className="min-w-0 flex-1">
+                <div className="font-bold text-navy text-sm">{i.name || i.email}</div>
+                <div className="text-[11px] text-gray-500">
+                  {i.email}
+                  {i.sendCount > 1 ? ` · sent ${i.sendCount} times` : ''}
+                  {i.lastSentAt ? ` · last ${day(i.lastSentAt)}` : ''}
+                </div>
+              </div>
+              {i.acceptedAt ? (
+                <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Applied {day(i.acceptedAt)}</span>
+              ) : (
+                <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">Waiting</span>
+              )}
+              {!i.acceptedAt && (
+                <button
+                  onClick={() => act('remind' + i.id, `${API}/partner-program/admin/invites/${i.id}/remind`, { method: 'POST', headers: headers() }, 'Reminder sent to ' + i.email)}
+                  disabled={!!busy}
+                  className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50"
+                >
+                  {busy === 'remind' + i.id ? '…' : 'Remind'}
+                </button>
+              )}
+              {confirmDropInvite === i.id ? (
+                <span className="inline-flex gap-1">
+                  <button
+                    onClick={() => act('dropinv' + i.id, `${API}/partner-program/admin/invites/${i.id}`, { method: 'DELETE', headers: headers() }, 'Invitation removed').then(() => setConfirmDropInvite(null))}
+                    className="px-2 py-1 rounded-lg bg-red text-white text-[10px] font-bold"
+                  >
+                    Delete
+                  </button>
+                  <button onClick={() => setConfirmDropInvite(null)} className="px-2 py-1 rounded-lg border border-gray-200 text-[10px] font-bold text-gray-500">Keep</button>
+                </span>
+              ) : (
+                <button onClick={() => setConfirmDropInvite(i.id)} title="Remove this invitation" className="text-gray-300 hover:text-red text-base leading-none px-1">
+                  &times;
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Invite. Sends the application page rather than creating a row: an
           invitation nobody accepts should not sit on the board looking like a

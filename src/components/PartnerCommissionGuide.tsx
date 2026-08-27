@@ -38,7 +38,7 @@ export default function PartnerCommissionGuide({ rates }: { rates: Rates }) {
   const indBps = Number(rates.individualBasisPoints) || 3334;
   const teamBps = Number(rates.teamBasisPoints) || 2000;
   const hold = Number(rates.holdDays) || 30;
-  const min = Number(rates.minimumPayoutCents) || 5000;
+  const minPayout = Number(rates.minimumPayoutCents) || 5000;
 
   const cut = (cents: number, bps: number) => Math.round((cents * bps) / 10000);
 
@@ -77,9 +77,9 @@ export default function PartnerCommissionGuide({ rates }: { rates: Rates }) {
                 <tbody className="divide-y divide-gray-100">
                   {INDIVIDUAL.map(([label, price]) => (
                     <tr key={label}>
-                      <td className="py-2 text-gray">{label}</td>
-                      <td className="py-2 text-right text-gray-400">{money(price)}</td>
-                      <td className="py-2 text-right font-extrabold text-navy w-24">{money(cut(price, indBps))}</td>
+                      <td className="py-2 text-gray w-1/2">{label}</td>
+                      <td className="py-2 pl-4 text-left text-gray-400 w-24">{money(price)}</td>
+                      <td className="py-2 pl-4 text-left font-extrabold text-navy w-24">{money(cut(price, indBps))}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -92,9 +92,9 @@ export default function PartnerCommissionGuide({ rates }: { rates: Rates }) {
                 <tbody className="divide-y divide-gray-100">
                   {TEAM_EXAMPLES.map(([label, price]) => (
                     <tr key={label}>
-                      <td className="py-2 text-gray">{label}</td>
-                      <td className="py-2 text-right text-gray-400">{money(price)}</td>
-                      <td className="py-2 text-right font-extrabold text-navy w-24">{money(cut(price, teamBps))}</td>
+                      <td className="py-2 text-gray w-1/2">{label}</td>
+                      <td className="py-2 pl-4 text-left text-gray-400 w-24">{money(price)}</td>
+                      <td className="py-2 pl-4 text-left font-extrabold text-navy w-24">{money(cut(price, teamBps))}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -105,7 +105,7 @@ export default function PartnerCommissionGuide({ rates }: { rates: Rates }) {
 
               <div className="rounded-xl bg-[#f0f4f8] border border-gray-200 p-4 text-sm text-gray space-y-1.5">
                 <p><strong className="text-navy">When it clears.</strong> {hold} days after the sale, so refunds settle first.</p>
-                <p><strong className="text-navy">When you are paid.</strong> Monthly by PayPal, once you are over {money(min)}. Below that it rolls into the next month.</p>
+                <p><strong className="text-navy">When you are paid.</strong> Monthly by PayPal, once you are over {money(minPayout)}. Below that it rolls into the next month.</p>
                 <p><strong className="text-navy">How long you get credit.</strong> Your link does not expire. Someone who clicks today and buys next season still counts as yours.</p>
                 <p><strong className="text-navy">Refunds.</strong> If a customer refunds, the commission is reversed in proportion.</p>
               </div>
