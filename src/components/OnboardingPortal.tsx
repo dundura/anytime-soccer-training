@@ -1181,6 +1181,12 @@ export default function OnboardingPortal() {
                     ))}
                   </div>
                 )}
+                {isAdmin && indexFilter === 'newsletters' && (
+                  <div className="border border-gray-200 rounded-xl p-8 text-center mb-6">
+                    <p className="text-sm font-bold text-navy mb-1">Newsletters</p>
+                    <p className="text-sm text-gray-500">Being built. This is where the sequences currently running in Go High Level will live.</p>
+                  </div>
+                )}
                 {isAdmin && indexFilter === 'demos' && <DemoPortal token={token} />}
                 {isAdmin && indexFilter === 'partners' && <PartnerAdmin token={token} />}
                 <div className="border border-gray-200 rounded-xl overflow-hidden mb-6 divide-y divide-gray-100">
