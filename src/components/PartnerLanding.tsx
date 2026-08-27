@@ -189,9 +189,10 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
       {/* The questions a referred visitor actually has, including the one only
           this page provokes: does the link cost me anything. */}
-      <section className="bg-background py-6">
+      <section className="bg-background pt-2 pb-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-         <div className="bg-white border border-gray-200 rounded-3xl px-6 py-9 md:px-10 md:py-10">
+         <div className="bg-white border border-gray-200 rounded-3xl px-6 pt-7 pb-9 md:px-10 md:pb-10">
+          <div className="max-w-[820px] mx-auto">
           <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#c80b3d] mb-2">Questions before you start</p>
           <h2 className="text-2xl md:text-[32px] font-extrabold text-navy mb-6">Frequently asked questions</h2>
           <div className="divide-y divide-gray-200 border-t border-b border-gray-200">
@@ -211,6 +212,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
               </details>
             ))}
           </div>
+          </div>
          </div>
         </div>
       </section>
@@ -218,7 +220,8 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
       {/* One last capture point at the bottom of the scroll. */}
       <section className="bg-background py-6 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-         <div className="bg-[#c80b3d] rounded-3xl px-6 py-10 md:px-10 grid md:grid-cols-[1.3fr_1fr] gap-8 items-center">
+         <div className="bg-[#c80b3d] rounded-3xl px-6 py-10 md:px-10">
+          <div className="max-w-[820px] mx-auto grid md:grid-cols-[1.3fr_1fr] gap-8 items-center">
           <div>
             <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-white/70 mb-2">Start with the path that fits</p>
             <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-2">
@@ -235,6 +238,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
             <button onClick={() => ask('player')} className="bg-transparent border-2 border-white text-white font-bold text-sm px-6 py-3.5 rounded-lg hover:bg-white hover:text-[#c80b3d] transition-colors">
               Start individual training &rarr;
             </button>
+          </div>
           </div>
          </div>
         </div>
