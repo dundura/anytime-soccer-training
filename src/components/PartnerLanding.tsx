@@ -53,26 +53,36 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
   return (
     <>
-      {/* Hero: copy on the left, the thing being sold on the right. A wall of
-          centred text asks a visitor to imagine it; a photo of a player doing
-          the training shows them. */}
-      <section className="bg-[#f0f4f8] px-5 py-10 md:py-14">
-        <div className="max-w-[1000px] mx-auto grid md:grid-cols-[1.1fr_1fr] gap-8 md:gap-12 items-center">
-          <div>
+      {/* Hero: the photo is the background, the copy sits on it. Side by side,
+          the image read as decoration next to the text; behind it, the training
+          is the first thing seen and the words explain it. */}
+      <section className="relative isolate overflow-hidden">
+        <img
+          src="https://d2vm0l3c6tu9qp.cloudfront.net/Anytime-soccer-camp.webp"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 w-full h-full object-cover object-[center_30%]"
+        />
+        {/* Solid on the left, clearing to the right, so the copy always has the
+            contrast it needs without hiding the photo behind it. */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#0f2642] via-[#0f2642]/90 to-[#0f2642]/50" />
+
+        <div className="max-w-[1000px] mx-auto px-5 py-14 md:py-20">
+          <div className="max-w-[560px]">
             {who && (
-              <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-1.5 mb-5 shadow-sm">
-                <span className="text-[#c80b3d] font-bold">&#10003;</span>
-                <span className="text-sm font-semibold text-navy">Recommended by {who}</span>
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-5">
+                <span className="text-[#7ec8e3] font-bold">&#10003;</span>
+                <span className="text-sm font-semibold text-white">Recommended by {who}</span>
               </div>
             )}
 
-            <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#c80b3d] mb-2">
+            <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#7ec8e3] mb-2">
               Train anywhere. Improve everywhere.
             </p>
-            <h1 className="text-[34px] md:text-[44px] font-extrabold text-navy leading-[1.1] mb-4">
-              Give your player <span className="text-[#c80b3d]">the edge.</span>
+            <h1 className="text-[34px] md:text-[46px] font-extrabold text-white leading-[1.1] mb-4">
+              Give your player <span className="text-[#7ec8e3]">the edge.</span>
             </h1>
-            <p className="text-[17px] text-gray leading-relaxed mb-7">
+            <p className="text-[17px] text-white/85 leading-relaxed mb-7">
               Short, structured soccer sessions players follow at home &mdash; plus the tools coaches need to assign work and see who actually did it.
             </p>
 
@@ -80,32 +90,24 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
               <a href={demo} className="text-center bg-[#c80b3d] text-white font-bold text-base px-7 py-3.5 rounded-lg no-underline hover:bg-red-dark transition-colors">
                 Request a team demo &rarr;
               </a>
-              <a href={pricing} className="text-center bg-white border-2 border-navy text-navy font-bold text-base px-7 py-3.5 rounded-lg no-underline hover:bg-navy hover:text-white transition-colors">
+              <a href={pricing} className="text-center bg-white/10 backdrop-blur-sm border-2 border-white/60 text-white font-bold text-base px-7 py-3.5 rounded-lg no-underline hover:bg-white hover:text-navy transition-colors">
                 Start training free
               </a>
             </div>
 
             {partner.hasDiscount && code && (
-              <button onClick={() => setOpen(true)} className="text-sm font-bold text-[#c80b3d] underline underline-offset-4 hover:no-underline">
+              <button onClick={() => setOpen(true)} className="text-sm font-bold text-[#7ec8e3] underline underline-offset-4 hover:no-underline">
                 Get your {percent}% off code &rarr;
               </button>
             )}
 
-            <div className="flex flex-wrap gap-x-5 gap-y-2 mt-7 text-sm text-gray">
+            <div className="flex flex-wrap gap-x-5 gap-y-2 mt-7 text-sm text-white/70">
               {['No credit card to start', 'Ages 6–17', '5,000+ videos'].map((p) => (
                 <span key={p} className="flex items-center gap-1.5">
-                  <span className="text-[#c80b3d] font-bold">&#10003;</span> {p}
+                  <span className="text-[#7ec8e3] font-bold">&#10003;</span> {p}
                 </span>
               ))}
             </div>
-          </div>
-
-          <div className="rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.18)]">
-            <img
-              src="https://d2vm0l3c6tu9qp.cloudfront.net/Anytime-soccer-camp.webp"
-              alt="A young player following an at-home training session"
-              className="w-full h-[260px] md:h-[380px] object-cover object-[center_30%]"
-            />
           </div>
         </div>
       </section>
