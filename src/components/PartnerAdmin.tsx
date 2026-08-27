@@ -311,6 +311,16 @@ export default function PartnerAdmin({ token }: { token: string | null }) {
                 Their dashboard →
               </a>
             )}
+            {p.status === 'active' && (
+              <button
+                onClick={() => act('welcome' + p.id, `${API}/partner-program/admin/partners/${p.id}/resend-welcome`, { method: 'POST', headers: headers() }, 'Sent to ' + p.email)}
+                disabled={!!busy}
+                title="Sends their link and the rate they are on right now"
+                className="font-bold text-gray-500 hover:text-red disabled:opacity-50"
+              >
+                {busy === 'welcome' + p.id ? '…' : 'Resend their link & terms'}
+              </button>
+            )}
             <span>Lifetime paid {money(p.paidCents)}</span>
             {!p.discountCode && <span className="text-amber-700 font-bold">No Stripe code yet — their page cannot offer a discount</span>}
             <a href={`/partner/${p.code}`} target="_blank" rel="noreferrer" className="text-red font-bold hover:underline">Their landing page →</a>
