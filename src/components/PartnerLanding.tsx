@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import TabbedVideoSection from '@/components/TabbedVideoSection';
+import HeroVideo from '@/components/HeroVideo';
 import PartnerClaimForm from '@/components/PartnerClaimForm';
 
 /**
@@ -53,54 +54,69 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
   return (
     <>
-      {/* Hero: the photo is the background, the copy sits on it. Side by side,
-          the image read as decoration next to the text; behind it, the training
-          is the first thing seen and the words explain it. */}
-      <section className="relative isolate overflow-hidden">
-        <img
-          src="https://d2vm0l3c6tu9qp.cloudfront.net/Anytime-soccer-camp.webp"
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 -z-10 w-full h-full object-cover object-[center_30%]"
-        />
-        {/* Solid on the left, clearing to the right, so the copy always has the
-            contrast it needs without hiding the photo behind it. */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#0f2642] via-[#0f2642]/90 to-[#0f2642]/50" />
+      {/* Hero: the same navy card the homepage uses — rounded panel on the light
+          background, copy left, the product playing on the right. A referred
+          visitor should land somewhere that looks like the company they were
+          just told about, not a one-off page. */}
+      <section className="pt-6 pb-12 md:pt-8 md:pb-10 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-navy rounded-3xl px-6 py-14 md:px-12 md:py-16 relative overflow-hidden">
+            <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
+            <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
+              <div className="relative z-10">
+                {who && (
+                  <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
+                    <span className="text-[#7ec8e3] font-bold">&#10003;</span>
+                    <span className="text-sm font-semibold text-white">Recommended by {who}</span>
+                  </div>
+                )}
 
-        <div className="max-w-[1000px] mx-auto px-5 py-14 md:py-20">
-          <div className="max-w-[560px]">
-            {who && (
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-5">
-                <span className="text-[#7ec8e3] font-bold">&#10003;</span>
-                <span className="text-sm font-semibold text-white">Recommended by {who}</span>
+                <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#7ec8e3] mb-2">
+                  Exclusive Partnership Offer
+                </p>
+                <h1 className="text-[38px] md:text-[52px] font-extrabold text-white uppercase tracking-wide leading-[1.05] mb-5">
+                  Train Smarter.<br /><span className="text-[#7ec8e3]">Anytime.</span>
+                </h1>
+                <p className="text-xl text-white/80 mb-8 max-w-[480px]">
+                  {who ? `${who} just partnered with Anytime Soccer Training.` : 'One of our partners sent you here.'} Easy follow-along video sessions your player can do right at home &mdash; just a ball and the drive to improve.
+                </p>
+
+                <div className="flex flex-wrap gap-4">
+                  <a href={pricing} className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center no-underline">
+                    Start Training Free &rarr;
+                  </a>
+                  <a href={demo} className="bg-transparent text-white border-2 border-white/60 px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center no-underline">
+                    Request Team Demo
+                  </a>
+                </div>
+
+                {partner.hasDiscount && code && (
+                  <button onClick={() => setOpen(true)} className="mt-5 text-sm font-bold text-[#7ec8e3] underline underline-offset-4 hover:no-underline">
+                    Get your {percent}% off code &rarr;
+                  </button>
+                )}
               </div>
-            )}
 
-            <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#7ec8e3] mb-2">
-              Exclusive Partnership Offer
-            </p>
-            <h1 className="text-[34px] md:text-[46px] font-extrabold text-white uppercase tracking-wide leading-[1.1] mb-4">
-              Train Smarter.<br /><span className="text-[#7ec8e3]">Anytime.</span>
-            </h1>
-            <p className="text-[17px] text-white/85 leading-relaxed mb-7">
-              {who ? `${who} just partnered with Anytime Soccer Training.` : 'One of our partners sent you here.'} Easy follow-along video sessions your player can do right at home &mdash; just a ball and the drive to improve.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 mb-4">
-              <a href={demo} className="text-center bg-[#c80b3d] text-white font-bold text-base px-7 py-3.5 rounded-lg no-underline hover:bg-red-dark transition-colors">
-                Request a team demo &rarr;
-              </a>
-              <a href={pricing} className="text-center bg-white/10 backdrop-blur-sm border-2 border-white/60 text-white font-bold text-base px-7 py-3.5 rounded-lg no-underline hover:bg-white hover:text-navy transition-colors">
-                Start training free
-              </a>
+              <div className="relative">
+                <HeroVideo />
+                <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap mt-4">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex gap-0.5">
+                      {[1, 2, 3, 4].map((i) => (
+                        <span key={i} className="inline-flex items-center justify-center w-6 h-6 bg-[#00b67a] text-white text-xs rounded-[3px]">&#9733;</span>
+                      ))}
+                      <span className="inline-flex items-center justify-center w-6 h-6 bg-gradient-to-r from-[#00b67a] from-50% to-[#dcdce6] to-50% text-white text-xs rounded-[3px]">&#9733;</span>
+                    </div>
+                    <span className="text-sm font-semibold text-white">4.9 (9,651)</span>
+                  </div>
+                  <div className="w-px h-8 bg-white/20 hidden sm:block" />
+                  <div className="text-sm text-white/60">
+                    <strong className="text-white block">Trusted by 50,000+ players</strong>
+                    in 80+ countries worldwide
+                  </div>
+                </div>
+              </div>
             </div>
-
-            {partner.hasDiscount && code && (
-              <button onClick={() => setOpen(true)} className="text-sm font-bold text-[#7ec8e3] underline underline-offset-4 hover:no-underline">
-                Get your {percent}% off code &rarr;
-              </button>
-            )}
-
           </div>
         </div>
       </section>
