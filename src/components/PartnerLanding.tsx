@@ -131,8 +131,8 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
       {/* Plans. The popup gates every button, so without this the price is only
           discoverable by giving up an email, which is a reason to leave. */}
-      <section className="bg-background px-4 sm:px-6 lg:px-8 py-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="bg-background py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
          <div className="bg-navy rounded-3xl px-6 pt-7 pb-9 md:px-10 md:pt-7 md:pb-10">
           <h2 className="text-2xl md:text-[32px] font-extrabold text-white text-center mb-2">For your team &mdash; or your player.</h2>
           <p className="text-white/60 text-center mb-7 max-w-[520px] mx-auto">
@@ -189,8 +189,9 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
       {/* The questions a referred visitor actually has, including the one only
           this page provokes: does the link cost me anything. */}
-      <section className="bg-background px-4 sm:px-6 lg:px-8 py-6">
-        <div className="max-w-7xl mx-auto bg-white border border-gray-200 rounded-3xl px-6 py-9 md:px-10 md:py-10">
+      <section className="bg-background py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+         <div className="bg-white border border-gray-200 rounded-3xl px-6 py-9 md:px-10 md:py-10">
           <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#c80b3d] mb-2">Questions before you start</p>
           <h2 className="text-2xl md:text-[32px] font-extrabold text-navy mb-6">Frequently asked questions</h2>
           <div className="divide-y divide-gray-200 border-t border-b border-gray-200">
@@ -210,12 +211,14 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
               </details>
             ))}
           </div>
+         </div>
         </div>
       </section>
 
       {/* One last capture point at the bottom of the scroll. */}
-      <section className="bg-background px-4 sm:px-6 lg:px-8 py-10">
-        <div className="max-w-7xl mx-auto bg-[#c80b3d] rounded-3xl px-6 py-12 md:px-12 grid md:grid-cols-[1.3fr_1fr] gap-8 items-center">
+      <section className="bg-background py-6 pb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+         <div className="bg-[#c80b3d] rounded-3xl px-6 py-10 md:px-10 grid md:grid-cols-[1.3fr_1fr] gap-8 items-center">
           <div>
             <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-white/70 mb-2">Start with the path that fits</p>
             <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-2">
@@ -233,6 +236,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
               Start individual training &rarr;
             </button>
           </div>
+         </div>
         </div>
       </section>
 
