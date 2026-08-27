@@ -8,9 +8,9 @@ import PartnerClaimForm from '@/components/PartnerClaimForm';
 /**
  * Where a partner's link lands.
  *
- * Deliberately short: a recommendation, one promise, two buttons, three steps
- * and the videos. Somebody arriving here has been sent by a person they trust —
- * they need confirming, not convincing, and every extra section is a chance to
+ * Deliberately short: a recommendation, one promise, two buttons and the
+ * videos. Somebody arriving here has been sent by a person they trust — they
+ * need confirming, not convincing, and every extra section is a chance to
  * leave.
  *
  * The discount lives in a popup rather than on the page. It is being traded for
@@ -122,30 +122,6 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How it works — three steps in a card of their own. On a flat white
-          band the numbers floated; in a bordered panel on a tinted background
-          they read as one thing to follow. */}
-      <section className="bg-[#f0f4f8] px-5 py-12 md:py-16">
-        <div className="max-w-[880px] mx-auto bg-white border border-gray-200 rounded-2xl shadow-[0_6px_28px_rgba(15,38,66,0.08)] px-6 py-10 md:px-10">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-navy text-center mb-8">How It Works</h2>
-          <div className="grid md:grid-cols-3 gap-8 md:gap-6">
-            {[
-              ['Create a free account', 'It is free to start — no credit card.'],
-              ['Pick a plan or book a demo', 'Coaches get a walkthrough. Families can start straight away.'],
-              ['Train at home', 'Hit play and follow along, ten to fifteen minutes a day.'],
-            ].map(([title, body], i) => (
-              <div key={title} className="text-center">
-                <div className="w-11 h-11 bg-[#c80b3d] text-white rounded-full flex items-center justify-center font-extrabold text-lg mx-auto mb-3 shadow-[0_4px_14px_rgba(200,11,61,0.3)]">
-                  {i + 1}
-                </div>
-                <h3 className="font-bold text-navy mb-1.5">{title}</h3>
-                <p className="text-sm text-gray leading-relaxed">{body}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
