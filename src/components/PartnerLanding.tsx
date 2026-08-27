@@ -185,10 +185,10 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
       {/* The questions a referred visitor actually has, including the one only
           this page provokes: does the link cost me anything. */}
-      <section className="bg-white px-5 py-14">
-        <div className="max-w-[820px] mx-auto">
+      <section className="bg-background px-4 sm:px-6 lg:px-8 py-6">
+        <div className="max-w-7xl mx-auto bg-white border border-gray-200 rounded-3xl px-6 py-9 md:px-10 md:py-10">
           <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#c80b3d] mb-2">Questions before you start</p>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-8">Frequently asked questions</h2>
+          <h2 className="text-2xl md:text-[32px] font-extrabold text-navy mb-6">Frequently asked questions</h2>
           <div className="divide-y divide-gray-200 border-t border-b border-gray-200">
             {[
               ['What age is this for?', 'Ages 6 to 17. Sessions are grouped by skill and difficulty, so a beginner and an experienced player can both use it.'],
