@@ -104,20 +104,25 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
               <div className="relative">
                 <HeroVideo />
-                <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap mt-4">
-                  <div className="flex items-center gap-2.5">
-                    <div className="flex gap-0.5">
-                      {[1, 2, 3, 4].map((i) => (
-                        <span key={i} className="inline-flex items-center justify-center w-6 h-6 bg-[#00b67a] text-white text-xs rounded-[3px]">&#9733;</span>
-                      ))}
-                      <span className="inline-flex items-center justify-center w-6 h-6 bg-gradient-to-r from-[#00b67a] from-50% to-[#dcdce6] to-50% text-white text-xs rounded-[3px]">&#9733;</span>
-                    </div>
-                    <span className="text-sm font-semibold text-white">4.9 (9,651)</span>
-                  </div>
-                  <div className="w-px h-8 bg-white/20 hidden sm:block" />
-                  <div className="text-sm text-white/60">
-                    <strong className="text-white block">Trusted by 50,000+ players</strong>
-                    in 80+ countries worldwide
+                {/* The trust strip belongs on the homepage, where a stranger
+                    needs convincing. Somebody sent by a partner has already had
+                    the recommendation; what they do not know is whether this is
+                    for one player or the whole club. */}
+                <div className="pt-6 border-t border-white/15 mt-4">
+                  <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#7ec8e3] mb-3">
+                    Perfect for individuals, teams or the entire club
+                  </p>
+                  <div className="grid sm:grid-cols-3 gap-4">
+                    {[
+                      ['One player', 'A parent signs up and their player trains at home.'],
+                      ['A team', 'A coach assigns homework and sees who actually did it.'],
+                      ['The whole club', 'Every team on the same programme, 20% off at five or more.'],
+                    ].map(([title, body]) => (
+                      <div key={title}>
+                        <strong className="block text-white text-sm mb-0.5">{title}</strong>
+                        <span className="text-white/60 text-[13px] leading-snug block">{body}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
