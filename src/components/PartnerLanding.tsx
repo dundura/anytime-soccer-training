@@ -82,16 +82,16 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
                   {who ? `${who} just partnered with Anytime Soccer Training.` : 'One of our partners sent you here.'} Easy follow-along video sessions your player can do right at home &mdash; just a ball and the drive to improve.
                 </p>
 
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-col sm:flex-row gap-3">
                   {/* Both CTAs go through the offer first. They were sent here
                       for a discount, so leaving without it wastes the referral -
                       and the email is the only attribution that survives a
                       different device months later. The links themselves live
                       inside the popup, so nobody is trapped. */}
-                  <button onClick={() => ask('team')} className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
+                  <button onClick={() => ask('team')} className="bg-red hover:bg-red-dark text-white px-6 py-3.5 rounded-full font-bold text-[15px] transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center justify-center gap-2 text-center whitespace-nowrap">
                     I&rsquo;m interested for my team &rarr;
                   </button>
-                  <button onClick={() => ask('player')} className="bg-transparent text-white border-2 border-white/60 px-8 py-4 rounded-full font-bold text-base transition-all hover:bg-white hover:text-navy inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
+                  <button onClick={() => ask('player')} className="bg-transparent text-white border-2 border-white/60 px-6 py-3.5 rounded-full font-bold text-[15px] transition-all hover:bg-white hover:text-navy inline-flex items-center justify-center gap-2 text-center whitespace-nowrap">
                     I&rsquo;m interested for my player
                   </button>
                 </div>
@@ -193,7 +193,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
             {[
               ['What age is this for?', 'Ages 6 to 17. Sessions are grouped by skill and difficulty, so a beginner and an experienced player can both use it.'],
               ['How much should a player train?', 'Ten to fifteen minutes a day is enough to see a difference. The plans are built around that, not around hour-long sessions nobody finishes.'],
-              ['Do we need special equipment?', 'A ball and a few feet of space. Some sessions use cones, and anything works as a marker.'],
+              ['Do we need special equipment?', 'A ball and a few feet of space. Some sessions use cones or a goal, but anything works as a marker and most drills need neither.'],
               ['Can an individual player join without a team?', 'Yes. Families sign up on their own and get the full library. A coach or club is not required.'],
               ['How does homework work?', 'A coach assigns a folder or a session, the player sees it when they open the app, and the coach sees who completed it.'],
             ].map(([q, a]) => (
