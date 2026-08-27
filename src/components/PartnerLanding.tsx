@@ -129,24 +129,24 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
       {/* Plans. The popup gates every button, so without this the price is only
           discoverable by giving up an email, which is a reason to leave. */}
-      <section className="bg-background px-4 sm:px-6 lg:px-8 py-10">
+      <section className="bg-background px-4 sm:px-6 lg:px-8 py-6">
         <div className="max-w-7xl mx-auto">
-         <div className="bg-navy rounded-3xl px-6 py-12 md:px-12 md:py-14">
+         <div className="bg-navy rounded-3xl px-6 py-9 md:px-10 md:py-10">
           <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#7ec8e3] text-center mb-2">Choose the right path</p>
-          <h2 className="text-2xl md:text-4xl font-extrabold text-white text-center mb-3">For your team &mdash; or your player.</h2>
-          <p className="text-white/60 text-center mb-10 max-w-[520px] mx-auto">
+          <h2 className="text-2xl md:text-[32px] font-extrabold text-white text-center mb-2">For your team &mdash; or your player.</h2>
+          <p className="text-white/60 text-center mb-7 max-w-[520px] mx-auto">
             The same training library covers coach-led homework and families training on their own.
           </p>
 
           <div className="grid md:grid-cols-2 gap-5">
-            <article className="bg-white rounded-2xl p-7">
-              <span className="inline-block text-[10px] font-extrabold uppercase tracking-wide text-[#c80b3d] mb-3">For coaches, teams and clubs</span>
+            <article className="bg-white rounded-2xl p-6">
+              <span className="inline-block text-[10px] font-extrabold uppercase tracking-wide text-[#c80b3d] mb-2">For coaches, teams and clubs</span>
               <h3 className="text-xl font-extrabold text-navy mb-3">Team Training</h3>
-              <div className="flex items-end gap-2 mb-5">
+              <div className="flex items-end gap-2 mb-4">
                 <strong className="text-4xl font-extrabold text-navy leading-none">$10</strong>
                 <span className="text-sm text-gray leading-tight">per player<br />per year</span>
               </div>
-              <ul className="space-y-2 mb-6">
+              <ul className="space-y-1.5 mb-5">
                 {['Every coach account is free', 'Assign team or individual homework', 'See who actually completed it', 'Challenges, contests and leaderboards', '20% off at five or more teams'].map((li) => (
                   <li key={li} className="flex gap-2 text-sm text-gray"><span className="text-[#c80b3d] font-bold">&#10003;</span>{li}</li>
                 ))}
@@ -156,14 +156,14 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
               </button>
             </article>
 
-            <article className="bg-white rounded-2xl p-7">
-              <span className="inline-block text-[10px] font-extrabold uppercase tracking-wide text-navy/50 mb-3">For individual players and families</span>
+            <article className="bg-white rounded-2xl p-6">
+              <span className="inline-block text-[10px] font-extrabold uppercase tracking-wide text-navy/50 mb-2">For individual players and families</span>
               <h3 className="text-xl font-extrabold text-navy mb-3">Individual Training</h3>
-              <div className="flex items-end gap-2 mb-5">
+              <div className="flex items-end gap-2 mb-4">
                 <strong className="text-4xl font-extrabold text-navy leading-none">Free</strong>
                 <span className="text-sm text-gray leading-tight">plan available<br />start today</span>
               </div>
-              <ul className="space-y-2 mb-6">
+              <ul className="space-y-1.5 mb-5">
                 {['Follow-along training for ages 6-17', 'Ball mastery, dribbling, passing and more', 'Personalised sessions and progress tracking', 'Streaks, badges and rewards', 'Upgrade only when you are ready'].map((li) => (
                   <li key={li} className="flex gap-2 text-sm text-gray"><span className="text-[#c80b3d] font-bold">&#10003;</span>{li}</li>
                 ))}
