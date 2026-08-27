@@ -97,15 +97,17 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
                 </div>
 
                 {partner.hasDiscount && code && (
-                  <button onClick={() => ask(null)} className="mt-5 text-sm font-bold text-[#7ec8e3] underline underline-offset-4 hover:no-underline">
-                    Get your {percent}% off code &rarr;
-                  </button>
+                  <div className="mt-5 text-center sm:text-left">
+                    <button onClick={() => ask(null)} className="text-sm font-bold text-[#7ec8e3] underline underline-offset-4 hover:no-underline">
+                      Get your {percent}% off code &rarr;
+                    </button>
+                  </div>
                 )}
               </div>
 
               <div className="relative">
                 <HeroVideo />
-                <div className="flex items-center gap-5 pt-6 border-t border-white/15 flex-wrap mt-4">
+                <div className="flex items-center justify-center sm:justify-start gap-5 pt-6 border-t border-white/15 flex-wrap mt-4">
                   <div className="flex items-center gap-2.5">
                     <div className="flex gap-0.5">
                       {[1, 2, 3, 4].map((i) => (
@@ -116,7 +118,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
                     <span className="text-sm font-semibold text-white">4.9 (9,651)</span>
                   </div>
                   <div className="w-px h-8 bg-white/20 hidden sm:block" />
-                  <div className="text-sm text-white/60">
+                  <div className="text-sm text-white/60 text-center sm:text-left">
                     <strong className="text-white block">Trusted by 50,000+ players</strong>
                     in 80+ countries worldwide
                   </div>
