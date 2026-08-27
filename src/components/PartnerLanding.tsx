@@ -75,9 +75,6 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
                   </div>
                 )}
 
-                <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#7ec8e3] mb-2">
-                  Exclusive Partnership Offer
-                </p>
                 <h1 className="text-[38px] md:text-[52px] font-extrabold text-white uppercase tracking-wide leading-[1.05] mb-5">
                   Train Smarter.<br /><span className="text-[#7ec8e3]">Anytime.</span>
                 </h1>
