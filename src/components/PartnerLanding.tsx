@@ -137,8 +137,9 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
       {/* Plans. The popup gates every button, so without this the price is only
           discoverable by giving up an email, which is a reason to leave. */}
-      <section className="bg-navy px-5 py-14">
-        <div className="max-w-[900px] mx-auto">
+      <section className="bg-background px-4 sm:px-6 lg:px-8 py-10">
+        <div className="max-w-7xl mx-auto">
+         <div className="bg-navy rounded-3xl px-6 py-12 md:px-12 md:py-14 max-w-[980px] mx-auto">
           <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#7ec8e3] text-center mb-2">Choose the right path</p>
           <h2 className="text-2xl md:text-4xl font-extrabold text-white text-center mb-3">For your team &mdash; or your player.</h2>
           <p className="text-white/60 text-center mb-10 max-w-[520px] mx-auto">
@@ -180,6 +181,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
               </button>
             </article>
           </div>
+         </div>
         </div>
       </section>
 
