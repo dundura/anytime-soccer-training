@@ -140,7 +140,10 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
             The same training library covers coach-led homework and families training on their own.
           </p>
 
-          <div className="grid md:grid-cols-2 gap-5">
+          {/* The panel keeps the full width; the cards inside do not. A pricing
+              card stretched to the edge makes a five-item list look like a
+              spreadsheet row. */}
+          <div className="grid md:grid-cols-2 gap-5 max-w-[820px] mx-auto">
             <article className="bg-white rounded-2xl p-6">
               <span className="inline-block text-[10px] font-extrabold uppercase tracking-wide text-[#c80b3d] mb-2">For coaches, teams and clubs</span>
               <h3 className="text-xl font-extrabold text-navy mb-3">Team Training</h3>
