@@ -49,6 +49,10 @@ export default function PartnerDashboard({ token }: { token: string }) {
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState<'all' | 'team' | 'individual'>('all');
+  const [editing, setEditing] = useState(false);
+  const [draftCode, setDraftCode] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [codeError, setCodeError] = useState('');
 
   useEffect(() => {
     if (!token) { setError('This link is missing its code.'); return; }
@@ -81,6 +85,36 @@ export default function PartnerDashboard({ token }: { token: string }) {
     });
     return out;
   }, [data]);
+
+  // Renaming is a real decision, not a preference: the old link stops crediting
+  // them the moment this saves, so anywhere they have already posted it goes
+  // dead. The warning sits next to the button rather than in a confirm dialog,
+  // where it would be clicked through.
+  const saveCode = async () => {
+    if (saving || !data) return;
+    const wanted = draftCode.trim().toUpperCase();
+    if (!/^[A-Z0-9]{4,24}$/.test(wanted)) {
+      setCodeError('Use 4 to 24 letters and numbers, nothing else.');
+      return;
+    }
+    setSaving(true);
+    setCodeError('');
+    try {
+      const res = await fetch(`${API}/partner-program/dashboard/${encodeURIComponent(token)}/code`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: wanted }),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || 'Could not change that link.');
+      setData({ ...data, partner: { ...data.partner, code: d.code, link: d.link } });
+      setEditing(false);
+    } catch (e) {
+      setCodeError(e instanceof Error ? e.message : 'Could not change that link.');
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const copy = async () => {
     if (!data) return;
@@ -138,12 +172,45 @@ export default function PartnerDashboard({ token }: { token: string }) {
           <p className="text-white/60 text-sm mb-4">
             Teams and families who buy through your link are credited to you{rules.cookieDays >= 3650 ? ' — and it never expires' : ''}.
           </p>
-          <div className="flex flex-wrap items-center gap-3 bg-white/[0.08] border border-white/[0.12] rounded-xl px-4 py-3">
-            <code className="text-white text-sm sm:text-base font-bold break-all flex-1 min-w-0">{partner.link}</code>
-            <button onClick={copy} className="bg-[#7ec8e3] text-[#1a2a3a] text-xs font-extrabold uppercase tracking-wider px-4 py-2 rounded-lg shrink-0 hover:brightness-110 transition-all">
-              {copied ? 'Copied' : 'Copy'}
-            </button>
-          </div>
+          {editing ? (
+            <div className="bg-white/[0.08] border border-white/[0.12] rounded-xl px-4 py-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-white/50 text-sm">anytime-soccer.com/r/</span>
+                <input
+                  autoFocus
+                  value={draftCode}
+                  onChange={(e) => setDraftCode(e.target.value.toUpperCase())}
+                  onKeyDown={(e) => { if (e.key === 'Enter') saveCode(); if (e.key === 'Escape') setEditing(false); }}
+                  maxLength={24}
+                  className="flex-1 min-w-[120px] bg-white/10 border border-white/20 rounded-lg px-3 py-1.5 text-white text-sm font-bold outline-none focus:border-[#7ec8e3]"
+                  aria-label="Your referral code"
+                />
+                <button onClick={saveCode} disabled={saving} className="bg-[#7ec8e3] text-[#1a2a3a] text-xs font-extrabold uppercase tracking-wider px-4 py-2 rounded-lg disabled:opacity-50">
+                  {saving ? 'Saving…' : 'Save'}
+                </button>
+                <button onClick={() => { setEditing(false); setCodeError(''); }} className="text-white/50 text-xs font-bold px-2">
+                  Cancel
+                </button>
+              </div>
+              {codeError && <p className="text-[#ff9a9a] text-xs mt-2">{codeError}</p>}
+              <p className="text-white/50 text-xs mt-2">
+                Anywhere you have already shared the old link stops counting the moment you save.
+              </p>
+            </div>
+          ) : (
+            <div className="flex flex-wrap items-center gap-3 bg-white/[0.08] border border-white/[0.12] rounded-xl px-4 py-3">
+              <code className="text-white text-sm sm:text-base font-bold break-all flex-1 min-w-0">{partner.link}</code>
+              <button onClick={copy} className="bg-[#7ec8e3] text-[#1a2a3a] text-xs font-extrabold uppercase tracking-wider px-4 py-2 rounded-lg shrink-0 hover:brightness-110 transition-all">
+                {copied ? 'Copied' : 'Copy'}
+              </button>
+              <button
+                onClick={() => { setDraftCode(partner.code); setEditing(true); }}
+                className="text-white/60 text-xs font-bold underline underline-offset-4 hover:text-white shrink-0"
+              >
+                Change it
+              </button>
+            </div>
+          )}
         </section>
 
         {/* Metrics */}
