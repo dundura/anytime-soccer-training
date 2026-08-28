@@ -44,6 +44,7 @@ type Subscriber = {
 type Sequence = {
   key: string;
   label: string;
+  group: string;
   emails: number;
   subscribers: number;
 };
@@ -96,6 +97,7 @@ const Pill = ({ value }: { value: string }) => (
 export default function Newsletters({ token }: { token: string | null }) {
   const [tab, setTab] = useState<'emails' | 'subscribers'>('emails');
   const [sequences, setSequences] = useState<Sequence[]>([]);
+  const [groups, setGroups] = useState<string[]>([]);
   const [sequence, setSequence] = useState('');
   const [emails, setEmails] = useState<EmailRow[]>([]);
   const [subs, setSubs] = useState<Subscriber[]>([]);
@@ -128,6 +130,7 @@ export default function Newsletters({ token }: { token: string | null }) {
       const j = await res.json();
       const list: Sequence[] = j.sequences || [];
       setSequences(list);
+      setGroups(j.groups && j.groups.length ? j.groups : Array.from(new Set(list.map((x) => x.group))));
       setSequence((cur) => cur || j.defaultSequence || (list[0] && list[0].key) || '');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not load the sequences.');
@@ -203,27 +206,43 @@ export default function Newsletters({ token }: { token: string | null }) {
 
   return (
     <div className="mb-6">
-      <div className="mb-4 max-w-sm">
-        <label htmlFor="newsletter-sequence" className="block text-[11px] font-bold uppercase tracking-wide text-gray-500 mb-1">
-          Lead magnet
-        </label>
-        <div className="relative">
-          <select
-            id="newsletter-sequence"
-            value={sequence}
-            onChange={(ev) => setSequence(ev.target.value)}
-            disabled={sequences.length === 0}
-            className="w-full appearance-none bg-white border border-gray-300 rounded-lg py-2.5 pl-3 pr-9 text-sm font-semibold text-navy cursor-pointer hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors disabled:opacity-60"
-          >
-            {sequences.length === 0 && <option value="">Loading…</option>}
-            {sequences.map((sq) => (
-              <option key={sq.key} value={sq.key}>
-                {sq.label} ({sq.emails} email{sq.emails === 1 ? '' : 's'}, {sq.subscribers} signed up)
-              </option>
-            ))}
-          </select>
-          <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400 text-xs">&#9662;</span>
-        </div>
+      {/* One picker per group. Whichever you choose from wins, and the other
+          shows nothing selected - two dropdowns that both claim to hold the
+          current value is the fastest way to make a screen confusing. */}
+      <div className="grid gap-3 sm:grid-cols-2 mb-4 max-w-2xl">
+        {groups.map((group) => {
+          const inGroup = sequences.filter((sq) => sq.group === group);
+          if (inGroup.length === 0) return null;
+          const selectedHere = inGroup.some((sq) => sq.key === sequence);
+          return (
+            <div key={group}>
+              <label
+                htmlFor={`seq-${group}`}
+                className="block text-[11px] font-bold uppercase tracking-wide text-gray-500 mb-1"
+              >
+                {group}
+              </label>
+              <div className="relative">
+                <select
+                  id={`seq-${group}`}
+                  value={selectedHere ? sequence : ''}
+                  onChange={(ev) => ev.target.value && setSequence(ev.target.value)}
+                  className={`w-full appearance-none bg-white border rounded-lg py-2.5 pl-3 pr-9 text-sm font-semibold cursor-pointer hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors ${
+                    selectedHere ? 'border-navy text-navy' : 'border-gray-300 text-gray-400'
+                  }`}
+                >
+                  <option value="">{selectedHere ? '' : 'Choose…'}</option>
+                  {inGroup.map((sq) => (
+                    <option key={sq.key} value={sq.key}>
+                      {sq.label} ({sq.emails} email{sq.emails === 1 ? '' : 's'}, {sq.subscribers} signed up)
+                    </option>
+                  ))}
+                </select>
+                <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400 text-xs">&#9662;</span>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <div className="flex flex-wrap items-center gap-3 mb-4">
