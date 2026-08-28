@@ -307,11 +307,12 @@ export default function Newsletters({ token }: { token: string | null }) {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
+                  {/* No dimming on inactive rows. active=0 on the read-only
+                      sequences means the newsletter sender skips them, not that
+                      they are switched off - they send from their own crons
+                      every day, and greying them read as though nobody was
+                      getting them. */}
                   {emails.map((e) => (
-                    {/* No dimming. active=0 on the read-only sequences means
-                        the newsletter sender skips them, not that they are
-                        switched off - they send from their own crons, and
-                        greying them reads as though nobody is getting them. */}
                     <tr key={e.id}>
                       <td className="px-4 py-3 font-bold text-navy">{e.position}</td>
                       <td className="px-4 py-3">
