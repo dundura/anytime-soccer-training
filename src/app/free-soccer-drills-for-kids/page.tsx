@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
+import SevenDayForm from '@/components/SevenDayForm';
 
 export const metadata: Metadata = {
   title: 'Free 7-Day Soccer Training Plan | Anytime Soccer Training',
@@ -257,20 +257,104 @@ export default function FreeSoccerDrillsPage() {
 
 .ast-7day-landing-form-container {
   width: 100%;
-  min-height: 500px;
   position: relative;
-  margin-top: 0;
-  overflow: visible;
+  margin-top: 8px;
 }
 
-@media (max-width: 800px) {
-  .ast-7day-landing-form-container {
-    min-height: 650px;
+.ast-7day-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ast-7day-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 520px) {
+  .ast-7day-form-row {
+    grid-template-columns: 1fr;
   }
 }
 
-.ast-7day-landing-form-container iframe {
-  margin-top: -60px;
+.ast-7day-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ast-7day-form-field span {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--ast-navy);
+}
+
+.ast-7day-form-field input {
+  width: 100%;
+  padding: 13px 14px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--ast-navy);
+  background: #fff;
+  border: 1px solid #d6dbe3;
+  border-radius: 8px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ast-7day-form-field input:focus {
+  outline: none;
+  border-color: var(--ast-navy);
+  box-shadow: 0 0 0 3px rgba(15, 49, 84, 0.12);
+}
+
+.ast-7day-form-button {
+  width: 100%;
+  padding: 16px 24px;
+  margin-top: 4px;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  font-family: inherit;
+  color: #fff;
+  background: var(--ast-red);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.ast-7day-form-button:hover:not(:disabled) {
+  background: #c22e35;
+  transform: translateY(-1px);
+}
+
+.ast-7day-form-button:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.ast-7day-form-error {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--ast-red);
+}
+
+.ast-7day-form-done {
+  padding: 28px 24px;
+  text-align: center;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  color: #166534;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.ast-7day-form-done-title {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+  font-weight: 700;
 }
 
 .ast-7day-landing-footer {
@@ -362,23 +446,7 @@ export default function FreeSoccerDrillsPage() {
         </ul>
 
         <div class="ast-7day-landing-form-container">
-          <iframe
-            src="https://api.leadconnectorhq.com/widget/form/4LIIpjpk2wNBl31YAQbv"
-            style="width:100%;height:100%;border:none;border-radius:3px"
-            id="inline-4LIIpjpk2wNBl31YAQbv"
-            data-layout='{"id":"INLINE"}'
-            data-trigger-type="alwaysShow"
-            data-trigger-value=""
-            data-activation-type="alwaysActivated"
-            data-activation-value=""
-            data-deactivation-type="neverDeactivate"
-            data-deactivation-value=""
-            data-form-name="7-Day Training Plan"
-            data-height="undefined"
-            data-layout-iframe-id="inline-4LIIpjpk2wNBl31YAQbv"
-            data-form-id="4LIIpjpk2wNBl31YAQbv"
-            title="7-Day Training Plan"
-          ></iframe>
+          <div id="ast-7day-form-slot"></div>
         </div>
 
         <p class="ast-7day-landing-footer">We respect your privacy. Unsubscribe anytime.</p>
@@ -390,7 +458,7 @@ export default function FreeSoccerDrillsPage() {
           `,
         }}
       />
-      <Script src="https://link.msgsndr.com/js/form_embed.js" strategy="afterInteractive" />
+      <SevenDayForm />
     </>
   );
 }
