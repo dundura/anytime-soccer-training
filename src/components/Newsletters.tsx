@@ -98,7 +98,18 @@ export default function Newsletters({ token }: { token: string | null }) {
   const [tab, setTab] = useState<'emails' | 'subscribers'>('emails');
   const [sequences, setSequences] = useState<Sequence[]>([]);
   const [groups, setGroups] = useState<string[]>([]);
-  const [sequence, setSequence] = useState('');
+  const [sequence, setSequenceState] = useState('');
+
+  // Mirrored into ?seq= so a refresh lands back on the same one. Written with
+  // replaceState rather than a router push: this is which pane you are looking
+  // at, not somewhere you navigated to, and it should not fill the back button.
+  const setSequence = useCallback((next: string) => {
+    setSequenceState(next);
+    if (typeof window === 'undefined') return;
+    const url = new URL(window.location.href);
+    url.searchParams.set('seq', next);
+    window.history.replaceState({}, '', url);
+  }, []);
   const [emails, setEmails] = useState<EmailRow[]>([]);
   const [subs, setSubs] = useState<Subscriber[]>([]);
   const [counts, setCounts] = useState<{ total: number; active: number; unsubscribed: number } | null>(null);
@@ -131,7 +142,11 @@ export default function Newsletters({ token }: { token: string | null }) {
       const list: Sequence[] = j.sequences || [];
       setSequences(list);
       setGroups(j.groups && j.groups.length ? j.groups : Array.from(new Set(list.map((x) => x.group))));
-      setSequence((cur) => cur || j.defaultSequence || (list[0] && list[0].key) || '');
+      // The URL wins over the default, but only if it names a real sequence.
+      const fromUrl =
+        typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('seq') : null;
+      const valid = fromUrl && list.some((x) => x.key === fromUrl) ? fromUrl : null;
+      setSequenceState((cur) => cur || valid || j.defaultSequence || (list[0] && list[0].key) || '');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not load the sequences.');
       setLoading(false);
