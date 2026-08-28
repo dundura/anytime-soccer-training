@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import LeadMagnetForm from '@/components/LeadMagnetForm';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: 'The Must-Have Guide to In-Home Soccer Training — Anytime Soccer Training',
@@ -64,8 +64,22 @@ export default function MustHaveGuidePage() {
                 ))}
               </ul>
 
-              <div className="my-6">
-                <LeadMagnetForm formId="V3lq2xI6NRyCJ1OKrcMn" />
+              {/* GHL Form */}
+              <div className="min-h-[536px] my-6">
+                <iframe
+                  src="https://api.leadconnectorhq.com/widget/form/V3lq2xI6NRyCJ1OKrcMn"
+                  style={{ width: '100%', height: '536px', border: 'none', borderRadius: '3px' }}
+                  id="inline-V3lq2xI6NRyCJ1OKrcMn"
+                  data-layout="{'id':'INLINE'}"
+                  data-trigger-type="alwaysShow"
+                  data-activation-type="alwaysActivated"
+                  data-deactivation-type="neverDeactivate"
+                  data-form-name="In-home Training Ebook"
+                  data-height="536"
+                  data-layout-iframe-id="inline-V3lq2xI6NRyCJ1OKrcMn"
+                  data-form-id="V3lq2xI6NRyCJ1OKrcMn"
+                  title="In-home Training Ebook"
+                />
               </div>
 
               <p className="text-center text-[13px] text-gray mt-4">
@@ -77,6 +91,7 @@ export default function MustHaveGuidePage() {
         </div>
       </section>
 
+      <Script src="https://link.msgsndr.com/js/form_embed.js" strategy="lazyOnload" />
     </>
   );
 }
