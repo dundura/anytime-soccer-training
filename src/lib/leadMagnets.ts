@@ -91,7 +91,7 @@ export const LEAD_MAGNETS: Record<string, LeadMagnet> = {
     label: 'The Most Important Skill in Youth Soccer',
     heading: 'Get the free breakdown',
     button: 'Send It To Me',
-    live: false,
+    live: true,
   },
   BnJ7M4slBaT4mAqId28b: {
     sequence: 'coach-contact',
