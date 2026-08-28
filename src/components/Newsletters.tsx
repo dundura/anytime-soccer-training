@@ -209,7 +209,7 @@ export default function Newsletters({ token }: { token: string | null }) {
       {/* One picker per group. Whichever you choose from wins, and the other
           shows nothing selected - two dropdowns that both claim to hold the
           current value is the fastest way to make a screen confusing. */}
-      <div className="grid gap-3 sm:grid-cols-2 mb-4 max-w-2xl">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 mb-4 max-w-4xl">
         {groups.map((group) => {
           const inGroup = sequences.filter((sq) => sq.group === group);
           if (inGroup.length === 0) return null;
