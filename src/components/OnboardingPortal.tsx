@@ -346,26 +346,13 @@ export default function OnboardingPortal() {
           setWizardIndex(firstIncomplete(data.coach));
           setShowIntro(false);
           setShowIndex(true);
-        } else if (params.get('view') === 'notifications') {
+        } else if ((ADMIN_VIEWS as readonly string[]).includes(params.get('view') || '')) {
+          // One branch for every admin view, so a new entry in ADMIN_VIEWS
+          // survives a refresh without another copy of these four lines.
           setWizardIndex(firstIncomplete(data.coach));
           setShowIntro(false);
           setShowIndex(true);
-          setIndexFilter('notifications');
-        } else if (params.get('view') === 'crm') {
-          setWizardIndex(firstIncomplete(data.coach));
-          setShowIntro(false);
-          setShowIndex(true);
-          setIndexFilter('crm');
-        } else if (params.get('view') === 'demos') {
-          setWizardIndex(firstIncomplete(data.coach));
-          setShowIntro(false);
-          setShowIndex(true);
-          setIndexFilter('demos');
-        } else if (params.get('view') === 'partners') {
-          setWizardIndex(firstIncomplete(data.coach));
-          setShowIntro(false);
-          setShowIndex(true);
-          setIndexFilter('partners');
+          setIndexFilter(params.get('view') as IndexFilter);
         } else {
           setWizardIndex(firstIncomplete(data.coach));
           // Directors have their own path and skip this screen.

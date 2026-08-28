@@ -240,8 +240,17 @@ export default function DemoPortal({ token }: { token: string | null }) {
       .then(() => setPreview(null));
   };
 
-  const convert = (lead: Lead) =>
-    act('convert', `${API}/demo-portal/leads/${lead.id}/convert`, { method: 'POST', headers: jsonHeaders() }, 'Handed over to the CRM');
+  // Two buttons rather than one with a tick-box. Won is also used to tidy up a
+  // club that signed months ago through another route, and welcoming somebody
+  // to a thing they already use reads as though nobody is paying attention -
+  // so the send has to be a deliberate, separate press.
+  const convert = (lead: Lead, sendWelcome = false) =>
+    act(
+      'convert',
+      `${API}/demo-portal/leads/${lead.id}/convert`,
+      { method: 'POST', headers: jsonHeaders(), body: JSON.stringify({ sendWelcome }) },
+      sendWelcome ? 'Won, and the welcome email is on its way' : 'Won, no email sent'
+    );
 
   const createLead = async () => {
     if (!newLead.name.trim() && !newLead.email.trim()) { flash('A name or an email, at least.'); return; }
@@ -584,9 +593,18 @@ export default function DemoPortal({ token }: { token: string | null }) {
                 ) : (
                   <>
                     <div className="text-xs text-emerald-900 font-semibold mb-2">Won it? Hand the club over to the CRM and close this lead.</div>
-                    <button onClick={() => convert(current)} disabled={busy === 'convert'} className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-[11px] font-bold disabled:opacity-50">
-                      {busy === 'convert' ? 'Handing over…' : 'Mark Won → send to CRM'}
-                    </button>
+                    <div className="flex flex-wrap gap-2">
+                      <button onClick={() => convert(current, true)} disabled={busy === 'convert' || !current.email} className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-[11px] font-bold disabled:opacity-50">
+                        {busy === 'convert' ? 'Working…' : 'Won + send welcome'}
+                      </button>
+                      <button onClick={() => convert(current, false)} disabled={busy === 'convert'} className="px-3 py-1.5 rounded-lg border border-emerald-600 text-emerald-800 bg-white text-[11px] font-bold disabled:opacity-50">
+                        Won, no email
+                      </button>
+                    </div>
+                    <p className="mt-2 text-[10px] text-emerald-800">
+                      The welcome email points them at the onboarding portal.
+                      {!current.email && ' No email address on file, so only the silent option is available.'}
+                    </p>
                   </>
                 )}
               </div>
