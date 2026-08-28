@@ -20,6 +20,7 @@ type EmailRow = {
   position: number;
   subject: string;
   delayDays: number;
+  delayMinutes: number;
   active: number;
   updatedAt: string | null;
   sentCount: number;
@@ -55,6 +56,20 @@ const fmt = (d: string | null) =>
 
 const fmtTime = (d: string | null) =>
   d ? new Date(d).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : '—';
+
+// The gap between signup and this email. Minutes for the first hour because
+// the 7-day plan spaces two emails fifteen minutes apart, then hours, then the
+// days that most of a sequence is measured in.
+const delayLabel = (mins: number) => {
+  if (!mins) return 'On signup';
+  if (mins < 60) return `${mins} min`;
+  if (mins < 1440) {
+    const h = Math.round(mins / 60);
+    return `${h} hr${h === 1 ? '' : 's'}`;
+  }
+  const d = Math.round(mins / 1440);
+  return `Day ${d}`;
+};
 
 const STATUS_TINT: Record<string, string> = {
   active: 'bg-emerald-100 text-emerald-700',
@@ -216,9 +231,7 @@ export default function Newsletters({ token }: { token: string | null }) {
                         <p className="text-[11px] text-gray-400">{e.emailKey}</p>
                       </td>
                       <td className="px-4 py-3 text-gray-600">{e.sequence}</td>
-                      <td className="px-4 py-3 text-gray-600">
-                        {e.delayDays === 0 ? 'Signup' : `Day ${e.delayDays}`}
-                      </td>
+                      <td className="px-4 py-3 text-gray-600">{delayLabel(e.delayMinutes)}</td>
                       <td className="px-4 py-3 text-gray-600">{e.sentCount}</td>
                       <td className="px-4 py-3 text-right whitespace-nowrap">
                         <button onClick={() => showPreview(e)} className="text-xs font-bold text-navy hover:underline mr-3">
