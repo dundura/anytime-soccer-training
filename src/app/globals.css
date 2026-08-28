@@ -811,3 +811,114 @@ body {
 .ast-team-cta a { display: inline-block; background: #DC373E; color: #fff; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1rem; transition: background 0.2s, transform 0.2s; }
 .ast-team-cta a:hover { background: #c42f35; transform: translateY(-2px); }
 @media (max-width: 900px) { .ast-team-header h1 { font-size: 1.8rem; } }
+/* Lead magnet signup forms — our own, replacing the Go High Level embeds.
+   Plain CSS rather than Tailwind utilities because these forms are portalled
+   into raw page HTML, where Tailwind's build-time class scanning would not
+   necessarily have seen them. */
+.ast-lead-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(15, 49, 84, 0.06);
+}
+
+.ast-lead-heading {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #0F3154;
+  text-align: center;
+}
+
+.ast-lead-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ast-lead-field span {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #0F3154;
+}
+
+.ast-lead-field input {
+  width: 100%;
+  padding: 13px 14px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #0F3154;
+  background: #fff;
+  border: 1px solid #d6dbe3;
+  border-radius: 8px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ast-lead-field input:focus {
+  outline: none;
+  border-color: #0F3154;
+  box-shadow: 0 0 0 3px rgba(15, 49, 84, 0.12);
+}
+
+.ast-lead-button {
+  width: 100%;
+  padding: 15px 24px;
+  margin-top: 4px;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  font-family: inherit;
+  color: #fff;
+  background: #DC373E;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.ast-lead-button:hover:not(:disabled) {
+  background: #c22e35;
+  transform: translateY(-1px);
+}
+
+.ast-lead-button:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.ast-lead-error {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #DC373E;
+}
+
+.ast-lead-note {
+  margin: 0;
+  font-size: 0.8125rem;
+  text-align: center;
+  color: #8a94a6;
+}
+
+.ast-lead-done {
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 28px 24px;
+  text-align: center;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  color: #166534;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.ast-lead-done-title {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+  font-weight: 700;
+}

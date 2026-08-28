@@ -3,6 +3,8 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getPageBySlug, getCatchAllSlugs } from '@/lib/pages';
 import { InlineScriptRunner } from '@/components/InlineScriptRunner';
+import LeadMagnetForms from '@/components/LeadMagnetForms';
+import { replaceLeadForms } from '@/lib/leadMagnets';
 
 export async function generateStaticParams() {
   return getCatchAllSlugs().map((slug) => ({ slug }));
@@ -31,15 +33,20 @@ export default async function CatchAllPage({ params }: { params: Promise<{ slug:
   const page = getPageBySlug(slug);
   if (!page) notFound();
 
+  // The GHL embeds come out server-side, so the LeadConnector iframe is never
+  // requested and there is no flash of the old form before ours mounts.
+  const content = replaceLeadForms(page.content);
+
   const hasOwnLayout = /class="(ast-(ebook|calculator|team-access|aerial|profile|youth-soccer|showcase|recruiting|offball|pyramid|training-landing|dribbling|teamcode|onboarding|agenda|homework|account|team[ "]|7day|leadmagnet|yt-library|video-library|privacy|form-section)|checklist-container)/.test(page.content);
 
   if (hasOwnLayout) {
     return (
       <article>
         <InlineScriptRunner />
+        <LeadMagnetForms />
         <div
           className="wp-content"
-          dangerouslySetInnerHTML={{ __html: page.content }}
+          dangerouslySetInnerHTML={{ __html: content }}
         />
       </article>
     );
@@ -47,6 +54,7 @@ export default async function CatchAllPage({ params }: { params: Promise<{ slug:
 
   return (
     <article className="py-12">
+      <LeadMagnetForms />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="mb-6 text-sm text-gray">
           <Link href="/" className="hover:text-navy transition-colors">Home</Link>
@@ -62,7 +70,7 @@ export default async function CatchAllPage({ params }: { params: Promise<{ slug:
 
         <div
           className="wp-content prose max-w-none"
-          dangerouslySetInnerHTML={{ __html: page.content }}
+          dangerouslySetInnerHTML={{ __html: content }}
         />
 
         <div className="mt-12 bg-navy text-white rounded-xl p-8 text-center">
