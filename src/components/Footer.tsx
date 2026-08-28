@@ -52,7 +52,7 @@ export default function Footer() {
             <h4 className="text-xs font-bold uppercase tracking-widest mb-5" style={{ color: 'rgba(255,255,255,0.4)' }}>Quick Links</h4>
             <ul className="space-y-3">
               {[
-                { href: 'https://anytime-soccer.com/free-7-day-soccer-skills-challenge/', label: 'Join Mailing List', external: true },
+                { href: '/join-mailing-list', label: 'Join Mailing List', external: false },
                 { href: '/for-coaches', label: 'Team Discounts' },
               ].map(({ href, label, external }) => (
                 <li key={label}>
