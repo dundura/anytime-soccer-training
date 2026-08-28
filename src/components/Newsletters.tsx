@@ -308,13 +308,24 @@ export default function Newsletters({ token }: { token: string | null }) {
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {emails.map((e) => (
-                    <tr key={e.id} className={e.active ? '' : 'opacity-50'}>
+                    {/* No dimming. active=0 on the read-only sequences means
+                        the newsletter sender skips them, not that they are
+                        switched off - they send from their own crons, and
+                        greying them reads as though nobody is getting them. */}
+                    <tr key={e.id}>
                       <td className="px-4 py-3 font-bold text-navy">{e.position}</td>
                       <td className="px-4 py-3">
                         <p className="font-semibold text-navy">{e.subject}</p>
                         <p className="text-[11px] text-gray-400">{e.emailKey}</p>
                       </td>
-                      <td className="px-4 py-3 text-gray-600">{delayLabel(e.delayMinutes)}</td>
+                      <td className="px-4 py-3 text-gray-600">
+                        {delayLabel(e.delayMinutes)}
+                        {!e.active && (
+                          <span className="block text-[10px] font-semibold text-gray-400 mt-0.5">
+                            sends elsewhere
+                          </span>
+                        )}
+                      </td>
                       <td className="px-4 py-3 text-gray-600">{e.sentCount}</td>
                       <td className="px-4 py-3 text-right whitespace-nowrap">
                         <button onClick={() => showPreview(e)} className="text-xs font-bold text-navy hover:underline mr-3">
