@@ -41,6 +41,13 @@ type Subscriber = {
   sentCount: number;
 };
 
+type Sequence = {
+  key: string;
+  label: string;
+  emails: number;
+  subscribers: number;
+};
+
 type Send = {
   id: number;
   emailKey: string;
@@ -88,6 +95,8 @@ const Pill = ({ value }: { value: string }) => (
 
 export default function Newsletters({ token }: { token: string | null }) {
   const [tab, setTab] = useState<'emails' | 'subscribers'>('emails');
+  const [sequences, setSequences] = useState<Sequence[]>([]);
+  const [sequence, setSequence] = useState('');
   const [emails, setEmails] = useState<EmailRow[]>([]);
   const [subs, setSubs] = useState<Subscriber[]>([]);
   const [counts, setCounts] = useState<{ total: number; active: number; unsubscribed: number } | null>(null);
@@ -112,15 +121,34 @@ export default function Newsletters({ token }: { token: string | null }) {
     setTimeout(() => setNote(''), 5000);
   };
 
+  const loadSequences = useCallback(async () => {
+    try {
+      const res = await fetch(`${API}/newsletters/sequences`, { headers: headers() });
+      if (!res.ok) throw new Error('Could not load the sequences.');
+      const j = await res.json();
+      const list: Sequence[] = j.sequences || [];
+      setSequences(list);
+      setSequence((cur) => cur || j.defaultSequence || (list[0] && list[0].key) || '');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not load the sequences.');
+      setLoading(false);
+    }
+  }, [headers]);
+
+  useEffect(() => {
+    loadSequences();
+  }, [loadSequences]);
+
   const load = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
       const params = new URLSearchParams();
+      params.set('sequence', sequence);
       if (statusFilter) params.set('status', statusFilter);
       if (search.trim()) params.set('search', search.trim());
       const [e, s] = await Promise.all([
-        fetch(`${API}/newsletters/emails`, { headers: headers() }),
+        fetch(`${API}/newsletters/emails?sequence=${encodeURIComponent(sequence)}`, { headers: headers() }),
         fetch(`${API}/newsletters/subscribers?${params.toString()}`, { headers: headers() }),
       ]);
       if (!e.ok || !s.ok) throw new Error('Could not load newsletters.');
@@ -134,11 +162,11 @@ export default function Newsletters({ token }: { token: string | null }) {
     } finally {
       setLoading(false);
     }
-  }, [headers, search, statusFilter]);
+  }, [headers, search, statusFilter, sequence]);
 
   useEffect(() => {
-    load();
-  }, [load]);
+    if (sequence) load();
+  }, [load, sequence]);
 
   const showPreview = async (row: EmailRow) => {
     try {
@@ -175,6 +203,29 @@ export default function Newsletters({ token }: { token: string | null }) {
 
   return (
     <div className="mb-6">
+      <div className="mb-4 max-w-sm">
+        <label htmlFor="newsletter-sequence" className="block text-[11px] font-bold uppercase tracking-wide text-gray-500 mb-1">
+          Lead magnet
+        </label>
+        <div className="relative">
+          <select
+            id="newsletter-sequence"
+            value={sequence}
+            onChange={(ev) => setSequence(ev.target.value)}
+            disabled={sequences.length === 0}
+            className="w-full appearance-none bg-white border border-gray-300 rounded-lg py-2.5 pl-3 pr-9 text-sm font-semibold text-navy cursor-pointer hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors disabled:opacity-60"
+          >
+            {sequences.length === 0 && <option value="">Loading…</option>}
+            {sequences.map((sq) => (
+              <option key={sq.key} value={sq.key}>
+                {sq.label} ({sq.emails} email{sq.emails === 1 ? '' : 's'}, {sq.subscribers} signed up)
+              </option>
+            ))}
+          </select>
+          <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400 text-xs">&#9662;</span>
+        </div>
+      </div>
+
       <div className="flex flex-wrap items-center gap-3 mb-4">
         <div className="flex border border-gray-200 rounded-lg overflow-hidden">
           {(['emails', 'subscribers'] as const).map((t) => (
@@ -208,7 +259,7 @@ export default function Newsletters({ token }: { token: string | null }) {
       {!loading && tab === 'emails' && (
         <div className="border border-gray-200 rounded-xl overflow-hidden">
           {emails.length === 0 ? (
-            <p className="p-8 text-center text-sm text-gray-500">No emails stored yet.</p>
+            <p className="p-8 text-center text-sm text-gray-500">No emails in this sequence yet.</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -216,7 +267,6 @@ export default function Newsletters({ token }: { token: string | null }) {
                   <tr>
                     <th className="text-left px-4 py-2 font-bold">#</th>
                     <th className="text-left px-4 py-2 font-bold">Subject</th>
-                    <th className="text-left px-4 py-2 font-bold">Sequence</th>
                     <th className="text-left px-4 py-2 font-bold">Sends on</th>
                     <th className="text-left px-4 py-2 font-bold">Sent</th>
                     <th className="px-4 py-2" />
@@ -230,7 +280,6 @@ export default function Newsletters({ token }: { token: string | null }) {
                         <p className="font-semibold text-navy">{e.subject}</p>
                         <p className="text-[11px] text-gray-400">{e.emailKey}</p>
                       </td>
-                      <td className="px-4 py-3 text-gray-600">{e.sequence}</td>
                       <td className="px-4 py-3 text-gray-600">{delayLabel(e.delayMinutes)}</td>
                       <td className="px-4 py-3 text-gray-600">{e.sentCount}</td>
                       <td className="px-4 py-3 text-right whitespace-nowrap">
@@ -271,7 +320,7 @@ export default function Newsletters({ token }: { token: string | null }) {
           </div>
           <div className="border border-gray-200 rounded-xl overflow-hidden">
             {subs.length === 0 ? (
-              <p className="p-8 text-center text-sm text-gray-500">Nobody has signed up yet.</p>
+              <p className="p-8 text-center text-sm text-gray-500">Nobody has signed up to this one yet.</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
