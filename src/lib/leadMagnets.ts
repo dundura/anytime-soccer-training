@@ -77,7 +77,7 @@ export const LEAD_MAGNETS: Record<string, LeadMagnet> = {
     label: 'Everything About Guest Playing',
     heading: 'Get the guest playing guide',
     button: 'Send Me The Guide',
-    live: false,
+    live: true,
   },
   OTvffXk2hbEzs6Q66bMk: {
     sequence: 'player-cards',
