@@ -28,7 +28,7 @@ export const LEAD_MAGNETS: Record<string, LeadMagnet> = {
     label: 'Free 30-Day Training Plan',
     heading: 'Get the free 30-day plan',
     button: 'Send It To Me',
-    live: false,
+    live: true,
   },
   lo6FcFawUsELKVA34oTo: {
     sequence: 'youtube-drills',
