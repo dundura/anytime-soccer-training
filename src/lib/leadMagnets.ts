@@ -123,8 +123,14 @@ export function replaceLeadForms(html: string): string {
     LEAD_MAGNETS[id]?.live ? `<div data-lead-form="${id}"></div>` : match
   );
 
+  // Our own form already carries the privacy line, so the one the page prints
+  // under the embed becomes a duplicate the moment a magnet goes live. Dropped
+  // only where a slot was actually inserted - a page still on GHL keeps it.
+  const dupe =
+    /(<div data-lead-form="[A-Za-z0-9]+"><\/div>[\s\S]{0,300}?)<p[^>]*>\s*We respect your privacy\.?\s*Unsubscribe anytime\.?\s*<\/p>/gi;
+
   // The resize helper stays while any GHL embed remains, since removing it
   // leaves the surviving iframes stuck at a height that does not match their
   // content.
-  return out;
+  return out.replace(dupe, '$1');
 }
