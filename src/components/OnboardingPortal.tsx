@@ -242,7 +242,8 @@ const crmDaysShown = (count: number | null, setAt: string | null) => {
   return count + Math.max(0, elapsed);
 };
 
-type Notification = { key: string; n: number; subject: string; purpose: string; from: string };
+type NotificationField = { key: string; label: string; required?: boolean };
+type Notification = { key: string; n: number; subject: string; purpose: string; from: string; fields?: NotificationField[] | null };
 
 const NEXT_STEPS = [
   'We’ll invite your parents to join the team',
@@ -802,6 +803,12 @@ export default function OnboardingPortal() {
   // is open. The admin token is separate from the coach token on purpose — the
   // coach holds the coach token too.
   const [notifySending, setNotifySending] = useState('');
+  // Values typed for a manual email that needs details the coach row does not
+  // hold - a team link, a code. Keyed by notification, so switching between two
+  // of them does not carry one's link into the other.
+  const [notifyFields, setNotifyFields] = useState<Record<string, Record<string, string>>>({});
+  const setNotifyField = (key: string, field: string, value: string) =>
+    setNotifyFields(f => ({ ...f, [key]: { ...(f[key] || {}), [field]: value } }));
   // Which email was sent, and where it went. It has to be BOTH: holding only
   // the address meant every row in the list matched, so sending one email put
   // "Sent to <coach>" under all eleven and made it look like the whole
@@ -821,7 +828,7 @@ export default function OnboardingPortal() {
           Authorization: token,
           'X-Admin-Token': localStorage.getItem('astPortalAdminToken') || '',
         },
-        body: JSON.stringify({ key }),
+        body: JSON.stringify({ key, ...(notifyFields[key] || {}) }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -1227,6 +1234,19 @@ export default function OnboardingPortal() {
                               >
                                 {openPreview === e.key ? '▾ Close copy' : '▸ View copy'}
                               </button>
+                              {!!e.fields?.length && (
+                                <span className="mt-2 block space-y-1.5">
+                                  {e.fields.map(f => (
+                                    <input
+                                      key={f.key}
+                                      value={notifyFields[e.key]?.[f.key] || ''}
+                                      onChange={ev => setNotifyField(e.key, f.key, ev.target.value)}
+                                      placeholder={f.required ? `${f.label} (required)` : f.label}
+                                      className="block w-full max-w-md text-xs border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:border-red"
+                                    />
+                                  ))}
+                                </span>
+                              )}
                             </span>
                             <span className="ml-auto flex-shrink-0 flex flex-col items-end gap-1">
                               <button
