@@ -70,7 +70,7 @@ export const LEAD_MAGNETS: Record<string, LeadMagnet> = {
     label: 'Become a Rec Coach Superhero',
     heading: 'Get the coaching guide',
     button: 'Send Me The Guide',
-    live: false,
+    live: true,
   },
   yLNAlo4U2OMrW3ROvWzU: {
     sequence: 'guest-playing',
