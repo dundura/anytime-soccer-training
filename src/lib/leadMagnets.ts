@@ -42,7 +42,7 @@ export const LEAD_MAGNETS: Record<string, LeadMagnet> = {
     label: 'Must-Have Guide for Serious Soccer Parents',
     heading: 'Get the guide',
     button: 'Send Me The Guide',
-    live: false,
+    live: true,
   },
   dYaeB8CwTNYBzrvFnbtJ: {
     sequence: 'parent-trainers-playbook',
