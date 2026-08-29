@@ -803,6 +803,9 @@ export default function OnboardingPortal() {
   // is open. The admin token is separate from the coach token on purpose — the
   // coach holds the coach token too.
   const [notifySending, setNotifySending] = useState('');
+  // Send asks first. These emails go to a real coach the moment the request
+  // lands, and the button sits beside View copy on a list of twenty rows.
+  const [notifyConfirm, setNotifyConfirm] = useState('');
   // Values typed for a manual email that needs details the coach row does not
   // hold - a team link, a code. Keyed by notification, so switching between two
   // of them does not carry one's link into the other.
@@ -817,6 +820,8 @@ export default function OnboardingPortal() {
   const [notifyError, setNotifyError] = useState<{ key: string; message: string } | null>(null);
   const sendNotification = async (key: string) => {
     if (!token || notifySending) return;
+    if (notifyConfirm !== key) { setNotifyConfirm(key); setNotifySent(null); setNotifyError(null); return; }
+    setNotifyConfirm('');
     setNotifySending(key);
     setNotifySent(null);
     setNotifyError(null);
@@ -1252,10 +1257,18 @@ export default function OnboardingPortal() {
                               <button
                                 onClick={() => sendNotification(e.key)}
                                 disabled={!!notifySending}
-                                className="text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full bg-navy text-white hover:bg-navy-light transition-colors disabled:opacity-50"
+                                className={`text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full text-white transition-colors disabled:opacity-50 ${notifyConfirm === e.key ? 'bg-red hover:bg-red-dark' : 'bg-navy hover:bg-navy-light'}`}
                               >
-                                {notifySending === e.key ? 'Sending…' : 'Send'}
+                                {notifySending === e.key ? 'Sending…' : notifyConfirm === e.key ? `Send to ${coach.email}?` : 'Send'}
                               </button>
+                              {notifyConfirm === e.key && notifySending !== e.key && (
+                                <button
+                                  onClick={() => setNotifyConfirm('')}
+                                  className="text-[10px] font-semibold text-gray-500 hover:underline"
+                                >
+                                  Cancel
+                                </button>
+                              )}
                               {notifySent?.key === e.key && notifySending !== e.key && (
                                 <span className="text-[10px] font-semibold text-green-700 text-right">✓ Sent to {notifySent.to}</span>
                               )}
