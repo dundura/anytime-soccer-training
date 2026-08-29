@@ -49,7 +49,7 @@ export const LEAD_MAGNETS: Record<string, LeadMagnet> = {
     label: "The Parent Trainer's Playbook",
     heading: 'Get the playbook',
     button: 'Send Me The Playbook',
-    live: false,
+    live: true,
   },
   PBQoqJ2hu9bTe5DlRxix: {
     sequence: '20-questions',
