@@ -63,7 +63,7 @@ export const LEAD_MAGNETS: Record<string, LeadMagnet> = {
     label: 'Monopoly: Issues Facing Youth Soccer',
     heading: 'Get the ebook',
     button: 'Send Me The Ebook',
-    live: false,
+    live: true,
   },
   iG0xWqCUGEXZAc4v7MKO: {
     sequence: 'rec-coach-superhero',
