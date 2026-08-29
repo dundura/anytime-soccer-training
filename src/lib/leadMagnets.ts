@@ -56,7 +56,7 @@ export const LEAD_MAGNETS: Record<string, LeadMagnet> = {
     label: '20 Questions Every Parent Should Ask',
     heading: 'Get the 20 questions',
     button: 'Send Me The Questions',
-    live: false,
+    live: true,
   },
   '37mvJV2K36eg9sr81JJI': {
     sequence: 'monopoly-ebook',
