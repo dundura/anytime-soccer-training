@@ -156,7 +156,7 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { title: 'Is Your Club Failing Your Players? 20 Questions Every Parent Should Ask', img: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-1.png', cta: 'Download', href: '/20-questions-every-parent-should-ask' },
-              { title: 'Your Players Are Watching. Are You Ready?', img: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-2.png', cta: 'Show Me How', href: '/become-a-rec-coach-superhero' },
+              { title: 'Never Coached Before? Run Practices Kids Love.', img: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-2.png', cta: 'Show Me How', href: '/become-a-rec-coach-superhero' },
               { title: "The Guest Player Loophole Most Families Don\u2019t Know About", img: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-3.png', cta: 'Get the Guide', href: '/everything-you-need-to-know-about-guest-playing' },
             ].map((ebook) => (
               <div key={ebook.title} className="bg-white rounded-2xl p-8 text-center shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all">
