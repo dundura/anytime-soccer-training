@@ -33,6 +33,8 @@ type Sub = {
 
 type Sequence = { key: string; label: string; group: string; emails: number; subscribers: number };
 
+type EmailRow = { emailKey: string; sequence: string; subject: string; position: number };
+
 // Few on purpose: a list of twenty statuses is a list nobody keeps up to date.
 const OUTCOMES = [
   { key: 'won', label: 'Won', className: 'bg-green-100 text-green-800' },
@@ -64,6 +66,11 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
   const [outcome, setOutcome] = useState('');
   const [showHidden, setShowHidden] = useState(false);
   const [busyId, setBusyId] = useState(0);
+  const [emails, setEmails] = useState<EmailRow[]>([]);
+  const [pickEmail, setPickEmail] = useState('');
+  const [pickPerson, setPickPerson] = useState('');
+  const [sending, setSending] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   const [note, setNote] = useState('');
 
   const headers = useCallback(
@@ -84,15 +91,18 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
       if (search.trim()) params.set('search', search.trim());
       if (outcome) params.set('outcome', outcome);
       if (showHidden) params.set('hidden', '1');
-      const [subsRes, seqRes] = await Promise.all([
+      const [subsRes, seqRes, emailRes] = await Promise.all([
         fetch(`${API}/newsletters/subscribers?${params.toString()}`, { headers: headers() }),
         fetch(`${API}/newsletters/sequences`, { headers: headers() }),
+        fetch(`${API}/newsletters/emails`, { headers: headers() }),
       ]);
       const sj = await subsRes.json().catch(() => ({}));
       const qj = await seqRes.json().catch(() => ({}));
+      const ej = await emailRes.json().catch(() => ({}));
       if (!subsRes.ok) throw new Error(sj.error || 'Could not load the list.');
       setSubs(sj.subscribers || []);
       setSequences(qj.sequences || []);
+      setEmails(ej.emails || []);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not load the list.');
     } finally {
@@ -120,6 +130,34 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
   };
 
   const label = (key: string) => sequences.find((s) => s.key === key)?.label || key;
+
+  // One email, one person, on purpose. A picker on every row put the same
+  // twenty-item list in front of you forty times; this asks the two questions
+  // once, in the order you actually decide them.
+  const sendManual = async () => {
+    if (!pickEmail || !pickPerson || sending) return;
+    setSending(true);
+    setNote('');
+    try {
+      const res = await fetch(`${API}/newsletters/subscribers/${pickPerson}/send`, {
+        method: 'POST',
+        headers: { ...headers(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ emailKey: pickEmail }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Could not send that.');
+      setNote(`Sent "${data.subject}" to ${data.sentTo}`);
+      setConfirming(false);
+      setPickPerson('');
+      // The row's send count and timeline are both stale now.
+      setSends({});
+      await load();
+    } catch (e) {
+      setNote(e instanceof Error ? e.message : 'Could not send that.');
+    } finally {
+      setSending(false);
+    }
+  };
 
   const patch = async (id: number, body: Record<string, unknown>) => {
     setBusyId(id);
@@ -323,6 +361,74 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className="border border-gray-200 rounded-lg p-3 mt-4">
+        <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-2">Send an email by hand</p>
+        <div className="flex flex-wrap items-center gap-2">
+          <select
+            value={pickEmail}
+            onChange={(e) => {
+              setPickEmail(e.target.value);
+              setConfirming(false);
+            }}
+            className="text-xs border border-gray-300 rounded px-2 py-1.5 max-w-sm focus:outline-none focus:border-red"
+          >
+            <option value="">Choose the email…</option>
+            {emails.map((e2) => (
+              <option key={e2.emailKey} value={e2.emailKey}>
+                {label(e2.sequence)} · {e2.subject}
+              </option>
+            ))}
+          </select>
+          <select
+            value={pickPerson}
+            onChange={(e) => {
+              setPickPerson(e.target.value);
+              setConfirming(false);
+            }}
+            className="text-xs border border-gray-300 rounded px-2 py-1.5 max-w-sm focus:outline-none focus:border-red"
+          >
+            <option value="">Choose the person…</option>
+            {/* Whoever the filters above are showing, so narrowing the table
+                narrows this too. */}
+            {subs
+              .filter((x) => x.status !== 'unsubscribed')
+              .map((x) => (
+                <option key={x.id} value={x.id}>
+                  {[x.firstName, x.lastName].filter(Boolean).join(' ') || x.email} · {x.email}
+                </option>
+              ))}
+          </select>
+          {confirming ? (
+            <>
+              <button
+                onClick={sendManual}
+                disabled={sending}
+                className="text-[10px] font-bold uppercase tracking-wide px-4 py-1.5 rounded-full bg-red text-white hover:bg-red-dark disabled:opacity-50"
+              >
+                {sending ? 'Sending…' : 'Send it?'}
+              </button>
+              <button
+                onClick={() => setConfirming(false)}
+                className="text-[10px] font-semibold text-gray-500 hover:underline"
+              >
+                Cancel
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={() => setConfirming(true)}
+              disabled={!pickEmail || !pickPerson}
+              className="text-[10px] font-bold uppercase tracking-wide px-4 py-1.5 rounded-full bg-navy text-white hover:bg-navy-light disabled:opacity-40"
+            >
+              Send
+            </button>
+          )}
+        </div>
+        <p className="text-[11px] text-gray-500 mt-2">
+          It is recorded like any other send, so it shows in their timeline and cannot go twice.
+        </p>
       </div>
 
       <p className="text-[11px] text-gray-500 mt-3">
