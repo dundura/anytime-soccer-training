@@ -46,7 +46,7 @@ const SECTIONS: { id: string; heading: string; accent: 'red' | 'navy'; steps: St
       },
       {
         title: 'Enter your team code',
-        content: <>If your coach gave you one, enter it during signup. No code yet? Skip it and add it later.</>,
+        content: <>If your coach gave you one, enter it during signup.</>,
       },
       {
         title: 'Verify your email',
