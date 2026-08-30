@@ -402,38 +402,24 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
       )}
 
       {allTeams.length > 0 && (
-        <div className="mb-4">
-          <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1">Filter by team</p>
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setTeamFilter('')}
-              className={`text-xs rounded-full px-3 py-1 border transition-colors ${
-                teamFilter === '' ? 'bg-navy text-white border-navy' : 'bg-gray-100 border-gray-200 hover:bg-gray-200'
-              }`}
-            >
-              All teams{' '}
-              <span className={teamFilter === '' ? 'text-white/70' : 'text-gray-500'}>
-                · {staged.length + sends.length}
-              </span>
-            </button>
+        <div className="flex items-center gap-2 mb-4">
+          <label htmlFor="poTeam" className="text-[10px] font-bold uppercase tracking-wide text-gray-500">
+            Team
+          </label>
+          <select
+            id="poTeam"
+            value={teamFilter}
+            onChange={(e) => setTeamFilter(e.target.value)}
+            className="text-xs border border-gray-300 rounded px-2 py-1.5 max-w-sm focus:outline-none focus:border-red"
+          >
+            <option value="">All teams ({staged.length + sends.length})</option>
             {allTeams.map((t) => (
-              <button
-                key={t.teamCode}
-                onClick={() => setTeamFilter(t.teamCode)}
-                className={`text-xs rounded-full px-3 py-1 border transition-colors ${
-                  teamFilter === t.teamCode
-                    ? 'bg-navy text-white border-navy'
-                    : 'bg-gray-100 border-gray-200 hover:bg-gray-200'
-                }`}
-              >
-                <strong>{t.teamName || 'No team name'}</strong>
-                <span className={teamFilter === t.teamCode ? 'text-white/70' : 'text-gray-500'}>
-                  {' '}
-                  · {t.teamCode} · {t.count}
-                </span>
-              </button>
+              <option key={t.teamCode} value={t.teamCode}>
+                {t.teamName || 'No team name'}
+                {t.teamCode ? ` (${t.teamCode})` : ''} — {t.count}
+              </option>
             ))}
-          </div>
+          </select>
         </div>
       )}
 
