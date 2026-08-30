@@ -60,6 +60,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
   const [confirming, setConfirming] = useState(false);
   const [busy, setBusy] = useState(false);
   const [draft, setDraft] = useState({ ...blank });
+  const [confirmDelete, setConfirmDelete] = useState(0);
 
   const headers = useCallback(
     () => ({
@@ -180,7 +181,46 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
     }
   };
 
-  const toggle = (id: number) =>
+  // Two clicks, because the rows sit right next to an editable field and a
+  // delete here is a real delete - the row is gone from the CRM, not hidden.
+  const remove = async (id: number) => {
+    if (confirmDelete !== id) return setConfirmDelete(id);
+    setConfirmDelete(0);
+    try {
+      const res = await fetch(`${API}/portal-onboarding/admin-coach`, {
+        method: 'DELETE',
+        headers: headers(),
+        body: JSON.stringify({ id }),
+      });
+      if (!res.ok) throw new Error('Could not remove that contact.');
+      setChosen((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+      setTodo((rows) => rows.filter((r) => r.id !== id));
+      setAdded((rows) => rows.filter((r) => r.id !== id));
+    } catch (e) {
+      setNote(e instanceof Error ? e.message : 'Could not remove that contact.');
+    }
+  };
+
+  const removeButton = (id: number) => (
+    <button
+      onClick={() => remove(id)}
+      onBlur={() => setConfirmDelete((d) => (d === id ? 0 : d))}
+      title="Remove this contact"
+      className={`ml-auto flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full ${
+        confirmDelete === id
+          ? 'bg-red text-white hover:bg-red-dark'
+          : 'border border-gray-300 text-gray-400 hover:bg-gray-50'
+      }`}
+    >
+      {confirmDelete === id ? 'Remove?' : '×'}
+    </button>
+  );
+
+  const toggle = (id: number) =
     setChosen((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
@@ -351,6 +391,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
                   onBlur={(e) => e.target.value.trim() !== (l.email || '') && patchLead(l.id, 'email', e.target.value)}
                   className={`${editable} text-gray-600 w-56`}
                 />
+                {removeButton(l.id)}
               </div>
             ))}
             {!ready.length && !loading && (
@@ -452,6 +493,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
                     site ↗
                   </a>
                 )}
+                {removeButton(l.id)}
               </div>
             ))}
             {!blocked.length && !loading && (
