@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import CrmAdmin from './CrmAdmin';
 import DemoPortal from './DemoPortal';
 import Newsletters from './Newsletters';
 import NewsletterPeople from './NewsletterPeople';
@@ -30,6 +31,7 @@ const ADMIN_KEY = 'astPortalAdminToken';
 const VIEWS = [
   { key: 'newsletters', label: 'Newsletters', icon: '✉' },
   { key: 'people', label: 'People', icon: '🧑' },
+  { key: 'crm', label: 'CRM', icon: '📇' },
   { key: 'parent-onboarding', label: 'Parent onboarding', icon: '👪' },
   { key: 'demos', label: 'Demos', icon: '🎬' },
   { key: 'partners', label: 'Partners', icon: '🤝' },
@@ -172,14 +174,8 @@ export default function Console() {
               {/* Until the CRM and the notification list are pulled out of the
                   portal, this is where they still live. */}
               <a
-                href="/onboarding-portal?view=crm"
-                className="w-full text-left px-4 py-3 text-sm font-semibold text-navy hover:bg-gray-50 flex items-center gap-3 no-underline border-t border-gray-100"
-              >
-                <span className="w-5 text-center">📇</span> CRM
-              </a>
-              <a
                 href="/onboarding-portal?view=notifications"
-                className="w-full text-left px-4 py-3 text-sm font-semibold text-navy hover:bg-gray-50 flex items-center gap-3 no-underline"
+                className="w-full text-left px-4 py-3 text-sm font-semibold text-navy hover:bg-gray-50 flex items-center gap-3 no-underline border-t border-gray-100"
               >
                 <span className="w-5 text-center">🔔</span> Notifications
               </a>
@@ -189,6 +185,7 @@ export default function Console() {
           <div className="flex-1 min-w-0 bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden">
             {view === 'newsletters' && <Newsletters token={token} />}
             {view === 'people' && <NewsletterPeople token={token} />}
+            {view === 'crm' && <CrmAdmin token={token} />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
             {view === 'demos' && <DemoPortal token={token} />}
             {view === 'partners' && <PartnerAdmin token={token} />}
