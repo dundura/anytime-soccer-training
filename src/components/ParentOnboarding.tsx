@@ -72,7 +72,6 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
   const [sending, setSending] = useState(false);
   const [nudging, setNudging] = useState(0);
   const [deleting, setDeleting] = useState(0);
-  const [showSent, setShowSent] = useState(false);
 
   const adminHeaders = useCallback(
     () => ({
@@ -101,8 +100,11 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
   }, [token, load]);
 
   const inTeam = (p: Person) => !teamFilter || p.teamCode === teamFilter;
-  const visible = staged.filter(inTeam);
-  const sentVisible = sends.filter(inTeam);
+  // One list. Sending changes a row's status rather than moving it somewhere
+  // else - "who is on this roster and where are they up to" is one question.
+  const everyone = [...staged, ...sends].sort((a, b) => b.id - a.id);
+  const visible = everyone.filter(inTeam);
+  const unsent = visible.filter((p) => p.status === 'staged');
 
   // Built from staged and sent together: a team whose list has already gone out
   // still needs a chip, or the filter disappears the moment you press send.
@@ -124,7 +126,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
     setConfirming(false);
   }, [staged, teamFilter]);
 
-  const selected = visible.filter((p) => chosen.has(p.id));
+  const selected = unsent.filter((p) => chosen.has(p.id));
   const sample = selected[0] || visible[0] || null;
 
   const read = async (body: FormData) => {
@@ -204,15 +206,16 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
     }
   };
 
-  const sendBatch = async () => {
-    if (!selected.length || sending) return;
+  const sendBatch = async (ids?: number[]) => {
+    const list = ids || selected.map((p) => p.id);
+    if (!list.length || sending) return;
     setSending(true);
     setNote('');
     try {
       const res = await fetch(`${API}/portal-onboarding/parent-onboarding/send`, {
         method: 'POST',
         headers: { ...adminHeaders(), 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ids: selected.map((p) => p.id) }),
+        body: JSON.stringify({ ids: list }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Could not send that batch.');
@@ -395,35 +398,13 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
       )}
 
       {/* ---- the list ---- */}
-      {loaded && !staged.length && (
+      {loaded && !everyone.length && (
         <p className="text-sm text-gray-500 font-semibold py-6 text-center border border-gray-200 rounded-lg">
           Nobody on the list yet. Add a spreadsheet above.
         </p>
       )}
 
-      {allTeams.length > 0 && (
-        <div className="flex items-center gap-2 mb-4">
-          <label htmlFor="poTeam" className="text-[10px] font-bold uppercase tracking-wide text-gray-500">
-            Team
-          </label>
-          <select
-            id="poTeam"
-            value={teamFilter}
-            onChange={(e) => setTeamFilter(e.target.value)}
-            className="text-xs border border-gray-300 rounded px-2 py-1.5 max-w-sm focus:outline-none focus:border-red"
-          >
-            <option value="">All teams ({staged.length + sends.length})</option>
-            {allTeams.map((t) => (
-              <option key={t.teamCode} value={t.teamCode}>
-                {t.teamName || 'No team name'}
-                {t.teamCode ? ` (${t.teamCode})` : ''} — {t.count}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-
-      {staged.length > 0 && (
+      {everyone.length > 0 && (
         <>
           <div className="border border-gray-200 rounded-lg p-3 mb-4">
             <div className="flex flex-wrap items-center gap-2">
@@ -456,7 +437,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
                 {confirming ? (
                   <>
                     <button
-                      onClick={sendBatch}
+                      onClick={() => sendBatch()}
                       disabled={sending}
                       className="text-[10px] font-bold uppercase tracking-wide px-4 py-1.5 rounded-full bg-red text-white hover:bg-red-dark disabled:opacity-50"
                     >
@@ -495,7 +476,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
               <thead className="bg-gray-50 text-gray-500">
                 <tr>
                   <th className="px-3 py-2"></th>
-                  {['Parent', 'Player', 'Email', 'Team', 'Code', 'Status', ''].map((h, i) => (
+                  {['Parent', 'Player', 'Email', 'Team', 'Code', 'Status', 'Nudged', 'Signed up', ''].map((h, i) => (
                     <th key={h + i} className="text-left font-bold uppercase tracking-wide px-3 py-2 whitespace-nowrap">
                       {h}
                     </th>
@@ -503,126 +484,82 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
                 </tr>
               </thead>
               <tbody>
-                {visible.map((p) => (
-                  <tr key={p.id} className={`border-t border-gray-100 ${p.hasAccount ? 'bg-green-50' : ''}`}>
-                    <td className="px-3 py-2">
-                      <input type="checkbox" checked={chosen.has(p.id)} onChange={() => toggle(p.id)} />
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap">{p.parentName || '—'}</td>
-                    <td className="px-3 py-2 whitespace-nowrap">{p.playerLastName || '—'}</td>
-                    <td className="px-3 py-2 whitespace-nowrap">{p.email}</td>
-                    <td className="px-3 py-2 whitespace-nowrap">{p.teamName || '—'}</td>
-                    <td className="px-3 py-2 whitespace-nowrap font-mono">{p.teamCode}</td>
-                    <td className="px-3 py-2 whitespace-nowrap">
-                      {p.hasAccount ? (
-                        <span className="font-semibold text-green-700">Has an account</span>
-                      ) : (
-                        <span className="text-gray-500">Waiting to send</span>
-                      )}
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-right">
-                      <button
-                        onClick={() => removeRecord(p.id)}
-                        onBlur={() => setDeleting((d) => (d === p.id ? 0 : d))}
-                        className={`text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full transition-colors ${
-                          deleting === p.id
-                            ? 'bg-red text-white hover:bg-red-dark'
-                            : 'border border-gray-300 text-gray-500 hover:bg-gray-50'
-                        }`}
-                      >
-                        {deleting === p.id ? 'Delete?' : 'Delete'}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {visible.map((p) => {
+                  const isStaged = p.status === 'staged';
+                  return (
+                    <tr key={p.id} className={`border-t border-gray-100 ${p.hasAccount ? 'bg-green-50' : ''}`}>
+                      <td className="px-3 py-2">
+                        {isStaged && (
+                          <input type="checkbox" checked={chosen.has(p.id)} onChange={() => toggle(p.id)} />
+                        )}
+                      </td>
+                      <td className="px-3 py-2 whitespace-nowrap">{p.parentName || '—'}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{p.playerLastName || '—'}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{p.email}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{p.teamName || '—'}</td>
+                      <td className="px-3 py-2 whitespace-nowrap font-mono">{p.teamCode || '—'}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">
+                        {isStaged ? (
+                          <span className="text-gray-500">Not sent</span>
+                        ) : p.status === 'sent' ? (
+                          <span className="font-semibold text-navy">Sent {(p.sentAt || '').slice(0, 10)}</span>
+                        ) : (
+                          <span className="font-semibold text-red">{p.status}</span>
+                        )}
+                      </td>
+                      <td className="px-3 py-2 whitespace-nowrap text-gray-500">
+                        {p.nudgeSentAt ? p.nudgeSentAt.slice(0, 10) : '—'}
+                      </td>
+                      <td className="px-3 py-2 whitespace-nowrap">
+                        {p.hasAccount ? (
+                          <span className="font-semibold text-green-700">Yes</span>
+                        ) : (
+                          <span className="text-gray-400">Not yet</span>
+                        )}
+                      </td>
+                      <td className="px-3 py-2 whitespace-nowrap text-right">
+                        <span className="flex items-center justify-end gap-2">
+                          {isStaged ? (
+                            <button
+                              onClick={() => sendBatch([p.id])}
+                              disabled={sending}
+                              className="text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full border border-gray-300 text-navy hover:bg-gray-50 disabled:opacity-40"
+                            >
+                              Send
+                            </button>
+                          ) : (
+                            p.status === 'sent' &&
+                            !p.unsubscribedAt && (
+                              <button
+                                onClick={() => sendReminder(p.id)}
+                                disabled={!!nudging}
+                                className="text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full border border-gray-300 text-navy hover:bg-gray-50 disabled:opacity-40"
+                              >
+                                {nudging === p.id ? 'Sending…' : p.nudgeSentAt ? 'Remind again' : 'Remind'}
+                              </button>
+                            )
+                          )}
+                          <button
+                            onClick={() => removeRecord(p.id)}
+                            onBlur={() => setDeleting((d) => (d === p.id ? 0 : d))}
+                            className={`text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full transition-colors ${
+                              deleting === p.id
+                                ? 'bg-red text-white hover:bg-red-dark'
+                                : 'border border-gray-300 text-gray-500 hover:bg-gray-50'
+                            }`}
+                          >
+                            {deleting === p.id ? 'Delete?' : 'Delete'}
+                          </button>
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
         </>
       )}
-
-      {/* ---- what has gone out ---- */}
-      <div className="mt-6">
-        <button
-          onClick={() => setShowSent((v) => !v)}
-          className="text-[11px] font-bold uppercase tracking-wide text-red hover:underline"
-        >
-          {showSent ? '▾ Hide what has been sent' : `▸ What has been sent (${sentVisible.length})`}
-        </button>
-        {showSent && (
-          <div className="mt-2 overflow-x-auto border border-gray-200 rounded-lg">
-            <table className="w-full text-xs">
-              <thead className="bg-gray-50 text-gray-500">
-                <tr>
-                  {['Parent', 'Email', 'Team', 'Code', 'Sent', 'Nudged', 'Signed up', ''].map((h, i) => (
-                    <th key={h + i} className="text-left font-bold uppercase tracking-wide px-3 py-2 whitespace-nowrap">
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {sentVisible.map((h) => (
-                  <tr key={h.id} className={`border-t border-gray-100 ${h.hasAccount ? 'bg-green-50' : ''}`}>
-                    <td className="px-3 py-2 whitespace-nowrap">{h.parentName || '—'}</td>
-                    <td className="px-3 py-2 whitespace-nowrap">{h.email}</td>
-                    <td className="px-3 py-2 whitespace-nowrap">{h.teamName || '—'}</td>
-                    <td className="px-3 py-2 whitespace-nowrap font-mono">{h.teamCode}</td>
-                    <td className="px-3 py-2 whitespace-nowrap">
-                      {h.status === 'sent' ? (
-                        (h.sentAt || '').slice(0, 10)
-                      ) : (
-                        <span className="text-red font-semibold">{h.status}</span>
-                      )}
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-gray-500">
-                      {h.nudgeSentAt ? h.nudgeSentAt.slice(0, 10) : '—'}
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap">
-                      {h.hasAccount ? (
-                        <span className="font-semibold text-green-700">Yes</span>
-                      ) : (
-                        <span className="text-gray-400">Not yet</span>
-                      )}
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-right">
-                      <span className="flex items-center justify-end gap-2">
-                        {h.status === 'sent' && !h.unsubscribedAt && (
-                          <button
-                            onClick={() => sendReminder(h.id)}
-                            disabled={!!nudging}
-                            className="text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full border border-gray-300 text-navy hover:bg-gray-50 disabled:opacity-40"
-                          >
-                            {nudging === h.id ? 'Sending…' : h.nudgeSentAt ? 'Remind again' : 'Send reminder'}
-                          </button>
-                        )}
-                        <button
-                          onClick={() => removeRecord(h.id)}
-                          onBlur={() => setDeleting((d) => (d === h.id ? 0 : d))}
-                          className={`text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full transition-colors ${
-                            deleting === h.id
-                              ? 'bg-red text-white hover:bg-red-dark'
-                              : 'border border-gray-300 text-gray-500 hover:bg-gray-50'
-                          }`}
-                        >
-                          {deleting === h.id ? 'Delete?' : 'Delete'}
-                        </button>
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-                {!sentVisible.length && (
-                  <tr>
-                    <td colSpan={8} className="px-3 py-6 text-center text-gray-500 font-semibold">
-                      Nothing sent yet.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
     </div>
   );
 }
