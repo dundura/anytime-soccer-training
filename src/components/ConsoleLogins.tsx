@@ -281,11 +281,25 @@ export default function ConsoleLogins({ token }: { token: string | null }) {
                     {shown[l.id] !== undefined ? (
                       <input
                         defaultValue={shown[l.id]}
-                        onBlur={(e) => e.target.value !== shown[l.id] && patch(l.id, { secret: e.target.value })}
+                        onBlur={(e) => {
+                          const v = e.target.value;
+                          if (v === shown[l.id]) return;
+                          setShown((m) => ({ ...m, [l.id]: v }));
+                          patch(l.id, { secret: v });
+                        }}
                         className={`${cell} font-mono`}
                       />
                     ) : (
-                      <span className="text-gray-400 font-mono">{l.hasSecret ? '••••••••' : '—'}</span>
+                      // The dots are the control. Requiring Show first meant the
+                      // password looked like the one cell that could not be
+                      // edited, which is the opposite of true.
+                      <button
+                        onClick={() => reveal(l.id)}
+                        className="text-gray-500 font-mono border-b border-dashed border-gray-300 hover:bg-amber-50 px-1 py-0.5 rounded-sm"
+                        title="Show and edit"
+                      >
+                        {l.hasSecret ? '••••••••' : 'Set a password'}
+                      </button>
                     )}
                     <span className="flex items-center gap-2 mt-1">
                       <button onClick={() => reveal(l.id)} className="text-[10px] font-bold text-red hover:underline">
