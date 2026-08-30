@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import ColdWorkflow from './ColdWorkflow';
 import ConsoleLogins from './ConsoleLogins';
 import ConsoleNotes from './ConsoleNotes';
 import CrmAdmin from './CrmAdmin';
@@ -195,7 +196,7 @@ export default function Console() {
             {view === 'newsletters' && <Newsletters token={token} />}
             {view === 'people' && <NewsletterPeople token={token} />}
             {view === 'crm' && <CrmAdmin token={token} />}
-            {view === 'cold' && <CrmAdmin token={token} stageName="Cold" />}
+            {view === 'cold' && <ColdWorkflow token={token} />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
             {view === 'demos' && <DemoPortal token={token} />}
             {view === 'partners' && <PartnerAdmin token={token} />}
