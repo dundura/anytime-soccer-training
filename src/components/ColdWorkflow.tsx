@@ -155,7 +155,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
   const patchLead = async (id: number, field: string, value: string) => {
     try {
       const res = await fetch(`${API}/portal-onboarding/admin-coach`, {
-        method: 'POST',
+        method: 'PUT',
         headers: headers(),
         body: JSON.stringify({ id, [field]: value }),
       });
@@ -173,6 +173,12 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
       else next.add(id);
       return next;
     });
+
+  // Dashed rule and a hover, so a borderless field reads as something you can
+  // type in rather than as printed text.
+  const editable =
+    'bg-transparent border-0 border-b border-dashed border-gray-300 hover:bg-amber-50 focus:bg-white ' +
+    'focus:border-solid focus:border-red focus:outline-none px-1 py-0.5 rounded-sm text-sm';
 
   const tabClass = (key: 'send' | 'work') =>
     `px-4 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${
@@ -278,17 +284,32 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
 
           <div className="border border-gray-200 rounded-lg mb-6 divide-y divide-gray-100">
             {ready.map((l) => (
-              <label key={l.id} className="flex items-center gap-3 px-3 py-2 text-sm cursor-pointer hover:bg-gray-50">
+              <div key={l.id} className="flex flex-wrap items-center gap-2 px-3 py-2 text-sm hover:bg-gray-50">
                 <input
                   type="checkbox"
                   checked={chosen.has(l.id)}
                   onChange={() => toggle(l.id)}
                   className="flex-shrink-0"
                 />
-                <span className="font-semibold text-navy min-w-0 truncate">{l.name || l.club || l.email}</span>
-                {l.club && l.name && <span className="text-gray-500 truncate hidden sm:inline">{l.club}</span>}
-                <span className="ml-auto text-xs text-gray-500 truncate">{l.email}</span>
-              </label>
+                <input
+                  defaultValue={l.name || ''}
+                  placeholder="Name"
+                  onBlur={(e) => e.target.value.trim() !== (l.name || '') && patchLead(l.id, 'name', e.target.value)}
+                  className={`${editable} font-semibold text-navy w-32`}
+                />
+                <input
+                  defaultValue={l.club || ''}
+                  placeholder="Club"
+                  onBlur={(e) => e.target.value.trim() !== (l.club || '') && patchLead(l.id, 'club', e.target.value)}
+                  className={`${editable} text-gray-600 flex-1 min-w-[120px]`}
+                />
+                <input
+                  defaultValue={l.email || ''}
+                  placeholder="Email"
+                  onBlur={(e) => e.target.value.trim() !== (l.email || '') && patchLead(l.id, 'email', e.target.value)}
+                  className={`${editable} text-gray-600 w-56`}
+                />
+              </div>
             ))}
             {!ready.length && !loading && (
               <p className="px-3 py-5 text-center text-sm text-gray-500 font-semibold">Nobody waiting.</p>
@@ -358,8 +379,18 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
           <div className="border border-gray-200 rounded-lg divide-y divide-gray-100">
             {blocked.map((l) => (
               <div key={l.id} className="flex flex-wrap items-center gap-3 px-3 py-2 text-sm">
-                <span className="font-semibold text-navy min-w-0 truncate">{l.name || l.club || '—'}</span>
-                {l.club && l.name && <span className="text-gray-500 truncate hidden sm:inline">{l.club}</span>}
+                <input
+                  defaultValue={l.name || ''}
+                  placeholder="Name"
+                  onBlur={(e) => e.target.value.trim() !== (l.name || '') && patchLead(l.id, 'name', e.target.value)}
+                  className={`${editable} font-semibold text-navy w-32`}
+                />
+                <input
+                  defaultValue={l.club || ''}
+                  placeholder="Club"
+                  onBlur={(e) => e.target.value.trim() !== (l.club || '') && patchLead(l.id, 'club', e.target.value)}
+                  className={`${editable} text-gray-600 flex-1 min-w-[120px]`}
+                />
                 <input
                   defaultValue={l.email || ''}
                   placeholder="Email address"
@@ -367,7 +398,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
                     const v = e.target.value.trim();
                     if (v && v !== (l.email || '')) patchLead(l.id, 'email', v);
                   }}
-                  className="ml-auto text-sm border-b border-dashed border-gray-300 hover:bg-amber-50 focus:bg-white focus:border-solid focus:border-red focus:outline-none px-1 py-0.5 rounded-sm min-w-[200px]"
+                  className={`${editable} w-56`}
                 />
                 {l.website && (
                   <a
