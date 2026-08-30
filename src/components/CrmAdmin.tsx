@@ -498,7 +498,7 @@ export default function CrmAdmin({ token }: { token: string | null }) {
                             setCrmStageView(v === 'unstaged' || v === 'all' ? v : Number(v));
                             setCrmConfirmStageDelete(null);
                           }}
-                          className="border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs font-bold text-navy bg-white focus:outline-none focus:ring-2 focus:ring-amber-300"
+                          className="border border-gray-200 rounded-lg px-2 py-1.5 text-xs font-bold text-navy bg-white max-w-[170px] focus:outline-none focus:ring-2 focus:ring-amber-300"
                         >
                           <option value="unstaged">Not staged ({crmCoaches.filter(c => !c.stageId).length})</option>
                           <option value="all">All ({crmCoaches.length})</option>
@@ -592,7 +592,6 @@ export default function CrmAdmin({ token }: { token: string | null }) {
                                   <th className="px-3 py-2 w-[14%]">Status</th>
                                   <th className="px-3 py-2 w-[16%]">Stage</th>
                                   <th className="px-3 py-2 w-[8%]">Added</th>
-                                  <th className="px-2 py-2 w-[5%] text-right">Days</th>
                                   <th className="px-3 py-2 w-[4%] text-center">Notes</th>
                                   <th className="px-3 py-2 w-[3%] text-right">&nbsp;</th>
                                 </tr>
@@ -713,27 +712,6 @@ export default function CrmAdmin({ token }: { token: string | null }) {
                                       {c.createdAt
                                         ? new Date(c.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
                                         : '\u2014'}
-                                    </td>
-                                    {/* Type a number, and it counts itself up from
-                                        there — nothing runs overnight, the days
-                                        since it was typed are added at render.
-                                        Typing again restarts it from the new
-                                        number, today. */}
-                                    <td className="px-2 py-2 whitespace-nowrap text-right">
-                                      <input
-                                        type="number"
-                                        min={0}
-                                        defaultValue={crmDaysShown(c.daysCount, c.daysSetAt) ?? ''}
-                                        placeholder="&mdash;"
-                                        title={c.daysSetAt ? `${c.daysCount} set ${new Date(c.daysSetAt).toLocaleDateString()}` : 'Type a number and it counts up daily'}
-                                        onBlur={ev => {
-                                          const shown = crmDaysShown(c.daysCount, c.daysSetAt);
-                                          const typed = ev.target.value.trim();
-                                          if (typed === String(shown ?? '')) return;
-                                          saveCrmField(c.id, 'days', typed === '' ? null : Number(typed));
-                                        }}
-                                        className={`${cellInput} w-14 text-right tabular-nums font-semibold text-gray-600 placeholder:text-gray-300 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
-                                      />
                                     </td>
                                     {/* The toggle, not the notes. A column wide
                                         enough to hold a written-up call would
