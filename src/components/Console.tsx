@@ -30,9 +30,9 @@ const API = 'https://api.anytime-soccer.com';
 const TOKEN_KEY = 'astPortalToken';
 const ADMIN_KEY = 'astPortalAdminToken';
 
+// The work first, the scratchpad and the vault last: they are things you reach
+// for occasionally, not the reason the console is open.
 const VIEWS = [
-  { key: 'notes', label: 'Notes', icon: '📝' },
-  { key: 'logins', label: 'Key logins', icon: '🔑' },
   { key: 'newsletters', label: 'Newsletters', icon: '✉' },
   { key: 'people', label: 'People', icon: '🧑' },
   { key: 'crm', label: 'CRM', icon: '📇' },
@@ -40,6 +40,8 @@ const VIEWS = [
   { key: 'parent-onboarding', label: 'Parent onboarding', icon: '👪' },
   { key: 'demos', label: 'Demos', icon: '🎬' },
   { key: 'partners', label: 'Partners', icon: '🤝' },
+  { key: 'notes', label: 'Notes', icon: '📝' },
+  { key: 'logins', label: 'Key logins', icon: '🔑' },
 ] as const;
 
 type ViewKey = (typeof VIEWS)[number]['key'];
