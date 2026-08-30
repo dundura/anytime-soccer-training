@@ -63,13 +63,18 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
   const [confirming, setConfirming] = useState(false);
   const [sending, setSending] = useState(false);
   const [history, setHistory] = useState<HistoryRow[] | null>(null);
+  // Empty means every team in the file. One upload can carry several.
+  const [teamFilter, setTeamFilter] = useState('');
+  const [nudging, setNudging] = useState(0);
 
   // A file and pasted cells go to the same endpoint - the server turns both
   // into the same grid, so the two routes in cannot read a column differently.
   const send = async (body: FormData) => {
     setBusy(true);
     setError('');
-    setPreview(null);
+    // The existing table stays up until a new one arrives. Clearing it first
+    // meant a read that failed - a slow deploy, a wrong file - wiped the screen
+    // and looked like the data had vanished.
     try {
       const res = await fetch(`${API}/portal-onboarding/parent-onboarding/preview`, {
         method: 'POST',
@@ -82,6 +87,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Could not read that.');
       setPreview(data);
+      setTeamFilter('');
       selectAll(data);
       setEmailPreview(null);
       setConfirming(false);
@@ -112,7 +118,17 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
 
   // Everything selectable is selected the moment a file is read: the common
   // case is "send to this whole roster", and unticking is easier than ticking.
-  const selectAll = (p: Preview) => setChosen(new Set(p.rows.filter((r) => !r.skip).map((r) => r.line)));
+  const selectAll = (p: Preview, code = '') =>
+    setChosen(new Set(p.rows.filter((r) => !r.skip && (!code || r.teamCode === code)).map((r) => r.line)));
+
+  // Switching team replaces the selection rather than adding to it: "send to
+  // this team" is the whole point, and a leftover tick from another team would
+  // be invisible behind the filter.
+  const pickTeam = (code: string) => {
+    setTeamFilter(code);
+    setConfirming(false);
+    if (preview) selectAll(preview, code);
+  };
 
   const toggle = (line: number) =>
     setChosen((prev) => {
@@ -122,7 +138,8 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
       return next;
     });
 
-  const selected = preview ? preview.rows.filter((r) => !r.skip && chosen.has(r.line)) : [];
+  const inTeam = (r: Row) => !teamFilter || r.teamCode === teamFilter;
+  const selected = preview ? preview.rows.filter((r) => !r.skip && inTeam(r) && chosen.has(r.line)) : [];
   const sample = selected[0] || preview?.rows.find((r) => !r.skip) || null;
 
   const showEmail = async () => {
@@ -164,6 +181,26 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
     }
   };
 
+  const sendReminder = async (id: number) => {
+    if (nudging) return;
+    setNudging(id);
+    setNote('');
+    try {
+      const res = await fetch(`${API}/portal-onboarding/parent-onboarding/nudge`, {
+        method: 'POST',
+        headers: { ...adminHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      });
+      const data = await res.json().catch(() => ({}));
+      setNote(res.ok ? `Reminder sent to ${data.sentTo}` : data.error || 'Could not send that reminder.');
+      if (res.ok) loadHistory();
+    } catch {
+      setNote('Could not send that reminder.');
+    } finally {
+      setNudging(0);
+    }
+  };
+
   const loadHistory = async () => {
     try {
       const res = await fetch(`${API}/portal-onboarding/parent-onboarding/history`, { headers: adminHeaders() });
@@ -198,7 +235,9 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
     }
   };
 
-  const rows = preview ? (showSkipped ? preview.rows : preview.rows.filter((r) => !r.skip)) : [];
+  const rows = preview
+    ? preview.rows.filter((r) => inTeam(r) && (showSkipped || !r.skip))
+    : [];
 
   return (
     <div className="px-4 py-4">
@@ -277,13 +316,36 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
 
           {preview.teams.length > 0 && (
             <div className="mb-4">
-              <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1">Team codes in this file</p>
+              <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1">
+                Send to one team
+              </p>
               <div className="flex flex-wrap gap-2">
-                {preview.teams.map((t) => (
-                  <span key={t.teamCode} className="text-xs bg-gray-100 rounded-full px-3 py-1">
-                    <strong className="text-navy">{t.teamName || 'No team name'}</strong>
-                    <span className="text-gray-500"> · {t.teamCode} · {t.count}</span>
+                <button
+                  onClick={() => pickTeam('')}
+                  className={`text-xs rounded-full px-3 py-1 border transition-colors ${
+                    teamFilter === '' ? 'bg-navy text-white border-navy' : 'bg-gray-100 border-gray-200 hover:bg-gray-200'
+                  }`}
+                >
+                  All teams
+                  <span className={teamFilter === '' ? 'text-white/70' : 'text-gray-500'}>
+                    {' '}· {preview.counts.sendable}
                   </span>
+                </button>
+                {preview.teams.map((t) => (
+                  <button
+                    key={t.teamCode}
+                    onClick={() => pickTeam(t.teamCode)}
+                    className={`text-xs rounded-full px-3 py-1 border transition-colors ${
+                      teamFilter === t.teamCode
+                        ? 'bg-navy text-white border-navy'
+                        : 'bg-gray-100 border-gray-200 hover:bg-gray-200'
+                    }`}
+                  >
+                    <strong>{t.teamName || 'No team name'}</strong>
+                    <span className={teamFilter === t.teamCode ? 'text-white/70' : 'text-gray-500'}>
+                      {' '}· {t.teamCode} · {t.count}
+                    </span>
+                  </button>
                 ))}
               </div>
             </div>
@@ -362,7 +424,12 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
               </thead>
               <tbody>
                 {rows.map((r) => (
-                  <tr key={r.line} className={`border-t border-gray-100 ${r.skip ? 'bg-gray-50 text-gray-400' : ''}`}>
+                  <tr
+                    key={r.line}
+                    className={`border-t border-gray-100 ${
+                      r.skip ? 'bg-gray-50 text-gray-400' : r.hasAccount ? 'bg-green-50' : ''
+                    }`}
+                  >
                     <td className="px-3 py-2">
                       {!r.skip && (
                         <input type="checkbox" checked={chosen.has(r.line)} onChange={() => toggle(r.line)} />
@@ -378,7 +445,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
                       {r.skip ? (
                         <span className="font-semibold text-amber-700">{r.skip}</span>
                       ) : r.hasAccount ? (
-                        <span className="font-semibold text-gray-500">Has an account</span>
+                        <span className="font-semibold text-green-700">Has an account</span>
                       ) : (
                         <span className="font-semibold text-green-700">Would send</span>
                       )}
@@ -398,12 +465,13 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
         >
           {history ? '▾ Hide what has been sent' : '▸ What has been sent'}
         </button>
+        {history && note && <p className="text-xs font-semibold text-navy mt-2">{note}</p>}
         {history && (
           <div className="mt-2 overflow-x-auto border border-gray-200 rounded-lg">
             <table className="w-full text-xs">
               <thead className="bg-gray-50 text-gray-500">
                 <tr>
-                  {['Parent', 'Email', 'Team', 'Code', 'Sent', 'Nudged', 'Signed up'].map((h) => (
+                  {['Parent', 'Email', 'Team', 'Code', 'Sent', 'Nudged', 'Signed up', ''].map((h) => (
                     <th key={h} className="text-left font-bold uppercase tracking-wide px-3 py-2 whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
@@ -422,10 +490,21 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
                     <td className="px-3 py-2 whitespace-nowrap">
                       {h.hasAccount ? <span className="font-semibold text-green-700">Yes</span> : <span className="text-gray-400">Not yet</span>}
                     </td>
+                    <td className="px-3 py-2 whitespace-nowrap text-right">
+                      {h.status === 'sent' && !h.unsubscribedAt && (
+                        <button
+                          onClick={() => sendReminder(h.id)}
+                          disabled={!!nudging}
+                          className="text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full border border-gray-300 text-navy hover:bg-gray-50 disabled:opacity-40"
+                        >
+                          {nudging === h.id ? 'Sending…' : h.nudgeSentAt ? 'Remind again' : 'Send reminder'}
+                        </button>
+                      )}
+                    </td>
                   </tr>
                 ))}
                 {!history.length && (
-                  <tr><td colSpan={7} className="px-3 py-6 text-center text-gray-500 font-semibold">Nothing sent yet.</td></tr>
+                  <tr><td colSpan={8} className="px-3 py-6 text-center text-gray-500 font-semibold">Nothing sent yet.</td></tr>
                 )}
               </tbody>
             </table>
