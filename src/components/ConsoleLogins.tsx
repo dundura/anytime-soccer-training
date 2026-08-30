@@ -155,7 +155,11 @@ export default function ConsoleLogins({ token }: { token: string | null }) {
       )
     : logins;
 
-  const cell = 'w-full bg-transparent border-0 text-sm text-navy focus:outline-none';
+  // A borderless input reads as plain text, and nobody clicks text. The dotted
+  // rule and the hover are the whole affordance.
+  const cell =
+    'w-full bg-transparent text-sm text-navy border-0 border-b border-dashed border-gray-300 ' +
+    'hover:bg-amber-50 focus:bg-white focus:border-solid focus:border-red focus:outline-none px-1 py-0.5 rounded-sm';
 
   return (
     <div className="px-4 py-4">
@@ -164,7 +168,8 @@ export default function ConsoleLogins({ token }: { token: string | null }) {
         <span className="text-[10px] font-semibold text-amber-700/70">Admin only</span>
       </div>
       <p className="text-xs text-gray-500 mb-4">
-        Passwords are encrypted on the server and only fetched when you press Show.
+        Click any cell to edit &mdash; it saves when you click away. Passwords are encrypted on the server and only
+        fetched when you press Show.
       </p>
 
       {!ready && (
