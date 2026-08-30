@@ -197,17 +197,37 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
       </p>
 
       <div className="flex flex-wrap items-center gap-2 mb-4">
+        {/* Two pickers rather than one long list. A lead magnet and an app
+            sequence are different questions, and mixing them made both harder
+            to find. Choosing in one clears the other, so the table is only
+            ever filtered by a single sequence. */}
         <select
-          value={sequence}
+          value={sequences.find((x) => x.key === sequence)?.group === 'Lead magnets' ? sequence : ''}
           onChange={(e) => setSequence(e.target.value)}
-          className="text-xs border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:border-red"
+          className="text-xs border border-gray-300 rounded px-2 py-1.5 max-w-[220px] focus:outline-none focus:border-red"
         >
-          <option value="">All sequences</option>
-          {sequences.map((s) => (
-            <option key={s.key} value={s.key}>
-              {s.label} ({s.subscribers})
-            </option>
-          ))}
+          <option value="">All lead magnets</option>
+          {sequences
+            .filter((x) => x.group === 'Lead magnets')
+            .map((x) => (
+              <option key={x.key} value={x.key}>
+                {x.label} ({x.subscribers})
+              </option>
+            ))}
+        </select>
+        <select
+          value={sequences.find((x) => x.key === sequence)?.group !== 'Lead magnets' ? sequence : ''}
+          onChange={(e) => setSequence(e.target.value)}
+          className="text-xs border border-gray-300 rounded px-2 py-1.5 max-w-[220px] focus:outline-none focus:border-red"
+        >
+          <option value="">All app sequences</option>
+          {sequences
+            .filter((x) => x.group !== 'Lead magnets')
+            .map((x) => (
+              <option key={x.key} value={x.key}>
+                {x.label} ({x.subscribers})
+              </option>
+            ))}
         </select>
         <select
           value={status}
