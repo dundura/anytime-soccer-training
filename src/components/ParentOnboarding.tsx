@@ -270,26 +270,6 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
     }
   };
 
-  // A roster whose two headings sit over the wrong columns is common enough
-  // that re-editing the spreadsheet is the wrong answer. Staged rows only.
-  const swapColumns = async () => {
-    setNote('');
-    try {
-      const res = await fetch(`${API}/portal-onboarding/parent-onboarding/swap`, {
-        method: 'POST',
-        headers: { ...adminHeaders(), 'Content-Type': 'application/json' },
-        body: JSON.stringify(teamFilter ? { teamCode: teamFilter } : {}),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || 'Could not swap those columns.');
-      setTeamFilter('');
-      await load();
-      setNote('Team and code swapped.');
-    } catch (e) {
-      setNote(e instanceof Error ? e.message : 'Could not swap those columns.');
-    }
-  };
-
   const toggle = (id: number) =>
     setChosen((prev) => {
       const next = new Set(prev);
@@ -406,6 +386,28 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
 
       {everyone.length > 0 && (
         <>
+          {allTeams.length > 0 && (
+            <div className="flex items-center gap-2 mb-4">
+              <label htmlFor="poTeam" className="text-[10px] font-bold uppercase tracking-wide text-gray-500">
+                Team
+              </label>
+              <select
+                id="poTeam"
+                value={teamFilter}
+                onChange={(e) => setTeamFilter(e.target.value)}
+                className="text-xs border border-gray-300 rounded px-2 py-1.5 max-w-sm focus:outline-none focus:border-red"
+              >
+                <option value="">All teams ({everyone.length})</option>
+                {allTeams.map((t) => (
+                  <option key={t.teamCode} value={t.teamCode}>
+                    {t.teamName || 'No team name'}
+                    {t.teamCode ? ` (${t.teamCode})` : ''} — {t.count}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <div className="border border-gray-200 rounded-lg p-3 mb-4">
             <div className="flex flex-wrap items-center gap-2">
               <button
@@ -424,13 +426,6 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
                 className="text-[10px] font-bold uppercase tracking-wide px-3 py-1.5 rounded-full border border-gray-300 text-navy hover:bg-gray-50"
               >
                 Send me one
-              </button>
-              <button
-                onClick={swapColumns}
-                title="Use this when the Team column shows the code and the Code column shows the name"
-                className="text-[10px] font-bold uppercase tracking-wide px-3 py-1.5 rounded-full border border-gray-300 text-gray-500 hover:bg-gray-50"
-              >
-                Swap team &amp; code
               </button>
 
               <span className="ml-auto flex items-center gap-2">
