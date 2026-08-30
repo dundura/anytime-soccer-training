@@ -93,13 +93,6 @@ export const LEAD_MAGNETS: Record<string, LeadMagnet> = {
     button: 'Send It To Me',
     live: true,
   },
-  BnJ7M4slBaT4mAqId28b: {
-    sequence: 'coach-contact',
-    label: 'Coach Contact Information',
-    heading: 'Send your details',
-    button: 'Send',
-    live: false,
-  },
 };
 
 /**

@@ -14,7 +14,6 @@ const GENERAL_GUIDES = [
   { title: 'Applying Team Code to Existing Account', slug: 'applying-team-code-to-existing-account' },
   { title: 'Onboarding Checklist', slug: 'anytime-soccer-training-onboarding-checklist' },
   { title: 'Free Team Access for the Season', slug: 'free-team-access-for-the-season' },
-  { title: 'Coach Contact Information', slug: 'coach-contact-information' },
 ];
 
 const TEAM_PAGES = [
