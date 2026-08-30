@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Honeypot, { useHoneypot } from './Honeypot';
 
 function usePersist<T>(key: string, defaultValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [value, setValue] = useState<T>(() => {
@@ -201,14 +202,26 @@ function OpsRow({ label, sub, value, onChange, revenue }: { label: React.ReactNo
 function GateCard({ name, setName, email, setEmail, onUnlock }: { name: string; setName: (v: string) => void; email: string; setEmail: (v: string) => void; onUnlock: () => void }) {
   const [err, setErr] = useState(false);
   const [loading, setLoading] = useState(false);
+  const hp = useHoneypot();
   const submit = async () => {
     if (!email.includes('@')) { setErr(true); return; }
     setLoading(true);
-    // Submit to GHL in background — don't block unlock on failure
-    fetch('/api/ghl-contact', {
+    // Straight to our own list, in the background — the unlock must not wait on
+    // it, and must not fail if it fails. landingPage is what tells these apart
+    // from every other evergreen signup later.
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+    fetch('https://api.anytime-soccer.com/newsletters/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, tags: ['calculator'] }),
+      body: JSON.stringify({
+        firstName: parts[0] || '',
+        lastName: parts.slice(1).join(' '),
+        email: email.trim(),
+        sequence: 'evergreen',
+        source: 'club-budget-calculator',
+        landingPage: typeof window !== 'undefined' ? window.location.pathname : null,
+        website: hp.value(),
+      }),
     }).catch(() => {});
     onUnlock();
   };
@@ -218,6 +231,7 @@ function GateCard({ name, setName, email, setEmail, onUnlock }: { name: string; 
       <div style={{ fontSize: '15px', fontWeight: '600', color: '#111', marginBottom: '6px' }}>See how your costs stack up</div>
       <div style={{ fontSize: '13px', color: '#6b7280', marginBottom: '18px', lineHeight: '1.5' }}>Enter your email to unlock cost modeling<br />and get a free PDF of your results.</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '300px', margin: '0 auto' }}>
+        <Honeypot inputRef={hp.ref} />
         <input type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)}
           style={{ fontSize: '14px', border: '1px solid #d1d5db', borderRadius: '8px', padding: '9px 12px', outline: 'none', color: '#111' }} />
         <input type="email" placeholder="your@email.com" value={email} onChange={e => { setEmail(e.target.value); setErr(false); }}
