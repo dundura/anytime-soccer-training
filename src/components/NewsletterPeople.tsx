@@ -67,6 +67,7 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
   const [showHidden, setShowHidden] = useState(false);
   const [busyId, setBusyId] = useState(0);
   const [emails, setEmails] = useState<EmailRow[]>([]);
+  const [pickSeq, setPickSeq] = useState('');
   const [pickEmail, setPickEmail] = useState('');
   const [pickPerson, setPickPerson] = useState('');
   const [sending, setSending] = useState(false);
@@ -366,20 +367,41 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
       <div className="border border-gray-200 rounded-lg p-3 mt-4">
         <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-2">Send an email by hand</p>
         <div className="flex flex-wrap items-center gap-2">
+          {/* Sequence first, then the email inside it. One flat list mixed
+              every sequence together and grew every time an email was added. */}
+          <select
+            value={pickSeq}
+            onChange={(e) => {
+              setPickSeq(e.target.value);
+              setPickEmail('');
+              setConfirming(false);
+            }}
+            className="text-xs border border-gray-300 rounded px-2 py-1.5 max-w-xs focus:outline-none focus:border-red"
+          >
+            <option value="">Choose the sequence…</option>
+            {[...new Set(emails.map((e2) => e2.sequence))].map((key) => (
+              <option key={key} value={key}>
+                {label(key)}
+              </option>
+            ))}
+          </select>
           <select
             value={pickEmail}
+            disabled={!pickSeq}
             onChange={(e) => {
               setPickEmail(e.target.value);
               setConfirming(false);
             }}
-            className="text-xs border border-gray-300 rounded px-2 py-1.5 max-w-sm focus:outline-none focus:border-red"
+            className="text-xs border border-gray-300 rounded px-2 py-1.5 max-w-xs focus:outline-none focus:border-red disabled:opacity-40"
           >
             <option value="">Choose the email…</option>
-            {emails.map((e2) => (
-              <option key={e2.emailKey} value={e2.emailKey}>
-                {label(e2.sequence)} · {e2.subject}
-              </option>
-            ))}
+            {emails
+              .filter((e2) => e2.sequence === pickSeq)
+              .map((e2) => (
+                <option key={e2.emailKey} value={e2.emailKey}>
+                  {e2.subject}
+                </option>
+              ))}
           </select>
           <select
             value={pickPerson}
