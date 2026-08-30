@@ -220,7 +220,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
     </button>
   );
 
-  const toggle = (id: number) =
+  const toggle = (id: number) =>
     setChosen((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
