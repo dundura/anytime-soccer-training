@@ -15,6 +15,7 @@ const API = 'https://api.anytime-soccer.com';
 
 type Note = {
   id: number;
+  title: string | null;
   body: string;
   pinned: number;
   doneAt: string | null;
@@ -27,9 +28,12 @@ export default function ConsoleNotes({ token }: { token: string | null }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [draft, setDraft] = useState('');
+  const [draftTitle, setDraftTitle] = useState('');
   const [busy, setBusy] = useState(false);
   const [showDone, setShowDone] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(0);
+  // Collapsed by default: the list is for scanning, the body is for reading.
+  const [openId, setOpenId] = useState(0);
 
   const headers = useCallback(
     () => ({
@@ -59,19 +63,21 @@ export default function ConsoleNotes({ token }: { token: string | null }) {
 
   const add = async () => {
     const body = draft.trim();
-    if (!body || busy) return;
+    const title = draftTitle.trim();
+    if (!title || !body || busy) return;
     setBusy(true);
     setError('');
     try {
       const res = await fetch(`${API}/portal-onboarding/notes`, {
         method: 'POST',
         headers: headers(),
-        body: JSON.stringify({ body }),
+        body: JSON.stringify({ body, title }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Could not save that.');
       setNotes((n) => [data.note, ...n]);
       setDraft('');
+      setDraftTitle('');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not save that.');
     } finally {
@@ -124,6 +130,15 @@ export default function ConsoleNotes({ token }: { token: string | null }) {
       </div>
       <p className="text-xs text-gray-500 mb-4">Only you see these. Ctrl+Enter saves.</p>
 
+      <input
+        value={draftTitle}
+        onChange={(e) => setDraftTitle(e.target.value)}
+        onKeyDown={(e) => {
+          if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') add();
+        }}
+        placeholder="Title"
+        className="w-full text-sm font-semibold border border-gray-300 rounded-lg px-3 py-2 mb-2 focus:outline-none focus:border-red"
+      />
       <textarea
         value={draft}
         onChange={(e) => setDraft(e.target.value)}
@@ -137,7 +152,7 @@ export default function ConsoleNotes({ token }: { token: string | null }) {
       <div className="flex items-center gap-3 mt-2 mb-5">
         <button
           onClick={add}
-          disabled={busy || !draft.trim()}
+          disabled={busy || !draft.trim() || !draftTitle.trim()}
           className="text-[11px] font-bold uppercase tracking-wide px-4 py-2 rounded-full bg-navy text-white hover:bg-navy-light transition-colors disabled:opacity-40"
         >
           {busy ? 'Saving…' : 'Add note'}
@@ -173,17 +188,55 @@ export default function ConsoleNotes({ token }: { token: string | null }) {
               onChange={() => patch(n.id, { done: !n.doneAt })}
               className="mt-1 flex-shrink-0"
             />
-            <textarea
-              defaultValue={n.body}
-              rows={Math.max(1, Math.min(8, n.body.split('\n').length))}
-              onBlur={(e) => {
-                const v = e.target.value.trim();
-                if (v && v !== n.body) patch(n.id, { body: v });
-              }}
-              className={`flex-1 text-sm bg-transparent border-0 resize-y focus:outline-none ${
-                n.doneAt ? 'line-through text-gray-400' : 'text-navy'
-              }`}
-            />
+            {/* Title alone until it is opened. Both fields edit in place and
+                save on blur - a note you cannot correct is a note you rewrite
+                somewhere else. */}
+            <span className="flex-1 min-w-0">
+              <span className="flex items-center gap-2">
+                <button
+                  onClick={() => setOpenId((o) => (o === n.id ? 0 : n.id))}
+                  className="text-gray-400 text-xs leading-none flex-shrink-0"
+                  title={openId === n.id ? 'Collapse' : 'Open'}
+                >
+                  {openId === n.id ? '\u25be' : '\u25b8'}
+                </button>
+                {openId === n.id ? (
+                  <input
+                    defaultValue={n.title || ''}
+                    placeholder="Title"
+                    onBlur={(e) => {
+                      const v = e.target.value.trim();
+                      if (v && v !== (n.title || '')) patch(n.id, { title: v });
+                    }}
+                    className={`w-full text-sm font-bold bg-transparent border-0 focus:outline-none ${
+                      n.doneAt ? 'line-through text-gray-400' : 'text-navy'
+                    }`}
+                  />
+                ) : (
+                  <button
+                    onClick={() => setOpenId(n.id)}
+                    className={`text-sm font-bold text-left truncate ${
+                      n.doneAt ? 'line-through text-gray-400' : 'text-navy'
+                    }`}
+                  >
+                    {n.title || n.body.split('\n')[0].slice(0, 80)}
+                  </button>
+                )}
+              </span>
+              {openId === n.id && (
+              <textarea
+                defaultValue={n.body}
+                rows={Math.max(1, Math.min(12, n.body.split('\n').length))}
+                onBlur={(e) => {
+                  const v = e.target.value.trim();
+                  if (v && v !== n.body) patch(n.id, { body: v });
+                }}
+                className={`w-full text-sm bg-transparent border-0 resize-y focus:outline-none ${
+                  n.doneAt ? 'line-through text-gray-400' : 'text-navy'
+                }`}
+              />
+              )}
+            </span>
             <span className="flex-shrink-0 flex items-center gap-2">
               <span className="text-[10px] text-gray-400 whitespace-nowrap">
                 {(n.createdAt || '').slice(0, 10)}
