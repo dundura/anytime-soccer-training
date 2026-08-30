@@ -40,6 +40,8 @@ type Lead = {
   signedUpAt?: string | null;
 };
 
+type ColdSequence = { key: string; label: string; group: string };
+
 const blank = { name: '', club: '', email: '', phone: '', website: '', notes: '' };
 
 /** "2 days", "5 minutes", "at signup" — the delay as a person would say it. */
@@ -52,6 +54,10 @@ function when(mins: number) {
 
 export default function ColdWorkflow({ token }: { token: string | null }) {
   const [emails, setEmails] = useState<EmailRow[]>([]);
+  // Which cold audience is being worked. They are separate conversations, so
+  // the page asks rather than assuming one.
+  const [sequences, setSequences] = useState<ColdSequence[]>([]);
+  const [sequence, setSequence] = useState('');
   const [added, setAdded] = useState<Lead[]>([]);
   const [todo, setTodo] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
@@ -75,10 +81,15 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
 
   const load = useCallback(async () => {
     try {
-      const res = await fetch(`${API}/portal-onboarding/cold`, { headers: headers() });
+      const res = await fetch(
+        `${API}/portal-onboarding/cold${sequence ? `?sequence=${encodeURIComponent(sequence)}` : ''}`,
+        { headers: headers() },
+      );
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Could not load the cold list.');
       setEmails(data.emails || []);
+      setSequences(data.sequences || []);
+      if (!sequence && data.sequence) setSequence(data.sequence);
       setAdded(data.added || []);
       setTodo(data.todo || []);
     } catch (e) {
@@ -86,7 +97,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
     } finally {
       setLoading(false);
     }
-  }, [headers]);
+  }, [headers, sequence]);
 
   useEffect(() => {
     if (token) load();
@@ -104,7 +115,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
       const res = await fetch(`${API}/portal-onboarding/cold/enroll`, {
         method: 'POST',
         headers: headers(),
-        body: JSON.stringify({ ids: selected.map((l) => l.id) }),
+        body: JSON.stringify({ ids: selected.map((l) => l.id), sequence }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Could not add those.');
@@ -168,7 +179,24 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
       {loading && <p className="text-sm text-gray-500">Loading…</p>}
 
       {/* 1 — the sequence ------------------------------------------------ */}
-      <p className={heading}>The sequence ({emails.length})</p>
+      <div className="flex items-center gap-2 mb-2">
+        <p className={`${heading} mb-0`}>The sequence</p>
+        <select
+          value={sequence}
+          onChange={(e) => {
+            setSequence(e.target.value);
+            setChosen(new Set());
+            setConfirming(false);
+          }}
+          className="text-xs border border-gray-300 rounded px-2 py-1.5 max-w-[240px] focus:outline-none focus:border-red"
+        >
+          {sequences.map((s2) => (
+            <option key={s2.key} value={s2.key}>
+              {s2.label}
+            </option>
+          ))}
+        </select>
+      </div>
       <div className="border border-gray-200 rounded-lg mb-6 overflow-x-auto">
         {emails.length === 0 ? (
           <p className="px-3 py-5 text-center text-sm text-gray-500 font-semibold">
