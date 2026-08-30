@@ -500,7 +500,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
                       <td className="px-3 py-2 whitespace-nowrap font-mono">{p.teamCode || '—'}</td>
                       <td className="px-3 py-2 whitespace-nowrap">
                         {isStaged ? (
-                          <span className="text-gray-500">Not sent</span>
+                          <span className="text-gray-300">&mdash;</span>
                         ) : p.status === 'sent' ? (
                           <span className="font-semibold text-navy">Sent {(p.sentAt || '').slice(0, 10)}</span>
                         ) : (
