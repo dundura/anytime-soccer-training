@@ -9,6 +9,7 @@ import { ONBOARDING_FAQ } from '@/data/onboardingFaq';
 
 import DemoPortal from './DemoPortal';
 import Newsletters from './Newsletters';
+import ParentOnboarding from './ParentOnboarding';
 import PartnerAdmin from './PartnerAdmin';
 
 const API = 'https://api.anytime-soccer.com';
@@ -251,7 +252,7 @@ const NEXT_STEPS = [
   'Neil will give you a call to walk through homework and other team features',
 ];
 
-const ADMIN_VIEWS = ['notifications', 'demos', 'crm', 'partners', 'newsletters'] as const;
+const ADMIN_VIEWS = ['notifications', 'demos', 'crm', 'partners', 'newsletters', 'parent-onboarding'] as const;
 type IndexFilter = 'all' | 'outstanding' | (typeof ADMIN_VIEWS)[number];
 
 const VIEW_LABELS: Record<IndexFilter, string> = {
@@ -262,6 +263,7 @@ const VIEW_LABELS: Record<IndexFilter, string> = {
   crm: 'CRM',
   partners: 'Partners',
   newsletters: 'Newsletters',
+  'parent-onboarding': 'Parent onboarding',
 };
 
 export default function OnboardingPortal() {
@@ -1046,7 +1048,7 @@ export default function OnboardingPortal() {
   // The portal is a max-w-2xl reading column: right for a wizard, far too
   // narrow for a table. The CRM tab gets the full width of the page instead
   // of being squeezed into the same column as the step list.
-  const wideView = showIndex && isAdmin && (indexFilter === 'crm' || indexFilter === 'demos' || indexFilter === 'partners' || indexFilter === 'newsletters');
+  const wideView = showIndex && isAdmin && (indexFilter === 'crm' || indexFilter === 'demos' || indexFilter === 'partners' || indexFilter === 'newsletters' || indexFilter === 'parent-onboarding');
 
   return (
     <section className="py-16 bg-background min-h-screen">
@@ -1182,6 +1184,7 @@ export default function OnboardingPortal() {
                   </div>
                 )}
                 {isAdmin && indexFilter === 'newsletters' && <Newsletters token={token} />}
+                {isAdmin && indexFilter === 'parent-onboarding' && <ParentOnboarding token={token} />}
                 {isAdmin && indexFilter === 'demos' && <DemoPortal token={token} />}
                 {isAdmin && indexFilter === 'partners' && <PartnerAdmin token={token} />}
                 <div className="border border-gray-200 rounded-xl overflow-hidden mb-6 divide-y divide-gray-100">
