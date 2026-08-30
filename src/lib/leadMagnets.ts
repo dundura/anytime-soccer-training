@@ -35,7 +35,7 @@ export const LEAD_MAGNETS: Record<string, LeadMagnet> = {
     label: '100 YouTube Drills by Age Group',
     heading: 'Get the 100 drills library',
     button: 'Send It To Me',
-    live: false,
+    live: true,
   },
   V3lq2xI6NRyCJ1OKrcMn: {
     sequence: 'must-have-guide',
