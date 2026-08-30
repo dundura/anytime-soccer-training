@@ -2,62 +2,108 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Getting Started with Anytime Soccer Training',
-  description: 'Step-by-step guide to creating your account, joining your team, and starting your first training session on Anytime Soccer Training.',
+  description: 'Create your account, add a player profile, and join your team — the whole setup on one page.',
   openGraph: {
     title: 'Getting Started with Anytime Soccer Training',
-    description: 'Create your free account, join your team, and start training today.',
+    description: 'Create your free account, add your player, join your team, and start training today.',
     images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1774959685241-1scke0.png', width: 1200, height: 630 }],
   },
 };
 
-const accountSteps = [
-  {
-    title: 'Go to anytime-soccer.com & Join for Free',
-    content: (
-      <>Visit <a href="https://anytime-soccer.com" target="_blank" rel="noopener noreferrer" className="text-red font-semibold no-underline hover:underline">anytime-soccer.com</a> and click <span className="text-red font-semibold">&ldquo;Join for Free&rdquo;</span> to create your account.</>
-    ),
-    tip: 'Have a team code? Make sure to enter it during registration to unlock your team\'s training videos.',
-  },
-  {
-    title: 'Verify Your Email',
-    content: (
-      <>Open the <span className="text-red font-semibold">Welcome Email</span> and click <span className="text-red font-semibold">&ldquo;Verify Address&rdquo;</span>.</>
-    ),
-    tip: "Don't see it? Check your spam or junk folder!",
-  },
-  {
-    title: 'Log In',
-    content: (
-      <>Log in using your <span className="text-red font-semibold">email and password</span>.</>
-    ),
-  },
-  {
-    title: 'Add a Player Profile',
-    content: (
-      <>Add a <span className="text-red font-semibold">player profile</span> for your child. You can add up to 4 players per account.</>
-    ),
-  },
-];
+/**
+ * The whole setup, on one page.
+ *
+ * This replaces three separate guides — create an account, add a player
+ * profile, join a team — that were each a page of their own. They are one
+ * sitting for a parent, and splitting them meant somebody could finish the
+ * first, close the tab, and never learn the other two existed.
+ */
 
-const teamSteps = [
+type Step = { title: string; content: React.ReactNode; tip?: string };
+
+const SECTIONS: { id: string; heading: string; accent: 'red' | 'navy'; steps: Step[] }[] = [
   {
-    title: 'Go to My Teams',
-    content: (
-      <>From the dashboard, click on <span className="text-red font-semibold">&ldquo;My Teams&rdquo;</span> in the navigation menu.</>
-    ),
+    id: 'create-account',
+    heading: 'Create your account',
+    accent: 'red',
+    steps: [
+      {
+        title: 'Join for free',
+        content: (
+          <>
+            Go to{' '}
+            <a
+              href="https://anytime-soccer.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-red font-semibold no-underline hover:underline"
+            >
+              anytime-soccer.com
+            </a>{' '}
+            and click <span className="text-red font-semibold">Join for Free</span>.
+          </>
+        ),
+      },
+      {
+        title: 'Enter your team code',
+        content: <>If your coach gave you one, enter it during signup. No code yet? Skip it and add it later.</>,
+      },
+      {
+        title: 'Verify your email',
+        content: (
+          <>
+            Open the welcome email and click <span className="text-red font-semibold">Verify Address</span>.
+          </>
+        ),
+        tip: 'Not there? Check spam or promotions.',
+      },
+    ],
   },
   {
-    title: 'Click "Join Team"',
-    content: (
-      <>Click the <span className="text-red font-semibold">&ldquo;Join Team&rdquo;</span> button to search for your team.</>
-    ),
+    id: 'add-player',
+    heading: 'Add your player',
+    accent: 'navy',
+    steps: [
+      {
+        title: 'Click Add Profile',
+        content: (
+          <>
+            Log in, then click <span className="text-red font-semibold">Add Profile</span> on your dashboard.
+          </>
+        ),
+      },
+      {
+        title: 'Fill in their details',
+        content: <>Name, age, and the rest. Up to four players on one account, all on the same email.</>,
+        tip: 'Add only your own children — coaches included.',
+      },
+    ],
   },
   {
-    title: 'Search & Send a Join Request',
-    content: (
-      <>Type your team name in the search box, select it, and click <span className="text-red font-semibold">&ldquo;Request to Join&rdquo;</span>. Your coach will be notified.</>
-    ),
-    tip: "Can't find your team? Try searching part of the name, or ask your coach for the exact team name.",
+    id: 'join-team',
+    heading: 'Join your team',
+    accent: 'red',
+    steps: [
+      {
+        title: 'Open My Teams',
+        content: (
+          <>
+            Click <span className="text-red font-semibold">Login</span> next to your player, then{' '}
+            <span className="text-red font-semibold">My Teams</span>.
+          </>
+        ),
+      },
+      {
+        title: 'Search and request',
+        content: (
+          <>
+            Click <span className="text-red font-semibold">Join Team</span>, type your team name, and click{' '}
+            <span className="text-red font-semibold">Request to Join</span>. Your coach is notified.
+          </>
+        ),
+        tip: "Can't find it? Search part of the name, or ask your coach for the exact one.",
+      },
+    ],
   },
 ];
 
@@ -66,29 +112,17 @@ export default function GettingStartedPage() {
     <>
       {/* HERO */}
       <section className="pt-6 pb-8 md:pt-8 md:pb-10 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-navy rounded-3xl px-6 py-12 md:px-12 md:py-16 relative overflow-hidden text-center">
+        {/* Same 700px column as the steps below, so the hero does not run wider
+            than the content it introduces. */}
+        <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-navy rounded-3xl px-6 py-10 md:px-10 md:py-12 relative overflow-hidden text-center">
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
             <div className="relative z-10">
               <h1 className="text-[clamp(28px,5vw,44px)] font-extrabold leading-[1.1] text-white mb-4">
-                Getting Started with Anytime Soccer Training
+                Getting Started
               </h1>
-              <p className="text-lg text-white/80 max-w-2xl mx-auto">Follow these simple steps to create your account and join your team.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Already have an account callout */}
-      <section className="pb-4 bg-background">
-        <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-[#dbeafe] rounded-2xl p-5 md:p-6 flex gap-4 items-start">
-            <span className="text-2xl flex-shrink-0">&#128161;</span>
-            <div>
-              <p className="text-navy font-bold text-sm m-0 mb-1">Already have an account?</p>
-              <p className="text-navy/80 text-sm m-0">
-                If you received a team code, you can apply it to unlock access to all the training videos. Log in, go to{' '}
-                <span className="text-navy font-semibold underline">Account Management</span>, and enter your code there.
+              <p className="text-lg text-white/80 max-w-2xl mx-auto">
+                Three steps, about five minutes. Account, player, team.
               </p>
             </div>
           </div>
@@ -98,45 +132,30 @@ export default function GettingStartedPage() {
       {/* STEPS */}
       <section className="pb-12 bg-background">
         <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-          {/* Section 1: Create Account */}
-          <details id="create-account" open className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden scroll-mt-6">
-            <summary className="p-6 md:p-8 pb-0 md:pb-0 cursor-pointer list-none flex items-center justify-between">
-              <h2 className="text-xl font-extrabold text-navy m-0">Step 1: Create Your Account</h2>
-              <span className="text-navy text-lg">&#9662;</span>
-            </summary>
-            <div className="p-6 md:p-8 pt-4 md:pt-4">
-              {accountSteps.map((step, i) => (
-                <div key={step.title} className={`${i < accountSteps.length - 1 ? 'mb-5 pb-5 border-b border-[#ECF1F7]' : ''}`}>
+          {SECTIONS.map((section, sectionIndex) => (
+            <details
+              key={section.id}
+              id={section.id}
+              className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden scroll-mt-6 group"
+            >
+              <summary className="p-6 md:p-8 cursor-pointer list-none flex items-center justify-between">
+                <h2 className="text-xl font-extrabold text-navy m-0">
+                  <span className="text-red">{sectionIndex + 1}.</span> {section.heading}
+                </h2>
+                <span className="text-navy text-lg group-open:rotate-180 transition-transform">&#9662;</span>
+              </summary>
+              <div className="px-6 md:px-8 pb-6 md:pb-8">
+              {section.steps.map((step, i) => (
+                <div
+                  key={step.title}
+                  className={i < section.steps.length - 1 ? 'mb-5 pb-5 border-b border-[#ECF1F7]' : ''}
+                >
                   <div className="flex items-center gap-3 mb-1.5">
-                    <span className="w-7 h-7 bg-red text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
-                      {i + 1}
-                    </span>
-                    <h3 className="text-base font-bold text-navy m-0">{step.title}</h3>
-                  </div>
-                  <div className="ml-10 text-[#5a7089] text-sm">
-                    {step.content}
-                    {step.tip && (
-                      <div className="bg-red/[0.08] border-l-[3px] border-red py-2.5 px-3 rounded-r-lg mt-2">
-                        <p className="text-navy text-xs m-0">{step.tip}{(step as any).tipLink && <> <a href={(step as any).tipLink.href} className="text-red font-semibold no-underline hover:underline">{(step as any).tipLink.label}</a></>}</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </details>
-
-          {/* Section 2: Join Your Team */}
-          <details id="join-team" open className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden scroll-mt-6">
-            <summary className="p-6 md:p-8 pb-0 md:pb-0 cursor-pointer list-none flex items-center justify-between">
-              <h2 className="text-xl font-extrabold text-navy m-0">Step 2: Join Your Team</h2>
-              <span className="text-navy text-lg">&#9662;</span>
-            </summary>
-            <div className="p-6 md:p-8 pt-4 md:pt-4">
-              {teamSteps.map((step, i) => (
-                <div key={step.title} className={`${i < teamSteps.length - 1 ? 'mb-5 pb-5 border-b border-[#ECF1F7]' : ''}`}>
-                  <div className="flex items-center gap-3 mb-1.5">
-                    <span className="w-7 h-7 bg-navy text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+                    <span
+                      className={`w-7 h-7 ${
+                        section.accent === 'red' ? 'bg-red' : 'bg-navy'
+                      } text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0`}
+                    >
                       {i + 1}
                     </span>
                     <h3 className="text-base font-bold text-navy m-0">{step.title}</h3>
@@ -151,28 +170,42 @@ export default function GettingStartedPage() {
                   </div>
                 </div>
               ))}
-            </div>
-          </details>
+              </div>
+            </details>
+          ))}
 
-          {/* CTA card */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
-
-            {/* CTA */}
-            <div className="text-center mt-4">
-              <a
-                href="https://anytime-soccer.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] no-underline"
-              >
-                Get Started Free &rarr;
-              </a>
+          {/* Already a member — the one case the three steps do not cover */}
+          <div className="bg-[#dbeafe] rounded-2xl p-5 md:p-6 flex gap-4 items-start">
+            <span className="text-2xl flex-shrink-0">&#128161;</span>
+            <div>
+              <p className="text-navy font-bold text-sm m-0 mb-1">Already have an account?</p>
+              <p className="text-navy/80 text-sm m-0">
+                Log in, go to <span className="font-semibold">Account Management</span>, and enter your team code
+                there.
+              </p>
             </div>
           </div>
 
-          {/* Contact */}
+          <div className="text-center pt-2">
+            <a
+              href="https://anytime-soccer.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] no-underline"
+            >
+              Get Started Free &rarr;
+            </a>
+          </div>
+
           <div className="text-center mt-6 text-[#6b7280] text-[15px]">
-            Questions? Email <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold no-underline">megan@anytime-soccer.com</a> or call <a href="tel:803-431-1082" className="text-red font-semibold no-underline">803-431-1082</a>
+            Questions? Email{' '}
+            <a href="mailto:megan@anytime-soccer.com" className="text-red font-semibold no-underline">
+              megan@anytime-soccer.com
+            </a>{' '}
+            or call{' '}
+            <a href="tel:803-431-1082" className="text-red font-semibold no-underline">
+              803-431-1082
+            </a>
           </div>
         </div>
       </section>
