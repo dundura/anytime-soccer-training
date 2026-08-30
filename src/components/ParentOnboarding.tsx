@@ -256,6 +256,26 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
     }
   };
 
+  // A roster whose two headings sit over the wrong columns is common enough
+  // that re-editing the spreadsheet is the wrong answer. Staged rows only.
+  const swapColumns = async () => {
+    setNote('');
+    try {
+      const res = await fetch(`${API}/portal-onboarding/parent-onboarding/swap`, {
+        method: 'POST',
+        headers: { ...adminHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify(teamFilter ? { teamCode: teamFilter } : {}),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Could not swap those columns.');
+      setTeamFilter('');
+      await load();
+      setNote('Team and code swapped.');
+    } catch (e) {
+      setNote(e instanceof Error ? e.message : 'Could not swap those columns.');
+    }
+  };
+
   const toggle = (id: number) =>
     setChosen((prev) => {
       const next = new Set(prev);
@@ -426,6 +446,13 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
                 className="text-[10px] font-bold uppercase tracking-wide px-3 py-1.5 rounded-full border border-gray-300 text-navy hover:bg-gray-50"
               >
                 Send me one
+              </button>
+              <button
+                onClick={swapColumns}
+                title="Use this when the Team column shows the code and the Code column shows the name"
+                className="text-[10px] font-bold uppercase tracking-wide px-3 py-1.5 rounded-full border border-gray-300 text-gray-500 hover:bg-gray-50"
+              >
+                Swap team &amp; code
               </button>
 
               <span className="ml-auto flex items-center gap-2">
