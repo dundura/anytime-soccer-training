@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import ConsoleNotes from './ConsoleNotes';
 import CrmAdmin from './CrmAdmin';
 import DemoPortal from './DemoPortal';
 import Newsletters from './Newsletters';
@@ -29,6 +30,7 @@ const TOKEN_KEY = 'astPortalToken';
 const ADMIN_KEY = 'astPortalAdminToken';
 
 const VIEWS = [
+  { key: 'notes', label: 'Notes', icon: '📝' },
   { key: 'newsletters', label: 'Newsletters', icon: '✉' },
   { key: 'people', label: 'People', icon: '🧑' },
   { key: 'crm', label: 'CRM', icon: '📇' },
@@ -184,6 +186,7 @@ export default function Console() {
           </nav>
 
           <div className="flex-1 min-w-0 bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden">
+            {view === 'notes' && <ConsoleNotes token={token} />}
             {view === 'newsletters' && <Newsletters token={token} />}
             {view === 'people' && <NewsletterPeople token={token} />}
             {view === 'crm' && <CrmAdmin token={token} />}
