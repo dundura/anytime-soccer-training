@@ -32,6 +32,7 @@ const VIEWS = [
   { key: 'newsletters', label: 'Newsletters', icon: '✉' },
   { key: 'people', label: 'People', icon: '🧑' },
   { key: 'crm', label: 'CRM', icon: '📇' },
+  { key: 'cold', label: 'Cold', icon: '🧊' },
   { key: 'parent-onboarding', label: 'Parent onboarding', icon: '👪' },
   { key: 'demos', label: 'Demos', icon: '🎬' },
   { key: 'partners', label: 'Partners', icon: '🤝' },
@@ -186,6 +187,7 @@ export default function Console() {
             {view === 'newsletters' && <Newsletters token={token} />}
             {view === 'people' && <NewsletterPeople token={token} />}
             {view === 'crm' && <CrmAdmin token={token} />}
+            {view === 'cold' && <CrmAdmin token={token} stageName="Cold" />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
             {view === 'demos' && <DemoPortal token={token} />}
             {view === 'partners' && <PartnerAdmin token={token} />}

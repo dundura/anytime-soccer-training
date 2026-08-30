@@ -97,6 +97,7 @@ const Pill = ({ value }: { value: string }) => (
 );
 
 export default function Newsletters({ token }: { token: string | null }) {
+  const [showSubs, setShowSubs] = useState(false);
   const [sequences, setSequences] = useState<Sequence[]>([]);
   const [groups, setGroups] = useState<string[]>([]);
   const [sequence, setSequenceState] = useState('');
@@ -336,8 +337,12 @@ export default function Newsletters({ token }: { token: string | null }) {
       {!loading && (
         <>
           <p className="text-[11px] font-bold uppercase tracking-wide text-gray-500 mt-6 mb-2">
-            Everybody on this sequence
+            <button onClick={() => setShowSubs(v => !v)} className="text-red hover:underline">
+              {showSubs ? '▾' : '▸'} Everybody on this sequence
+            </button>
           </p>
+          {showSubs && (
+          <>
           <div className="flex flex-wrap gap-2 mb-3">
             <input
               value={search}
@@ -391,6 +396,8 @@ export default function Newsletters({ token }: { token: string | null }) {
               </div>
             )}
           </div>
+          </>
+          )}
         </>
       )}
 

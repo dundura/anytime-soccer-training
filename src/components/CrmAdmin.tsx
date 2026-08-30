@@ -56,7 +56,7 @@ const crmDaysShown = (count: number | null, setAt: string | null) => {
   return count + Math.max(0, elapsed);
 };
 
-export default function CrmAdmin({ token }: { token: string | null }) {
+export default function CrmAdmin({ token, stageName }: { token: string | null; stageName?: string }) {
   // Reaching this component at all means an admin session; the panel is only
   // rendered behind the console's own sign-in.
   const isAdmin = true;
@@ -388,6 +388,15 @@ export default function CrmAdmin({ token }: { token: string | null }) {
     }
   };
 
+  // Opened as its own menu item, this panel is that one stage and nothing else.
+  // The stage picker is hidden with it, because a view called Cold that can be
+  // switched to something else is just the CRM with an extra name.
+  useEffect(() => {
+    if (!stageName || !crmStages.length) return;
+    const match = crmStages.find((s) => s.name.toLowerCase() === stageName.toLowerCase());
+    if (match) setCrmStageView(match.id);
+  }, [stageName, crmStages]);
+
   return (
     <div className="px-4 py-4">
       {viewingAs && (
@@ -489,7 +498,7 @@ export default function CrmAdmin({ token }: { token: string | null }) {
                           select stays one control however many stages exist.
                           Remove acts on whatever is selected, so there is no
                           per-stage × cluttering the list either. */}
-                      <div className="flex flex-wrap items-center gap-2 px-4 py-2 border-b border-gray-100">
+                      <div className={`flex-wrap items-center gap-2 px-4 py-2 border-b border-gray-100 ${stageName ? 'hidden' : 'flex'}`}>
                         <label className="text-[10px] font-extrabold uppercase tracking-wide text-gray-500">View</label>
                         <select
                           value={typeof crmStageView === 'number' ? String(crmStageView) : crmStageView}
