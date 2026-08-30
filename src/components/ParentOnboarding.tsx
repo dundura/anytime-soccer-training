@@ -372,7 +372,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
 
       {staged.length > 0 && (
         <>
-          {teams.length > 1 && (
+          {teams.length > 0 && (
             <div className="mb-4">
               <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1">Send to one team</p>
               <div className="flex flex-wrap gap-2">
