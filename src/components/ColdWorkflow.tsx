@@ -32,7 +32,7 @@ type Lead = {
   signedUpAt?: string | null;
 };
 
-const blank = { name: '', club: '', email: '' };
+const blank = { name: '', club: '', email: '', notes: '' };
 
 /** The delay as a person would say it. */
 function when(mins: number) {
@@ -42,7 +42,21 @@ function when(mins: number) {
   return `after ${Math.round(mins / 1440)} days`;
 }
 
-export default function ColdWorkflow({ token }: { token: string | null }) {
+/**
+ * `group` picks the audience: which CRM stage the contacts come from and which
+ * sequences the dropdown offers. Cold outreach and podcast invitations are the
+ * same job — a list, a sequence, a send — so they are the same page rather than
+ * two that drift apart.
+ */
+export default function ColdWorkflow({
+  token,
+  group = 'Cold',
+  noun = 'contact',
+}: {
+  token: string | null;
+  group?: string;
+  noun?: string;
+}) {
   const [tab, setTab] = useState<'send' | 'work'>('send');
   const [emails, setEmails] = useState<EmailRow[]>([]);
   const [sequences, setSequences] = useState<ColdSequence[]>([]);
@@ -73,10 +87,9 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
 
   const load = useCallback(async () => {
     try {
-      const res = await fetch(
-        `${API}/portal-onboarding/cold${sequence ? `?sequence=${encodeURIComponent(sequence)}` : ''}`,
-        { headers: headers() },
-      );
+      const params = new URLSearchParams({ group });
+      if (sequence) params.set('sequence', sequence);
+      const res = await fetch(`${API}/portal-onboarding/cold?${params.toString()}`, { headers: headers() });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Could not load the cold list.');
       setEmails(data.emails || []);
@@ -89,7 +102,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
     } finally {
       setLoading(false);
     }
-  }, [headers, sequence]);
+  }, [headers, sequence, group]);
 
   useEffect(() => {
     if (token) load();
@@ -139,7 +152,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
       const res = await fetch(`${API}/portal-onboarding/cold/add`, {
         method: 'POST',
         headers: headers(),
-        body: JSON.stringify(draft),
+        body: JSON.stringify({ ...draft, group }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Could not add that.');
@@ -192,7 +205,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
         headers: headers(),
         body: JSON.stringify({ id }),
       });
-      if (!res.ok) throw new Error('Could not remove that contact.');
+      if (!res.ok) throw new Error(`Could not remove that ${noun}.`);
       setChosen((prev) => {
         const next = new Set(prev);
         next.delete(id);
@@ -201,7 +214,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
       setTodo((rows) => rows.filter((r) => r.id !== id));
       setAdded((rows) => rows.filter((r) => r.id !== id));
     } catch (e) {
-      setNote(e instanceof Error ? e.message : 'Could not remove that contact.');
+      setNote(e instanceof Error ? e.message : `Could not remove that ${noun}.`);
     }
   };
 
@@ -209,7 +222,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
     <button
       onClick={() => remove(id)}
       onBlur={() => setConfirmDelete((d) => (d === id ? 0 : d))}
-      title="Remove this contact"
+      title={`Remove this ${noun}`}
       className={`ml-auto flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full ${
         confirmDelete === id
           ? 'bg-red text-white hover:bg-red-dark'
@@ -392,6 +405,13 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
                   className={`${editable} text-gray-600 w-56`}
                 />
                 {removeButton(l.id)}
+                <input
+                  defaultValue={l.notes || ''}
+                  placeholder="Notes"
+                  onBlur={(e) => e.target.value.trim() !== (l.notes || '') && patchLead(l.id, 'notes', e.target.value)}
+                  className={`${editable} text-gray-500 w-full basis-full`}
+                />
+
               </div>
             ))}
             {!ready.length && !loading && (
@@ -406,6 +426,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
                 ['name', 'Name'],
                 ['club', 'Club'],
                 ['email', 'Email'],
+                ['notes', 'Notes'],
               ] as const
             ).map(([field, label]) => (
               <input
@@ -494,6 +515,12 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
                   </a>
                 )}
                 {removeButton(l.id)}
+                <input
+                  defaultValue={l.notes || ''}
+                  placeholder="Notes"
+                  onBlur={(e) => e.target.value.trim() !== (l.notes || '') && patchLead(l.id, 'notes', e.target.value)}
+                  className={`${editable} text-gray-500 w-full basis-full`}
+                />
               </div>
             ))}
             {!blocked.length && !loading && (
