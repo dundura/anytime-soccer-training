@@ -43,7 +43,8 @@ type HistoryRow = {
 
 type Preview = {
   fileName: string | null;
-  columns: string[];
+  columns: Partial<Record<'parentName' | 'playerLastName' | 'email' | 'coachNumber' | 'teamName' | 'teamCode', number>>;
+  headings: string[];
   counts: { rows: number; sendable: number; skipped: number; withAccount: number };
   teams: { teamCode: string; teamName: string | null; count: number }[];
   rows: Row[];
@@ -406,6 +407,35 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
               </div>
             )}
           </div>
+
+          <details className="mb-3">
+            <summary className="text-[10px] font-bold uppercase tracking-wide text-gray-500 cursor-pointer">
+              Which column is which
+            </summary>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {(
+                [
+                  ['Parent', 'parentName'],
+                  ['Player', 'playerLastName'],
+                  ['Email', 'email'],
+                  ['Coach', 'coachNumber'],
+                  ['Team', 'teamName'],
+                  ['Code', 'teamCode'],
+                ] as const
+              ).map(([label, field]) => {
+                const idx = preview.columns[field];
+                return (
+                  <span key={field} className="text-[11px] bg-gray-100 rounded px-2 py-1">
+                    <strong className="text-navy">{label}</strong>
+                    <span className="text-gray-500">
+                      {' '}&larr;{' '}
+                      {idx === undefined ? 'not found' : preview.headings[idx] || `column ${idx + 1}`}
+                    </span>
+                  </span>
+                );
+              })}
+            </div>
+          </details>
 
           <label className="flex items-center gap-2 text-xs font-semibold text-gray-600 mb-2 select-none">
             <input type="checkbox" checked={showSkipped} onChange={(e) => setShowSkipped(e.target.checked)} />
