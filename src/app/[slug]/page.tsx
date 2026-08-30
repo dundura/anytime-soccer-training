@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { getPageBySlug, getCatchAllSlugs } from '@/lib/pages';
 import { InlineScriptRunner } from '@/components/InlineScriptRunner';
 import LeadMagnetForms from '@/components/LeadMagnetForms';
+import AgeCalculator from '@/components/AgeCalculator';
 import { replaceLeadForms } from '@/lib/leadMagnets';
 
 export async function generateStaticParams() {
@@ -44,6 +45,7 @@ export default async function CatchAllPage({ params }: { params: Promise<{ slug:
       <article>
         <InlineScriptRunner />
         <LeadMagnetForms />
+      <AgeCalculator />
         <div
           className="wp-content"
           dangerouslySetInnerHTML={{ __html: content }}
@@ -55,6 +57,7 @@ export default async function CatchAllPage({ params }: { params: Promise<{ slug:
   return (
     <article className="py-12">
       <LeadMagnetForms />
+      <AgeCalculator />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="mb-6 text-sm text-gray">
           <Link href="/" className="hover:text-navy transition-colors">Home</Link>
