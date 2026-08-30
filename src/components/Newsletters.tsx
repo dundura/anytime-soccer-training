@@ -5,8 +5,10 @@ import { useCallback, useEffect, useState } from 'react';
 /**
  * Newsletters — the sequences moving off Go High Level.
  *
- * Two tabs, because there are only two questions worth asking: what does the
- * email say, and who has it gone to. The emails are stored as rows in the
+ * One page per sequence: the emails first, then everybody on it. They were two
+ * tabs, but they answer the two halves of the same question and hiding either
+ * behind a click made it easy to forget the other existed. The emails are
+ * stored as rows in the
  * database rather than as files in the repo, so the preview below is the exact
  * HTML a subscriber received, not a copy of it that can drift.
  */
@@ -95,7 +97,6 @@ const Pill = ({ value }: { value: string }) => (
 );
 
 export default function Newsletters({ token }: { token: string | null }) {
-  const [tab, setTab] = useState<'emails' | 'subscribers'>('emails');
   const [sequences, setSequences] = useState<Sequence[]>([]);
   const [groups, setGroups] = useState<string[]>([]);
   const [sequence, setSequenceState] = useState('');
@@ -261,19 +262,6 @@ export default function Newsletters({ token }: { token: string | null }) {
       </div>
 
       <div className="flex flex-wrap items-center gap-3 mb-4">
-        <div className="flex border border-gray-200 rounded-lg overflow-hidden">
-          {(['emails', 'subscribers'] as const).map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`px-4 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${
-                tab === t ? 'bg-navy text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
-              }`}
-            >
-              {t === 'emails' ? 'Emails' : 'Subscribers'}
-            </button>
-          ))}
-        </div>
         {counts && (
           <p className="text-xs text-gray-500">
             <strong className="text-navy">{counts.total || 0}</strong> signed up ·{' '}
@@ -290,7 +278,7 @@ export default function Newsletters({ token }: { token: string | null }) {
       {error && <div className="mb-3 rounded-lg bg-red-50 border border-red-200 px-4 py-2 text-sm text-red-700">{error}</div>}
       {loading && <p className="text-sm text-gray-500 py-4">Loading…</p>}
 
-      {!loading && tab === 'emails' && (
+      {!loading && (
         <div className="border border-gray-200 rounded-xl overflow-hidden">
           {emails.length === 0 ? (
             <p className="p-8 text-center text-sm text-gray-500">No emails in this sequence yet.</p>
@@ -345,8 +333,11 @@ export default function Newsletters({ token }: { token: string | null }) {
         </div>
       )}
 
-      {!loading && tab === 'subscribers' && (
+      {!loading && (
         <>
+          <p className="text-[11px] font-bold uppercase tracking-wide text-gray-500 mt-6 mb-2">
+            Everybody on this sequence
+          </p>
           <div className="flex flex-wrap gap-2 mb-3">
             <input
               value={search}
