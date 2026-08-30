@@ -16,7 +16,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 const API = 'https://api.anytime-soccer.com';
 
-type EmailRow = { emailKey: string; position: number; subject: string; delayMinutes: number; active: number };
+type EmailRow = { id: number; emailKey: string; position: number; subject: string; delayMinutes: number; active: number };
 type ColdSequence = { key: string; label: string; group: string };
 type Lead = {
   id: number;
@@ -54,6 +54,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
   const [note, setNote] = useState('');
 
   const [showEmails, setShowEmails] = useState(false);
+  const [preview, setPreview] = useState<{ subject: string; html: string } | null>(null);
   const [showAdded, setShowAdded] = useState(false);
   const [chosen, setChosen] = useState<Set<number>>(new Set());
   const [confirming, setConfirming] = useState(false);
@@ -166,6 +167,19 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
     }
   };
 
+  const openPreview = async (row: EmailRow) => {
+    setPreview({ subject: row.subject, html: '' });
+    try {
+      const res = await fetch(`${API}/newsletters/emails/${row.id}`, { headers: headers() });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Could not load that email.');
+      setPreview({ subject: data.email?.subject || row.subject, html: data.email?.html || '' });
+    } catch (e) {
+      setNote(e instanceof Error ? e.message : 'Could not load that email.');
+      setPreview(null);
+    }
+  };
+
   const toggle = (id: number) =>
     setChosen((prev) => {
       const next = new Set(prev);
@@ -224,7 +238,9 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
         <ol className="text-xs text-gray-600 border border-gray-200 rounded-lg px-5 py-3 mb-4 list-decimal space-y-1">
           {emails.map((e) => (
             <li key={e.emailKey}>
-              <span className="text-navy font-semibold">{e.subject}</span>{' '}
+              <button onClick={() => openPreview(e)} className="text-navy font-semibold hover:underline text-left">
+                {e.subject}
+              </button>{' '}
               <span className="text-gray-400">— {when(e.delayMinutes)}</span>
             </li>
           ))}
@@ -239,6 +255,32 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
           To work ({blocked.length})
         </button>
       </div>
+
+      {preview && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4" onClick={() => setPreview(null)}>
+          <div className="bg-white rounded-lg w-full max-w-2xl max-h-[85vh] flex flex-col" onClick={(ev) => ev.stopPropagation()}>
+            <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
+              <div className="min-w-0">
+                <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500">
+                  From Neil Crawford &lt;hello@mail.anytime-soccer.com&gt;
+                </p>
+                <p className="text-sm font-bold text-navy truncate">{preview.subject}</p>
+              </div>
+              <button
+                onClick={() => setPreview(null)}
+                className="ml-auto text-[10px] font-bold uppercase tracking-wide px-3 py-1.5 rounded-full border border-gray-300 text-gray-500 hover:bg-gray-50"
+              >
+                Close
+              </button>
+            </div>
+            {preview.html ? (
+              <iframe srcDoc={preview.html} title="Email preview" className="flex-1 w-full min-h-[400px] rounded-b-lg" />
+            ) : (
+              <p className="text-sm text-gray-500 p-6">Loading…</p>
+            )}
+          </div>
+        </div>
+      )}
 
       {error && <p className="text-sm font-semibold text-red mb-3">{error}</p>}
       {note && <p className="text-xs font-semibold text-navy mb-3">{note}</p>}
