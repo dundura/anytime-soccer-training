@@ -18,6 +18,7 @@ const API = 'https://api.anytime-soccer.com';
 
 type EmailRow = { id: number; emailKey: string; position: number; subject: string; delayMinutes: number; active: number };
 type ColdSequence = { key: string; label: string; group: string };
+type LeadSequence = { sequence: string; label: string; sentCount: number };
 type Lead = {
   id: number;
   name: string | null;
@@ -30,6 +31,7 @@ type Lead = {
   blocked?: string | null;
   sentCount?: number;
   signedUpAt?: string | null;
+  on?: LeadSequence[];
 };
 
 const blank = { name: '', club: '', email: '', website: '', notes: '' };
@@ -118,6 +120,7 @@ export default function ColdWorkflow({
   // The button has to say so, or "add" reads as filing.
   const first = emails.find((e) => e.position === 1);
   const sendsNow = !!first && !first.delayMinutes && !!first.active;
+  const sequenceLabel = sequences.find((x) => x.key === sequence)?.label || sequence;
 
   const enroll = async () => {
     if (!selected.length || busy) return;
@@ -229,6 +232,21 @@ export default function ColdWorkflow({
     const m = (notes || '').match(/^(coach|league|podcast)/i);
     return m ? m[1].toLowerCase() : '';
   };
+
+  // What they are already on, so you never add somebody to a second sequence
+  // without knowing it.
+  const onPills = (l: Lead) =>
+    (l.on || []).map((x) => (
+      <span
+        key={x.sequence}
+        title={`${x.label} — ${x.sentCount} sent`}
+        className={`text-[9px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full whitespace-nowrap ${
+          x.sequence === sequence ? 'bg-red/10 text-red' : 'bg-gray-100 text-gray-500'
+        }`}
+      >
+        {x.label}
+      </span>
+    ));
 
   const recommendPill = (l: Lead) => {
     const r = recommended(l.notes);
@@ -449,7 +467,9 @@ export default function ColdWorkflow({
       {tab === 'send' && (
         <>
           <div className="flex items-center gap-3 mb-2">
-            <span className="text-sm font-bold text-navy">Ready to send</span>
+            <span className="text-sm font-bold text-navy">
+              Ready to send &mdash; <span className="text-red">{sequenceLabel}</span>
+            </span>
             <span className="ml-auto flex items-center gap-2">
               {confirming ? (
                 <>
@@ -462,7 +482,7 @@ export default function ColdWorkflow({
                       ? 'Sending…'
                       : sendsNow
                         ? `Send "${first?.subject}" to ${selected.length}?`
-                        : `Add ${selected.length}?`}
+                        : `Add ${selected.length} to ${sequenceLabel}?`}
                   </button>
                   <button
                     onClick={() => setConfirming(false)}
@@ -477,7 +497,9 @@ export default function ColdWorkflow({
                   disabled={!selected.length}
                   className="text-[11px] font-bold uppercase tracking-wide px-4 py-1.5 rounded-full bg-navy text-white hover:bg-navy-light disabled:opacity-40"
                 >
-                  {sendsNow ? `Send to ${selected.length}` : `Add ${selected.length}`}
+                  {sendsNow
+                    ? `Send to ${selected.length}`
+                    : `Add ${selected.length} to ${sequenceLabel}`}
                 </button>
               )}
             </span>
@@ -510,6 +532,7 @@ export default function ColdWorkflow({
                   onBlur={(e) => e.target.value.trim() !== (l.email || '') && patchLead(l.id, 'email', e.target.value)}
                   className={`${editable} text-gray-600 w-56`}
                 />
+                {onPills(l)}
                 {recommendPill(l)}
                 {notesButton(l)}
                 {removeButton(l.id)}
@@ -585,6 +608,7 @@ export default function ColdWorkflow({
                   <span className="text-xs text-gray-400 whitespace-nowrap">
                     {(l.signedUpAt || '').slice(0, 10)} · {l.sentCount ?? 0} sent
                   </span>
+                  {onPills(l)}
                   {recommendPill(l)}
                   {notesButton(l)}
                   {removeButton(l.id)}
@@ -636,6 +660,7 @@ export default function ColdWorkflow({
                     site ↗
                   </a>
                 )}
+                {onPills(l)}
                 {recommendPill(l)}
                 {notesButton(l)}
                 {removeButton(l.id)}
