@@ -24,6 +24,7 @@ type Person = {
   playerLastName: string | null;
   teamName: string | null;
   teamCode: string;
+  coachNumber: string | null;
   status: string;
   error: string | null;
   sentAt: string | null;
@@ -471,7 +472,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
               <thead className="bg-gray-50 text-gray-500">
                 <tr>
                   <th className="px-3 py-2"></th>
-                  {['Parent', 'Player', 'Email', 'Team', 'Code', 'Status', 'Nudged', 'Signed up', ''].map((h, i) => (
+                  {['Parent', 'Player', 'Email', 'Team', 'Code', 'Coach #', 'Status', 'Nudged', 'Signed up', ''].map((h, i) => (
                     <th key={h + i} className="text-left font-bold uppercase tracking-wide px-3 py-2 whitespace-nowrap">
                       {h}
                     </th>
@@ -493,6 +494,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
                       <td className="px-3 py-2 whitespace-nowrap">{p.email}</td>
                       <td className="px-3 py-2 whitespace-nowrap">{p.teamName || '—'}</td>
                       <td className="px-3 py-2 whitespace-nowrap font-mono">{p.teamCode || '—'}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{p.coachNumber || '—'}</td>
                       <td className="px-3 py-2 whitespace-nowrap">
                         {isStaged ? (
                           <span className="text-gray-300">&mdash;</span>
