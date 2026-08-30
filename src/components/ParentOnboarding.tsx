@@ -60,7 +60,6 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
 
   const [staged, setStaged] = useState<Person[]>([]);
   const [sends, setSends] = useState<Person[]>([]);
-  const [teams, setTeams] = useState<Team[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   const [upload, setUpload] = useState<UploadResult | null>(null);
@@ -90,7 +89,6 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
       if (!res.ok) throw new Error(data.error || 'Could not load the list.');
       setStaged(data.staged || []);
       setSends(data.sends || []);
-      setTeams(data.teams || []);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not load the list.');
     } finally {
@@ -104,6 +102,19 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
 
   const inTeam = (p: Person) => !teamFilter || p.teamCode === teamFilter;
   const visible = staged.filter(inTeam);
+  const sentVisible = sends.filter(inTeam);
+
+  // Built from staged and sent together: a team whose list has already gone out
+  // still needs a chip, or the filter disappears the moment you press send.
+  const allTeams: Team[] = (() => {
+    const seen = new Map<string, Team>();
+    for (const p of [...staged, ...sends]) {
+      const found = seen.get(p.teamCode);
+      if (found) found.count += 1;
+      else seen.set(p.teamCode, { teamCode: p.teamCode, teamName: p.teamName, count: 1 });
+    }
+    return [...seen.values()];
+  })();
 
   // Everything on screen is ticked whenever the list or the team changes:
   // "send to this team" is the common case, and unticking a few is easier than
@@ -390,44 +401,44 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
         </p>
       )}
 
+      {allTeams.length > 0 && (
+        <div className="mb-4">
+          <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1">Filter by team</p>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setTeamFilter('')}
+              className={`text-xs rounded-full px-3 py-1 border transition-colors ${
+                teamFilter === '' ? 'bg-navy text-white border-navy' : 'bg-gray-100 border-gray-200 hover:bg-gray-200'
+              }`}
+            >
+              All teams{' '}
+              <span className={teamFilter === '' ? 'text-white/70' : 'text-gray-500'}>
+                · {staged.length + sends.length}
+              </span>
+            </button>
+            {allTeams.map((t) => (
+              <button
+                key={t.teamCode}
+                onClick={() => setTeamFilter(t.teamCode)}
+                className={`text-xs rounded-full px-3 py-1 border transition-colors ${
+                  teamFilter === t.teamCode
+                    ? 'bg-navy text-white border-navy'
+                    : 'bg-gray-100 border-gray-200 hover:bg-gray-200'
+                }`}
+              >
+                <strong>{t.teamName || 'No team name'}</strong>
+                <span className={teamFilter === t.teamCode ? 'text-white/70' : 'text-gray-500'}>
+                  {' '}
+                  · {t.teamCode} · {t.count}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {staged.length > 0 && (
         <>
-          {teams.length > 0 && (
-            <div className="mb-4">
-              <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1">Send to one team</p>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => setTeamFilter('')}
-                  className={`text-xs rounded-full px-3 py-1 border transition-colors ${
-                    teamFilter === ''
-                      ? 'bg-navy text-white border-navy'
-                      : 'bg-gray-100 border-gray-200 hover:bg-gray-200'
-                  }`}
-                >
-                  All teams{' '}
-                  <span className={teamFilter === '' ? 'text-white/70' : 'text-gray-500'}>· {staged.length}</span>
-                </button>
-                {teams.map((t) => (
-                  <button
-                    key={t.teamCode}
-                    onClick={() => setTeamFilter(t.teamCode)}
-                    className={`text-xs rounded-full px-3 py-1 border transition-colors ${
-                      teamFilter === t.teamCode
-                        ? 'bg-navy text-white border-navy'
-                        : 'bg-gray-100 border-gray-200 hover:bg-gray-200'
-                    }`}
-                  >
-                    <strong>{t.teamName || 'No team name'}</strong>
-                    <span className={teamFilter === t.teamCode ? 'text-white/70' : 'text-gray-500'}>
-                      {' '}
-                      · {t.teamCode} · {t.count}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
           <div className="border border-gray-200 rounded-lg p-3 mb-4">
             <div className="flex flex-wrap items-center gap-2">
               <button
@@ -550,7 +561,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
           onClick={() => setShowSent((v) => !v)}
           className="text-[11px] font-bold uppercase tracking-wide text-red hover:underline"
         >
-          {showSent ? '▾ Hide what has been sent' : `▸ What has been sent (${sends.length})`}
+          {showSent ? '▾ Hide what has been sent' : `▸ What has been sent (${sentVisible.length})`}
         </button>
         {showSent && (
           <div className="mt-2 overflow-x-auto border border-gray-200 rounded-lg">
@@ -565,7 +576,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
                 </tr>
               </thead>
               <tbody>
-                {sends.map((h) => (
+                {sentVisible.map((h) => (
                   <tr key={h.id} className={`border-t border-gray-100 ${h.hasAccount ? 'bg-green-50' : ''}`}>
                     <td className="px-3 py-2 whitespace-nowrap">{h.parentName || '—'}</td>
                     <td className="px-3 py-2 whitespace-nowrap">{h.email}</td>
@@ -614,7 +625,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
                     </td>
                   </tr>
                 ))}
-                {!sends.length && (
+                {!sentVisible.length && (
                   <tr>
                     <td colSpan={8} className="px-3 py-6 text-center text-gray-500 font-semibold">
                       Nothing sent yet.
