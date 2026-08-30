@@ -218,6 +218,24 @@ export default function ColdWorkflow({
     }
   };
 
+  // The note says which list a contact belongs on, but printing the whole note
+  // under every row buried the list itself. A pill says the same thing in one
+  // word, and hovering the row still shows the note in full.
+  const recommended = (notes: string | null) => {
+    const m = (notes || '').match(/^(coach|league|podcast)/i);
+    return m ? m[1].toLowerCase() : '';
+  };
+
+  const recommendPill = (l: Lead) => {
+    const r = recommended(l.notes);
+    if (!r) return null;
+    return (
+      <span className="text-[9px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-navy/10 text-navy whitespace-nowrap">
+        {r}
+      </span>
+    );
+  };
+
   const removeButton = (id: number) => (
     <button
       onClick={() => remove(id)}
@@ -379,7 +397,7 @@ export default function ColdWorkflow({
 
           <div className="border border-gray-200 rounded-lg mb-6 divide-y divide-gray-100">
             {ready.map((l) => (
-              <div key={l.id} className="flex flex-wrap items-center gap-2 px-3 py-2 text-sm hover:bg-gray-50">
+              <div key={l.id} title={l.notes || undefined} className="flex flex-wrap items-center gap-2 px-3 py-2 text-sm hover:bg-gray-50">
                 <input
                   type="checkbox"
                   checked={chosen.has(l.id)}
@@ -404,13 +422,8 @@ export default function ColdWorkflow({
                   onBlur={(e) => e.target.value.trim() !== (l.email || '') && patchLead(l.id, 'email', e.target.value)}
                   className={`${editable} text-gray-600 w-56`}
                 />
+                {recommendPill(l)}
                 {removeButton(l.id)}
-                <input
-                  defaultValue={l.notes || ''}
-                  placeholder="Notes"
-                  onBlur={(e) => e.target.value.trim() !== (l.notes || '') && patchLead(l.id, 'notes', e.target.value)}
-                  className={`${editable} text-gray-500 w-full basis-full`}
-                />
 
               </div>
             ))}
@@ -482,7 +495,7 @@ export default function ColdWorkflow({
           </p>
           <div className="border border-gray-200 rounded-lg divide-y divide-gray-100">
             {blocked.map((l) => (
-              <div key={l.id} className="flex flex-wrap items-center gap-3 px-3 py-2 text-sm">
+              <div key={l.id} title={l.notes || undefined} className="flex flex-wrap items-center gap-3 px-3 py-2 text-sm">
                 <input
                   defaultValue={l.name || ''}
                   placeholder="Name"
@@ -514,13 +527,8 @@ export default function ColdWorkflow({
                     site ↗
                   </a>
                 )}
+                {recommendPill(l)}
                 {removeButton(l.id)}
-                <input
-                  defaultValue={l.notes || ''}
-                  placeholder="Notes"
-                  onBlur={(e) => e.target.value.trim() !== (l.notes || '') && patchLead(l.id, 'notes', e.target.value)}
-                  className={`${editable} text-gray-500 w-full basis-full`}
-                />
               </div>
             ))}
             {!blocked.length && !loading && (
