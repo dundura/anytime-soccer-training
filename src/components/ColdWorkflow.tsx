@@ -3,12 +3,12 @@
 import { useCallback, useEffect, useState } from 'react';
 
 /**
- * Cold outreach, as a queue rather than a table.
+ * Cold outreach.
  *
- * Four sections in the order the questions get asked: what will they receive,
- * who has already had it, who is still waiting on something, and where new
- * ones go in. The middle section is collapsed because it only grows — tabs
- * were the other option, and they make you leave the queue to check on it.
+ * Two tabs, because they are two different jobs. Sending is picking people off
+ * a list and pressing a button. Working a contact is finding the address that
+ * is missing — slower, and nothing to do with the sequence. Mixing them put a
+ * queue you cannot act on in the middle of the one you can.
  *
  * The stage lives in the CRM and the sending lives in the newsletter tables.
  * This page is the join; neither side knows about the other.
@@ -16,15 +16,8 @@ import { useCallback, useEffect, useState } from 'react';
 
 const API = 'https://api.anytime-soccer.com';
 
-type EmailRow = {
-  emailKey: string;
-  position: number;
-  subject: string;
-  delayDays: number;
-  delayMinutes: number;
-  active: number;
-};
-
+type EmailRow = { emailKey: string; position: number; subject: string; delayMinutes: number; active: number };
+type ColdSequence = { key: string; label: string; group: string };
 type Lead = {
   id: number;
   name: string | null;
@@ -35,27 +28,23 @@ type Lead = {
   notes: string | null;
   createdAt: string | null;
   blocked?: string | null;
-  status?: string;
   sentCount?: number;
   signedUpAt?: string | null;
 };
 
-type ColdSequence = { key: string; label: string; group: string };
+const blank = { name: '', club: '', email: '' };
 
-const blank = { name: '', club: '', email: '', phone: '', website: '', notes: '' };
-
-/** "2 days", "5 minutes", "at signup" — the delay as a person would say it. */
+/** The delay as a person would say it. */
 function when(mins: number) {
-  if (!mins) return 'at signup';
-  if (mins < 60) return `+${mins} min`;
-  if (mins < 1440) return `+${Math.round(mins / 60)} hr`;
-  return `+${Math.round(mins / 1440)} days`;
+  if (!mins) return 'straight away';
+  if (mins < 60) return `after ${mins} min`;
+  if (mins < 1440) return `after ${Math.round(mins / 60)} hr`;
+  return `after ${Math.round(mins / 1440)} days`;
 }
 
 export default function ColdWorkflow({ token }: { token: string | null }) {
+  const [tab, setTab] = useState<'send' | 'work'>('send');
   const [emails, setEmails] = useState<EmailRow[]>([]);
-  // Which cold audience is being worked. They are separate conversations, so
-  // the page asks rather than assuming one.
   const [sequences, setSequences] = useState<ColdSequence[]>([]);
   const [sequence, setSequence] = useState('');
   const [added, setAdded] = useState<Lead[]>([]);
@@ -64,6 +53,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
   const [error, setError] = useState('');
   const [note, setNote] = useState('');
 
+  const [showEmails, setShowEmails] = useState(false);
   const [showAdded, setShowAdded] = useState(false);
   const [chosen, setChosen] = useState<Set<number>>(new Set());
   const [confirming, setConfirming] = useState(false);
@@ -103,9 +93,15 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
     if (token) load();
   }, [token, load]);
 
-  // Only somebody with an address can be enrolled, so only they can be ticked.
+  // Ready to go versus missing something. The split is the reason for the tabs.
   const ready = todo.filter((l) => !l.blocked);
+  const blocked = todo.filter((l) => l.blocked);
   const selected = ready.filter((l) => chosen.has(l.id));
+
+  // Adding to a sequence whose first email has no delay sends it immediately.
+  // The button has to say so, or "add" reads as filing.
+  const first = emails.find((e) => e.position === 1);
+  const sendsNow = !!first && !first.delayMinutes && !!first.active;
 
   const enroll = async () => {
     if (!selected.length || busy) return;
@@ -119,7 +115,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Could not add those.');
-      setNote(`Added ${data.enrolled}.${data.skipped ? ` Skipped ${data.skipped}.` : ''}`);
+      setNote(`Sent to ${data.enrolled}.${data.skipped ? ` Skipped ${data.skipped}.` : ''}`);
       setChosen(new Set());
       setConfirming(false);
       await load();
@@ -154,6 +150,22 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
     }
   };
 
+  // Filling in a missing address is the whole job of the second tab, so it
+  // saves straight from the row rather than sending you to the CRM.
+  const patchLead = async (id: number, field: string, value: string) => {
+    try {
+      const res = await fetch(`${API}/portal-onboarding/admin-coach`, {
+        method: 'POST',
+        headers: headers(),
+        body: JSON.stringify({ id, [field]: value }),
+      });
+      if (!res.ok) throw new Error('Could not save that.');
+      await load();
+    } catch (e) {
+      setNote(e instanceof Error ? e.message : 'Could not save that.');
+    }
+  };
+
   const toggle = (id: number) =>
     setChosen((prev) => {
       const next = new Set(prev);
@@ -162,30 +174,16 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
       return next;
     });
 
-  // Adding somebody to a sequence whose first email has no delay sends that
-  // email immediately. The button has to say so, or "add" reads as filing.
-  const first = emails.find((e) => e.position === 1);
-  const sendsNow = !!first && !first.delayMinutes && !!first.active;
-
-  const heading = 'text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-2';
+  const tabClass = (key: 'send' | 'work') =>
+    `px-4 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${
+      tab === key ? 'bg-navy text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
+    }`;
 
   return (
-    <div className="px-4 py-4">
-      <div className="flex items-center gap-2 mb-1">
-        <span className="text-[10px] font-extrabold uppercase tracking-wide text-amber-700">Cold</span>
-        <span className="text-[10px] font-semibold text-amber-700/70">Outreach queue</span>
-      </div>
-      <p className="text-xs text-gray-500 mb-5">
-        What they get, who has had it, who is still waiting, and where new ones go in.
-      </p>
-
-      {error && <p className="text-sm font-semibold text-red mb-3">{error}</p>}
-      {note && <p className="text-xs font-semibold text-navy mb-3">{note}</p>}
-      {loading && <p className="text-sm text-gray-500">Loading…</p>}
-
-      {/* 1 — the sequence ------------------------------------------------ */}
-      <div className="flex items-center gap-2 mb-2">
-        <p className={`${heading} mb-0`}>The sequence</p>
+    <div className="px-4 py-5 max-w-4xl">
+      {/* Who am I writing to ------------------------------------------- */}
+      <div className="flex flex-wrap items-center gap-2 mb-2">
+        <span className="text-sm font-bold text-navy">Writing to</span>
         <select
           value={sequence}
           onChange={(e) => {
@@ -193,7 +191,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
             setChosen(new Set());
             setConfirming(false);
           }}
-          className="text-xs border border-gray-300 rounded px-2 py-1.5 max-w-[240px] focus:outline-none focus:border-red"
+          className="text-sm border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:border-red"
         >
           {sequences.map((s2) => (
             <option key={s2.key} value={s2.key}>
@@ -202,201 +200,193 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
           ))}
         </select>
       </div>
-      <div className="border border-gray-200 rounded-lg mb-6 overflow-x-auto">
-        {emails.length === 0 ? (
-          <p className="px-3 py-5 text-center text-sm text-gray-500 font-semibold">
-            No emails written yet. Nobody added will receive anything until there are.
-          </p>
-        ) : (
-          <table className="w-full text-xs">
-            <thead className="bg-gray-50 text-gray-500">
-              <tr>
-                {['#', 'Subject', 'Sends', 'Live'].map((h) => (
-                  <th key={h} className="text-left font-bold uppercase tracking-wide px-3 py-2 whitespace-nowrap">
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {emails.map((e) => (
-                <tr key={e.emailKey} className="border-t border-gray-100">
-                  <td className="px-3 py-2 text-gray-400">{e.position}</td>
-                  <td className="px-3 py-2 font-semibold text-navy">{e.subject}</td>
-                  <td className="px-3 py-2 whitespace-nowrap text-gray-500">{when(e.delayMinutes)}</td>
-                  <td className="px-3 py-2 whitespace-nowrap">
-                    {e.active ? (
-                      <span className="font-semibold text-green-700">Yes</span>
-                    ) : (
-                      <span className="text-gray-400">Paused</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
 
-      {/* 2 — already on it, collapsed ------------------------------------ */}
-      <button onClick={() => setShowAdded((v) => !v)} className={`${heading} text-red hover:underline block`}>
-        {showAdded ? '▾' : '▸'} On the sequence ({added.length})
-      </button>
-      {showAdded && (
-        <div className="border border-gray-200 rounded-lg mb-6 overflow-x-auto">
-          <table className="w-full text-xs">
-            <thead className="bg-gray-50 text-gray-500">
-              <tr>
-                {['Name', 'Club', 'Email', 'Added', 'Sent', 'Status'].map((h) => (
-                  <th key={h} className="text-left font-bold uppercase tracking-wide px-3 py-2 whitespace-nowrap">
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {added.map((l) => (
-                <tr key={l.id} className="border-t border-gray-100">
-                  <td className="px-3 py-2 whitespace-nowrap">{l.name || '—'}</td>
-                  <td className="px-3 py-2 whitespace-nowrap">{l.club || '—'}</td>
-                  <td className="px-3 py-2 whitespace-nowrap">{l.email}</td>
-                  <td className="px-3 py-2 whitespace-nowrap text-gray-500">{(l.signedUpAt || '').slice(0, 10)}</td>
-                  <td className="px-3 py-2">{l.sentCount ?? 0}</td>
-                  <td className="px-3 py-2 whitespace-nowrap">
-                    {l.status === 'active' ? (
-                      <span className="font-semibold text-green-700">Active</span>
-                    ) : (
-                      <span className="text-gray-500">{l.status}</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-              {!added.length && (
-                <tr>
-                  <td colSpan={6} className="px-3 py-5 text-center text-gray-500 font-semibold">
-                    Nobody yet.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+      <p className="text-xs text-gray-500 mb-4">
+        {emails.length === 0 ? (
+          <span className="text-amber-700 font-semibold">No emails written yet — nobody will receive anything.</span>
+        ) : (
+          <>
+            {emails.length} email{emails.length === 1 ? '' : 's'}, first one {when(first?.delayMinutes ?? 0)}.{' '}
+            <button onClick={() => setShowEmails((v) => !v)} className="text-red font-bold hover:underline">
+              {showEmails ? 'hide' : 'see them'}
+            </button>
+          </>
+        )}
+      </p>
+
+      {showEmails && emails.length > 0 && (
+        <ol className="text-xs text-gray-600 border border-gray-200 rounded-lg px-5 py-3 mb-4 list-decimal space-y-1">
+          {emails.map((e) => (
+            <li key={e.emailKey}>
+              <span className="text-navy font-semibold">{e.subject}</span>{' '}
+              <span className="text-gray-400">— {when(e.delayMinutes)}</span>
+            </li>
+          ))}
+        </ol>
       )}
 
-      {/* 3 — the queue --------------------------------------------------- */}
-      <div className="flex items-center gap-3 mb-2 mt-6">
-        <p className={`${heading} mb-0`}>Still to work ({todo.length})</p>
-        <span className="ml-auto flex items-center gap-2">
-          {confirming ? (
-            <>
-              <button
-                onClick={enroll}
-                disabled={busy}
-                className="text-[10px] font-bold uppercase tracking-wide px-4 py-1.5 rounded-full bg-red text-white hover:bg-red-dark disabled:opacity-50"
-              >
-                {busy
-                  ? 'Adding…'
-                  : sendsNow
-                    ? `Send "${first?.subject}" to ${selected.length} now?`
-                    : `Add ${selected.length} to the sequence?`}
-              </button>
-              <button onClick={() => setConfirming(false)} className="text-[10px] font-semibold text-gray-500 hover:underline">
-                Cancel
-              </button>
-            </>
-          ) : (
-            <button
-              onClick={() => setConfirming(true)}
-              disabled={!selected.length}
-              className="text-[10px] font-bold uppercase tracking-wide px-4 py-1.5 rounded-full bg-navy text-white hover:bg-navy-light disabled:opacity-40"
-            >
-              {sendsNow ? `Send to ${selected.length} selected` : `Add ${selected.length} to the sequence`}
-            </button>
-          )}
-        </span>
-      </div>
-      <div className="border border-gray-200 rounded-lg mb-6 overflow-x-auto">
-        <table className="w-full text-xs">
-          <thead className="bg-gray-50 text-gray-500">
-            <tr>
-              <th className="px-3 py-2"></th>
-              {['Name', 'Club', 'Email', 'Phone', 'Added', 'Blocked by'].map((h) => (
-                <th key={h} className="text-left font-bold uppercase tracking-wide px-3 py-2 whitespace-nowrap">
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {todo.map((l) => (
-              <tr key={l.id} className={`border-t border-gray-100 ${l.blocked ? 'bg-amber-50' : ''}`}>
-                <td className="px-3 py-2">
-                  {!l.blocked && (
-                    <input type="checkbox" checked={chosen.has(l.id)} onChange={() => toggle(l.id)} />
-                  )}
-                </td>
-                <td className="px-3 py-2 whitespace-nowrap">{l.name || '—'}</td>
-                <td className="px-3 py-2 whitespace-nowrap">{l.club || '—'}</td>
-                <td className="px-3 py-2 whitespace-nowrap">{l.email || <span className="text-gray-300">—</span>}</td>
-                <td className="px-3 py-2 whitespace-nowrap">{l.phone || '—'}</td>
-                <td className="px-3 py-2 whitespace-nowrap text-gray-500">{(l.createdAt || '').slice(0, 10)}</td>
-                <td className="px-3 py-2 whitespace-nowrap">
-                  {l.blocked ? (
-                    <span className="font-semibold text-amber-700">{l.blocked}</span>
-                  ) : (
-                    <span className="font-semibold text-green-700">Ready</span>
-                  )}
-                </td>
-              </tr>
-            ))}
-            {!todo.length && !loading && (
-              <tr>
-                <td colSpan={7} className="px-3 py-5 text-center text-gray-500 font-semibold">
-                  Queue is clear.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+      <div className="flex border border-gray-200 rounded-lg overflow-hidden w-fit mb-4">
+        <button onClick={() => setTab('send')} className={tabClass('send')}>
+          Ready ({ready.length})
+        </button>
+        <button onClick={() => setTab('work')} className={tabClass('work')}>
+          To work ({blocked.length})
+        </button>
       </div>
 
-      {/* 4 — add ---------------------------------------------------------- */}
-      <p className={heading}>Add records</p>
-      <div className="border border-gray-200 rounded-lg p-3">
-        <div className="grid gap-2 sm:grid-cols-3 mb-2">
-          {(
-            [
-              ['name', 'Name'],
-              ['club', 'Club'],
-              ['email', 'Email'],
-              ['phone', 'Phone'],
-              ['website', 'Website'],
-              ['notes', 'Notes'],
-            ] as const
-          ).map(([field, label]) => (
-            <input
-              key={field}
-              value={draft[field]}
-              onChange={(e) => setDraft({ ...draft, [field]: e.target.value })}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') addRecord();
-              }}
-              placeholder={label}
-              className="text-xs border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:border-red"
-            />
-          ))}
-        </div>
-        <button
-          onClick={addRecord}
-          disabled={busy}
-          className="text-[10px] font-bold uppercase tracking-wide px-4 py-1.5 rounded-full bg-navy text-white hover:bg-navy-light transition-colors disabled:opacity-40"
-        >
-          {busy ? 'Saving…' : 'Add record'}
-        </button>
-        <p className="text-[11px] text-gray-500 mt-2">
-          Lands in the Cold stage, not on the sequence. Add them above when they are ready.
-        </p>
-      </div>
+      {error && <p className="text-sm font-semibold text-red mb-3">{error}</p>}
+      {note && <p className="text-xs font-semibold text-navy mb-3">{note}</p>}
+      {loading && <p className="text-sm text-gray-500">Loading…</p>}
+
+      {/* Ready to send --------------------------------------------------- */}
+      {tab === 'send' && (
+        <>
+          <div className="flex items-center gap-3 mb-2">
+            <span className="text-sm font-bold text-navy">Ready to send</span>
+            <span className="ml-auto flex items-center gap-2">
+              {confirming ? (
+                <>
+                  <button
+                    onClick={enroll}
+                    disabled={busy}
+                    className="text-[11px] font-bold uppercase tracking-wide px-4 py-1.5 rounded-full bg-red text-white hover:bg-red-dark disabled:opacity-50"
+                  >
+                    {busy
+                      ? 'Sending…'
+                      : sendsNow
+                        ? `Send "${first?.subject}" to ${selected.length}?`
+                        : `Add ${selected.length}?`}
+                  </button>
+                  <button
+                    onClick={() => setConfirming(false)}
+                    className="text-[11px] font-semibold text-gray-500 hover:underline"
+                  >
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => setConfirming(true)}
+                  disabled={!selected.length}
+                  className="text-[11px] font-bold uppercase tracking-wide px-4 py-1.5 rounded-full bg-navy text-white hover:bg-navy-light disabled:opacity-40"
+                >
+                  {sendsNow ? `Send to ${selected.length}` : `Add ${selected.length}`}
+                </button>
+              )}
+            </span>
+          </div>
+
+          <div className="border border-gray-200 rounded-lg mb-6 divide-y divide-gray-100">
+            {ready.map((l) => (
+              <label key={l.id} className="flex items-center gap-3 px-3 py-2 text-sm cursor-pointer hover:bg-gray-50">
+                <input
+                  type="checkbox"
+                  checked={chosen.has(l.id)}
+                  onChange={() => toggle(l.id)}
+                  className="flex-shrink-0"
+                />
+                <span className="font-semibold text-navy min-w-0 truncate">{l.name || l.club || l.email}</span>
+                {l.club && l.name && <span className="text-gray-500 truncate hidden sm:inline">{l.club}</span>}
+                <span className="ml-auto text-xs text-gray-500 truncate">{l.email}</span>
+              </label>
+            ))}
+            {!ready.length && !loading && (
+              <p className="px-3 py-5 text-center text-sm text-gray-500 font-semibold">Nobody waiting.</p>
+            )}
+          </div>
+
+          {/* Add ------------------------------------------------------- */}
+          <div className="flex flex-wrap gap-2 mb-2">
+            {(
+              [
+                ['name', 'Name'],
+                ['club', 'Club'],
+                ['email', 'Email'],
+              ] as const
+            ).map(([field, label]) => (
+              <input
+                key={field}
+                value={draft[field]}
+                onChange={(e) => setDraft({ ...draft, [field]: e.target.value })}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') addRecord();
+                }}
+                placeholder={label}
+                className="text-sm border border-gray-300 rounded px-2 py-1.5 flex-1 min-w-[140px] focus:outline-none focus:border-red"
+              />
+            ))}
+            <button
+              onClick={addRecord}
+              disabled={busy}
+              className="text-[11px] font-bold uppercase tracking-wide px-4 py-1.5 rounded-full border border-gray-300 text-navy hover:bg-gray-50 disabled:opacity-40"
+            >
+              Add
+            </button>
+          </div>
+          <p className="text-[11px] text-gray-500 mb-6">Added to the list, not sent to. Tick them above when ready.</p>
+
+          {/* Already gone ---------------------------------------------- */}
+          <button
+            onClick={() => setShowAdded((v) => !v)}
+            className="text-[11px] font-bold uppercase tracking-wide text-red hover:underline"
+          >
+            {showAdded ? '▾' : '▸'} Already sent ({added.length})
+          </button>
+          {showAdded && (
+            <div className="border border-gray-200 rounded-lg mt-2 divide-y divide-gray-100">
+              {added.map((l) => (
+                <div key={l.id} className="flex items-center gap-3 px-3 py-2 text-sm">
+                  <span className="font-semibold text-navy truncate">{l.name || l.club || l.email}</span>
+                  <span className="text-gray-500 truncate hidden sm:inline">{l.email}</span>
+                  <span className="ml-auto text-xs text-gray-400 whitespace-nowrap">
+                    {(l.signedUpAt || '').slice(0, 10)} · {l.sentCount ?? 0} sent
+                  </span>
+                </div>
+              ))}
+              {!added.length && <p className="px-3 py-4 text-center text-sm text-gray-500">Nobody yet.</p>}
+            </div>
+          )}
+        </>
+      )}
+
+      {/* Needs work ------------------------------------------------------ */}
+      {tab === 'work' && (
+        <>
+          <p className="text-xs text-gray-500 mb-3">
+            These cannot be sent to yet. Type the address in and they move to Ready.
+          </p>
+          <div className="border border-gray-200 rounded-lg divide-y divide-gray-100">
+            {blocked.map((l) => (
+              <div key={l.id} className="flex flex-wrap items-center gap-3 px-3 py-2 text-sm">
+                <span className="font-semibold text-navy min-w-0 truncate">{l.name || l.club || '—'}</span>
+                {l.club && l.name && <span className="text-gray-500 truncate hidden sm:inline">{l.club}</span>}
+                <input
+                  defaultValue={l.email || ''}
+                  placeholder="Email address"
+                  onBlur={(e) => {
+                    const v = e.target.value.trim();
+                    if (v && v !== (l.email || '')) patchLead(l.id, 'email', v);
+                  }}
+                  className="ml-auto text-sm border-b border-dashed border-gray-300 hover:bg-amber-50 focus:bg-white focus:border-solid focus:border-red focus:outline-none px-1 py-0.5 rounded-sm min-w-[200px]"
+                />
+                {l.website && (
+                  <a
+                    href={l.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] font-bold text-red hover:underline whitespace-nowrap"
+                  >
+                    site ↗
+                  </a>
+                )}
+              </div>
+            ))}
+            {!blocked.length && !loading && (
+              <p className="px-3 py-5 text-center text-sm text-gray-500 font-semibold">Nothing to work.</p>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }
