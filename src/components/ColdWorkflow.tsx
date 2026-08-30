@@ -32,7 +32,7 @@ type Lead = {
   signedUpAt?: string | null;
 };
 
-const blank = { name: '', club: '', email: '', notes: '' };
+const blank = { name: '', club: '', email: '', website: '', notes: '' };
 
 /** The delay as a person would say it. */
 function when(mins: number) {
@@ -75,6 +75,7 @@ export default function ColdWorkflow({
   const [busy, setBusy] = useState(false);
   const [draft, setDraft] = useState({ ...blank });
   const [confirmDelete, setConfirmDelete] = useState(0);
+  const [editing, setEditing] = useState<Lead | null>(null);
 
   const headers = useCallback(
     () => ({
@@ -175,6 +176,9 @@ export default function ColdWorkflow({
         body: JSON.stringify({ id, [field]: value }),
       });
       if (!res.ok) throw new Error('Could not save that.');
+      // Keep the open panel in step, or its next blur re-saves a value the
+      // server already has.
+      setEditing((prev) => (prev && prev.id === id ? { ...prev, [field]: value.trim() } : prev));
       await load();
     } catch (e) {
       setNote(e instanceof Error ? e.message : 'Could not save that.');
@@ -235,6 +239,23 @@ export default function ColdWorkflow({
       </span>
     );
   };
+
+  // Notes open in a panel rather than sitting in the row. They are as often a
+  // pasted pitch email as a one-liner, and a row that has to hold one of those
+  // stops being a list.
+  const notesButton = (l: Lead) => (
+    <button
+      onClick={() => setEditing(l)}
+      title={l.notes ? 'Read the note' : 'Add a note'}
+      className={`text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full border ${
+        l.notes
+          ? 'border-navy/30 bg-navy/5 text-navy hover:bg-navy/10'
+          : 'border-gray-300 text-gray-400 hover:bg-gray-50'
+      }`}
+    >
+      {l.notes ? 'Note' : '+ Note'}
+    </button>
+  );
 
   const removeButton = (id: number) => (
     <button
@@ -327,6 +348,73 @@ export default function ColdWorkflow({
         </button>
       </div>
 
+      {/* One contact, in full. Everything the row cannot hold lives here. */}
+      {editing && (
+        <div
+          className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+          onClick={() => setEditing(null)}
+        >
+          <div
+            className="bg-white rounded-lg w-full max-w-xl max-h-[85vh] flex flex-col"
+            onClick={(ev) => ev.stopPropagation()}
+          >
+            <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
+              <p className="text-sm font-bold text-navy truncate">
+                {editing.name || editing.club || editing.email || 'Contact'}
+              </p>
+              <button
+                onClick={() => setEditing(null)}
+                className="ml-auto text-[10px] font-bold uppercase tracking-wide px-3 py-1.5 rounded-full border border-gray-300 text-gray-500 hover:bg-gray-50"
+              >
+                Close
+              </button>
+            </div>
+            <div className="p-4 overflow-y-auto space-y-3">
+              {(
+                [
+                  ['name', 'Name'],
+                  ['club', 'Club'],
+                  ['email', 'Email'],
+                  ['website', 'Website'],
+                ] as const
+              ).map(([field, label]) => (
+                <label key={field} className="block">
+                  <span className="text-[10px] font-bold uppercase tracking-wide text-gray-500">{label}</span>
+                  <input
+                    defaultValue={editing[field] || ''}
+                    onBlur={(e) =>
+                      e.target.value.trim() !== (editing[field] || '') && patchLead(editing.id, field, e.target.value)
+                    }
+                    className="w-full text-sm border border-gray-300 rounded px-2 py-1.5 mt-0.5 focus:outline-none focus:border-red"
+                  />
+                </label>
+              ))}
+              <label className="block">
+                <span className="text-[10px] font-bold uppercase tracking-wide text-gray-500">Notes</span>
+                <textarea
+                  defaultValue={editing.notes || ''}
+                  rows={12}
+                  onBlur={(e) =>
+                    e.target.value.trim() !== (editing.notes || '') && patchLead(editing.id, 'notes', e.target.value)
+                  }
+                  className="w-full text-sm border border-gray-300 rounded px-2 py-1.5 mt-0.5 focus:outline-none focus:border-red resize-y"
+                />
+              </label>
+              {editing.website && (
+                <a
+                  href={editing.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block text-[11px] font-bold text-red hover:underline"
+                >
+                  Open site ↗
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {preview && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4" onClick={() => setPreview(null)}>
           <div className="bg-white rounded-lg w-full max-w-2xl max-h-[85vh] flex flex-col" onClick={(ev) => ev.stopPropagation()}>
@@ -397,7 +485,7 @@ export default function ColdWorkflow({
 
           <div className="border border-gray-200 rounded-lg mb-6 divide-y divide-gray-100">
             {ready.map((l) => (
-              <div key={l.id} title={l.notes || undefined} className="flex flex-wrap items-center gap-2 px-3 py-2 text-sm hover:bg-gray-50">
+              <div key={l.id} className="flex flex-wrap items-center gap-2 px-3 py-2 text-sm hover:bg-gray-50">
                 <input
                   type="checkbox"
                   checked={chosen.has(l.id)}
@@ -423,6 +511,7 @@ export default function ColdWorkflow({
                   className={`${editable} text-gray-600 w-56`}
                 />
                 {recommendPill(l)}
+                {notesButton(l)}
                 {removeButton(l.id)}
 
               </div>
@@ -439,6 +528,7 @@ export default function ColdWorkflow({
                 ['name', 'Name'],
                 ['club', 'Club'],
                 ['email', 'Email'],
+                ['website', 'Website'],
                 ['notes', 'Notes'],
               ] as const
             ).map(([field, label]) => (
@@ -473,12 +563,31 @@ export default function ColdWorkflow({
           {showAdded && (
             <div className="border border-gray-200 rounded-lg mt-2 divide-y divide-gray-100">
               {added.map((l) => (
-                <div key={l.id} className="flex items-center gap-3 px-3 py-2 text-sm">
-                  <span className="font-semibold text-navy truncate">{l.name || l.club || l.email}</span>
-                  <span className="text-gray-500 truncate hidden sm:inline">{l.email}</span>
-                  <span className="ml-auto text-xs text-gray-400 whitespace-nowrap">
+                <div key={l.id} className="flex flex-wrap items-center gap-2 px-3 py-2 text-sm">
+                  <input
+                    defaultValue={l.name || ''}
+                    placeholder="Name"
+                    onBlur={(e) => e.target.value.trim() !== (l.name || '') && patchLead(l.id, 'name', e.target.value)}
+                    className={`${editable} font-semibold text-navy w-32`}
+                  />
+                  <input
+                    defaultValue={l.club || ''}
+                    placeholder="Club"
+                    onBlur={(e) => e.target.value.trim() !== (l.club || '') && patchLead(l.id, 'club', e.target.value)}
+                    className={`${editable} text-gray-600 flex-1 min-w-[120px]`}
+                  />
+                  <input
+                    defaultValue={l.email || ''}
+                    placeholder="Email"
+                    onBlur={(e) => e.target.value.trim() !== (l.email || '') && patchLead(l.id, 'email', e.target.value)}
+                    className={`${editable} text-gray-600 w-56`}
+                  />
+                  <span className="text-xs text-gray-400 whitespace-nowrap">
                     {(l.signedUpAt || '').slice(0, 10)} · {l.sentCount ?? 0} sent
                   </span>
+                  {recommendPill(l)}
+                  {notesButton(l)}
+                  {removeButton(l.id)}
                 </div>
               ))}
               {!added.length && <p className="px-3 py-4 text-center text-sm text-gray-500">Nobody yet.</p>}
@@ -495,7 +604,7 @@ export default function ColdWorkflow({
           </p>
           <div className="border border-gray-200 rounded-lg divide-y divide-gray-100">
             {blocked.map((l) => (
-              <div key={l.id} title={l.notes || undefined} className="flex flex-wrap items-center gap-3 px-3 py-2 text-sm">
+              <div key={l.id} className="flex flex-wrap items-center gap-3 px-3 py-2 text-sm">
                 <input
                   defaultValue={l.name || ''}
                   placeholder="Name"
@@ -528,6 +637,7 @@ export default function ColdWorkflow({
                   </a>
                 )}
                 {recommendPill(l)}
+                {notesButton(l)}
                 {removeButton(l.id)}
               </div>
             ))}
