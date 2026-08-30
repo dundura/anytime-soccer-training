@@ -33,8 +33,6 @@ type Sub = {
 
 type Sequence = { key: string; label: string; group: string; emails: number; subscribers: number };
 
-type EmailRow = { emailKey: string; sequence: string; subject: string; position: number };
-
 // Few on purpose: a list of twenty statuses is a list nobody keeps up to date.
 const OUTCOMES = [
   { key: 'won', label: 'Won', className: 'bg-green-100 text-green-800' },
@@ -65,7 +63,6 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
   const [sends, setSends] = useState<Record<number, SendRow[]>>({});
   const [outcome, setOutcome] = useState('');
   const [showHidden, setShowHidden] = useState(false);
-  const [emails, setEmails] = useState<EmailRow[]>([]);
   const [busyId, setBusyId] = useState(0);
   const [note, setNote] = useState('');
 
@@ -87,18 +84,15 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
       if (search.trim()) params.set('search', search.trim());
       if (outcome) params.set('outcome', outcome);
       if (showHidden) params.set('hidden', '1');
-      const [subsRes, seqRes, emailRes] = await Promise.all([
+      const [subsRes, seqRes] = await Promise.all([
         fetch(`${API}/newsletters/subscribers?${params.toString()}`, { headers: headers() }),
         fetch(`${API}/newsletters/sequences`, { headers: headers() }),
-        fetch(`${API}/newsletters/emails`, { headers: headers() }),
       ]);
       const sj = await subsRes.json().catch(() => ({}));
       const qj = await seqRes.json().catch(() => ({}));
-      const ej = await emailRes.json().catch(() => ({}));
       if (!subsRes.ok) throw new Error(sj.error || 'Could not load the list.');
       setSubs(sj.subscribers || []);
       setSequences(qj.sequences || []);
-      setEmails(ej.emails || []);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not load the list.');
     } finally {
@@ -152,31 +146,6 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
     }
   };
 
-  const sendOne = async (id: number, emailKey: string) => {
-    if (!emailKey) return;
-    setBusyId(id);
-    setNote('');
-    try {
-      const res = await fetch(`${API}/newsletters/subscribers/${id}/send`, {
-        method: 'POST',
-        headers: { ...headers(), 'Content-Type': 'application/json' },
-        body: JSON.stringify({ emailKey }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || 'Could not send that.');
-      setNote(`Sent "${data.subject}" to ${data.sentTo}`);
-      setSends((m) => {
-        const next = { ...m };
-        delete next[id];
-        return next;
-      });
-      await load();
-    } catch (e) {
-      setNote(e instanceof Error ? e.message : 'Could not send that.');
-    } finally {
-      setBusyId(0);
-    }
-  };
 
   return (
     <div className="px-4 py-4">
@@ -302,19 +271,6 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
                   </td>
                   <td className="px-3 py-2 whitespace-nowrap text-right" onClick={(e) => e.stopPropagation()}>
                     <span className="flex items-center justify-end gap-2">
-                      <select
-                        value=""
-                        disabled={busyId === s.id || s.status === 'unsubscribed'}
-                        onChange={(e) => sendOne(s.id, e.target.value)}
-                        className="text-[11px] border border-gray-300 rounded px-2 py-1 max-w-[190px] focus:outline-none focus:border-red disabled:opacity-40"
-                      >
-                        <option value="">Send an email…</option>
-                        {emails.map((e2) => (
-                          <option key={e2.emailKey} value={e2.emailKey}>
-                            {label(e2.sequence)} · {e2.subject}
-                          </option>
-                        ))}
-                      </select>
                       <button
                         onClick={() => patch(s.id, { hidden: !s.hiddenAt })}
                         disabled={busyId === s.id}
