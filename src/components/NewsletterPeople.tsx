@@ -25,6 +25,8 @@ type Sub = {
   signedUpAt: string | null;
   lastSentAt: string | null;
   sentCount: number;
+  deliveredCount: number;
+  problemCount: number;
 };
 
 type Sequence = { key: string; label: string; group: string; emails: number; subscribers: number };
@@ -35,6 +37,8 @@ type SendRow = {
   status: string;
   error: string | null;
   sentAt: string | null;
+  deliveryStatus: string | null;
+  deliveryDetail: string | null;
 };
 
 export default function NewsletterPeople({ token }: { token: string | null }) {
@@ -151,7 +155,7 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
         <table className="w-full text-xs">
           <thead className="bg-gray-50 text-gray-500">
             <tr>
-              {['Name', 'Email', 'Sequence', 'Signed up', 'Emails sent', 'Last sent', 'Status'].map((h) => (
+              {['Name', 'Email', 'Sequence', 'Signed up', 'Sent', 'Delivered', 'Last sent', 'Status'].map((h) => (
                 <th key={h} className="text-left font-bold uppercase tracking-wide px-3 py-2 whitespace-nowrap">
                   {h}
                 </th>
@@ -174,6 +178,15 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
                   <td className="px-3 py-2 whitespace-nowrap">{label(s.sequence)}</td>
                   <td className="px-3 py-2 whitespace-nowrap text-gray-500">{(s.signedUpAt || '').slice(0, 10)}</td>
                   <td className="px-3 py-2 whitespace-nowrap">{s.sentCount}</td>
+                  <td className="px-3 py-2 whitespace-nowrap">
+                    {s.problemCount > 0 ? (
+                      <span className="font-semibold text-red">{s.problemCount} bounced</span>
+                    ) : s.deliveredCount > 0 ? (
+                      <span className="font-semibold text-green-700">{s.deliveredCount}</span>
+                    ) : (
+                      <span className="text-gray-300">&mdash;</span>
+                    )}
+                  </td>
                   <td className="px-3 py-2 whitespace-nowrap text-gray-500">
                     {s.lastSentAt ? s.lastSentAt.slice(0, 10) : '—'}
                   </td>
@@ -187,7 +200,7 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
                 </tr>
                 {open === s.id && (
                   <tr key={`${s.id}-sends`} className="bg-gray-50 border-t border-gray-100">
-                    <td colSpan={7} className="px-3 py-3">
+                    <td colSpan={8} className="px-3 py-3">
                       {!sends[s.id] && <p className="text-[11px] text-gray-500 font-semibold">Loading…</p>}
                       {sends[s.id]?.length === 0 && (
                         <p className="text-[11px] text-gray-500 font-semibold">Nothing sent yet.</p>
@@ -196,13 +209,20 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
                         <p key={n.emailKey} className="text-[11px] text-gray-600 mb-0.5">
                           <span className="text-gray-400">{(n.sentAt || '').slice(0, 16).replace('T', ' ')}</span>{' '}
                           {n.subject}{' '}
-                          {n.status === 'sent' ? (
-                            <span className="font-semibold text-green-700">sent</span>
-                          ) : (
+                          {n.status !== 'sent' ? (
                             <span className="font-semibold text-red">
                               {n.status}
                               {n.error ? ` — ${n.error}` : ''}
                             </span>
+                          ) : n.deliveryStatus === 'delivered' ? (
+                            <span className="font-semibold text-green-700">delivered</span>
+                          ) : n.deliveryStatus ? (
+                            <span className="font-semibold text-red">
+                              {n.deliveryStatus}
+                              {n.deliveryDetail ? ` — ${n.deliveryDetail}` : ''}
+                            </span>
+                          ) : (
+                            <span className="font-semibold text-gray-500">accepted</span>
                           )}
                         </p>
                       ))}
@@ -213,7 +233,7 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
             ))}
             {!loading && !subs.length && (
               <tr>
-                <td colSpan={7} className="px-3 py-6 text-center text-gray-500 font-semibold">
+                <td colSpan={8} className="px-3 py-6 text-center text-gray-500 font-semibold">
                   Nobody matches that.
                 </td>
               </tr>
@@ -223,8 +243,9 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
       </div>
 
       <p className="text-[11px] text-gray-500 mt-3">
-        <strong>Sent</strong> means the mail server accepted it, not that it reached an inbox. Real delivery,
-        bounces and complaints need Resend&apos;s webhook, which is not wired up yet.
+        <strong>Accepted</strong> means the mail server took it. <strong>Delivered</strong>, <strong>bounced</strong>{' '}
+        and <strong>complained</strong> come from Resend and are what actually happened. Anything sent before the
+        webhook was connected stays on accepted.
       </p>
     </div>
   );
