@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import DemoPortal from './DemoPortal';
 import Newsletters from './Newsletters';
+import NewsletterPeople from './NewsletterPeople';
 import ParentOnboarding from './ParentOnboarding';
 import PartnerAdmin from './PartnerAdmin';
 
@@ -28,6 +29,7 @@ const ADMIN_KEY = 'astPortalAdminToken';
 
 const VIEWS = [
   { key: 'newsletters', label: 'Newsletters', icon: '✉' },
+  { key: 'people', label: 'People', icon: '🧑' },
   { key: 'parent-onboarding', label: 'Parent onboarding', icon: '👪' },
   { key: 'demos', label: 'Demos', icon: '🎬' },
   { key: 'partners', label: 'Partners', icon: '🤝' },
@@ -186,6 +188,7 @@ export default function Console() {
 
           <div className="flex-1 min-w-0 bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden">
             {view === 'newsletters' && <Newsletters token={token} />}
+            {view === 'people' && <NewsletterPeople token={token} />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
             {view === 'demos' && <DemoPortal token={token} />}
             {view === 'partners' && <PartnerAdmin token={token} />}
