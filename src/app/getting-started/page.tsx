@@ -19,7 +19,7 @@ export const metadata: Metadata = {
  * first, close the tab, and never learn the other two existed.
  */
 
-type Step = { title: string; content: React.ReactNode; tip?: string };
+type Step = { title: string; content: React.ReactNode; tip?: string; pill?: string };
 
 const SECTIONS: { id: string; heading: string; accent: 'red' | 'navy'; steps: Step[] }[] = [
   {
@@ -46,6 +46,7 @@ const SECTIONS: { id: string; heading: string; accent: 'red' | 'navy'; steps: St
       },
       {
         title: 'Enter your team code',
+        pill: 'Optional',
         content: <>If your coach gave you one, enter it during signup.</>,
       },
       {
@@ -159,6 +160,11 @@ export default function GettingStartedPage() {
                       {i + 1}
                     </span>
                     <h3 className="text-base font-bold text-navy m-0">{step.title}</h3>
+                    {step.pill && (
+                      <span className="text-[10px] font-bold uppercase tracking-wide text-[#5a7089] bg-[#ECF1F7] rounded-full px-2 py-0.5">
+                        {step.pill}
+                      </span>
+                    )}
                   </div>
                   <div className="ml-10 text-[#5a7089] text-sm">
                     {step.content}
