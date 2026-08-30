@@ -64,6 +64,7 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
   const [open, setOpen] = useState(0);
   const [sends, setSends] = useState<Record<number, SendRow[]>>({});
   const [outcome, setOutcome] = useState('');
+  const [confirmDelete, setConfirmDelete] = useState(0);
   const [showHidden, setShowHidden] = useState(false);
   const [busyId, setBusyId] = useState(0);
   const [emails, setEmails] = useState<EmailRow[]>([]);
@@ -157,6 +158,30 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
       setNote(e instanceof Error ? e.message : 'Could not send that.');
     } finally {
       setSending(false);
+    }
+  };
+
+  // Borderless until you touch it, so the table still reads as a table.
+  const cell =
+    'bg-transparent text-xs border-0 border-b border-dashed border-gray-300 hover:bg-amber-50 ' +
+    'focus:bg-white focus:border-solid focus:border-red focus:outline-none px-1 py-0.5 rounded-sm';
+
+  const remove = async (id: number) => {
+    if (confirmDelete !== id) return setConfirmDelete(id);
+    setConfirmDelete(0);
+    setBusyId(id);
+    try {
+      const res = await fetch(`${API}/newsletters/subscribers/${id}`, {
+        method: 'DELETE',
+        headers: headers(),
+      });
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(j.error || 'Could not delete that.');
+      setSubs((prev) => prev.filter((r) => r.id !== id));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not delete that.');
+    } finally {
+      setBusyId(0);
     }
   };
 
@@ -288,10 +313,31 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
                     s.status === 'unsubscribed' ? 'text-gray-400' : ''
                   }`}
                 >
-                  <td className="px-3 py-2 whitespace-nowrap">
-                    {[s.firstName, s.lastName].filter(Boolean).join(' ') || '—'}
+                  <td className="px-3 py-2 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                    <input
+                      defaultValue={s.firstName || ''}
+                      placeholder="First"
+                      onBlur={(e) =>
+                        e.target.value.trim() !== (s.firstName || '') && patch(s.id, { firstName: e.target.value })
+                      }
+                      className={`${cell} w-20`}
+                    />{' '}
+                    <input
+                      defaultValue={s.lastName || ''}
+                      placeholder="Last"
+                      onBlur={(e) =>
+                        e.target.value.trim() !== (s.lastName || '') && patch(s.id, { lastName: e.target.value })
+                      }
+                      className={`${cell} w-24`}
+                    />
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap">{s.email}</td>
+                  <td className="px-3 py-2 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                    <input
+                      defaultValue={s.email}
+                      onBlur={(e) => e.target.value.trim() !== s.email && patch(s.id, { email: e.target.value })}
+                      className={`${cell} w-56`}
+                    />
+                  </td>
                   <td className="px-3 py-2 whitespace-nowrap">{label(s.sequence)}</td>
                   <td className="px-3 py-2 whitespace-nowrap text-gray-500">{(s.signedUpAt || '').slice(0, 10)}</td>
                   <td className="px-3 py-2 whitespace-nowrap">{s.sentCount}</td>
@@ -336,6 +382,22 @@ export default function NewsletterPeople({ token }: { token: string | null }) {
                         className="text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-40"
                       >
                         {s.hiddenAt ? 'Unhide' : 'Hide'}
+                      </button>
+                      {/* Two clicks. Hiding keeps the record; this throws away
+                          the send history with it, which is right for a bot
+                          and wrong for anybody else. */}
+                      <button
+                        onClick={() => remove(s.id)}
+                        onBlur={() => setConfirmDelete((d) => (d === s.id ? 0 : d))}
+                        disabled={busyId === s.id}
+                        title="Delete permanently"
+                        className={`text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full disabled:opacity-40 ${
+                          confirmDelete === s.id
+                            ? 'bg-red text-white hover:bg-red-dark'
+                            : 'border border-gray-300 text-gray-400 hover:bg-gray-50'
+                        }`}
+                      >
+                        {confirmDelete === s.id ? 'Delete?' : '×'}
                       </button>
                     </span>
                   </td>

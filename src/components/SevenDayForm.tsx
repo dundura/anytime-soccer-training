@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import Honeypot, { useHoneypot } from './Honeypot';
 
 /**
  * Signup form for the free 7-Day Training Plan — our own, replacing the Go High
@@ -18,6 +19,7 @@ const API = 'https://api.anytime-soccer.com';
 const SLOT_ID = 'ast-7day-form-slot';
 
 function Form() {
+  const hp = useHoneypot();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -38,6 +40,7 @@ function Form() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           firstName: firstName.trim(),
+          website: hp.value(),
           lastName: lastName.trim(),
           email: email.trim(),
           sequence: '7-day-plan',
@@ -69,6 +72,7 @@ function Form() {
 
   return (
     <form className="ast-7day-form" onSubmit={submit} noValidate>
+      <Honeypot inputRef={hp.ref} />
       <div className="ast-7day-form-row">
         <label className="ast-7day-form-field">
           <span>First name</span>

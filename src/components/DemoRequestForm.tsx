@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Honeypot, { useHoneypot } from './Honeypot';
 
 /**
  * The team demo request form.
@@ -35,6 +36,7 @@ const INPUT =
   'w-full px-4 py-3 rounded-lg border border-gray-200 text-[15px] text-[#0f2642] outline-none transition-colors focus:border-[#c80b3d] focus:ring-2 focus:ring-[#c80b3d]/15';
 
 export default function DemoRequestForm() {
+  const hp = useHoneypot();
   const [values, setValues] = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
@@ -53,6 +55,7 @@ export default function DemoRequestForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...values,
+          website: hp.value(),
           source: 'Demo page',
           landingPage: typeof window !== 'undefined' ? window.location.pathname : null,
         }),
@@ -88,6 +91,7 @@ export default function DemoRequestForm() {
 
   return (
     <form onSubmit={submit} noValidate>
+      <Honeypot inputRef={hp.ref} />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {FIELDS.map((f) => (
           <div key={f.name} className={f.half ? '' : 'sm:col-span-2'}>

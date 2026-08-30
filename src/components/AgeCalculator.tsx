@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import Honeypot, { useHoneypot } from './Honeypot';
 
 /**
  * The age group calculator.
@@ -42,6 +43,7 @@ function ageGroups(birthDate: string, season: string) {
 }
 
 function Calculator() {
+  const hp = useHoneypot();
   const options = seasons();
   const [parentFirstName, setParentFirstName] = useState('');
   const [playerFirstName, setPlayerFirstName] = useState('');
@@ -75,6 +77,7 @@ function Calculator() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           firstName: parentFirstName.trim(),
+          website: hp.value(),
           email: email.trim(),
           sequence: 'calculator',
           source: 'manual',
@@ -127,6 +130,7 @@ function Calculator() {
 
   return (
     <form className="ast-calculator-form" onSubmit={submit} noValidate>
+      <Honeypot inputRef={hp.ref} />
       <div className="ast-form-group">
         <label htmlFor="astParentFirstName" className="ast-form-label">Parent First Name</label>
         <input

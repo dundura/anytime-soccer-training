@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Honeypot, { useHoneypot } from './Honeypot';
 
 /**
  * Mailing list signup. Files into the evergreen sequence.
@@ -12,6 +13,7 @@ import { useState } from 'react';
 const API = 'https://api.anytime-soccer.com';
 
 export default function MailingListForm() {
+  const hp = useHoneypot();
   const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [busy, setBusy] = useState(false);
@@ -31,6 +33,7 @@ export default function MailingListForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           firstName: firstName.trim(),
+          website: hp.value(),
           email: email.trim(),
           sequence: 'evergreen',
           source: 'manual',
@@ -61,6 +64,7 @@ export default function MailingListForm() {
 
   return (
     <form className="ast-lead-form" onSubmit={submit} noValidate>
+      <Honeypot inputRef={hp.ref} />
       <label className="ast-lead-field">
         <span>First name</span>
         <input

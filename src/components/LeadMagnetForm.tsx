@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { LEAD_MAGNETS } from '@/lib/leadMagnets';
+import Honeypot, { useHoneypot } from './Honeypot';
 
 /**
  * One lead magnet signup form, replacing a Go High Level embed.
@@ -14,6 +15,7 @@ import { LEAD_MAGNETS } from '@/lib/leadMagnets';
 const API = 'https://api.anytime-soccer.com';
 
 export default function LeadMagnetForm({ formId }: { formId: string }) {
+  const hp = useHoneypot();
   const magnet = LEAD_MAGNETS[formId];
 
   const [firstName, setFirstName] = useState('');
@@ -39,6 +41,7 @@ export default function LeadMagnetForm({ formId }: { formId: string }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           firstName: firstName.trim(),
+          website: hp.value(),
           email: email.trim(),
           sequence: magnet.sequence,
           source: magnet.sequence,
@@ -69,6 +72,7 @@ export default function LeadMagnetForm({ formId }: { formId: string }) {
 
   return (
     <form className="ast-lead-form" onSubmit={submit} noValidate>
+      <Honeypot inputRef={hp.ref} />
       <p className="ast-lead-heading">{magnet.heading}</p>
       <label className="ast-lead-field">
         <span>First name</span>
