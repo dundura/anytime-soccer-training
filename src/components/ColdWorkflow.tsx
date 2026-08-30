@@ -162,6 +162,11 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
       return next;
     });
 
+  // Adding somebody to a sequence whose first email has no delay sends that
+  // email immediately. The button has to say so, or "add" reads as filing.
+  const first = emails.find((e) => e.position === 1);
+  const sendsNow = !!first && !first.delayMinutes && !!first.active;
+
   const heading = 'text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-2';
 
   return (
@@ -289,7 +294,11 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
                 disabled={busy}
                 className="text-[10px] font-bold uppercase tracking-wide px-4 py-1.5 rounded-full bg-red text-white hover:bg-red-dark disabled:opacity-50"
               >
-                {busy ? 'Adding…' : `Add ${selected.length} to the sequence?`}
+                {busy
+                  ? 'Adding…'
+                  : sendsNow
+                    ? `Send "${first?.subject}" to ${selected.length} now?`
+                    : `Add ${selected.length} to the sequence?`}
               </button>
               <button onClick={() => setConfirming(false)} className="text-[10px] font-semibold text-gray-500 hover:underline">
                 Cancel
@@ -301,7 +310,7 @@ export default function ColdWorkflow({ token }: { token: string | null }) {
               disabled={!selected.length}
               className="text-[10px] font-bold uppercase tracking-wide px-4 py-1.5 rounded-full bg-navy text-white hover:bg-navy-light disabled:opacity-40"
             >
-              Add {selected.length} to the sequence
+              {sendsNow ? `Send to ${selected.length} selected` : `Add ${selected.length} to the sequence`}
             </button>
           )}
         </span>
