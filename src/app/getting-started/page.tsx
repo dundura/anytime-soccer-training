@@ -180,18 +180,6 @@ export default function GettingStartedPage() {
             </details>
           ))}
 
-          {/* Already a member — the one case the three steps do not cover */}
-          <div className="bg-[#dbeafe] rounded-2xl p-5 md:p-6 flex gap-4 items-start">
-            <span className="text-2xl flex-shrink-0">&#128161;</span>
-            <div>
-              <p className="text-navy font-bold text-sm m-0 mb-1">Already have an account?</p>
-              <p className="text-navy/80 text-sm m-0">
-                Log in, go to <span className="font-semibold">Account Management</span>, and enter your team code
-                there.
-              </p>
-            </div>
-          </div>
-
           <div className="text-center pt-2">
             <a
               href="https://anytime-soccer.com"
