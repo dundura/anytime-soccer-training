@@ -324,9 +324,15 @@ export default function Newsletters({ token }: { token: string | null }) {
                       they are switched off - they send from their own crons
                       every day, and greying them read as though nobody was
                       getting them. */}
-                  {emails.map((e) => (
+                  {/* Ordered by when it actually arrives, not by the stored
+                      position. In player-onboarding position 4 sends on day 1
+                      and position 3 on day 7, so reading down the stored order
+                      told you the wrong story about what somebody receives. */}
+                  {[...emails]
+                    .sort((a, b) => (a.delayMinutes - b.delayMinutes) || (a.position - b.position))
+                    .map((e, i) => (
                     <tr key={e.id}>
-                      <td className="px-4 py-3 font-bold text-navy">{e.position}</td>
+                      <td className="px-4 py-3 font-bold text-navy">{i + 1}</td>
                       <td className="px-4 py-3">
                         <p className="font-semibold text-navy">{e.subject}</p>
                         <p className="text-[11px] text-gray-400">{e.emailKey}</p>
