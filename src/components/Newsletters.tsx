@@ -101,6 +101,11 @@ export default function Newsletters({ token }: { token: string | null }) {
   const [sequences, setSequences] = useState<Sequence[]>([]);
   const [groups, setGroups] = useState<string[]>([]);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const chooseGroup = (g: string | null) => {
+    setOpenGroup(g);
+    // The table below belongs to the old sequence until a new one is picked.
+    if (g && !sequences.some((sq) => sq.group === g && sq.key === sequence)) setSequence('');
+  };
   const [sequence, setSequenceState] = useState('');
 
   // Mirrored into ?seq= so a refresh lands back on the same one. Written with
@@ -224,66 +229,67 @@ export default function Newsletters({ token }: { token: string | null }) {
 
   return (
     <div className="mb-6">
-      {/* Boxes rather than five open dropdowns. Every group was showing its
-          own picker at once, which is a lot of screen for a question you
-          answer one group at a time -- pick the group, then pick within it. */}
-      <div className="grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 mb-3 max-w-4xl">
-        {groups.map((group) => {
-          const inGroup = sequences.filter((sq) => sq.group === group);
-          if (inGroup.length === 0) return null;
-          const holdsSelection = inGroup.some((sq) => sq.key === sequence);
-          const isOpen = openGroup === group;
-          const people = inGroup.reduce((n, sq) => n + (sq.subscribers || 0), 0);
-          return (
-            <button
-              key={group}
-              type="button"
-              onClick={() => setOpenGroup(isOpen ? null : group)}
-              className={`text-left rounded-lg border px-3 py-2.5 transition-colors ${
-                isOpen || holdsSelection
-                  ? 'border-navy bg-navy/5 text-navy'
-                  : 'border-gray-300 bg-white text-gray-600 hover:border-gray-400'
-              }`}
+      {/* Two dropdowns, side by side: the type, then the sequence within it.
+          Five pickers open at once was too much screen for a question you
+          answer one group at a time, and a grid of boxes was no less to read. */}
+      <div className="flex flex-wrap items-end gap-3 mb-4">
+        <div className="w-full sm:w-56">
+          <label htmlFor="seq-group" className="block text-[11px] font-bold uppercase tracking-wide text-gray-500 mb-1">
+            Type
+          </label>
+          <div className="relative">
+            <select
+              id="seq-group"
+              value={openGroup || ''}
+              onChange={(ev) => chooseGroup(ev.target.value || null)}
+              className="w-full appearance-none bg-white border border-gray-300 rounded-lg py-2.5 pl-3 pr-9 text-sm font-semibold text-navy cursor-pointer hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
             >
-              <span className="block text-[11px] font-bold uppercase tracking-wide">{group}</span>
-              <span className="block text-[11px] text-gray-500 mt-0.5">
-                {inGroup.length} sequence{inGroup.length === 1 ? '' : 's'} · {people} signed up
-              </span>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Only the chosen group's list, so there is one question on screen. */}
-      {openGroup && (() => {
-        const inGroup = sequences.filter((sq) => sq.group === openGroup);
-        const selectedHere = inGroup.some((sq) => sq.key === sequence);
-        return (
-          <div className="mb-4 max-w-md">
-            <label htmlFor="seq-open" className="block text-[11px] font-bold uppercase tracking-wide text-gray-500 mb-1">
-              {openGroup}
-            </label>
-            <div className="relative">
-              <select
-                id="seq-open"
-                value={selectedHere ? sequence : ''}
-                onChange={(ev) => ev.target.value && setSequence(ev.target.value)}
-                className={`w-full appearance-none bg-white border rounded-lg py-2.5 pl-3 pr-9 text-sm font-semibold cursor-pointer hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors ${
-                  selectedHere ? 'border-navy text-navy' : 'border-gray-300 text-gray-400'
-                }`}
-              >
-                <option value="">{selectedHere ? '' : 'Choose…'}</option>
-                {inGroup.map((sq) => (
-                  <option key={sq.key} value={sq.key}>
-                    {sq.label} ({sq.emails} email{sq.emails === 1 ? '' : 's'}, {sq.subscribers} signed up)
+              <option value="">Choose…</option>
+              {groups.map((group) => {
+                const inGroup = sequences.filter((sq) => sq.group === group);
+                if (inGroup.length === 0) return null;
+                const people = inGroup.reduce((n, sq) => n + (sq.subscribers || 0), 0);
+                return (
+                  <option key={group} value={group}>
+                    {group} ({inGroup.length} sequence{inGroup.length === 1 ? '' : 's'}, {people} signed up)
                   </option>
-                ))}
-              </select>
-              <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400 text-xs">&#9662;</span>
-            </div>
+                );
+              })}
+            </select>
+            <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400 text-xs">&#9662;</span>
           </div>
-        );
-      })()}
+        </div>
+
+        {openGroup && (() => {
+          const inGroup = sequences.filter((sq) => sq.group === openGroup);
+          const selectedHere = inGroup.some((sq) => sq.key === sequence);
+          return (
+            <div className="w-full sm:w-80">
+              <label htmlFor="seq-open" className="block text-[11px] font-bold uppercase tracking-wide text-gray-500 mb-1">
+                Sequence
+              </label>
+              <div className="relative">
+                <select
+                  id="seq-open"
+                  value={selectedHere ? sequence : ''}
+                  onChange={(ev) => ev.target.value && setSequence(ev.target.value)}
+                  className={`w-full appearance-none bg-white border rounded-lg py-2.5 pl-3 pr-9 text-sm font-semibold cursor-pointer hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors ${
+                    selectedHere ? 'border-navy text-navy' : 'border-gray-300 text-gray-400'
+                  }`}
+                >
+                  <option value="">{selectedHere ? '' : 'Choose…'}</option>
+                  {inGroup.map((sq) => (
+                    <option key={sq.key} value={sq.key}>
+                      {sq.label} ({sq.emails} email{sq.emails === 1 ? '' : 's'}, {sq.subscribers} signed up)
+                    </option>
+                  ))}
+                </select>
+                <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400 text-xs">&#9662;</span>
+              </div>
+            </div>
+          );
+        })()}
+      </div>
 
       <div className="flex flex-wrap items-center gap-3 mb-4">
         {counts && (
