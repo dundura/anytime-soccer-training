@@ -7,6 +7,7 @@ import ConsoleNotes from './ConsoleNotes';
 import CrmAdmin from './CrmAdmin';
 import DemoPortal from './DemoPortal';
 import Newsletters from './Newsletters';
+import TriggeredEmails from './TriggeredEmails';
 import NewsletterPeople from './NewsletterPeople';
 import ParentOnboarding from './ParentOnboarding';
 import PartnerAdmin from './PartnerAdmin';
@@ -35,6 +36,7 @@ const ADMIN_KEY = 'astPortalAdminToken';
 // for occasionally, not the reason the console is open.
 const VIEWS = [
   { key: 'newsletters', label: 'Newsletters', icon: '✉' },
+  { key: 'triggered', label: 'Triggered', icon: '⚡' },
   { key: 'people', label: 'People', icon: '🧑' },
   { key: 'crm', label: 'CRM', icon: '📇' },
   { key: 'cold', label: 'Cold', icon: '🧊' },
@@ -195,6 +197,7 @@ export default function Console() {
             {view === 'notes' && <ConsoleNotes token={token} />}
             {view === 'logins' && <ConsoleLogins token={token} />}
             {view === 'newsletters' && <Newsletters token={token} />}
+            {view === 'triggered' && <TriggeredEmails token={token} />}
             {view === 'people' && <NewsletterPeople token={token} />}
             {view === 'crm' && <CrmAdmin token={token} />}
             {view === 'cold' && <ColdWorkflow token={token} />}
