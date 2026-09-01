@@ -157,6 +157,24 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
         body: JSON.stringify({ leadId, key, ...(values || {}) }),
       });
       const data = await res.json().catch(() => ({}));
+      // The server names what is missing ("Fill in: Parent sign-up link"). If
+      // the field list did not reach the browser, that reply is the only thing
+      // that knows — so open the panel from it rather than leaving a dead end.
+      if (!res.ok && /^Fill in:/i.test(String(data.error || ''))) {
+        const labels = String(data.error).replace(/^Fill in:\s*/i, '').split(',').map(x => x.trim()).filter(Boolean);
+        const known = emailSequence.find(e => e.key === key)?.fields;
+        setAskFields({
+          leadId,
+          key,
+          subject,
+          fields: known?.length
+            ? known
+            : labels.map(l => ({ key: l.toLowerCase().includes('link') ? 'teamLink' : l.toLowerCase().includes('code') ? 'teamCode' : 'teamName', label: l, required: true })),
+          values: values || {},
+        });
+        setCrmSentNote('');
+        return;
+      }
       setCrmSentNote(res.ok ? 'Sent "' + subject + '" to ' + data.sentTo : (data.error || 'Could not send that email.'));
     } catch {
       setCrmSentNote('Could not send that email.');
