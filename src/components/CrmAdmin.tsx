@@ -21,7 +21,8 @@ const TOKEN_KEY = 'astPortalToken';
 const ADMIN_RETURN_KEY = 'astPortalAdminReturn';
 const ADMIN_RETURN_WHO = 'astPortalAdminReturnWho';
 
-type Notification = { key: string; n: number; subject: string; purpose: string; from: string };
+type NotificationField = { key: string; label: string; required?: boolean };
+type Notification = { key: string; n: number; subject: string; purpose: string; from: string; fields?: NotificationField[] | null };
 
 const CRM_STATUS_LABEL: Record<string, string> = {
   not_started: 'Not started',
@@ -131,15 +132,29 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
     'X-Admin-Token': (typeof window !== 'undefined' && localStorage.getItem('astPortalAdminToken')) || '',
   });
 
-  const sendCrmEmail = async (leadId: number, key: string, subject: string) => {
+  // Some emails carry their own inputs — #21 needs the parent sign-up link.
+  // The row sent only the key, so the server rejected it with "Fill in: Parent
+  // sign-up link" and there was nowhere to type it. Asking here is that box.
+  const [askFields, setAskFields] = useState<
+    { leadId: number; key: string; subject: string; fields: NotificationField[]; values: Record<string, string> } | null
+  >(null);
+
+  const sendCrmEmail = async (leadId: number, key: string, subject: string, values?: Record<string, string>) => {
     if (crmSendingKey) return;
+    const notif = emailSequence.find(e => e.key === key);
+    const needed = (notif?.fields || []).filter(f => f.required);
+    if (needed.length && !values) {
+      setAskFields({ leadId, key, subject, fields: notif?.fields || [], values: {} });
+      return;
+    }
+    setAskFields(null);
     setCrmSendingKey(leadId + ':' + key);
     setCrmSentNote('');
     try {
       const res = await fetch(`${API}/portal-onboarding/notify-lead`, {
         method: 'POST',
         headers: { ...adminHeaders(), 'Content-Type': 'application/json' },
-        body: JSON.stringify({ leadId, key }),
+        body: JSON.stringify({ leadId, key, ...(values || {}) }),
       });
       const data = await res.json().catch(() => ({}));
       setCrmSentNote(res.ok ? 'Sent "' + subject + '" to ' + data.sentTo : (data.error || 'Could not send that email.'));
@@ -397,8 +412,39 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
     if (match) setCrmStageView(match.id);
   }, [stageName, crmStages]);
 
+  const askPanel = askFields && (
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4" onClick={() => setAskFields(null)}>
+      <div className="bg-white rounded-lg w-full max-w-md p-4" onClick={ev => ev.stopPropagation()}>
+        <p className="text-sm font-bold text-navy mb-1">{askFields.subject}</p>
+        <p className="text-xs text-gray-500 mb-3">This email needs a little more before it can go.</p>
+        {askFields.fields.map(f => (
+          <input
+            key={f.key}
+            value={askFields.values[f.key] || ''}
+            onChange={ev => setAskFields(a => (a ? { ...a, values: { ...a.values, [f.key]: ev.target.value } } : a))}
+            placeholder={f.required ? `${f.label} (required)` : f.label}
+            className="block w-full text-sm border border-gray-300 rounded px-2 py-1.5 mb-2 focus:outline-none focus:border-red"
+          />
+        ))}
+        <div className="flex gap-2 mt-3">
+          <button
+            onClick={() => sendCrmEmail(askFields.leadId, askFields.key, askFields.subject, askFields.values)}
+            disabled={askFields.fields.some(f => f.required && !(askFields.values[f.key] || '').trim())}
+            className="text-[11px] font-bold uppercase tracking-wide px-4 py-1.5 rounded-full bg-red text-white hover:bg-red-dark disabled:opacity-40"
+          >
+            Send
+          </button>
+          <button onClick={() => setAskFields(null)} className="text-[11px] font-semibold text-gray-500 hover:underline">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="px-4 py-4">
+      {askPanel}
       {viewingAs && (
         <div className="mb-4 rounded-lg bg-amber-100 border border-amber-300 px-4 py-2 text-xs font-semibold text-amber-900">
           Viewing {viewingAs}&rsquo;s portal.{' '}
