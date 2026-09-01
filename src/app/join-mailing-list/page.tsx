@@ -38,21 +38,48 @@ export default function JoinMailingListPage() {
 
         <MailingListForm />
 
-        {/* Three lines, because the objection to any signup form is always the
-            same three questions: how often, is it worth reading, and can I get
-            out again. */}
-        <ul className="mt-8 space-y-2.5 max-w-sm mx-auto">
+        {/* What each reader actually gets. The old list answered the three
+            objections to any signup form but never said what was in it, which
+            is the thing somebody is deciding on. */}
+        <div className="mt-10 grid gap-6 sm:grid-cols-2">
           {[
-            'A short email when there is something worth sending',
-            'Written by a parent, not a marketing team',
-            'Leave in one click, whenever you like',
-          ].map((line) => (
-            <li key={line} className="flex items-start gap-2.5 text-[15px] text-gray-600">
-              <span className="text-red font-bold leading-6">&#10003;</span>
-              <span>{line}</span>
-            </li>
+            {
+              who: 'If you are a parent',
+              lines: [
+                'Drills your child can follow at home without you coaching them',
+                'What to look for in a club, and what to ask before you sign',
+                'How to keep them improving without taking the fun out of it',
+              ],
+            },
+            {
+              who: 'If you are a coach',
+              lines: [
+                'Sessions you can set as homework between practices',
+                'Ways to see who is actually doing the work',
+                'What other coaches are running, and what is working',
+              ],
+            },
+          ].map((group) => (
+            <div key={group.who}>
+              <p className="text-[13px] font-bold uppercase tracking-wide text-navy mb-3">{group.who}</p>
+              <ul className="space-y-2.5">
+                {group.lines.map((line) => (
+                  <li key={line} className="flex items-start gap-2.5 text-[15px] text-gray-600">
+                    <span className="text-red font-bold leading-6">&#10003;</span>
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
+        </div>
+
+        {/* Exactly what happens next, because a signup that does not say is a
+            signup people hesitate over. */}
+        <p className="mt-8 text-center text-sm text-gray-500 max-w-sm mx-auto">
+          You will get one thank-you email straight away, then about one a month.
+          Leave in one click, whenever you like.
+        </p>
       </div>
     </div>
   );
