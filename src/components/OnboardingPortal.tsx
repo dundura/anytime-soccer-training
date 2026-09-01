@@ -498,6 +498,21 @@ export default function OnboardingPortal() {
   // sequence had just gone out.
   const [notifySent, setNotifySent] = useState<{ key: string; to: string } | null>(null);
   const [notifyError, setNotifyError] = useState<{ key: string; message: string } | null>(null);
+  // Who the email goes to. Empty means the coach whose portal this is, which
+  // is how it worked before; an admin opening this from the console has no
+  // coach session, so they pick one here instead.
+  const [notifyCoachEmail, setNotifyCoachEmail] = useState('');
+  const [notifyCoaches, setNotifyCoaches] = useState<{ email: string; name: string }[]>([]);
+  useEffect(() => {
+    const admin = typeof window !== 'undefined' && localStorage.getItem('astPortalAdminToken');
+    if (!admin) return;
+    fetch(`${API}/portal-onboarding/admin-coaches`, {
+      headers: { Authorization: token || '', 'X-Admin-Token': admin },
+    })
+      .then(r => r.json())
+      .then(d => setNotifyCoaches((d?.coaches || []).map((c: { email: string; name?: string }) => ({ email: c.email, name: c.name || c.email }))))
+      .catch(() => {});
+  }, [token]);
   const sendNotification = async (key: string) => {
     if (!token || notifySending) return;
     if (notifyConfirm !== key) { setNotifyConfirm(key); setNotifySent(null); setNotifyError(null); return; }
@@ -513,7 +528,7 @@ export default function OnboardingPortal() {
           Authorization: token,
           'X-Admin-Token': localStorage.getItem('astPortalAdminToken') || '',
         },
-        body: JSON.stringify({ key, ...(notifyFields[key] || {}) }),
+        body: JSON.stringify({ key, ...(notifyFields[key] || {}), ...(notifyCoachEmail ? { coachEmail: notifyCoachEmail } : {}) }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -898,7 +913,21 @@ export default function OnboardingPortal() {
                     <>
                       <div className="flex items-center gap-2 px-4 py-2 bg-amber-50">
                         <span className="text-[10px] font-extrabold uppercase tracking-wide text-amber-700">Notifications</span>
-                        <span className="text-[10px] font-semibold text-amber-700/70">Admin only · sends to {coach.email}</span>
+                        <span className="text-[10px] font-semibold text-amber-700/70">
+                          Admin only · sends to {notifyCoachEmail || coach.email}
+                        </span>
+                        {notifyCoaches.length > 0 && (
+                          <select
+                            value={notifyCoachEmail}
+                            onChange={ev => setNotifyCoachEmail(ev.target.value)}
+                            className="ml-3 text-[11px] border border-gray-300 rounded px-2 py-1 focus:outline-none focus:border-red"
+                          >
+                            <option value="">This portal ({coach.email})</option>
+                            {notifyCoaches.map(c => (
+                              <option key={c.email} value={c.email}>{c.name} — {c.email}</option>
+                            ))}
+                          </select>
+                        )}
                       </div>
                       {!emailSequence.length && (
                         <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">Loading the sequence…</p>
@@ -936,7 +965,7 @@ export default function OnboardingPortal() {
                                 disabled={!!notifySending}
                                 className={`text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full text-white transition-colors disabled:opacity-50 ${notifyConfirm === e.key ? 'bg-red hover:bg-red-dark' : 'bg-navy hover:bg-navy-light'}`}
                               >
-                                {notifySending === e.key ? 'Sending…' : notifyConfirm === e.key ? `Send to ${coach.email}?` : 'Send'}
+                                {notifySending === e.key ? 'Sending…' : notifyConfirm === e.key ? `Send to ${notifyCoachEmail || coach.email}?` : 'Send'}
                               </button>
                               {notifyConfirm === e.key && notifySending !== e.key && (
                                 <button
