@@ -564,7 +564,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'How upgrading your players works',
     body: `
       <p>Your invoice is paid, so your account now holds <strong>free access slots</strong> &mdash; one for each player you paid for.</p>
-      <p>A player joining your team does not switch their training on. <strong>Applying a slot does.</strong></p>
+      <p>When a player joins your team, you need to <strong>apply a free slot to their account</strong>.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
