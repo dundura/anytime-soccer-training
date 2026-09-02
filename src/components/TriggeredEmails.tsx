@@ -96,21 +96,13 @@ export default function TriggeredEmails({ token }: { token: string }) {
 
   return (
     <div className="mb-6">
-      <div className="flex items-center gap-2 mb-1">
-        <span className="text-[10px] font-extrabold uppercase tracking-wide text-amber-700">Triggered</span>
-        <span className="text-[10px] font-semibold text-amber-700/70">Sent because somebody did something</span>
-      </div>
-      <p className="text-xs text-gray-500 mb-4">
-        The emails somebody gets, in the order they get them. Read only — the app sends these from its own code.
-      </p>
-
       {error && <p className="text-xs text-red mb-3">{error}</p>}
       {note && <p className="text-xs font-semibold text-green-700 mb-3">{note}</p>}
       {loading && <p className="text-xs text-gray-500">Loading…</p>}
 
       {!loading && journeys.length > 0 && (
         <>
-          <div className="flex flex-wrap items-center gap-3 mb-4">
+          <div className="flex flex-wrap items-center gap-3 mb-4 pl-4">
             <select
               value={journey}
               onChange={(e) => {
