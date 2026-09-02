@@ -37,6 +37,8 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding', quiz: { prompt: 'How would you like your players added?', options: ['I’m sending my roster', 'Send me an invite link instead — I won’t be sending a roster'] } },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: -1, section: 'Pre-Onboarding', quiz: { prompt: 'How is your team getting set up?', options: ['I paid the invoice', 'I will purchase slots inside the app (after onboarding steps complete)', 'My club paid the invoice', 'I will complete onboarding and then pay the invoice'] } },
+  // Straight after the invoice, because paying is what creates the slots and applying one is the next thing the coach has to do.
+  { key: 'upgrading_players', title: 'How upgrading your players works', dataIndex: 27, section: 'Pre-Onboarding', info: true, ack: { label: 'I understand' } },
   { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding', info: true },
   { key: 'survey', title: 'Take the Coaching Engagement Survey', dataIndex: 3, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I completed the engagement survey'] } },
   { key: 'account', title: 'Create your account', dataIndex: 4, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my account'] } },

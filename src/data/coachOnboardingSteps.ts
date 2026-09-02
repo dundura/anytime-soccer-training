@@ -556,4 +556,33 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       </div>
     `,
   },
+  // The short version of How Payment Works, kept to the one part a coach has
+  // to act on: a paid invoice buys slots, and a slot is what turns a player on.
+  // Appended rather than inserted, because every portal step points at this
+  // array by index and inserting would move all of them.
+  {
+    title: 'How upgrading your players works',
+    body: `
+      <p>Your invoice is paid, so your account now holds <strong>free access slots</strong> &mdash; one for each player you paid for.</p>
+      <p>A player joining your team does not switch their training on. <strong>Applying a slot does.</strong></p>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:4px 0 0;">The player joins your team.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:4px 0 0;">Go to <strong>Upgrade Players</strong> in your team menu.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:4px 0 0;">Apply a slot. That player has <strong>365 days of full access</strong> from that moment.</p>
+        </div>
+      </div>
+      <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:12px;padding:16px 18px;margin:16px 0;">
+        <p style="margin:0;color:#92400e;"><strong>Do it within 7 days of them joining.</strong> Until a slot is applied they can see the team and the roster, but not their homework or any training.</p>
+      </div>
+      <p>Roster grows later? Add the player, <strong>buy another slot in the app</strong>, and upgrade them the same way. Clubs can buy and apply slots on behalf of their coaches.</p>
+    `,
+  },
 ];
