@@ -6,10 +6,14 @@ import { useCallback, useEffect, useState } from 'react';
  * Triggered — the email experience, one step at a time.
  *
  * The first email somebody gets when they join, and nothing else. The panel
- * used to show all 697 the app can send, behind two dropdowns, and still could
+ * used to show all 700 the app can send, behind two dropdowns, and still could
  * not answer the question it exists for: if somebody joins and does nothing
  * else, what do they get? Answering that for one step beats listing every
  * email and leaving the answer in there somewhere.
+ *
+ * The title sits beside the email rather than above it, because the point is
+ * to read one against the other — the subject is what lands in the inbox and
+ * the preview is what opens.
  *
  * The steps come from the server, so adding the second one is a line there
  * rather than a change here.
@@ -100,40 +104,38 @@ export default function TriggeredEmails({ token }: { token: string }) {
 
       {!loading &&
         steps.map((step) => (
-          <div key={step.key} className="border border-gray-200 rounded-lg overflow-hidden mb-4">
-            <div className="px-4 py-3 border-b border-gray-200 bg-gray-50 flex items-start justify-between gap-3">
-              <div className="min-w-0">
-                <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500">
-                  Email {step.order} — {step.when}
-                </p>
-                <p className="font-bold text-navy text-sm truncate">{step.email?.subject || step.key}</p>
-              </div>
+          <div
+            key={step.key}
+            className="border border-gray-200 rounded-lg overflow-hidden mb-4 flex flex-col md:flex-row"
+          >
+            <div className="md:w-64 shrink-0 p-4 bg-gray-50 border-b md:border-b-0 md:border-r border-gray-200">
+              <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500">Email {step.order}</p>
+              <p className="text-[11px] text-gray-500 mb-2">{step.when}</p>
+              <p className="font-bold text-navy text-sm mb-3">{step.email?.subject || step.key}</p>
               <button
                 onClick={() => sendSample(step)}
                 disabled={sending === step.key || !step.email?.html}
-                className="shrink-0 text-xs font-bold text-navy hover:underline disabled:opacity-40 disabled:no-underline"
+                className="text-xs font-bold text-navy hover:underline disabled:opacity-40 disabled:no-underline"
               >
                 {sending === step.key ? 'Sending…' : 'Send sample'}
               </button>
             </div>
 
-            {step.email?.html ? (
-              /* The email's own HTML, in its own document. Inlined into the page
-                 it would inherit the console's styles and fight with them, which
-                 is the one thing a preview must not do. */
-              <iframe
-                title={step.email.subject || step.key}
-                srcDoc={step.email.html}
-                sandbox=""
-                className="w-full min-h-[360px] border-0 bg-white"
-              />
-            ) : (
-              <p className="px-4 py-6 text-xs text-gray-400">{step.error || 'No preview for this one.'}</p>
-            )}
-
-            <p className="px-4 py-2 border-t border-gray-200 text-[11px] text-gray-500">
-              Highlighted parts change per recipient.
-            </p>
+            <div className="flex-1 min-w-0">
+              {step.email?.html ? (
+                /* The email's own HTML, in its own document. Inlined into the
+                   page it would inherit the console's styles and fight with
+                   them, which is the one thing a preview must not do. */
+                <iframe
+                  title={step.email.subject || step.key}
+                  srcDoc={step.email.html}
+                  sandbox=""
+                  className="block w-full h-full min-h-[440px] border-0 bg-white"
+                />
+              ) : (
+                <p className="px-4 py-6 text-xs text-gray-400">{step.error || 'No preview for this one.'}</p>
+              )}
+            </div>
           </div>
         ))}
     </div>
