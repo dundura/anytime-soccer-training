@@ -20,7 +20,7 @@ const API = 'https://api.anytime-soccer.com';
 
 type Trigger = {
   key: string;
-  kind: 'template' | 'builder';
+  kind: 'template' | 'builder' | 'inline';
   area: string;
   subject: string | null;
   sentFrom: string[];
@@ -31,10 +31,19 @@ export default function TriggeredEmails({ token }: { token: string }) {
   const [triggers, setTriggers] = useState<Trigger[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [preview, setPreview] = useState<{ subject: string; html?: string; source?: string } | null>(null);
+  const [preview, setPreview] = useState<{ subject: string; html?: string; source?: string; file?: string } | null>(
+    null,
+  );
 
+  // The admin gate on the server reads X-Admin-Token, not the coach token, so
+  // both go up together the way every other console panel sends them. Sending
+  // only the bearer token is a guaranteed 403.
   const headers = useCallback(
-    () => ({ 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }),
+    () => ({
+      'Content-Type': 'application/json',
+      Authorization: token || '',
+      'X-Admin-Token': (typeof window !== 'undefined' && localStorage.getItem('astPortalAdminToken')) || '',
+    }),
     [token],
   );
 
@@ -42,8 +51,10 @@ export default function TriggeredEmails({ token }: { token: string }) {
     setLoading(true);
     try {
       const res = await fetch(`${API}/newsletters/app-triggers`, { headers: headers() });
-      if (!res.ok) throw new Error('Could not load the triggered emails.');
-      const j = await res.json();
+      const j = await res.json().catch(() => ({}));
+      // The server says why - "Admin sign-in required." reads very differently
+      // from a scan that failed, and a fixed sentence hides both.
+      if (!res.ok) throw new Error(j.error || 'Could not load the triggered emails.');
       setTriggers(j.triggers || []);
       setError(null);
     } catch (err) {
@@ -59,10 +70,12 @@ export default function TriggeredEmails({ token }: { token: string }) {
 
   const showPreview = async (t: Trigger) => {
     try {
-      const res = await fetch(`${API}/newsletters/app-triggers/${t.key}`, { headers: headers() });
-      if (!res.ok) throw new Error('Could not load that email.');
-      const j = await res.json();
-      setPreview({ subject: j.email.subject || t.key, html: j.email.html, source: j.email.source });
+      const res = await fetch(`${API}/newsletters/app-triggers/${encodeURIComponent(t.key)}`, {
+        headers: headers(),
+      });
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(j.error || 'Could not load that email.');
+      setPreview({ subject: j.email.subject || t.key, html: j.email.html, source: j.email.source, file: j.email.file });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not load that email.');
     }
@@ -106,7 +119,11 @@ export default function TriggeredEmails({ token }: { token: string }) {
                         <td className="px-4 py-3">
                           <p className="font-semibold text-navy">{t.key}</p>
                           <p className="text-[11px] text-gray-400">
-                            {t.kind === 'builder' ? 'built in code' : 'template'}
+                            {t.kind === 'template'
+                              ? 'template'
+                              : t.kind === 'inline'
+                                ? 'written in the route'
+                                : 'built in code'}
                           </p>
                         </td>
                         <td className="px-4 py-3 text-gray-600 text-[11px]">
@@ -125,7 +142,7 @@ export default function TriggeredEmails({ token }: { token: string }) {
                             onClick={() => showPreview(t)}
                             className="text-xs font-bold text-navy hover:underline"
                           >
-                            {t.kind === 'builder' ? 'View code' : 'Preview'}
+                            {t.kind === 'template' ? 'Preview' : 'View code'}
                           </button>
                         </td>
                       </tr>
@@ -146,7 +163,12 @@ export default function TriggeredEmails({ token }: { token: string }) {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
-              <p className="font-bold text-navy text-sm">{preview.subject}</p>
+              <div className="min-w-0 pr-3">
+                <p className="font-bold text-navy text-sm truncate">{preview.subject}</p>
+                {/* An excerpt is only readable if you know which file it came
+                    out of - the subject alone does not locate it. */}
+                {preview.file && <p className="text-[11px] text-gray-400 truncate">{preview.file}</p>}
+              </div>
               <button onClick={() => setPreview(null)} className="text-gray-400 hover:text-gray-600 text-lg leading-none">
                 &times;
               </button>
@@ -155,7 +177,8 @@ export default function TriggeredEmails({ token }: { token: string }) {
               {preview.html ? (
                 <div dangerouslySetInnerHTML={{ __html: preview.html }} />
               ) : (
-                /* A builder writes its HTML in code, so there is nothing to
+                /* A builder writes its HTML in code, and an inline email is
+                   written in the middle of a route, so neither has anything to
                    render without running it - show the source rather than an
                    empty box that looks like a broken preview. */
                 <pre className="text-[11px] text-gray-700 whitespace-pre-wrap break-words">{preview.source}</pre>
