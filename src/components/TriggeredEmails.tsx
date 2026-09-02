@@ -30,11 +30,13 @@ type Step = {
   error?: string;
 };
 
-type Journey = { name: string; steps: Step[] };
+type Path = { name: string; steps: Step[] };
+type Journey = { name: string; paths: Path[] };
 
 export default function TriggeredEmails({ token }: { token: string }) {
   const [journeys, setJourneys] = useState<Journey[]>([]);
   const [journey, setJourney] = useState('');
+  const [path, setPath] = useState('');
   const [open, setOpen] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -60,6 +62,7 @@ export default function TriggeredEmails({ token }: { token: string }) {
       if (!res.ok) throw new Error(j.error || 'Could not load the email experience.');
       setJourneys(j.journeys || []);
       setJourney((j.journeys || [])[0]?.name || '');
+      setPath((j.journeys || [])[0]?.paths?.[0]?.name || '');
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not load the email experience.');
@@ -92,7 +95,8 @@ export default function TriggeredEmails({ token }: { token: string }) {
     }
   };
 
-  const steps = journeys.find((j) => j.name === journey)?.steps || [];
+  const paths = journeys.find((j) => j.name === journey)?.paths || [];
+  const steps = (paths.find((p) => p.name === path) || paths[0])?.steps || [];
 
   return (
     <div className="mb-6">
@@ -106,7 +110,11 @@ export default function TriggeredEmails({ token }: { token: string }) {
             <select
               value={journey}
               onChange={(e) => {
-                setJourney(e.target.value);
+                const next = e.target.value;
+                setJourney(next);
+                // The chosen path belongs to the old action, so it will not be
+                // in the new one. Land on its first rather than on nothing.
+                setPath(journeys.find((j) => j.name === next)?.paths?.[0]?.name || '');
                 setOpen(null);
               }}
               className="border border-gray-300 rounded-lg px-3 py-2 text-sm font-semibold text-navy bg-white"
@@ -117,6 +125,25 @@ export default function TriggeredEmails({ token }: { token: string }) {
                 </option>
               ))}
             </select>
+
+            {/* Only when there is a choice to make. One option is not a choice,
+                it is a label taking up the width of a dropdown. */}
+            {paths.length > 1 && (
+              <select
+                value={path}
+                onChange={(e) => {
+                  setPath(e.target.value);
+                  setOpen(null);
+                }}
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm font-semibold text-navy bg-white"
+              >
+                {paths.map((p) => (
+                  <option key={p.name} value={p.name}>
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+            )}
             <span className="text-xs text-gray-500">
               {steps.length} {steps.length === 1 ? 'email' : 'emails'}
             </span>
