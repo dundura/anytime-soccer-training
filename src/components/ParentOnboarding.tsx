@@ -66,6 +66,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
   const [upload, setUpload] = useState<UploadResult | null>(null);
   const [pasted, setPasted] = useState('');
   const [teamFilter, setTeamFilter] = useState('');
+  const [signedUp, setSignedUp] = useState<'all' | 'yes' | 'no'>('all');
   const [chosen, setChosen] = useState<Set<number>>(new Set());
   const [emailPreview, setEmailPreview] = useState<{ subject: string; html: string } | null>(null);
   const [testTo, setTestTo] = useState('neil@anytime-soccer.com');
@@ -104,7 +105,9 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
   // One list. Sending changes a row's status rather than moving it somewhere
   // else - "who is on this roster and where are they up to" is one question.
   const everyone = [...staged, ...sends].sort((a, b) => b.id - a.id);
-  const visible = everyone.filter(inTeam);
+  const hasSignedUp = (p: Person) =>
+    signedUp === 'all' || (signedUp === 'yes' ? !!p.hasAccount : !p.hasAccount);
+  const visible = everyone.filter((p) => inTeam(p) && hasSignedUp(p));
   const unsent = visible.filter((p) => p.status === 'staged');
 
   // Built from staged and sent together: a team whose list has already gone out
@@ -235,13 +238,13 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
     setNudging(id);
     setNote('');
     try {
-      const res = await fetch(`${API}/portal-onboarding/parent-onboarding/nudge`, {
+      const res = await fetch(`${API}/portal-onboarding/parent-onboarding/remind`, {
         method: 'POST',
         headers: { ...adminHeaders(), 'Content-Type': 'application/json' },
         body: JSON.stringify({ id }),
       });
       const data = await res.json().catch(() => ({}));
-      setNote(res.ok ? `Reminder sent to ${data.sentTo}` : data.error || 'Could not send that reminder.');
+      setNote(res.ok ? `Reminder from Megan sent to ${data.to}` : data.error || 'Could not send that reminder.');
       if (res.ok) await load();
     } catch {
       setNote('Could not send that reminder.');
@@ -406,6 +409,20 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
                   </option>
                 ))}
               </select>
+
+              <label htmlFor="poSignedUp" className="text-[10px] font-bold uppercase tracking-wide text-gray-500 ml-3">
+                Signed up
+              </label>
+              <select
+                id="poSignedUp"
+                value={signedUp}
+                onChange={(e) => setSignedUp(e.target.value as 'all' | 'yes' | 'no')}
+                className="text-xs border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:border-red"
+              >
+                <option value="all">Everyone ({everyone.filter(inTeam).length})</option>
+                <option value="yes">Signed up ({everyone.filter((p) => inTeam(p) && p.hasAccount).length})</option>
+                <option value="no">Not signed up ({everyone.filter((p) => inTeam(p) && !p.hasAccount).length})</option>
+              </select>
             </div>
           )}
 
@@ -525,7 +542,8 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
                               Send
                             </button>
                           ) : (
-                            p.status === 'sent' &&
+                            // Anyone on the list, not only the already-welcomed:
+                            // the person pressing this can see the row.
                             !p.unsubscribedAt && (
                               <button
                                 onClick={() => sendReminder(p.id)}

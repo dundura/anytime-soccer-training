@@ -94,6 +94,14 @@ export default function TeamsPage() {
               Player Portal →
             </Link>
           </div>
+          {/* Quiet, and below the two portals people actually come here for.
+              The console is admin-only and asks for a sign-in, but a page this
+              public is no place to advertise it. */}
+          <div className="mt-4">
+            <Link href="/console" className="text-xs text-gray hover:text-navy underline">
+              Console
+            </Link>
+          </div>
         </div>
 
         {/* Explore the App */}
