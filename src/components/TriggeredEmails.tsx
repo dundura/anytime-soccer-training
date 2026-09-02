@@ -8,12 +8,11 @@ import { useCallback, useEffect, useState } from 'react';
  * The first email somebody gets when they join, and nothing else. The panel
  * used to show all 700 the app can send, behind two dropdowns, and still could
  * not answer the question it exists for: if somebody joins and does nothing
- * else, what do they get? Answering that for one step beats listing every
- * email and leaving the answer in there somewhere.
+ * else, what do they get?
  *
- * The title sits beside the email rather than above it, because the point is
- * to read one against the other — the subject is what lands in the inbox and
- * the preview is what opens.
+ * A step is its subject until you ask for more. The email opens underneath it,
+ * in the page rather than over it — a step is a thing in a sequence, and a
+ * modal takes you out of the sequence to read one.
  *
  * The steps come from the server, so adding the second one is a line there
  * rather than a change here.
@@ -33,6 +32,7 @@ type Step = {
 
 export default function TriggeredEmails({ token }: { token: string }) {
   const [steps, setSteps] = useState<Step[]>([]);
+  const [open, setOpen] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [note, setNote] = useState('');
@@ -104,38 +104,49 @@ export default function TriggeredEmails({ token }: { token: string }) {
 
       {!loading &&
         steps.map((step) => (
-          <div
-            key={step.key}
-            className="border border-gray-200 rounded-lg overflow-hidden mb-4 flex flex-col md:flex-row"
-          >
-            <div className="md:w-64 shrink-0 p-4 bg-gray-50 border-b md:border-b-0 md:border-r border-gray-200">
-              <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500">Email {step.order}</p>
-              <p className="text-[11px] text-gray-500 mb-2">{step.when}</p>
-              <p className="font-bold text-navy text-sm mb-3">{step.email?.subject || step.key}</p>
-              <button
-                onClick={() => sendSample(step)}
-                disabled={sending === step.key || !step.email?.html}
-                className="text-xs font-bold text-navy hover:underline disabled:opacity-40 disabled:no-underline"
-              >
-                {sending === step.key ? 'Sending…' : 'Send sample'}
-              </button>
+          <div key={step.key} className="border border-gray-200 rounded-lg overflow-hidden mb-4">
+            <div className="px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500">
+                  Email {step.order} — {step.when}
+                </p>
+                <p className="font-bold text-navy text-sm">{step.email?.subject || step.key}</p>
+              </div>
+              <div className="flex items-center gap-4 shrink-0">
+                <button
+                  onClick={() => setOpen(open === step.key ? null : step.key)}
+                  disabled={!step.email?.html}
+                  className="text-xs font-bold text-navy hover:underline disabled:opacity-40 disabled:no-underline"
+                >
+                  {open === step.key ? 'Hide' : 'Preview'}
+                </button>
+                <button
+                  onClick={() => sendSample(step)}
+                  disabled={sending === step.key || !step.email?.html}
+                  className="text-xs font-bold text-gray-500 hover:text-navy disabled:opacity-40"
+                >
+                  {sending === step.key ? 'Sending…' : 'Send sample'}
+                </button>
+              </div>
             </div>
 
-            <div className="flex-1 min-w-0">
-              {step.email?.html ? (
-                /* The email's own HTML, in its own document. Inlined into the
-                   page it would inherit the console's styles and fight with
-                   them, which is the one thing a preview must not do. */
-                <iframe
-                  title={step.email.subject || step.key}
-                  srcDoc={step.email.html}
-                  sandbox=""
-                  className="block w-full h-full min-h-[440px] border-0 bg-white"
-                />
-              ) : (
-                <p className="px-4 py-6 text-xs text-gray-400">{step.error || 'No preview for this one.'}</p>
-              )}
-            </div>
+            {open === step.key && (
+              <div className="border-t border-gray-200">
+                {step.email?.html ? (
+                  /* The email's own HTML, in its own document. Inlined into the
+                     page it would inherit the console's styles and fight with
+                     them, which is the one thing a preview must not do. */
+                  <iframe
+                    title={step.email.subject || step.key}
+                    srcDoc={step.email.html}
+                    sandbox=""
+                    className="block w-full min-h-[520px] border-0 bg-white"
+                  />
+                ) : (
+                  <p className="px-4 py-6 text-xs text-gray-400">{step.error || 'No preview for this one.'}</p>
+                )}
+              </div>
+            )}
           </div>
         ))}
     </div>
