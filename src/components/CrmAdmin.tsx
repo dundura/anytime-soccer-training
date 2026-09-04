@@ -139,6 +139,33 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
     { leadId: number; key: string; subject: string; fields: NotificationField[]; values: Record<string, string> } | null
   >(null);
 
+  // Preview first, always -- the same rule the demo board follows. An email to
+  // a coach is not something to send from a button whose contents you cannot
+  // see, and these are sent by hand precisely because they are the ones that
+  // have to be right.
+  const [crmPreview, setCrmPreview] = useState<
+    { leadId: number; key: string; subject: string; html: string; to: string; toName: string } | null
+  >(null);
+
+  const openCrmPreview = async (leadId: number, key: string, subject: string, toName: string) => {
+    if (crmSendingKey) return;
+    setCrmSendingKey(leadId + ':' + key);
+    setCrmSentNote('');
+    try {
+      const res = await fetch(
+        `${API}/portal-onboarding/notification-preview-lead?key=${encodeURIComponent(key)}&leadId=${leadId}`,
+        { headers: adminHeaders() },
+      );
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || 'Could not build that email.');
+      setCrmPreview({ leadId, key, subject: d.subject || subject, html: d.html || '', to: d.to || '', toName });
+    } catch (e) {
+      setCrmSentNote(e instanceof Error ? e.message : 'Could not build that email.');
+    } finally {
+      setCrmSendingKey('');
+    }
+  };
+
   const sendCrmEmail = async (leadId: number, key: string, subject: string, values?: Record<string, string>) => {
     if (crmSendingKey) return;
     const notif = emailSequence.find(e => e.key === key);
@@ -176,6 +203,9 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
         return;
       }
       setCrmSentNote(res.ok ? 'Sent "' + subject + '" to ' + data.sentTo : (data.error || 'Could not send that email.'));
+      // Only on success: a failed send has to leave the preview open, or the
+      // wording that failed disappears along with the chance to fix it.
+      if (res.ok) setCrmPreview(null);
     } catch {
       setCrmSentNote('Could not send that email.');
     } finally {
@@ -460,9 +490,45 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
     </div>
   );
 
+  // Same shape as the demo board's preview: the email as the coach will see
+  // it, an editable subject line above it, and Send only from in here.
+  const previewPanel = crmPreview && (
+    <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" onClick={() => setCrmPreview(null)}>
+      <div className="bg-white rounded-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto" onClick={ev => ev.stopPropagation()}>
+        <div className="px-5 py-4 border-b border-gray-100">
+          <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">
+            To {crmPreview.toName} &mdash; {crmPreview.to}
+          </div>
+          <input
+            value={crmPreview.subject}
+            onChange={ev => setCrmPreview(pv => (pv ? { ...pv, subject: ev.target.value } : pv))}
+            className="w-full mt-1 px-2 py-1.5 rounded-lg border border-gray-200 text-sm font-semibold text-navy"
+          />
+        </div>
+        {/* The email's own HTML. Rendered rather than described: the point of a
+            preview is to see what lands, not a summary of it. */}
+        <div className="px-5 py-4 text-sm" dangerouslySetInnerHTML={{ __html: crmPreview.html }} />
+        <div className="px-5 py-4 border-t border-gray-100 flex justify-end gap-2 sticky bottom-0 bg-white">
+          <button onClick={() => setCrmPreview(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">
+            Cancel
+          </button>
+          <button
+            onClick={() => sendCrmEmail(crmPreview.leadId, crmPreview.key, crmPreview.subject)}
+            disabled={!!crmSendingKey}
+            className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50"
+          >
+            {crmSendingKey ? 'Sending...' : 'Send'}
+          </button>
+        </div>
+        {crmSentNote && <p className="px-5 pb-4 text-[11px] font-semibold text-navy">{crmSentNote}</p>}
+      </div>
+    </div>
+  );
+
   return (
     <div className="px-4 py-4">
       {askPanel}
+      {previewPanel}
       {viewingAs && (
         <div className="mb-4 rounded-lg bg-amber-100 border border-amber-300 px-4 py-2 text-xs font-semibold text-amber-900">
           Viewing {viewingAs}&rsquo;s portal.{' '}
@@ -905,12 +971,12 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                                             <button
                                               key={e.key}
                                               type="button"
-                                              onClick={() => sendCrmEmail(c.id, e.key, e.subject)}
+                                              onClick={() => openCrmPreview(c.id, e.key, e.subject, c.name || c.email)}
                                               disabled={!!crmSendingKey}
                                               className="text-left bg-white border border-gray-200 rounded-lg px-3 py-2 hover:border-navy disabled:opacity-50 transition-colors"
                                             >
                                               <span className="block text-xs font-bold text-navy">
-                                                {crmSendingKey === c.id + ':' + e.key ? 'Sending...' : e.subject}
+                                                {crmSendingKey === c.id + ':' + e.key ? 'Opening...' : e.subject}
                                               </span>
                                               <span className="block text-[11px] text-gray-500">#{e.n} &middot; from {e.from}</span>
                                             </button>
