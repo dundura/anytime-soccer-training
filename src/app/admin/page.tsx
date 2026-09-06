@@ -100,7 +100,7 @@ export default function AdminPage() {
   const images = Array.from(imageMap.entries()).map(([url, sources]) => ({
     url,
     sources: Array.from(sources),
-    domain: new URL(url).hostname,
+    domain: new URL(url, 'https://www.anytime-soccer.com').hostname,
   }));
 
   return (
