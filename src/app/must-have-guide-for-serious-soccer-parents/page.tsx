@@ -67,10 +67,6 @@ export default function MustHaveGuidePage() {
               <div className="my-6">
                 <LeadMagnetForm formId="V3lq2xI6NRyCJ1OKrcMn" />
               </div>
-
-              <p className="text-center text-[13px] text-gray mt-4">
-                We respect your privacy. Unsubscribe anytime.
-              </p>
             </div>
 
           </div>
