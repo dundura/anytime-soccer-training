@@ -41,11 +41,27 @@ const PARTNER_LOGOS: Record<string, string> = {
  * `panel` is deliberately not pure black for Black Soccer Group: their shield
  * has a black outer ring, and on #000 it loses its silhouette entirely.
  */
-type PartnerTheme = { panel: string; glow: string; accent: string };
+type PartnerTheme = {
+  panel: string;      // dark panels: the hero, the plans block
+  glow: string;       // the soft wash behind the hero
+  accent: string;     // small accents ON those dark panels
+  brand: string;      // the page's call-to-action colour, on light
+  brandDark: string;  // its hover
+  ink: string;        // headings and prices on light
+};
 
 const PARTNER_THEMES: Record<string, PartnerTheme> = {
   // Sampled from the shield: red #D00020, green #00A040, gold #F0D010.
-  BLKSOCCERGROUP: { panel: '#131313', glow: 'rgba(0,160,64,0.20)', accent: '#F0D010' },
+  // panel is not pure black on purpose -- the shield has a black outer ring
+  // and would lose its silhouette against #000.
+  BLKSOCCERGROUP: {
+    panel: '#131313',
+    glow: 'rgba(0,160,64,0.20)',
+    accent: '#F0D010',
+    brand: '#D00020',
+    brandDark: '#A80019',
+    ink: '#131313',
+  },
 };
 
 export default function PartnerLanding({ partner, code }: { partner: Partner; code: string }) {
@@ -83,13 +99,24 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
   const logo = PARTNER_LOGOS[(code || '').toUpperCase()] || null;
   const theme = PARTNER_THEMES[(code || '').toUpperCase()] || null;
   const accent = theme ? theme.accent : '#7ec8e3';
+  // Published as custom properties rather than threaded through every class,
+  // so a partner without a theme falls through to the var() defaults and the
+  // page is byte-for-byte what it was.
+  const themeVars = theme
+    ? ({
+        '--p-panel': theme.panel,
+        '--p-brand': theme.brand,
+        '--p-brand-dark': theme.brandDark,
+        '--p-ink': theme.ink,
+      } as React.CSSProperties)
+    : undefined;
   const percent = partner.percent || 10;
   const ref = code ? `?ref=${code}` : '';
   const demo = `/team-demo-request-anytime-soccer-training${ref}`;
   const pricing = `/pricing${ref}`;
 
   return (
-    <>
+    <div style={themeVars}>
       {/* Hero: the same navy card the homepage uses — rounded panel on the light
           background, copy left, the product playing on the right. A referred
           visitor should land somewhere that looks like the company they were
@@ -126,10 +153,10 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
                       and the email is the only attribution that survives a
                       different device months later. The links themselves live
                       inside the popup, so nobody is trapped. */}
-                  <button onClick={() => ask('team')} className="bg-red hover:bg-red-dark text-white px-6 py-3.5 rounded-full font-bold text-[15px] transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center justify-center gap-2 text-center whitespace-nowrap">
+                  <button onClick={() => ask('team')} className="bg-[color:var(--p-brand,#DC373E)] hover:bg-[color:var(--p-brand-dark,#c42f36)] text-white px-6 py-3.5 rounded-full font-bold text-[15px] transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] inline-flex items-center justify-center gap-2 text-center whitespace-nowrap">
                     I&rsquo;m interested for my team &rarr;
                   </button>
-                  <button onClick={() => ask('player')} className="bg-transparent text-white border-2 border-white/60 px-6 py-3.5 rounded-full font-bold text-[15px] transition-all hover:bg-white hover:text-navy inline-flex items-center justify-center gap-2 text-center whitespace-nowrap">
+                  <button onClick={() => ask('player')} className="bg-transparent text-white border-2 border-white/60 px-6 py-3.5 rounded-full font-bold text-[15px] transition-all hover:bg-white hover:text-[color:var(--p-ink,#0F3154)] inline-flex items-center justify-center gap-2 text-center whitespace-nowrap">
                     I&rsquo;m interested for my player
                   </button>
                 </div>
@@ -182,7 +209,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
           discoverable by giving up an email, which is a reason to leave. */}
       <section className="bg-background pt-2 pb-3">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-         <div className="bg-navy rounded-3xl px-6 pt-7 pb-9 md:px-10 md:pt-7 md:pb-10">
+         <div className="bg-[color:var(--p-panel,#0F3154)] rounded-3xl px-6 pt-7 pb-9 md:px-10 md:pt-7 md:pb-10">
           <h2 className="text-2xl md:text-[32px] font-extrabold text-white text-center mb-2">For your team &mdash; or your player.</h2>
           <p className="text-white/60 text-center mb-7 max-w-[520px] mx-auto">
             The same training library covers coach-led homework and families training on their own.
@@ -193,35 +220,35 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
               spreadsheet row. */}
           <div className="grid md:grid-cols-2 gap-5 max-w-[820px] mx-auto">
             <article className="bg-white rounded-2xl p-6">
-              <span className="inline-block text-[10px] font-extrabold uppercase tracking-wide text-[#c80b3d] mb-2">For coaches, teams and clubs</span>
-              <h3 className="text-xl font-extrabold text-navy mb-3">Team Training</h3>
+              <span className="inline-block text-[10px] font-extrabold uppercase tracking-wide text-[color:var(--p-brand,#c80b3d)] mb-2">For coaches, teams and clubs</span>
+              <h3 className="text-xl font-extrabold text-[color:var(--p-ink,#0F3154)] mb-3">Team Training</h3>
               <div className="flex items-end gap-2 mb-4">
-                <strong className="text-4xl font-extrabold text-navy leading-none">$10</strong>
+                <strong className="text-4xl font-extrabold text-[color:var(--p-ink,#0F3154)] leading-none">$10</strong>
                 <span className="text-sm text-gray leading-tight">per player<br />per year</span>
               </div>
               <ul className="space-y-1.5 mb-5">
                 {['Every coach account is free', 'Assign team or individual homework', 'See who actually completed it', 'Challenges, contests and leaderboards', '20% off at five or more teams'].map((li) => (
-                  <li key={li} className="flex gap-2 text-sm text-gray"><span className="text-[#c80b3d] font-bold">&#10003;</span>{li}</li>
+                  <li key={li} className="flex gap-2 text-sm text-gray"><span className="text-[color:var(--p-brand,#c80b3d)] font-bold">&#10003;</span>{li}</li>
                 ))}
               </ul>
-              <button onClick={() => ask('team')} className="w-full bg-[#c80b3d] text-white font-bold text-sm py-3.5 rounded-lg hover:bg-red-dark transition-colors">
+              <button onClick={() => ask('team')} className="w-full bg-[color:var(--p-brand,#c80b3d)] text-white font-bold text-sm py-3.5 rounded-lg hover:bg-[color:var(--p-brand-dark,#c42f36)] transition-colors">
                 Book my free demo &rarr;
               </button>
             </article>
 
             <article className="bg-white rounded-2xl p-6">
-              <span className="inline-block text-[10px] font-extrabold uppercase tracking-wide text-navy/50 mb-2">For individual players and families</span>
-              <h3 className="text-xl font-extrabold text-navy mb-3">Individual Training</h3>
+              <span className="inline-block text-[10px] font-extrabold uppercase tracking-wide text-[color:var(--p-ink,#0F3154)] opacity-50 mb-2">For individual players and families</span>
+              <h3 className="text-xl font-extrabold text-[color:var(--p-ink,#0F3154)] mb-3">Individual Training</h3>
               <div className="flex items-end gap-2 mb-4">
-                <strong className="text-4xl font-extrabold text-navy leading-none">Free</strong>
+                <strong className="text-4xl font-extrabold text-[color:var(--p-ink,#0F3154)] leading-none">Free</strong>
                 <span className="text-sm text-gray leading-tight">plan available<br />start today</span>
               </div>
               <ul className="space-y-1.5 mb-5">
                 {['Follow-along training for ages 6-17', 'Ball mastery, dribbling, passing and more', 'Personalised sessions and progress tracking', 'Streaks, badges and rewards', 'Upgrade only when you are ready'].map((li) => (
-                  <li key={li} className="flex gap-2 text-sm text-gray"><span className="text-[#c80b3d] font-bold">&#10003;</span>{li}</li>
+                  <li key={li} className="flex gap-2 text-sm text-gray"><span className="text-[color:var(--p-brand,#c80b3d)] font-bold">&#10003;</span>{li}</li>
                 ))}
               </ul>
-              <button onClick={() => ask('player')} className="w-full bg-white border-2 border-navy text-navy font-bold text-sm py-3.5 rounded-lg hover:bg-navy hover:text-white transition-colors">
+              <button onClick={() => ask('player')} className="w-full bg-white border-2 border-[color:var(--p-ink,#0F3154)] text-[color:var(--p-ink,#0F3154)] font-bold text-sm py-3.5 rounded-lg hover:bg-[color:var(--p-ink,#0F3154)] hover:text-white transition-colors">
                 Start training free &rarr;
               </button>
             </article>
@@ -242,8 +269,8 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
          <div className="bg-white border border-gray-200 rounded-3xl px-6 pt-7 pb-9 md:px-10 md:pb-10">
           <div className="max-w-[820px] mx-auto">
-          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#c80b3d] mb-2">Questions before you start</p>
-          <h2 className="text-2xl md:text-[32px] font-extrabold text-navy mb-6">Frequently asked questions</h2>
+          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[color:var(--p-brand,#c80b3d)] mb-2">Questions before you start</p>
+          <h2 className="text-2xl md:text-[32px] font-extrabold text-[color:var(--p-ink,#0F3154)] mb-6">Frequently asked questions</h2>
           <div className="divide-y divide-gray-200 border-t border-b border-gray-200">
             {[
               ['What age is this for?', 'Ages 6 to 17. Sessions are grouped by skill and difficulty, so a beginner and an experienced player can both use it.'],
@@ -253,9 +280,9 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
               ['How does homework work?', 'A coach assigns a folder or a session, the player sees it when they open the app, and the coach sees who completed it.'],
             ].map(([q, a]) => (
               <details key={q} className="group py-4">
-                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none font-bold text-navy text-[15px]">
+                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none font-bold text-[color:var(--p-ink,#0F3154)] text-[15px]">
                   {q}
-                  <span className="text-[#c80b3d] text-lg shrink-0 transition-transform group-open:rotate-45">+</span>
+                  <span className="text-[color:var(--p-brand,#c80b3d)] text-lg shrink-0 transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <p className="text-sm text-gray leading-relaxed mt-2.5">{a}</p>
               </details>
@@ -269,7 +296,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
       {/* One last capture point at the bottom of the scroll. */}
       <section className="bg-background pt-3 pb-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-         <div className="bg-[#c80b3d] rounded-3xl px-6 py-10 md:px-10">
+         <div className="bg-[color:var(--p-brand,#c80b3d)] rounded-3xl px-6 py-10 md:px-10">
           <div className="max-w-[820px] mx-auto grid md:grid-cols-[1.3fr_1fr] gap-8 items-center">
           <div>
             <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-white/70 mb-2">Start with the path that fits</p>
@@ -281,10 +308,10 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
             </p>
           </div>
           <div className="flex flex-col gap-3">
-            <button onClick={() => ask('team')} className="bg-white text-[#c80b3d] font-bold text-sm px-6 py-3.5 rounded-lg hover:bg-white/90 transition-colors">
+            <button onClick={() => ask('team')} className="bg-white text-[color:var(--p-brand,#c80b3d)] font-bold text-sm px-6 py-3.5 rounded-lg hover:bg-white/90 transition-colors">
               Request team demo &rarr;
             </button>
-            <button onClick={() => ask('player')} className="bg-transparent border-2 border-white text-white font-bold text-sm px-6 py-3.5 rounded-lg hover:bg-white hover:text-[#c80b3d] transition-colors">
+            <button onClick={() => ask('player')} className="bg-transparent border-2 border-white text-white font-bold text-sm px-6 py-3.5 rounded-lg hover:bg-white hover:text-[color:var(--p-brand,#c80b3d)] transition-colors">
               Start individual training &rarr;
             </button>
           </div>
@@ -337,6 +364,6 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
