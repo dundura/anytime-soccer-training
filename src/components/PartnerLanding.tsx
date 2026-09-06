@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import TabbedVideoSection from '@/components/TabbedVideoSection';
 import HeroVideo from '@/components/HeroVideo';
 import PartnerClaimForm from '@/components/PartnerClaimForm';
+import { PARTNER_LOGOS, PARTNER_THEMES, PARTNER_LINKS } from '@/lib/partnerBrand';
 
 /**
  * Where a partner's link lands.
@@ -20,49 +21,7 @@ import PartnerClaimForm from '@/components/PartnerClaimForm';
 
 type Partner = { found: boolean; name?: string | null; organization?: string | null; hasDiscount?: boolean; percent?: number };
 
-/**
- * Partner marks, keyed by referral code.
- *
- * A map rather than a bare `/partners/${code}.png` path: most partners have no
- * logo, and guessing at a filename would 404 into a broken image on every one
- * of them. One line per partner, and the file lives in public/partners.
- *
- * If this grows past a dozen it is worth a logoUrl column on the partner
- * record so it can be set from the Partners tab instead of a deploy.
- */
-const PARTNER_LOGOS: Record<string, string> = {
-  BLKSOCCERGROUP: '/partners/BLKSOCCERGROUP.png',
-};
 
-/**
- * Hero palette per partner, so the panel behind their badge belongs to them
- * rather than to us. Absent, the hero stays navy and nothing else changes.
- *
- * `panel` is deliberately not pure black for Black Soccer Group: their shield
- * has a black outer ring, and on #000 it loses its silhouette entirely.
- */
-type PartnerTheme = {
-  panel: string;      // dark panels: the hero, the plans block
-  glow: string;       // the soft wash behind the hero
-  accent: string;     // small accents ON those dark panels
-  brand: string;      // the page's call-to-action colour, on light
-  brandDark: string;  // its hover
-  ink: string;        // headings and prices on light
-};
-
-const PARTNER_THEMES: Record<string, PartnerTheme> = {
-  // Sampled from the shield: red #D00020, green #00A040, gold #F0D010.
-  // panel is not pure black on purpose -- the shield has a black outer ring
-  // and would lose its silhouette against #000.
-  BLKSOCCERGROUP: {
-    panel: '#131313',
-    glow: 'rgba(0,160,64,0.20)',
-    accent: '#F0D010',
-    brand: '#D00020',
-    brandDark: '#A80019',
-    ink: '#131313',
-  },
-};
 
 export default function PartnerLanding({ partner, code }: { partner: Partner; code: string }) {
   const [open, setOpen] = useState(false);
@@ -98,6 +57,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
   const who = partner.organization || partner.name || '';
   const logo = PARTNER_LOGOS[(code || '').toUpperCase()] || null;
   const theme = PARTNER_THEMES[(code || '').toUpperCase()] || null;
+  const partnerUrl = PARTNER_LINKS[(code || '').toUpperCase()] || null;
   const accent = theme ? theme.accent : '#7ec8e3';
   // Published as custom properties rather than threaded through every class,
   // so a partner without a theme falls through to the var() defaults and the
@@ -136,7 +96,24 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
                 {who && (
                   <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
                     <span className="font-bold" style={{ color: accent }}>&#10003;</span>
-                    <span className="text-sm font-semibold text-white">Recommended by {who}</span>
+                    <span className="text-sm font-semibold text-white">
+                      Recommended by{' '}
+                      {partnerUrl ? (
+                        // Opens away from the page on purpose: this is their
+                        // home, and a visitor sent here should not lose ours to
+                        // go and look at it.
+                        <a
+                          href={partnerUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline underline-offset-2 hover:no-underline"
+                        >
+                          {who}
+                        </a>
+                      ) : (
+                        who
+                      )}
+                    </span>
                   </div>
                 )}
 
