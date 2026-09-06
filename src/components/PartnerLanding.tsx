@@ -36,6 +36,7 @@ const PARTNER_LOGOS: Record<string, string> = {
 
 export default function PartnerLanding({ partner, code }: { partner: Partner; code: string }) {
   const [open, setOpen] = useState(false);
+  const [videoOpen, setVideoOpen] = useState(false);
   // Which button they pressed. A coach and a parent want different next
   // steps, and knowing which arrived is worth more than any field on the form.
   const [intent, setIntent] = useState<'team' | 'player' | null>(null);
@@ -83,17 +84,6 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
             <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
               <div className="relative z-10">
-                {logo && (
-                  // Above the pill rather than inside it: the shield needs to
-                  // be read, and at pill height it would be a smudge.
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={logo}
-                    alt={who ? `${who} logo` : 'Partner logo'}
-                    className="h-[72px] w-auto mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]"
-                  />
-                )}
-
                 {who && (
                   <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
                     <span className="text-[#7ec8e3] font-bold">&#10003;</span>
@@ -132,23 +122,28 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
               </div>
 
               <div className="relative">
-                <HeroVideo />
-                <div className="flex items-center justify-center sm:justify-start gap-5 pt-6 border-t border-white/15 flex-wrap mt-4">
-                  <div className="flex items-center gap-2.5">
-                    <div className="flex gap-0.5">
-                      {[1, 2, 3, 4].map((i) => (
-                        <span key={i} className="inline-flex items-center justify-center w-6 h-6 bg-[#00b67a] text-white text-xs rounded-[3px]">&#9733;</span>
-                      ))}
-                      <span className="inline-flex items-center justify-center w-6 h-6 bg-gradient-to-r from-[#00b67a] from-50% to-[#dcdce6] to-50% text-white text-xs rounded-[3px]">&#9733;</span>
-                    </div>
-                    <span className="text-sm font-semibold text-white">4.9 (9,651)</span>
+                {logo ? (
+                  <div className="flex flex-col items-center">
+                    {/* The partner's mark takes the slot the demo video had.
+                        Somebody arriving from their link needs confirming, and
+                        the thing that confirms it is their badge, not our
+                        product reel. The reel moves behind a button below. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={logo}
+                      alt={who ? `${who} logo` : 'Partner logo'}
+                      className="w-full max-w-[440px] h-auto drop-shadow-[0_18px_50px_rgba(0,0,0,0.45)]"
+                    />
+                    <button
+                      onClick={() => setVideoOpen(true)}
+                      className="mt-7 bg-transparent text-white border-2 border-white/60 px-7 py-3 rounded-full font-bold text-[15px] transition-all hover:bg-white hover:text-navy inline-flex items-center gap-2"
+                    >
+                      Learn more &rarr;
+                    </button>
                   </div>
-                  <div className="w-px h-8 bg-white/20 hidden sm:block" />
-                  <div className="text-sm text-white/60 text-center sm:text-left">
-                    <strong className="text-white block">Trusted by 50,000+ players</strong>
-                    in 80+ countries worldwide
-                  </div>
-                </div>
+                ) : (
+                  <HeroVideo />
+                )}
               </div>
             </div>
           </div>
@@ -287,6 +282,30 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
               &times;
             </button>
             <PartnerClaimForm code={code} percent={percent} who={who} demo={demo} pricing={pricing} intent={intent} />
+          </div>
+        </div>
+      )}
+
+      {/* The demo reel, moved out of the hero so the partner's badge can hold
+          that slot. Mounted only while open, which is also what stops it
+          autoplaying behind the page. */}
+      {videoOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4"
+          onClick={() => setVideoOpen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Anytime Soccer Training demo"
+        >
+          <div className="w-full max-w-3xl relative" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setVideoOpen(false)}
+              aria-label="Close"
+              className="absolute -top-10 right-0 text-white/80 text-3xl leading-none hover:text-white"
+            >
+              &times;
+            </button>
+            <HeroVideo />
           </div>
         </div>
       )}
