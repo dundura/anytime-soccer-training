@@ -20,6 +20,20 @@ import PartnerClaimForm from '@/components/PartnerClaimForm';
 
 type Partner = { found: boolean; name?: string | null; organization?: string | null; hasDiscount?: boolean; percent?: number };
 
+/**
+ * Partner marks, keyed by referral code.
+ *
+ * A map rather than a bare `/partners/${code}.png` path: most partners have no
+ * logo, and guessing at a filename would 404 into a broken image on every one
+ * of them. One line per partner, and the file lives in public/partners.
+ *
+ * If this grows past a dozen it is worth a logoUrl column on the partner
+ * record so it can be set from the Partners tab instead of a deploy.
+ */
+const PARTNER_LOGOS: Record<string, string> = {
+  BLKSOCCERGROUP: '/partners/BLKSOCCERGROUP.png',
+};
+
 export default function PartnerLanding({ partner, code }: { partner: Partner; code: string }) {
   const [open, setOpen] = useState(false);
   // Which button they pressed. A coach and a parent want different next
@@ -51,6 +65,7 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
   }, [partner.hasDiscount, code]);
 
   const who = partner.organization || partner.name || '';
+  const logo = PARTNER_LOGOS[(code || '').toUpperCase()] || null;
   const percent = partner.percent || 10;
   const ref = code ? `?ref=${code}` : '';
   const demo = `/team-demo-request-anytime-soccer-training${ref}`;
@@ -68,6 +83,17 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
             <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
               <div className="relative z-10">
+                {logo && (
+                  // Above the pill rather than inside it: the shield needs to
+                  // be read, and at pill height it would be a smudge.
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={logo}
+                    alt={who ? `${who} logo` : 'Partner logo'}
+                    className="h-[72px] w-auto mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]"
+                  />
+                )}
+
                 {who && (
                   <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
                     <span className="text-[#7ec8e3] font-bold">&#10003;</span>
