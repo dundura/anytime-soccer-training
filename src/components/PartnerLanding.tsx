@@ -34,6 +34,20 @@ const PARTNER_LOGOS: Record<string, string> = {
   BLKSOCCERGROUP: '/partners/BLKSOCCERGROUP.png',
 };
 
+/**
+ * Hero palette per partner, so the panel behind their badge belongs to them
+ * rather than to us. Absent, the hero stays navy and nothing else changes.
+ *
+ * `panel` is deliberately not pure black for Black Soccer Group: their shield
+ * has a black outer ring, and on #000 it loses its silhouette entirely.
+ */
+type PartnerTheme = { panel: string; glow: string; accent: string };
+
+const PARTNER_THEMES: Record<string, PartnerTheme> = {
+  // Sampled from the shield: red #D00020, green #00A040, gold #F0D010.
+  BLKSOCCERGROUP: { panel: '#131313', glow: 'rgba(0,160,64,0.20)', accent: '#F0D010' },
+};
+
 export default function PartnerLanding({ partner, code }: { partner: Partner; code: string }) {
   const [open, setOpen] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
@@ -67,6 +81,8 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
 
   const who = partner.organization || partner.name || '';
   const logo = PARTNER_LOGOS[(code || '').toUpperCase()] || null;
+  const theme = PARTNER_THEMES[(code || '').toUpperCase()] || null;
+  const accent = theme ? theme.accent : '#7ec8e3';
   const percent = partner.percent || 10;
   const ref = code ? `?ref=${code}` : '';
   const demo = `/team-demo-request-anytime-soccer-training${ref}`;
@@ -80,19 +96,25 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
           just told about, not a one-off page. */}
       <section className="pt-6 pb-3 md:pt-8 md:pb-3 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-navy rounded-3xl px-6 py-14 md:px-12 md:py-16 relative overflow-hidden">
-            <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
+          <div
+            className={`rounded-3xl px-6 py-14 md:px-12 md:py-16 relative overflow-hidden${theme ? '' : ' bg-navy'}`}
+            style={theme ? { backgroundColor: theme.panel } : undefined}
+          >
+            <div
+              className={`absolute -top-1/2 -right-1/5 w-[800px] h-[800px] pointer-events-none${theme ? '' : ' bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)]'}`}
+              style={theme ? { backgroundImage: `radial-gradient(circle, ${theme.glow} 0%, transparent 70%)` } : undefined}
+            />
             <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
               <div className="relative z-10">
                 {who && (
                   <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
-                    <span className="text-[#7ec8e3] font-bold">&#10003;</span>
+                    <span className="font-bold" style={{ color: accent }}>&#10003;</span>
                     <span className="text-sm font-semibold text-white">Recommended by {who}</span>
                   </div>
                 )}
 
                 <h1 className="text-[38px] md:text-[52px] font-extrabold text-white uppercase tracking-wide leading-[1.05] mb-5">
-                  Train Smarter.<br /><span className="text-[#7ec8e3]">Anytime.</span>
+                  Train Smarter.<br /><span style={{ color: accent }}>Anytime.</span>
                 </h1>
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
                   {who ? `${who} just partnered with Anytime Soccer Training.` : 'One of our partners sent you here.'} Easy follow-along video sessions your player can do right at home &mdash; just a ball and the drive to improve.
@@ -112,13 +134,25 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
                   </button>
                 </div>
 
-                {partner.hasDiscount && code && (
-                  <div className="mt-5 text-center sm:text-left">
-                    <button onClick={() => ask(null)} className="text-sm font-bold text-[#7ec8e3] underline underline-offset-4 hover:no-underline">
+                {/* Both are text links, not buttons: the two things above are
+                    the ask, and a third solid button would compete with them. */}
+                <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 justify-center sm:justify-start">
+                  {partner.hasDiscount && code && (
+                    <button
+                      onClick={() => ask(null)}
+                      className="text-sm font-bold underline underline-offset-4 hover:no-underline"
+                      style={{ color: accent }}
+                    >
                       Get your {percent}% off code &rarr;
                     </button>
-                  </div>
-                )}
+                  )}
+                  <button
+                    onClick={() => setVideoOpen(true)}
+                    className="text-sm font-bold text-white/75 underline underline-offset-4 hover:no-underline hover:text-white"
+                  >
+                    Learn more
+                  </button>
+                </div>
               </div>
 
               <div className="relative">
@@ -134,12 +168,6 @@ export default function PartnerLanding({ partner, code }: { partner: Partner; co
                       alt={who ? `${who} logo` : 'Partner logo'}
                       className="w-full max-w-[440px] h-auto drop-shadow-[0_18px_50px_rgba(0,0,0,0.45)]"
                     />
-                    <button
-                      onClick={() => setVideoOpen(true)}
-                      className="mt-7 bg-transparent text-white border-2 border-white/60 px-7 py-3 rounded-full font-bold text-[15px] transition-all hover:bg-white hover:text-navy inline-flex items-center gap-2"
-                    >
-                      Learn more &rarr;
-                    </button>
                   </div>
                 ) : (
                   <HeroVideo />
