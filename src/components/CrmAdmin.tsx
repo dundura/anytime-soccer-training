@@ -22,7 +22,7 @@ const ADMIN_RETURN_KEY = 'astPortalAdminReturn';
 const ADMIN_RETURN_WHO = 'astPortalAdminReturnWho';
 
 type NotificationField = { key: string; label: string; required?: boolean };
-type Notification = { key: string; n: number; subject: string; purpose: string; from: string; fields?: NotificationField[] | null };
+type Notification = { key: string; n: number; subject: string; purpose: string; from: string; auto?: boolean; fields?: NotificationField[] | null };
 
 const CRM_STATUS_LABEL: Record<string, string> = {
   not_started: 'Not started',
@@ -146,6 +146,20 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
   const [crmPreview, setCrmPreview] = useState<
     { leadId: number; key: string; subject: string; html: string; to: string; toName: string } | null
   >(null);
+
+  // Whether the sequence panel is open. Closed by default -- it is reference,
+  // and the table is what the page is for.
+  const [showSequence, setShowSequence] = useState(false);
+
+  // Preview from the sequence panel, where no coach is open. Rendered against
+  // the first row on the board, the same way the demo board does it: reading
+  // the wording against a real coach is the point, and against a blank it just
+  // says "Hi there" and tells you nothing.
+  const previewSequence = async (key: string, subject: string) => {
+    const sample = crmCoaches[0];
+    if (!sample) { setCrmSentNote('Add a coach first — the samples are rendered against a real record.'); return; }
+    await openCrmPreview(sample.id, key, subject, sample.name || sample.email);
+  };
 
   const openCrmPreview = async (leadId: number, key: string, subject: string, toName: string) => {
     if (crmSendingKey) return;
@@ -537,6 +551,54 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
           </button>
         </div>
       )}
+
+                {/* The sequence, laid out the way the demo board lays its own
+                    out. The per-row list further down is for sending; this is
+                    for reading -- what exists, in what order, who it comes
+                    from, and which two send themselves. */}
+                {isAdmin && indexFilter === 'crm' && emailSequence.length > 0 && (
+                  <div className="border border-gray-200 rounded-xl bg-white mb-4 overflow-hidden">
+                    <button
+                      onClick={() => setShowSequence(v => !v)}
+                      className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50"
+                    >
+                      <span className="text-xs font-bold uppercase tracking-wide text-navy">
+                        &#9993;&#65039; The email sequence{' '}
+                        <span className="text-gray-400 font-semibold normal-case tracking-normal">({emailSequence.length} emails)</span>
+                      </span>
+                      <span className="text-gray-400 text-xs">{showSequence ? '▴' : '▾'}</span>
+                    </button>
+                    {showSequence && (
+                      <div className="border-t border-gray-100 divide-y divide-gray-100">
+                        {emailSequence.map(e => (
+                          <div key={e.key} className="flex gap-3 px-4 py-3">
+                            <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{e.n}</span>
+                            <div className="min-w-0 flex-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span className="text-sm font-bold text-navy">{e.subject}</span>
+                                {e.from && <span className="px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[10px] font-bold">{e.from}</span>}
+                                {e.auto
+                                  ? <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
+                                  : <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">You send it</span>}
+                              </div>
+                              {e.purpose && <div className="text-[11px] text-gray-500 mt-0.5">{e.purpose}</div>}
+                            </div>
+                            <button
+                              onClick={() => previewSequence(e.key, e.subject)}
+                              disabled={!!crmSendingKey}
+                              className="shrink-0 self-start px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 disabled:opacity-50"
+                            >
+                              Preview
+                            </button>
+                          </div>
+                        ))}
+                        <div className="px-4 py-3 bg-gray-50 text-[11px] text-gray-500">
+                          Two of these send themselves. The rest are yours to send from a coach&rsquo;s row, and nothing goes out until you have seen the preview.
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {isAdmin && indexFilter === 'crm' && (
                   <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4">
