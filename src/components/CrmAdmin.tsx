@@ -144,7 +144,7 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
   // see, and these are sent by hand precisely because they are the ones that
   // have to be right.
   const [crmPreview, setCrmPreview] = useState<
-    { leadId: number; key: string; subject: string; html: string; to: string; toName: string } | null
+    { leadId: number; key: string; subject: string; html: string; to: string; toName: string; sample?: boolean } | null
   >(null);
 
   // Whether the sequence panel is open. Closed by default -- it is reference,
@@ -156,12 +156,12 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
   // the wording against a real coach is the point, and against a blank it just
   // says "Hi there" and tells you nothing.
   const previewSequence = async (key: string, subject: string) => {
-    const sample = crmCoaches[0];
-    if (!sample) { setCrmSentNote('Add a coach first — the samples are rendered against a real record.'); return; }
-    await openCrmPreview(sample.id, key, subject, sample.name || sample.email);
+    const first = crmCoaches[0];
+    if (!first) { setCrmSentNote('Add a coach first — the samples are rendered against a real record.'); return; }
+    await openCrmPreview(first.id, key, subject, first.name || first.email, true);
   };
 
-  const openCrmPreview = async (leadId: number, key: string, subject: string, toName: string) => {
+  const openCrmPreview = async (leadId: number, key: string, subject: string, toName: string, sample = false) => {
     if (crmSendingKey) return;
     setCrmSendingKey(leadId + ':' + key);
     setCrmSentNote('');
@@ -172,7 +172,7 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
       );
       const d = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(d.error || 'Could not build that email.');
-      setCrmPreview({ leadId, key, subject: d.subject || subject, html: d.html || '', to: d.to || '', toName });
+      setCrmPreview({ leadId, key, subject: d.subject || subject, html: d.html || '', to: d.to || '', toName, sample });
     } catch (e) {
       setCrmSentNote(e instanceof Error ? e.message : 'Could not build that email.');
     } finally {
@@ -510,8 +510,14 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
     <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" onClick={() => setCrmPreview(null)}>
       <div className="bg-white rounded-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto" onClick={ev => ev.stopPropagation()}>
         <div className="px-5 py-4 border-b border-gray-100">
+          {/* A preview opened from the sequence panel has no recipient -- it is
+              rendered against whoever happens to be first on the board so the
+              wording can be read against a real record. Saying "To Colton" over
+              a sample is how somebody emails the wrong coach. */}
           <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">
-            To {crmPreview.toName} &mdash; {crmPreview.to}
+            {crmPreview.sample
+              ? <>Sample, rendered against {crmPreview.toName}</>
+              : <>To {crmPreview.toName} &mdash; {crmPreview.to}</>}
           </div>
           <input
             value={crmPreview.subject}
@@ -521,18 +527,26 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
         </div>
         {/* The email's own HTML. Rendered rather than described: the point of a
             preview is to see what lands, not a summary of it. */}
-        <div className="px-5 py-4 text-sm" dangerouslySetInnerHTML={{ __html: crmPreview.html }} />
+        {/* Scrolls sideways inside itself rather than stretching the modal.
+            These emails carry fixed-width banners and tables, so without this
+            the right edge is simply cut off. */}
+        <div className="px-5 py-4 text-sm overflow-x-auto" dangerouslySetInnerHTML={{ __html: crmPreview.html }} />
         <div className="px-5 py-4 border-t border-gray-100 flex justify-end gap-2 sticky bottom-0 bg-white">
           <button onClick={() => setCrmPreview(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">
-            Cancel
+            {crmPreview.sample ? 'Close' : 'Cancel'}
           </button>
-          <button
-            onClick={() => sendCrmEmail(crmPreview.leadId, crmPreview.key, crmPreview.subject)}
-            disabled={!!crmSendingKey}
-            className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50"
-          >
-            {crmSendingKey ? 'Sending...' : 'Send'}
-          </button>
+          {/* No Send on a sample. The recipient is an accident of sort order,
+              not a choice, so the button that mails them does not belong here.
+              Send lives on the coach's own row, where you picked them. */}
+          {!crmPreview.sample && (
+            <button
+              onClick={() => sendCrmEmail(crmPreview.leadId, crmPreview.key, crmPreview.subject)}
+              disabled={!!crmSendingKey}
+              className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50"
+            >
+              {crmSendingKey ? 'Sending...' : 'Send'}
+            </button>
+          )}
         </div>
         {crmSentNote && <p className="px-5 pb-4 text-[11px] font-semibold text-navy">{crmSentNote}</p>}
       </div>
