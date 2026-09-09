@@ -718,7 +718,10 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
   // it, an editable subject line above it, and Send only from in here.
   const previewPanel = crmPreview && (
     <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" onClick={() => setCrmPreview(null)}>
-      <div className="bg-white rounded-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto" onClick={ev => ev.stopPropagation()}>
+      {/* Wide enough for the emails themselves. They are built on a 600px
+          table, so a narrower modal made every one of them scroll sideways to
+          be read. */}
+      <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto" onClick={ev => ev.stopPropagation()}>
         <div className="px-5 py-4 border-b border-gray-100">
           {/* A preview opened from the sequence panel has no recipient -- it is
               rendered against whoever happens to be first on the board so the
