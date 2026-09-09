@@ -181,6 +181,29 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
     await openCrmPreview(first.id, key, subject, first.name || first.email, true);
   };
 
+  // Send one email from the sequence to Neil's own inbox. A preview pane is not
+  // an email client -- spacing, buttons and call-outs only tell the truth once
+  // they are rendered by the thing that will actually render them. Goes to Neil
+  // and nobody else, whatever the row it was pressed on.
+  const sendSample = async (key: string, subject: string) => {
+    if (crmSendingKey) return;
+    setCrmSendingKey('sample:' + key);
+    setCrmSentNote('');
+    try {
+      const res = await fetch(`${API}/portal-onboarding/notify-sample`, {
+        method: 'POST',
+        headers: { ...adminHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key }),
+      });
+      const d = await res.json().catch(() => ({}));
+      setCrmSentNote(res.ok ? 'Sample of "' + subject + '" sent to ' + d.sentTo : (d.error || 'Could not send that sample.'));
+    } catch {
+      setCrmSentNote('Could not send that sample.');
+    } finally {
+      setCrmSendingKey('');
+    }
+  };
+
   const openCrmPreview = async (leadId: number, key: string, subject: string, toName: string, sample = false) => {
     if (crmSendingKey) return;
     setCrmSendingKey(leadId + ':' + key);
@@ -998,13 +1021,23 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                                             : <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">You send it</span>}
                                         </div>
                                       </div>
-                                      <button
-                                        onClick={() => previewSequence(e.key, e.subject)}
-                                        disabled={!!crmSendingKey}
-                                        className="shrink-0 self-start px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 disabled:opacity-50"
-                                      >
-                                        Preview
-                                      </button>
+                                      <div className="shrink-0 self-start flex gap-1.5">
+                                        <button
+                                          onClick={() => previewSequence(e.key, e.subject)}
+                                          disabled={!!crmSendingKey}
+                                          className="px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 disabled:opacity-50"
+                                        >
+                                          Preview
+                                        </button>
+                                        <button
+                                          onClick={() => sendSample(e.key, e.subject)}
+                                          disabled={!!crmSendingKey}
+                                          title="Send this one to your own inbox"
+                                          className="px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold hover:opacity-90 disabled:opacity-50"
+                                        >
+                                          {crmSendingKey === 'sample:' + e.key ? 'Sending…' : 'Send sample'}
+                                        </button>
+                                      </div>
                                     </div>
                                   ))}
                                 </div>
