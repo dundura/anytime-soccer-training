@@ -929,7 +929,6 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                                   ? <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
                                   : <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">You send it</span>}
                               </div>
-                              {e.purpose && <div className="text-[11px] text-gray-500 mt-0.5">{e.purpose}</div>}
                             </div>
                             <button
                               onClick={() => previewSequence(e.key, e.subject)}
