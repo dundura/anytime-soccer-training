@@ -84,8 +84,7 @@ export default function SendRosterForm() {
             Download the roster template
           </h1>
           <p className="text-[15px] leading-relaxed text-white/75">
-            Tell us who&rsquo;s on the team &mdash; or roughly how many &mdash; and we&rsquo;ll
-            send your invoice and a link you can share with your players.
+            Tell us who&rsquo;s on the team, or roughly how many players.
           </p>
         </div>
 
