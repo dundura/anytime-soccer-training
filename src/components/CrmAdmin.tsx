@@ -167,6 +167,9 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
   const [showSequence, setShowSequence] = useState(false);
   // One stage open at a time, and none to begin with.
   const [openStage, setOpenStage] = useState<string | null>(null);
+  // And which stage is open inside a lead's drawer, tracked separately so
+  // opening one does not move the other.
+  const [openLeadStage, setOpenLeadStage] = useState<string | null>(null);
 
   // Preview from the sequence panel, where no coach is open. Rendered against
   // the first row on the board, the same way the demo board does it: reading
@@ -758,25 +761,55 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
             {!openLead.email && (
               <p className="text-[11px] text-gray-500 mb-2">No email address on this row, so nothing can be sent yet.</p>
             )}
-            <div className="space-y-1">
-              {emailSequence.map(e => {
-                const done = sentSubjects.has(e.subject);
+            {/* The same stages as the reference panel, so the list you send
+                from and the list you plan from are the same list. Hidden
+                emails are filtered here too -- they still exist and still
+                send, but an email that is out of the way should not be one
+                click from going out. */}
+            <div className="space-y-2">
+              {STAGE_ORDER.map(stage => {
+                const inStage = emailSequence.filter(e => (e.stage || 'Other') === stage && !e.hidden);
+                if (!inStage.length) return null;
+                const doneCount = inStage.filter(e => sentSubjects.has(e.subject)).length;
+                const isOpen = openLeadStage === stage;
                 return (
-                  <div key={e.key} className="flex items-center gap-2">
-                    <span className={`w-4 text-center text-[11px] ${done ? 'text-emerald-600' : 'text-gray-300'}`}>
-                      {done ? '✓' : '○'}
-                    </span>
-                    <span className={`flex-1 text-[11px] ${done ? 'text-gray-400 line-through' : 'text-navy font-semibold'}`}>
-                      {e.n}. {e.subject}
-                      {e.auto && <span className="ml-1.5 text-[9px] font-bold uppercase tracking-wide text-emerald-600">auto</span>}
-                    </span>
+                  <div key={stage} className="rounded-lg border border-gray-200">
                     <button
-                      onClick={() => openCrmPreview(openLead.id, e.key, e.subject, openLead.name || openLead.email)}
-                      disabled={!!crmSendingKey || !openLead.email}
-                      className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[10px] font-bold hover:bg-gray-200 disabled:opacity-40 shrink-0"
+                      type="button"
+                      onClick={() => setOpenLeadStage(isOpen ? null : stage)}
+                      className="flex w-full items-center gap-2 px-2.5 py-1.5 text-left hover:bg-gray-50"
                     >
-                      {crmSendingKey === openLead.id + ':' + e.key ? '…' : done ? 'Send again' : 'Send'}
+                      <span className="text-[10px] text-gray-400">{isOpen ? '▾' : '▸'}</span>
+                      <span className="flex-1 text-[11px] font-bold text-navy">{stage}</span>
+                      <span className={`text-[10px] font-bold ${doneCount === inStage.length ? 'text-emerald-600' : 'text-gray-400'}`}>
+                        {doneCount}/{inStage.length}
+                      </span>
                     </button>
+                    {isOpen && (
+                      <div className="space-y-1 border-t border-gray-100 px-2.5 py-2">
+                        {inStage.map(e => {
+                          const done = sentSubjects.has(e.subject);
+                          return (
+                            <div key={e.key} className="flex items-center gap-2">
+                              <span className={`w-4 text-center text-[11px] ${done ? 'text-emerald-600' : 'text-gray-300'}`}>
+                                {done ? '✓' : '○'}
+                              </span>
+                              <span className={`flex-1 text-[11px] ${done ? 'text-gray-400 line-through' : 'text-navy font-semibold'}`}>
+                                {e.n}. {e.subject}
+                                {e.auto && <span className="ml-1.5 text-[9px] font-bold uppercase tracking-wide text-emerald-600">auto</span>}
+                              </span>
+                              <button
+                                onClick={() => openCrmPreview(openLead.id, e.key, e.subject, openLead.name || openLead.email)}
+                                disabled={!!crmSendingKey || !openLead.email}
+                                className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[10px] font-bold hover:bg-gray-200 disabled:opacity-40 shrink-0"
+                              >
+                                {crmSendingKey === openLead.id + ':' + e.key ? '…' : done ? 'Send again' : 'Send'}
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 );
               })}
