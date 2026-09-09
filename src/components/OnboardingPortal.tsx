@@ -124,38 +124,26 @@ const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
 //
 // A step listed here that does not exist is skipped rather than crashing, so
 // the wizard can gain and lose steps without this list having to be right.
-const WORKFLOW_GROUPS: { title: string; blurb: string; keys: string[] }[] = [
-  {
-    title: 'Send us your roster',
-    blurb: 'Nothing else can start until we know who is on the team.',
-    keys: ['roster', 'roster_intro', 'roster_intro_renewing', 'tip_roster'],
-  },
-  {
-    title: 'Pay your invoice',
-    blurb: 'We build it from your roster. Paying it is what creates your players\u2019 access.',
-    keys: ['invoice', 'upgrading_players'],
-  },
-  {
-    title: 'Set your team up',
-    blurb: 'Your account, your profiles, and the team itself inside the app.',
-    keys: ['onboarding_begins', 'expectations', 'survey', 'account', 'add_profiles', 'team', 'seasons'],
-  },
-  {
-    title: 'Tell the parents',
-    blurb: 'They cannot join a team they have not heard about.',
-    keys: ['intro_email'],
-  },
-  {
-    title: 'Get them training',
-    blurb: 'The three things that separate a team that trains from one that does not.',
-    keys: ['faq_low_usage', 'commit_contest', 'commit_goals', 'commit_demo'],
-  },
-  {
-    title: 'Tell us you are ready',
-    blurb: 'The last step. We start inviting parents once you say go.',
-    keys: ['ready_check', 'final_confirm'],
-  },
+const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean }[] = [
+  { title: 'Send us your roster', keys: ['roster'] },
+  { title: 'Pay your invoice', keys: ['invoice', 'upgrading_players'] },
+  { title: 'Set your team up', keys: ['onboarding_begins', 'expectations', 'survey', 'account', 'add_profiles', 'team', 'seasons'] },
+  { title: 'Tell the parents', keys: ['intro_email'] },
+  { title: 'Get them training', keys: ['faq_low_usage', 'commit_contest', 'commit_goals', 'commit_demo'] },
+  { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
+  // Reading, not steps. Nothing waits on these and nothing is locked behind
+  // them, so they sit at the bottom out of the run.
+  { title: 'FAQs', reference: true, keys: ['roster_intro', 'roster_intro_renewing', 'tip_roster'] },
 ];
+
+// Steps whose Go button leaves the wizard.
+//
+// The roster is not something a coach reads about and ticks — it is a form on
+// its own page, and the wizard step for it only ever described that form. Go
+// takes them to the form.
+const WORKFLOW_LINKS: Record<string, string> = {
+  roster: '/send-roster',
+};
 
 const stepNumber = (steps: PortalStep[], i: number) => steps.slice(0, i + 1).filter(x => !x.tip && !x.bonus).length;
 const numberedTotal = (steps: PortalStep[]) => steps.filter(x => !x.tip && !x.bonus).length;
@@ -301,6 +289,9 @@ export default function OnboardingPortal() {
   const [indexFilter, setIndexFilter] = useState<IndexFilter>('all');
   const inAdminView = (ADMIN_VIEWS as readonly string[]).includes(indexFilter);
   const [showIndexInfo, setShowIndexInfo] = useState(false);
+  // Which workflow heading is open. One at a time, and none to start with:
+  // six open headings is the wall this page was built to replace.
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
   // Before We Start has to be read, not scrolled past, so Next waits on it.
   // Skip still goes straight through — an acknowledgement nobody can decline
   // is not an acknowledgement.
@@ -1243,24 +1234,47 @@ export default function OnboardingPortal() {
               /* The workflow.
                *
                * This used to be a five-line summary of what was coming, behind
-               * an "I understand" radio — a page that told a coach about the
-               * work instead of being the work. It is the list now: headings in
-               * the order things actually happen, the roster first, and a Go
-               * button on every row that opens that step.
+               * an "I understand" radio -- a page that told a coach about the
+               * work instead of being the work.
                *
-               * Nothing is locked. The next thing to do is marked and coloured,
-               * and the rest stay reachable — a coach who wants to read ahead is
-               * not a coach to stop.
+               * It is the list now, and it is gated: a row opens only once
+               * everything above it has been settled. The portal used to be
+               * forty-odd pages reachable in any order, which is how coaches
+               * came to be halfway through app setup having never sent a
+               * roster.
+               *
+               * Headings start closed. Six of them open at once is the wall
+               * this page replaced.
                */
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-1">Getting your team started</h2>
                 <p className="text-gray-600 text-sm leading-relaxed mb-5">
-                  Work down the list. Each one opens the page that walks you through it.
+                  Work down the list. The next one opens when you finish the one above it.
                 </p>
 
                 {(() => {
                   const nextKey = STEPS[firstIncomplete(coach)]?.key;
+
+                  /* One flat order across the headings, so "the step above"
+                   * still means the step above when it is the last row of the
+                   * previous stage. The reference section at the bottom is not
+                   * in it: reading is not a step, and nothing waits on it.
+                   *
+                   * Skipped counts as settled. Skipping is a deliberate act with
+                   * its own button, and a coach who took it should not find the
+                   * rest of the portal locked behind the one thing they decided
+                   * not to do.
+                   */
+                  const flat = WORKFLOW_GROUPS
+                    .filter(g => !g.reference)
+                    .flatMap(g => g.keys)
+                    .filter(k => STEPS.some(st => st.key === k));
+                  const settled = (k: string) => Boolean(coach.checklist[k]);
+                  const lockedAt = flat.findIndex(k => !settled(k));
+                  const isLocked = (k: string) => lockedAt !== -1 && flat.indexOf(k) > lockedAt;
+
                   let groupsDone = 0;
+                  let stageTotal = 0;
                   const rendered = WORKFLOW_GROUPS.map(group => {
                     const rows = group.keys
                       .map(k => ({ k, i: STEPS.findIndex(st => st.key === k) }))
@@ -1268,51 +1282,72 @@ export default function OnboardingPortal() {
                       .map(r => ({ ...r, st: STEPS[r.i] }));
                     if (!rows.length) return null;
 
-                    const done = rows.filter(r => coach.checklist[r.st.key] === true).length;
-                    const complete = done === rows.length;
-                    if (complete) groupsDone += 1;
+                    const complete = rows.every(r => coach.checklist[r.st.key] === true);
+                    if (!group.reference) {
+                      stageTotal += 1;
+                      if (complete) groupsDone += 1;
+                    }
+                    const hasNext = rows.some(r => r.st.key === nextKey);
+                    const open = openGroup === group.title;
 
                     return (
-                      <div key={group.title} className="mb-4 rounded-2xl border border-gray-200 overflow-hidden">
-                        <div className={`px-4 py-3 ${complete ? 'bg-green-50' : 'bg-navy'}`}>
-                          <div className="flex items-center gap-2">
-                            <h3 className={`text-sm font-extrabold ${complete ? 'text-green-800' : 'text-white'}`}>{group.title}</h3>
-                            <span className={`ml-auto flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${complete ? 'bg-green-600 text-white' : 'bg-white/15 text-white'}`}>
-                              {complete ? '\u2713 Done' : `${done}/${rows.length}`}
+                      <div key={group.title} className="mb-3 rounded-2xl border border-blue-100 overflow-hidden">
+                        <button
+                          type="button"
+                          onClick={() => setOpenGroup(open ? null : group.title)}
+                          className="flex w-full items-center gap-2 bg-blue-50 px-4 py-3 text-left transition-colors hover:bg-blue-100"
+                        >
+                          <span className="text-xs text-navy/40">{open ? '▾' : '▸'}</span>
+                          <h3 className="text-sm font-extrabold text-navy">{group.title}</h3>
+                          {!group.reference && complete && <span className="ml-auto flex-shrink-0 text-sm font-bold text-green-600">&#10003;</span>}
+                          {!group.reference && !complete && hasNext && (
+                            <span className="ml-auto flex-shrink-0 rounded-full bg-red px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-white">
+                              Next up
                             </span>
+                          )}
+                        </button>
+                        {open && (
+                          <div className="divide-y divide-gray-100 bg-white">
+                            {rows.map(({ i, st }) => {
+                              const rowDone = coach.checklist[st.key] === true;
+                              const skipped = coach.checklist[st.key] === 'skipped';
+                              const isNext = st.key === nextKey;
+                              const locked = !group.reference && isLocked(st.key);
+                              return (
+                                <div key={st.key} className={`flex items-center gap-3 px-4 py-3 ${isNext ? 'bg-red/5' : ''}`}>
+                                  <span className={`w-5 flex-shrink-0 text-center text-sm font-bold ${rowDone ? 'text-green-600' : skipped ? 'text-amber-500' : 'text-gray-300'}`}>
+                                    {rowDone ? '✓' : skipped ? '→' : locked ? '\u{1F512}' : group.reference ? '\u{1F4A1}' : '○'}
+                                  </span>
+                                  <span className="min-w-0 flex-1">
+                                    <span className={`block text-sm font-semibold ${rowDone || locked ? 'text-gray-400' : 'text-navy'}`}>{st.title}</span>
+                                    {isNext && <span className="mt-0.5 block text-[10px] font-extrabold uppercase tracking-wide text-red">Next up</span>}
+                                  </span>
+                                  {locked ? (
+                                    <span
+                                      title="Finish the step above first"
+                                      className="flex-shrink-0 cursor-not-allowed rounded-lg border border-gray-200 px-4 py-1.5 text-xs font-bold text-gray-300"
+                                    >
+                                      Go
+                                    </span>
+                                  ) : (
+                                    <a
+                                      href={WORKFLOW_LINKS[st.key] || `/onboarding-portal?step=${i + 1}`}
+                                      className={`flex-shrink-0 rounded-lg px-4 py-1.5 text-xs font-bold transition-colors ${
+                                        isNext
+                                          ? 'bg-red text-white hover:bg-red-dark'
+                                          : rowDone
+                                            ? 'border border-gray-200 text-gray-500 hover:bg-gray-50'
+                                            : 'border border-navy text-navy hover:bg-gray-50'
+                                      }`}
+                                    >
+                                      {rowDone ? 'Review' : group.reference ? 'Read' : 'Go'}
+                                    </a>
+                                  )}
+                                </div>
+                              );
+                            })}
                           </div>
-                          <p className={`mt-1 text-xs leading-relaxed ${complete ? 'text-green-800/70' : 'text-white/60'}`}>{group.blurb}</p>
-                        </div>
-                        <div className="divide-y divide-gray-100 bg-white">
-                          {rows.map(({ i, st }) => {
-                            const rowDone = coach.checklist[st.key] === true;
-                            const skipped = coach.checklist[st.key] === 'skipped';
-                            const isNext = st.key === nextKey;
-                            return (
-                              <div key={st.key} className={`flex items-center gap-3 px-4 py-3 ${isNext ? 'bg-red/5' : ''}`}>
-                                <span className={`w-5 flex-shrink-0 text-center text-sm font-bold ${rowDone ? 'text-green-600' : skipped ? 'text-amber-500' : 'text-gray-300'}`}>
-                                  {rowDone ? '\u2713' : skipped ? '\u2192' : '\u25CB'}
-                                </span>
-                                <span className="min-w-0 flex-1">
-                                  <span className={`block text-sm font-semibold ${rowDone ? 'text-gray-400' : 'text-navy'}`}>{st.title}</span>
-                                  {isNext && <span className="mt-0.5 block text-[10px] font-extrabold uppercase tracking-wide text-red">Next up</span>}
-                                </span>
-                                <a
-                                  href={`/onboarding-portal?step=${i + 1}`}
-                                  className={`flex-shrink-0 rounded-lg px-4 py-1.5 text-xs font-bold transition-colors ${
-                                    isNext
-                                      ? 'bg-red text-white hover:bg-red-dark'
-                                      : rowDone
-                                        ? 'border border-gray-200 text-gray-500 hover:bg-gray-50'
-                                        : 'border border-navy text-navy hover:bg-gray-50'
-                                  }`}
-                                >
-                                  {rowDone ? 'Review' : 'Go'}
-                                </a>
-                              </div>
-                            );
-                          })}
-                        </div>
+                        )}
                       </div>
                     );
                   });
@@ -1321,17 +1356,15 @@ export default function OnboardingPortal() {
                     <>
                       <div className="mb-5">
                         <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
-                          <div className="h-full rounded-full bg-red transition-all" style={{ width: `${Math.round((groupsDone / WORKFLOW_GROUPS.length) * 100)}%` }} />
+                          <div className="h-full rounded-full bg-red transition-all" style={{ width: `${stageTotal ? Math.round((groupsDone / stageTotal) * 100) : 0}%` }} />
                         </div>
-                        <p className="mt-1.5 text-xs font-semibold text-gray-500">{groupsDone} of {WORKFLOW_GROUPS.length} stages complete</p>
+                        <p className="mt-1.5 text-xs font-semibold text-gray-500">{groupsDone} of {stageTotal} stages complete</p>
                       </div>
                       {rendered}
                     </>
                   );
                 })()}
 
-                {/* Everything not on the path: the bonus reading, and the full
-                    flat index for anybody who would rather scan one list. */}
                 <div className="mt-6 flex flex-wrap items-center gap-4">
                   <button
                     onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowIndexInfo(false); setError(''); }}
