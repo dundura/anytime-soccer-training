@@ -101,20 +101,24 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
   // Bumped to remount the row inputs when a save is rejected, so an
   // uncontrolled cell cannot keep displaying a value the server refused.
   const [crmNonce, setCrmNonce] = useState(0);
-  // Which row has its notes open. One at a time, like the notification
-  // previews above -- several open notes turn the table back into a wall of
-  // text, which is the thing the toggle exists to prevent.
-  const [crmOpenNotes, setCrmOpenNotes] = useState<number | null>(null);
-  // Which row has its contact details open. Phone, email and website are three
-  // more columns the table cannot afford — and on a lead most of them are empty
-  // anyway, so they sit behind a + and open on the row being worked.
-  const [crmOpenContact, setCrmOpenContact] = useState<number | null>(null);
-  // Which row has its email list open, and which send is in flight. Sending
-  // from here addresses the CRM row directly - before this, mailing a coach
-  // meant signing into their account first.
-  const [crmOpenEmail, setCrmOpenEmail] = useState<number | null>(null);
+  // Which row is open in the drawer.
+  //
+  // Contact details, the email sequence and the notes each used to expand as
+  // their own sub-row under the table. Three separate toggles meant working a
+  // lead was three clicks in three places, and none of them could show what had
+  // already been sent. They are one drawer now, the same one the demo board
+  // uses, so a lead is opened once and everything about it is in front of you.
+  const [crmOpenLead, setCrmOpenLead] = useState<number | null>(null);
   const [crmSendingKey, setCrmSendingKey] = useState('');
   const [crmSentNote, setCrmSentNote] = useState('');
+
+  // The lead's history, and the two boxes that write to it.
+  type CrmActivity = { id: number; type: string; summary: string; body: string; occurredAt: string | null };
+  const [crmActivity, setCrmActivity] = useState<CrmActivity[]>([]);
+  const [crmActivityLoading, setCrmActivityLoading] = useState(false);
+  const [crmCallDraft, setCrmCallDraft] = useState('');
+  const [crmNoteDraft, setCrmNoteDraft] = useState('');
+  const [crmLogging, setCrmLogging] = useState('');
   const [crmStages, setCrmStages] = useState<CrmStage[]>([]);
   // null = All, the default view. A number is a stage id.
   // 'unstaged' | 'all' | a stage id.
@@ -219,7 +223,12 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
       setCrmSentNote(res.ok ? 'Sent "' + subject + '" to ' + data.sentTo : (data.error || 'Could not send that email.'));
       // Only on success: a failed send has to leave the preview open, or the
       // wording that failed disappears along with the chance to fix it.
-      if (res.ok) setCrmPreview(null);
+      if (res.ok) {
+        setCrmPreview(null);
+        // The server writes the send onto the timeline; re-reading it is what
+        // ticks the step in the sequence list behind the drawer.
+        if (crmOpenLead === leadId) await refreshCrmActivity(leadId);
+      }
     } catch {
       setCrmSentNote('Could not send that email.');
     } finally {
@@ -242,6 +251,62 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
       .finally(() => setCrmLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAdmin, token, indexFilter]);
+
+  // Open a lead in the drawer and read its history.
+  //
+  // Fetched per lead rather than with the table: forty timelines to render
+  // eight rows is a lot of bytes for something only ever read one at a time.
+  const openCrmLead = async (id: number) => {
+    setCrmOpenLead(id);
+    setCrmSentNote('');
+    setCrmCallDraft('');
+    setCrmNoteDraft('');
+    setCrmActivity([]);
+    if (!token) return;
+    setCrmActivityLoading(true);
+    try {
+      const res = await fetch(`${API}/portal-onboarding/admin-coach-activity?leadId=${id}`, { headers: adminHeaders() });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) setCrmActivity(d.activities || []);
+    } catch {
+      /* a history that will not load is not a reason to shut the drawer */
+    } finally {
+      setCrmActivityLoading(false);
+    }
+  };
+
+  // Re-read the open lead's history. Called after anything that writes to it,
+  // so the timeline and the ticks beside the sequence can never disagree with
+  // what the server actually recorded.
+  const refreshCrmActivity = async (id: number) => {
+    if (!token) return;
+    try {
+      const res = await fetch(`${API}/portal-onboarding/admin-coach-activity?leadId=${id}`, { headers: adminHeaders() });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) setCrmActivity(d.activities || []);
+    } catch { /* leave what is on screen */ }
+  };
+
+  const logCrmEntry = async (id: number, type: 'call' | 'note', body: string, outcome?: string) => {
+    if (!token || crmLogging) return;
+    setCrmLogging(type);
+    try {
+      const res = await fetch(`${API}/portal-onboarding/admin-coach-activity`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...adminHeaders() },
+        body: JSON.stringify({ leadId: id, type, body, outcome }),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) { setCrmSentNote(d.error || 'Could not save that.'); return; }
+      if (type === 'call') setCrmCallDraft('');
+      if (type === 'note') setCrmNoteDraft('');
+      await refreshCrmActivity(id);
+    } catch {
+      setCrmSentNote('Could not save that.');
+    } finally {
+      setCrmLogging('');
+    }
+  };
 
   // One field at a time. Sending only what changed means two tabs editing
   // different columns of the same coach cannot overwrite each other.
@@ -553,9 +618,278 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
     </div>
   );
 
+  // The lead drawer.
+  //
+  // Everything about one lead in one place, the same shape the demo board uses:
+  // who they are at the top, the sequence with a tick against what has already
+  // gone, and the history underneath. Sits at z-50 so the email preview, at
+  // z-[60], still opens over it.
+  const openLead = crmOpenLead === null ? null : crmCoaches.find(c => c.id === crmOpenLead) || null;
+
+  // A step counts as sent when the timeline holds an email under that
+  // template's own subject. The preview lets the subject be edited before
+  // sending, which is why the server logs the template's line and not the one
+  // that actually went out.
+  const sentSubjects = new Set(crmActivity.filter(a => a.type === 'email_sent').map(a => a.summary));
+
+  const ACTIVITY_ICON: Record<string, string> = {
+    email_sent: '✉️',
+    call: '📞',
+    note: '📝',
+    stage_changed: '➡️',
+  };
+  const activityWhen = (v: string | null) => {
+    if (!v) return '';
+    const d = new Date(v);
+    if (Number.isNaN(d.getTime())) return '';
+    return d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+  };
+
+  const leadDrawer = openLead && (
+    <div className="fixed inset-0 z-50 bg-black/40 flex justify-end" onClick={() => setCrmOpenLead(null)}>
+      <div className="bg-white w-full max-w-lg h-full overflow-y-auto" onClick={ev => ev.stopPropagation()}>
+        <div className="sticky top-0 z-10 bg-white border-b border-gray-100 px-5 py-4 flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <div className="text-base font-black text-navy truncate">
+              {openLead.club || openLead.name || openLead.email || 'Lead'}
+            </div>
+            <div className="text-[11px] text-gray-500 truncate">
+              {[openLead.name, openLead.email, openLead.phone].filter(Boolean).join(' · ') || 'No contact details yet'}
+            </div>
+          </div>
+          <button onClick={() => setCrmOpenLead(null)} className="text-gray-400 text-xl leading-none shrink-0">&times;</button>
+        </div>
+
+        <div className="px-5 py-4 space-y-5">
+          {/* Status */}
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Status</div>
+            <div className="flex flex-wrap gap-1.5">
+              {(crmStatuses.length ? crmStatuses : Object.keys(CRM_STATUS_LABEL)).map(st => (
+                <button
+                  key={st}
+                  onClick={() => saveCrmField(openLead.id, 'status', st)}
+                  disabled={crmSaving === openLead.id}
+                  className={`px-2.5 py-1 rounded-full text-[11px] font-bold border disabled:opacity-50 ${
+                    openLead.status === st ? CRM_STATUS_CLASS[st] || 'bg-navy text-white border-navy' : 'bg-gray-100 text-gray-600 border-gray-200'
+                  }`}
+                >
+                  {crmLabel(st)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Stage. Setting one here is what moves the row into that filtered
+              view - there is no separate "move to stage" action. */}
+          {crmStages.length > 0 && (
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Stage</div>
+              <div className="flex flex-wrap gap-1.5">
+                {crmStages.map(st => (
+                  <button
+                    key={st.id}
+                    onClick={() => saveCrmField(openLead.id, 'stageId', openLead.stageId === st.id ? null : st.id)}
+                    disabled={crmSaving === openLead.id}
+                    className={`px-2.5 py-1 rounded-full text-[11px] font-bold border disabled:opacity-50 ${
+                      openLead.stageId === st.id ? 'bg-navy text-white border-navy' : 'bg-gray-100 text-gray-600 border-gray-200'
+                    }`}
+                  >
+                    {st.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* The facts, editable in place. Each saves on blur, not on every
+              keystroke: a PUT per character races itself and the last response
+              back wins rather than the last thing typed. */}
+          <div className="grid grid-cols-2 gap-2" key={`lead-${openLead.id}-${crmNonce}`}>
+            {([['club', 'Club'], ['name', 'Contact'], ['email', 'Email'], ['phone', 'Phone'], ['website', 'Website']] as const).map(([f, label]) => (
+              <label key={f} className="block">
+                <span className="text-[10px] font-bold uppercase tracking-wide text-gray-400">{label}</span>
+                <input
+                  defaultValue={openLead[f] || ''}
+                  placeholder={f === 'email' ? 'none yet' : '—'}
+                  onBlur={ev => { if (ev.target.value !== (openLead[f] || '')) saveCrmField(openLead.id, f, ev.target.value); }}
+                  className="w-full mt-0.5 px-2 py-1.5 rounded-lg border border-gray-200 text-xs text-navy placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                />
+              </label>
+            ))}
+            <label className="block">
+              <span className="text-[10px] font-bold uppercase tracking-wide text-gray-400">Days</span>
+              <input
+                defaultValue={crmDaysShown(openLead.daysCount, openLead.daysSetAt) ?? ''}
+                placeholder="—"
+                onBlur={ev => saveCrmField(openLead.id, 'days', ev.target.value.trim() === '' ? null : ev.target.value)}
+                className="w-full mt-0.5 px-2 py-1.5 rounded-lg border border-gray-200 text-xs text-navy placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-300"
+              />
+            </label>
+          </div>
+
+          {openLead.website && (
+            <a
+              href={/^https?:\/\//i.test(openLead.website) ? openLead.website : `https://${openLead.website}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-xs font-semibold text-red hover:underline"
+            >
+              Open {openLead.website} &rarr;
+            </a>
+          )}
+
+          {/* The sequence */}
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">The sequence, for this lead</div>
+            {!openLead.email && (
+              <p className="text-[11px] text-gray-500 mb-2">No email address on this row, so nothing can be sent yet.</p>
+            )}
+            <div className="space-y-1">
+              {emailSequence.map(e => {
+                const done = sentSubjects.has(e.subject);
+                return (
+                  <div key={e.key} className="flex items-center gap-2">
+                    <span className={`w-4 text-center text-[11px] ${done ? 'text-emerald-600' : 'text-gray-300'}`}>
+                      {done ? '✓' : '○'}
+                    </span>
+                    <span className={`flex-1 text-[11px] ${done ? 'text-gray-400 line-through' : 'text-navy font-semibold'}`}>
+                      {e.n}. {e.subject}
+                      {e.auto && <span className="ml-1.5 text-[9px] font-bold uppercase tracking-wide text-emerald-600">auto</span>}
+                    </span>
+                    <button
+                      onClick={() => openCrmPreview(openLead.id, e.key, e.subject, openLead.name || openLead.email)}
+                      disabled={!!crmSendingKey || !openLead.email}
+                      className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[10px] font-bold hover:bg-gray-200 disabled:opacity-40 shrink-0"
+                    >
+                      {crmSendingKey === openLead.id + ':' + e.key ? '…' : done ? 'Send again' : 'Send'}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+            {crmSentNote && <p className="text-[11px] font-semibold text-navy mt-2">{crmSentNote}</p>}
+          </div>
+
+          {/* Log a call */}
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Log a call</div>
+            <input
+              value={crmCallDraft}
+              onChange={ev => setCrmCallDraft(ev.target.value)}
+              placeholder="What happened?"
+              className="w-full mb-2 px-2 py-1.5 rounded-lg border border-gray-200 text-xs focus:outline-none focus:ring-2 focus:ring-amber-300"
+            />
+            <div className="flex gap-1.5">
+              {['Spoke', 'No answer', 'Left voicemail'].map(o => (
+                <button
+                  key={o}
+                  onClick={() => logCrmEntry(openLead.id, 'call', crmCallDraft, o)}
+                  disabled={crmLogging === 'call'}
+                  className="px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold disabled:opacity-50"
+                >
+                  {o}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Add a note - dated, onto the history. */}
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Add a note</div>
+            <textarea
+              value={crmNoteDraft}
+              onChange={ev => setCrmNoteDraft(ev.target.value)}
+              rows={2}
+              className="w-full px-2 py-1.5 rounded-lg border border-gray-200 text-xs focus:outline-none focus:ring-2 focus:ring-amber-300"
+            />
+            <button
+              onClick={() => logCrmEntry(openLead.id, 'note', crmNoteDraft)}
+              disabled={!crmNoteDraft.trim() || crmLogging === 'note'}
+              className="mt-1 px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-40"
+            >
+              Save note
+            </button>
+          </div>
+
+          {/* The row's own notes column. Not the same thing as the dated notes
+              above: this is the running scratchpad that was on every row before
+              there was a history, and it still holds what was written there.
+              Kept editable so none of it is stranded. */}
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Working notes</div>
+            <textarea
+              key={`notes-${openLead.id}-${crmNonce}`}
+              defaultValue={openLead.notes}
+              rows={4}
+              placeholder="Calls, what they asked for, what to do next…"
+              onBlur={ev => { if (ev.target.value !== openLead.notes) saveCrmField(openLead.id, 'notes', ev.target.value); }}
+              className="w-full bg-white border border-amber-200 rounded-lg px-3 py-2 text-xs text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300 resize-y"
+            />
+            <p className="text-[11px] text-gray-500 mt-1">Saves when you click away.</p>
+          </div>
+
+          {/* History */}
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">History</div>
+            {crmActivityLoading && <div className="text-xs text-gray-400">Loading&hellip;</div>}
+            {!crmActivityLoading && crmActivity.length === 0 && (
+              <div className="text-xs text-gray-400">Nothing yet.</div>
+            )}
+            <div className="space-y-2">
+              {crmActivity.map(a => (
+                <div key={a.id} className="flex gap-2">
+                  <span className="text-sm leading-5">{ACTIVITY_ICON[a.type] || '•'}</span>
+                  <div className="min-w-0">
+                    <div className="text-xs text-navy font-semibold break-words">{a.summary}</div>
+                    {a.body && a.body !== a.summary && (
+                      <div className="text-[11px] text-gray-500 whitespace-pre-wrap break-words">{a.body}</div>
+                    )}
+                    <div className="text-[10px] text-gray-400">{activityWhen(a.occurredAt)}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="pt-2 border-t border-gray-100 flex items-center justify-between gap-2">
+            {(openLead.coachId || openLead.email) && (
+              <button
+                onClick={() => openTheirPortal(openLead.id, openLead.name || openLead.email)}
+                disabled={crmSaving === openLead.id}
+                className="text-[11px] font-bold text-gray-500 hover:text-navy"
+              >
+                Open their portal
+              </button>
+            )}
+            {crmConfirmDelete === openLead.id ? (
+              <span className="flex items-center gap-2 ml-auto">
+                <span className="text-xs text-gray-600">Delete this lead?</span>
+                <button
+                  onClick={() => { deleteCrmCoach(openLead.id); setCrmOpenLead(null); }}
+                  className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold"
+                >
+                  Delete
+                </button>
+                <button onClick={() => setCrmConfirmDelete(null)} className="px-2.5 py-1 rounded-lg border border-gray-200 text-[11px] font-bold text-gray-600">
+                  Keep
+                </button>
+              </span>
+            ) : (
+              <button onClick={() => setCrmConfirmDelete(openLead.id)} className="ml-auto text-[11px] font-bold text-gray-400 hover:text-red">
+                Delete lead
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="px-4 py-4">
       {askPanel}
+      {leadDrawer}
       {previewPanel}
       {viewingAs && (
         <div className="mb-4 rounded-lg bg-amber-100 border border-amber-300 px-4 py-2 text-xs font-semibold text-amber-900">
@@ -860,39 +1194,22 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                                         className={`${cellInput} text-gray-700 placeholder:text-gray-300`}
                                       />
                                     </td>
-                                    {/* Phone, email and website behind one control.
-                                        A lead usually has none of them — that is the
-                                        point of it being a lead — so three mostly
-                                        empty columns cost width the table needs for
-                                        the things you actually scan. */}
+                                    {/* One control, and it opens everything.
+                                        Contact details, the sequence, the calls
+                                        and the notes all live in the drawer now,
+                                        so the table keeps the width it needs for
+                                        the columns you actually scan. */}
                                     <td className="px-2 py-2 whitespace-nowrap text-center">
                                       <button
-                                        onClick={() => setCrmOpenContact(open => (open === c.id ? null : c.id))}
-                                        title={c.email || c.phone || c.website || 'Add contact details'}
-                                        className={`inline-flex items-center gap-1 text-xs font-bold rounded-full border px-2 py-1 transition-colors ${
-                                          crmOpenContact === c.id
-                                            ? 'bg-navy text-white border-navy'
-                                            : (c.email || c.phone || c.website)
-                                              ? 'bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100'
-                                              : 'bg-white text-gray-400 border-gray-200 hover:border-gray-300 hover:text-gray-600'
+                                        onClick={() => openCrmLead(c.id)}
+                                        title={`Open ${c.name || c.club || c.email || 'this lead'}`}
+                                        className={`inline-flex items-center text-xs font-bold rounded-full border px-2.5 py-1 transition-colors ${
+                                          c.email || c.phone || c.website || c.notes
+                                            ? 'bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100'
+                                            : 'bg-white text-gray-400 border-gray-200 hover:border-gray-300 hover:text-gray-600'
                                         }`}
                                       >
-                                        {crmOpenContact === c.id ? '\u2212' : '+'}
-                                      </button>
-                                      <button
-                                        type="button"
-                                        onClick={() => { setCrmOpenEmail(open => (open === c.id ? null : c.id)); setCrmSentNote(''); }}
-                                        title={c.email ? 'Email ' + c.email : 'No email address on this row'}
-                                        disabled={!c.email}
-                                        className={`ml-1 inline-flex items-center text-xs font-bold rounded-full border px-2 py-1 transition-colors ${
-                                          crmOpenEmail === c.id
-                                            ? 'bg-navy text-white border-navy'
-                                            : c.email
-                                              ? 'bg-white text-gray-500 border-gray-200 hover:border-gray-300 hover:text-gray-700'
-                                              : 'bg-white text-gray-300 border-gray-100 cursor-not-allowed'
-                                        }`}
-                                      >
-                                        &#9993;
+                                        Open
                                       </button>
                                     </td>
                                     <td className="px-3 py-2 whitespace-nowrap">
@@ -928,26 +1245,22 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                                         ? new Date(c.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
                                         : '\u2014'}
                                     </td>
-                                    {/* The toggle, not the notes. A column wide
+                                    {/* The pip, not the notes. A column wide
                                         enough to hold a written-up call would
-                                        squeeze every other column flat, so the
-                                        notes live in a sub-row that is closed
-                                        until asked for. The pip says a row has
-                                        notes without opening it. */}
+                                        squeeze every other column flat. This
+                                        says whether a row has notes; reading
+                                        them is what the drawer is for. */}
                                     <td className="px-3 py-2 whitespace-nowrap text-center">
                                       <button
-                                        onClick={() => setCrmOpenNotes(open => (open === c.id ? null : c.id))}
+                                        onClick={() => openCrmLead(c.id)}
                                         title={c.notes ? 'Notes' : 'Add a note'}
-                                        className={`inline-flex items-center gap-1 text-xs font-bold rounded-full border px-2 py-1 transition-colors ${
-                                          crmOpenNotes === c.id
-                                            ? 'bg-navy text-white border-navy'
-                                            : c.notes
-                                              ? 'bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100'
-                                              : 'bg-white text-gray-400 border-gray-200 hover:border-gray-300 hover:text-gray-600'
+                                        className={`inline-flex items-center text-xs font-bold rounded-full border px-2 py-1 transition-colors ${
+                                          c.notes
+                                            ? 'bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100'
+                                            : 'bg-white text-gray-400 border-gray-200 hover:border-gray-300 hover:text-gray-600'
                                         }`}
                                       >
-                                        <span>{crmOpenNotes === c.id ? '\u25be' : '\u25b8'}</span>
-                                        <span>{c.notes ? '\u2022' : '+'}</span>
+                                        <span>{c.notes ? '•' : '+'}</span>
                                       </button>
                                     </td>
                                     <td className="px-3 py-2 whitespace-nowrap text-right">
@@ -990,97 +1303,6 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                                       )}
                                     </td>
                                   </tr>
-                                  {crmOpenContact === c.id && (
-                                    <tr className="bg-blue-50/30">
-                                      <td colSpan={9} className="px-3 pb-3 pt-0">
-                                        <div className="grid gap-2 sm:grid-cols-3">
-                                          <label className="block">
-                                            <span className="block text-[10px] font-extrabold uppercase tracking-wide text-gray-500 mb-1">Phone</span>
-                                            <input
-                                              defaultValue={c.phone}
-                                              placeholder="&mdash;"
-                                              onBlur={ev => { if (ev.target.value !== c.phone) saveCrmField(c.id, 'phone', ev.target.value); }}
-                                              className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-300"
-                                            />
-                                          </label>
-                                          <label className="block">
-                                            <span className="block text-[10px] font-extrabold uppercase tracking-wide text-gray-500 mb-1">Email</span>
-                                            <input
-                                              type="email"
-                                              defaultValue={c.email}
-                                              placeholder="none yet"
-                                              onBlur={ev => { if (ev.target.value !== c.email) saveCrmField(c.id, 'email', ev.target.value); }}
-                                              className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-red font-semibold placeholder:text-gray-300 placeholder:font-normal focus:outline-none focus:ring-2 focus:ring-amber-300"
-                                            />
-                                          </label>
-                                          <label className="block">
-                                            <span className="block text-[10px] font-extrabold uppercase tracking-wide text-gray-500 mb-1">Website</span>
-                                            <input
-                                              defaultValue={c.website}
-                                              placeholder="&mdash;"
-                                              onBlur={ev => { if (ev.target.value !== c.website) saveCrmField(c.id, 'website', ev.target.value); }}
-                                              className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-300"
-                                            />
-                                          </label>
-                                        </div>
-                                        {c.website && (
-                                          <a
-                                            href={/^https?:\/\//i.test(c.website) ? c.website : `https://${c.website}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-block mt-2 text-xs font-semibold text-red hover:underline"
-                                          >
-                                            Open {c.website} &rarr;
-                                          </a>
-                                        )}
-                                      </td>
-                                    </tr>
-                                  )}
-                                  {crmOpenEmail === c.id && (
-                                    <tr className="bg-gray-50">
-                                      <td colSpan={9} className="px-3 pb-3 pt-0">
-                                        <p className="text-[10px] font-extrabold uppercase tracking-wide text-gray-500 mb-2">
-                                          Send to {c.name || c.email} &mdash; {c.email}
-                                        </p>
-                                        <div className="grid gap-1.5 sm:grid-cols-2">
-                                          {emailSequence.map(e => (
-                                            <button
-                                              key={e.key}
-                                              type="button"
-                                              onClick={() => openCrmPreview(c.id, e.key, e.subject, c.name || c.email)}
-                                              disabled={!!crmSendingKey}
-                                              className="text-left bg-white border border-gray-200 rounded-lg px-3 py-2 hover:border-navy disabled:opacity-50 transition-colors"
-                                            >
-                                              <span className="block text-xs font-bold text-navy">
-                                                {crmSendingKey === c.id + ':' + e.key ? 'Opening...' : e.subject}
-                                              </span>
-                                              <span className="block text-[11px] text-gray-500">#{e.n} &middot; from {e.from}</span>
-                                            </button>
-                                          ))}
-                                        </div>
-                                        {crmSentNote && (
-                                          <p className="text-[11px] font-semibold text-navy mt-2">{crmSentNote}</p>
-                                        )}
-                                      </td>
-                                    </tr>
-                                  )}
-                                  {crmOpenNotes === c.id && (
-                                    <tr className="bg-amber-50/40">
-                                      <td colSpan={9} className="px-3 pb-3 pt-0">
-                                        <label className="block text-[10px] font-extrabold uppercase tracking-wide text-amber-700 mb-1">
-                                          Notes &mdash; {c.name || c.email}
-                                        </label>
-                                        <textarea
-                                          defaultValue={c.notes}
-                                          rows={5}
-                                          placeholder="Calls, what they asked for, what to do next\u2026"
-                                          onBlur={ev => { if (ev.target.value !== c.notes) saveCrmField(c.id, 'notes', ev.target.value); }}
-                                          className="w-full bg-white border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300 resize-y"
-                                        />
-                                        <p className="text-[11px] text-gray-500 mt-1">Saves when you click away.</p>
-                                      </td>
-                                    </tr>
-                                  )}
                                   </Fragment>
                                 ))}
                               </tbody>
