@@ -238,12 +238,6 @@ export default function OnboardingPortal() {
   const [resetToken, setResetToken] = useState('');
   const [notice, setNotice] = useState('');
   const [form, setForm] = useState({ name: '', email: '', password: '', club: '' });
-  // Which path a NEW account is signing up for. An existing account's audience
-  // comes from the server, so this only matters on the register screen.
-  // The route is chosen after signing in, not at signup, so every account —
-  // including the ones that existed before the club path — gets the choice and
-  // can change it later. Shown as the first screen once a session loads.
-  const [showRoutePick, setShowRoutePick] = useState(false);
   const [teamNameInput, setTeamNameInput] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -378,10 +372,9 @@ export default function OnboardingPortal() {
       setCoach(data.coach);
       setTeamNameInput(data.coach.teamName || '');
       setWizardIndex(firstIncomplete(data.coach));
-      // Ask which route on the way in. Every account gets it, including the
-      // ones that predate the club path, and the current choice is preselected
-      // so a returning coach is one click from where they were.
-      setShowRoutePick(true);
+      // No route question. A coach is here to onboard their team; the club
+      // route is a separate link sent to a director, and asking every coach
+      // which of the two they are was a decision they never needed to make.
     } catch {
       setError('Could not reach the server. Please try again.');
     } finally {
@@ -634,28 +627,6 @@ export default function OnboardingPortal() {
       setError('Could not send. Please try again.');
     } finally {
       setSaving(false);
-    }
-  };
-
-  // Picking a route saves it, so it sticks across logins and devices. The
-  // checklist is sent unchanged — this endpoint only writes the audience when
-  // one is present, so nothing else moves.
-  const chooseRoute = async (next: Audience) => {
-    if (!coach || !token) return;
-    setError('');
-    setCoach({ ...coach, audience: next });
-    setShowRoutePick(false);
-    setWizardIndex(0);
-    setShowIntro(false);
-    try {
-      await fetch(`${API}/portal-onboarding/checklist`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', Authorization: token },
-        body: JSON.stringify({ checklist: coach.checklist, audience: next }),
-      });
-    } catch {
-      // Non-fatal: the choice already applies for this session, and the next
-      // save will carry it. Losing it silently is better than blocking entry.
     }
   };
 
@@ -1175,43 +1146,6 @@ export default function OnboardingPortal() {
                   </p>
                 </div>
               </div>
-            ) : showRoutePick ? (
-              <div>
-                <h2 className="text-navy text-xl font-extrabold mb-3">What brings you here?</h2>
-                <p className="text-gray-700 leading-relaxed mb-5">
-                  Pick the one that fits.
-                </p>
-                <div className="space-y-3 mb-6">
-                  {([
-                    {
-                      value: 'coach',
-                      label: 'I’m onboarding my team',
-                      hint: 'This walks you through getting your team live — roster, payment, parents, the lot.',
-                    },
-                    {
-                      value: 'director',
-                      label: 'I’m bringing my club on',
-                      hint: 'You’re exploring AST for your club. Here’s what it covers: pricing, team onboarding, and getting set up.',
-                    },
-                  ] as const).map(opt => {
-                    const current = audience === opt.value;
-                    return (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        onClick={() => chooseRoute(opt.value)}
-                        className={`w-full text-left px-5 py-4 rounded-xl border-2 transition-colors ${current ? 'border-navy bg-blue-50' : 'border-gray-200 bg-white hover:border-navy hover:bg-gray-50'}`}
-                      >
-                        <span className="flex items-center gap-2">
-                          <span className="font-bold text-navy">{opt.label}</span>
-                          {current && <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-navy text-white">Current</span>}
-                        </span>
-                        <span className="block text-sm text-gray-600 mt-1 leading-relaxed">{opt.hint}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
             ) : showIntro ? (
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-3">{audience === 'director' ? 'Bringing Your Club On' : 'Getting Started'}</h2>
@@ -1261,13 +1195,6 @@ export default function OnboardingPortal() {
                   className="w-full bg-red hover:bg-red-dark text-white font-bold py-3 rounded-xl transition-colors mb-3"
                 >
                   {doneCount === 0 ? 'Get Started →' : 'Continue →'}
-                </button>
-
-                <button
-                  onClick={() => { setShowIntro(false); setShowRoutePick(true); setError(''); }}
-                  className="w-full text-center text-sm text-gray-500 hover:text-navy font-semibold"
-                >
-                  {audience === 'director' ? 'Onboarding a team instead?' : 'Bringing a whole club on instead?'}
                 </button>
 
               </div>

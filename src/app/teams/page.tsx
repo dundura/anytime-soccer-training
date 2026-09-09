@@ -130,6 +130,21 @@ export default function TeamsPage() {
           </Link>
         </div>
 
+        {/* Send Us Your Roster — phase one of getting a team on. Kept here so
+            it is easy to find and hand to a coach; it is the link you send,
+            not something a coach is meant to browse to. */}
+        <div className="mb-6">
+          <Link href="/send-roster" className="block bg-red text-white rounded-2xl p-6 hover:bg-red-dark transition-colors no-underline">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-lg font-bold mb-1">Send Us Your Roster</h2>
+                <p className="text-white/70 text-sm m-0">Phase one &mdash; roster or an estimate, then the invoice. Send this to a new coach.</p>
+              </div>
+              <span className="text-white/50 text-xl">&rarr;</span>
+            </div>
+          </Link>
+        </div>
+
         {/* Onboarding Checklist */}
         <div className="mb-10">
           <Link href="/anytime-soccer-training-onboarding-checklist" className="block bg-navy text-white rounded-2xl p-6 hover:bg-navy/90 transition-colors no-underline">

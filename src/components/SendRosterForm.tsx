@@ -101,7 +101,7 @@ export default function SendRosterForm() {
                 value: 'roster' as Choice,
                 icon: '📋',
                 label: 'I&rsquo;ll send you our roster',
-                hint: 'Download the template, fill it in, email it back. We create every player account for you.',
+                hint: 'Download the template, fill it in, and email the completed template to megan@anytime-soccer.com',
               },
               {
                 value: 'estimate' as Choice,
