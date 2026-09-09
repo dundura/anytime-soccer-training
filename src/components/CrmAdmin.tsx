@@ -22,7 +22,7 @@ const ADMIN_RETURN_KEY = 'astPortalAdminReturn';
 const ADMIN_RETURN_WHO = 'astPortalAdminReturnWho';
 
 type NotificationField = { key: string; label: string; required?: boolean };
-type Notification = { key: string; n: number; subject: string; purpose: string; from: string; auto?: boolean; fields?: NotificationField[] | null };
+type Notification = { key: string; n: number; subject: string; purpose: string; from: string; auto?: boolean; stage?: string; hidden?: boolean; fields?: NotificationField[] | null };
 
 const CRM_STATUS_LABEL: Record<string, string> = {
   not_started: 'Not started',
@@ -38,6 +38,17 @@ const CRM_STATUS_CLASS: Record<string, string> = {
   lost: 'bg-red/10 text-red border-red/30',
   on_hold: 'bg-blue-100 text-blue-800 border-blue-300',
 };
+// The order a coach moves through them. Anything a stage does not claim falls
+// to Other, so a new email is never silently invisible.
+const STAGE_ORDER = [
+  'Sending Roster Template',
+  'Invoice',
+  'Portal & account',
+  'Players & parents',
+  'Chasing a quiet coach',
+  'Other',
+];
+
 const crmLabel = (s: string) => CRM_STATUS_LABEL[s] || s.replace(/_/g, ' ');
 
 // The day counter: the number that was typed, plus the days since it was typed.
@@ -154,6 +165,8 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
   // Whether the sequence panel is open. Closed by default -- it is reference,
   // and the table is what the page is for.
   const [showSequence, setShowSequence] = useState(false);
+  // One stage open at a time, and none to begin with.
+  const [openStage, setOpenStage] = useState<string | null>(null);
 
   // Preview from the sequence panel, where no coach is open. Rendered against
   // the first row on the board, the same way the demo board does it: reading
@@ -917,30 +930,57 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                       <span className="text-gray-400 text-xs">{showSequence ? '▴' : '▾'}</span>
                     </button>
                     {showSequence && (
-                      <div className="border-t border-gray-100 divide-y divide-gray-100">
-                        {emailSequence.map(e => (
-                          <div key={e.key} className="flex gap-3 px-4 py-3">
-                            <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{e.n}</span>
-                            <div className="min-w-0 flex-1">
-                              <div className="flex flex-wrap items-center gap-2">
-                                <span className="text-sm font-bold text-navy">{e.subject}</span>
-                                {e.from && <span className="px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[10px] font-bold">{e.from}</span>}
-                                {e.auto
-                                  ? <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
-                                  : <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">You send it</span>}
-                              </div>
+                      <div className="border-t border-gray-100">
+                        {/* Grouped by stage, collapsed by default. Thirty-one
+                            emails in one list is a wall, and the job is always
+                            one stage at a time -- so that is what opens. A
+                            hidden email still exists and still sends; it is
+                            only out of the way while a stage is worked. */}
+                        {STAGE_ORDER.map(stage => {
+                          const inStage = emailSequence.filter(e => (e.stage || 'Other') === stage && !e.hidden);
+                          if (!inStage.length) return null;
+                          const isOpen = openStage === stage;
+                          return (
+                            <div key={stage} className="border-b border-gray-100 last:border-0">
+                              <button
+                                type="button"
+                                onClick={() => setOpenStage(isOpen ? null : stage)}
+                                className="flex w-full items-center gap-2 px-4 py-2.5 text-left hover:bg-gray-50"
+                              >
+                                <span className="text-[11px] text-gray-400">{isOpen ? '▾' : '▸'}</span>
+                                <span className="text-sm font-extrabold text-navy">{stage}</span>
+                                <span className="text-[11px] font-bold text-gray-400">{inStage.length}</span>
+                              </button>
+                              {isOpen && (
+                                <div className="border-t border-gray-100 divide-y divide-gray-100">
+                                  {inStage.map(e => (
+                                    <div key={e.key} className="flex gap-3 px-4 py-3">
+                                      <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{e.n}</span>
+                                      <div className="min-w-0 flex-1">
+                                        <div className="flex flex-wrap items-center gap-2">
+                                          <span className="text-sm font-bold text-navy">{e.subject}</span>
+                                          {e.from && <span className="px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[10px] font-bold">{e.from}</span>}
+                                          {e.auto
+                                            ? <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
+                                            : <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">You send it</span>}
+                                        </div>
+                                      </div>
+                                      <button
+                                        onClick={() => previewSequence(e.key, e.subject)}
+                                        disabled={!!crmSendingKey}
+                                        className="shrink-0 self-start px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 disabled:opacity-50"
+                                      >
+                                        Preview
+                                      </button>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
                             </div>
-                            <button
-                              onClick={() => previewSequence(e.key, e.subject)}
-                              disabled={!!crmSendingKey}
-                              className="shrink-0 self-start px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 disabled:opacity-50"
-                            >
-                              Preview
-                            </button>
-                          </div>
-                        ))}
+                          );
+                        })}
                         <div className="px-4 py-3 bg-gray-50 text-[11px] text-gray-500">
-                          Two of these send themselves. The rest are yours to send from a coach&rsquo;s row, and nothing goes out until you have seen the preview.
+                          The automatic ones send themselves. The rest are yours to send from a coach&rsquo;s row, and nothing goes out until you have seen the preview.
                         </div>
                       </div>
                     )}

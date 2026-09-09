@@ -9,6 +9,7 @@ import DemoPortal from './DemoPortal';
 import Newsletters from './Newsletters';
 import TriggeredEmails from './TriggeredEmails';
 import NewsletterPeople from './NewsletterPeople';
+import RosterRequests from './RosterRequests';
 import ParentOnboarding from './ParentOnboarding';
 import PartnerAdmin from './PartnerAdmin';
 
@@ -41,6 +42,7 @@ const VIEWS = [
   { key: 'crm', label: 'CRM', icon: '📇' },
   { key: 'cold', label: 'Cold', icon: '🧊' },
   { key: 'podcast', label: 'Podcast guests', icon: '🎙️' },
+  { key: 'roster', label: 'Roster requests', icon: '📋' },
   { key: 'parent-onboarding', label: 'Parent onboarding', icon: '👪' },
   { key: 'demos', label: 'Demos', icon: '🎬' },
   { key: 'partners', label: 'Partners', icon: '🤝' },
@@ -202,6 +204,7 @@ export default function Console() {
             {view === 'crm' && <CrmAdmin token={token} />}
             {view === 'cold' && <ColdWorkflow token={token} />}
             {view === 'podcast' && <ColdWorkflow token={token} group="Podcast" noun="guest" />}
+            {view === 'roster' && <RosterRequests token={token} />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
             {view === 'demos' && <DemoPortal token={token} />}
             {view === 'partners' && <PartnerAdmin token={token} />}
