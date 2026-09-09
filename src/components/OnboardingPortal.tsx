@@ -115,6 +115,48 @@ const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
 ];
 
 // Tips are unnumbered; numbered position of the step at index i
+// The workflow, as a coach meets it.
+//
+// COACH_PORTAL_STEPS is the wizard's order and its step numbers, and nothing
+// here changes either — the Go buttons point straight into it. What this adds
+// is the shape: the roster first, because until the roster is in nothing else
+// can happen, and then one heading per thing the coach is actually doing.
+//
+// A step listed here that does not exist is skipped rather than crashing, so
+// the wizard can gain and lose steps without this list having to be right.
+const WORKFLOW_GROUPS: { title: string; blurb: string; keys: string[] }[] = [
+  {
+    title: 'Send us your roster',
+    blurb: 'Nothing else can start until we know who is on the team.',
+    keys: ['roster', 'roster_intro', 'roster_intro_renewing', 'tip_roster'],
+  },
+  {
+    title: 'Pay your invoice',
+    blurb: 'We build it from your roster. Paying it is what creates your players\u2019 access.',
+    keys: ['invoice', 'upgrading_players'],
+  },
+  {
+    title: 'Set your team up',
+    blurb: 'Your account, your profiles, and the team itself inside the app.',
+    keys: ['onboarding_begins', 'expectations', 'survey', 'account', 'add_profiles', 'team', 'seasons'],
+  },
+  {
+    title: 'Tell the parents',
+    blurb: 'They cannot join a team they have not heard about.',
+    keys: ['intro_email'],
+  },
+  {
+    title: 'Get them training',
+    blurb: 'The three things that separate a team that trains from one that does not.',
+    keys: ['faq_low_usage', 'commit_contest', 'commit_goals', 'commit_demo'],
+  },
+  {
+    title: 'Tell us you are ready',
+    blurb: 'The last step. We start inviting parents once you say go.',
+    keys: ['ready_check', 'final_confirm'],
+  },
+];
+
 const stepNumber = (steps: PortalStep[], i: number) => steps.slice(0, i + 1).filter(x => !x.tip && !x.bonus).length;
 const numberedTotal = (steps: PortalStep[]) => steps.filter(x => !x.tip && !x.bonus).length;
 
@@ -262,7 +304,6 @@ export default function OnboardingPortal() {
   // Before We Start has to be read, not scrolled past, so Next waits on it.
   // Skip still goes straight through — an acknowledgement nobody can decline
   // is not an acknowledgement.
-  const [indexInfoAck, setIndexInfoAck] = useState(false);
   const [extraEmail, setExtraEmail] = useState('');
   const [pageSent, setPageSent] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -1199,59 +1240,108 @@ export default function OnboardingPortal() {
 
               </div>
             ) : showIndexInfo ? (
+              /* The workflow.
+               *
+               * This used to be a five-line summary of what was coming, behind
+               * an "I understand" radio — a page that told a coach about the
+               * work instead of being the work. It is the list now: headings in
+               * the order things actually happen, the roster first, and a Go
+               * button on every row that opens that step.
+               *
+               * Nothing is locked. The next thing to do is marked and coloured,
+               * and the rest stay reachable — a coach who wants to read ahead is
+               * not a coach to stop.
+               */
               <div>
-                <h2 className="text-navy text-xl font-extrabold mb-3">Before We Start</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Here&rsquo;s how to get your team set up.
+                <h2 className="text-navy text-xl font-extrabold mb-1">Getting your team started</h2>
+                <p className="text-gray-600 text-sm leading-relaxed mb-5">
+                  Work down the list. Each one opens the page that walks you through it.
                 </p>
-                {/* Coach path only — the club path skips this screen, so there is
-                    no director variant to keep in step here. */}
-                <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
-                  <ol className="space-y-4">
-                    {[
-                      <><strong className="text-navy font-semibold">Add players.</strong> Send roster, or invite players yourself.</>,
-                      <><strong className="text-navy font-semibold">Pay for access.</strong> Pay invoice and/or per player in the app.</>,
-                      <><strong className="text-navy font-semibold">Complete this portal.</strong> Includes the engagement survey.</>,
-                      <><strong className="text-navy font-semibold">Notify parents.</strong> Edit and share our welcome email.</>,
-                      <><strong className="text-navy font-semibold">Confirm you're ready.</strong> Tell us you're ready to start.</>,
-                    ].map((item, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">{i + 1}</span>
-                        <span className="text-gray-700 leading-relaxed pt-1">{item}</span>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-                <label className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 mb-4 cursor-pointer transition-colors ${indexInfoAck ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:bg-gray-50'}`}>
-                  <input
-                    type="radio"
-                    name="indexInfoAck"
-                    checked={indexInfoAck}
-                    onChange={() => setIndexInfoAck(true)}
-                    className="w-4 h-4 accent-green-600"
-                  />
-                  <span className="text-sm font-bold text-navy">I understand</span>
-                </label>
-                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
-                  <button
-                    onClick={() => { setShowIndexInfo(false); setShowIntro(true); setError(''); }}
-                    className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
-                  >
-                    ← Back
-                  </button>
-                  <button
-                    onClick={() => { setShowIndexInfo(false); setWizardIndex(0); setError(''); }}
-                    className="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-500 hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
-                  >
-                    Skip
-                  </button>
+
+                {(() => {
+                  const nextKey = STEPS[firstIncomplete(coach)]?.key;
+                  let groupsDone = 0;
+                  const rendered = WORKFLOW_GROUPS.map(group => {
+                    const rows = group.keys
+                      .map(k => ({ k, i: STEPS.findIndex(st => st.key === k) }))
+                      .filter(r => r.i !== -1)
+                      .map(r => ({ ...r, st: STEPS[r.i] }));
+                    if (!rows.length) return null;
+
+                    const done = rows.filter(r => coach.checklist[r.st.key] === true).length;
+                    const complete = done === rows.length;
+                    if (complete) groupsDone += 1;
+
+                    return (
+                      <div key={group.title} className="mb-4 rounded-2xl border border-gray-200 overflow-hidden">
+                        <div className={`px-4 py-3 ${complete ? 'bg-green-50' : 'bg-navy'}`}>
+                          <div className="flex items-center gap-2">
+                            <h3 className={`text-sm font-extrabold ${complete ? 'text-green-800' : 'text-white'}`}>{group.title}</h3>
+                            <span className={`ml-auto flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${complete ? 'bg-green-600 text-white' : 'bg-white/15 text-white'}`}>
+                              {complete ? '\u2713 Done' : `${done}/${rows.length}`}
+                            </span>
+                          </div>
+                          <p className={`mt-1 text-xs leading-relaxed ${complete ? 'text-green-800/70' : 'text-white/60'}`}>{group.blurb}</p>
+                        </div>
+                        <div className="divide-y divide-gray-100 bg-white">
+                          {rows.map(({ i, st }) => {
+                            const rowDone = coach.checklist[st.key] === true;
+                            const skipped = coach.checklist[st.key] === 'skipped';
+                            const isNext = st.key === nextKey;
+                            return (
+                              <div key={st.key} className={`flex items-center gap-3 px-4 py-3 ${isNext ? 'bg-red/5' : ''}`}>
+                                <span className={`w-5 flex-shrink-0 text-center text-sm font-bold ${rowDone ? 'text-green-600' : skipped ? 'text-amber-500' : 'text-gray-300'}`}>
+                                  {rowDone ? '\u2713' : skipped ? '\u2192' : '\u25CB'}
+                                </span>
+                                <span className="min-w-0 flex-1">
+                                  <span className={`block text-sm font-semibold ${rowDone ? 'text-gray-400' : 'text-navy'}`}>{st.title}</span>
+                                  {isNext && <span className="mt-0.5 block text-[10px] font-extrabold uppercase tracking-wide text-red">Next up</span>}
+                                </span>
+                                <a
+                                  href={`/onboarding-portal?step=${i + 1}`}
+                                  className={`flex-shrink-0 rounded-lg px-4 py-1.5 text-xs font-bold transition-colors ${
+                                    isNext
+                                      ? 'bg-red text-white hover:bg-red-dark'
+                                      : rowDone
+                                        ? 'border border-gray-200 text-gray-500 hover:bg-gray-50'
+                                        : 'border border-navy text-navy hover:bg-gray-50'
+                                  }`}
+                                >
+                                  {rowDone ? 'Review' : 'Go'}
+                                </a>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  });
+
+                  return (
+                    <>
+                      <div className="mb-5">
+                        <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+                          <div className="h-full rounded-full bg-red transition-all" style={{ width: `${Math.round((groupsDone / WORKFLOW_GROUPS.length) * 100)}%` }} />
+                        </div>
+                        <p className="mt-1.5 text-xs font-semibold text-gray-500">{groupsDone} of {WORKFLOW_GROUPS.length} stages complete</p>
+                      </div>
+                      {rendered}
+                    </>
+                  );
+                })()}
+
+                {/* Everything not on the path: the bonus reading, and the full
+                    flat index for anybody who would rather scan one list. */}
+                <div className="mt-6 flex flex-wrap items-center gap-4">
                   <button
                     onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowIndexInfo(false); setError(''); }}
-                    disabled={!indexInfoAck}
-                    className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
+                    className="rounded-xl bg-red px-6 py-2.5 font-bold text-white transition-colors hover:bg-red-dark"
                   >
-                    Next →
+                    Pick up where I left off &rarr;
                   </button>
+                  <a href="/onboarding-portal?view=index" className="text-sm font-semibold text-navy hover:underline">
+                    See every step
+                  </a>
                 </div>
               </div>
             ) : (
