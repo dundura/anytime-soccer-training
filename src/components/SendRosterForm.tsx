@@ -17,7 +17,6 @@ import { useState } from 'react';
  */
 
 const API = 'https://api.anytime-soccer.com';
-const TEMPLATE = '/anytime-soccer-player-signup-form.xlsx';
 
 type Choice = 'roster' | 'estimate';
 
@@ -65,7 +64,7 @@ export default function SendRosterForm() {
           <h1 className="mb-3 text-2xl font-extrabold text-[#0f2642]">That&rsquo;s everything we need</h1>
           <p className="mb-6 text-[15px] leading-relaxed text-gray-700">
             {choice === 'roster'
-              ? <>Email your completed roster to <a href="mailto:megan@anytime-soccer.com" className="font-semibold text-[#DC373E] hover:underline">megan@anytime-soccer.com</a> and we&rsquo;ll take it from there.</>
+              ? <>The template is on its way to your inbox. Fill in what you have and send it back to <a href="mailto:megan@anytime-soccer.com" className="font-semibold text-[#DC373E] hover:underline">megan@anytime-soccer.com</a> &mdash; you don&rsquo;t need every player to start.</>
               : <>Megan will send your invoice, along with a link you can share with your team.</>}
           </p>
           <p className="text-sm leading-relaxed text-gray-500">
@@ -101,7 +100,7 @@ export default function SendRosterForm() {
                 value: 'roster' as Choice,
                 icon: '📋',
                 label: 'I&rsquo;ll send you our roster',
-                hint: 'Download the template, fill it in, and email the completed template to megan@anytime-soccer.com',
+                hint: 'We&rsquo;ll email you the template. Fill it in and send it back to megan@anytime-soccer.com',
               },
               {
                 value: 'estimate' as Choice,
@@ -129,16 +128,6 @@ export default function SendRosterForm() {
 
           {choice && (
             <form onSubmit={submit} className="grid gap-4">
-              {choice === 'roster' && (
-                <a
-                  href={TEMPLATE}
-                  download
-                  className="rounded-xl border-2 border-dashed border-[#DC373E]/40 bg-[#fef2f2] px-5 py-4 text-center font-bold text-[#DC373E] hover:bg-[#fee2e2]"
-                >
-                  ⬇ Download the roster template (.xlsx)
-                </a>
-              )}
-
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="block">
                   <span className="mb-1 block text-[13px] font-bold text-[#0f2642]">Your name</span>
@@ -187,7 +176,7 @@ export default function SendRosterForm() {
 
               <button type="submit" disabled={busy}
                 className="rounded-full bg-[#DC373E] px-8 py-3.5 text-[15px] font-bold text-white hover:bg-[#c0302f] disabled:opacity-60">
-                {busy ? 'Sending…' : choice === 'roster' ? 'Tell Megan the roster is coming →' : 'Send my invoice →'}
+                {busy ? 'Sending…' : choice === 'roster' ? 'Email me the template →' : 'Send my invoice →'}
               </button>
 
               <p className="text-center text-[13px] leading-relaxed text-gray-500">
