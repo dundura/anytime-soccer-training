@@ -81,10 +81,10 @@ export default function SendRosterForm() {
       <div className="mx-auto max-w-[620px]">
         <div className="rounded-2xl bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] p-8 text-white sm:p-10">
           <h1 className="mb-3 text-[clamp(24px,4vw,32px)] font-extrabold leading-tight">
-            Let&rsquo;s get your team set up
+            Download the roster template
           </h1>
           <p className="text-[15px] leading-relaxed text-white/75">
-            One step. Tell us who&rsquo;s on the team &mdash; or roughly how many &mdash; and we&rsquo;ll
+            Tell us who&rsquo;s on the team &mdash; or roughly how many &mdash; and we&rsquo;ll
             send your invoice and a link you can share with your players.
           </p>
         </div>
