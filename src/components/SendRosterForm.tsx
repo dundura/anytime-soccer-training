@@ -22,7 +22,7 @@ type Choice = 'roster' | 'estimate';
 
 export default function SendRosterForm() {
   const [choice, setChoice] = useState<Choice | null>(null);
-  const [form, setForm] = useState({ name: '', email: '', club: '', teamName: '', estimatedPlayers: '', note: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', teamName: '', estimatedPlayers: '' });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
@@ -99,7 +99,7 @@ export default function SendRosterForm() {
               {
                 value: 'roster' as Choice,
                 icon: '📋',
-                label: 'I&rsquo;ll send you our roster',
+                label: 'Send me the roster template',
                 hint: 'We&rsquo;ll email you the template. Fill it in and send it back to megan@anytime-soccer.com',
               },
               {
@@ -140,8 +140,8 @@ export default function SendRosterForm() {
                     className="w-full rounded-lg border-2 border-gray-200 px-3 py-2.5 text-[15px] focus:border-[#0f2642] focus:outline-none" />
                 </label>
                 <label className="block">
-                  <span className="mb-1 block text-[13px] font-bold text-[#0f2642]">Club</span>
-                  <input value={form.club} onChange={set('club')}
+                  <span className="mb-1 block text-[13px] font-bold text-[#0f2642]">Phone</span>
+                  <input value={form.phone} onChange={set('phone')} type="tel" autoComplete="tel"
                     className="w-full rounded-lg border-2 border-gray-200 px-3 py-2.5 text-[15px] focus:border-[#0f2642] focus:outline-none" />
                 </label>
                 <label className="block">
@@ -164,19 +164,11 @@ export default function SendRosterForm() {
                 </label>
               )}
 
-              <label className="block">
-                <span className="mb-1 block text-[13px] font-bold text-[#0f2642]">
-                  Anything we should know? <span className="font-normal text-gray-400">(optional)</span>
-                </span>
-                <textarea value={form.note} onChange={set('note')} rows={3}
-                  className="w-full rounded-lg border-2 border-gray-200 px-3 py-2.5 text-[15px] focus:border-[#0f2642] focus:outline-none" />
-              </label>
-
               {error && <p className="text-sm font-semibold text-[#DC373E]">{error}</p>}
 
               <button type="submit" disabled={busy}
                 className="rounded-full bg-[#DC373E] px-8 py-3.5 text-[15px] font-bold text-white hover:bg-[#c0302f] disabled:opacity-60">
-                {busy ? 'Sending…' : choice === 'roster' ? 'Email me the template →' : 'Send my invoice →'}
+                {busy ? 'Sending…' : choice === 'roster' ? 'Request the roster template →' : 'Send my invoice →'}
               </button>
 
               <p className="text-center text-[13px] leading-relaxed text-gray-500">
