@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 
 /**
  * The CRM.
@@ -167,6 +167,23 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
   const [showSequence, setShowSequence] = useState(false);
   // One stage open at a time, and none to begin with.
   const [openStage, setOpenStage] = useState<string | null>(null);
+  // The number beside each email is its place in the sequence, not the key it
+  // was given when it was written. Those keys grew with the sequence -- the
+  // roster stage reads 0, 1, 12, 29 -- and a coach's first four emails should
+  // read as the first four. Counted across stages in STAGE_ORDER so the number
+  // still means one thing on the whole list, and hidden emails are skipped
+  // because they are not part of the run.
+  const displayNumber = useMemo(() => {
+    const out: Record<string, number> = {};
+    let i = 0;
+    for (const stage of STAGE_ORDER) {
+      for (const e of emailSequence.filter(x => (x.stage || 'Other') === stage && !x.hidden)) {
+        out[e.key] = i++;
+      }
+    }
+    return out;
+  }, [emailSequence]);
+
   // And which stage is open inside a lead's drawer, tracked separately so
   // opening one does not move the other.
   const [openLeadStage, setOpenLeadStage] = useState<string | null>(null);
@@ -426,8 +443,16 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
   const [crmNewWelcome, setCrmNewWelcome] = useState(false);
   const [crmAdding, setCrmAdding] = useState(false);
   const [crmAddResult, setCrmAddResult] = useState('');
+  // Adding a record is a thing you do occasionally; the board is what you look
+  // at. The form used to sit open above it taking a block of screen whether or
+  // not it was wanted, so it is behind a link now.
+  const [crmAddOpen, setCrmAddOpen] = useState(false);
   const addCrmCoach = async () => {
-    if (!token || crmAdding || !crmNew.email.trim()) return;
+    if (!token || crmAdding) return;
+    // A name or a club alone is enough. The button enables on any of the three
+    // and the copy invites a lead with no address, so requiring an email here
+    // just made the button do nothing.
+    if (!(crmNew.email.trim() || crmNew.name.trim() || crmNew.club.trim())) return;
     setCrmAdding(true);
     setCrmError('');
     setCrmAddResult('');
@@ -451,6 +476,7 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
       );
       setCrmNew({ name: '', email: '', club: '', phone: '', website: '' });
       setCrmNewWelcome(false);
+      setCrmAddOpen(false);
     } catch {
       setCrmError('Could not add that record.');
     } finally {
@@ -602,6 +628,86 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
           </button>
           <button onClick={() => setAskFields(null)} className="text-[11px] font-semibold text-gray-500 hover:underline">
             Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Add a record, in a popup. Same fields as before, same rules: any one of
+  // name, club or email is enough, and nothing is emailed unless the box is
+  // ticked. Only the placement changed -- it used to sit open above the board
+  // whether or not anybody wanted it.
+  const addRecordPanel = crmAddOpen && (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4" onClick={() => setCrmAddOpen(false)}>
+      <div className="w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl bg-white" onClick={ev => ev.stopPropagation()}>
+        <div className="border-b border-gray-100 px-5 py-4">
+          <p className="text-sm font-extrabold text-navy">Add a record</p>
+          <p className="mt-1 text-xs text-gray-500">
+            A name, a club, or an email &mdash; whichever you have. A lead with no address yet is
+            exactly what this is for. Nothing is sent unless you tick the box.
+          </p>
+        </div>
+        <div className="px-5 py-4">
+          <div className="mb-3 grid gap-2 sm:grid-cols-2">
+            <input
+              value={crmNew.name}
+              onChange={ev => setCrmNew({ ...crmNew, name: ev.target.value })}
+              placeholder="Name"
+              className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/20"
+            />
+            <input
+              type="email"
+              value={crmNew.email}
+              onChange={ev => setCrmNew({ ...crmNew, email: ev.target.value })}
+              onKeyDown={ev => { if (ev.key === 'Enter') addCrmCoach(); }}
+              placeholder="Email (if you have one)"
+              className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/20"
+            />
+            <input
+              value={crmNew.club}
+              onChange={ev => setCrmNew({ ...crmNew, club: ev.target.value })}
+              placeholder="Club"
+              className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/20"
+            />
+            <input
+              value={crmNew.phone}
+              onChange={ev => setCrmNew({ ...crmNew, phone: ev.target.value })}
+              placeholder="Phone"
+              className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/20"
+            />
+            <input
+              value={crmNew.website}
+              onChange={ev => setCrmNew({ ...crmNew, website: ev.target.value })}
+              placeholder="Website"
+              className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/20 sm:col-span-2"
+            />
+          </div>
+          <label className="flex cursor-pointer items-start gap-2 rounded-xl bg-amber-50 px-3 py-2.5">
+            <input
+              type="checkbox"
+              checked={crmNewWelcome}
+              onChange={ev => setCrmNewWelcome(ev.target.checked)}
+              className="mt-0.5"
+            />
+            <span className="text-xs text-amber-900">
+              <span className="font-bold">Also send the welcome email.</span>{' '}
+              Starts the onboarding sequence &mdash; they get email 1 now, and the 24-hour reminder if they
+              haven&rsquo;t signed up by tomorrow. Leave this off to just track them.
+            </span>
+          </label>
+          {crmError && <p className="mt-2 text-sm font-semibold text-red">{crmError}</p>}
+        </div>
+        <div className="sticky bottom-0 flex justify-end gap-2 border-t border-gray-100 bg-white px-5 py-4">
+          <button onClick={() => setCrmAddOpen(false)} className="rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold text-gray-600">
+            Cancel
+          </button>
+          <button
+            onClick={addCrmCoach}
+            disabled={crmAdding || !(crmNew.email.trim() || crmNew.name.trim() || crmNew.club.trim())}
+            className="rounded-lg bg-navy px-4 py-2 text-xs font-bold text-white transition-colors hover:bg-navy-light disabled:opacity-50"
+          >
+            {crmAdding ? 'Adding\u2026' : crmNewWelcome ? 'Add record & send welcome' : 'Add record'}
           </button>
         </div>
       </div>
@@ -818,7 +924,7 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                                 {done ? '✓' : '○'}
                               </span>
                               <span className={`flex-1 text-[11px] ${done ? 'text-gray-400 line-through' : 'text-navy font-semibold'}`}>
-                                {e.n}. {e.subject}
+                                {displayNumber[e.key] ?? e.n}. {e.subject}
                                 {e.auto && <span className="ml-1.5 text-[9px] font-bold uppercase tracking-wide text-emerald-600">auto</span>}
                               </span>
                               <button
@@ -960,6 +1066,7 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
       {askPanel}
       {leadDrawer}
       {previewPanel}
+      {addRecordPanel}
       {viewingAs && (
         <div className="mb-4 rounded-lg bg-amber-100 border border-amber-300 px-4 py-2 text-xs font-semibold text-amber-900">
           Viewing {viewingAs}&rsquo;s portal.{' '}
@@ -1011,7 +1118,7 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                                 <div className="border-t border-gray-100 divide-y divide-gray-100">
                                   {inStage.map(e => (
                                     <div key={e.key} className="flex gap-3 px-4 py-3">
-                                      <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{e.n}</span>
+                                      <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{displayNumber[e.key] ?? e.n}</span>
                                       <div className="min-w-0 flex-1">
                                         <div className="flex flex-wrap items-center gap-2">
                                           <span className="text-sm font-bold text-navy">{e.subject}</span>
@@ -1054,67 +1161,14 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                 )}
 
                 {isAdmin && indexFilter === 'crm' && (
-                  <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4">
-                    <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-1">Add a record</p>
-                    <p className="text-xs text-amber-800/80 mb-3">
-                      A name, a club, or an email &mdash; whichever you have. A lead with no address yet is
-                      exactly what this is for. Nothing is sent unless you tick the box.
-                    </p>
-                    <div className="grid gap-2 sm:grid-cols-4 mb-3">
-                      <input
-                        value={crmNew.name}
-                        onChange={ev => setCrmNew({ ...crmNew, name: ev.target.value })}
-                        placeholder="Name"
-                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
-                      />
-                      <input
-                        type="email"
-                        value={crmNew.email}
-                        onChange={ev => setCrmNew({ ...crmNew, email: ev.target.value })}
-                        onKeyDown={ev => { if (ev.key === 'Enter') addCrmCoach(); }}
-                        placeholder="Email (if you have one)"
-                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
-                      />
-                      <input
-                        value={crmNew.club}
-                        onChange={ev => setCrmNew({ ...crmNew, club: ev.target.value })}
-                        placeholder="Club"
-                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
-                      />
-                      <input
-                        value={crmNew.phone}
-                        onChange={ev => setCrmNew({ ...crmNew, phone: ev.target.value })}
-                        placeholder="Phone"
-                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
-                      />
-                      <input
-                        value={crmNew.website}
-                        onChange={ev => setCrmNew({ ...crmNew, website: ev.target.value })}
-                        placeholder="Website"
-                        className="w-full border border-amber-200 rounded-lg px-3 py-2 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
-                      />
-                    </div>
-                    <label className="flex items-start gap-2 mb-3 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={crmNewWelcome}
-                        onChange={ev => setCrmNewWelcome(ev.target.checked)}
-                        className="mt-0.5"
-                      />
-                      <span className="text-xs text-amber-900">
-                        <span className="font-bold">Also send the welcome email.</span>{' '}
-                        Starts the onboarding sequence &mdash; they get email 1 now, and the 24-hour reminder if they
-                        haven&rsquo;t signed up by tomorrow. Leave this off to just track them.
-                      </span>
-                    </label>
+                  <div className="mb-4 flex flex-wrap items-center gap-3">
                     <button
-                      onClick={addCrmCoach}
-                      disabled={crmAdding || !(crmNew.email.trim() || crmNew.name.trim() || crmNew.club.trim())}
-                      className="bg-navy hover:bg-navy-light text-white font-bold py-2.5 px-6 rounded-xl transition-colors disabled:opacity-50"
+                      onClick={() => { setCrmAddOpen(true); setCrmAddResult(''); }}
+                      className="rounded-xl bg-navy px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-navy-light"
                     >
-                      {crmAdding ? 'Adding\u2026' : crmNewWelcome ? '+ Add record & send welcome' : '+ Add record'}
+                      + Add record
                     </button>
-                    {crmAddResult && <p className="text-green-700 font-semibold text-sm mt-2">&#10003; {crmAddResult}</p>}
+                    {crmAddResult && <p className="text-sm font-semibold text-green-700">&#10003; {crmAddResult}</p>}
                   </div>
                 )}
 
