@@ -171,9 +171,6 @@ export default function SendRosterForm() {
                 {busy ? 'Sending…' : choice === 'roster' ? 'Request the roster template →' : 'Send my invoice →'}
               </button>
 
-              <p className="text-center text-[13px] leading-relaxed text-gray-500">
-                We&rsquo;ll set your team up once the invoice is paid, then send you the next step.
-              </p>
             </form>
           )}
         </div>
