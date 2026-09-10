@@ -356,6 +356,35 @@ export default function OnboardingPortal() {
       .finally(() => setLoading(false));
   }, []);
 
+  /* The roster step is ticked by the roster form, not by the portal.
+   *
+   * Its Go button leaves for /send-roster, which is public and has no session
+   * behind it. Without this the step could never complete: a coach fills the
+   * form, comes back, and the portal still says the roster is outstanding with
+   * every stage below it locked behind exactly that.
+   *
+   * Matched on their email server-side. Written back so it survives a reload
+   * rather than being re-derived on every visit.
+   */
+  useEffect(() => {
+    if (!token || !coach || coach.checklist.roster) return;
+    let cancelled = false;
+    fetch(`${API}/roster-request/mine`, { headers: { Authorization: token } })
+      .then(r => (r.ok ? r.json() : { request: null }))
+      .then(d => {
+        if (cancelled || !d.request) return;
+        const checklist = { ...coach.checklist, roster: true };
+        setCoach(c => (c ? { ...c, checklist } : c));
+        return fetch(`${API}/portal-onboarding/checklist`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', Authorization: token },
+          body: JSON.stringify({ checklist }),
+        });
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [token, coach]);
+
   useEffect(() => { setRosterSection(0); setQuizAnswer(''); setCheckedItems([]); setAckChecked(false); }, [wizardIndex]);
 
   // Keep the current step in the URL so a refresh stays on the same page
@@ -1254,6 +1283,11 @@ export default function OnboardingPortal() {
 
                 {(() => {
                   const nextKey = STEPS[firstIncomplete(coach)]?.key;
+                  // Closed is the default, but not for the one being worked on:
+                  // six shut headings say how far along you are and nothing at
+                  // all about what to do next.
+                  const nextGroup = WORKFLOW_GROUPS.find(g => g.keys.includes(nextKey || ''))?.title || null;
+                  const shownOpen = openGroup === null ? nextGroup : openGroup;
 
                   /* One flat order across the headings, so "the step above"
                    * still means the step above when it is the last row of the
@@ -1288,13 +1322,13 @@ export default function OnboardingPortal() {
                       if (complete) groupsDone += 1;
                     }
                     const hasNext = rows.some(r => r.st.key === nextKey);
-                    const open = openGroup === group.title;
+                    const open = shownOpen === group.title;
 
                     return (
                       <div key={group.title} className="mb-3 rounded-2xl border border-blue-100 overflow-hidden">
                         <button
                           type="button"
-                          onClick={() => setOpenGroup(open ? null : group.title)}
+                          onClick={() => setOpenGroup(open ? '' : group.title)}
                           className="flex w-full items-center gap-2 bg-blue-50 px-4 py-3 text-left transition-colors hover:bg-blue-100"
                         >
                           <span className="text-xs text-navy/40">{open ? '▾' : '▸'}</span>
