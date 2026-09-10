@@ -1,6 +1,7 @@
 'use client';
 
 import { Fragment, useEffect, useRef, useState } from 'react';
+import SendRosterForm from '@/components/SendRosterForm';
 import { COACH_ONBOARDING_STEPS } from '@/data/coachOnboardingSteps';
 import { DIRECTOR_ONBOARDING_STEPS } from '@/data/directorOnboardingSteps';
 import CoachStepContent from '@/components/CoachStepContent';
@@ -127,7 +128,7 @@ const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
 const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean }[] = [
   { title: 'Send us your roster', keys: ['roster'] },
   { title: 'Pay your invoice', keys: ['invoice', 'upgrading_players'] },
-  { title: 'Set your team up', keys: ['onboarding_begins', 'expectations', 'survey', 'account', 'add_profiles', 'team', 'seasons'] },
+  { title: 'Set your team up', keys: ['onboarding_begins', 'survey', 'account', 'add_profiles', 'team', 'seasons'] },
   { title: 'Tell the parents', keys: ['intro_email'] },
   { title: 'Get them training', keys: ['faq_low_usage', 'commit_contest', 'commit_goals', 'commit_demo'] },
   { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
@@ -141,9 +142,9 @@ const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean }[] 
 // The roster is not something a coach reads about and ticks — it is a form on
 // its own page, and the wizard step for it only ever described that form. Go
 // takes them to the form.
-const WORKFLOW_LINKS: Record<string, string> = {
-  roster: '/send-roster',
-};
+// Steps whose Go button leaves the portal. None, currently: the roster form is
+// rendered inside its own step instead, so the rail stays on screen through it.
+const WORKFLOW_LINKS: Record<string, string> = {};
 
 const stepNumber = (steps: PortalStep[], i: number) => steps.slice(0, i + 1).filter(x => !x.tip && !x.bonus).length;
 const numberedTotal = (steps: PortalStep[]) => steps.filter(x => !x.tip && !x.bonus).length;
@@ -780,8 +781,19 @@ export default function OnboardingPortal() {
    * Narrow screens get it above the content rather than beside it — a 260px
    * column on a phone is neither.
    */
+  // The first unsettled step in WORKFLOW order, which is not STEPS order: the
+  // wizard still opens on whatever it opened on before, but the rail's "now" has
+  // to be the first thing on the rail.
+  const workflowOrder = WORKFLOW_GROUPS
+    .filter(g => !g.reference)
+    .flatMap(g => g.keys)
+    .filter(k => STEPS.some(st => st.key === k));
+  const workflowNextKey = coach ? (workflowOrder.find(k => !coach.checklist[k]) || null) : null;
+  // Where Start lands, and where the rail's first row points.
+  const workflowFirstIndex = STEPS.findIndex(st => st.key === (workflowNextKey || workflowOrder[0]));
+
   const workflowRail = coach && (() => {
-    const nextKey = STEPS[firstIncomplete(coach)]?.key;
+    const nextKey = workflowNextKey;
     const nextGroup = WORKFLOW_GROUPS.find(g => g.keys.includes(nextKey || ''))?.title || null;
     const shownOpen = openGroup === null ? nextGroup : openGroup;
 
@@ -1412,7 +1424,7 @@ export default function OnboardingPortal() {
                   you, and until the invoice is paid there is nothing to set up.
                 </p>
                 <button
-                  onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowIndexInfo(false); setError(''); }}
+                  onClick={() => { setWizardIndex(workflowFirstIndex === -1 ? firstIncomplete(coach) : workflowFirstIndex); setShowIndexInfo(false); setError(''); }}
                   className="rounded-xl bg-red px-6 py-2.5 font-bold text-white transition-colors hover:bg-red-dark"
                 >
                   Start &rarr;
@@ -1441,7 +1453,20 @@ export default function OnboardingPortal() {
 
                 {/* Full step instructions */}
                 <div ref={contentRef}>
-                {isSectionStepper && stepSections ? (
+                {/* The roster step IS the roster form. It used to describe the
+                    form and link out to it, which meant leaving the portal --
+                    and the rail with it -- for the one step everything else
+                    waits on. Same form as /send-roster, which stays for the
+                    emails and the teams page; only the chrome differs. */}
+                {step.key === 'roster' ? (
+                  <div className="mb-6">
+                    <SendRosterForm
+                      embedded
+                      defaults={{ name: coach.name || '', email: coach.email || '', teamName: coach.teamName || '' }}
+                      onDone={() => setStep('roster', true)}
+                    />
+                  </div>
+                ) : isSectionStepper && stepSections ? (
                   <div className="mb-6">
                     {[rosterSection].map(si => {
                       const sec = stepSections[si];

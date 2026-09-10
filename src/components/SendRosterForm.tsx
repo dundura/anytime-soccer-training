@@ -20,9 +20,33 @@ const API = 'https://api.anytime-soccer.com';
 
 type Choice = 'roster' | 'estimate';
 
-export default function SendRosterForm() {
+/**
+ * `embedded` drops the page chrome so the same form can sit inside the
+ * onboarding portal, where the workflow rail is already on screen and a
+ * second full-bleed hero would be a page inside a page.
+ *
+ * `defaults` prefills from the coach's portal account. A signed-in coach
+ * retyping the name and address we already have them under is friction for
+ * nothing, and a mistyped address is a roster request nobody can match back
+ * to them.
+ */
+export default function SendRosterForm({
+  embedded = false,
+  defaults,
+  onDone,
+}: {
+  embedded?: boolean;
+  defaults?: { name?: string; email?: string; teamName?: string };
+  onDone?: () => void;
+} = {}) {
   const [choice, setChoice] = useState<Choice | null>(null);
-  const [form, setForm] = useState({ name: '', email: '', phone: '', teamName: '', estimatedPlayers: '' });
+  const [form, setForm] = useState({
+    name: defaults?.name || '',
+    email: defaults?.email || '',
+    phone: '',
+    teamName: defaults?.teamName || '',
+    estimatedPlayers: '',
+  });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
@@ -49,6 +73,7 @@ export default function SendRosterForm() {
       const d = await res.json().catch(() => ({}));
       if (!res.ok) { setError(d.error || 'Could not send that. Please try again.'); return; }
       setDone(true);
+      onDone?.();
     } catch {
       setError('Could not send that. Please try again.');
     } finally {
@@ -58,8 +83,8 @@ export default function SendRosterForm() {
 
   if (done) {
     return (
-      <main className="min-h-screen bg-[#f4f6f9] px-5 py-16">
-        <div className="mx-auto max-w-[560px] rounded-2xl bg-white p-8 shadow-sm sm:p-12 text-center">
+      <main className={embedded ? '' : 'min-h-screen bg-[#f4f6f9] px-5 py-16'}>
+        <div className={`text-center ${embedded ? '' : 'mx-auto max-w-[560px] rounded-2xl bg-white p-8 shadow-sm sm:p-12'}`}>
           <div className="mb-4 text-4xl">✅</div>
           <h1 className="mb-3 text-2xl font-extrabold text-[#0f2642]">That&rsquo;s everything we need</h1>
           <p className="mb-6 text-[15px] leading-relaxed text-gray-700">
@@ -77,18 +102,24 @@ export default function SendRosterForm() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f4f6f9] px-5 py-12 sm:py-16">
-      <div className="mx-auto max-w-[620px]">
-        <div className="rounded-2xl bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] p-8 text-white sm:p-10">
-          <h1 className="mb-3 text-[clamp(24px,4vw,32px)] font-extrabold leading-tight">
-            Download the roster template
-          </h1>
-          <p className="text-[15px] leading-relaxed text-white/75">
+    <main className={embedded ? '' : 'min-h-screen bg-[#f4f6f9] px-5 py-12 sm:py-16'}>
+      <div className={embedded ? '' : 'mx-auto max-w-[620px]'}>
+        {embedded ? (
+          <p className="mb-5 text-[15px] leading-relaxed text-gray-700">
             Tell us who&rsquo;s on the team, or roughly how many players.
           </p>
-        </div>
+        ) : (
+          <div className="rounded-2xl bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] p-8 text-white sm:p-10">
+            <h1 className="mb-3 text-[clamp(24px,4vw,32px)] font-extrabold leading-tight">
+              Download the roster template
+            </h1>
+            <p className="text-[15px] leading-relaxed text-white/75">
+              Tell us who&rsquo;s on the team, or roughly how many players.
+            </p>
+          </div>
+        )}
 
-        <div className="rounded-b-2xl bg-white p-8 shadow-sm sm:p-10">
+        <div className={embedded ? '' : 'rounded-b-2xl bg-white p-8 shadow-sm sm:p-10'}>
           <p className="mb-5 text-[13px] font-bold uppercase tracking-wide text-gray-500">
             Which suits you?
           </p>
