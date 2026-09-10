@@ -256,6 +256,17 @@ const NEXT_STEPS = [
 // Notifications is the last one still written inline below; when it moves,
 // the admin screen goes with it and this file is the coach wizard again.
 
+/* What the Onboarding Begins page lists as still to do.
+ *
+ * "Adding and removing players each season" is deliberately not on it. It is
+ * something to know for later -- what happens when the season turns over --
+ * not a step in getting set up now, and it sat there as a checkbox nobody
+ * could honestly tick in week one while Next waited on all of them. The step
+ * itself keeps its place in the run and its own "I understand".
+ */
+const inBeginsList = (s: PortalStep) =>
+  s.section === 'Onboarding' && s.key !== 'onboarding_begins' && s.key !== 'seasons' && !s.tip;
+
 export default function OnboardingPortal() {
   const [token, setToken] = useState<string | null>(null);
   const [coach, setCoach] = useState<Coach | null>(null);
@@ -752,7 +763,7 @@ export default function OnboardingPortal() {
   // every one has to be ticked. It is a gated step, so like the radio steps it
   // saves straight through rather than opening the confirm popup.
   const beginsItems = step.key === 'onboarding_begins'
-    ? STEPS.filter(s2 => s2.section === 'Onboarding' && s2.key !== 'onboarding_begins' && !s2.tip).map(s2 => s2.title)
+    ? STEPS.filter(inBeginsList).map(s2 => s2.title)
     : [];
   const beginsUnmet = !!beginsItems.length && !beginsItems.every(t => checkedItems.includes(t));
   const rosterLast = (stepSections?.length || 1) - 1;
@@ -1557,7 +1568,7 @@ export default function OnboardingPortal() {
 
                 {step.key === 'onboarding_begins' && (
                   <div className="mb-6 flex flex-col gap-2">
-                    {STEPS.filter(s2 => s2.section === 'Onboarding' && s2.key !== 'onboarding_begins' && !s2.tip).map(s2 => {
+                    {STEPS.filter(inBeginsList).map(s2 => {
                       const on = checkedItems.includes(s2.title);
                       return (
                         <label
