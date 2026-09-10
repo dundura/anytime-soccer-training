@@ -82,9 +82,31 @@ function ScoreCircle({ score }: { score: number }) {
   );
 }
 
-export default function EngagementPredictor() {
+type Props = {
+  /* Rendered inside another page rather than on its own.
+   *
+   * The onboarding portal used to send a coach here through a link in a new
+   * tab, which is a step you can leave and not come back from -- and the
+   * portal then had to ask them whether they had done it. Embedded, the survey
+   * is the step, and finishing it is something the portal watches happen. */
+  embedded?: boolean;
+  /* What the host already knows. The portal has the coach signed in, so
+   * asking them to type their own name back is asking for a reason to stop. */
+  prefill?: { coachName?: string | null; teamName?: string | null; email?: string | null };
+  /* Fired once the survey has actually been submitted, not merely opened. */
+  onComplete?: () => void;
+};
+
+export default function EngagementPredictor({ embedded = false, prefill, onComplete }: Props = {}) {
   const [form, setForm] = useState(() => {
-    const s = loadState(); return s?.form || { coachName: '', teamName: '', phone: '', email: '' };
+    const s = loadState();
+    if (s?.form) return s.form;
+    return {
+      coachName: prefill?.coachName || '',
+      teamName: prefill?.teamName || '',
+      phone: '',
+      email: prefill?.email || '',
+    };
   });
   const [selected, setSelected] = useState<Set<string>>(() => {
     const s = loadState(); return new Set(s?.selected || []);
@@ -118,7 +140,7 @@ export default function EngagementPredictor() {
     }
     setError('');
     setStep(2);
-    window.scrollTo(0, 0);
+    if (!embedded) window.scrollTo(0, 0);
   };
 
   const handleSubmit = async () => {
@@ -140,7 +162,8 @@ export default function EngagementPredictor() {
       if (!res.ok) throw new Error('Request failed');
       try { sessionStorage.removeItem(SESSION_KEY); } catch {}
       setStep(3);
-      window.scrollTo(0, 0);
+      if (!embedded) window.scrollTo(0, 0);
+      onComplete?.();
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {
@@ -155,10 +178,16 @@ export default function EngagementPredictor() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f0f2f5', fontFamily: 'system-ui, -apple-system, Arial, sans-serif' }}>
+    <div style={{
+      minHeight: embedded ? undefined : '100vh',
+      background: embedded ? 'transparent' : '#f0f2f5',
+      fontFamily: 'system-ui, -apple-system, Arial, sans-serif',
+    }}>
 
-      {/* Hero */}
-      <div style={{ maxWidth: 680, margin: '0 auto', padding: '32px 16px 0' }}>
+      {/* Hero. Embedded it keeps the step name -- which of the three you are
+          on is the one thing the host page cannot say for it -- but gives up
+          the page-width gutters it would otherwise indent itself by. */}
+      <div style={{ maxWidth: embedded ? 'none' : 680, margin: '0 auto', padding: embedded ? '0' : '32px 16px 0' }}>
         <div style={{ background: navyBlue, borderRadius: 12, padding: '16px 24px' }}>
           <div style={{ fontSize: 18, fontWeight: 800, color: '#fff' }}>
             {step === 1 ? 'Step 1: Confirm Contact Info' : step === 2 ? 'Step 2: Expected Engagement Level' : 'Your Coaching Plan'}
@@ -166,7 +195,7 @@ export default function EngagementPredictor() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 680, margin: '0 auto', padding: '12px 16px 32px' }}>
+      <div style={{ maxWidth: embedded ? 'none' : 680, margin: '0 auto', padding: embedded ? '12px 0 0' : '12px 16px 32px' }}>
 
         {/* Step 1: Contact info */}
         {step === 1 && (
@@ -308,7 +337,7 @@ export default function EngagementPredictor() {
                 setForm({ coachName: '', teamName: '', phone: '', email: '' });
                 setSelected(new Set());
                 setStep(1);
-                window.scrollTo(0, 0);
+                if (!embedded) window.scrollTo(0, 0);
               }}
               style={{ background: navyBlue, border: 'none', borderRadius: 8, padding: '11px 28px', fontSize: 14, fontWeight: 700, color: '#fff', cursor: 'pointer', fontFamily: 'inherit', marginBottom: 32 }}
             >

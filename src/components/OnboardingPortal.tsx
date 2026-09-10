@@ -7,6 +7,7 @@ import { DIRECTOR_ONBOARDING_STEPS } from '@/data/directorOnboardingSteps';
 import CoachStepContent from '@/components/CoachStepContent';
 import FaqSearch from '@/components/FaqSearch';
 import { ONBOARDING_FAQ } from '@/data/onboardingFaq';
+import EngagementPredictor from '@/components/EngagementPredictor';
 
 
 const API = 'https://api.anytime-soccer.com';
@@ -1539,6 +1540,23 @@ export default function OnboardingPortal() {
                     </label>
                   </div>
                 )}
+                {/* The survey runs here rather than in a new tab.
+                  *
+                  * It was a red button to /my-coaching-plan, which is a step a
+                  * coach leaves the portal to do and does not always come back
+                  * from -- and the portal could then only ask them whether
+                  * they had. Embedded, finishing it is something the portal
+                  * sees, so the confirm below ticks itself. Their name, team
+                  * and email are already known and are filled in for them. */}
+                {step.key === 'survey' && !stepDone && (
+                  <div className="mb-6">
+                    <EngagementPredictor
+                      embedded
+                      prefill={{ coachName: coach?.name, teamName: coach?.teamName, email: coach?.email }}
+                      onComplete={() => setQuizAnswer(step.quiz?.options[0] || '')}
+                    />
+                  </div>
+                )}
                 {step.quiz && (
                   <div className="mb-6">
                     {!!step.quiz.prompt && <p className="text-navy font-semibold text-base leading-relaxed mb-4">{step.quiz.prompt}</p>}
@@ -1661,7 +1679,7 @@ export default function OnboardingPortal() {
                   >
                     ← Back
                   </button>
-                  {stepData && stepData.ctaHref && (
+                  {stepData && stepData.ctaHref && step.key !== 'survey' && (
                     <a
                       href={stepData!.ctaHref}
                       target="_blank"
