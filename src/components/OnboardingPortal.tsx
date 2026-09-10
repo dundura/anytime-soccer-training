@@ -252,17 +252,9 @@ const NEXT_STEPS = [
   'Neil will give you a call to walk through homework and other team features',
 ];
 
-// Newsletters, parent onboarding, demos and partners moved to /console. These
-// two are still written inline below; when they move, the admin dropdown goes
-// with them and this file is the coach wizard again.
-const ADMIN_VIEWS = ['notifications'] as const;
-type IndexFilter = 'all' | 'outstanding' | (typeof ADMIN_VIEWS)[number];
-
-const VIEW_LABELS: Record<IndexFilter, string> = {
-  all: 'All steps',
-  outstanding: 'Outstanding',
-  notifications: 'Notifications',
-};
+// Newsletters, parent onboarding, demos and partners moved to /console.
+// Notifications is the last one still written inline below; when it moves,
+// the admin screen goes with it and this file is the coach wizard again.
 
 export default function OnboardingPortal() {
   const [token, setToken] = useState<string | null>(null);
@@ -287,7 +279,7 @@ export default function OnboardingPortal() {
   const [rosterConfirm, setRosterConfirm] = useState(false);
   const [rosterClaim, setRosterClaim] = useState('');
   const [showIntro, setShowIntro] = useState(false);
-  const [showIndex, setShowIndex] = useState(false);
+  const [showAdmin, setShowAdmin] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showFaq, setShowFaq] = useState(false);
   const [showQuestion, setShowQuestion] = useState(false);
@@ -295,8 +287,6 @@ export default function OnboardingPortal() {
   const [questionSent, setQuestionSent] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [missingSent, setMissingSent] = useState(false);
-  const [indexFilter, setIndexFilter] = useState<IndexFilter>('all');
-  const inAdminView = (ADMIN_VIEWS as readonly string[]).includes(indexFilter);
   const [showIndexInfo, setShowIndexInfo] = useState(false);
   // Which workflow heading is open. One at a time, and none to start with:
   // six open headings is the wall this page was built to replace.
@@ -344,17 +334,10 @@ export default function OnboardingPortal() {
           setWizardIndex(firstIncomplete(data.coach));
           setShowIntro(false);
           setShowIndexInfo(true);
-        } else if (params.get('view') === 'index') {
+        } else if (params.get('view') === 'notifications') {
           setWizardIndex(firstIncomplete(data.coach));
           setShowIntro(false);
-          setShowIndex(true);
-        } else if ((ADMIN_VIEWS as readonly string[]).includes(params.get('view') || '')) {
-          // One branch for every admin view, so a new entry in ADMIN_VIEWS
-          // survives a refresh without another copy of these four lines.
-          setWizardIndex(firstIncomplete(data.coach));
-          setShowIntro(false);
-          setShowIndex(true);
-          setIndexFilter(params.get('view') as IndexFilter);
+          setShowAdmin(true);
         } else {
           setWizardIndex(firstIncomplete(data.coach));
           // Directors have their own path and skip this screen.
@@ -399,9 +382,9 @@ export default function OnboardingPortal() {
   // Keep the current step in the URL so a refresh stays on the same page
   useEffect(() => {
     if (!coach || typeof window === 'undefined') return;
-    const url = showFaq ? '/onboarding-portal?view=faq' : showIndex ? ((ADMIN_VIEWS as readonly string[]).includes(indexFilter) ? `/onboarding-portal?view=${indexFilter}` : '/onboarding-portal?view=index') : showIndexInfo ? '/onboarding-portal?view=indexinfo' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
+    const url = showFaq ? '/onboarding-portal?view=faq' : showAdmin ? '/onboarding-portal?view=notifications' : showIndexInfo ? '/onboarding-portal?view=indexinfo' : showIntro ? '/onboarding-portal' : `/onboarding-portal?step=${wizardIndex + 1}`;
     window.history.replaceState(null, '', url);
-  }, [coach, showIntro, showIndex, showIndexInfo, showFaq, wizardIndex, indexFilter]);
+  }, [coach, showIntro, showAdmin, showIndexInfo, showFaq, wizardIndex]);
 
   const submitAuth = async () => {
     setError('');
@@ -811,7 +794,7 @@ export default function OnboardingPortal() {
    * the path and nothing waits on them, so they stay open.
    */
   useEffect(() => {
-    if (!coach || showIntro || showIndex || showIndexInfo || showFaq) return;
+    if (!coach || showIntro || showAdmin || showIndexInfo || showFaq) return;
     const here = STEPS[wizardIndex]?.key;
     if (!here) return;
     const at = workflowOrder.indexOf(here);
@@ -820,7 +803,7 @@ export default function OnboardingPortal() {
     if (firstOpen === -1 || at <= firstOpen) return;
     const target = STEPS.findIndex(st => st.key === workflowOrder[firstOpen]);
     if (target !== -1 && target !== wizardIndex) setWizardIndex(target);
-  }, [coach, wizardIndex, showIntro, showIndex, showIndexInfo, showFaq]);
+  }, [coach, wizardIndex, showIntro, showAdmin, showIndexInfo, showFaq]);
 
   // When the next thing to do moves into another stage, the rail follows it.
   // Finishing the roster and watching "Pay your invoice" stay shut is the rail
@@ -889,7 +872,7 @@ export default function OnboardingPortal() {
                 const skipped = coach.checklist[st.key] === 'skipped';
                 const isNext = st.key === nextKey;
                 const locked = !group.reference && isLocked(st.key);
-                const here = !locked && wizardIndex === i && !showIntro && !showIndex && !showFaq && !showIndexInfo;
+                const here = !locked && wizardIndex === i && !showIntro && !showAdmin && !showFaq && !showIndexInfo;
                 return (
                   <div key={st.key} className={`flex items-start gap-2 px-3 py-2 ${here ? 'bg-navy/5' : isNext ? 'bg-red/5' : ''}`}>
                     {/* A settled row's mark is the way back. Ticking happens on
@@ -956,8 +939,8 @@ export default function OnboardingPortal() {
   const wideView = false;
 
   // The rail travels with a signed-in coach on the reading pages. Not on the
-  // sign-in screens, and not on the admin tabs, which have their own layout.
-  const showRail = !!coach && !wideView && !inAdminView && !showIndex && !showFaq;
+  // sign-in screens, and not on the admin screen, which has its own layout.
+  const showRail = !!coach && !wideView && !showAdmin && !showFaq;
 
   return (
     <section className="py-16 bg-background min-h-screen">
@@ -985,17 +968,17 @@ export default function OnboardingPortal() {
             <div className="flex items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => { setShowIntro(false); setShowIndex(false); setShowFaq(false); setError(''); if (coach) setWizardIndex(firstIncomplete(coach)); setShowIndexInfo(audience !== 'director'); }}
+                  onClick={() => { setShowIntro(false); setShowAdmin(false); setShowFaq(false); setError(''); if (coach) setWizardIndex(firstIncomplete(coach)); setShowIndexInfo(audience !== 'director'); }}
                   className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                 >
                   🏠 Home
                 </button>
-                {coach && !showIndex && (
+                {coach && isAdmin && !showAdmin && (
                   <button
-                    onClick={() => { setShowIndex(true); setShowIndexInfo(false); setShowFaq(false); setError(''); }}
+                    onClick={() => { setShowAdmin(true); setShowIndexInfo(false); setShowFaq(false); setError(''); }}
                     className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
                   >
-                    Index
+                    Admin
                   </button>
                 )}
                 {coach && doneCount > 0 && (
@@ -1019,7 +1002,7 @@ export default function OnboardingPortal() {
             {!coach && (
               <p className="text-white/70 text-sm mt-1">Sign in to walk through your team setup step by step.</p>
             )}
-            {coach && !showIntro && !showIndexInfo && !showIndex && !showFaq && (
+            {coach && !showIntro && !showIndexInfo && !showAdmin && !showFaq && (
               <div className="mt-4">
                 <div className="h-2 bg-white/20 rounded-full overflow-hidden">
                   <div className="h-full bg-red rounded-full transition-all" style={{ width: `${(doneCount / REQUIRED_STEPS.length) * 100}%` }} />
@@ -1042,95 +1025,16 @@ export default function OnboardingPortal() {
                   </button>
                 </div>
               </div>
-            ) : showIndex && coach ? (
+            ) : showAdmin && coach ? (
+              /* The step list used to live here. The rail lists every step,
+               * marks the settled ones and locks what is not reachable yet,
+               * so a second list of the same steps was the same page twice.
+               * What is left is the part the rail cannot carry: the admin
+               * tools, which is why nothing but the Admin button opens it. */
               <div>
-                <h2 className="text-navy text-xl font-extrabold mb-4">Index</h2>
-                {(() => {
-                  const remaining = STEPS.filter(s => !s.final && !s.bonus && coach.checklist[s.key] !== true).length;
-                  return remaining > 0 ? (
-                    <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-4 flex items-center gap-3">
-                      <span className="text-xl">📋</span>
-                      <p className="text-sm text-amber-800 font-semibold">
-                        {remaining} step{remaining === 1 ? '' : 's'} still outstanding — tap any <span className="text-red">To do</span> step below to jump in.
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 mb-4 flex items-center gap-3">
-                      <span className="text-xl">✓</span>
-                      <p className="text-sm text-green-800 font-semibold">All steps complete — nice work!</p>
-                    </div>
-                  );
-                })()}
-{isAdmin ? (
-                  <div className="mb-4 max-w-xs">
-                    <label htmlFor="portal-view" className="block text-[11px] font-bold uppercase tracking-wide text-gray-500 mb-1">View</label>
-                    <div className="relative">
-                      <select
-                        id="portal-view"
-                        value={indexFilter}
-                        onChange={e => setIndexFilter(e.target.value as IndexFilter)}
-                        className="w-full appearance-none bg-white border border-gray-300 rounded-lg py-2.5 pl-3 pr-9 text-sm font-semibold text-navy cursor-pointer hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-colors"
-                      >
-                        <optgroup label="Checklist">
-                          <option value="all">All steps</option>
-                          <option value="outstanding">Outstanding</option>
-                        </optgroup>
-                        <optgroup label="Admin">
-                          {ADMIN_VIEWS.map(v => (
-                            <option key={v} value={v}>{VIEW_LABELS[v]}</option>
-                          ))}
-                        </optgroup>
-                      </select>
-                      <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400 text-xs">&#9662;</span>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex border border-gray-200 rounded-lg overflow-hidden mb-4 max-w-xs">
-                    {(['all', 'outstanding'] as const).map(f => (
-                      <button
-                        key={f}
-                        onClick={() => setIndexFilter(f)}
-                        className={`flex-1 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${indexFilter === f ? 'bg-navy text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}
-                      >
-                        {VIEW_LABELS[f]}
-                      </button>
-                    ))}
-                  </div>
-                )}
+                <h2 className="text-navy text-xl font-extrabold mb-4">Admin</h2>
                 <div className="border border-gray-200 rounded-xl overflow-hidden mb-6 divide-y divide-gray-100">
-                  {indexFilter === 'all' && (
-                    <>
-                      <a href="/onboarding-portal" className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50">
-                        <span className="w-6 text-center text-gray-300 font-bold text-xs">•</span>
-                        <span className="text-sm font-semibold text-red hover:underline">Welcome</span>
-                      </a>
-                    </>
-                  )}
-                  {!inAdminView && STEPS.map((st, i) => {
-                    const done = coach.checklist[st.key] === true;
-                    const skipped = coach.checklist[st.key] === 'skipped';
-                    const outstanding = !done && !skipped;
-                    if (indexFilter === 'outstanding' && (done || st.bonus)) return null;
-                    return (
-                      <a key={st.key} href={`/onboarding-portal?step=${i + 1}`} className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-50 ${outstanding ? 'bg-red/5' : ''}`}>
-                        <span className={`w-6 text-center font-bold text-xs ${st.bonus ? 'text-amber-500' : skipped ? 'text-amber-500' : done ? 'text-green-600' : 'text-gray-300'}`}>
-                          {st.bonus ? '★' : skipped ? '→' : done ? '✓' : st.tip ? '💡' : stepNumber(STEPS, i)}
-                        </span>
-                        <span className={`text-sm font-semibold hover:underline ${st.bonus ? 'text-navy' : done ? 'text-gray-400' : 'text-red'}`}>{st.title}</span>
-                        {st.bonus ? (
-                          <span className="ml-auto flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">★ Bonus</span>
-                        ) : !st.final && (
-                          <span className={`ml-auto flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${done ? 'bg-green-100 text-green-700' : skipped ? 'bg-amber-100 text-amber-700' : 'bg-red/10 text-red'}`}>
-                            {done ? 'Done' : skipped ? 'Skipped' : 'To do'}
-                          </span>
-                        )}
-                      </a>
-                    );
-                  })}
-                  {indexFilter === 'outstanding' && STEPS.every(s => coach.checklist[s.key] === true) && (
-                    <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">🎉 Nothing outstanding — every step is complete!</p>
-                  )}
-                  {isAdmin && indexFilter === 'notifications' && (
+                  {isAdmin && (
                     <>
                       <div className="flex items-center gap-2 px-4 py-2 bg-amber-50">
                         <span className="text-[10px] font-extrabold uppercase tracking-wide text-amber-700">Notifications</span>
@@ -1241,7 +1145,7 @@ export default function OnboardingPortal() {
                     </>
                   )}
                 </div>
-                {isAdmin && indexFilter === 'notifications' && (
+                {isAdmin && (
                   <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4">
                     <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-1">Create a coach&rsquo;s account</p>
                     <p className="text-xs text-amber-800/80 mb-3">Creates the account unclaimed and sends the welcome email. They still sign up themselves on the same email.</p>
@@ -1290,7 +1194,7 @@ export default function OnboardingPortal() {
                     {createError && <p className="text-red font-semibold text-sm mt-2">{createError}</p>}
                   </div>
                 )}
-                {isAdmin && !inAdminView && (
+                {isAdmin && (
                   <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-4 mb-4 text-center">
                     <p className="text-xs font-bold uppercase tracking-wide text-amber-700 mb-2">Admin</p>
                     <input
@@ -1312,7 +1216,7 @@ export default function OnboardingPortal() {
                 )}
                 <div className="flex justify-center">
                   <button
-                    onClick={() => setShowIndex(false)}
+                    onClick={() => setShowAdmin(false)}
                     className="bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
                   >
                     ← Back

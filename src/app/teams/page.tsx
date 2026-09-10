@@ -82,7 +82,7 @@ export default function TeamsPage() {
           <p className="text-gray text-lg">Getting started guides for coaches, parents, and teams</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-5">
             <Link
-              href="/onboarding-portal?view=index"
+              href="/onboarding-portal"
               className="inline-block bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
             >
               Onboarding Portal →
