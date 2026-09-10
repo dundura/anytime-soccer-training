@@ -795,6 +795,28 @@ export default function OnboardingPortal() {
   // Where Start lands, and where the rail's first row points.
   const workflowFirstIndex = STEPS.findIndex(st => st.key === (workflowNextKey || workflowOrder[0]));
 
+  /* The gate.
+   *
+   * One rule, applied where a step actually opens rather than on each of the
+   * things that can open one: a locked step bounces to the first unfinished
+   * one. That covers a typed ?step=5 as well as it covers Next, which is the
+   * point -- a gate only on the buttons is a gate with a URL through it.
+   *
+   * Only workflow steps are gated. The FAQs and the bonus reading are not on
+   * the path and nothing waits on them, so they stay open.
+   */
+  useEffect(() => {
+    if (!coach || showIntro || showIndex || showIndexInfo || showFaq) return;
+    const here = STEPS[wizardIndex]?.key;
+    if (!here) return;
+    const at = workflowOrder.indexOf(here);
+    if (at === -1) return;
+    const firstOpen = workflowOrder.findIndex(k => !coach.checklist[k]);
+    if (firstOpen === -1 || at <= firstOpen) return;
+    const target = STEPS.findIndex(st => st.key === workflowOrder[firstOpen]);
+    if (target !== -1 && target !== wizardIndex) setWizardIndex(target);
+  }, [coach, wizardIndex, showIntro, showIndex, showIndexInfo, showFaq]);
+
   const workflowRail = coach && (() => {
     const nextKey = workflowNextKey;
     const nextGroup = WORKFLOW_GROUPS.find(g => g.keys.includes(nextKey || ''))?.title || null;
