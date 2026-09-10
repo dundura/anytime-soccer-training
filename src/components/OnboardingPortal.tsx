@@ -1389,8 +1389,8 @@ export default function OnboardingPortal() {
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-2">Getting your team started</h2>
                 <p className="text-gray-700 text-[15px] leading-relaxed mb-4">
-                  Everything is in the list beside this. Work down it &mdash; each stage opens when
-                  you finish the one above it, so there is never more than one thing to do.
+                  Each stage opens when you finish the one above it, so there is never more
+                  than one thing to do.
                 </p>
                 <p className="text-gray-600 text-sm leading-relaxed mb-6">
                   It starts with your roster. Until we know who is on the team we cannot invoice
