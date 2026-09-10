@@ -41,7 +41,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   // Phase two. It asks how a coach will run their season, which is not a
   // question for somebody who has not yet paid for one.
   { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Onboarding', info: true, quiz: { prompt: 'Which best describes your expectations for your team?', options: ['Training outside practice is an expectation I’ve set — I’m aiming for 75%+ engagement, and if it’s slow I’ll use the competition features to boost it.', 'My team is motivated. It’s optional, but I’m excited to see how they respond, and I’ll do some of the competition features.', 'Optional — if they train, great; if not, no pressure.'] } },
-  { key: 'survey', title: 'Take the Coaching Engagement Survey', dataIndex: 3, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I completed the engagement survey'] } },
+  { key: 'survey', title: 'Take the Coaching Engagement Survey', dataIndex: 3, section: 'Onboarding' },
   { key: 'account', title: 'Create your account', dataIndex: 4, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my account'] } },
   { key: 'add_profiles', title: 'Add profiles', dataIndex: 21, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I added a profile for myself and my children'] } },
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my team(s) inside the app'] } },
@@ -652,6 +652,29 @@ export default function OnboardingPortal() {
     } finally {
       setSaving(false);
     }
+  };
+
+  /* Next on the parent step is also the send.
+   *
+   * The step had a download button to /welcome-email-template. A download
+   * leaves no record on either side, so it became an email -- and once it is
+   * an email there is nothing for a separate button to do that Next is not
+   * already doing. Both language versions travel with it; Megan is cc'd and
+   * Neil bcc'd by routeNotification, the same as every send in this sequence.
+   *
+   * The step is ticked whether or not the mail goes. A coach who has read the
+   * page has done their part, and stranding them on it because our mail server
+   * had a bad minute helps nobody -- the failure is ours to chase, and the bcc
+   * is how we notice.
+   */
+  const sendParentTemplate = async () => {
+    if (!token) return;
+    try {
+      await fetch(`${API}/portal-onboarding/parent-template`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: token },
+      });
+    } catch { /* ticking the step does not wait on the mail */ }
   };
 
   const emailMissing = async () => {
@@ -1552,14 +1575,19 @@ export default function OnboardingPortal() {
                   * coach leaves the portal to do and does not always come back
                   * from -- and the portal could then only ask them whether
                   * they had. Embedded, finishing it is something the portal
-                  * sees, so the confirm below ticks itself. Their name, team
-                  * and email are already known and are filled in for them. */}
+                  * sees, so Next waits on it instead of on a radio button
+                  * that asked whether they had. Their name, team and email are
+                  * already known and are filled in for them. */}
                 {step.key === 'survey' && !stepDone && (
                   <div className="mb-6">
                     <EngagementPredictor
                       embedded
                       prefill={{ coachName: coach?.name, teamName: coach?.teamName, email: coach?.email }}
-                      onComplete={() => setQuizAnswer(step.quiz?.options[0] || '')}
+                      // "Get My Commitment Report" is this page's Next: it
+                      // sends the survey, ticks the step and moves on. A
+                      // second button underneath saying Next would be asking
+                      // them to confirm the thing they just did.
+                      onComplete={() => setStep('survey', true, true, undefined, true, 'completed the engagement survey')}
                     />
                   </div>
                 )}
@@ -1675,7 +1703,7 @@ export default function OnboardingPortal() {
                     </button>
                   </div>
                 )}
-                <div className={`${step.key === 'roster' ? 'hidden' : 'flex'} flex-col sm:flex-row justify-center items-center gap-3 mt-6`}>
+                <div className={`${step.key === 'roster' || (step.key === 'survey' && !stepDone) ? 'hidden' : 'flex'} flex-col sm:flex-row justify-center items-center gap-3 mt-6`}>
                   <button
                     onClick={() => {
                       if (isSectionStepper && rosterSection > 0) { setRosterSection(rosterSection - 1); }
@@ -1761,7 +1789,11 @@ export default function OnboardingPortal() {
                     // Still notifies, exactly as confirming in the dialog did,
                     // so Megan's view of who has done what is unchanged.
                     <button
-                      onClick={() => { if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } } else { setStep(step.key, true, true, undefined, true, step.ack ? `acknowledged: ${step.ack.label}` : undefined); } }}
+                      onClick={async () => {
+                        if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } return; }
+                        if (step.key === 'intro_email') await sendParentTemplate();
+                        setStep(step.key, true, true, undefined, true, step.key === 'intro_email' ? 'sent the parent welcome template' : step.ack ? `acknowledged: ${step.ack.label}` : undefined);
+                      }}
                       disabled={saving || (!stepDone && ((!!step.ack && !ackChecked) || recapUnmet))}
                       className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
                     >

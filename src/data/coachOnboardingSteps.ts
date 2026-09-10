@@ -157,12 +157,14 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
   },
   {
+    // No download button. Pressing Next emails the coach the template instead
+    // -- same reasoning as the roster, which stopped being a download because a
+    // download leaves no record on either side that they ever had the file.
     title: 'Notify Parents',
     body: `
-      <p>Please download the template to notify parents. You&rsquo;re welcome to edit it before sending.</p>
+      <p>Press <strong>Next</strong> and we&rsquo;ll email you the welcome note to send your parents &mdash; in <strong>English and Spanish</strong>, as Word files you can edit before sending.</p>
+      <p>Megan is copied, so she knows your parents are about to hear from you.</p>
     `,
-    ctaLabel: 'Download the Parent Welcome Template',
-    ctaHref: 'https://www.anytime-soccer.com/welcome-email-template',
   },
   {
     title: 'Notify Megan',
@@ -545,9 +547,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
           <p style="margin:6px 0 0;"><strong>New players</strong> &mdash; add them the same way you did the first time: send the roster or invite them from the Player Onboarding tab.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
           <p style="margin:6px 0 0;"><strong>New teams</strong> &mdash; create in the app the same way as before.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
+          <p style="margin:6px 0 0;"><strong>Deleting a team</strong> &mdash; click <strong>Edit Team</strong>, then <strong>Archive</strong> or <strong>Delete Team</strong>.</p>
         </div>
       </div>
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;margin:16px 0;">
