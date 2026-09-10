@@ -35,13 +35,13 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   // First, and first for a reason: everything else in the portal waits on
   // the roster, so it is step 1 in the wizard as well as on the rail.
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
-  { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Which best describes your expectations for your team?', options: ['Training outside practice is an expectation I’ve set — I’m aiming for 75%+ engagement, and if it’s slow I’ll use the competition features to boost it.', 'My team is motivated. It’s optional, but I’m excited to see how they respond, and I’ll do some of the competition features.', 'Optional — if they train, great; if not, no pressure.'] } },
-  { key: 'roster_intro', title: 'Upgrading Players: Brand New Team', dataIndex: 22, section: 'Pre-Onboarding', info: true, ack: { label: 'I understand' } },
-  { key: 'roster_intro_renewing', title: 'Upgrading Players: Renewing or Self Onboard', dataIndex: 23, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Confirm before continuing:', options: ['I understand that within 7 days of a player joining my team, I need to apply a free access slot to their account'] } },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: -1, section: 'Pre-Onboarding', quiz: { prompt: 'How is your team getting set up?', options: ['I paid the invoice', 'I will purchase slots inside the app (after onboarding steps complete)', 'My club paid the invoice', 'I will complete onboarding and then pay the invoice'] } },
   // Straight after the invoice, because paying is what creates the slots and applying one is the next thing the coach has to do.
   { key: 'upgrading_players', title: 'How upgrading your players works', dataIndex: 27, section: 'Pre-Onboarding', info: true, ack: { label: 'I understand' } },
   { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding', info: true },
+  // Phase two. It asks how a coach will run their season, which is not a
+  // question for somebody who has not yet paid for one.
+  { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Onboarding', info: true, quiz: { prompt: 'Which best describes your expectations for your team?', options: ['Training outside practice is an expectation I’ve set — I’m aiming for 75%+ engagement, and if it’s slow I’ll use the competition features to boost it.', 'My team is motivated. It’s optional, but I’m excited to see how they respond, and I’ll do some of the competition features.', 'Optional — if they train, great; if not, no pressure.'] } },
   { key: 'survey', title: 'Take the Coaching Engagement Survey', dataIndex: 3, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I completed the engagement survey'] } },
   { key: 'account', title: 'Create your account', dataIndex: 4, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my account'] } },
   { key: 'add_profiles', title: 'Add profiles', dataIndex: 21, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I added a profile for myself and my children'] } },
@@ -69,6 +69,9 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
       'I am completing onboarding but will email Megan when ready',
     ] } },
   { key: 'final_confirm', title: 'Confirm & Finish', dataIndex: 16, section: 'FAQs', final: true },
+  // Reference, kept out of the run. The FAQs heading on the rail points here.
+  { key: 'roster_intro', title: 'Upgrading Players: Brand New Team', dataIndex: 22, section: 'FAQs', info: true, ack: { label: 'I understand' } },
+  { key: 'roster_intro_renewing', title: 'Upgrading Players: Renewing or Self Onboard', dataIndex: 23, section: 'FAQs', info: true, quiz: { prompt: 'Confirm before continuing:', options: ['I understand that within 7 days of a player joining my team, I need to apply a free access slot to their account'] } },
   { key: 'payment_overview', title: 'How payment works - New Teams', dataIndex: 17, section: 'Bonus', info: true, bonus: true },
   { key: 'club_payment', title: 'How Payment Works - Club Pays', dataIndex: 18, section: 'Bonus', info: true, bonus: true },
   { key: 'renewing', title: 'How Payment Works - Renewing teams', dataIndex: 19, section: 'Bonus', info: true, bonus: true },
@@ -129,7 +132,7 @@ const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
 const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean }[] = [
   { title: 'Send us your roster', keys: ['roster'] },
   { title: 'Pay your invoice', keys: ['invoice', 'upgrading_players'] },
-  { title: 'Set your team up', keys: ['onboarding_begins', 'survey', 'account', 'add_profiles', 'team', 'seasons'] },
+  { title: 'Set your team up', keys: ['onboarding_begins', 'expectations', 'survey', 'account', 'add_profiles', 'team', 'seasons'] },
   { title: 'Tell the parents', keys: ['intro_email'] },
   { title: 'Get them training', keys: ['faq_low_usage', 'commit_contest', 'commit_goals', 'commit_demo'] },
   { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
@@ -819,6 +822,12 @@ export default function OnboardingPortal() {
     const target = STEPS.findIndex(st => st.key === workflowOrder[firstOpen]);
     if (target !== -1 && target !== wizardIndex) setWizardIndex(target);
   }, [coach, wizardIndex, showIntro, showIndex, showIndexInfo, showFaq]);
+
+  // When the next thing to do moves into another stage, the rail follows it.
+  // Finishing the roster and watching "Pay your invoice" stay shut is the rail
+  // telling you where you were rather than where you are. A manual toggle still
+  // holds until the step under it is settled.
+  useEffect(() => { setOpenGroup(null); }, [workflowNextKey]);
 
   const workflowRail = coach && (() => {
     const nextKey = workflowNextKey;
