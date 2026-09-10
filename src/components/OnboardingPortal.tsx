@@ -35,9 +35,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   // First, and first for a reason: everything else in the portal waits on
   // the roster, so it is step 1 in the wizard as well as on the rail.
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
-  { key: 'invoice', title: 'Pay your invoice', dataIndex: -1, section: 'Pre-Onboarding', quiz: { prompt: 'How is your team getting set up?', options: ['I paid the invoice', 'I will purchase slots inside the app (after onboarding steps complete)', 'My club paid the invoice', 'I will complete onboarding and then pay the invoice'] } },
-  // Straight after the invoice, because paying is what creates the slots and applying one is the next thing the coach has to do.
-  { key: 'upgrading_players', title: 'How upgrading your players works', dataIndex: 27, section: 'Pre-Onboarding', info: true, ack: { label: 'I understand' } },
+  { key: 'invoice', title: 'Pay your invoice', dataIndex: -1, section: 'Pre-Onboarding', quiz: { prompt: '', options: ['I paid the invoice', 'I will purchase slots inside the app (after onboarding steps complete)', 'My club paid the invoice'] } },
   { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding', info: true },
   // Phase two. It asks how a coach will run their season, which is not a
   // question for somebody who has not yet paid for one.
@@ -70,6 +68,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
     ] } },
   { key: 'final_confirm', title: 'Confirm & Finish', dataIndex: 16, section: 'FAQs', final: true },
   // Reference, kept out of the run. The FAQs heading on the rail points here.
+  { key: 'upgrading_players', title: 'How upgrading your players works', dataIndex: 27, section: 'FAQs', info: true, ack: { label: 'I understand' } },
   { key: 'roster_intro', title: 'Upgrading Players: Brand New Team', dataIndex: 22, section: 'FAQs', info: true, ack: { label: 'I understand' } },
   { key: 'roster_intro_renewing', title: 'Upgrading Players: Renewing or Self Onboard', dataIndex: 23, section: 'FAQs', info: true, quiz: { prompt: 'Confirm before continuing:', options: ['I understand that within 7 days of a player joining my team, I need to apply a free access slot to their account'] } },
   { key: 'payment_overview', title: 'How payment works - New Teams', dataIndex: 17, section: 'Bonus', info: true, bonus: true },
@@ -131,14 +130,14 @@ const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
 // the wizard can gain and lose steps without this list having to be right.
 const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean }[] = [
   { title: 'Send us your roster', keys: ['roster'] },
-  { title: 'Pay your invoice', keys: ['invoice', 'upgrading_players'] },
+  { title: 'Pay your invoice', keys: ['invoice'] },
   { title: 'Set your team up', keys: ['onboarding_begins', 'expectations', 'survey', 'account', 'add_profiles', 'team', 'seasons'] },
   { title: 'Tell the parents', keys: ['intro_email'] },
   { title: 'Get them training', keys: ['faq_low_usage', 'commit_contest', 'commit_goals', 'commit_demo'] },
   { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
   // Reading, not steps. Nothing waits on these and nothing is locked behind
   // them, so they sit at the bottom out of the run.
-  { title: 'FAQs', reference: true, keys: ['roster_intro', 'roster_intro_renewing'] },
+  { title: 'FAQs', reference: true, keys: ['roster_intro', 'roster_intro_renewing', 'upgrading_players'] },
 ];
 
 // Steps whose Go button leaves the wizard.
@@ -1627,7 +1626,7 @@ export default function OnboardingPortal() {
                 )}
                 {step.quiz && (
                   <div className="mb-6">
-                    <p className="text-navy font-semibold text-base leading-relaxed mb-4">{step.quiz.prompt}</p>
+                    {!!step.quiz.prompt && <p className="text-navy font-semibold text-base leading-relaxed mb-4">{step.quiz.prompt}</p>}
                     {stepDone ? (
                       <p className="text-green-700 font-semibold text-sm">✓ Thanks — your answer has been recorded.</p>
                     ) : (
@@ -1746,21 +1745,6 @@ export default function OnboardingPortal() {
                     className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
                   >
                     ← Back
-                  </button>
-                  {/* Skip is on every page, both paths included. Any page can
-                      be one that does not apply to you, and a page you cannot
-                      move past without answering it is a page you leave.
-                      On the last page there is nothing ahead, so it goes to the
-                      Index rather than nowhere. */}
-                  <button
-                    onClick={() => {
-                      if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); }
-                      else { setShowIndex(true); }
-                      setError('');
-                    }}
-                    className="w-full sm:w-auto bg-white border-2 border-gray-300 text-gray-500 hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
-                  >
-                    {step.final && wizardIndex < STEPS.length - 1 ? 'Bonus →' : 'Skip'}
                   </button>
                   {stepData && stepData.ctaHref && (
                     <a
