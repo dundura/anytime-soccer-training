@@ -289,6 +289,10 @@ export default function OnboardingPortal() {
   // template is not sending the roster, and the coach is the only one who knows
   // which of the two they have actually done.
   const [rosterConfirm, setRosterConfirm] = useState(false);
+  // Whether the roster form has actually been submitted. Next waits on it:
+  // reading the page is not asking us for anything, and a coach who clicks
+  // straight past lands in the confirm popup with nothing true to confirm.
+  const [rosterRequested, setRosterRequested] = useState(false);
   const [rosterClaim, setRosterClaim] = useState('');
   const [showIntro, setShowIntro] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
@@ -1410,13 +1414,17 @@ export default function OnboardingPortal() {
                     emails and the teams page; only the chrome differs. */}
                 {step.key === 'roster' ? (
                   <div className="mb-6">
-                    {/* Deliberately no onDone. Submitting this asks us for the
-                        template; it does not send us a roster, and ticking the
-                        step here would mark done the one thing that had not
-                        happened yet. Next asks. */}
+                    {/* onDone records that the request went in -- it does not
+                        tick the step. Submitting this asks us for the template;
+                        it does not send us a roster, and marking the step done
+                        here would mark done the one thing that had not happened
+                        yet. Next still asks. What it buys is the gate below:
+                        until one of the two options is picked and sent, there
+                        is nothing for the confirm popup to be about. */}
                     <SendRosterForm
                       embedded
                       defaults={{ name: coach.name || '', email: coach.email || '', teamName: coach.teamName || '' }}
+                      onDone={() => setRosterRequested(true)}
                     />
                   </div>
                 ) : isSectionStepper && stepSections ? (
@@ -1659,7 +1667,9 @@ export default function OnboardingPortal() {
                         happen without it. */}
                     <button
                       onClick={() => { setRosterClaim(''); setRosterConfirm(true); setError(''); }}
-                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                      disabled={!stepDone && !rosterRequested}
+                      title={stepDone || rosterRequested ? undefined : 'Choose one of the two options above and send it first'}
+                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                       Next &rarr;
                     </button>
