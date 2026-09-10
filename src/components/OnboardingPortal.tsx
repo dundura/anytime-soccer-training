@@ -770,12 +770,130 @@ export default function OnboardingPortal() {
   const activeRecap = isSectionStepper ? stepSections?.[rosterSection]?.recap : undefined;
   const recapUnmet = !!activeRecap?.length && !activeRecap.every(r => checkedItems.includes(r));
 
+
+  /* The workflow, as a rail.
+   *
+   * It was a page of its own, which meant checking where you were cost you the
+   * step you were on. It travels with the coach now: the same gated list, the
+   * same headings, beside whatever they are reading.
+   *
+   * Narrow screens get it above the content rather than beside it — a 260px
+   * column on a phone is neither.
+   */
+  const workflowRail = coach && (() => {
+    const nextKey = STEPS[firstIncomplete(coach)]?.key;
+    const nextGroup = WORKFLOW_GROUPS.find(g => g.keys.includes(nextKey || ''))?.title || null;
+    const shownOpen = openGroup === null ? nextGroup : openGroup;
+
+    /* One flat order across the headings, so "the step above" still means the
+     * step above when it is the last row of the previous stage. The reference
+     * section is not in it: reading is not a step and nothing waits on it.
+     *
+     * Skipped counts as settled. Skipping is a deliberate act with its own
+     * button, and nobody should find the rest of the portal locked behind the
+     * one thing they decided not to do.
+     */
+    const flat = WORKFLOW_GROUPS
+      .filter(g => !g.reference)
+      .flatMap(g => g.keys)
+      .filter(k => STEPS.some(st => st.key === k));
+    const settled = (k: string) => Boolean(coach.checklist[k]);
+    const lockedAt = flat.findIndex(k => !settled(k));
+    const isLocked = (k: string) => lockedAt !== -1 && flat.indexOf(k) > lockedAt;
+
+    let groupsDone = 0;
+    let stageTotal = 0;
+    const groups = WORKFLOW_GROUPS.map(group => {
+      const rows = group.keys
+        .map(k => ({ k, i: STEPS.findIndex(st => st.key === k) }))
+        .filter(r => r.i !== -1)
+        .map(r => ({ ...r, st: STEPS[r.i] }));
+      if (!rows.length) return null;
+
+      const complete = rows.every(r => coach.checklist[r.st.key] === true);
+      if (!group.reference) {
+        stageTotal += 1;
+        if (complete) groupsDone += 1;
+      }
+      const hasNext = rows.some(r => r.st.key === nextKey);
+      const open = shownOpen === group.title;
+
+      return (
+        <div key={group.title} className="border-b border-blue-100 last:border-0">
+          <button
+            type="button"
+            onClick={() => setOpenGroup(open ? '' : group.title)}
+            className="flex w-full items-center gap-2 bg-blue-50 px-3 py-2.5 text-left transition-colors hover:bg-blue-100"
+          >
+            <span className="text-[10px] text-navy/40">{open ? '▾' : '▸'}</span>
+            <span className="flex-1 text-[13px] font-extrabold leading-snug text-navy">{group.title}</span>
+            {!group.reference && complete && <span className="flex-shrink-0 text-xs font-bold text-green-600">&#10003;</span>}
+            {!group.reference && !complete && hasNext && (
+              <span className="flex-shrink-0 rounded-full bg-red px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wide text-white">
+                Now
+              </span>
+            )}
+          </button>
+          {open && (
+            <div className="divide-y divide-gray-100 bg-white">
+              {rows.map(({ i, st }) => {
+                const rowDone = coach.checklist[st.key] === true;
+                const skipped = coach.checklist[st.key] === 'skipped';
+                const isNext = st.key === nextKey;
+                const locked = !group.reference && isLocked(st.key);
+                const here = !locked && wizardIndex === i && !showIntro && !showIndex && !showFaq && !showIndexInfo;
+                return (
+                  <div key={st.key} className={`flex items-start gap-2 px-3 py-2 ${here ? 'bg-navy/5' : isNext ? 'bg-red/5' : ''}`}>
+                    <span className={`w-4 flex-shrink-0 pt-0.5 text-center text-[11px] font-bold ${rowDone ? 'text-green-600' : skipped ? 'text-amber-500' : 'text-gray-300'}`}>
+                      {rowDone ? '✓' : skipped ? '→' : locked ? '\u{1F512}' : group.reference ? '\u{1F4A1}' : '○'}
+                    </span>
+                    {locked ? (
+                      <span title="Finish the step above first" className="flex-1 cursor-not-allowed text-[12px] font-semibold leading-snug text-gray-400">
+                        {st.title}
+                      </span>
+                    ) : (
+                      <a
+                        href={WORKFLOW_LINKS[st.key] || `/onboarding-portal?step=${i + 1}`}
+                        className={`flex-1 text-[12px] font-semibold leading-snug hover:underline ${rowDone ? 'text-gray-400' : here ? 'text-red' : 'text-navy'}`}
+                      >
+                        {st.title}
+                      </a>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      );
+    });
+
+    return (
+      <aside className="lg:sticky lg:top-6">
+        <div className="overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-sm">
+          <div className="bg-navy px-3 py-3">
+            <p className="text-[13px] font-extrabold text-white">Getting your team started</p>
+            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/20">
+              <div className="h-full rounded-full bg-red transition-all" style={{ width: `${stageTotal ? Math.round((groupsDone / stageTotal) * 100) : 0}%` }} />
+            </div>
+            <p className="mt-1 text-[11px] font-semibold text-white/60">{groupsDone} of {stageTotal} stages complete</p>
+          </div>
+          {groups}
+        </div>
+      </aside>
+    );
+  })();
+
   const inputClass = 'w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-navy placeholder:text-gray focus:outline-none focus:ring-2 focus:ring-red/30 focus:border-red';
 
   // The portal is a max-w-2xl reading column: right for a wizard, far too
   // narrow for a table. The CRM tab gets the full width of the page instead
   // of being squeezed into the same column as the step list.
   const wideView = false;
+
+  // The rail travels with a signed-in coach on the reading pages. Not on the
+  // sign-in screens, and not on the admin tabs, which have their own layout.
+  const showRail = !!coach && !wideView && !inAdminView && !showIndex && !showFaq;
 
   return (
     <section className="py-16 bg-background min-h-screen">
@@ -792,7 +910,12 @@ export default function OnboardingPortal() {
           </button>
         </div>
       )}
-      <div className={`${wideView ? 'max-w-[1600px]' : 'max-w-2xl'} mx-auto px-4 sm:px-6 lg:px-8 ${viewingAs ? 'pt-10' : ''}`}>
+      {/* The rail sits beside the reading column, so the page has to be wider
+          than the column. It only appears once there is a coach to have a
+          workflow — the sign-in and the admin tabs keep the old width. */}
+      <div className={`${wideView ? 'max-w-[1600px]' : showRail ? 'max-w-5xl' : 'max-w-2xl'} mx-auto px-4 sm:px-6 lg:px-8 ${viewingAs ? 'pt-10' : ''}`}>
+        <div className={showRail ? 'grid gap-6 lg:grid-cols-[260px_1fr] lg:items-start' : ''}>
+        {showRail && workflowRail}
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="bg-navy px-8 py-6">
             <div className="flex items-center justify-between gap-2 mb-3">
@@ -1260,156 +1383,25 @@ export default function OnboardingPortal() {
 
               </div>
             ) : showIndexInfo ? (
-              /* The workflow.
-               *
-               * This used to be a five-line summary of what was coming, behind
-               * an "I understand" radio -- a page that told a coach about the
-               * work instead of being the work.
-               *
-               * It is the list now, and it is gated: a row opens only once
-               * everything above it has been settled. The portal used to be
-               * forty-odd pages reachable in any order, which is how coaches
-               * came to be halfway through app setup having never sent a
-               * roster.
-               *
-               * Headings start closed. Six of them open at once is the wall
-               * this page replaced.
-               */
+              /* The workflow moved into the rail, so this page stopped needing
+               * to be the list. What is left is the one thing the list cannot
+               * say: what the shape of it is, and where to start. */
               <div>
-                <h2 className="text-navy text-xl font-extrabold mb-1">Getting your team started</h2>
-                <p className="text-gray-600 text-sm leading-relaxed mb-5">
-                  Work down the list. The next one opens when you finish the one above it.
+                <h2 className="text-navy text-xl font-extrabold mb-2">Getting your team started</h2>
+                <p className="text-gray-700 text-[15px] leading-relaxed mb-4">
+                  Everything is in the list beside this. Work down it &mdash; each stage opens when
+                  you finish the one above it, so there is never more than one thing to do.
                 </p>
-
-                {(() => {
-                  const nextKey = STEPS[firstIncomplete(coach)]?.key;
-                  // Closed is the default, but not for the one being worked on:
-                  // six shut headings say how far along you are and nothing at
-                  // all about what to do next.
-                  const nextGroup = WORKFLOW_GROUPS.find(g => g.keys.includes(nextKey || ''))?.title || null;
-                  const shownOpen = openGroup === null ? nextGroup : openGroup;
-
-                  /* One flat order across the headings, so "the step above"
-                   * still means the step above when it is the last row of the
-                   * previous stage. The reference section at the bottom is not
-                   * in it: reading is not a step, and nothing waits on it.
-                   *
-                   * Skipped counts as settled. Skipping is a deliberate act with
-                   * its own button, and a coach who took it should not find the
-                   * rest of the portal locked behind the one thing they decided
-                   * not to do.
-                   */
-                  const flat = WORKFLOW_GROUPS
-                    .filter(g => !g.reference)
-                    .flatMap(g => g.keys)
-                    .filter(k => STEPS.some(st => st.key === k));
-                  const settled = (k: string) => Boolean(coach.checklist[k]);
-                  const lockedAt = flat.findIndex(k => !settled(k));
-                  const isLocked = (k: string) => lockedAt !== -1 && flat.indexOf(k) > lockedAt;
-
-                  let groupsDone = 0;
-                  let stageTotal = 0;
-                  const rendered = WORKFLOW_GROUPS.map(group => {
-                    const rows = group.keys
-                      .map(k => ({ k, i: STEPS.findIndex(st => st.key === k) }))
-                      .filter(r => r.i !== -1)
-                      .map(r => ({ ...r, st: STEPS[r.i] }));
-                    if (!rows.length) return null;
-
-                    const complete = rows.every(r => coach.checklist[r.st.key] === true);
-                    if (!group.reference) {
-                      stageTotal += 1;
-                      if (complete) groupsDone += 1;
-                    }
-                    const hasNext = rows.some(r => r.st.key === nextKey);
-                    const open = shownOpen === group.title;
-
-                    return (
-                      <div key={group.title} className="mb-3 rounded-2xl border border-blue-100 overflow-hidden">
-                        <button
-                          type="button"
-                          onClick={() => setOpenGroup(open ? '' : group.title)}
-                          className="flex w-full items-center gap-2 bg-blue-50 px-4 py-3 text-left transition-colors hover:bg-blue-100"
-                        >
-                          <span className="text-xs text-navy/40">{open ? '▾' : '▸'}</span>
-                          <h3 className="text-sm font-extrabold text-navy">{group.title}</h3>
-                          {!group.reference && complete && <span className="ml-auto flex-shrink-0 text-sm font-bold text-green-600">&#10003;</span>}
-                          {!group.reference && !complete && hasNext && (
-                            <span className="ml-auto flex-shrink-0 rounded-full bg-red px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-white">
-                              Next up
-                            </span>
-                          )}
-                        </button>
-                        {open && (
-                          <div className="divide-y divide-gray-100 bg-white">
-                            {rows.map(({ i, st }) => {
-                              const rowDone = coach.checklist[st.key] === true;
-                              const skipped = coach.checklist[st.key] === 'skipped';
-                              const isNext = st.key === nextKey;
-                              const locked = !group.reference && isLocked(st.key);
-                              return (
-                                <div key={st.key} className={`flex items-center gap-3 px-4 py-3 ${isNext ? 'bg-red/5' : ''}`}>
-                                  <span className={`w-5 flex-shrink-0 text-center text-sm font-bold ${rowDone ? 'text-green-600' : skipped ? 'text-amber-500' : 'text-gray-300'}`}>
-                                    {rowDone ? '✓' : skipped ? '→' : locked ? '\u{1F512}' : group.reference ? '\u{1F4A1}' : '○'}
-                                  </span>
-                                  <span className="min-w-0 flex-1">
-                                    <span className={`block text-sm font-semibold ${rowDone || locked ? 'text-gray-400' : 'text-navy'}`}>{st.title}</span>
-                                    {isNext && <span className="mt-0.5 block text-[10px] font-extrabold uppercase tracking-wide text-red">Next up</span>}
-                                  </span>
-                                  {locked ? (
-                                    <span
-                                      title="Finish the step above first"
-                                      className="flex-shrink-0 cursor-not-allowed rounded-lg border border-gray-200 px-4 py-1.5 text-xs font-bold text-gray-300"
-                                    >
-                                      Go
-                                    </span>
-                                  ) : (
-                                    <a
-                                      href={WORKFLOW_LINKS[st.key] || `/onboarding-portal?step=${i + 1}`}
-                                      className={`flex-shrink-0 rounded-lg px-4 py-1.5 text-xs font-bold transition-colors ${
-                                        isNext
-                                          ? 'bg-red text-white hover:bg-red-dark'
-                                          : rowDone
-                                            ? 'border border-gray-200 text-gray-500 hover:bg-gray-50'
-                                            : 'border border-navy text-navy hover:bg-gray-50'
-                                      }`}
-                                    >
-                                      {rowDone ? 'Review' : group.reference ? 'Read' : 'Go'}
-                                    </a>
-                                  )}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  });
-
-                  return (
-                    <>
-                      <div className="mb-5">
-                        <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
-                          <div className="h-full rounded-full bg-red transition-all" style={{ width: `${stageTotal ? Math.round((groupsDone / stageTotal) * 100) : 0}%` }} />
-                        </div>
-                        <p className="mt-1.5 text-xs font-semibold text-gray-500">{groupsDone} of {stageTotal} stages complete</p>
-                      </div>
-                      {rendered}
-                    </>
-                  );
-                })()}
-
-                <div className="mt-6 flex flex-wrap items-center gap-4">
-                  <button
-                    onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowIndexInfo(false); setError(''); }}
-                    className="rounded-xl bg-red px-6 py-2.5 font-bold text-white transition-colors hover:bg-red-dark"
-                  >
-                    Pick up where I left off &rarr;
-                  </button>
-                  <a href="/onboarding-portal?view=index" className="text-sm font-semibold text-navy hover:underline">
-                    See every step
-                  </a>
-                </div>
+                <p className="text-gray-600 text-sm leading-relaxed mb-6">
+                  It starts with your roster. Until we know who is on the team we cannot invoice
+                  you, and until the invoice is paid there is nothing to set up.
+                </p>
+                <button
+                  onClick={() => { setWizardIndex(firstIncomplete(coach)); setShowIndexInfo(false); setError(''); }}
+                  className="rounded-xl bg-red px-6 py-2.5 font-bold text-white transition-colors hover:bg-red-dark"
+                >
+                  Start &rarr;
+                </button>
               </div>
             ) : (
               <div>
@@ -1771,6 +1763,7 @@ export default function OnboardingPortal() {
               </a>
             </div>
           </div>
+        </div>
         </div>
       </div>
 
