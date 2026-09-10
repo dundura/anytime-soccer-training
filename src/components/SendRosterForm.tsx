@@ -158,7 +158,7 @@ export default function SendRosterForm() {
                   <input value={form.estimatedPlayers} onChange={set('estimatedPlayers')} type="number" min={1} max={500}
                     className="w-full max-w-[160px] rounded-lg border-2 border-gray-200 px-3 py-2.5 text-[15px] focus:border-[#0f2642] focus:outline-none" />
                   <span className="mt-1 block text-[13px] leading-relaxed text-gray-500">
-                    An estimate is fine &mdash; it&rsquo;s what we invoice on. The coach&rsquo;s own account is free.
+                    An estimate is fine.
                   </span>
                 </label>
               )}
