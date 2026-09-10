@@ -32,14 +32,13 @@ type PortalStep = { key: string; title: string; dataIndex: number; section: stri
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
 const COACH_PORTAL_STEPS: PortalStep[] = [
+  // First, and first for a reason: everything else in the portal waits on
+  // the roster, so it is step 1 in the wizard as well as on the rail.
+  { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
   { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Which best describes your expectations for your team?', options: ['Training outside practice is an expectation I’ve set — I’m aiming for 75%+ engagement, and if it’s slow I’ll use the competition features to boost it.', 'My team is motivated. It’s optional, but I’m excited to see how they respond, and I’ll do some of the competition features.', 'Optional — if they train, great; if not, no pressure.'] } },
   { key: 'roster_intro', title: 'Upgrading Players: Brand New Team', dataIndex: 22, section: 'Pre-Onboarding', info: true, ack: { label: 'I understand' } },
   { key: 'roster_intro_renewing', title: 'Upgrading Players: Renewing or Self Onboard', dataIndex: 23, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Confirm before continuing:', options: ['I understand that within 7 days of a player joining my team, I need to apply a free access slot to their account'] } },
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
-  // No quiz: the step renders the roster form, which asks the same question
-  // and is the thing that actually records the answer. Asking it twice on one
-  // screen made the form look like a preview of a decision made below it.
-  { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: -1, section: 'Pre-Onboarding', quiz: { prompt: 'How is your team getting set up?', options: ['I paid the invoice', 'I will purchase slots inside the app (after onboarding steps complete)', 'My club paid the invoice', 'I will complete onboarding and then pay the invoice'] } },
   // Straight after the invoice, because paying is what creates the slots and applying one is the next thing the coach has to do.
   { key: 'upgrading_players', title: 'How upgrading your players works', dataIndex: 27, section: 'Pre-Onboarding', info: true, ack: { label: 'I understand' } },
@@ -1816,22 +1815,6 @@ export default function OnboardingPortal() {
           </div>
         </div>
 
-        {/* Contact */}
-        <div className="mt-8 bg-navy rounded-2xl px-8 py-8 text-center text-white">
-          <h3 className="text-lg font-bold mb-4">Questions?</h3>
-          <div className="flex flex-col items-center gap-2">
-            <span className="font-semibold text-base">Megan Chambers</span>
-            <span className="text-white/70 text-sm">Team Success Manager</span>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 mt-3">
-              <a href="mailto:megan@anytime-soccer.com" className="text-white/90 hover:text-white text-sm">
-                megan@anytime-soccer.com
-              </a>
-              <a href="tel:803-431-1028" className="text-white/90 hover:text-white text-sm">
-                (M) 803-431-1028
-              </a>
-            </div>
-          </div>
-        </div>
         </div>
       </div>
 
