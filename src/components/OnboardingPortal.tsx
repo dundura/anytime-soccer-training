@@ -844,9 +844,25 @@ export default function OnboardingPortal() {
                 const here = !locked && wizardIndex === i && !showIntro && !showIndex && !showFaq && !showIndexInfo;
                 return (
                   <div key={st.key} className={`flex items-start gap-2 px-3 py-2 ${here ? 'bg-navy/5' : isNext ? 'bg-red/5' : ''}`}>
-                    <span className={`w-4 flex-shrink-0 pt-0.5 text-center text-[11px] font-bold ${rowDone ? 'text-green-600' : skipped ? 'text-amber-500' : 'text-gray-300'}`}>
-                      {rowDone ? '✓' : skipped ? '→' : locked ? '\u{1F512}' : group.reference ? '\u{1F4A1}' : '○'}
-                    </span>
+                    {/* A settled row's mark is the way back. Ticking happens on
+                        the step's own page, but a step ticked by mistake -- or
+                        ticked for the coach, as the roster is -- has to be
+                        undoable from wherever it is showing as done. */}
+                    {rowDone || skipped ? (
+                      <button
+                        type="button"
+                        onClick={() => setStep(st.key, false)}
+                        disabled={saving}
+                        title="Mark this as not done"
+                        className={`w-4 flex-shrink-0 pt-0.5 text-center text-[11px] font-bold transition-colors hover:text-red disabled:opacity-50 ${rowDone ? 'text-green-600' : 'text-amber-500'}`}
+                      >
+                        {rowDone ? '✓' : '→'}
+                      </button>
+                    ) : (
+                      <span className="w-4 flex-shrink-0 pt-0.5 text-center text-[11px] font-bold text-gray-300">
+                        {locked ? '🔒' : group.reference ? '💡' : '○'}
+                      </span>
+                    )}
                     {locked ? (
                       <span title="Finish the step above first" className="flex-1 cursor-not-allowed text-[12px] font-semibold leading-snug text-gray-400">
                         {st.title}
