@@ -104,11 +104,7 @@ export default function SendRosterForm({
   return (
     <main className={embedded ? '' : 'min-h-screen bg-[#f4f6f9] px-5 py-12 sm:py-16'}>
       <div className={embedded ? '' : 'mx-auto max-w-[620px]'}>
-        {embedded ? (
-          <p className="mb-5 text-[15px] leading-relaxed text-gray-700">
-            Tell us who&rsquo;s on the team, or roughly how many players.
-          </p>
-        ) : (
+        {embedded ? null : (
           <div className="rounded-2xl bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] p-8 text-white sm:p-10">
             <h1 className="mb-3 text-[clamp(24px,4vw,32px)] font-extrabold leading-tight">
               Download the roster template

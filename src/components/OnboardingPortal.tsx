@@ -36,7 +36,10 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'roster_intro', title: 'Upgrading Players: Brand New Team', dataIndex: 22, section: 'Pre-Onboarding', info: true, ack: { label: 'I understand' } },
   { key: 'roster_intro_renewing', title: 'Upgrading Players: Renewing or Self Onboard', dataIndex: 23, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Confirm before continuing:', options: ['I understand that within 7 days of a player joining my team, I need to apply a free access slot to their account'] } },
   { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
-  { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding', quiz: { prompt: 'How would you like your players added?', options: ['I’m sending my roster', 'Send me an invite link instead — I won’t be sending a roster'] } },
+  // No quiz: the step renders the roster form, which asks the same question
+  // and is the thing that actually records the answer. Asking it twice on one
+  // screen made the form look like a preview of a decision made below it.
+  { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: -1, section: 'Pre-Onboarding', quiz: { prompt: 'How is your team getting set up?', options: ['I paid the invoice', 'I will purchase slots inside the app (after onboarding steps complete)', 'My club paid the invoice', 'I will complete onboarding and then pay the invoice'] } },
   // Straight after the invoice, because paying is what creates the slots and applying one is the next thing the coach has to do.
   { key: 'upgrading_players', title: 'How upgrading your players works', dataIndex: 27, section: 'Pre-Onboarding', info: true, ack: { label: 'I understand' } },
@@ -1672,8 +1675,11 @@ export default function OnboardingPortal() {
                   </div>
                 )}
 
-                {/* Wizard navigation */}
-                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-6">
+                {/* Wizard navigation.
+                    Not on the roster step: that step is a form with its own
+                    submit, and Back / Skip / Next either walk away from a
+                    half-filled form or offer a second way to leave it. */}
+                <div className={`${step.key === 'roster' ? 'hidden' : 'flex'} flex-col sm:flex-row justify-center items-center gap-3 mt-6`}>
                   <button
                     onClick={() => {
                       if (isSectionStepper && rosterSection > 0) { setRosterSection(rosterSection - 1); }
