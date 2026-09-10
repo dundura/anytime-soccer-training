@@ -38,7 +38,6 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Which best describes your expectations for your team?', options: ['Training outside practice is an expectation I’ve set — I’m aiming for 75%+ engagement, and if it’s slow I’ll use the competition features to boost it.', 'My team is motivated. It’s optional, but I’m excited to see how they respond, and I’ll do some of the competition features.', 'Optional — if they train, great; if not, no pressure.'] } },
   { key: 'roster_intro', title: 'Upgrading Players: Brand New Team', dataIndex: 22, section: 'Pre-Onboarding', info: true, ack: { label: 'I understand' } },
   { key: 'roster_intro_renewing', title: 'Upgrading Players: Renewing or Self Onboard', dataIndex: 23, section: 'Pre-Onboarding', info: true, quiz: { prompt: 'Confirm before continuing:', options: ['I understand that within 7 days of a player joining my team, I need to apply a free access slot to their account'] } },
-  { key: 'tip_roster', title: 'Roster FAQs', dataIndex: 12, section: 'Pre-Onboarding', tip: true },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: -1, section: 'Pre-Onboarding', quiz: { prompt: 'How is your team getting set up?', options: ['I paid the invoice', 'I will purchase slots inside the app (after onboarding steps complete)', 'My club paid the invoice', 'I will complete onboarding and then pay the invoice'] } },
   // Straight after the invoice, because paying is what creates the slots and applying one is the next thing the coach has to do.
   { key: 'upgrading_players', title: 'How upgrading your players works', dataIndex: 27, section: 'Pre-Onboarding', info: true, ack: { label: 'I understand' } },
@@ -136,7 +135,7 @@ const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean }[] 
   { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
   // Reading, not steps. Nothing waits on these and nothing is locked behind
   // them, so they sit at the bottom out of the run.
-  { title: 'FAQs', reference: true, keys: ['roster_intro', 'roster_intro_renewing', 'tip_roster'] },
+  { title: 'FAQs', reference: true, keys: ['roster_intro', 'roster_intro_renewing'] },
 ];
 
 // Steps whose Go button leaves the wizard.
@@ -280,6 +279,11 @@ export default function OnboardingPortal() {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
   const [ackChecked, setAckChecked] = useState(false);
   const [quizAnswer, setQuizAnswer] = useState<string>('');
+  // The roster step finishes on a claim, not on a form submit: requesting the
+  // template is not sending the roster, and the coach is the only one who knows
+  // which of the two they have actually done.
+  const [rosterConfirm, setRosterConfirm] = useState(false);
+  const [rosterClaim, setRosterClaim] = useState('');
   const [showIntro, setShowIntro] = useState(false);
   const [showIndex, setShowIndex] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
@@ -1484,10 +1488,13 @@ export default function OnboardingPortal() {
                     emails and the teams page; only the chrome differs. */}
                 {step.key === 'roster' ? (
                   <div className="mb-6">
+                    {/* Deliberately no onDone. Submitting this asks us for the
+                        template; it does not send us a roster, and ticking the
+                        step here would mark done the one thing that had not
+                        happened yet. Next asks. */}
                     <SendRosterForm
                       embedded
                       defaults={{ name: coach.name || '', email: coach.email || '', teamName: coach.teamName || '' }}
-                      onDone={() => setStep('roster', true)}
                     />
                   </div>
                 ) : isSectionStepper && stepSections ? (
@@ -1700,6 +1707,25 @@ export default function OnboardingPortal() {
                     Not on the roster step: that step is a form with its own
                     submit, and Back / Skip / Next either walk away from a
                     half-filled form or offer a second way to leave it. */}
+                {step.key === 'roster' && (
+                  <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-6">
+                    <button
+                      onClick={() => { setShowIndexInfo(true); setError(''); }}
+                      className="w-full sm:w-auto bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors"
+                    >
+                      &larr; Back
+                    </button>
+                    {/* No Skip. Every other page can be one that does not apply
+                        to you; this one cannot, because nothing downstream can
+                        happen without it. */}
+                    <button
+                      onClick={() => { setRosterClaim(''); setRosterConfirm(true); setError(''); }}
+                      className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                    >
+                      Next &rarr;
+                    </button>
+                  </div>
+                )}
                 <div className={`${step.key === 'roster' ? 'hidden' : 'flex'} flex-col sm:flex-row justify-center items-center gap-3 mt-6`}>
                   <button
                     onClick={() => {
@@ -1817,6 +1843,60 @@ export default function OnboardingPortal() {
 
         </div>
       </div>
+
+      {/* What finishing the roster step actually means.
+          Two claims, because there are two ways through this step and only the
+          coach knows which they took. Neither is ticked for them. */}
+      {rosterConfirm && coach && (
+        <div
+          onClick={() => !saving && setRosterConfirm(false)}
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4"
+        >
+          <div onClick={e => e.stopPropagation()} className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
+            <div className="px-6 pt-6 pb-2">
+              <h2 className="text-navy text-lg font-extrabold mb-1">Before you move on</h2>
+              <p className="text-gray-600 text-sm leading-relaxed mb-4">Which of these have you done?</p>
+              {[
+                'I have emailed my roster to Megan',
+                'I have told you roughly how many players',
+              ].map(opt => (
+                <label
+                  key={opt}
+                  className={`flex items-center gap-3 border-2 rounded-xl px-4 py-3 mb-2 cursor-pointer transition-colors ${rosterClaim === opt ? 'border-red bg-red-50' : 'border-gray-200 hover:bg-gray-50'}`}
+                >
+                  <input
+                    type="radio"
+                    name="rosterClaim"
+                    checked={rosterClaim === opt}
+                    onChange={() => setRosterClaim(opt)}
+                    className="w-4 h-4 accent-red"
+                  />
+                  <span className="text-sm font-semibold text-navy">{opt}</span>
+                </label>
+              ))}
+            </div>
+            <div className="flex gap-3 px-6 py-5">
+              <button
+                onClick={() => setRosterConfirm(false)}
+                disabled={saving}
+                className="flex-1 bg-white border-2 border-gray-200 text-navy font-bold py-2.5 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-60"
+              >
+                Not yet
+              </button>
+              <button
+                onClick={async () => {
+                  await setStep('roster', true, true, undefined, true, rosterClaim);
+                  setRosterConfirm(false);
+                }}
+                disabled={saving || !rosterClaim}
+                className="flex-1 bg-red hover:bg-red-dark text-white font-bold py-2.5 rounded-xl transition-colors disabled:opacity-40"
+              >
+                {saving ? 'Saving\u2026' : 'Confirm'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Reset confirmation modal */}
       {showResetConfirm && (
