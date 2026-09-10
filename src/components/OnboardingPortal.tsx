@@ -1364,16 +1364,14 @@ export default function OnboardingPortal() {
               </div>
             ) : showIndexInfo ? (
               /* The workflow moved into the rail, so this page stopped needing
-               * to be the list. What is left is the one thing the list cannot
-               * say: what the shape of it is, and where to start. */
+               * to be the list -- and then stopped needing to describe it
+               * either. Explaining the shape of the whole thing up front is
+               * answering a question nobody has yet; the only thing worth
+               * saying on the way in is what to do first. */
               <div>
                 <h2 className="text-navy text-xl font-extrabold mb-2">Getting your team started</h2>
-                <p className="text-gray-700 text-[15px] leading-relaxed mb-4">
-                  Each stage opens when you finish the one above it.
-                </p>
                 <p className="text-gray-700 text-[15px] leading-relaxed mb-6">
-                  It starts with your roster. Until we know who is on the team we cannot invoice
-                  you, and until the invoice is paid there is nothing to set up.
+                  First, send us your roster. Once that is done you will be ready to continue.
                 </p>
                 <button
                   onClick={() => { setWizardIndex(workflowFirstIndex === -1 ? firstIncomplete(coach) : workflowFirstIndex); setShowIndexInfo(false); setError(''); }}
