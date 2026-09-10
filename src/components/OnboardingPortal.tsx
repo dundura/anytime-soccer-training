@@ -1391,7 +1391,7 @@ export default function OnboardingPortal() {
                 <p className="text-gray-700 text-[15px] leading-relaxed mb-4">
                   Each stage opens when you finish the one above it.
                 </p>
-                <p className="text-gray-600 text-sm leading-relaxed mb-6">
+                <p className="text-gray-700 text-[15px] leading-relaxed mb-6">
                   It starts with your roster. Until we know who is on the team we cannot invoice
                   you, and until the invoice is paid there is nothing to set up.
                 </p>
