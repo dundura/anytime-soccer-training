@@ -1810,7 +1810,9 @@ export default function OnboardingPortal() {
                       {saving ? 'Saving…' : 'Next →'}
                     </button>
                   ) : (
-                    // No gate on this step: Next marks it done and moves on.
+                    // Next marks the step done and moves on, with two gates:
+                    // an acknowledgement where the step carries one, and the
+                    // parent letters, which have to have actually been sent.
                     //
                     // This used to open a confirm dialog with the same two
                     // choices on every page. A modal that asks the identical
@@ -1823,10 +1825,10 @@ export default function OnboardingPortal() {
                     <button
                       onClick={async () => {
                         if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } return; }
-                        if (step.key === 'intro_email' && !parentSent) await sendParentTemplate();
                         setStep(step.key, true, true, undefined, true, step.key === 'intro_email' ? 'sent the parent welcome template' : step.ack ? `acknowledged: ${step.ack.label}` : undefined);
                       }}
-                      disabled={saving || (!stepDone && ((!!step.ack && !ackChecked) || recapUnmet))}
+                      title={!stepDone && step.key === 'intro_email' && !parentSent ? 'Send yourself the letters first' : undefined}
+                      disabled={saving || (!stepDone && ((!!step.ack && !ackChecked) || recapUnmet || (step.key === 'intro_email' && !parentSent)))}
                       className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
                     >
                       {saving ? 'Saving…' : 'Next →'}
