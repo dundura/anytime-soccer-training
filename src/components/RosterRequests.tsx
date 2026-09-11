@@ -53,6 +53,7 @@ export default function RosterRequests({ token }: { token: string | null }) {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState<number | null>(null);
   const [showDone, setShowDone] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
 
   const headers = useCallback(
     () => ({
@@ -95,6 +96,28 @@ export default function RosterRequests({ token }: { token: string | null }) {
       setRows(list => list.map(r => (r.id === id ? { ...r, [field]: d[field] ?? null } : r)));
     } catch {
       setError('Could not save that.');
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  // Test rows and a coach who submitted the form twice are not a state the two
+  // marks can describe. One confirm, because it does not come back.
+  const remove = async (id: number) => {
+    if (busy) return;
+    setBusy(id);
+    try {
+      const res = await fetch(`${API}/roster-request/delete`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...headers() },
+        body: JSON.stringify({ id }),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) { setError(d.error || 'Could not delete that.'); return; }
+      setRows(list => list.filter(r => r.id !== id));
+      setConfirmDelete(null);
+    } catch {
+      setError('Could not delete that.');
     } finally {
       setBusy(null);
     }
@@ -150,8 +173,8 @@ export default function RosterRequests({ token }: { token: string | null }) {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b-2 border-gray-200 bg-gray-50 text-left">
-                {['Coach', 'Asked for', 'Waiting', 'Sent', 'Roster in', 'Invoiced'].map(h => (
-                  <th key={h} className="whitespace-nowrap px-3 py-2 text-[11px] font-extrabold uppercase tracking-wide text-gray-500">{h}</th>
+                {['Coach', 'Asked for', 'Waiting', 'Sent', 'Roster in', 'Invoiced', ''].map(h => (
+                  <th key={h || 'actions'} className="whitespace-nowrap px-3 py-2 text-[11px] font-extrabold uppercase tracking-wide text-gray-500">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -211,6 +234,33 @@ export default function RosterRequests({ token }: { token: string | null }) {
                       >
                         {r.invoicedAt ? `Sent ${when(r.invoicedAt)}` : 'Mark sent'}
                       </button>
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-2.5 text-right">
+                      {confirmDelete === r.id ? (
+                        <span className="inline-flex items-center gap-1">
+                          <button
+                            onClick={() => remove(r.id)}
+                            disabled={busy === r.id}
+                            className="rounded-full bg-red px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide text-white disabled:opacity-50"
+                          >
+                            Delete
+                          </button>
+                          <button
+                            onClick={() => setConfirmDelete(null)}
+                            className="px-1 text-[10px] font-bold uppercase tracking-wide text-gray-500 hover:text-navy"
+                          >
+                            Cancel
+                          </button>
+                        </span>
+                      ) : (
+                        <button
+                          onClick={() => setConfirmDelete(r.id)}
+                          title={`Delete ${r.email}`}
+                          className="px-1 text-base leading-none text-gray-300 transition-colors hover:text-red"
+                        >
+                          &times;
+                        </button>
+                      )}
                     </td>
                   </tr>
                 );
