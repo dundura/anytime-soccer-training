@@ -665,7 +665,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
       {/* Email preview — nothing sends until this has been seen */}
       {preview && (previewLead) && (
         <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" onClick={() => setPreview(null)}>
-          <div className="bg-white rounded-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="px-5 py-4 border-b border-gray-100">
               <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">
                 {openId ? 'To ' + (previewLead.email || '') : 'Sample, rendered against ' + (previewLead.organization || previewLead.name || 'a lead')}
@@ -676,7 +676,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
                 className="w-full mt-1 px-2 py-1.5 rounded-lg border border-gray-200 text-sm font-semibold"
               />
             </div>
-            <div className="px-5 py-4 text-sm" dangerouslySetInnerHTML={{ __html: preview.html }} />
+            <div className="px-6 py-5 text-sm" dangerouslySetInnerHTML={{ __html: preview.html }} />
             <div className="px-5 py-4 border-t border-gray-100 flex justify-end gap-2">
               <button onClick={() => setPreview(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">Cancel</button>
               {openId && (
