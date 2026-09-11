@@ -268,15 +268,6 @@ export default function DemoPortal({ token }: { token: string | null }) {
   const overdue = (l: Lead) =>
     !!l.nextFollowUpAt && new Date(l.nextFollowUpAt).getTime() < Date.now() && l.stage !== 'Won' && l.stage !== 'Not now';
 
-  const kpiCards = useMemo(() => ([
-    { label: 'New', value: Number(kpi.newCount || 0), tone: 'text-red' },
-    { label: 'Open', value: Number(kpi.openCount || 0), tone: 'text-navy' },
-    { label: 'Overdue', value: Number(kpi.overdueCount || 0), tone: Number(kpi.overdueCount || 0) > 0 ? 'text-red' : 'text-gray-400' },
-    { label: 'Won', value: Number(kpi.wonCount || 0), tone: 'text-emerald-600' },
-    { label: 'Lost', value: Number(kpi.lostCount || 0), tone: 'text-gray-400' },
-    { label: 'Open value', value: money(kpi.openValueCents), tone: 'text-navy' },
-  ]), [kpi]);
-
   const current = detail?.lead || leads.find((l) => l.id === openId) || null;
 
   // Which of the sequence this lead has already had, read off their own
@@ -310,14 +301,6 @@ export default function DemoPortal({ token }: { token: string | null }) {
       {error && <div className="mb-3 px-3 py-2 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-semibold">{error}</div>}
 
 
-      <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 mb-4">
-        {kpiCards.map((c) => (
-          <div key={c.label} className="border border-gray-200 rounded-xl px-3 py-2 bg-white">
-            <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">{c.label}</div>
-            <div className={`text-xl font-black ${c.tone}`}>{c.value}</div>
-          </div>
-        ))}
-      </div>
 
       <div className="flex flex-wrap gap-2 mb-3">
         <button

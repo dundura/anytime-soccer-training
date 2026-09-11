@@ -55,6 +55,7 @@ const GROUPS = [
     rows: [
       { key: 'referrals', label: 'Referrals', icon: '🎁' },
       { key: 'podcast', label: 'Podcast guests', icon: '🎙️' },
+      { key: 'intl', label: 'International posts', icon: '🌍' },
       { key: 'partners', label: 'Partners', icon: '🤝' },
     ],
   },
@@ -257,6 +258,7 @@ export default function Console() {
             {view === 'crm' && <CrmAdmin token={token} />}
             {view === 'cold' && <ColdWorkflow token={token} />}
             {view === 'podcast' && <ColdWorkflow token={token} group="Podcast" noun="guest" />}
+            {view === 'intl' && <ColdWorkflow token={token} group="International" noun="requester" />}
             {view === 'roster' && <RosterRequests token={token} />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
             {view === 'demos' && <DemoPortal token={token} />}
