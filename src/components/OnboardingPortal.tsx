@@ -47,7 +47,6 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my team(s) inside the app'] } },
   { key: 'seasons', title: 'Adding and removing players each season', dataIndex: 26, section: 'Onboarding', info: true, ack: { label: 'I understand' } },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
-  { key: 'faq_low_usage', title: 'Participation is lower than expected - what can I do?', dataIndex: -1, faqIndex: 24, section: 'FAQs', tip: true, quiz: { prompt: 'Confirm before continuing:', options: ['I understand the highest engagement comes when coaches and parents set goals and stay actively involved'] } },
   { key: 'commit_contest', title: '1. Start a team contest', dataIndex: -1, faqIndex: 25, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to start a team contest.', options: ['Yes', 'No'] } },
   { key: 'commit_goals', title: '2. Set personal player challenges', dataIndex: -1, faqIndex: 26, section: 'FAQs', tip: true, quiz: { prompt: 'I plan set personal challenges.', options: ['Yes', 'No'] } },
   { key: 'commit_demo', title: '3. Show the app at training', dataIndex: -1, faqIndex: 27, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to discuss the app at training.', options: ['Yes', 'No'] } },
@@ -134,7 +133,7 @@ const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean }[] 
   { title: 'Pay your invoice', keys: ['invoice'] },
   { title: 'Set your team up', keys: ['onboarding_begins', 'expectations', 'survey', 'account', 'add_profiles', 'team', 'seasons'] },
   { title: 'Tell the parents', keys: ['intro_email'] },
-  { title: 'Get them training', keys: ['faq_low_usage', 'commit_contest', 'commit_goals', 'commit_demo'] },
+  { title: 'Get them training', keys: ['commit_contest', 'commit_goals', 'commit_demo'] },
   { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
   // Reading, not steps. Nothing waits on these and nothing is locked behind
   // them, so they sit at the bottom out of the run.
