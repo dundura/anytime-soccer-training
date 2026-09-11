@@ -17,6 +17,20 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const API = 'https://api.anytime-soccer.com';
 
+// The sequence, grouped by the stage each email belongs to. Seventeen in one
+// list is a wall, and the job is always one stage at a time. The promo and
+// chase emails answer to no stage, which is the point of them -- they sit at
+// the end under a heading that says so.
+const ANY_STAGE = 'Any time';
+const SEQUENCE_GROUPS = [
+  { stage: 'New', blurb: 'The request just came in' },
+  { stage: 'Contacted', blurb: 'Talking, no demo booked yet' },
+  { stage: 'Demo booked', blurb: 'A date is in the diary' },
+  { stage: 'Trial', blurb: 'The demo happened' },
+  { stage: 'Won', blurb: 'They are in' },
+  { stage: ANY_STAGE, blurb: 'Offers and nudges, whenever they fit' },
+] as const;
+
 type Stage = 'New' | 'Contacted' | 'Demo booked' | 'Trial' | 'Won' | 'Not now';
 
 type Lead = {
@@ -109,6 +123,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
   const [scheduleAt, setScheduleAt] = useState('');
   const [preview, setPreview] = useState<{ key: string; subject: string; html: string } | null>(null);
   const [showSequence, setShowSequence] = useState(false);
+  const [openStage, setOpenStage] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [newLead, setNewLead] = useState({ name: '', email: '', phone: '', organization: '', location: '', playerCount: '' });
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
@@ -394,32 +409,51 @@ export default function DemoPortal({ token }: { token: string | null }) {
           <span className="text-gray-400 text-xs">{showSequence ? '▴' : '▾'}</span>
         </button>
         {showSequence && (
-          <div className="border-t border-gray-100 divide-y divide-gray-100">
-            {templates.map((t) => (
-              <div key={t.key} className="flex gap-3 px-4 py-3">
-                <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{t.step}</span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-sm font-bold text-navy">{t.label}</span>
-                    {t.stage && <span className="px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[10px] font-bold">{t.stage}</span>}
-                    {t.auto
-                      ? <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
-                      : <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">You send it</span>}
-                  </div>
-                  {t.when && <div className="text-[11px] text-gray-500 mt-0.5">{t.when}</div>}
+          <div className="border-t border-gray-100">
+            {SEQUENCE_GROUPS.map((g) => {
+              const inGroup = templates.filter((t) => (t.stage || ANY_STAGE) === g.stage);
+              if (!inGroup.length) return null;
+              const isOpen = openStage === g.stage;
+              return (
+                <div key={g.stage} className="border-b border-gray-100 last:border-0">
+                  <button
+                    type="button"
+                    onClick={() => setOpenStage(isOpen ? null : g.stage)}
+                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left hover:bg-gray-50"
+                  >
+                    <span className="text-[11px] text-gray-400">{isOpen ? '▾' : '▸'}</span>
+                    <span className="text-sm font-extrabold text-navy">{g.stage}</span>
+                    <span className="text-[11px] font-bold text-gray-400">{inGroup.length}</span>
+                    <span className="ml-2 text-[11px] text-gray-400 font-normal truncate">{g.blurb}</span>
+                  </button>
+                  {isOpen && (
+                    <div className="border-t border-gray-100 divide-y divide-gray-100">
+                      {inGroup.map((t) => (
+                        <div key={t.key} className="flex gap-3 px-4 py-3">
+                          <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{t.step}</span>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="text-sm font-bold text-navy">{t.label}</span>
+                              {t.auto
+                                ? <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
+                                : <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">You send it</span>}
+                            </div>
+                            {t.when && <div className="text-[11px] text-gray-500 mt-0.5">{t.when}</div>}
+                          </div>
+                          <button
+                            onClick={() => previewSequence(t.key)}
+                            disabled={!!busy}
+                            className="shrink-0 self-start px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 disabled:opacity-50"
+                          >
+                            {busy === 'preview:' + t.key ? '…' : 'Preview'}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
-                <button
-                  onClick={() => previewSequence(t.key)}
-                  disabled={!!busy}
-                  className="shrink-0 self-start px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 disabled:opacity-50"
-                >
-                  {busy === 'preview:' + t.key ? '…' : 'Preview'}
-                </button>
-              </div>
-            ))}
-            <div className="px-4 py-3 bg-gray-50 text-[11px] text-gray-500">
-              Only the first is automatic. The rest are yours to send from a lead, and nothing goes out until you have seen the preview.
-            </div>
+              );
+            })}
           </div>
         )}
       </div>
