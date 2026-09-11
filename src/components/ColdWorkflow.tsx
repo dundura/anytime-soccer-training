@@ -666,9 +666,6 @@ export default function ColdWorkflow({
                     onBlur={(e) => e.target.value.trim() !== (l.email || '') && patchLead(l.id, 'email', e.target.value)}
                     className={`${editable} text-gray-600 w-56`}
                   />
-                  <span className="text-xs text-gray-400 whitespace-nowrap">
-                    {(l.signedUpAt || '').slice(0, 10)} · {l.sentCount ?? 0} sent
-                  </span>
                   {onPills(l)}
                   {recommendPill(l)}
                   {notesButton(l)}
