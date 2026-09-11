@@ -157,13 +157,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
   },
   {
-    // No download button. Pressing Next emails the coach the template instead
-    // -- same reasoning as the roster, which stopped being a download because a
-    // download leaves no record on either side that they ever had the file.
+    // An email, not a download: a download leaves no record on either side that
+    // they ever had the file -- same reasoning as the roster. The send has its
+    // own button on this step, so it is an action a coach takes rather than
+    // something that happens to them for pressing Next.
     title: 'Notify Parents',
     body: `
-      <p>Press <strong>Next</strong> and we&rsquo;ll email you the welcome note to send your parents &mdash; in <strong>English and Spanish</strong>, as Word files you can edit before sending.</p>
-      <p>Megan is copied, so she knows your parents are about to hear from you.</p>
+      <p>Send yourself the welcome note to pass on to your parents &mdash; in <strong>English and Spanish</strong>, as Word files you can edit before sending.</p>
     `,
   },
   {

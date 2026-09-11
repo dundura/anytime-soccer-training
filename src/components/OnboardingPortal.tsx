@@ -303,6 +303,8 @@ export default function OnboardingPortal() {
   const [questionSent, setQuestionSent] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [missingSent, setMissingSent] = useState(false);
+  const [parentSending, setParentSending] = useState(false);
+  const [parentSent, setParentSent] = useState(false);
   const [showIndexInfo, setShowIndexInfo] = useState(false);
   // Which workflow heading is open. One at a time, and none to start with:
   // six open headings is the wall this page was built to replace.
@@ -669,12 +671,23 @@ export default function OnboardingPortal() {
    */
   const sendParentTemplate = async () => {
     if (!token) return;
+    setParentSending(true);
     try {
-      await fetch(`${API}/portal-onboarding/parent-template`, {
+      const res = await fetch(`${API}/portal-onboarding/parent-template`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: token },
       });
-    } catch { /* ticking the step does not wait on the mail */ }
+      if (!res.ok) throw new Error();
+      setParentSent(true);
+      setError('');
+    } catch {
+      // Only the explicit button surfaces a failure. Next still ticks the step
+      // either way: a coach who has read the page has done their part, and the
+      // bcc is how we notice the mail did not go.
+      setError('Could not send the letters. Please try again.');
+    } finally {
+      setParentSending(false);
+    }
   };
 
   const emailMissing = async () => {
@@ -1682,6 +1695,26 @@ export default function OnboardingPortal() {
                     Not on the roster step: that step is a form with its own
                     submit, and Back / Skip / Next either walk away from a
                     half-filled form or offer a second way to leave it. */}
+                {/* The send is its own button rather than a side effect of
+                    Next. Pressing Next to make an email happen is not a thing
+                    anyone expects, and a coach who wants a second copy had no
+                    way to ask for one. */}
+                {step.key === 'intro_email' && (
+                  <div className="flex flex-col items-center gap-2 mt-6">
+                    <button
+                      onClick={sendParentTemplate}
+                      disabled={parentSending}
+                      className="w-full sm:w-auto bg-navy hover:bg-navy-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
+                    >
+                      {parentSending ? 'Sending…' : parentSent ? 'Send them again' : 'Send me the letters'}
+                    </button>
+                    {parentSent && (
+                      <p className="text-sm font-bold text-green-600">
+                        Sent &mdash; English and Spanish Word files are in your inbox.
+                      </p>
+                    )}
+                  </div>
+                )}
                 {step.key === 'roster' && (
                   <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-6">
                     <button
@@ -1791,7 +1824,7 @@ export default function OnboardingPortal() {
                     <button
                       onClick={async () => {
                         if (stepDone) { if (wizardIndex < STEPS.length - 1) { setWizardIndex(wizardIndex + 1); setError(''); } return; }
-                        if (step.key === 'intro_email') await sendParentTemplate();
+                        if (step.key === 'intro_email' && !parentSent) await sendParentTemplate();
                         setStep(step.key, true, true, undefined, true, step.key === 'intro_email' ? 'sent the parent welcome template' : step.ack ? `acknowledged: ${step.ack.label}` : undefined);
                       }}
                       disabled={saving || (!stepDone && ((!!step.ack && !ackChecked) || recapUnmet))}
