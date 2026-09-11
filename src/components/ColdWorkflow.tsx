@@ -83,7 +83,6 @@ export default function ColdWorkflow({
   const [showEmails, setShowEmails] = useState(false);
   const [openSendGroup, setOpenSendGroup] = useState<string | null>(null);
   const [preview, setPreview] = useState<{ subject: string; html: string; emailKey?: string; lead?: Lead } | null>(null);
-  const [showAdded, setShowAdded] = useState(false);
   const [chosen, setChosen] = useState<Set<number>>(new Set());
   const [confirming, setConfirming] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -636,14 +635,9 @@ export default function ColdWorkflow({
           </div>
           <p className="text-[11px] text-gray-500 mb-6">Added to the list, not sent to. Tick them above when ready.</p>
 
-          {/* Already gone ---------------------------------------------- */}
-          <button
-            onClick={() => setShowAdded((v) => !v)}
-            className="text-[11px] font-bold uppercase tracking-wide text-red hover:underline"
-          >
-            {showAdded ? '▾' : '▸'} Already sent ({added.length})
-          </button>
-          {showAdded && (
+          {/* Already gone. Not folded away: these are the people you open to
+              send the rest of the sequence to, which is most of the work. */}
+          {added.length > 0 && (
             <div className="border border-gray-200 rounded-lg mt-2 divide-y divide-gray-100">
               {added.map((l) => (
                 <div key={l.id} className="flex flex-wrap items-center gap-2 px-3 py-2 text-sm">
