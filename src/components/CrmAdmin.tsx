@@ -1079,128 +1079,22 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
         </div>
       )}
 
-                {/* The sequence, laid out the way the demo board lays its own
-                    out. The per-row list further down is for sending; this is
-                    for reading -- what exists, in what order, who it comes
-                    from, and which two send themselves. */}
-                {isAdmin && indexFilter === 'crm' && emailSequence.length > 0 && (
-                  <div className="border border-gray-200 rounded-xl bg-white mb-4 overflow-hidden">
-                    <button
-                      onClick={() => setShowSequence(v => !v)}
-                      className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50"
-                    >
-                      <span className="text-xs font-bold uppercase tracking-wide text-navy">
-                        &#9993;&#65039; The email sequence{' '}
-                        <span className="text-gray-400 font-semibold normal-case tracking-normal">({emailSequence.length} emails)</span>
-                      </span>
-                      <span className="text-gray-400 text-xs">{showSequence ? '▴' : '▾'}</span>
-                    </button>
-                    {showSequence && (
-                      <div className="border-t border-gray-100">
-                        {/* Grouped by stage, collapsed by default. Thirty-one
-                            emails in one list is a wall, and the job is always
-                            one stage at a time -- so that is what opens. A
-                            hidden email still exists and still sends; it is
-                            only out of the way while a stage is worked. */}
-                        {STAGE_ORDER.map(stage => {
-                          const inStage = emailSequence.filter(e => (e.stage || 'Other') === stage && !e.hidden);
-                          if (!inStage.length) return null;
-                          const isOpen = openStage === stage;
-                          return (
-                            <div key={stage} className="border-b border-gray-100 last:border-0">
-                              <button
-                                type="button"
-                                onClick={() => setOpenStage(isOpen ? null : stage)}
-                                className="flex w-full items-center gap-2 px-4 py-2.5 text-left hover:bg-gray-50"
-                              >
-                                <span className="text-[11px] text-gray-400">{isOpen ? '▾' : '▸'}</span>
-                                <span className="text-sm font-extrabold text-navy">{stage}</span>
-                                <span className="text-[11px] font-bold text-gray-400">{inStage.length}</span>
-                              </button>
-                              {isOpen && (
-                                <div className="border-t border-gray-100 divide-y divide-gray-100">
-                                  {inStage.map(e => (
-                                    <div key={e.key} className="flex gap-3 px-4 py-3">
-                                      <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{displayNumber[e.key] ?? e.n}</span>
-                                      <div className="min-w-0 flex-1">
-                                        <div className="flex flex-wrap items-center gap-2">
-                                          <span className="text-sm font-bold text-navy">{e.subject}</span>
-                                          {e.from && <span className="px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[10px] font-bold">{e.from}</span>}
-                                          {e.auto
-                                            ? <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
-                                            : <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">You send it</span>}
-                                        </div>
-                                      </div>
-                                      <div className="shrink-0 self-start flex gap-1.5">
-                                        <button
-                                          onClick={() => previewSequence(e.key, e.subject)}
-                                          disabled={!!crmSendingKey}
-                                          className="px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 disabled:opacity-50"
-                                        >
-                                          Preview
-                                        </button>
-                                        <button
-                                          onClick={() => sendSample(e.key, e.subject)}
-                                          disabled={!!crmSendingKey}
-                                          title="Send this one to your own inbox"
-                                          className="px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold hover:opacity-90 disabled:opacity-50"
-                                        >
-                                          {crmSendingKey === 'sample:' + e.key ? 'Sending…' : 'Send sample'}
-                                        </button>
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          );
-                        })}
-                        <div className="px-4 py-3 bg-gray-50 text-[11px] text-gray-500">
-                          The automatic ones send themselves. The rest are yours to send from a coach&rsquo;s row, and nothing goes out until you have seen the preview.
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
 
-                {isAdmin && indexFilter === 'crm' && (
-                  <div className="mb-4 flex flex-wrap items-center gap-3">
-                    <button
-                      onClick={() => { setCrmAddOpen(true); setCrmAddResult(''); }}
-                      className="rounded-xl bg-navy px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-navy-light"
-                    >
-                      + Add record
-                    </button>
-                    {crmAddResult && <p className="text-sm font-semibold text-green-700">&#10003; {crmAddResult}</p>}
-                  </div>
-                )}
-
-                {isAdmin && indexFilter === 'crm' && (
-                  <p className="text-xs text-gray-500 mb-4 px-1">
-                    {crmCoaches.length} on the portal{typeof crmStageView === 'number' ? `, ${crmCoaches.filter(c => c.stageId === crmStageView).length} in this stage` : crmStageView === 'unstaged' ? `, ${crmCoaches.filter(c => !c.stageId).length} still to stage` : ''}. Every text cell saves when you click away; status, stage and order save as soon as you change them.
-                    Deleting removes the portal account &mdash; an unclaimed one stops being chased by the reminder emails, and a claimed one can sign up again on the same address.
-                  </p>
-                )}
+      {isAdmin && indexFilter === 'crm' && !stageName && (
+        <h2 className="text-xl font-extrabold text-navy mb-3">Client CRM</h2>
+      )}
 
       <div className="border border-gray-200 rounded-xl overflow-hidden">
                   {isAdmin && indexFilter === 'crm' && (
                     <>
-                      <div className="flex flex-wrap items-center gap-2 px-4 py-2 bg-amber-50">
-                        <span className="text-[10px] font-extrabold uppercase tracking-wide text-amber-700">CRM</span>
-                        <span className="text-[10px] font-semibold text-amber-700/70">Admin only &middot; everyone on the portal</span>
-                        <input
-                          value={crmSearch}
-                          onChange={ev => setCrmSearch(ev.target.value)}
-                          placeholder="Filter by name, club or email"
-                          className="ml-auto w-full sm:w-64 border border-amber-200 rounded-lg px-3 py-1.5 text-xs text-navy placeholder:text-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-amber-300"
-                        />
-                      </div>
                       {/* One dropdown, not a row of pills. Pills grow with the
                           pipeline and push the search box off the line; a
                           select stays one control however many stages exist.
                           Remove acts on whatever is selected, so there is no
                           per-stage × cluttering the list either. */}
-                      <div className={`flex-wrap items-center gap-2 px-4 py-2 border-b border-gray-100 ${stageName ? 'hidden' : 'flex'}`}>
+                      <div className="flex flex-wrap items-center gap-2 px-4 py-2 border-b border-gray-100">
+                        {!stageName && (
+                          <>
                         <label className="text-[10px] font-extrabold uppercase tracking-wide text-gray-500">View</label>
                         <select
                           value={typeof crmStageView === 'number' ? String(crmStageView) : crmStageView}
@@ -1247,6 +1141,17 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                           )
                         )}
 
+                          </>
+                        )}
+
+                        <input
+                          value={crmSearch}
+                          onChange={ev => setCrmSearch(ev.target.value)}
+                          placeholder="Filter by name, club or email"
+                          className="w-full sm:w-56 border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-navy placeholder:text-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-amber-300"
+                        />
+
+                        {!stageName && (
                         <span className="inline-flex items-center gap-1 ml-auto">
                           <input
                             value={crmNewStage}
@@ -1263,6 +1168,7 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                             {crmAddingStage ? 'Adding\u2026' : '+ Add'}
                           </button>
                         </span>
+                        )}
                       </div>
                       {crmError && <p className="px-4 py-3 text-sm font-semibold text-red">{crmError}</p>}
                       {crmLoading && <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">Loading the coach list&hellip;</p>}
@@ -1475,6 +1381,102 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                     </>
                   )}
       </div>
+
+                {/* The sequence, laid out the way the demo board lays its own
+                    out. The per-row list further down is for sending; this is
+                    for reading -- what exists, in what order, who it comes
+                    from, and which two send themselves. */}
+                {isAdmin && indexFilter === 'crm' && emailSequence.length > 0 && (
+                  <div className="border border-gray-200 rounded-xl bg-white mt-4 overflow-hidden">
+                    <button
+                      onClick={() => setShowSequence(v => !v)}
+                      className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50"
+                    >
+                      <span className="text-xs font-bold uppercase tracking-wide text-navy">
+                        &#9993;&#65039; The email sequence{' '}
+                        <span className="text-gray-400 font-semibold normal-case tracking-normal">({emailSequence.length} emails)</span>
+                      </span>
+                      <span className="text-gray-400 text-xs">{showSequence ? '▴' : '▾'}</span>
+                    </button>
+                    {showSequence && (
+                      <div className="border-t border-gray-100">
+                        {/* Grouped by stage, collapsed by default. Thirty-one
+                            emails in one list is a wall, and the job is always
+                            one stage at a time -- so that is what opens. A
+                            hidden email still exists and still sends; it is
+                            only out of the way while a stage is worked. */}
+                        {STAGE_ORDER.map(stage => {
+                          const inStage = emailSequence.filter(e => (e.stage || 'Other') === stage && !e.hidden);
+                          if (!inStage.length) return null;
+                          const isOpen = openStage === stage;
+                          return (
+                            <div key={stage} className="border-b border-gray-100 last:border-0">
+                              <button
+                                type="button"
+                                onClick={() => setOpenStage(isOpen ? null : stage)}
+                                className="flex w-full items-center gap-2 px-4 py-2.5 text-left hover:bg-gray-50"
+                              >
+                                <span className="text-[11px] text-gray-400">{isOpen ? '▾' : '▸'}</span>
+                                <span className="text-sm font-extrabold text-navy">{stage}</span>
+                                <span className="text-[11px] font-bold text-gray-400">{inStage.length}</span>
+                              </button>
+                              {isOpen && (
+                                <div className="border-t border-gray-100 divide-y divide-gray-100">
+                                  {inStage.map(e => (
+                                    <div key={e.key} className="flex gap-3 px-4 py-3">
+                                      <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{displayNumber[e.key] ?? e.n}</span>
+                                      <div className="min-w-0 flex-1">
+                                        <div className="flex flex-wrap items-center gap-2">
+                                          <span className="text-sm font-bold text-navy">{e.subject}</span>
+                                          {e.from && <span className="px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[10px] font-bold">{e.from}</span>}
+                                          {e.auto
+                                            ? <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
+                                            : <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">You send it</span>}
+                                        </div>
+                                      </div>
+                                      <div className="shrink-0 self-start flex gap-1.5">
+                                        <button
+                                          onClick={() => previewSequence(e.key, e.subject)}
+                                          disabled={!!crmSendingKey}
+                                          className="px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 disabled:opacity-50"
+                                        >
+                                          Preview
+                                        </button>
+                                        <button
+                                          onClick={() => sendSample(e.key, e.subject)}
+                                          disabled={!!crmSendingKey}
+                                          title="Send this one to your own inbox"
+                                          className="px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold hover:opacity-90 disabled:opacity-50"
+                                        >
+                                          {crmSendingKey === 'sample:' + e.key ? 'Sending…' : 'Send sample'}
+                                        </button>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                        <div className="px-4 py-3 bg-gray-50 text-[11px] text-gray-500">
+                          The automatic ones send themselves. The rest are yours to send from a coach&rsquo;s row, and nothing goes out until you have seen the preview.
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {isAdmin && indexFilter === 'crm' && (
+                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                    <button
+                      onClick={() => { setCrmAddOpen(true); setCrmAddResult(''); }}
+                      className="rounded-xl bg-navy px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-navy-light"
+                    >
+                      + Add record
+                    </button>
+                    {crmAddResult && <p className="text-sm font-semibold text-green-700">&#10003; {crmAddResult}</p>}
+                  </div>
+                )}
     </div>
   );
 }

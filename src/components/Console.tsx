@@ -37,24 +37,37 @@ const ADMIN_KEY = 'astPortalAdminToken';
 // The work first, the scratchpad and the vault last: they are things you reach
 // for occasionally, not the reason the console is open.
 const VIEWS = [
+  // Grouped the way the work runs, not alphabetically: somebody arrives from
+  // somewhere, gets sold to, gets set up, and every stage of that sits on top
+  // of the email machinery. A flat list of thirteen made you remember which
+  // one you wanted before you could find it.
+  { group: 'Clients & Prospects' },
+  { key: 'referrals', label: 'Referrals', icon: '🎁' },
+  { key: 'podcast', label: 'Podcast guests', icon: '🎙️' },
+
+  { group: 'Turning them into teams' },
+  { key: 'cold', label: 'Cold', icon: '🧊' },
+  { key: 'demos', label: 'Coach Demos', icon: '🎬' },
+  { key: 'crm', label: 'Client CRM', icon: '📇' },
+  { key: 'partners', label: 'Partners', icon: '🤝' },
+
+  { group: 'Getting them started' },
+  { key: 'roster', label: 'Roster requests', icon: '📋' },
+  { key: 'parent-onboarding', label: 'Parent onboarding', icon: '👪' },
+
+  { group: 'What we send' },
   { key: 'newsletters', label: 'Newsletters', icon: '✉' },
   { key: 'triggered', label: 'Triggered', icon: '⚡' },
   { key: 'people', label: 'People', icon: '🧑' },
-  { key: 'crm', label: 'CRM', icon: '📇' },
-  { key: 'cold', label: 'Cold', icon: '🧊' },
-  { key: 'podcast', label: 'Podcast guests', icon: '🎙️' },
-  { key: 'roster', label: 'Roster requests', icon: '📋' },
-  { key: 'parent-onboarding', label: 'Parent onboarding', icon: '👪' },
-  { key: 'demos', label: 'Demos', icon: '🎬' },
-  // Coaches our own players introduced us to. Beside Demos because that is
-  // where most of them are headed.
-  { key: 'referrals', label: 'Referrals', icon: '🎁' },
-  { key: 'partners', label: 'Partners', icon: '🤝' },
+
+  { group: 'Admin' },
   { key: 'notes', label: 'Notes', icon: '📝' },
   { key: 'logins', label: 'Key logins', icon: '🔑' },
 ] as const;
 
-type ViewKey = (typeof VIEWS)[number]['key'];
+// The headings carry no key, so the view type is only the rows you can open.
+type ViewRow = Extract<(typeof VIEWS)[number], { key: string }>;
+type ViewKey = ViewRow['key'];
 
 export default function Console() {
   const [ready, setReady] = useState(false);
@@ -74,7 +87,7 @@ export default function Console() {
     const admin = localStorage.getItem(ADMIN_KEY);
     if (stored && admin) setToken(stored);
     const wanted = new URLSearchParams(window.location.search).get('view');
-    if (wanted && VIEWS.some((v) => v.key === wanted)) setView(wanted as ViewKey);
+    if (wanted && VIEWS.some((v) => 'key' in v && v.key === wanted)) setView(wanted as ViewKey);
     setReady(true);
   }, []);
 
@@ -176,18 +189,29 @@ export default function Console() {
         <div className="flex flex-col md:flex-row gap-4">
           <nav className="md:w-56 flex-shrink-0">
             <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden">
-              {VIEWS.map((v) => (
-                <button
-                  key={v.key}
-                  onClick={() => go(v.key)}
-                  className={`w-full text-left px-4 py-3 text-sm font-semibold flex items-center gap-3 transition-colors ${
-                    view === v.key ? 'bg-navy text-white' : 'text-navy hover:bg-gray-50'
-                  }`}
-                >
-                  <span className="w-5 text-center">{v.icon}</span>
-                  {v.label}
-                </button>
-              ))}
+              {VIEWS.map((v, i) =>
+                'group' in v ? (
+                  <div
+                    key={v.group}
+                    className={`px-4 pt-4 pb-1 text-[10px] font-extrabold uppercase tracking-[0.12em] text-gray-400 ${
+                      i === 0 ? '' : 'border-t border-gray-100 mt-1'
+                    }`}
+                  >
+                    {v.group}
+                  </div>
+                ) : (
+                  <button
+                    key={v.key}
+                    onClick={() => go(v.key)}
+                    className={`w-full text-left px-4 py-2.5 text-sm font-semibold flex items-center gap-3 transition-colors ${
+                      view === v.key ? 'bg-navy text-white' : 'text-navy hover:bg-gray-50'
+                    }`}
+                  >
+                    <span className="w-5 text-center">{v.icon}</span>
+                    {v.label}
+                  </button>
+                )
+              )}
               {/* Until the CRM and the notification list are pulled out of the
                   portal, this is where they still live. */}
               <a

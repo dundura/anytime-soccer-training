@@ -460,7 +460,10 @@ export default function OnboardingPortal() {
       headers: { Authorization: token, 'X-Admin-Token': localStorage.getItem('astPortalAdminToken') || '' },
     })
       .then(r => (r.ok ? r.json() : null))
-      .then(d => { if (d?.notifications) setEmailSequence(d.notifications); })
+      // The portal-account reminder is off: its cron is commented out in
+      // server.js, so listing it here offers a send for a sequence we have
+      // discontinued. The template stays behind it, unsent.
+      .then(d => { if (d?.notifications) setEmailSequence(d.notifications.filter((n: Notification) => n.key !== 'reminder')); })
       .catch(() => {});
   }, [isAdmin, token]);
 
