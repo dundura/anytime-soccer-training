@@ -6,6 +6,7 @@ import ConsoleLogins from './ConsoleLogins';
 import ConsoleNotes from './ConsoleNotes';
 import CrmAdmin from './CrmAdmin';
 import DemoPortal from './DemoPortal';
+import Referrals from './Referrals';
 import Newsletters from './Newsletters';
 import TriggeredEmails from './TriggeredEmails';
 import NewsletterPeople from './NewsletterPeople';
@@ -45,6 +46,9 @@ const VIEWS = [
   { key: 'roster', label: 'Roster requests', icon: '📋' },
   { key: 'parent-onboarding', label: 'Parent onboarding', icon: '👪' },
   { key: 'demos', label: 'Demos', icon: '🎬' },
+  // Coaches our own players introduced us to. Beside Demos because that is
+  // where most of them are headed.
+  { key: 'referrals', label: 'Referrals', icon: '🎁' },
   { key: 'partners', label: 'Partners', icon: '🤝' },
   { key: 'notes', label: 'Notes', icon: '📝' },
   { key: 'logins', label: 'Key logins', icon: '🔑' },
@@ -207,6 +211,7 @@ export default function Console() {
             {view === 'roster' && <RosterRequests token={token} />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
             {view === 'demos' && <DemoPortal token={token} />}
+            {view === 'referrals' && <Referrals token={token} />}
             {view === 'partners' && <PartnerAdmin token={token} />}
           </div>
         </div>
