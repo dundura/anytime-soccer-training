@@ -36,43 +36,65 @@ const ADMIN_KEY = 'astPortalAdminToken';
 
 // The work first, the scratchpad and the vault last: they are things you reach
 // for occasionally, not the reason the console is open.
-const VIEWS = [
-  // Grouped the way the work runs, not alphabetically: somebody arrives from
-  // somewhere, gets sold to, gets set up, and every stage of that sits on top
-  // of the email machinery. A flat list of thirteen made you remember which
-  // one you wanted before you could find it.
-  { group: 'Clients & Prospects' },
-  { key: 'referrals', label: 'Referrals', icon: '🎁' },
-  { key: 'podcast', label: 'Podcast guests', icon: '🎙️' },
-
-  { group: 'Turning them into teams' },
-  { key: 'cold', label: 'Cold', icon: '🧊' },
-  { key: 'demos', label: 'Coach Demos', icon: '🎬' },
-  { key: 'crm', label: 'Client CRM', icon: '📇' },
-  { key: 'partners', label: 'Partners', icon: '🤝' },
-
-  { group: 'Getting them started' },
-  { key: 'roster', label: 'Roster requests', icon: '📋' },
-  { key: 'parent-onboarding', label: 'Parent onboarding', icon: '👪' },
-
-  { group: 'What we send' },
-  { key: 'newsletters', label: 'Newsletters', icon: '✉' },
-  { key: 'triggered', label: 'Triggered', icon: '⚡' },
-  { key: 'people', label: 'People', icon: '🧑' },
-
-  { group: 'Admin' },
-  { key: 'notes', label: 'Notes', icon: '📝' },
-  { key: 'logins', label: 'Key logins', icon: '🔑' },
+const GROUPS = [
+  // Grouped the way the work runs, not alphabetically: a flat list of thirteen
+  // made you remember which one you wanted before you could find it. The
+  // pipeline is on top and open, because it is why the console is open; the
+  // rest are folded away until you go looking for them.
+  {
+    group: 'Turning them into teams',
+    rows: [
+      { key: 'demos', label: 'Coach Demos', icon: '🎬' },
+      { key: 'crm', label: 'Client CRM', icon: '📇' },
+      { key: 'roster', label: 'Roster requests', icon: '📋' },
+      { key: 'cold', label: 'Cold', icon: '🧊' },
+    ],
+  },
+  {
+    group: 'Outreach',
+    rows: [
+      { key: 'referrals', label: 'Referrals', icon: '🎁' },
+      { key: 'podcast', label: 'Podcast guests', icon: '🎙️' },
+      { key: 'partners', label: 'Partners', icon: '🤝' },
+    ],
+  },
+  {
+    group: 'Getting them started',
+    rows: [{ key: 'parent-onboarding', label: 'Parent onboarding', icon: '👪' }],
+  },
+  {
+    group: 'What we send',
+    rows: [
+      { key: 'newsletters', label: 'Newsletters', icon: '✉' },
+      { key: 'triggered', label: 'Triggered', icon: '⚡' },
+      { key: 'people', label: 'People', icon: '🧑' },
+    ],
+  },
+  {
+    group: 'Admin',
+    rows: [
+      { key: 'notes', label: 'Notes', icon: '📝' },
+      { key: 'logins', label: 'Key logins', icon: '🔑' },
+    ],
+  },
 ] as const;
 
+// The one that starts open. Everything else is a click away.
+const OPEN_BY_DEFAULT = 'Turning them into teams';
+
 // The headings carry no key, so the view type is only the rows you can open.
-type ViewRow = Extract<(typeof VIEWS)[number], { key: string }>;
-type ViewKey = ViewRow['key'];
+type ViewKey = (typeof GROUPS)[number]['rows'][number]['key'];
+
+// Which heading a view sits under -- so a ?view= link opens its group rather
+// than landing on a panel whose row is folded out of sight.
+const groupOf = (key: string) =>
+  GROUPS.find((g) => g.rows.some((r) => r.key === key))?.group || OPEN_BY_DEFAULT;
 
 export default function Console() {
   const [ready, setReady] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const [view, setView] = useState<ViewKey>('newsletters');
+  const [openGroups, setOpenGroups] = useState<string[]>([OPEN_BY_DEFAULT, groupOf('newsletters')]);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -87,7 +109,10 @@ export default function Console() {
     const admin = localStorage.getItem(ADMIN_KEY);
     if (stored && admin) setToken(stored);
     const wanted = new URLSearchParams(window.location.search).get('view');
-    if (wanted && VIEWS.some((v) => 'key' in v && v.key === wanted)) setView(wanted as ViewKey);
+    if (wanted && GROUPS.some((g) => g.rows.some((r) => r.key === wanted))) {
+      setView(wanted as ViewKey);
+      setOpenGroups((open) => (open.includes(groupOf(wanted)) ? open : [...open, groupOf(wanted)]));
+    }
     setReady(true);
   }, []);
 
@@ -189,37 +214,37 @@ export default function Console() {
         <div className="flex flex-col md:flex-row gap-4">
           <nav className="md:w-56 flex-shrink-0">
             <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] overflow-hidden">
-              {VIEWS.map((v, i) =>
-                'group' in v ? (
-                  <div
-                    key={v.group}
-                    className={`px-4 pt-4 pb-1 text-[10px] font-extrabold uppercase tracking-[0.12em] text-gray-400 ${
-                      i === 0 ? '' : 'border-t border-gray-100 mt-1'
-                    }`}
-                  >
-                    {v.group}
+              {GROUPS.map((g, i) => {
+                const open = openGroups.includes(g.group);
+                return (
+                  <div key={g.group} className={i === 0 ? '' : 'border-t border-gray-100'}>
+                    <button
+                      onClick={() =>
+                        setOpenGroups((list) =>
+                          list.includes(g.group) ? list.filter((n) => n !== g.group) : [...list, g.group]
+                        )
+                      }
+                      className="w-full flex items-center gap-2 px-4 pt-4 pb-2 text-left text-[10px] font-extrabold uppercase tracking-[0.12em] text-gray-400 hover:text-navy"
+                    >
+                      <span className="w-2 text-[8px] leading-none">{open ? '▼' : '▶'}</span>
+                      {g.group}
+                    </button>
+                    {open &&
+                      g.rows.map((v) => (
+                        <button
+                          key={v.key}
+                          onClick={() => go(v.key)}
+                          className={`w-full text-left px-4 py-2.5 text-sm font-semibold flex items-center gap-3 transition-colors ${
+                            view === v.key ? 'bg-navy text-white' : 'text-navy hover:bg-gray-50'
+                          }`}
+                        >
+                          <span className="w-5 text-center">{v.icon}</span>
+                          {v.label}
+                        </button>
+                      ))}
                   </div>
-                ) : (
-                  <button
-                    key={v.key}
-                    onClick={() => go(v.key)}
-                    className={`w-full text-left px-4 py-2.5 text-sm font-semibold flex items-center gap-3 transition-colors ${
-                      view === v.key ? 'bg-navy text-white' : 'text-navy hover:bg-gray-50'
-                    }`}
-                  >
-                    <span className="w-5 text-center">{v.icon}</span>
-                    {v.label}
-                  </button>
-                )
-              )}
-              {/* Until the CRM and the notification list are pulled out of the
-                  portal, this is where they still live. */}
-              <a
-                href="/onboarding-portal?view=notifications"
-                className="w-full text-left px-4 py-3 text-sm font-semibold text-navy hover:bg-gray-50 flex items-center gap-3 no-underline border-t border-gray-100"
-              >
-                <span className="w-5 text-center">🔔</span> Notifications
-              </a>
+                );
+              })}
             </div>
           </nav>
 
