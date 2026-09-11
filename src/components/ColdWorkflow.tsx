@@ -36,6 +36,17 @@ type Lead = {
 
 const blank = { name: '', club: '', email: '', website: '', notes: '' };
 
+// Manual-only emails carry an absurd delay so the automatic sender can never
+// reach them. Anything out past a year is one of those, and saying "after 3650
+// days" is the mechanism leaking onto the page.
+const MANUAL_AFTER_MINUTES = 525600;
+const isManual = (e: EmailRow) => e.delayMinutes >= MANUAL_AFTER_MINUTES;
+
+const SEND_GROUPS = [
+  { label: 'Automatic', manual: false, blurb: 'These send themselves' },
+  { label: 'You send it', manual: true, blurb: 'Picked by hand, one person at a time' },
+] as const;
+
 /** The delay as a person would say it. */
 function when(mins: number) {
   if (!mins) return 'straight away';
@@ -70,6 +81,7 @@ export default function ColdWorkflow({
   const [note, setNote] = useState('');
 
   const [showEmails, setShowEmails] = useState(false);
+  const [openSendGroup, setOpenSendGroup] = useState<string | null>(null);
   const [preview, setPreview] = useState<{ subject: string; html: string } | null>(null);
   const [showAdded, setShowAdded] = useState(false);
   const [chosen, setChosen] = useState<Set<number>>(new Set());
@@ -313,7 +325,6 @@ export default function ColdWorkflow({
     <div className="px-4 py-5 max-w-4xl">
       {/* Who am I writing to ------------------------------------------- */}
       <div className="flex flex-wrap items-center gap-2 mb-2">
-        <span className="text-sm font-bold text-navy">Writing to</span>
         <select
           value={sequence}
           onChange={(e) => {
@@ -331,30 +342,10 @@ export default function ColdWorkflow({
         </select>
       </div>
 
-      <p className="text-xs text-gray-500 mb-4">
-        {emails.length === 0 ? (
-          <span className="text-amber-700 font-semibold">No emails written yet — nobody will receive anything.</span>
-        ) : (
-          <>
-            {emails.length} email{emails.length === 1 ? '' : 's'}, first one {when(first?.delayMinutes ?? 0)}.{' '}
-            <button onClick={() => setShowEmails((v) => !v)} className="text-red font-bold hover:underline">
-              {showEmails ? 'hide' : 'see them'}
-            </button>
-          </>
-        )}
-      </p>
-
-      {showEmails && emails.length > 0 && (
-        <ol className="text-xs text-gray-600 border border-gray-200 rounded-lg px-5 py-3 mb-4 list-decimal space-y-1">
-          {emails.map((e) => (
-            <li key={e.emailKey}>
-              <button onClick={() => openPreview(e)} className="text-navy font-semibold hover:underline text-left">
-                {e.subject}
-              </button>{' '}
-              <span className="text-gray-400">— {when(e.delayMinutes)}</span>
-            </li>
-          ))}
-        </ol>
+      {emails.length === 0 && (
+        <p className="text-xs mb-4 text-amber-700 font-semibold">
+          No emails written yet — nobody will receive anything.
+        </p>
       )}
 
       <div className="flex border border-gray-200 rounded-lg overflow-hidden w-fit mb-4">
@@ -671,6 +662,80 @@ export default function ColdWorkflow({
             )}
           </div>
         </>
+      )}
+
+      {/* The sequence, laid out the way the demo board lays its own. Split by
+          whether it sends itself, because that is the only thing you need to
+          know before pressing anything: a manual one waits for you forever. */}
+      {emails.length > 0 && (
+        <div className="border border-gray-200 rounded-xl bg-white mt-6 overflow-hidden">
+          <button
+            onClick={() => setShowEmails((v) => !v)}
+            className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50"
+          >
+            <span className="text-xs font-bold uppercase tracking-wide text-navy">
+              &#9993;&#65039; The email sequence{' '}
+              <span className="text-gray-400 font-semibold normal-case tracking-normal">
+                ({emails.length} email{emails.length === 1 ? '' : 's'})
+              </span>
+            </span>
+            <span className="text-gray-400 text-xs">{showEmails ? '▴' : '▾'}</span>
+          </button>
+          {showEmails && (
+            <div className="border-t border-gray-100">
+              {SEND_GROUPS.map((g) => {
+                const inGroup = emails.filter((e) => isManual(e) === g.manual);
+                if (!inGroup.length) return null;
+                const isOpen = openSendGroup === g.label;
+                return (
+                  <div key={g.label} className="border-b border-gray-100 last:border-0">
+                    <button
+                      type="button"
+                      onClick={() => setOpenSendGroup(isOpen ? null : g.label)}
+                      className="flex w-full items-center gap-2 px-4 py-2.5 text-left hover:bg-gray-50"
+                    >
+                      <span className="text-[11px] text-gray-400">{isOpen ? '▾' : '▸'}</span>
+                      <span className="text-sm font-extrabold text-navy">{g.label}</span>
+                      <span className="text-[11px] font-bold text-gray-400">{inGroup.length}</span>
+                      <span className="ml-2 text-[11px] text-gray-400 font-normal truncate">{g.blurb}</span>
+                    </button>
+                    {isOpen && (
+                      <div className="border-t border-gray-100 divide-y divide-gray-100">
+                        {inGroup.map((e) => (
+                          <div key={e.emailKey} className="flex gap-3 px-4 py-3">
+                            <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">
+                              {e.position}
+                            </span>
+                            <div className="min-w-0 flex-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span className="text-sm font-bold text-navy">{e.subject}</span>
+                                {g.manual ? (
+                                  <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">
+                                    You send it
+                                  </span>
+                                ) : (
+                                  <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">
+                                    {when(e.delayMinutes)}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            <button
+                              onClick={() => openPreview(e)}
+                              className="shrink-0 self-start px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200"
+                            >
+                              Preview
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
