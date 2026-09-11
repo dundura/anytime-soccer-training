@@ -573,12 +573,13 @@ export default function ColdWorkflow({
                   onChange={() => toggle(l.id)}
                   className="flex-shrink-0"
                 />
-                <input
-                  defaultValue={l.name || ''}
-                  placeholder="Name"
-                  onBlur={(e) => e.target.value.trim() !== (l.name || '') && patchLead(l.id, 'name', e.target.value)}
-                  className={`${editable} font-semibold text-navy w-32`}
-                />
+                <button
+                  onClick={() => setEditing(l)}
+                  title="Open this contact"
+                  className="font-semibold text-navy w-32 shrink-0 text-left truncate hover:underline"
+                >
+                  {l.name || l.email || l.club || 'Contact'}
+                </button>
                 <input
                   defaultValue={l.club || ''}
                   placeholder="Club"
@@ -646,12 +647,13 @@ export default function ColdWorkflow({
             <div className="border border-gray-200 rounded-lg mt-2 divide-y divide-gray-100">
               {added.map((l) => (
                 <div key={l.id} className="flex flex-wrap items-center gap-2 px-3 py-2 text-sm">
-                  <input
-                    defaultValue={l.name || ''}
-                    placeholder="Name"
-                    onBlur={(e) => e.target.value.trim() !== (l.name || '') && patchLead(l.id, 'name', e.target.value)}
-                    className={`${editable} font-semibold text-navy w-32`}
-                  />
+                  <button
+                    onClick={() => setEditing(l)}
+                    title="Open this contact"
+                    className="font-semibold text-navy w-32 shrink-0 text-left truncate hover:underline"
+                  >
+                    {l.name || l.email || l.club || 'Contact'}
+                  </button>
                   <input
                     defaultValue={l.club || ''}
                     placeholder="Club"
@@ -688,12 +690,13 @@ export default function ColdWorkflow({
           <div className="border border-gray-200 rounded-lg divide-y divide-gray-100">
             {blocked.map((l) => (
               <div key={l.id} className="flex flex-wrap items-center gap-3 px-3 py-2 text-sm">
-                <input
-                  defaultValue={l.name || ''}
-                  placeholder="Name"
-                  onBlur={(e) => e.target.value.trim() !== (l.name || '') && patchLead(l.id, 'name', e.target.value)}
-                  className={`${editable} font-semibold text-navy w-32`}
-                />
+                <button
+                  onClick={() => setEditing(l)}
+                  title="Open this contact"
+                  className="font-semibold text-navy w-32 shrink-0 text-left truncate hover:underline"
+                >
+                  {l.name || l.email || l.club || 'Contact'}
+                </button>
                 <input
                   defaultValue={l.club || ''}
                   placeholder="Club"
