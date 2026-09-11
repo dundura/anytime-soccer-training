@@ -82,7 +82,7 @@ export default function ColdWorkflow({
 
   const [showEmails, setShowEmails] = useState(false);
   const [openSendGroup, setOpenSendGroup] = useState<string | null>(null);
-  const [preview, setPreview] = useState<{ subject: string; html: string } | null>(null);
+  const [preview, setPreview] = useState<{ subject: string; html: string; emailKey?: string; lead?: Lead } | null>(null);
   const [showAdded, setShowAdded] = useState(false);
   const [chosen, setChosen] = useState<Set<number>>(new Set());
   const [confirming, setConfirming] = useState(false);
@@ -200,16 +200,42 @@ export default function ColdWorkflow({
     }
   };
 
-  const openPreview = async (row: EmailRow) => {
-    setPreview({ subject: row.subject, html: '' });
+  // `lead` is what turns a preview into something that can be sent. Opened from
+  // the sequence panel there is nobody to send to and the button stays away.
+  const openPreview = async (row: EmailRow, lead?: Lead) => {
+    setPreview({ subject: row.subject, html: '', emailKey: row.emailKey, lead });
     try {
       const res = await fetch(`${API}/newsletters/emails/${row.id}`, { headers: headers() });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Could not load that email.');
-      setPreview({ subject: data.email?.subject || row.subject, html: data.email?.html || '' });
+      setPreview({ subject: data.email?.subject || row.subject, html: data.email?.html || '', emailKey: row.emailKey, lead });
     } catch (e) {
       setNote(e instanceof Error ? e.message : 'Could not load that email.');
       setPreview(null);
+    }
+  };
+
+  // Nothing goes out until the preview has been read, the same rule the demo
+  // board keeps.
+  const sendFromPreview = async () => {
+    if (!preview?.lead || !preview.emailKey) return;
+    setBusy(true);
+    setNote('');
+    try {
+      const res = await fetch(`${API}/portal-onboarding/cold/send`, {
+        method: 'POST',
+        headers: headers(),
+        body: JSON.stringify({ leadId: preview.lead.id, emailKey: preview.emailKey }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Could not send that.');
+      setNote('Sent to ' + data.sentTo);
+      setPreview(null);
+      await load();
+    } catch (e) {
+      setNote(e instanceof Error ? e.message : 'Could not send that.');
+    } finally {
+      setBusy(false);
     }
   };
 
@@ -419,6 +445,36 @@ export default function ColdWorkflow({
                   Open site ↗
                 </a>
               )}
+
+              {/* Any email in the sequence, to this person, now. The manual
+                  ones answer something they just did, so waiting on their
+                  place in a schedule is the wrong way round. */}
+              {emails.length > 0 && (
+                <div className="border border-gray-200 rounded-lg overflow-hidden">
+                  <div className="px-3 py-2 bg-gray-50 text-[10px] font-bold uppercase tracking-wide text-gray-500">
+                    Send an email
+                  </div>
+                  <div className="divide-y divide-gray-100">
+                    {emails.map((e) => (
+                      <div key={e.emailKey} className="flex items-center gap-2 px-3 py-2">
+                        <span className="w-5 shrink-0 text-center text-[11px] font-bold text-gray-400">{e.position}</span>
+                        <span className="flex-1 min-w-0 text-[12px] font-semibold text-navy truncate">{e.subject}</span>
+                        {isManual(e) ? (
+                          <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-amber-700">manual</span>
+                        ) : (
+                          <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-emerald-600">auto</span>
+                        )}
+                        <button
+                          onClick={() => openPreview(e, editing)}
+                          className="shrink-0 px-2.5 py-1 rounded-lg bg-navy text-white text-[10px] font-bold hover:opacity-90"
+                        >
+                          Send
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -430,7 +486,7 @@ export default function ColdWorkflow({
             <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
               <div className="min-w-0">
                 <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500">
-                  From Neil Crawford &lt;hello@mail.anytime-soccer.com&gt;
+                  From hello@mail.anytime-soccer.com
                 </p>
                 <p className="text-sm font-bold text-navy truncate">{preview.subject}</p>
               </div>
@@ -442,9 +498,21 @@ export default function ColdWorkflow({
               </button>
             </div>
             {preview.html ? (
-              <iframe srcDoc={preview.html} title="Email preview" className="flex-1 w-full min-h-[400px] rounded-b-lg" />
+              <iframe srcDoc={preview.html} title="Email preview" className="flex-1 w-full min-h-[400px]" />
             ) : (
               <p className="text-sm text-gray-500 p-6">Loading…</p>
+            )}
+            {preview.lead && (
+              <div className="flex items-center gap-2 px-4 py-3 border-t border-gray-200">
+                <span className="text-[11px] text-gray-500 truncate">To {preview.lead.email}</span>
+                <button
+                  onClick={sendFromPreview}
+                  disabled={busy}
+                  className="ml-auto px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50"
+                >
+                  {busy ? 'Sending…' : 'Send'}
+                </button>
+              </div>
             )}
           </div>
         </div>
