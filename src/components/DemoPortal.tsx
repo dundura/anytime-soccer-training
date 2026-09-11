@@ -309,46 +309,6 @@ export default function DemoPortal({ token }: { token: string | null }) {
       {note && <div className="mb-3 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">{note}</div>}
       {error && <div className="mb-3 px-3 py-2 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-semibold">{error}</div>}
 
-      <div className="border border-gray-200 rounded-xl bg-white mb-4 overflow-hidden">
-        <button
-          onClick={() => setShowSequence((v) => !v)}
-          className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50"
-        >
-          <span className="text-xs font-bold uppercase tracking-wide text-navy">
-            &#9993;&#65039; The email sequence <span className="text-gray-400 font-semibold normal-case tracking-normal">({templates.length} emails)</span>
-          </span>
-          <span className="text-gray-400 text-xs">{showSequence ? '▴' : '▾'}</span>
-        </button>
-        {showSequence && (
-          <div className="border-t border-gray-100 divide-y divide-gray-100">
-            {templates.map((t) => (
-              <div key={t.key} className="flex gap-3 px-4 py-3">
-                <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{t.step}</span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-sm font-bold text-navy">{t.label}</span>
-                    {t.stage && <span className="px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[10px] font-bold">{t.stage}</span>}
-                    {t.auto
-                      ? <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
-                      : <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">You send it</span>}
-                  </div>
-                  {t.when && <div className="text-[11px] text-gray-500 mt-0.5">{t.when}</div>}
-                </div>
-                <button
-                  onClick={() => previewSequence(t.key)}
-                  disabled={!!busy}
-                  className="shrink-0 self-start px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 disabled:opacity-50"
-                >
-                  {busy === 'preview:' + t.key ? '…' : 'Preview'}
-                </button>
-              </div>
-            ))}
-            <div className="px-4 py-3 bg-gray-50 text-[11px] text-gray-500">
-              Only the first is automatic. The rest are yours to send from a lead, and nothing goes out until you have seen the preview.
-            </div>
-          </div>
-        )}
-      </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 mb-4">
         {kpiCards.map((c) => (
@@ -438,6 +398,47 @@ export default function DemoPortal({ token }: { token: string | null }) {
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div className="border border-gray-200 rounded-xl bg-white mt-4 overflow-hidden">
+        <button
+          onClick={() => setShowSequence((v) => !v)}
+          className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50"
+        >
+          <span className="text-xs font-bold uppercase tracking-wide text-navy">
+            &#9993;&#65039; The email sequence <span className="text-gray-400 font-semibold normal-case tracking-normal">({templates.length} emails)</span>
+          </span>
+          <span className="text-gray-400 text-xs">{showSequence ? '▴' : '▾'}</span>
+        </button>
+        {showSequence && (
+          <div className="border-t border-gray-100 divide-y divide-gray-100">
+            {templates.map((t) => (
+              <div key={t.key} className="flex gap-3 px-4 py-3">
+                <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{t.step}</span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-bold text-navy">{t.label}</span>
+                    {t.stage && <span className="px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[10px] font-bold">{t.stage}</span>}
+                    {t.auto
+                      ? <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
+                      : <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">You send it</span>}
+                  </div>
+                  {t.when && <div className="text-[11px] text-gray-500 mt-0.5">{t.when}</div>}
+                </div>
+                <button
+                  onClick={() => previewSequence(t.key)}
+                  disabled={!!busy}
+                  className="shrink-0 self-start px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 disabled:opacity-50"
+                >
+                  {busy === 'preview:' + t.key ? '…' : 'Preview'}
+                </button>
+              </div>
+            ))}
+            <div className="px-4 py-3 bg-gray-50 text-[11px] text-gray-500">
+              Only the first is automatic. The rest are yours to send from a lead, and nothing goes out until you have seen the preview.
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Add a lead */}
