@@ -373,14 +373,16 @@ export default function ColdWorkflow({
         </p>
       )}
 
-      <div className="flex border border-gray-200 rounded-lg overflow-hidden w-fit mb-4">
-        <button onClick={() => setTab('send')} className={tabClass('send')}>
-          Ready ({ready.length})
-        </button>
-        <button onClick={() => setTab('work')} className={tabClass('work')}>
-          To work ({blocked.length})
-        </button>
-      </div>
+      {blocked.length > 0 && (
+        <div className="flex border border-gray-200 rounded-lg overflow-hidden w-fit mb-4">
+          <button onClick={() => setTab('send')} className={tabClass('send')}>
+            Ready ({ready.length})
+          </button>
+          <button onClick={() => setTab('work')} className={tabClass('work')}>
+            To work ({blocked.length})
+          </button>
+        </div>
+      )}
 
       {/* One contact, in full. Everything the row cannot hold lives here. */}
       {editing && (
@@ -522,7 +524,7 @@ export default function ColdWorkflow({
       {loading && <p className="text-sm text-gray-500">Loading…</p>}
 
       {/* Ready to send --------------------------------------------------- */}
-      {tab === 'send' && (
+      {(tab === 'send' || !blocked.length) && (
         <>
           <div className="flex items-center gap-3 mb-2">
             <span className="text-sm font-bold text-navy">
@@ -673,7 +675,7 @@ export default function ColdWorkflow({
       )}
 
       {/* Needs work ------------------------------------------------------ */}
-      {tab === 'work' && (
+      {tab === 'work' && blocked.length > 0 && (
         <>
           <p className="text-xs text-gray-500 mb-3">
             These cannot be sent to yet. Type the address in and they move to Ready.
