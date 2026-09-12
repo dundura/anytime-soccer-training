@@ -274,6 +274,65 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
     }
   };
 
+  // Download whatever the filters are currently showing. Built here rather
+  // than on the server: the list is already in the browser, and what Neil
+  // wants out is exactly what he is looking at, filters and all.
+  const downloadList = () => {
+    const cell = (v: string | number | null) => {
+      const t = v === null || v === undefined ? '' : String(v);
+      return /["',\r\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
+    };
+    const day = (v: string | null) => (v ? v.slice(0, 10) : '');
+    const head = [
+      'Parent',
+      'Player',
+      'Parent email',
+      'Coach number',
+      'Team',
+      'Team code',
+      'Status',
+      'Sent',
+      'Reminder sent',
+      'Signed up',
+      'Unsubscribed',
+      'Error',
+    ];
+    const lines = [head.join(',')];
+    for (const p of visible) {
+      lines.push(
+        [
+          p.parentName,
+          p.playerLastName,
+          p.email,
+          p.coachNumber,
+          p.teamName,
+          p.teamCode,
+          p.status,
+          day(p.sentAt),
+          day(p.nudgeSentAt),
+          p.hasAccount ? 'Yes' : 'No',
+          day(p.unsubscribedAt),
+          p.error,
+        ]
+          .map(cell)
+          .join(','),
+      );
+    }
+    // The BOM is what makes Excel read it as UTF-8 rather than mangling an
+    // accented name.
+    const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+    const named = allTeams.find((t) => t.teamCode === teamFilter);
+    const part = named ? (named.teamName || named.teamCode).replace(/[^a-z0-9]+/gi, '-').toLowerCase() : 'all-teams';
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `parent-onboarding-${part}-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+
   const toggle = (id: number) =>
     setChosen((prev) => {
       const next = new Set(prev);
@@ -444,6 +503,14 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
                 className="text-[10px] font-bold uppercase tracking-wide px-3 py-1.5 rounded-full border border-gray-300 text-navy hover:bg-gray-50"
               >
                 Send me one
+              </button>
+              <button
+                onClick={downloadList}
+                disabled={!visible.length}
+                className="text-[10px] font-bold uppercase tracking-wide px-3 py-1.5 rounded-full border border-gray-300 text-navy hover:bg-gray-50 disabled:opacity-40"
+                title="Download the rows on screen as a spreadsheet"
+              >
+                Download {visible.length}
               </button>
 
               <span className="ml-auto flex items-center gap-2">
