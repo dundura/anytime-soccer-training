@@ -208,7 +208,7 @@ export default function HelpLineWidget() {
           }}>
             <button type="button" onClick={() => setOpen(true)}
               style={{ background: 'none', border: 'none', padding: 0, fontFamily: 'inherit', fontSize: 12.5, fontWeight: 700, color: '#0F2642', cursor: 'pointer', whiteSpace: 'nowrap' }}>
-              Got a question? Ask us
+              Help
             </button>
             <button type="button" onClick={dismissNudge} aria-label="Dismiss"
               style={{ background: 'none', border: 'none', color: '#9CA9B8', fontSize: 16, lineHeight: 1, cursor: 'pointer', padding: '0 4px' }}>
