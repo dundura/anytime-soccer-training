@@ -4,6 +4,7 @@ import Script from 'next/script';
 import type { Metadata } from 'next';
 import { getPostBySlug, getAllSlugs, formatDate, getExcerpt } from '@/lib/posts';
 import { InternalLinkBlock } from '@/components/internal-link-block';
+import BlogGear from '@/components/BlogGear';
 
 function slugify(text: string): string {
   return text
@@ -149,6 +150,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             className="wp-content"
             dangerouslySetInnerHTML={{ __html: contentWithIds.replace(/^\s*<h[12][^>]*>[\s\S]*?<\/h[12]>\s*/i, '') }}
           />
+
+          {/* Every post carries gear now, not just the 46 that happened to have
+              an Amazon link pasted into them. */}
+          <BlogGear title={post.title} />
 
           {/* Tags */}
           {post.tags.length > 0 && (
