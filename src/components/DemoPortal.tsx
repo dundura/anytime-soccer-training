@@ -27,11 +27,12 @@ const SEQUENCE_GROUPS = [
   { stage: 'Contacted', blurb: 'Talking, no demo booked yet' },
   { stage: 'Demo booked', blurb: 'A date is in the diary' },
   { stage: 'Trial', blurb: 'The demo happened' },
+  { stage: 'Waiting', blurb: 'The ball is with them' },
   { stage: 'Won', blurb: 'They are in' },
   { stage: ANY_STAGE, blurb: 'Offers and nudges, whenever they fit' },
 ] as const;
 
-type Stage = 'New' | 'Contacted' | 'Demo booked' | 'Trial' | 'Won' | 'Not now';
+type Stage = 'New' | 'Contacted' | 'Demo booked' | 'Trial' | 'Waiting' | 'Won' | 'Not now' | 'Lost';
 
 type Lead = {
   id: number;
@@ -61,8 +62,12 @@ const STAGE_TINT: Record<Stage, string> = {
   Contacted: 'bg-amber-500 text-white',
   'Demo booked': 'bg-blue-600 text-white',
   Trial: 'bg-violet-600 text-white',
+  // The ball is with them. Amber like Contacted would read as "still chasing",
+  // which is the thing Waiting exists to say we are not doing.
+  Waiting: 'bg-sky-600 text-white',
   Won: 'bg-emerald-600 text-white',
   'Not now': 'bg-gray-400 text-white',
+  Lost: 'bg-gray-500 text-white',
 };
 
 // A timeline reads as a story only if each kind of entry looks different at a
