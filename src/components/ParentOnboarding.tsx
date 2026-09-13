@@ -64,7 +64,6 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
   const [loaded, setLoaded] = useState(false);
 
   const [upload, setUpload] = useState<UploadResult | null>(null);
-  const [pasted, setPasted] = useState('');
   const [one, setOne] = useState({
     parentName: '',
     playerName: '',
@@ -172,29 +171,70 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
     return read(body);
   };
 
-  const readPasted = () => {
-    if (!pasted.trim()) return setError('Paste the rows first, heading row included.');
-    const body = new FormData();
-    body.append('text', pasted);
-    return read(body);
-  };
-
-  // One parent at a time. A family joins mid-season often enough that opening
-  // a spreadsheet to add a single row is the wrong shape of work — this builds
-  // the same tab-separated grid the paste box produces and sends it down the
-  // same route, so there is one parser and one set of skip rules.
+  // One parent at a time: fill the boxes, press send, they get the email.
+  //
+  // A family joins mid-season often enough that opening a spreadsheet for a
+  // single row is the wrong shape of work. It still goes through the same
+  // parser as an upload — the form just builds the grid — so there is one set
+  // of skip rules, and the same (email, team code) key still stops a parent
+  // being mailed the same code twice.
   const addOne = async () => {
     if (!one.email.trim()) return setError('An email address is the one thing the row cannot do without.');
-    const cell = (v: string) => v.trim().replace(/\t/g, ' ');
-    const text =
-      'PARENT\tPLAYER LAST NAME\tPARENT EMAIL ADDRESS\tCOACH NUMBER\tTEAM\tTEAMCODE\n' +
-      [one.parentName, one.playerName, one.email, one.coachNumber, one.teamName, one.teamCode]
-        .map(cell)
-        .join('\t');
-    const body = new FormData();
-    body.append('text', text);
-    await read(body);
-    setOne({ parentName: '', playerName: '', email: '', coachNumber: '', teamName: '', teamCode: '' });
+    setBusy(true);
+    setError('');
+    setNote('');
+    try {
+      const cell = (v: string) => v.trim().replace(/\t/g, ' ');
+      const text =
+        'PARENT\tPLAYER LAST NAME\tPARENT EMAIL ADDRESS\tCOACH NUMBER\tTEAM\tTEAMCODE\n' +
+        [one.parentName, one.playerName, one.email, one.coachNumber, one.teamName, one.teamCode]
+          .map(cell)
+          .join('\t');
+      const body = new FormData();
+      body.append('text', text);
+
+      const res = await fetch(`${API}/portal-onboarding/parent-onboarding/preview`, {
+        method: 'POST',
+        headers: adminHeaders(),
+        body,
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Could not add that parent.');
+
+      // Staged 0 means the row was refused — already on the list for this
+      // code, or the address is not one. Say which rather than reporting
+      // success and sending nothing.
+      if (!data.staged) {
+        const why = (data.rows || []).find((r: SkippedRow) => r.skip);
+        throw new Error(why?.skip ? `Not added — ${why.skip.toLowerCase()}.` : 'That row could not be added.');
+      }
+
+      // The row the parser just wrote, found by the same key it is unique on.
+      const listRes = await fetch(`${API}/portal-onboarding/parent-onboarding/list`, { headers: adminHeaders() });
+      const list = await listRes.json().catch(() => ({}));
+      const wanted = one.email.trim().toLowerCase();
+      const row = (list.staged || []).find(
+        (p: Person) => p.email.toLowerCase() === wanted && p.teamCode === one.teamCode.trim(),
+      );
+      if (!row) throw new Error('Added, but could not find the row to send. Send it from the list below.');
+
+      const sendRes = await fetch(`${API}/portal-onboarding/parent-onboarding/send`, {
+        method: 'POST',
+        headers: { ...adminHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: [row.id] }),
+      });
+      const sent = await sendRes.json().catch(() => ({}));
+      if (!sendRes.ok) throw new Error(sent.error || 'Added, but the email did not send.');
+
+      setNote(sent.sent ? `Welcome email sent to ${one.email.trim()}.` : 'Added, but nothing sent.');
+      setOne({ parentName: '', playerName: '', email: '', coachNumber: '', teamName: '', teamCode: '' });
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not add that parent.');
+      await load();
+    } finally {
+      setBusy(false);
+    }
   };
 
   const showEmail = async () => {
@@ -402,7 +442,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
 
       {/* ---- one parent ---- */}
       <div className="border border-gray-200 rounded-lg p-3 mb-3">
-        <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-2">Or add one parent</p>
+        <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-2">Add one parent</p>
         {allTeams.length > 0 && (
           <select
             value={one.teamCode}
@@ -446,39 +486,14 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
           disabled={busy || !one.email.trim()}
           className="mt-2 text-[11px] font-bold uppercase tracking-wide px-4 py-2 rounded-full bg-navy text-white hover:bg-navy-light transition-colors disabled:opacity-40"
         >
-          {busy ? 'Adding…' : 'Add to the list'}
+          {busy ? 'Sending…' : 'Add and send the welcome'}
         </button>
         <p className="text-[11px] text-gray-500 mt-1">
-          They land on the list unsent. Nothing goes out until you press send.
+          The welcome email goes out straight away, and the 4-day nudge follows if they never sign up.
         </p>
       </div>
 
-      <details className="mb-4">
-        <summary className="text-[11px] font-bold uppercase tracking-wide text-red cursor-pointer">
-          or paste the rows
-        </summary>
-        <div className="mt-2">
-          <textarea
-            value={pasted}
-            onChange={(e) => setPasted(e.target.value)}
-            rows={6}
-            placeholder={'PARENT\tPLAYER LAST NAME\tPARENT EMAIL ADDRESS\tCOACH NUMBER\tTEAM\tTEAMCODE'}
-            className="w-full text-xs font-mono border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-red"
-          />
-          <p className="text-[11px] text-gray-500 mt-1">
-            Copy the cells straight out of the sheet, heading row included.
-          </p>
-          <button
-            onClick={readPasted}
-            disabled={busy}
-            className="mt-2 text-[11px] font-bold uppercase tracking-wide px-4 py-2 rounded-full bg-navy text-white hover:bg-navy-light transition-colors disabled:opacity-50"
-          >
-            {busy ? 'Reading…' : 'Add pasted rows'}
-          </button>
-        </div>
-      </details>
-
-      {error && <p className="text-sm font-semibold text-red mb-3">{error}</p>}
+      {error &&<p className="text-sm font-semibold text-red mb-3">{error}</p>}
       {note && <p className="text-xs font-semibold text-navy mb-3">{note}</p>}
 
       {/* ---- what the last file could not use ---- */}
