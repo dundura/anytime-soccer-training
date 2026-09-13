@@ -35,6 +35,9 @@ type Person = {
 
 type Team = { teamCode: string; teamName: string | null; count: number };
 
+// Every live team, not just the ones a roster has been uploaded for.
+type ClubTeam = { id: number; teamName: string; teamCode: string | null; members: number };
+
 type SkippedRow = {
   line: number;
   parentName: string | null;
@@ -72,6 +75,8 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
     teamName: '',
     teamCode: '',
   });
+  const [allClubTeams, setAllClubTeams] = useState<ClubTeam[]>([]);
+  const [teamPick, setTeamPick] = useState('');
   const [teamFilter, setTeamFilter] = useState('');
   const [signedUp, setSignedUp] = useState<'all' | 'yes' | 'no'>('all');
   const [chosen, setChosen] = useState<Set<number>>(new Set());
@@ -107,6 +112,14 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
   useEffect(() => {
     if (token) load();
   }, [token, load]);
+
+  useEffect(() => {
+    if (!token) return;
+    fetch(`${API}/portal-onboarding/parent-onboarding/teams`, { headers: adminHeaders() })
+      .then((r) => r.json())
+      .then((d) => setAllClubTeams(d.teams || []))
+      .catch(() => {});
+  }, [token, adminHeaders]);
 
   const inTeam = (p: Person) => !teamFilter || p.teamCode === teamFilter;
   // One list. Sending changes a row's status rather than moving it somewhere
@@ -228,6 +241,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
 
       setNote(sent.sent ? `Welcome email sent to ${one.email.trim()}.` : 'Added, but nothing sent.');
       setOne({ parentName: '', playerName: '', email: '', coachNumber: '', teamName: '', teamCode: '' });
+      setTeamPick('');
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not add that parent.');
@@ -443,20 +457,23 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
       {/* ---- one parent ---- */}
       <div className="border border-gray-200 rounded-lg p-3 mb-3">
         <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-2">Add one parent</p>
-        {allTeams.length > 0 && (
+        {/* Keyed on team id, not code: two teams can share a name, and a team
+            with no code set yet still has to be pickable. */}
+        {allClubTeams.length > 0 && (
           <select
-            value={one.teamCode}
+            value={teamPick}
             onChange={(e) => {
-              const t = allTeams.find((x) => x.teamCode === e.target.value);
-              setOne((o) => ({ ...o, teamCode: e.target.value, teamName: t?.teamName || o.teamName }));
+              setTeamPick(e.target.value);
+              const t = allClubTeams.find((x) => String(x.id) === e.target.value);
+              if (t) setOne((o) => ({ ...o, teamName: t.teamName || '', teamCode: t.teamCode || '' }));
             }}
-            className="text-xs border border-gray-300 rounded px-2 py-1.5 mb-2 w-full max-w-sm focus:outline-none focus:border-red"
+            className="text-xs border border-gray-300 rounded px-2 py-1.5 mb-2 w-full max-w-md focus:outline-none focus:border-red"
           >
-            <option value="">Pick a team already on the list…</option>
-            {allTeams.map((t) => (
-              <option key={t.teamCode} value={t.teamCode}>
-                {t.teamName || 'No team name'}
-                {t.teamCode ? ` (${t.teamCode})` : ''}
+            <option value="">Pick a team ({allClubTeams.length})…</option>
+            {allClubTeams.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.teamName || 'No team name'} — {t.members} {t.members === 1 ? 'player' : 'players'}
+                {t.teamCode ? ` (${t.teamCode})` : ' — no code set'}
               </option>
             ))}
           </select>
