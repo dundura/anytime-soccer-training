@@ -33,7 +33,10 @@ type Person = {
   hasAccount: number;
 };
 
-type Team = { teamCode: string; teamName: string | null; count: number };
+// The key is code + name, not the code alone: a team whose code has not been
+// set yet has an empty one, and keying on that collapsed every such team into
+// a single row in the filter.
+type Team = { key: string; teamCode: string; teamName: string | null; count: number };
 
 // Every live team, not just the ones a roster has been uploaded for.
 type ClubTeam = { id: number; teamName: string; teamCode: string | null; members: number };
@@ -121,7 +124,8 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
       .catch(() => {});
   }, [token, adminHeaders]);
 
-  const inTeam = (p: Person) => !teamFilter || p.teamCode === teamFilter;
+  const teamKey = (p: { teamCode: string; teamName: string | null }) => p.teamCode + '|' + (p.teamName || '');
+  const inTeam = (p: Person) => !teamFilter || teamKey(p) === teamFilter;
   // One list. Sending changes a row's status rather than moving it somewhere
   // else - "who is on this roster and where are they up to" is one question.
   const everyone = [...staged, ...sends].sort((a, b) => b.id - a.id);
@@ -135,9 +139,10 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
   const allTeams: Team[] = (() => {
     const seen = new Map<string, Team>();
     for (const p of [...staged, ...sends]) {
-      const found = seen.get(p.teamCode);
+      const k = teamKey(p);
+      const found = seen.get(k);
       if (found) found.count += 1;
-      else seen.set(p.teamCode, { teamCode: p.teamCode, teamName: p.teamName, count: 1 });
+      else seen.set(k, { key: k, teamCode: p.teamCode, teamName: p.teamName, count: 1 });
     }
     return [...seen.values()];
   })();
@@ -146,7 +151,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
   // "send to this team" is the common case, and unticking a few is easier than
   // ticking twenty.
   useEffect(() => {
-    setChosen(new Set(staged.filter((p) => !teamFilter || p.teamCode === teamFilter).map((p) => p.id)));
+    setChosen(new Set(staged.filter((p) => !teamFilter || teamKey(p) === teamFilter).map((p) => p.id)));
     setConfirming(false);
   }, [staged, teamFilter]);
 
@@ -401,7 +406,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
     // The BOM is what makes Excel read it as UTF-8 rather than mangling an
     // accented name.
     const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
-    const named = allTeams.find((t) => t.teamCode === teamFilter);
+    const named = allTeams.find((t) => t.key === teamFilter);
     const part = named ? (named.teamName || named.teamCode).replace(/[^a-z0-9]+/gi, '-').toLowerCase() : 'all-teams';
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -573,7 +578,7 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
               >
                 <option value="">All teams ({everyone.length})</option>
                 {allTeams.map((t) => (
-                  <option key={t.teamCode} value={t.teamCode}>
+                  <option key={t.key} value={t.key}>
                     {t.teamName || 'No team name'}
                     {t.teamCode ? ` (${t.teamCode})` : ''} — {t.count}
                   </option>
