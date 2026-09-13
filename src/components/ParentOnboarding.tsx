@@ -65,6 +65,14 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
 
   const [upload, setUpload] = useState<UploadResult | null>(null);
   const [pasted, setPasted] = useState('');
+  const [one, setOne] = useState({
+    parentName: '',
+    playerName: '',
+    email: '',
+    coachNumber: '',
+    teamName: '',
+    teamCode: '',
+  });
   const [teamFilter, setTeamFilter] = useState('');
   const [signedUp, setSignedUp] = useState<'all' | 'yes' | 'no'>('all');
   const [chosen, setChosen] = useState<Set<number>>(new Set());
@@ -169,6 +177,24 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
     const body = new FormData();
     body.append('text', pasted);
     return read(body);
+  };
+
+  // One parent at a time. A family joins mid-season often enough that opening
+  // a spreadsheet to add a single row is the wrong shape of work — this builds
+  // the same tab-separated grid the paste box produces and sends it down the
+  // same route, so there is one parser and one set of skip rules.
+  const addOne = async () => {
+    if (!one.email.trim()) return setError('An email address is the one thing the row cannot do without.');
+    const cell = (v: string) => v.trim().replace(/\t/g, ' ');
+    const text =
+      'PARENT\tPLAYER LAST NAME\tPARENT EMAIL ADDRESS\tCOACH NUMBER\tTEAM\tTEAMCODE\n' +
+      [one.parentName, one.playerName, one.email, one.coachNumber, one.teamName, one.teamCode]
+        .map(cell)
+        .join('\t');
+    const body = new FormData();
+    body.append('text', text);
+    await read(body);
+    setOne({ parentName: '', playerName: '', email: '', coachNumber: '', teamName: '', teamCode: '' });
   };
 
   const showEmail = async () => {
@@ -372,6 +398,59 @@ export default function ParentOnboarding({ token }: { token: string | null }) {
           {busy ? 'Reading…' : 'Add a spreadsheet'}
         </button>
         {upload?.fileName && <span className="text-xs text-gray-600 font-semibold">{upload.fileName}</span>}
+      </div>
+
+      {/* ---- one parent ---- */}
+      <div className="border border-gray-200 rounded-lg p-3 mb-3">
+        <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-2">Or add one parent</p>
+        {allTeams.length > 0 && (
+          <select
+            value={one.teamCode}
+            onChange={(e) => {
+              const t = allTeams.find((x) => x.teamCode === e.target.value);
+              setOne((o) => ({ ...o, teamCode: e.target.value, teamName: t?.teamName || o.teamName }));
+            }}
+            className="text-xs border border-gray-300 rounded px-2 py-1.5 mb-2 w-full max-w-sm focus:outline-none focus:border-red"
+          >
+            <option value="">Pick a team already on the list…</option>
+            {allTeams.map((t) => (
+              <option key={t.teamCode} value={t.teamCode}>
+                {t.teamName || 'No team name'}
+                {t.teamCode ? ` (${t.teamCode})` : ''}
+              </option>
+            ))}
+          </select>
+        )}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+          {(
+            [
+              ['parentName', 'Parent first name'],
+              ['playerName', 'Player name'],
+              ['email', 'Parent email'],
+              ['coachNumber', "Coach's number"],
+              ['teamName', 'Team name'],
+              ['teamCode', 'Team code'],
+            ] as const
+          ).map(([field, label]) => (
+            <input
+              key={field}
+              value={one[field]}
+              onChange={(e) => setOne((o) => ({ ...o, [field]: e.target.value }))}
+              placeholder={label}
+              className="text-xs border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:border-red"
+            />
+          ))}
+        </div>
+        <button
+          onClick={addOne}
+          disabled={busy || !one.email.trim()}
+          className="mt-2 text-[11px] font-bold uppercase tracking-wide px-4 py-2 rounded-full bg-navy text-white hover:bg-navy-light transition-colors disabled:opacity-40"
+        >
+          {busy ? 'Adding…' : 'Add to the list'}
+        </button>
+        <p className="text-[11px] text-gray-500 mt-1">
+          They land on the list unsent. Nothing goes out until you press send.
+        </p>
       </div>
 
       <details className="mb-4">
