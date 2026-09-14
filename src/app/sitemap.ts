@@ -34,7 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       "getting-started-guide-for-parents-anytime-soccer-training",
       "coach-onboarding", "homework", "install", "our-picks",
       "guest-playing-guide", "dribbling-program", "elite-academy-report",
-      "must-have-guide-for-serious-soccer-parents", "follow-us",
+      "must-have-guide-for-serious-soccer-parents", "soccer-development-scorecard", "follow-us",
       "creating-an-account", "soccer-training-survey",
       "competitions-worksheet", "tournament-budget-worksheet",
       "soccer-club-cost-calculator", "coach-salary-schedule",

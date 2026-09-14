@@ -86,6 +86,14 @@ export const LEAD_MAGNETS: Record<string, LeadMagnet> = {
     button: 'Send Me The Guide',
     live: true,
   },
+  // Never on GHL, so keyed by name rather than a form id.
+  'development-scorecard': {
+    sequence: 'development-scorecard',
+    label: 'Soccer Development Scorecard',
+    heading: 'Get the free scorecard',
+    button: 'Send Me The Scorecard',
+    live: true,
+  },
   HC9dzAikGTQ7mAXjDCZ3: {
     sequence: 'most-important-skill',
     label: 'The Most Important Skill in Youth Soccer',
