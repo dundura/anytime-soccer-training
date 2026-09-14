@@ -10,6 +10,7 @@ import Referrals from './Referrals';
 import Newsletters from './Newsletters';
 import TriggeredEmails from './TriggeredEmails';
 import AdSignups from './AdSignups';
+import AllContent from './AllContent';
 import NewsletterPeople from './NewsletterPeople';
 import RosterRequests from './RosterRequests';
 import ParentOnboarding from './ParentOnboarding';
@@ -78,6 +79,7 @@ const GROUPS = [
     rows: [
       { key: 'notes', label: 'Notes', icon: '📝' },
       { key: 'logins', label: 'Key logins', icon: '🔑' },
+      { key: 'content', label: 'All content', icon: '🗂️' },
     ],
   },
 ] as const;
@@ -267,6 +269,7 @@ export default function Console() {
             {view === 'referrals' && <Referrals token={token} />}
             {view === 'partners' && <PartnerAdmin token={token} />}
             {view === 'ad-signups' && <AdSignups token={token} />}
+            {view === 'content' && <AllContent />}
           </div>
         </div>
       </div>
