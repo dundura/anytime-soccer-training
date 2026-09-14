@@ -204,7 +204,7 @@ export default function FreeResourceHubPage() {
               className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all flex flex-col"
             >
               <div className="w-full aspect-[16/10] rounded-t-2xl overflow-hidden">
-                <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779542941898-68z4qs.png" alt="Soccer Training Survey" className="w-full h-full object-cover" />
+                <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1789411035321-dyv6yn.png" alt="Soccer Training Survey" className="w-full h-full object-cover" />
               </div>
               <div className="p-8 flex flex-col flex-1 justify-center">
                 <h3 className="text-2xl font-bold text-navy mb-3">How Does Your Child Compare to the World&rsquo;s Elite?</h3>
