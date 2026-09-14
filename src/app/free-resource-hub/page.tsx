@@ -178,7 +178,7 @@ export default function FreeResourceHubPage() {
         </nav>
 
       {/* ===== TRAINING PLANS ===== */}
-      <section id="plans" className={`pt-12 pb-20 bg-background ${ANCHOR}`}>
+      <section id="plans" className={`pt-12 pb-10 bg-background ${ANCHOR}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* 7-Day Plan + Survey — side by side */}
@@ -265,7 +265,7 @@ export default function FreeResourceHubPage() {
       </section>
 
       {/* ===== EBOOKS ===== */}
-      <section id="ebooks" className={`py-20 bg-background ${ANCHOR}`}>
+      <section id="ebooks" className={`pt-0 pb-20 bg-background ${ANCHOR}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* The newest offering, featured above the ebooks while it is new. */}
           <Link
