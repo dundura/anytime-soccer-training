@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { LEAD_MAGNETS } from '@/lib/leadMagnets';
 import Honeypot, { useHoneypot } from './Honeypot';
+import { landingPageWithCampaign, trackLead } from '@/lib/metaPixel';
 
 /**
  * One lead magnet signup form, replacing a Go High Level embed.
@@ -45,11 +46,12 @@ export default function LeadMagnetForm({ formId }: { formId: string }) {
           email: email.trim(),
           sequence: magnet.sequence,
           source: magnet.sequence,
-          landingPage: typeof window !== 'undefined' ? window.location.pathname : null,
+          landingPage: landingPageWithCampaign(),
         }),
       });
       const j = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(j.error || 'Something went wrong. Please try again.');
+      trackLead(magnet.sequence);
       setDone(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');

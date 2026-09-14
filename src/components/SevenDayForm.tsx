@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Honeypot, { useHoneypot } from './Honeypot';
+import { landingPageWithCampaign, trackLead } from '@/lib/metaPixel';
 
 /**
  * Signup form for the free 7-Day Training Plan — our own, replacing the Go High
@@ -45,11 +46,12 @@ function Form() {
           email: email.trim(),
           sequence: '7-day-plan',
           source: '7-day-plan',
-          landingPage: typeof window !== 'undefined' ? window.location.pathname : null,
+          landingPage: landingPageWithCampaign(),
         }),
       });
       const j = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(j.error || 'Something went wrong. Please try again.');
+      trackLead('7-day-plan');
       setDone(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');

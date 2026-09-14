@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HelpLineWidget from "@/components/HelpLineWidget";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
+import MetaPixel from "@/components/MetaPixel";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -63,6 +64,7 @@ export default function RootLayout({
         <Footer />
         {/* Site-wide, so a visitor can ask from whatever page raised the question. */}
         <HelpLineWidget />
+        <MetaPixel />
       </body>
     </html>
   );

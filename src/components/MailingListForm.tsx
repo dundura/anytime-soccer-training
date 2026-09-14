@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Honeypot, { useHoneypot } from './Honeypot';
+import { landingPageWithCampaign, trackLead } from '@/lib/metaPixel';
 
 /**
  * Mailing list signup. Files into the evergreen sequence.
@@ -37,11 +38,12 @@ export default function MailingListForm() {
           email: email.trim(),
           sequence: 'evergreen',
           source: 'manual',
-          landingPage: typeof window !== 'undefined' ? window.location.pathname : null,
+          landingPage: landingPageWithCampaign(),
         }),
       });
       const j = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(j.error || 'Something went wrong. Please try again.');
+      trackLead('evergreen');
       setDone(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
