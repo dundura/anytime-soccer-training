@@ -267,6 +267,33 @@ export default function FreeResourceHubPage() {
       {/* ===== EBOOKS ===== */}
       <section id="ebooks" className={`py-20 bg-background ${ANCHOR}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* The newest offering, featured above the ebooks while it is new. */}
+          <Link
+            href="/soccer-development-scorecard"
+            className="grid md:grid-cols-2 bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all mb-16"
+          >
+            <div className="w-full aspect-[16/9] md:aspect-auto md:h-full overflow-hidden">
+              <img
+                src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1789415806547-qjc8h3.png"
+                alt="Soccer Development Scorecard"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="p-8 md:p-10 flex flex-col justify-center">
+              <span className="self-start bg-red text-white text-[11px] font-bold uppercase tracking-[2px] rounded-full px-3 py-1 mb-4">
+                New
+              </span>
+              <h3 className="text-2xl md:text-3xl font-bold text-navy mb-3">Soccer Development Scorecard</h3>
+              <p className="text-gray text-base mb-6">
+                Is your child really developing? A free scorecard that shows parents what to watch and count in games,
+                and how to see real progress over time.
+              </p>
+              <span className="bg-red hover:bg-red-dark text-white font-bold py-4 px-8 rounded-full text-base shadow-[0_4px_20px_rgba(220,55,62,0.35)] transition-all self-start">
+                Get the Free Scorecard &rarr;
+              </span>
+            </div>
+          </Link>
+
           <div className="text-center mb-14">
             <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-4 block">EBOOKS &amp; GUIDES</span>
             <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">Free Ebooks for Parents &amp; Coaches</h2>
