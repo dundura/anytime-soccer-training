@@ -9,6 +9,7 @@ import DemoPortal from './DemoPortal';
 import Referrals from './Referrals';
 import Newsletters from './Newsletters';
 import TriggeredEmails from './TriggeredEmails';
+import AdSignups from './AdSignups';
 import NewsletterPeople from './NewsletterPeople';
 import RosterRequests from './RosterRequests';
 import ParentOnboarding from './ParentOnboarding';
@@ -57,6 +58,7 @@ const GROUPS = [
       { key: 'podcast', label: 'Podcast guests', icon: '🎙️' },
       { key: 'intl', label: 'International posts', icon: '🌍' },
       { key: 'partners', label: 'Partners', icon: '🤝' },
+      { key: 'ad-signups', label: 'Ad signups', icon: '📈' },
     ],
   },
   {
@@ -264,6 +266,7 @@ export default function Console() {
             {view === 'demos' && <DemoPortal token={token} />}
             {view === 'referrals' && <Referrals token={token} />}
             {view === 'partners' && <PartnerAdmin token={token} />}
+            {view === 'ad-signups' && <AdSignups token={token} />}
           </div>
         </div>
       </div>
