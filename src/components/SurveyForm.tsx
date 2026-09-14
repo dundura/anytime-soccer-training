@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { landingPageWithCampaign, trackLead } from '@/lib/metaPixel';
 
 const LEVELS = [
   { group: 'Recreational', options: ['Recreational / Local rec', 'AYSO'] },
@@ -128,9 +129,12 @@ export default function SurveyForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name, playerName, email,
+          // Page plus query string, so an ad click (utm_ / fbclid) is saved with the signup.
+          landingPage: landingPageWithCampaign(),
           answers: { outdoor: (parseFloat(outdoorDays)||0)*(parseFloat(outdoorHrs)||0), indoor: parseFloat(indoor)||0, futsal: parseFloat(futsal)||0, private: parseFloat(priv)||0, privateGroup: parseFloat(privateGroup)||0, self: parseFloat(self)||0, games: parseFloat(games)||0, freePlay: parseFloat(freePlay)||0, beforeSchool, beforePractice, homeschooled, age, level },
         }),
       });
+      if (res.ok) trackLead('training-survey');
       setStatus(res.ok ? 'sent' : 'error');
     } catch { setStatus('error'); }
   };
