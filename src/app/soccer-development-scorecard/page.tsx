@@ -25,7 +25,7 @@ export default function SoccerDevelopmentScorecardPage() {
         <div className="max-w-[1100px] mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-start">
 
-            {/* Left — Cover + what is inside */}
+            {/* Left — Image + what they will discover */}
             <div className="flex flex-col gap-6">
               <div>
                 <img
@@ -36,13 +36,13 @@ export default function SoccerDevelopmentScorecardPage() {
               </div>
 
               <div className="bg-white rounded-xl p-6 shadow-[0_4px_12px_rgba(15,49,84,0.06)]">
-                <p className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-3">What&rsquo;s inside</p>
+                <p className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-3">What you&rsquo;ll discover</p>
                 <ul className="list-none p-0 m-0 space-y-2.5">
                   {[
-                    'Team counts: passes in a row, switches of play, shots on target',
-                    'Individual counts for every position, plus defenders and goalkeepers',
-                    'Space for observations, and every term explained in plain English',
-                    'A simple way to compare games weeks and months apart',
+                    'The moments that prove your player is growing, even on days the scoreboard says otherwise',
+                    'What to watch from the sideline that most parents never notice',
+                    'How to tell whether your team is really learning to play together',
+                    'How to spot a problem early, and start the right conversation with the coach',
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2.5 text-[15px] text-navy leading-snug">
                       <span className="text-red font-bold">&#10003;</span>
