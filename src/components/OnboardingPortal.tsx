@@ -239,8 +239,8 @@ const PAYMENT_SECTIONS: StepSection[] = [
 // than another `step.key === ...` special case threaded through the wizard.
 // "Upgrading Players: Brand New Team" on two screens rather than one. Neil,
 // 2026-09-15: the coach should confirm they understand paying in advance before
-// they are shown the in-app option. Screen 2 reuses the data step's own
-// afterSteps (index 22), so the applying-a-slot steps are written once.
+// they are shown the in-app option. Screen 3 is how a slot is applied, which
+// is the same for both methods.
 const UPGRADING_NEW_TEAM_SECTIONS: StepSection[] = [
   {
     boxTitle: 'Method One: Submit your roster and pay the invoice in advance',
@@ -258,7 +258,16 @@ const UPGRADING_NEW_TEAM_SECTIONS: StepSection[] = [
       'I can add new players inside the app and purchase their slots.',
       'Click <strong>Upgrade Players</strong> within your team to buy them.',
     ],
-    after: COACH_ONBOARDING_STEPS[22]?.afterSteps,
+  },
+  // Its own screen (Neil, 2026-09-15): both methods end the same way, so the
+  // applying-a-slot steps come after either one rather than under Method Two.
+  {
+    overview: 'Either way &mdash; you pay online and we add <strong>free access slots</strong> to your account, or you buy them in the app &mdash; you then need to <strong>apply a free slot to each player&rsquo;s account</strong>.',
+    items: [
+      'The player joins your team.',
+      'Go to <strong>Upgrade Players</strong> in your team menu.',
+      'Apply a slot. That player has <strong>365 days of full access</strong> from that moment.',
+    ],
   },
 ];
 
