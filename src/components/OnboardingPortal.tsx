@@ -68,13 +68,13 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
     ] } },
   { key: 'final_confirm', title: 'Confirm & Finish', dataIndex: 16, section: 'FAQs', final: true },
   { key: 'roster_intro', title: 'Upgrading Players Overview', dataIndex: 22, section: 'FAQs', info: true, ack: { label: 'I understand' } },
+  { key: 'club_payment', title: 'How Payment Works - Club Pays', dataIndex: 18, section: 'Bonus', info: true, bonus: true },
+  { key: 'renewing', title: 'How Payment Works - Renewing teams', dataIndex: 19, section: 'Bonus', info: true, bonus: true },
   { key: 'faq_delete_team', title: 'How do I delete a team?', dataIndex: 26, section: 'FAQs', info: true, ack: { label: 'Got it' } },
   { key: 'faq_invite_players', title: 'How do I invite players to my team?', dataIndex: 27, section: 'FAQs', info: true, ack: { label: 'Got it' } },
   // Same content as the Onboarding step 'seasons', listed again here so a coach
   // looking it up later finds it with the other roster questions.
   { key: 'faq_add_remove_players', title: 'How do I add and remove players?', dataIndex: 25, section: 'FAQs', info: true, ack: { label: 'Got it' } },
-  { key: 'club_payment', title: 'How Payment Works - Club Pays', dataIndex: 18, section: 'Bonus', info: true, bonus: true },
-  { key: 'renewing', title: 'How Payment Works - Renewing teams', dataIndex: 19, section: 'Bonus', info: true, bonus: true },
   { key: 'paying-additional', title: 'Paying for new players', dataIndex: 20, section: 'Bonus', info: true, bonus: true },
   { key: 'adding_players_reminder', title: 'Quick reminder on adding players', dataIndex: 24, section: 'Bonus', info: true, bonus: true },
   { key: 'tip_paywall', title: 'Bonus Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Bonus', tip: true, bonus: true },
@@ -149,7 +149,10 @@ const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean; sub
   { title: 'FAQs', reference: true, keys: REFERENCE_KEYS,
     // A heading inside the group, over pages that belong together. The pages
     // keep their place in the Next order; the heading sits above the first.
-    sub: [{ title: 'Managing Team & Roster', keys: ['faq_delete_team', 'faq_invite_players', 'faq_add_remove_players'] }] },
+    sub: [
+      { title: 'How Payment Works', keys: ['club_payment', 'renewing'] },
+      { title: 'Managing Team & Roster', keys: ['faq_delete_team', 'faq_invite_players', 'faq_add_remove_players'] },
+    ] },
 ];
 
 // Steps whose Go button leaves the wizard.
