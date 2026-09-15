@@ -319,8 +319,8 @@ export default function OnboardingPortal() {
   const [saving, setSaving] = useState(false);
   const [wizardIndex, setWizardIndex] = useState(0);
   const [rosterSection, setRosterSection] = useState(0);
-  // Rail sub-categories the coach has opened. Closed by default (Neil,
-  // 2026-09-15); a sub-category holding the page you are on opens by itself.
+  // Rail sub-categories the coach has opened. Closed until clicked, even when
+  // the page you are on is inside one (Neil, 2026-09-15).
   const [openSubs, setOpenSubs] = useState<string[]>([]);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
   const [ackChecked, setAckChecked] = useState(false);
@@ -966,9 +966,7 @@ export default function OnboardingPortal() {
                 const subStart = group.sub?.find(sg => sg.keys[0] === st.key);
                 const mySub = group.sub?.find(sg => sg.keys.includes(st.key));
                 const inSub = !!mySub;
-                const subHasHere = (sg: { keys: string[] }) =>
-                  sg.keys.some(k => STEPS.findIndex(s2 => s2.key === k) === wizardIndex) && !showIntro && !showAdmin && !showFaq && !showIndexInfo;
-                const subOpen = (sg: { title: string; keys: string[] }) => openSubs.includes(sg.title) || subHasHere(sg);
+                const subOpen = (sg: { title: string; keys: string[] }) => openSubs.includes(sg.title);
                 const rowDone = coach.checklist[st.key] === true;
                 const skipped = coach.checklist[st.key] === 'skipped';
                 const isNext = st.key === nextKey;
