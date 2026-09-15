@@ -591,4 +591,26 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <p>Roster grows later? Add the player, <strong>buy another slot in the app</strong>, and upgrade them the same way. Clubs can buy and apply slots on behalf of their coaches.</p>
     `,
   },
+  // Appended for the same reason as the one above: portal steps point here by
+  // index. Asked by coaches moving to a new season's team (Neil, 2026-09-15).
+  {
+    title: 'How do I delete a team?',
+    body: `
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:4px 0 0;">Go to the team.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:4px 0 0;">Click <strong>&#9999;&#65039; Edit Team</strong>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:4px 0 0;">Click <strong>Archive Team</strong>.</p>
+        </div>
+      </div>
+      <p>From there you can <strong>permanently delete</strong> the team if you want.</p>
+    `,
+  },
 ];

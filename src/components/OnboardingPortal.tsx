@@ -71,6 +71,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'upgrading_players', title: 'How upgrading your players works', dataIndex: 27, section: 'FAQs', info: true, ack: { label: 'I understand' } },
   { key: 'roster_intro', title: 'Upgrading Players: Brand New Team', dataIndex: 22, section: 'FAQs', info: true, ack: { label: 'I understand' } },
   { key: 'roster_intro_renewing', title: 'Upgrading Players: Renewing or Self Onboard', dataIndex: 23, section: 'FAQs', info: true, quiz: { prompt: 'Confirm before continuing:', options: ['I understand that within 7 days of a player joining my team, I need to apply a free access slot to their account'] } },
+  { key: 'faq_delete_team', title: 'How do I delete a team?', dataIndex: 28, section: 'FAQs', info: true, ack: { label: 'Got it' } },
   { key: 'payment_overview', title: 'How payment works - New Teams', dataIndex: 17, section: 'Bonus', info: true, bonus: true },
   { key: 'club_payment', title: 'How Payment Works - Club Pays', dataIndex: 18, section: 'Bonus', info: true, bonus: true },
   { key: 'renewing', title: 'How Payment Works - Renewing teams', dataIndex: 19, section: 'Bonus', info: true, bonus: true },
