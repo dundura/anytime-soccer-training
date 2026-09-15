@@ -73,9 +73,9 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   // Same content as the Onboarding step 'seasons', listed again here so a coach
   // looking it up later finds it with the other roster questions.
   { key: 'faq_add_remove_players', title: 'How do I add and remove players?', dataIndex: 25, section: 'FAQs', info: true, ack: { label: 'Got it' } },
-  { key: 'faq_delete_team', title: 'How do I delete a team?', dataIndex: 26, section: 'FAQs', info: true, ack: { label: 'Got it' } },
   { key: 'faq_invite_players', title: 'How do I invite players to my team?', dataIndex: 27, section: 'FAQs', info: true, ack: { label: 'Got it' } },
   { key: 'faq_team_name', title: 'How do I change my team name?', dataIndex: -1, faqIndex: 34, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_delete_team', title: 'How do I delete a team?', dataIndex: 26, section: 'FAQs', info: true, ack: { label: 'Got it' } },
 ];
 
 // The club-director path. Short on purpose: a director arriving here is
@@ -122,7 +122,7 @@ const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean; sub
     // keep their place in the Next order; the heading sits above the first.
     sub: [
       { title: 'How Payment Works', keys: ['roster_intro', 'club_payment', 'renewing'] },
-      { title: 'Managing Team & Roster', keys: ['faq_add_remove_players', 'faq_delete_team', 'faq_invite_players', 'faq_team_name'] },
+      { title: 'Managing Team & Roster', keys: ['faq_add_remove_players', 'faq_invite_players', 'faq_team_name', 'faq_delete_team'] },
     ] },
 ];
 
