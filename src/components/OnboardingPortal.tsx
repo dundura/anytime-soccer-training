@@ -67,7 +67,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
       'I am completing onboarding but will email Megan when ready',
     ] } },
   { key: 'final_confirm', title: 'Confirm & Finish', dataIndex: 16, section: 'FAQs', final: true },
-  { key: 'roster_intro', title: 'Upgrading Players', dataIndex: 22, section: 'FAQs', info: true, ack: { label: 'I understand' } },
+  { key: 'roster_intro', title: 'Upgrading Players Overview', dataIndex: 22, section: 'FAQs', info: true, ack: { label: 'I understand' } },
   { key: 'faq_delete_team', title: 'How do I delete a team?', dataIndex: 26, section: 'FAQs', info: true, ack: { label: 'Got it' } },
   { key: 'faq_invite_players', title: 'How do I invite players to my team?', dataIndex: 27, section: 'FAQs', info: true, ack: { label: 'Got it' } },
   // Same content as the Onboarding step 'seasons', listed again here so a coach
