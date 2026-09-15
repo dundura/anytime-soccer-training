@@ -255,7 +255,7 @@ const UPGRADING_NEW_TEAM_SECTIONS: StepSection[] = [
   {
     boxTitle: 'Method Two: two options',
     items: [
-      'I can add new players inside the app and purchase their slots.',
+      'Invite players to my team inside the app (<strong>New Player Onboarding</strong>).',
       'Click <strong>Upgrade Players</strong> within your team to buy them.',
     ],
     recap: ['I understand that I can upgrade players inside the app'],

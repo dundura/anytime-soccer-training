@@ -475,7 +475,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       {
         title: 'Method Two: two options',
         bullets: [
-          'I can add new players inside the app and purchase their slots.',
+          'Invite players to my team inside the app (New Player Onboarding).',
           'Click Upgrade Players within your team to buy them.',
         ],
       },
