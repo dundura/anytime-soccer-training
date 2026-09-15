@@ -158,6 +158,27 @@ export default function TeamsPage() {
           </Link>
         </div>
 
+        {/* Club tools. Taken off the Free Resource Hub on 2026-09-14 but still
+            handed to clubs, so they live here where they can be found. */}
+        <div className="mb-10">
+          <h2 className="text-xl font-bold text-navy mb-4">Club Tools</h2>
+          <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] divide-y divide-gray-100">
+            {[
+              { title: 'Club Budget Calculator', href: '/soccer-club-cost-calculator' },
+              { title: 'Age Group Calculator', href: '/calculator' },
+            ].map((tool) => (
+              <Link
+                key={tool.href}
+                href={tool.href}
+                className="flex items-center justify-between px-6 py-4 hover:bg-background/50 transition-colors group"
+              >
+                <span className="text-navy font-medium group-hover:text-red transition-colors">{tool.title}</span>
+                <span className="text-gray group-hover:text-red transition-colors">&rarr;</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* General Guides */}
         <div className="mb-10">
           <h2 className="text-xl font-bold text-navy mb-4">Getting Started Guides</h2>
