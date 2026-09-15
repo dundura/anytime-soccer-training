@@ -69,6 +69,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'final_confirm', title: 'Confirm & Finish', dataIndex: 16, section: 'FAQs', final: true },
   { key: 'roster_intro', title: 'Upgrading Players', dataIndex: 22, section: 'FAQs', info: true, ack: { label: 'I understand' } },
   { key: 'faq_delete_team', title: 'How do I delete a team?', dataIndex: 26, section: 'FAQs', info: true, ack: { label: 'Got it' } },
+  { key: 'faq_invite_players', title: 'How do I invite players to my team?', dataIndex: 27, section: 'FAQs', info: true, ack: { label: 'Got it' } },
   { key: 'payment_overview', title: 'How payment works - New Teams', dataIndex: 17, section: 'Bonus', info: true, bonus: true },
   { key: 'club_payment', title: 'How Payment Works - Club Pays', dataIndex: 18, section: 'Bonus', info: true, bonus: true },
   { key: 'renewing', title: 'How Payment Works - Renewing teams', dataIndex: 19, section: 'Bonus', info: true, bonus: true },
