@@ -139,7 +139,7 @@ const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean }[] 
   { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
   // Reading, not steps. Nothing waits on these and nothing is locked behind
   // them, so they sit at the bottom out of the run.
-  { title: 'FAQs', reference: true, keys: ['roster_intro'] },
+  { title: 'FAQs', reference: true, keys: ['roster_intro', 'faq_delete_team', 'faq_invite_players', 'faq_add_remove_players'] },
 ];
 
 // Steps whose Go button leaves the wizard.
