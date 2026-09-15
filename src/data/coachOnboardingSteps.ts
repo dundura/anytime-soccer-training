@@ -443,7 +443,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Upgrading Players: Brand New Team',
     body: `
-      <p><strong>Upgrade players by either paying the online invoice in advance and/or purchasing upgrade slots inside the app.</strong></p>
+      <p><strong>You can purchase roster spots in advance or upgrade the players inside the app.</strong></p>
     `,
     // Under the methods, because both end the same way: whether the slots came
     // from a paid invoice or were bought in the app, the coach applies them.

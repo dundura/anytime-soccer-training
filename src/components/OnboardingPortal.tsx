@@ -244,7 +244,7 @@ const PAYMENT_SECTIONS: StepSection[] = [
 const UPGRADING_NEW_TEAM_SECTIONS: StepSection[] = [
   {
     boxTitle: 'Method One: Submit your roster and pay the invoice in advance',
-    overview: 'Upgrade players by either paying the online invoice in advance and/or purchasing upgrade slots inside the app.',
+    overview: 'You can purchase roster spots in advance or upgrade the players inside the app.',
     items: [
       'The roster template is provided later.',
       'Once paid, we add <strong>free access slots</strong> that you apply to players.',
