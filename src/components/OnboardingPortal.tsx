@@ -75,7 +75,6 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   // Same content as the Onboarding step 'seasons', listed again here so a coach
   // looking it up later finds it with the other roster questions.
   { key: 'faq_add_remove_players', title: 'How do I add and remove players?', dataIndex: 25, section: 'FAQs', info: true, ack: { label: 'Got it' } },
-  { key: 'paying-additional', title: 'Paying for new players', dataIndex: 20, section: 'Bonus', info: true, bonus: true },
   { key: 'adding_players_reminder', title: 'Quick reminder on adding players', dataIndex: 24, section: 'Bonus', info: true, bonus: true },
   { key: 'tip_paywall', title: 'Bonus Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_emails', title: 'What’s the difference between the login email and the contact email, and how do I update them?', dataIndex: -1, faqIndex: 0, section: 'Bonus', tip: true, bonus: true },
