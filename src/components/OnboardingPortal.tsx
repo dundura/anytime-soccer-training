@@ -268,7 +268,7 @@ const UPGRADING_NEW_TEAM_SECTIONS: StepSection[] = [
   // applying-a-slot steps come after either one rather than under Method Two.
   {
     boxTitle: 'Quick Overview',
-    overview: 'Either way &mdash; you pay online and we add <strong>free access slots</strong> to your account, or you buy them in the app &mdash; you then need to <strong>apply a free slot to each player&rsquo;s account</strong>.',
+    overview: 'Two options &mdash; you pay online and we add <strong>free access slots</strong> to your account, or you buy them in the app &mdash; you then need to <strong>apply a free slot to each player&rsquo;s account</strong>.',
     items: [
       'The player joins your team.',
       'Go to <strong>Upgrade Players</strong> in your team menu.',

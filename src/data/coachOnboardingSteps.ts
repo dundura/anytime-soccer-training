@@ -448,7 +448,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     // Under the methods, because both end the same way: whether the slots came
     // from a paid invoice or were bought in the app, the coach applies them.
     afterSteps: `
-      <p>Either way &mdash; you pay online and we add <strong>free access slots</strong> to your account, or you buy them in the app &mdash; you then need to <strong>apply a free slot to each player&rsquo;s account</strong>.</p>
+      <p>Two options &mdash; you pay online and we add <strong>free access slots</strong> to your account, or you buy them in the app &mdash; you then need to <strong>apply a free slot to each player&rsquo;s account</strong>.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0 24px;">
         <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
