@@ -166,6 +166,9 @@ type StepSection = {
   // Three screens in, the sequence is the thing that has to have landed, and
   // the acknowledgement underneath is asking about exactly this list.
   recap?: string[];
+  // HTML shown below the list, for a screen that needs more than one list —
+  // the same slot a data step calls afterSteps.
+  after?: string;
 };
 
 const ROSTER_SECTIONS: StepSection[] = [
@@ -228,9 +231,34 @@ const PAYMENT_SECTIONS: StepSection[] = [
 
 // Keyed by step, so adding another in-page stepper is one entry here rather
 // than another `step.key === ...` special case threaded through the wizard.
+// "Upgrading Players: Brand New Team" on two screens rather than one. Neil,
+// 2026-09-15: the coach should confirm they understand paying in advance before
+// they are shown the in-app option. Screen 2 reuses the data step's own
+// afterSteps (index 22), so the applying-a-slot steps are written once.
+const UPGRADING_NEW_TEAM_SECTIONS: StepSection[] = [
+  {
+    heading: 'Method One: Submit your roster and pay the invoice in advance',
+    overview: 'Upgrade players by either paying the online invoice in advance and/or purchasing upgrade slots inside the app.',
+    items: [
+      'The roster template is provided later.',
+      'Once paid, we add <strong>free access slots</strong> that you apply to players.',
+    ],
+    recap: ['I understand I can pay the invoice in advance, and you add free access slots to my account'],
+  },
+  {
+    heading: 'Method Two: two options',
+    items: [
+      'Add new players inside the app and purchase their slots.',
+      'Click <strong>Upgrade Players</strong> within your team to buy them.',
+    ],
+    after: COACH_ONBOARDING_STEPS[22]?.afterSteps,
+  },
+];
+
 const STEP_SECTIONS: Record<string, StepSection[]> = {
   tip_roster: ROSTER_SECTIONS,
   dir_payment: PAYMENT_SECTIONS,
+  roster_intro: UPGRADING_NEW_TEAM_SECTIONS,
 };
 
 // The notification sequence is served by the backend (GET
@@ -1499,6 +1527,9 @@ export default function OnboardingPortal() {
                           )}
                           </div>
                           )}
+                          {sec.after && (
+                            <div className="text-gray-700 leading-relaxed mb-4 [&_strong]:text-navy" dangerouslySetInnerHTML={{ __html: sec.after }} />
+                          )}
                           {!!sec.recap?.length && (
                             <ol className="space-y-2 mb-4">
                               {sec.recap.map((r, ri) => {
@@ -1779,7 +1810,10 @@ export default function OnboardingPortal() {
                     // last section, where the normal red Next takes over.
                     <button
                       onClick={() => { setRosterSection(rosterSection + 1); setError(''); }}
-                      className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
+                      // A screen with its own confirm has to be confirmed before
+                      // the next one opens, or the confirm is decoration.
+                      disabled={!stepDone && recapUnmet}
+                      className="w-full sm:w-auto bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-2.5 px-8 rounded-xl transition-colors"
                     >
                       Next →
                     </button>
