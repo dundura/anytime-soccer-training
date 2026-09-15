@@ -84,7 +84,6 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'bonus_player_turnover', title: 'Player Turnover', dataIndex: -1, faqIndex: 33, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_not_on_team', title: 'Players have joined the app, but they’re not on my team', dataIndex: -1, faqIndex: 10, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_add_players', title: 'How do I add players to my team?', dataIndex: -1, faqIndex: 3, section: 'Bonus', tip: true, bonus: true },
-  { key: 'faq_remove_players', title: 'How do I remove players from my team?', dataIndex: -1, faqIndex: 4, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_managers', title: 'Can my team have multiple team managers?', dataIndex: -1, faqIndex: 16, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_folders_assign', title: 'How to Assign Homework', dataIndex: -1, faqIndex: 19, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_team_name', title: 'How do I change my team name?', dataIndex: -1, faqIndex: 34, section: 'Bonus', tip: true, bonus: true },
