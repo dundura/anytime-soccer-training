@@ -76,7 +76,6 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   // looking it up later finds it with the other roster questions.
   { key: 'faq_add_remove_players', title: 'How do I add and remove players?', dataIndex: 25, section: 'FAQs', info: true, ack: { label: 'Got it' } },
   { key: 'faq_team_name', title: 'How do I change my team name?', dataIndex: -1, faqIndex: 34, section: 'Bonus', tip: true, bonus: true },
-  { key: 'adding_players_reminder', title: 'Adding Players to Your Team', dataIndex: 24, section: 'Bonus', info: true, bonus: true },
 ];
 
 // The club-director path. Short on purpose: a director arriving here is
