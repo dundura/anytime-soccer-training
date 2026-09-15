@@ -328,7 +328,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     `,
   },
   {
-    title: 'Sending Roster in Advance',
+    title: 'How Payment Works - Club Pays',
     body: `
       <p>Some clubs pay for their teams centrally. If yours does, <strong>you never handle payment</strong>.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
