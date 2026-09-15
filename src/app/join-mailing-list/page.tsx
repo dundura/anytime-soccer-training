@@ -4,11 +4,11 @@ import MailingListForm from '@/components/MailingListForm';
 export const metadata: Metadata = {
   title: 'Join the Mailing List | Anytime Soccer Training',
   description:
-    'Drills that work at home, and the things I wish somebody had told me sooner. From a soccer dad who had to work it out.',
+    'Soccer training tips, drills and updates from Anytime Soccer Training, sent to your inbox.',
   openGraph: {
     title: 'Join the Mailing List | Anytime Soccer Training',
     description:
-      'Drills that work at home, and the things I wish somebody had told me sooner. From a soccer dad who had to work it out.',
+      'Soccer training tips, drills and updates from Anytime Soccer Training, sent to your inbox.',
   },
 };
 
@@ -26,14 +26,12 @@ export default function JoinMailingListPage() {
     <div className="py-14 sm:py-20 px-4">
       <div className="max-w-xl mx-auto">
         <div className="text-center mb-10">
-          <p className="text-xs font-bold uppercase tracking-widest text-red mb-4">The Newsletter</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-red mb-4">Anytime Soccer Training</p>
           <h1 className="text-3xl sm:text-[42px] font-bold text-navy leading-[1.15] mb-5">
-            Ten minutes a day beats talent.
+            Welcome to our newsletter
           </h1>
           <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-            I had no soccer background and two sons falling behind. It took me ten years to work out what
-            actually helps. Now I send it to you: drills you can do at home, and the things I wish someone had
-            told me sooner.
+            Soccer training tips, drills and updates, sent straight to your inbox.
           </p>
         </div>
 
