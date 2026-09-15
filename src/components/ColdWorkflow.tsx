@@ -34,6 +34,10 @@ type Lead = {
   on?: LeadSequence[];
 };
 
+// Somebody on these sequences with no CRM contact: added from code, which is
+// how the Facebook group enrolments go on. There is no contact row to edit.
+type FromCode = { email: string; name: string | null; signedUpAt: string | null; on: LeadSequence[] };
+
 const blank = { name: '', club: '', email: '', website: '', notes: '' };
 
 // Manual-only emails carry an absurd delay so the automatic sender can never
@@ -76,19 +80,22 @@ export default function ColdWorkflow({
   const [sequence, setSequence] = useState('');
   const [added, setAdded] = useState<Lead[]>([]);
   const [todo, setTodo] = useState<Lead[]>([]);
+  const [fromCode, setFromCode] = useState<FromCode[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [note, setNote] = useState('');
 
   const [showEmails, setShowEmails] = useState(false);
   const [openSendGroup, setOpenSendGroup] = useState<string | null>(null);
-  const [preview, setPreview] = useState<{ subject: string; html: string; emailKey?: string; lead?: Lead } | null>(null);
+  const [preview, setPreview] = useState<{ id?: number; subject: string; html: string; emailKey?: string; lead?: Lead } | null>(null);
   const [chosen, setChosen] = useState<Set<number>>(new Set());
   const [confirming, setConfirming] = useState(false);
   const [busy, setBusy] = useState(false);
   const [draft, setDraft] = useState({ ...blank });
   const [confirmDelete, setConfirmDelete] = useState(0);
   const [editing, setEditing] = useState<Lead | null>(null);
+  // Which sequence email is being sent as a sample, so only its button says so.
+  const [sampling, setSampling] = useState(0);
 
   const headers = useCallback(
     () => ({
@@ -111,6 +118,7 @@ export default function ColdWorkflow({
       if (!sequence && data.sequence) setSequence(data.sequence);
       setAdded(data.added || []);
       setTodo(data.todo || []);
+      setFromCode(data.fromCode || []);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not load the cold list.');
     } finally {
@@ -202,15 +210,53 @@ export default function ColdWorkflow({
   // `lead` is what turns a preview into something that can be sent. Opened from
   // the sequence panel there is nobody to send to and the button stays away.
   const openPreview = async (row: EmailRow, lead?: Lead) => {
-    setPreview({ subject: row.subject, html: '', emailKey: row.emailKey, lead });
+    setPreview({ id: row.id, subject: row.subject, html: '', emailKey: row.emailKey, lead });
     try {
       const res = await fetch(`${API}/newsletters/emails/${row.id}`, { headers: headers() });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Could not load that email.');
-      setPreview({ subject: data.email?.subject || row.subject, html: data.email?.html || '', emailKey: row.emailKey, lead });
+      setPreview({ id: row.id, subject: data.email?.subject || row.subject, html: data.email?.html || '', emailKey: row.emailKey, lead });
     } catch (e) {
       setNote(e instanceof Error ? e.message : 'Could not load that email.');
       setPreview(null);
+    }
+  };
+
+  // Send sample, straight from the sequence list: the stored email to Neil as a
+  // test, without opening the preview first.
+  const sendSample = async (row: EmailRow) => {
+    if (sampling) return;
+    setSampling(row.id);
+    setNote('');
+    try {
+      const res = await fetch(`${API}/newsletters/emails/${row.id}/test`, { method: 'POST', headers: headers(), body: JSON.stringify({}) });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Could not send the sample.');
+      setNote(`Sample of "${row.subject}" sent to ${data.to || 'you'}`);
+    } catch (e) {
+      setNote(e instanceof Error ? e.message : 'Could not send the sample.');
+    } finally {
+      setSampling(0);
+    }
+  };
+
+  // Opened from the sequence panel there is nobody to send to, so the preview
+  // can only go to Neil as a test -- the same route the Newsletters page uses,
+  // which renders it with his name and a dummy unsubscribe link.
+  const sendTestFromPreview = async () => {
+    if (!preview?.id || busy) return;
+    setBusy(true);
+    setNote('');
+    try {
+      const res = await fetch(`${API}/newsletters/emails/${preview.id}/test`, { method: 'POST', headers: headers(), body: JSON.stringify({}) });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Could not send the test.');
+      setNote('Test sent to ' + (data.to || 'you'));
+      setPreview(null);
+    } catch (e) {
+      setNote(e instanceof Error ? e.message : 'Could not send the test.');
+    } finally {
+      setBusy(false);
     }
   };
 
@@ -503,6 +549,18 @@ export default function ColdWorkflow({
             ) : (
               <p className="text-sm text-gray-500 p-6">Loading…</p>
             )}
+            {!preview.lead && preview.id && (
+              <div className="flex items-center gap-2 px-4 py-3 border-t border-gray-200">
+                <span className="text-[11px] text-gray-500 truncate">A test copy, with your name filled in</span>
+                <button
+                  onClick={sendTestFromPreview}
+                  disabled={busy || !preview.html}
+                  className="ml-auto px-4 py-2 rounded-lg bg-navy text-white text-xs font-bold disabled:opacity-50"
+                >
+                  {busy ? 'Sending…' : 'Send test to me'}
+                </button>
+              </div>
+            )}
             {preview.lead && (
               <div className="flex items-center gap-2 px-4 py-3 border-t border-gray-200">
                 <span className="text-[11px] text-gray-500 truncate">To {preview.lead.email}</span>
@@ -671,6 +729,42 @@ export default function ColdWorkflow({
               {!added.length && <p className="px-3 py-4 text-center text-sm text-gray-500">Nobody yet.</p>}
             </div>
           )}
+
+          {/* Added from code: put on these sequences by script (the Facebook
+              group enrolments), so there is no CRM contact behind them. Shown so
+              they are not invisible here; read-only because there is no contact
+              row to edit, note or remove. */}
+          {fromCode.length > 0 && (
+            <div className="mt-4">
+              <p className="text-[11px] font-bold uppercase tracking-wide text-gray-500 mb-2">
+                Added from code{' '}
+                <span className="text-gray-400 font-semibold normal-case tracking-normal">
+                  ({fromCode.length}, not in the CRM)
+                </span>
+              </p>
+              <div className="border border-gray-200 rounded-lg divide-y divide-gray-100">
+                {fromCode.map((p) => (
+                  <div key={p.email} className="flex flex-wrap items-center gap-2 px-3 py-2 text-sm">
+                    <span className="font-semibold text-navy w-32 shrink-0 truncate">{p.name || p.email}</span>
+                    <span className="text-gray-600 flex-1 min-w-[160px] truncate">{p.email}</span>
+                    {p.on.map((o) => (
+                      <span
+                        key={o.sequence}
+                        className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 text-[10px] font-bold whitespace-nowrap"
+                      >
+                        {o.label} &middot; {o.sentCount} sent
+                      </span>
+                    ))}
+                    {p.signedUpAt && (
+                      <span className="text-[11px] text-gray-400 whitespace-nowrap">
+                        added {new Date(p.signedUpAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </>
       )}
 
@@ -789,6 +883,13 @@ export default function ColdWorkflow({
                               className="shrink-0 self-start px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200"
                             >
                               Preview
+                            </button>
+                            <button
+                              onClick={() => sendSample(e)}
+                              disabled={!!sampling}
+                              className="shrink-0 self-start px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold hover:opacity-90 disabled:opacity-50"
+                            >
+                              {sampling === e.id ? 'Sending…' : 'Send sample'}
                             </button>
                           </div>
                         ))}
