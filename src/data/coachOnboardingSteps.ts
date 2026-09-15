@@ -548,10 +548,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <p style="margin:6px 0 0;"><strong>Deleting a team</strong> &mdash; click <strong>Edit Team</strong>, then <strong>Archive</strong> or <strong>Delete Team</strong>.</p>
         </div>
       </div>
-      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;margin:16px 0;">
-        <p style="margin:0 0 6px;color:#166534;"><strong>Moving a player from another team &mdash; do they lose their stats?</strong></p>
-        <p style="margin:0;color:#166534;">No. Progress belongs to the player, not the team. Add them to the new roster and it all comes with them.</p>
-      </div>
     `,
   },
   // Appended rather than inserted, because every portal step points at this
