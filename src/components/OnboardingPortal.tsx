@@ -258,6 +258,8 @@ const UPGRADING_NEW_TEAM_SECTIONS: StepSection[] = [
       'I can add new players inside the app and purchase their slots.',
       'Click <strong>Upgrade Players</strong> within your team to buy them.',
     ],
+    recap: ['I understand that I can upgrade players inside the app'],
+    recapPlain: true,
   },
   // Its own screen (Neil, 2026-09-15): both methods end the same way, so the
   // applying-a-slot steps come after either one rather than under Method Two.
