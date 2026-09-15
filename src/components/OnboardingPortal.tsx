@@ -158,7 +158,12 @@ const numberedTotal = (steps: PortalStep[]) => steps.filter(x => !x.tip && !x.bo
 // in bold. A section with no lead simply starts at its first item, which is how
 // the roster page has always read and what keeps it unchanged here.
 type StepSection = {
-  heading: string;
+  heading?: string;
+  // Shown INSIDE the blue box, navy, above its list -- how a data step shows a
+  // sub-step title. Used instead of the red eyebrow heading.
+  boxTitle?: string;
+  // A recap that is one confirmation rather than a numbered list.
+  recapPlain?: boolean;
   overview?: string;
   lead?: string;
   items: string[];
@@ -238,18 +243,19 @@ const PAYMENT_SECTIONS: StepSection[] = [
 // afterSteps (index 22), so the applying-a-slot steps are written once.
 const UPGRADING_NEW_TEAM_SECTIONS: StepSection[] = [
   {
-    heading: 'Method One: Submit your roster and pay the invoice in advance',
+    boxTitle: 'Method One: Submit your roster and pay the invoice in advance',
     overview: 'Upgrade players by either paying the online invoice in advance and/or purchasing upgrade slots inside the app.',
     items: [
       'The roster template is provided later.',
       'Once paid, we add <strong>free access slots</strong> that you apply to players.',
     ],
     recap: ['I understand I can pay the invoice in advance, and you add free access slots to my account'],
+    recapPlain: true,
   },
   {
-    heading: 'Method Two: two options',
+    boxTitle: 'Method Two: two options',
     items: [
-      'Add new players inside the app and purchase their slots.',
+      'I can add new players inside the app and purchase their slots.',
       'Click <strong>Upgrade Players</strong> within your team to buy them.',
     ],
     after: COACH_ONBOARDING_STEPS[22]?.afterSteps,
@@ -1503,12 +1509,17 @@ export default function OnboardingPortal() {
                               where the box holds the list and only the list. */}
                           {/* Same treatment as "The Rate" and the other step
                               eyebrows: red, uppercase, 13px, extrabold. */}
-                          <h3 className="text-[13px] font-extrabold uppercase tracking-wide text-red mb-2.5">{sec.heading.replace('&amp;', '&')}</h3>
+                          {sec.heading && (
+                            <h3 className="text-[13px] font-extrabold uppercase tracking-wide text-red mb-2.5">{sec.heading.replace('&amp;', '&')}</h3>
+                          )}
                           {sec.overview && (
                             <p className="text-gray-700 leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: sec.overview }} />
                           )}
                           {(sec.lead || !!sec.items.length) && (
                           <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
+                          {sec.boxTitle && (
+                            <p className="font-semibold text-navy mb-3">{sec.boxTitle}</p>
+                          )}
                           {/* The lead is line 1 of the same list, not a badge
                               with bullets hanging off it — every line on the
                               screen counts 1, 2, 3, and reads the same weight
@@ -1545,7 +1556,9 @@ export default function OnboardingPortal() {
                                         onChange={() => setCheckedItems(prev => prev.includes(r) ? prev : [...prev, r])}
                                         className="accent-green-600 w-4 h-4 mt-0.5"
                                       />
-                                      <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{ri + 1}</span>
+                                      {!sec.recapPlain && (
+                                        <span className="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-navy text-white font-bold text-xs">{ri + 1}</span>
+                                      )}
                                       <span className="text-navy text-sm font-bold leading-relaxed" dangerouslySetInnerHTML={{ __html: r }} />
                                     </label>
                                   </li>

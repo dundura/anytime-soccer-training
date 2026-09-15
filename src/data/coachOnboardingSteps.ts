@@ -463,10 +463,6 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <p style="margin:4px 0 0;">Apply a slot. That player has <strong>365 days of full access</strong> from that moment.</p>
         </div>
       </div>
-      <div style="background:#F5F3FF;border:1px solid #C4B5FD;border-left:4px solid #7C3AED;border-radius:10px;padding:16px 18px;margin:0 0 24px;">
-        <p style="margin:0 0 8px;font-weight:700;color:#5B21B6;font-size:16px;">Clubs With More Than One Team</p>
-        <p style="margin:0;color:#4C1D95;">Pay the invoice for the first two teams. After that we charge the card on file for additional players and add free slots to your coaches&rsquo; accounts.</p>
-      </div>
     `,
     subSteps: [
       {
@@ -479,7 +475,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       {
         title: 'Method Two: two options',
         bullets: [
-          'Add new players inside the app and purchase their slots.',
+          'I can add new players inside the app and purchase their slots.',
           'Click Upgrade Players within your team to buy them.',
         ],
       },
