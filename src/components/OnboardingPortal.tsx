@@ -138,7 +138,7 @@ const REFERENCE_KEYS = COACH_PORTAL_STEPS
   .slice(COACH_PORTAL_STEPS.findIndex(s => s.key === 'final_confirm') + 1)
   .map(s => s.key);
 
-const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean }[] = [
+const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean; sub?: { title: string; keys: string[] }[] }[] = [
   { title: 'Send us your roster', keys: ['roster'] },
   { title: 'Pay your invoice', keys: ['invoice'] },
   { title: 'Set your team up', keys: ['onboarding_begins', 'expectations', 'survey', 'account', 'add_profiles', 'team', 'seasons'] },
@@ -147,7 +147,10 @@ const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean }[] 
   { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
   // Reading, not steps. Nothing waits on these and nothing is locked behind
   // them, so they sit at the bottom out of the run.
-  { title: 'FAQs', reference: true, keys: REFERENCE_KEYS },
+  { title: 'FAQs', reference: true, keys: REFERENCE_KEYS,
+    // A heading inside the group, over pages that belong together. The pages
+    // keep their place in the Next order; the heading sits above the first.
+    sub: [{ title: 'Managing Team & Roster', keys: ['faq_delete_team', 'faq_invite_players', 'faq_add_remove_players'] }] },
 ];
 
 // Steps whose Go button leaves the wizard.
@@ -978,13 +981,19 @@ export default function OnboardingPortal() {
           {open && (
             <div className="divide-y divide-gray-100 bg-white">
               {rows.map(({ i, st }) => {
+                const subStart = group.sub?.find(sg => sg.keys[0] === st.key);
+                const inSub = !!group.sub?.some(sg => sg.keys.includes(st.key));
                 const rowDone = coach.checklist[st.key] === true;
                 const skipped = coach.checklist[st.key] === 'skipped';
                 const isNext = st.key === nextKey;
                 const locked = !group.reference && isLocked(st.key);
                 const here = !locked && wizardIndex === i && !showIntro && !showAdmin && !showFaq && !showIndexInfo;
                 return (
-                  <div key={st.key} className={`flex items-start gap-2 px-3 py-2 ${here ? 'bg-navy/5' : isNext ? 'bg-red/5' : ''}`}>
+                  <Fragment key={st.key}>
+                  {subStart && (
+                    <div className="bg-gray-50 px-3 pt-2.5 pb-1 text-[10px] font-extrabold uppercase tracking-wide text-navy/60">{subStart.title}</div>
+                  )}
+                  <div className={`flex items-start gap-2 ${inSub ? 'pl-6 pr-3' : 'px-3'} py-2 ${here ? 'bg-navy/5' : isNext ? 'bg-red/5' : ''}`}>
                     {/* A settled row's mark is the way back. Ticking happens on
                         the step's own page, but a step ticked by mistake -- or
                         ticked for the coach, as the roster is -- has to be
@@ -1017,6 +1026,7 @@ export default function OnboardingPortal() {
                       </a>
                     )}
                   </div>
+                  </Fragment>
                 );
               })}
             </div>
