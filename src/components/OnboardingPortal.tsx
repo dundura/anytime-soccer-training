@@ -1485,9 +1485,6 @@ export default function OnboardingPortal() {
               </div>
             ) : (
               <div>
-                {step.bonus && (
-                  <span className="inline-block text-[10px] font-extrabold uppercase tracking-wide px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 mb-2">★ Optional bonus — not required to finish</span>
-                )}
                 <h2 className="text-navy text-xl font-extrabold mb-4">{step.title}</h2>
 
                 {stepDone && (
