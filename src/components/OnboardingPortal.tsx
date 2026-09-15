@@ -45,7 +45,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'account', title: 'Create your account', dataIndex: 4, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my account'] } },
   { key: 'add_profiles', title: 'Add profiles', dataIndex: 21, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I added a profile for myself and my children'] } },
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my team(s) inside the app'] } },
-  { key: 'seasons', title: 'Adding and removing players each season', dataIndex: 26, section: 'Onboarding', info: true, ack: { label: 'I understand' } },
+  { key: 'seasons', title: 'Adding and removing players each season', dataIndex: 25, section: 'Onboarding', info: true, ack: { label: 'I understand' } },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
   { key: 'commit_contest', title: '1. Start a team contest', dataIndex: -1, faqIndex: 25, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to start a team contest.', options: ['Yes', 'No'] } },
   { key: 'commit_goals', title: '2. Set personal player challenges', dataIndex: -1, faqIndex: 26, section: 'FAQs', tip: true, quiz: { prompt: 'I plan set personal challenges.', options: ['Yes', 'No'] } },
@@ -67,16 +67,13 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
       'I am completing onboarding but will email Megan when ready',
     ] } },
   { key: 'final_confirm', title: 'Confirm & Finish', dataIndex: 16, section: 'FAQs', final: true },
-  // Reference, kept out of the run. The FAQs heading on the rail points here.
-  { key: 'upgrading_players', title: 'How upgrading your players works', dataIndex: 27, section: 'FAQs', info: true, ack: { label: 'I understand' } },
-  { key: 'roster_intro', title: 'Upgrading Players: Brand New Team', dataIndex: 22, section: 'FAQs', info: true, ack: { label: 'I understand' } },
-  { key: 'roster_intro_renewing', title: 'Upgrading Players: Renewing or Self Onboard', dataIndex: 23, section: 'FAQs', info: true, quiz: { prompt: 'Confirm before continuing:', options: ['I understand that within 7 days of a player joining my team, I need to apply a free access slot to their account'] } },
-  { key: 'faq_delete_team', title: 'How do I delete a team?', dataIndex: 28, section: 'FAQs', info: true, ack: { label: 'Got it' } },
+  { key: 'roster_intro', title: 'Upgrading Players', dataIndex: 22, section: 'FAQs', info: true, ack: { label: 'I understand' } },
+  { key: 'faq_delete_team', title: 'How do I delete a team?', dataIndex: 26, section: 'FAQs', info: true, ack: { label: 'Got it' } },
   { key: 'payment_overview', title: 'How payment works - New Teams', dataIndex: 17, section: 'Bonus', info: true, bonus: true },
   { key: 'club_payment', title: 'How Payment Works - Club Pays', dataIndex: 18, section: 'Bonus', info: true, bonus: true },
   { key: 'renewing', title: 'How Payment Works - Renewing teams', dataIndex: 19, section: 'Bonus', info: true, bonus: true },
   { key: 'paying-additional', title: 'Paying for new players', dataIndex: 20, section: 'Bonus', info: true, bonus: true },
-  { key: 'adding_players_reminder', title: 'Quick reminder on adding players', dataIndex: 25, section: 'Bonus', info: true, bonus: true },
+  { key: 'adding_players_reminder', title: 'Quick reminder on adding players', dataIndex: 24, section: 'Bonus', info: true, bonus: true },
   { key: 'tip_paywall', title: 'Bonus Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_emails', title: 'What’s the difference between the login email and the contact email, and how do I update them?', dataIndex: -1, faqIndex: 0, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'Bonus', tip: true, bonus: true },
@@ -138,7 +135,7 @@ const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean }[] 
   { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
   // Reading, not steps. Nothing waits on these and nothing is locked behind
   // them, so they sit at the bottom out of the run.
-  { title: 'FAQs', reference: true, keys: ['roster_intro', 'roster_intro_renewing', 'upgrading_players'] },
+  { title: 'FAQs', reference: true, keys: ['roster_intro'] },
 ];
 
 // Steps whose Go button leaves the wizard.

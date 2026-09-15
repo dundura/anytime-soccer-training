@@ -445,9 +445,24 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     body: `
       <p><strong>Upgrade players by either paying the online invoice in advance and/or purchasing upgrade slots inside the app.</strong></p>
     `,
-    // Under the step, because the rule only makes sense once you know what
-    // paying the invoice involves.
+    // Under the methods, because both end the same way: whether the slots came
+    // from a paid invoice or were bought in the app, the coach applies them.
     afterSteps: `
+      <p>Either way &mdash; you pay online and we add <strong>free access slots</strong> to your account, or you buy them in the app &mdash; you then need to <strong>apply a free slot to each player&rsquo;s account</strong>.</p>
+      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0 24px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+          <p style="margin:4px 0 0;">The player joins your team.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+          <p style="margin:4px 0 0;">Go to <strong>Upgrade Players</strong> in your team menu.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+          <p style="margin:4px 0 0;">Apply a slot. That player has <strong>365 days of full access</strong> from that moment.</p>
+        </div>
+      </div>
       <div style="background:#F5F3FF;border:1px solid #C4B5FD;border-left:4px solid #7C3AED;border-radius:10px;padding:16px 18px;margin:0 0 24px;">
         <p style="margin:0 0 8px;font-weight:700;color:#5B21B6;font-size:16px;">Clubs With More Than One Team</p>
         <p style="margin:0;color:#4C1D95;">Pay the invoice for the first two teams. After that we charge the card on file for additional players and add free slots to your coaches&rsquo; accounts.</p>
@@ -461,29 +476,10 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           'Once paid, we add free access slots that you apply to players.',
         ],
       },
-    ],
-  },
-  {
-    // Its own page rather than a second group on the previous one: the two
-    // routes have nothing to do with each other, and a coach reading both is
-    // reading half a page that does not apply to them.
-    title: 'Upgrading Players: Renewing or Self Onboard',
-    body: `
-      <p><strong>Upgrade players by either paying the online invoice in advance and/or purchasing upgrade slots inside the app.</strong></p>
-    `,
-    afterSteps: `
-      <div style="background:#FFF7ED;border:1px solid #FDBA74;border-left:4px solid #F97316;border-radius:10px;padding:16px 18px;margin:0 0 24px;">
-        <p style="margin:0 0 8px;font-weight:700;color:#9A3412;">Renewing members</p>
-        <p style="margin:0 0 10px;color:#7C2D12;">Because you have players with different subscription dates, you can submit a roster template with only new players, or add the new players inside the app.</p>
-        <p style="margin:0;color:#7C2D12;">We&rsquo;ll invoice you for new players, and you can upgrade existing players inside the app once their subscription expires.</p>
-      </div>
-    `,
-    subSteps: [
       {
         title: 'Method Two: two options',
         bullets: [
-          'Submit a roster of just the new players.',
-          'Or add new players inside the app and purchase their slots.',
+          'Add new players inside the app and purchase their slots.',
           'Click Upgrade Players within your team to buy them.',
         ],
       },
@@ -562,33 +558,9 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       </div>
     `,
   },
-  // The short version of How Payment Works, kept to the one part a coach has
-  // to act on: a paid invoice buys slots, and a slot is what turns a player on.
   // Appended rather than inserted, because every portal step points at this
-  // array by index and inserting would move all of them.
-  {
-    title: 'How upgrading your players works',
-    body: `
-      <p>Your invoice is paid, so your account now holds <strong>free access slots</strong> &mdash; one for each player you paid for.</p>
-      <p>When a player joins your team, you need to <strong>apply a free slot to their account</strong>.</p>
-      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
-          <p style="margin:4px 0 0;">The player joins your team.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
-          <p style="margin:4px 0 0;">Go to <strong>Upgrade Players</strong> in your team menu.</p>
-        </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
-          <p style="margin:4px 0 0;">Apply a slot. That player has <strong>365 days of full access</strong> from that moment.</p>
-        </div>
-      </div>
-    `,
-  },
-  // Appended for the same reason as the one above: portal steps point here by
-  // index. Asked by coaches moving to a new season's team (Neil, 2026-09-15).
+  // array by index and inserting would move all of them. Asked by coaches
+  // moving to a new season's team (Neil, 2026-09-15).
   {
     title: 'How do I delete a team?',
     body: `
