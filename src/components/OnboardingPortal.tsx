@@ -78,7 +78,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_managers', title: 'Can my team have multiple team managers?', dataIndex: -1, faqIndex: 16, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_team_name', title: 'How do I change my team name?', dataIndex: -1, faqIndex: 34, section: 'Bonus', tip: true, bonus: true },
-  { key: 'adding_players_reminder', title: 'Quick reminder on adding players', dataIndex: 24, section: 'Bonus', info: true, bonus: true },
+  { key: 'adding_players_reminder', title: 'Adding Players to Your Team', dataIndex: 24, section: 'Bonus', info: true, bonus: true },
   { key: 'faq_not_on_team', title: 'Players have joined the app, but they’re not on my team', dataIndex: -1, faqIndex: 10, section: 'Bonus', tip: true, bonus: true },
 ];
 
