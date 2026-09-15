@@ -69,15 +69,25 @@ export default function ColdWorkflow({
   token,
   group = 'Cold',
   noun = 'contact',
+  lockedSequence,
+  title,
+  crmWorkflow = true,
 }: {
   token: string | null;
   group?: string;
   noun?: string;
+  // One page per way contacts come in: the page shows this sequence only, and
+  // only the people on it.
+  lockedSequence?: string;
+  title?: string;
+  // Off for audiences whose contacts arrive from code (the Facebook group, a
+  // player's referral): no CRM add, ready-to-send or to-work tools there.
+  crmWorkflow?: boolean;
 }) {
   const [tab, setTab] = useState<'send' | 'work'>('send');
   const [emails, setEmails] = useState<EmailRow[]>([]);
   const [sequences, setSequences] = useState<ColdSequence[]>([]);
-  const [sequence, setSequence] = useState('');
+  const [sequence, setSequence] = useState(lockedSequence || '');
   const [added, setAdded] = useState<Lead[]>([]);
   const [todo, setTodo] = useState<Lead[]>([]);
   const [fromCode, setFromCode] = useState<FromCode[]>([]);
@@ -134,6 +144,9 @@ export default function ColdWorkflow({
   const ready = todo.filter((l) => !l.blocked);
   const blocked = todo.filter((l) => l.blocked);
   const selected = ready.filter((l) => chosen.has(l.id));
+  // A locked page lists only the people on its own sequence.
+  const shownAdded = lockedSequence ? added.filter((l) => (l.on || []).some((x) => x.sequence === lockedSequence)) : added;
+  const shownFromCode = lockedSequence ? fromCode.filter((x) => x.on.some((o) => o.sequence === lockedSequence)) : fromCode;
 
   // Adding to a sequence whose first email has no delay sends it immediately.
   // The button has to say so, or "add" reads as filing.
@@ -396,6 +409,9 @@ export default function ColdWorkflow({
     <div className="px-4 py-5 max-w-4xl">
       {/* Who am I writing to ------------------------------------------- */}
       <div className="flex flex-wrap items-center gap-2 mb-2">
+        {lockedSequence ? (
+          <h2 className="text-lg font-extrabold text-navy">{title || sequenceLabel}</h2>
+        ) : (
         <select
           value={sequence}
           onChange={(e) => {
@@ -411,6 +427,7 @@ export default function ColdWorkflow({
             </option>
           ))}
         </select>
+        )}
       </div>
 
       {emails.length === 0 && (
@@ -419,7 +436,7 @@ export default function ColdWorkflow({
         </p>
       )}
 
-      {blocked.length > 0 && (
+      {crmWorkflow && blocked.length > 0 && (
         <div className="flex border border-gray-200 rounded-lg overflow-hidden w-fit mb-4">
           <button onClick={() => setTab('send')} className={tabClass('send')}>
             Ready ({ready.length})
@@ -584,6 +601,8 @@ export default function ColdWorkflow({
       {/* Ready to send --------------------------------------------------- */}
       {(tab === 'send' || !blocked.length) && (
         <>
+          {crmWorkflow && (
+          <>
           <div className="flex items-center gap-3 mb-2">
             <span className="text-sm font-bold text-navy">
               Ready to send &mdash; <span className="text-red">{sequenceLabel}</span>
@@ -695,11 +714,14 @@ export default function ColdWorkflow({
           </div>
           <p className="text-[11px] text-gray-500 mb-6">Added to the list, not sent to. Tick them above when ready.</p>
 
+          </>
+          )}
+
           {/* Already gone. Not folded away: these are the people you open to
               send the rest of the sequence to, which is most of the work. */}
-          {added.length > 0 && (
+          {shownAdded.length > 0 && (
             <div className="border border-gray-200 rounded-lg mt-2 divide-y divide-gray-100">
-              {added.map((l) => (
+              {shownAdded.map((l) => (
                 <div key={l.id} className="flex flex-wrap items-center gap-2 px-3 py-2 text-sm">
                   <button
                     onClick={() => setEditing(l)}
@@ -726,7 +748,7 @@ export default function ColdWorkflow({
                   {removeButton(l.id)}
                 </div>
               ))}
-              {!added.length && <p className="px-3 py-4 text-center text-sm text-gray-500">Nobody yet.</p>}
+              {!shownAdded.length && <p className="px-3 py-4 text-center text-sm text-gray-500">Nobody yet.</p>}
             </div>
           )}
 
@@ -734,16 +756,16 @@ export default function ColdWorkflow({
               group enrolments), so there is no CRM contact behind them. Shown so
               they are not invisible here; read-only because there is no contact
               row to edit, note or remove. */}
-          {fromCode.length > 0 && (
+          {shownFromCode.length > 0 && (
             <div className="mt-4">
               <p className="text-[11px] font-bold uppercase tracking-wide text-gray-500 mb-2">
-                Added from code{' '}
+                {crmWorkflow ? 'Added from code' : 'Contacts'}{' '}
                 <span className="text-gray-400 font-semibold normal-case tracking-normal">
-                  ({fromCode.length}, not in the CRM)
+                  ({shownFromCode.length}{crmWorkflow ? ', not in the CRM' : ', added from code'})
                 </span>
               </p>
               <div className="border border-gray-200 rounded-lg divide-y divide-gray-100">
-                {fromCode.map((p) => (
+                {shownFromCode.map((p) => (
                   <div key={p.email} className="flex flex-wrap items-center gap-2 px-3 py-2 text-sm">
                     <span className="font-semibold text-navy w-32 shrink-0 truncate">{p.name || p.email}</span>
                     <span className="text-gray-600 flex-1 min-w-[160px] truncate">{p.email}</span>
@@ -765,11 +787,17 @@ export default function ColdWorkflow({
               </div>
             </div>
           )}
+
+          {!crmWorkflow && !shownFromCode.length && !shownAdded.length && !loading && (
+            <p className="mt-4 px-3 py-5 text-center text-sm text-gray-500 font-semibold border border-gray-200 rounded-lg">
+              Nobody on this sequence yet.
+            </p>
+          )}
         </>
       )}
 
       {/* Needs work ------------------------------------------------------ */}
-      {tab === 'work' && blocked.length > 0 && (
+      {crmWorkflow && tab === 'work' && blocked.length > 0 && (
         <>
           <p className="text-xs text-gray-500 mb-3">
             These cannot be sent to yet. Type the address in and they move to Ready.

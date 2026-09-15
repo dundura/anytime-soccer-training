@@ -49,7 +49,17 @@ const GROUPS = [
       { key: 'demos', label: 'Coach Demos', icon: '🎬' },
       { key: 'crm', label: 'Client CRM', icon: '📇' },
       { key: 'roster', label: 'Roster requests', icon: '📋' },
-      { key: 'cold', label: 'Cold', icon: '🧊' },
+    ],
+  },
+  // One page per way a cold contact comes in, each with only its own contacts,
+  // workflow and sequence. One page for all four was too busy to work from.
+  {
+    group: 'Cold outreach',
+    rows: [
+      { key: 'cold-fb', label: 'Facebook group coaches', icon: '👥' },
+      { key: 'cold-referral', label: 'Referred by a player', icon: '🙋' },
+      { key: 'cold-league', label: 'League officials', icon: '🏟️' },
+      { key: 'cold-snm', label: 'Soccer Near Me clubs', icon: '📍' },
     ],
   },
   {
@@ -113,7 +123,9 @@ export default function Console() {
     const stored = localStorage.getItem(TOKEN_KEY);
     const admin = localStorage.getItem(ADMIN_KEY);
     if (stored && admin) setToken(stored);
-    const wanted = new URLSearchParams(window.location.search).get('view');
+    const asked = new URLSearchParams(window.location.search).get('view');
+    // Cold was one page before it split into four; old links open the first.
+    const wanted = asked === 'cold' ? 'cold-fb' : asked;
     if (wanted && GROUPS.some((g) => g.rows.some((r) => r.key === wanted))) {
       setView(wanted as ViewKey);
       setOpenGroups((open) => (open.includes(groupOf(wanted)) ? open : [...open, groupOf(wanted)]));
@@ -260,7 +272,10 @@ export default function Console() {
             {view === 'triggered' && <TriggeredEmails token={token} />}
             {view === 'people' && <NewsletterPeople token={token} />}
             {view === 'crm' && <CrmAdmin token={token} />}
-            {view === 'cold' && <ColdWorkflow token={token} />}
+            {view === 'cold-fb' && <ColdWorkflow key="cold-fb" token={token} lockedSequence="cold-coach" title="Facebook group coaches" crmWorkflow={false} />}
+            {view === 'cold-referral' && <ColdWorkflow key="cold-referral" token={token} lockedSequence="referral-coach" title="Referred by a player" crmWorkflow={false} />}
+            {view === 'cold-league' && <ColdWorkflow key="cold-league" token={token} lockedSequence="cold-league" title="League officials" />}
+            {view === 'cold-snm' && <ColdWorkflow key="cold-snm" token={token} lockedSequence="cold-snm" title="Soccer Near Me clubs" />}
             {view === 'podcast' && <ColdWorkflow token={token} group="Podcast" noun="guest" />}
             {view === 'intl' && <ColdWorkflow token={token} group="International" noun="requester" />}
             {view === 'roster' && <RosterRequests token={token} />}
