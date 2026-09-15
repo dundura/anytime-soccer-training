@@ -9,12 +9,12 @@ export const metadata: Metadata = {
     title: 'Soccer Development Scorecard',
     description: "What to watch and count in your player's games, and how to see whether they are really getting better. Free for soccer parents.",
     url: 'https://www.anytime-soccer.com/soccer-development-scorecard',
-    images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1789415806547-qjc8h3.png', width: 1672, height: 941, alt: 'Soccer Development Scorecard' }],
+    images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1789481178445-93x8p1.png', width: 1734, height: 907, alt: 'Soccer Development Scorecard' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Soccer Development Scorecard',
-    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1789415806547-qjc8h3.png'],
+    images: ['https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1789481178445-93x8p1.png'],
   },
 };
 
@@ -29,7 +29,7 @@ export default function SoccerDevelopmentScorecardPage() {
             <div className="flex flex-col gap-6">
               <div>
                 <img
-                  src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1789415806547-qjc8h3.png"
+                  src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1789481178445-93x8p1.png"
                   alt="Soccer Development Scorecard"
                   className="w-full rounded-2xl shadow-[0_24px_48px_rgba(15,49,84,0.15)]"
                 />
