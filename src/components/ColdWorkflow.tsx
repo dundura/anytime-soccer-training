@@ -106,6 +106,9 @@ export default function ColdWorkflow({
   const [editing, setEditing] = useState<Lead | null>(null);
   // Which sequence email is being sent as a sample, so only its button says so.
   const [sampling, setSampling] = useState(0);
+  // The from-code list starts folded: it is the long one, and the sequence and
+  // the send tools are what the page is opened for.
+  const [showFromCode, setShowFromCode] = useState(false);
 
   const headers = useCallback(
     () => ({
@@ -758,12 +761,18 @@ export default function ColdWorkflow({
               row to edit, note or remove. */}
           {shownFromCode.length > 0 && (
             <div className="mt-4">
-              <p className="text-[11px] font-bold uppercase tracking-wide text-gray-500 mb-2">
-                {crmWorkflow ? 'Added from code' : 'Contacts'}{' '}
+              <button
+                type="button"
+                onClick={() => setShowFromCode((v) => !v)}
+                className="flex items-center gap-2 mb-2 text-[11px] font-bold uppercase tracking-wide text-gray-500 hover:text-navy"
+              >
+                <span className="text-gray-400">{showFromCode ? '▾' : '▸'}</span>
+                {crmWorkflow ? 'Added from code' : 'Contacts'}
                 <span className="text-gray-400 font-semibold normal-case tracking-normal">
                   ({shownFromCode.length}{crmWorkflow ? ', not in the CRM' : ', added from code'})
                 </span>
-              </p>
+              </button>
+              {showFromCode && (
               <div className="border border-gray-200 rounded-lg divide-y divide-gray-100">
                 {shownFromCode.map((p) => (
                   <div key={p.email} className="flex flex-wrap items-center gap-2 px-3 py-2 text-sm">
@@ -785,6 +794,7 @@ export default function ColdWorkflow({
                   </div>
                 ))}
               </div>
+              )}
             </div>
           )}
 
