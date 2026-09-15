@@ -130,6 +130,14 @@ const DIRECTOR_PORTAL_STEPS: PortalStep[] = [
 //
 // A step listed here that does not exist is skipped rather than crashing, so
 // the wizard can gain and lose steps without this list having to be right.
+// Every page Next walks through after Confirm & Finish -- the FAQs and the
+// bonus pages -- in the same order. Derived rather than listed, because a
+// hand-kept list here is how three new FAQs existed as pages but never showed
+// up on the rail (Neil, 2026-09-15).
+const REFERENCE_KEYS = COACH_PORTAL_STEPS
+  .slice(COACH_PORTAL_STEPS.findIndex(s => s.key === 'final_confirm') + 1)
+  .map(s => s.key);
+
 const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean }[] = [
   { title: 'Send us your roster', keys: ['roster'] },
   { title: 'Pay your invoice', keys: ['invoice'] },
@@ -139,7 +147,7 @@ const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean }[] 
   { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
   // Reading, not steps. Nothing waits on these and nothing is locked behind
   // them, so they sit at the bottom out of the run.
-  { title: 'FAQs', reference: true, keys: ['roster_intro', 'faq_delete_team', 'faq_invite_players', 'faq_add_remove_players'] },
+  { title: 'FAQs', reference: true, keys: REFERENCE_KEYS },
 ];
 
 // Steps whose Go button leaves the wizard.
