@@ -340,6 +340,9 @@ export default function OnboardingPortal() {
   const [saving, setSaving] = useState(false);
   const [wizardIndex, setWizardIndex] = useState(0);
   const [rosterSection, setRosterSection] = useState(0);
+  // Rail sub-categories the coach has opened. Closed by default (Neil,
+  // 2026-09-15); a sub-category holding the page you are on opens by itself.
+  const [openSubs, setOpenSubs] = useState<string[]>([]);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
   const [ackChecked, setAckChecked] = useState(false);
   const [quizAnswer, setQuizAnswer] = useState<string>('');
@@ -982,7 +985,11 @@ export default function OnboardingPortal() {
             <div className="divide-y divide-gray-100 bg-white">
               {rows.map(({ i, st }) => {
                 const subStart = group.sub?.find(sg => sg.keys[0] === st.key);
-                const inSub = !!group.sub?.some(sg => sg.keys.includes(st.key));
+                const mySub = group.sub?.find(sg => sg.keys.includes(st.key));
+                const inSub = !!mySub;
+                const subHasHere = (sg: { keys: string[] }) =>
+                  sg.keys.some(k => STEPS.findIndex(s2 => s2.key === k) === wizardIndex) && !showIntro && !showAdmin && !showFaq && !showIndexInfo;
+                const subOpen = (sg: { title: string; keys: string[] }) => openSubs.includes(sg.title) || subHasHere(sg);
                 const rowDone = coach.checklist[st.key] === true;
                 const skipped = coach.checklist[st.key] === 'skipped';
                 const isNext = st.key === nextKey;
@@ -991,8 +998,16 @@ export default function OnboardingPortal() {
                 return (
                   <Fragment key={st.key}>
                   {subStart && (
-                    <div className="bg-gray-50 px-3 pt-2.5 pb-1 text-[10px] font-extrabold uppercase tracking-wide text-navy/60">{subStart.title}</div>
+                    <button
+                      type="button"
+                      onClick={() => setOpenSubs(prev => prev.includes(subStart.title) ? prev.filter(t => t !== subStart.title) : [...prev, subStart.title])}
+                      className="flex w-full items-center gap-2 bg-gray-50 px-3 py-2 text-left text-[10px] font-extrabold uppercase tracking-wide text-navy/60 hover:bg-gray-100"
+                    >
+                      <span className="text-navy/40">{subOpen(subStart) ? '▾' : '▸'}</span>
+                      {subStart.title}
+                    </button>
                   )}
+                  {(!mySub || subOpen(mySub)) && (
                   <div className={`flex items-start gap-2 ${inSub ? 'pl-6 pr-3' : 'px-3'} py-2 ${here ? 'bg-navy/5' : isNext ? 'bg-red/5' : ''}`}>
                     {/* A settled row's mark is the way back. Ticking happens on
                         the step's own page, but a step ticked by mistake -- or
@@ -1026,6 +1041,7 @@ export default function OnboardingPortal() {
                       </a>
                     )}
                   </div>
+                  )}
                   </Fragment>
                 );
               })}
