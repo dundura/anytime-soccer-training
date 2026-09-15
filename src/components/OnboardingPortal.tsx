@@ -76,6 +76,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   // looking it up later finds it with the other roster questions.
   { key: 'faq_add_remove_players', title: 'How do I add and remove players?', dataIndex: 25, section: 'FAQs', info: true, ack: { label: 'Got it' } },
   { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'Bonus', tip: true, bonus: true },
+  { key: 'faq_managers', title: 'Can my team have multiple team managers?', dataIndex: -1, faqIndex: 16, section: 'Bonus', tip: true, bonus: true },
   { key: 'adding_players_reminder', title: 'Quick reminder on adding players', dataIndex: 24, section: 'Bonus', info: true, bonus: true },
   { key: 'tip_paywall', title: 'Bonus Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_emails', title: 'What’s the difference between the login email and the contact email, and how do I update them?', dataIndex: -1, faqIndex: 0, section: 'Bonus', tip: true, bonus: true },
@@ -84,7 +85,6 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'bonus_player_turnover', title: 'Player Turnover', dataIndex: -1, faqIndex: 33, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_not_on_team', title: 'Players have joined the app, but they’re not on my team', dataIndex: -1, faqIndex: 10, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_add_players', title: 'How do I add players to my team?', dataIndex: -1, faqIndex: 3, section: 'Bonus', tip: true, bonus: true },
-  { key: 'faq_managers', title: 'Can my team have multiple team managers?', dataIndex: -1, faqIndex: 16, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_folders_assign', title: 'How to Assign Homework', dataIndex: -1, faqIndex: 19, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_team_name', title: 'How do I change my team name?', dataIndex: -1, faqIndex: 34, section: 'Bonus', tip: true, bonus: true },
 ];
@@ -133,7 +133,7 @@ const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean; sub
     // keep their place in the Next order; the heading sits above the first.
     sub: [
       { title: 'How Payment Works', keys: ['club_payment', 'renewing'] },
-      { title: 'Managing Team & Roster', keys: ['faq_delete_team', 'faq_invite_players', 'faq_add_remove_players', 'faq_videos_move'] },
+      { title: 'Managing Team & Roster', keys: ['faq_delete_team', 'faq_invite_players', 'faq_add_remove_players', 'faq_videos_move', 'faq_managers'] },
     ] },
 ];
 
