@@ -132,7 +132,7 @@ const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean; sub
     // A heading inside the group, over pages that belong together. The pages
     // keep their place in the Next order; the heading sits above the first.
     sub: [
-      { title: 'How Payment Works', keys: ['club_payment', 'renewing'] },
+      { title: 'How Payment Works', keys: ['roster_intro', 'club_payment', 'renewing'] },
       { title: 'Managing Team & Roster', keys: ['faq_delete_team', 'faq_invite_players', 'faq_add_remove_players', 'faq_videos_move', 'faq_managers', 'faq_team_name'] },
     ] },
 ];
