@@ -75,10 +75,10 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   // Same content as the Onboarding step 'seasons', listed again here so a coach
   // looking it up later finds it with the other roster questions.
   { key: 'faq_add_remove_players', title: 'How do I add and remove players?', dataIndex: 25, section: 'FAQs', info: true, ack: { label: 'Got it' } },
+  { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'Bonus', tip: true, bonus: true },
   { key: 'adding_players_reminder', title: 'Quick reminder on adding players', dataIndex: 24, section: 'Bonus', info: true, bonus: true },
   { key: 'tip_paywall', title: 'Bonus Tip: If a Parent Hits a Paywall', dataIndex: 15, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_emails', title: 'What’s the difference between the login email and the contact email, and how do I update them?', dataIndex: -1, faqIndex: 0, section: 'Bonus', tip: true, bonus: true },
-  { key: 'faq_videos_move', title: 'Do completed videos move with a player to a new team?', dataIndex: -1, faqIndex: 5, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_assign_hw', title: 'How do I assign homework?', dataIndex: -1, faqIndex: 12, section: 'Bonus', tip: true, bonus: true, plainNext: true },
   { key: 'faq_folders', title: 'About Program Folders', dataIndex: -1, faqIndex: 13, section: 'Bonus', tip: true, bonus: true },
   { key: 'faq_assign_plans', title: 'Types of Plans', dataIndex: -1, faqIndex: 14, section: 'Bonus', tip: true, bonus: true },
@@ -150,7 +150,7 @@ const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean; sub
     // keep their place in the Next order; the heading sits above the first.
     sub: [
       { title: 'How Payment Works', keys: ['club_payment', 'renewing'] },
-      { title: 'Managing Team & Roster', keys: ['faq_delete_team', 'faq_invite_players', 'faq_add_remove_players'] },
+      { title: 'Managing Team & Roster', keys: ['faq_delete_team', 'faq_invite_players', 'faq_add_remove_players', 'faq_videos_move'] },
     ] },
 ];
 
