@@ -108,6 +108,12 @@ const REFERENCE_KEYS = COACH_PORTAL_STEPS
   .slice(COACH_PORTAL_STEPS.findIndex(s => s.key === 'final_confirm') + 1)
   .map(s => s.key);
 
+// Steps nobody has to finish: the bonus pages, and every reference page after
+// Confirm & Finish. Those FAQ pages are not flagged bonus, so without this a
+// coach who had finished told the portal a new FAQ was "still to do" the day
+// it was added (Jeff Aiken, 2026-09-16).
+const isOptional = (s: PortalStep) => !!s.bonus || REFERENCE_KEYS.includes(s.key);
+
 const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean; sub?: { title: string; keys: string[] }[] }[] = [
   { title: 'Send us your roster', keys: ['roster'] },
   { title: 'Pay your invoice', keys: ['invoice'] },
@@ -352,7 +358,7 @@ export default function OnboardingPortal() {
   const [sendingQuestion, setSendingQuestion] = useState(false);
 
   const firstIncomplete = (c: Coach) => {
-    const idx = STEPS.findIndex(s => !c.checklist[s.key] && !s.bonus);
+    const idx = STEPS.findIndex(s => !c.checklist[s.key] && !isOptional(s));
     // When every required step is done, land on Confirm & Finish (not a bonus page after it).
     return idx === -1 ? STEPS.findIndex(s => s.final) : idx;
   };
@@ -732,7 +738,7 @@ export default function OnboardingPortal() {
     setSaving(true);
     setError('');
     try {
-      const missing = STEPS.filter(st => !st.final && !st.bonus && coach.checklist[st.key] !== true).map(st => st.title);
+      const missing = STEPS.filter(st => !st.final && !isOptional(st) && coach.checklist[st.key] !== true).map(st => st.title);
       const res = await fetch(`${API}/portal-onboarding/email-missing`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: token },
@@ -826,9 +832,9 @@ export default function OnboardingPortal() {
   // Progress is measured against the steps a coach actually has to do. Bonus
   // pages are optional reference, so counting them meant finishing everything
   // required still showed well short of 100%.
-  const REQUIRED_STEPS = STEPS.filter(s => !s.bonus);
+  const REQUIRED_STEPS = STEPS.filter(s => !isOptional(s));
   const doneCount = coach ? REQUIRED_STEPS.filter(s => coach.checklist[s.key]).length : 0;
-  const othersDone = coach ? STEPS.filter(s => !s.final && !s.bonus).every(s => coach.checklist[s.key] === true) : false;
+  const othersDone = coach ? STEPS.filter(s => !s.final && !isOptional(s)).every(s => coach.checklist[s.key] === true) : false;
   const allDone = doneCount === REQUIRED_STEPS.length;
   const step = STEPS[wizardIndex];
   const stepState = coach ? coach.checklist[step.key] : undefined;
