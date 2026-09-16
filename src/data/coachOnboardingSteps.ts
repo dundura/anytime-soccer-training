@@ -576,9 +576,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
           <p style="margin:4px 0 0;">Open the <strong>&#9660; Onboard &amp; Upgrade</strong> dropdown.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
           <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
           <p style="margin:4px 0 0;">Click <strong>&#10133; New Player Onboard</strong>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
+          <p style="margin:4px 0 0;">Add email and invite.</p>
         </div>
       </div>
     `,
