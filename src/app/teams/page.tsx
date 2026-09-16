@@ -19,6 +19,7 @@ const GENERAL_GUIDES = [
 const TEAM_PAGES = [
   { title: 'Elite Soccer Academy 24', slug: 'elite-soccer-academy-24-getting-started' },
   { title: 'Snipers', slug: 'snipers-getting-started' },
+  { title: 'Wasatch SC 14/13B - GO', slug: 'wasatch-sc-14-13b-go-getting-started' },
   { title: 'Next Level AS', slug: 'next-level-as-getting-started', aliases: ['Next Level AS - Mini Group', 'Next Level AS - Group 3', 'Next Level AS - Group 2', 'Next Level AS - Group 1'] },
   { title: 'Pacific FC 13B', slug: 'pacific-fc-13b-getting-started' },
   { title: 'FSC Boys U13 Red', slug: 'fsc-boys-u13-red-getting-started' },
