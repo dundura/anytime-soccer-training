@@ -595,6 +595,15 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
     }
   };
 
+  // The Client CRM is only coaches being onboarded (Neil, 2026-09-17). Cold
+  // contacts, podcast guests and international posters have pages of their own
+  // under Cold outreach and Outreach, so their stages are left out here -- the
+  // rows still exist and still show on those pages.
+  const OWN_PAGE_STAGES = ['cold', 'cold emailed', 'podcast', 'international'];
+  const clientStages = crmStages.filter((st) => !OWN_PAGE_STAGES.includes(st.name.toLowerCase()));
+  const hiddenStageIds = new Set(crmStages.filter((st) => OWN_PAGE_STAGES.includes(st.name.toLowerCase())).map((st) => st.id));
+  const clientCoaches = crmCoaches.filter((c) => !c.stageId || !hiddenStageIds.has(c.stageId));
+
   // Opened as its own menu item, this panel is that one stage and nothing else.
   // The stage picker is hidden with it, because a view called Cold that can be
   // switched to something else is just the CRM with an extra name.
@@ -1106,8 +1115,8 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                           className="border border-gray-200 rounded-lg px-2 py-1.5 text-xs font-bold text-navy bg-white max-w-[170px] focus:outline-none focus:ring-2 focus:ring-amber-300"
                         >
                           <option value="unstaged">Not staged ({crmCoaches.filter(c => !c.stageId).length})</option>
-                          <option value="all">All ({crmCoaches.length})</option>
-                          {crmStages.map(st => (
+                          <option value="all">All ({clientCoaches.length})</option>
+                          {clientStages.map(st => (
                             <option key={st.id} value={st.id}>
                               {st.name} ({crmCoaches.filter(c => c.stageId === st.id).length})
                             </option>
@@ -1178,7 +1187,7 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                       {!crmLoading && !!crmCoaches.length && (() => {
                         const needle = crmSearch.trim().toLowerCase();
                         const inStage =
-                          crmStageView === 'all' ? crmCoaches
+                          crmStageView === 'all' ? (stageName ? crmCoaches : clientCoaches)
                           : crmStageView === 'unstaged' ? crmCoaches.filter(c => !c.stageId)
                           : crmCoaches.filter(c => c.stageId === crmStageView);
                         const shown = needle
