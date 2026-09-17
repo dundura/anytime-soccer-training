@@ -599,7 +599,7 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
   // contacts, podcast guests and international posters have pages of their own
   // under Cold outreach and Outreach, so their stages are left out here -- the
   // rows still exist and still show on those pages.
-  const OWN_PAGE_STAGES = ['cold', 'cold emailed', 'podcast', 'international'];
+  const OWN_PAGE_STAGES = ['cold', 'cold emailed', 'podcast', 'international', 'referral'];
   const clientStages = crmStages.filter((st) => !OWN_PAGE_STAGES.includes(st.name.toLowerCase()));
   const hiddenStageIds = new Set(crmStages.filter((st) => OWN_PAGE_STAGES.includes(st.name.toLowerCase())).map((st) => st.id));
   const clientCoaches = crmCoaches.filter((c) => !c.stageId || !hiddenStageIds.has(c.stageId));
