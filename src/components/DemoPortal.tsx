@@ -327,7 +327,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
           onClick={() => setStageFilter('')}
           className={`px-3 py-1.5 rounded-full text-xs font-bold ${stageFilter === '' ? 'bg-navy text-white' : 'bg-gray-100 text-gray-600'}`}
         >
-          All ({Object.entries(counts).reduce((n, [k, v]) => (k === 'Lost' ? n : n + (v || 0)), 0)})
+          Leads ({Object.entries(counts).reduce((n, [k, v]) => (k === 'Lost' ? n : n + (v || 0)), 0)})
         </button>
         {stages.map((s) => (
           <button
