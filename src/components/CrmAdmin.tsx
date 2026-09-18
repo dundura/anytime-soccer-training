@@ -1096,32 +1096,34 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
       <div className="border border-gray-200 rounded-xl overflow-hidden">
                   {isAdmin && indexFilter === 'crm' && (
                     <>
-                      {/* One dropdown, not a row of pills. Pills grow with the
-                          pipeline and push the search box off the line; a
-                          select stays one control however many stages exist.
-                          Remove acts on whatever is selected, so there is no
-                          per-stage × cluttering the list either. */}
+                      {/* Pills, like Coach Onboarding. There are two stages
+                          here now -- no call yet, then first call made -- so a
+                          dropdown was hiding a choice between two things
+                          (Neil, 2026-09-18). */}
                       <div className="flex flex-wrap items-center gap-2 px-4 py-2 border-b border-gray-100">
                         {!stageName && (
                           <>
-                        <label className="text-[10px] font-extrabold uppercase tracking-wide text-gray-500">View</label>
-                        <select
-                          value={typeof crmStageView === 'number' ? String(crmStageView) : crmStageView}
-                          onChange={ev => {
-                            const v = ev.target.value;
-                            setCrmStageView(v === 'unstaged' || v === 'all' ? v : Number(v));
-                            setCrmConfirmStageDelete(null);
-                          }}
-                          className="border border-gray-200 rounded-lg px-2 py-1.5 text-xs font-bold text-navy bg-white max-w-[170px] focus:outline-none focus:ring-2 focus:ring-amber-300"
+                        {clientStages.map(st => (
+                          <button
+                            key={st.id}
+                            onClick={() => { setCrmStageView(st.id); setCrmConfirmStageDelete(null); }}
+                            className={`px-3 py-1.5 rounded-full text-xs font-bold ${crmStageView === st.id ? 'bg-navy text-white' : 'bg-gray-100 text-gray-600'}`}
+                          >
+                            {st.name} ({crmCoaches.filter(c => c.stageId === st.id).length})
+                          </button>
+                        ))}
+                        <button
+                          onClick={() => { setCrmStageView('unstaged'); setCrmConfirmStageDelete(null); }}
+                          className={`px-3 py-1.5 rounded-full text-xs font-bold ${crmStageView === 'unstaged' ? 'bg-navy text-white' : 'bg-gray-100 text-gray-600'}`}
                         >
-                          <option value="unstaged">Not staged ({crmCoaches.filter(c => !c.stageId).length})</option>
-                          <option value="all">All ({clientCoaches.length})</option>
-                          {clientStages.map(st => (
-                            <option key={st.id} value={st.id}>
-                              {st.name} ({crmCoaches.filter(c => c.stageId === st.id).length})
-                            </option>
-                          ))}
-                        </select>
+                          Not staged ({crmCoaches.filter(c => !c.stageId).length})
+                        </button>
+                        <button
+                          onClick={() => { setCrmStageView('all'); setCrmConfirmStageDelete(null); }}
+                          className={`px-3 py-1.5 rounded-full text-xs font-bold ${crmStageView === 'all' ? 'bg-navy text-white' : 'bg-gray-100 text-gray-600'}`}
+                        >
+                          All ({clientCoaches.length})
+                        </button>
 
                         {typeof crmStageView === 'number' && (
                           crmConfirmStageDelete === crmStageView ? (
