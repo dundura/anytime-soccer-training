@@ -55,7 +55,7 @@ type Lead = {
 };
 
 type Activity = { id: number; type: string; summary: string | null; body: string | null; occurredAt: string | null };
-type Template = { key: string; step: number; label: string; stage: string | null; when: string | null; auto: boolean };
+type Template = { key: string; step: number; label: string; stage: string | null; group: string | null; when: string | null; auto: boolean };
 
 const STAGE_TINT: Record<Stage, string> = {
   New: 'bg-red text-white',
@@ -559,10 +559,19 @@ export default function DemoPortal({ token }: { token: string | null }) {
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">The sequence, for this lead</div>
                 <div className="space-y-1">
-                  {templates.map((t) => {
+                  {templates.map((t, i) => {
                     const done = alreadySent(t.label);
+                    // A heading wherever the group changes: seventeen emails in
+                    // one list read as one long queue (Neil, 2026-09-18).
+                    const newGroup = t.group && t.group !== templates[i - 1]?.group;
                     return (
-                      <div key={t.key} className="flex items-center gap-2">
+                      <div key={t.key}>
+                        {newGroup && (
+                          <div className={`text-[9px] font-bold uppercase tracking-wide text-gray-400 mb-1 ${i ? 'mt-3 pt-2 border-t border-gray-100' : ''}`}>
+                            {t.group}
+                          </div>
+                        )}
+                        <div className="flex items-center gap-2">
                         <span className={`w-4 text-center text-[11px] ${done ? 'text-emerald-600' : 'text-gray-300'}`}>
                           {done ? '✓' : '○'}
                         </span>
@@ -577,6 +586,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
                         >
                           {busy === 'preview:' + t.key ? '…' : done ? 'Send again' : 'Send'}
                         </button>
+                        </div>
                       </div>
                     );
                   })}
