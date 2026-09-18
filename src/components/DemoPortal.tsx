@@ -117,6 +117,9 @@ export default function DemoPortal({ token }: { token: string | null }) {
   const [note, setNote] = useState('');
 
   const [stageFilter, setStageFilter] = useState<'' | Stage>('');
+  // Leads is who is still to be won: a club that has been won has been handed
+  // to the CRM, and a lost one is not a lead either (Neil, 2026-09-18).
+  const DONE_STAGES = ['Won', 'Lost'];
   const [search, setSearch] = useState('');
 
   const [openId, setOpenId] = useState<number | null>(null);
@@ -327,7 +330,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
           onClick={() => setStageFilter('')}
           className={`px-3 py-1.5 rounded-full text-xs font-bold ${stageFilter === '' ? 'bg-navy text-white' : 'bg-gray-100 text-gray-600'}`}
         >
-          Leads ({Object.entries(counts).reduce((n, [k, v]) => (k === 'Lost' ? n : n + (v || 0)), 0)})
+          Leads ({Object.entries(counts).reduce((n, [k, v]) => (DONE_STAGES.includes(k) ? n : n + (v || 0)), 0)})
         </button>
         {stages.map((s) => (
           <button
@@ -361,11 +364,11 @@ export default function DemoPortal({ token }: { token: string | null }) {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {loading && <tr><td colSpan={6} className="px-3 py-6 text-center text-gray-400 text-xs">Loading…</td></tr>}
-              {!loading && (stageFilter === '' ? leads.filter((l) => l.stage !== 'Lost') : leads).length === 0 && (
+              {!loading && (stageFilter === '' ? leads.filter((l) => !DONE_STAGES.includes(l.stage)) : leads).length === 0 && (
                 <tr><td colSpan={6} className="px-3 py-8 text-center text-gray-400 text-xs">No demo requests yet.</td></tr>
               )}
               {/* All leaves Lost out; the Lost pill is where they are. */}
-              {(stageFilter === '' ? leads.filter((l) => l.stage !== 'Lost') : leads).map((l) => (
+              {(stageFilter === '' ? leads.filter((l) => !DONE_STAGES.includes(l.stage)) : leads).map((l) => (
                 <tr key={l.id} onClick={() => openLead(l.id)} className="cursor-pointer hover:bg-gray-50">
                   <td className="px-3 py-2.5">
                     <div className="font-bold text-navy">{l.organization || l.name || l.email}</div>
