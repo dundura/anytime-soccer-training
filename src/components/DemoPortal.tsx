@@ -319,6 +319,10 @@ export default function DemoPortal({ token }: { token: string | null }) {
       sendWelcome ? 'Won, and the welcome email is on its way' : 'Won, no email sent'
     );
 
+  const toCrm = (lead: Lead) =>
+    act('tocrm', `${API}/demo-portal/leads/${lead.id}/to-crm`, { method: 'POST', headers: jsonHeaders() }, 'Moved to the Coach CRM')
+      .then(() => setOpenId(null));
+
   const createLead = async () => {
     if (!newLead.name.trim() && !newLead.email.trim()) { flash('A name or an email, at least.'); return; }
     const d = await act('create', `${API}/demo-portal/leads`, { method: 'POST', headers: jsonHeaders(), body: JSON.stringify(newLead) }, 'Lead added');
@@ -697,7 +701,16 @@ export default function DemoPortal({ token }: { token: string | null }) {
               {/* Hand over */}
               <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-3">
                 {current.crmLeadId ? (
-                  <div className="text-xs text-emerald-800 font-semibold">🎉 In the CRM (lead #{current.crmLeadId}). This board is done with them.</div>
+                  <>
+                    <div className="text-xs text-emerald-800 font-semibold mb-2">🎉 In the CRM (lead #{current.crmLeadId}).</div>
+                    {/* The club can still be pushed across by hand: being in
+                        the CRM and being ON that board are two different
+                        things (Neil, 2026-09-18). */}
+                    <button onClick={() => toCrm(current)} disabled={busy === 'tocrm'} className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-[11px] font-bold disabled:opacity-50">
+                      {busy === 'tocrm' ? 'Moving…' : 'Move to Coach CRM'}
+                    </button>
+                    <p className="mt-2 text-[10px] text-emerald-800">They leave this board and appear on the Coach CRM.</p>
+                  </>
                 ) : (
                   <>
                     <div className="text-xs text-emerald-900 font-semibold mb-2">Won it? Hand the club over to the CRM and close this lead.</div>
