@@ -331,10 +331,16 @@ export default function DemoPortal({ token }: { token: string | null }) {
 
       <div className="flex flex-wrap gap-2 mb-3">
         <button
+          onClick={() => setStageFilter('Lead')}
+          className={`px-3 py-1.5 rounded-full text-xs font-bold ${stageFilter === 'Lead' ? 'bg-navy text-white' : 'bg-gray-100 text-gray-600'}`}
+        >
+          Leads ({counts['Lead'] || 0})
+        </button>
+        <button
           onClick={() => setStageFilter('')}
           className={`px-3 py-1.5 rounded-full text-xs font-bold ${stageFilter === '' ? 'bg-navy text-white' : 'bg-gray-100 text-gray-600'}`}
         >
-          Leads ({Object.entries(counts).reduce((n, [k, v]) => (DONE_STAGES.includes(k) ? n : n + (v || 0)), 0)})
+          All open ({Object.entries(counts).reduce((n, [k, v]) => (DONE_STAGES.includes(k) ? n : n + (v || 0)), 0)})
         </button>
         {stages.filter((st) => st !== 'Lead').map((s) => (
           <button
