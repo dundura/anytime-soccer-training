@@ -620,7 +620,10 @@ export default function DemoPortal({ token }: { token: string | null }) {
                       if (!g) { g = { name, items: [] }; groups.push(g); }
                       g.items.push({ key: t.key, label: t.label, step: t.step, auto: !!t.auto, onboarding: false });
                     });
-                    onboardingSeq.forEach((n) => {
+                    // Once a club is in the Coach CRM the onboarding emails are
+                    // worked from there, so they drop off this list (Neil,
+                    // 2026-09-18).
+                    (current.crmLeadId ? [] : onboardingSeq).forEach((n) => {
                       const name = n.stage || 'Other';
                       let g = groups.find((x) => x.name === name);
                       if (!g) { g = { name, items: [] }; groups.push(g); }
