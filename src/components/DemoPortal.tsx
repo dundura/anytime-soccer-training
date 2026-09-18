@@ -135,7 +135,15 @@ export default function DemoPortal({ token }: { token: string | null }) {
   const [noteDraft, setNoteDraft] = useState('');
   const [callDraft, setCallDraft] = useState('');
   const [scheduleAt, setScheduleAt] = useState('');
-  const [preview, setPreview] = useState<{ key: string; subject: string; html: string } | null>(null);
+  const [preview, setPreview] = useState<{ key: string; subject: string; html: string; onboarding?: boolean } | null>(null);
+  // The roster, invoice and portal emails. They live in portalOnboarding and
+  // happen before a club is handed over, so they belong on this board too
+  // (Neil, 2026-09-18).
+  const [onboardingSeq, setOnboardingSeq] = useState<{ key: string; n: number; subject: string; from: string; auto: boolean; stage: string }[]>([]);
+  // Every group starts shut: twenty-one emails plus the onboarding sequence is
+  // a page of list otherwise.
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+  const toggleGroup = (g: string) => setOpenGroups((o) => ({ ...o, [g]: !o[g] }));
   const [showSequence, setShowSequence] = useState(false);
   const [openStage, setOpenStage] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
@@ -240,6 +248,28 @@ export default function DemoPortal({ token }: { token: string | null }) {
 
   // Preview first, always. An email to a club is not something to send from a
   // button whose contents you cannot see.
+  useEffect(() => {
+    fetch(`${API}/demo-portal/onboarding-sequence`, { headers: headers() })
+      .then((r) => r.json())
+      .then((d) => { if (Array.isArray(d?.notifications)) setOnboardingSeq(d.notifications); })
+      .catch(() => { /* the onboarding half is a convenience, not the board */ });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const openOnboardingPreview = async (lead: Lead, key: string) => {
+    setBusy('preview:' + key);
+    try {
+      const res = await fetch(`${API}/demo-portal/leads/${lead.id}/onboarding-preview?key=${encodeURIComponent(key)}`, { headers: headers() });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || 'Could not build that email.');
+      setPreview({ key, subject: d.subject, html: d.html, onboarding: true });
+    } catch (e) {
+      flash(e instanceof Error ? e.message : 'Could not build that email.');
+    } finally {
+      setBusy('');
+    }
+  };
+
   const openPreview = async (lead: Lead, key: string) => {
     setBusy('preview:' + key);
     try {
@@ -265,7 +295,13 @@ export default function DemoPortal({ token }: { token: string | null }) {
 
   const sendPreview = (lead: Lead) => {
     if (!preview) return;
-    act('send', `${API}/demo-portal/leads/${lead.id}/email`, { method: 'POST', headers: jsonHeaders(), body: JSON.stringify({ template: preview.key, subject: preview.subject }) }, 'Sent to ' + lead.email)
+    const url = preview.onboarding
+      ? `${API}/demo-portal/leads/${lead.id}/onboarding-email`
+      : `${API}/demo-portal/leads/${lead.id}/email`;
+    const body = preview.onboarding
+      ? JSON.stringify({ key: preview.key })
+      : JSON.stringify({ template: preview.key, subject: preview.subject });
+    act('send', url, { method: 'POST', headers: jsonHeaders(), body }, 'Sent to ' + lead.email)
       .then(() => setPreview(null));
   };
 
@@ -564,41 +600,68 @@ export default function DemoPortal({ token }: { token: string | null }) {
                 </div>
               ) : null}
 
-              {/* Email */}
+              {/* Email. Two sequences, one list: the demo groups, then the
+                  onboarding ones a club works through before it is handed to
+                  the Coach CRM. Everything shut until it is asked for. */}
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">The sequence, for this lead</div>
                 <div className="space-y-1">
-                  {templates.map((t, i) => {
-                    const done = alreadySent(t.label);
-                    // A heading wherever the group changes: seventeen emails in
-                    // one list read as one long queue (Neil, 2026-09-18).
-                    const newGroup = t.group && t.group !== templates[i - 1]?.group;
-                    return (
-                      <div key={t.key}>
-                        {newGroup && (
-                          <div className={`text-[9px] font-bold uppercase tracking-wide text-gray-400 mb-1 ${i ? 'mt-3 pt-2 border-t border-gray-100' : ''}`}>
-                            {t.group}
-                          </div>
-                        )}
-                        <div className="flex items-center gap-2">
-                        <span className={`w-4 text-center text-[11px] ${done ? 'text-emerald-600' : 'text-gray-300'}`}>
-                          {done ? '✓' : '○'}
-                        </span>
-                        <span className={`flex-1 text-[11px] ${done ? 'text-gray-400 line-through' : 'text-navy font-semibold'}`}>
-                          {t.step}. {t.label}
-                          {t.auto && <span className="ml-1.5 text-[9px] font-bold uppercase tracking-wide text-emerald-600">auto</span>}
-                        </span>
-                        <button
-                          onClick={() => openPreview(current, t.key)}
-                          disabled={!!busy}
-                          className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[10px] font-bold hover:bg-gray-200 disabled:opacity-50 shrink-0"
-                        >
-                          {busy === 'preview:' + t.key ? '…' : done ? 'Send again' : 'Send'}
-                        </button>
+                  {(() => {
+                    const groups: { name: string; items: { key: string; label: string; step: string | number; auto: boolean; onboarding: boolean }[] }[] = [];
+                    templates.forEach((t) => {
+                      const name = t.group || 'Other';
+                      let g = groups.find((x) => x.name === name);
+                      if (!g) { g = { name, items: [] }; groups.push(g); }
+                      g.items.push({ key: t.key, label: t.label, step: t.step, auto: !!t.auto, onboarding: false });
+                    });
+                    onboardingSeq.forEach((n) => {
+                      const name = n.stage || 'Other';
+                      let g = groups.find((x) => x.name === name);
+                      if (!g) { g = { name, items: [] }; groups.push(g); }
+                      g.items.push({ key: n.key, label: n.subject, step: n.n, auto: !!n.auto, onboarding: true });
+                    });
+                    return groups.map((g) => {
+                      const doneCount = g.items.filter((it) => alreadySent(it.label)).length;
+                      const open = !!openGroups[g.name];
+                      return (
+                        <div key={g.name} className="border-b border-gray-100 last:border-0">
+                          <button
+                            onClick={() => toggleGroup(g.name)}
+                            className="w-full flex items-center gap-2 py-2 text-left"
+                          >
+                            <span className="text-[10px] text-gray-400 w-3">{open ? '▾' : '▸'}</span>
+                            <span className="flex-1 text-[11px] font-bold uppercase tracking-wide text-gray-500">{g.name}</span>
+                            <span className="text-[10px] font-bold text-gray-400">{doneCount}/{g.items.length}</span>
+                          </button>
+                          {open && (
+                            <div className="pb-2 space-y-1">
+                              {g.items.map((it) => {
+                                const done = alreadySent(it.label);
+                                return (
+                                  <div key={it.key} className="flex items-center gap-2">
+                                    <span className={`w-4 text-center text-[11px] ${done ? 'text-emerald-600' : 'text-gray-300'}`}>
+                                      {done ? '✓' : '○'}
+                                    </span>
+                                    <span className={`flex-1 text-[11px] ${done ? 'text-gray-400 line-through' : 'text-navy font-semibold'}`}>
+                                      {it.step}. {it.label}
+                                      {it.auto && <span className="ml-1.5 text-[9px] font-bold uppercase tracking-wide text-emerald-600">auto</span>}
+                                    </span>
+                                    <button
+                                      onClick={() => (it.onboarding ? openOnboardingPreview(current, it.key) : openPreview(current, it.key))}
+                                      disabled={!!busy}
+                                      className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[10px] font-bold hover:bg-gray-200 disabled:opacity-50 shrink-0"
+                                    >
+                                      {busy === 'preview:' + it.key ? '…' : done ? 'Send again' : 'Send'}
+                                    </button>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    });
+                  })()}
                 </div>
               </div>
 
