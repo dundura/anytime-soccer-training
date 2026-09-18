@@ -28,12 +28,12 @@ const SEQUENCE_GROUPS = [
   { stage: 'Demo conducted', blurb: 'The demo happened' },
   { stage: 'Onboarding', blurb: 'They said yes, setting them up' },
   { stage: 'Waiting', blurb: 'The ball is with them' },
-  { stage: 'Won', blurb: 'They are in' },
+  { stage: 'Invoice paid', blurb: 'They are in' },
   { stage: 'Complete', blurb: 'Onboarding finished' },
   { stage: ANY_STAGE, blurb: 'Offers and nudges, whenever they fit' },
 ] as const;
 
-type Stage = 'Lead' | 'Waiting' | 'Demo booked' | 'Demo conducted' | 'Onboarding' | 'Won' | 'Complete' | 'Not now' | 'Lost';
+type Stage = 'Lead' | 'Waiting' | 'Demo booked' | 'Demo conducted' | 'Onboarding' | 'Invoice sent' | 'Invoice paid' | 'Complete' | 'Not now' | 'Lost';
 
 type Lead = {
   id: number;
@@ -68,7 +68,8 @@ const STAGE_TINT: Record<Stage, string> = {
   // The ball is with them. Amber like Contacted would read as "still chasing",
   // which is the thing Waiting exists to say we are not doing.
   Waiting: 'bg-sky-600 text-white',
-  Won: 'bg-emerald-600 text-white',
+  'Invoice sent': 'bg-orange-500 text-white',
+  'Invoice paid': 'bg-emerald-600 text-white',
   // Won is the signature; Complete is onboarding finished.
   Complete: 'bg-emerald-800 text-white',
   'Not now': 'bg-gray-400 text-white',
@@ -124,7 +125,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
   const [stageFilter, setStageFilter] = useState<'' | Stage>('');
   // Leads is who is still to be won: a club that has been won has been handed
   // to the CRM, and a lost one is not a lead either (Neil, 2026-09-18).
-  const DONE_STAGES = ['Won', 'Complete', 'Not now', 'Lost'];
+  const DONE_STAGES = ['Invoice paid', 'Complete', 'Not now', 'Lost'];
   const [search, setSearch] = useState('');
 
   const [openId, setOpenId] = useState<number | null>(null);
@@ -294,7 +295,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
   };
 
   const overdue = (l: Lead) =>
-    !!l.nextFollowUpAt && new Date(l.nextFollowUpAt).getTime() < Date.now() && l.stage !== 'Won' && l.stage !== 'Not now';
+    !!l.nextFollowUpAt && new Date(l.nextFollowUpAt).getTime() < Date.now() && l.stage !== 'Invoice paid' && l.stage !== 'Not now';
 
   const current = detail?.lead || leads.find((l) => l.id === openId) || null;
 

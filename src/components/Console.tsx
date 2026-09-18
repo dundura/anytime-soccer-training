@@ -46,8 +46,8 @@ const GROUPS = [
   {
     group: 'Turning them into teams',
     rows: [
-      { key: 'demos', label: 'Coach Demos', icon: '🎬' },
-      { key: 'crm', label: 'Client CRM', icon: '📇' },
+      { key: 'demos', label: 'Coach Onboarding', icon: '🎬' },
+      { key: 'crm', label: 'Coach CRM', icon: '📇' },
       { key: 'roster', label: 'Roster requests', icon: '📋' },
     ],
   },

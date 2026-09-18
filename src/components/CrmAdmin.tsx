@@ -1090,7 +1090,7 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
 
 
       {isAdmin && indexFilter === 'crm' && !stageName && (
-        <h2 className="text-xl font-extrabold text-navy mb-3">Client CRM</h2>
+        <h2 className="text-xl font-extrabold text-navy mb-3">Coach CRM</h2>
       )}
 
       <div className="border border-gray-200 rounded-xl overflow-hidden">
