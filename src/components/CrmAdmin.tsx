@@ -137,7 +137,7 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
   // Defaults to unstaged, because the job this table is for is CLEARING the
   // queue: the rows that need a decision are the ones nobody has filed yet, and
   // "All" buries them under everything already dealt with.
-  const [crmStageView, setCrmStageView] = useState<'unstaged' | 'all' | number>('unstaged');
+  const [crmStageView, setCrmStageView] = useState<'unstaged' | 'all' | number>('all');
   const [crmNewStage, setCrmNewStage] = useState('');
   const [crmAddingStage, setCrmAddingStage] = useState(false);
   const [crmConfirmStageDelete, setCrmConfirmStageDelete] = useState<number | null>(null);
@@ -1112,18 +1112,6 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                             {st.name} ({crmCoaches.filter(c => c.stageId === st.id).length})
                           </button>
                         ))}
-                        <button
-                          onClick={() => { setCrmStageView('unstaged'); setCrmConfirmStageDelete(null); }}
-                          className={`px-3 py-1.5 rounded-full text-xs font-bold ${crmStageView === 'unstaged' ? 'bg-navy text-white' : 'bg-gray-100 text-gray-600'}`}
-                        >
-                          Not staged ({crmCoaches.filter(c => !c.stageId).length})
-                        </button>
-                        <button
-                          onClick={() => { setCrmStageView('all'); setCrmConfirmStageDelete(null); }}
-                          className={`px-3 py-1.5 rounded-full text-xs font-bold ${crmStageView === 'all' ? 'bg-navy text-white' : 'bg-gray-100 text-gray-600'}`}
-                        >
-                          All ({clientCoaches.length})
-                        </button>
 
                         {typeof crmStageView === 'number' && (
                           crmConfirmStageDelete === crmStageView ? (
@@ -1162,24 +1150,6 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                           className="w-full sm:w-56 border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-navy placeholder:text-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-amber-300"
                         />
 
-                        {!stageName && (
-                        <span className="inline-flex items-center gap-1 ml-auto">
-                          <input
-                            value={crmNewStage}
-                            onChange={ev => setCrmNewStage(ev.target.value)}
-                            onKeyDown={ev => { if (ev.key === 'Enter') addCrmStage(); }}
-                            placeholder="New stage"
-                            className="w-32 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
-                          />
-                          <button
-                            onClick={addCrmStage}
-                            disabled={!crmNewStage.trim() || crmAddingStage}
-                            className="text-xs font-bold rounded-lg border border-navy text-navy px-2.5 py-1.5 hover:bg-navy hover:text-white transition-colors disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-navy"
-                          >
-                            {crmAddingStage ? 'Adding\u2026' : '+ Add'}
-                          </button>
-                        </span>
-                        )}
                       </div>
                       {crmError && <p className="px-4 py-3 text-sm font-semibold text-red">{crmError}</p>}
                       {crmLoading && <p className="px-4 py-6 text-center text-sm text-gray-500 font-semibold">Loading the coach list&hellip;</p>}
