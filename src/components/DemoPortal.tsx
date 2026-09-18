@@ -52,6 +52,8 @@ type Lead = {
   nextFollowUpAt: string | null;
   demoScheduledAt: string | null;
   crmLeadId: number | null;
+  lastEmail: string | null;
+  lastEmailAt: string | null;
 };
 
 type Activity = { id: number; type: string; summary: string | null; body: string | null; occurredAt: string | null };
@@ -357,15 +359,14 @@ export default function DemoPortal({ token }: { token: string | null }) {
                 <th className="text-left px-3 py-2">Club / contact</th>
                 <th className="text-left px-3 py-2 hidden sm:table-cell">Players</th>
                 <th className="text-left px-3 py-2">Stage</th>
-                <th className="text-left px-3 py-2 hidden md:table-cell">Waiting</th>
-                <th className="text-left px-3 py-2 hidden md:table-cell">Next</th>
+                <th className="text-left px-3 py-2 hidden md:table-cell">Last action</th>
                 <th className="px-3 py-2 w-10"><span className="sr-only">Delete</span></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {loading && <tr><td colSpan={6} className="px-3 py-6 text-center text-gray-400 text-xs">Loading…</td></tr>}
+              {loading && <tr><td colSpan={5} className="px-3 py-6 text-center text-gray-400 text-xs">Loading…</td></tr>}
               {!loading && (stageFilter === '' ? leads.filter((l) => !DONE_STAGES.includes(l.stage)) : leads).length === 0 && (
-                <tr><td colSpan={6} className="px-3 py-8 text-center text-gray-400 text-xs">No demo requests yet.</td></tr>
+                <tr><td colSpan={5} className="px-3 py-8 text-center text-gray-400 text-xs">No demo requests yet.</td></tr>
               )}
               {/* All leaves Lost out; the Lost pill is where they are. */}
               {(stageFilter === '' ? leads.filter((l) => !DONE_STAGES.includes(l.stage)) : leads).map((l) => (
@@ -380,11 +381,13 @@ export default function DemoPortal({ token }: { token: string | null }) {
                   <td className="px-3 py-2.5">
                     <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold ${STAGE_TINT[l.stage] || 'bg-gray-200 text-gray-700'}`}>{l.stage}</span>
                   </td>
-                  <td className="px-3 py-2.5 hidden md:table-cell text-gray-500 text-xs">{ago(l.lastContactedAt || l.requestedAt)}</td>
-                  <td className="px-3 py-2.5 hidden md:table-cell text-xs">
-                    {l.nextFollowUpAt
-                      ? <span className={overdue(l) ? 'text-red font-bold' : 'text-gray-500'}>{when(l.nextFollowUpAt)}</span>
-                      : <span className="text-gray-300">—</span>}
+                  {/* The last email that went out, and how long ago. The
+                      summary carries the recipient after an arrow; the name of
+                      the email is the half worth reading here. */}
+                  <td className="px-3 py-2.5 hidden md:table-cell text-xs text-gray-600">
+                    {l.lastEmail
+                      ? <>{l.lastEmail.split(' → ')[0]}<span className="text-[10px] text-gray-400"> · {ago(l.lastEmailAt)}</span></>
+                      : <span className="text-gray-300">&mdash;</span>}
                   </td>
                   {/* Confirms in the row rather than in a dialog: the row IS
                       the thing being deleted, so it says which one without a
