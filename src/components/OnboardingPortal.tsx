@@ -334,6 +334,11 @@ export default function OnboardingPortal() {
   // straight past lands in the confirm popup with nothing true to confirm.
   const [rosterRequested, setRosterRequested] = useState(false);
   const [rosterClaim, setRosterClaim] = useState('');
+  // The number of players, asked for here because it was asked for nowhere
+  // else: a coach ticked this step, the email said "I have told you roughly
+  // how many players", and the number itself existed in nobody's records
+  // (Neil, 2026-09-18). Required, whichever claim they pick.
+  const [rosterPlayers, setRosterPlayers] = useState('');
   const [showIntro, setShowIntro] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
@@ -1946,6 +1951,18 @@ export default function OnboardingPortal() {
                   <span className="text-sm font-semibold text-navy">{opt}</span>
                 </label>
               ))}
+              <label className="block mt-4">
+                <span className="text-sm font-semibold text-navy">How many players? *</span>
+                <input
+                  type="number"
+                  min={1}
+                  value={rosterPlayers}
+                  onChange={e => setRosterPlayers(e.target.value)}
+                  placeholder="e.g. 18"
+                  className="mt-1.5 w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm font-semibold text-navy focus:border-red focus:outline-none"
+                />
+                <span className="block mt-1 text-xs text-gray-500">A rough number is fine. We invoice on it, so we need one.</span>
+              </label>
             </div>
             <div className="flex gap-3 px-6 py-5">
               <button
@@ -1957,10 +1974,10 @@ export default function OnboardingPortal() {
               </button>
               <button
                 onClick={async () => {
-                  await setStep('roster', true, true, undefined, true, rosterClaim);
+                  await setStep('roster', true, true, undefined, true, `${rosterClaim} — ${rosterPlayers} players`);
                   setRosterConfirm(false);
                 }}
-                disabled={saving || !rosterClaim}
+                disabled={saving || !rosterClaim || !(Number(rosterPlayers) > 0)}
                 className="flex-1 bg-red hover:bg-red-dark text-white font-bold py-2.5 rounded-xl transition-colors disabled:opacity-40"
               >
                 {saving ? 'Saving\u2026' : 'Confirm'}
