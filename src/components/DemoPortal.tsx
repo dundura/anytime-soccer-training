@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 /**
  * Demo Portal — the stage before the CRM.
  *
- * A club asks for a demo and lands here as New. It moves right — Contacted,
+ * A club asks for a demo and lands here as a Lead. It moves right —
  * Demo booked, Trial — until it is Won, at which point one button hands it to
  * the CRM and this board is finished with it. Not now is the other way out.
  *
@@ -27,14 +27,13 @@ const SEQUENCE_GROUPS = [
   { stage: 'Demo booked', blurb: 'A date is in the diary' },
   { stage: 'Demo conducted', blurb: 'The demo happened' },
   { stage: 'Onboarding', blurb: 'They said yes, setting them up' },
-  { stage: 'Trial', blurb: 'Trying it with their squad' },
   { stage: 'Waiting', blurb: 'The ball is with them' },
   { stage: 'Won', blurb: 'They are in' },
   { stage: 'Complete', blurb: 'Onboarding finished' },
   { stage: ANY_STAGE, blurb: 'Offers and nudges, whenever they fit' },
 ] as const;
 
-type Stage = 'Lead' | 'Demo booked' | 'Demo conducted' | 'Onboarding' | 'Trial' | 'Waiting' | 'Won' | 'Complete' | 'Not now' | 'Lost';
+type Stage = 'Lead' | 'Demo booked' | 'Demo conducted' | 'Onboarding' | 'Waiting' | 'Won' | 'Complete' | 'Not now' | 'Lost';
 
 type Lead = {
   id: number;
@@ -66,7 +65,6 @@ const STAGE_TINT: Record<Stage, string> = {
   'Demo booked': 'bg-blue-600 text-white',
   'Demo conducted': 'bg-indigo-600 text-white',
   Onboarding: 'bg-teal-600 text-white',
-  Trial: 'bg-violet-600 text-white',
   // The ball is with them. Amber like Contacted would read as "still chasing",
   // which is the thing Waiting exists to say we are not doing.
   Waiting: 'bg-sky-600 text-white',
@@ -322,7 +320,6 @@ export default function DemoPortal({ token }: { token: string | null }) {
       <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
         <div>
           <h2 className="text-lg font-black text-navy">Demo requests</h2>
-          <p className="text-xs text-gray-500">Everything before the CRM. Won hands the club over.</p>
         </div>
         <button onClick={() => setAdding(true)} className="px-3 py-2 rounded-lg bg-navy text-white text-xs font-bold">+ Add a lead</button>
       </div>
