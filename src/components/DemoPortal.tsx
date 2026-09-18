@@ -23,16 +23,18 @@ const API = 'https://api.anytime-soccer.com';
 // the end under a heading that says so.
 const ANY_STAGE = 'Any time';
 const SEQUENCE_GROUPS = [
-  { stage: 'New', blurb: 'The request just came in' },
-  { stage: 'Contacted', blurb: 'Talking, no demo booked yet' },
+  { stage: 'Lead', blurb: 'In, not booked yet' },
   { stage: 'Demo booked', blurb: 'A date is in the diary' },
-  { stage: 'Trial', blurb: 'The demo happened' },
+  { stage: 'Demo conducted', blurb: 'The demo happened' },
+  { stage: 'Onboarding', blurb: 'They said yes, setting them up' },
+  { stage: 'Trial', blurb: 'Trying it with their squad' },
   { stage: 'Waiting', blurb: 'The ball is with them' },
   { stage: 'Won', blurb: 'They are in' },
+  { stage: 'Complete', blurb: 'Onboarding finished' },
   { stage: ANY_STAGE, blurb: 'Offers and nudges, whenever they fit' },
 ] as const;
 
-type Stage = 'New' | 'Contacted' | 'Demo booked' | 'Trial' | 'Waiting' | 'Won' | 'Not now' | 'Lost';
+type Stage = 'Lead' | 'Demo booked' | 'Demo conducted' | 'Onboarding' | 'Trial' | 'Waiting' | 'Won' | 'Complete' | 'Not now' | 'Lost';
 
 type Lead = {
   id: number;
@@ -60,14 +62,17 @@ type Activity = { id: number; type: string; summary: string | null; body: string
 type Template = { key: string; step: number; label: string; stage: string | null; group: string | null; when: string | null; auto: boolean };
 
 const STAGE_TINT: Record<Stage, string> = {
-  New: 'bg-red text-white',
-  Contacted: 'bg-amber-500 text-white',
+  Lead: 'bg-amber-500 text-white',
   'Demo booked': 'bg-blue-600 text-white',
+  'Demo conducted': 'bg-indigo-600 text-white',
+  Onboarding: 'bg-teal-600 text-white',
   Trial: 'bg-violet-600 text-white',
   // The ball is with them. Amber like Contacted would read as "still chasing",
   // which is the thing Waiting exists to say we are not doing.
   Waiting: 'bg-sky-600 text-white',
   Won: 'bg-emerald-600 text-white',
+  // Won is the signature; Complete is onboarding finished.
+  Complete: 'bg-emerald-800 text-white',
   'Not now': 'bg-gray-400 text-white',
   Lost: 'bg-gray-500 text-white',
 };
