@@ -124,7 +124,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
   const [stageFilter, setStageFilter] = useState<'' | Stage>('');
   // Leads is who is still to be won: a club that has been won has been handed
   // to the CRM, and a lost one is not a lead either (Neil, 2026-09-18).
-  const DONE_STAGES = ['Won', 'Lost'];
+  const DONE_STAGES = ['Won', 'Complete', 'Not now', 'Lost'];
   const [search, setSearch] = useState('');
 
   const [openId, setOpenId] = useState<number | null>(null);
@@ -336,7 +336,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
         >
           Leads ({Object.entries(counts).reduce((n, [k, v]) => (DONE_STAGES.includes(k) ? n : n + (v || 0)), 0)})
         </button>
-        {stages.map((s) => (
+        {stages.filter((st) => st !== 'Lead').map((s) => (
           <button
             key={s}
             onClick={() => setStageFilter(s)}
