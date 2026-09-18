@@ -33,7 +33,7 @@ const SEQUENCE_GROUPS = [
   { stage: ANY_STAGE, blurb: 'Offers and nudges, whenever they fit' },
 ] as const;
 
-type Stage = 'Lead' | 'Demo booked' | 'Demo conducted' | 'Onboarding' | 'Waiting' | 'Won' | 'Complete' | 'Not now' | 'Lost';
+type Stage = 'Lead' | 'Waiting' | 'Demo booked' | 'Demo conducted' | 'Onboarding' | 'Won' | 'Complete' | 'Not now' | 'Lost';
 
 type Lead = {
   id: number;
