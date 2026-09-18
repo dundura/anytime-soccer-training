@@ -122,7 +122,9 @@ export default function DemoPortal({ token }: { token: string | null }) {
   const [error, setError] = useState('');
   const [note, setNote] = useState('');
 
-  const [stageFilter, setStageFilter] = useState<'' | Stage>('');
+  // Opens on Leads. With no All pill, an empty filter showed every open club
+  // at once, which is the pile the pills exist to break up (Neil, 2026-09-18).
+  const [stageFilter, setStageFilter] = useState<'' | Stage>('Lead');
   // Leads is who is still to be won: a club that has been won has been handed
   // to the CRM, and a lost one is not a lead either (Neil, 2026-09-18).
   const DONE_STAGES = ['Invoice paid', 'Complete', 'Not now', 'Lost'];
