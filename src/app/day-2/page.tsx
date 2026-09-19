@@ -48,8 +48,8 @@ export default function DayTwoPage() {
           <div className="bg-white rounded-2xl p-7 md:p-8 shadow-[0_8px_24px_rgba(15,49,84,0.08)]">
             <p className="text-[17px] text-navy/70 leading-relaxed mb-6">
               Most kids who juggle are only good with one foot. This fixes that, and it is{' '}
-              <strong className="text-navy">100% follow along</strong> — your player presses play,
-              follows the screen, and builds real technical skill and confidence on the ball.
+              <strong className="text-navy">100% follow along</strong> — the videos are short and
+              cover every type of juggling.
             </p>
 
             <ul className="list-none p-0 m-0 space-y-3 mb-8">
