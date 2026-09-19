@@ -16,7 +16,7 @@ import Link from 'next/link';
 const VIDEO_ID = 'nFpQqFwrGcY';
 
 const POINTS = [
-  'Every popular move, 100% follow along.',
+  'Every move, 100% follow along.',
   'Over 500 drills, beginner to advanced.',
   'Short programs, worked through in order.',
   'A ball and a driveway is enough.',
