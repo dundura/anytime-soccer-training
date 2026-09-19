@@ -17,7 +17,7 @@ const VIDEO_ID = 'nFpQqFwrGcY';
 
 const POINTS = [
   'Every move, 100% follow along.',
-  'Over 500 drills, beginner to advanced.',
+  'Over 1,500 drills, beginner to advanced.',
   'Short programs, worked through in order.',
   'A ball and a driveway is enough.',
 ];
@@ -25,7 +25,7 @@ const POINTS = [
 export const metadata: Metadata = {
   title: 'Anytime Soccer Training Ball Mastery Program',
   description:
-    'Every popular ball mastery move, made 100% follow along. Over 500 drills, beginner to advanced, in many short easy-to-follow programs.',
+    'Every popular ball mastery move, made 100% follow along. Over 1,500 drills, beginner to advanced, in many short easy-to-follow programs.',
   openGraph: {
     title: 'Anytime Soccer Training Ball Mastery Program',
     description: 'Every popular ball mastery move, made 100% follow along. Press play and copy what is on the screen.',
