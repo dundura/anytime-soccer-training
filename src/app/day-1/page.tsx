@@ -46,7 +46,7 @@ export default function DayOnePage() {
 
         <p className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-2">Day 1 of 7</p>
         <h1 className="text-[1.75rem] md:text-[2.4rem] font-bold text-navy leading-tight mb-8">
-          Ball mastery made easy
+          Ball Mastery Made Easy
         </h1>
 
         <div className="grid md:grid-cols-[1fr_340px] gap-10 lg:gap-14 items-start">
