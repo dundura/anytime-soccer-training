@@ -77,7 +77,8 @@ export default function DayOnePage() {
           </div>
 
           {/* Right — a move, followed along */}
-          <div className="flex justify-center md:justify-end">
+          <div className="flex flex-col items-center md:items-end">
+            <p className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-3">100% follow-along</p>
             <div className="w-full max-w-[340px] rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(15,49,84,0.15)]">
               <iframe
                 src={`https://www.youtube.com/embed/${VIDEO_ID}`}
