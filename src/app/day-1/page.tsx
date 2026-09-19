@@ -46,13 +46,13 @@ export default function DayOnePage() {
 
         <p className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-2">Day 1 of 7</p>
         <h1 className="text-[1.75rem] md:text-[2.4rem] font-bold text-navy leading-tight mb-8">
-          Anytime Soccer Training <span className="text-red">Ball Mastery Program</span>
+          The best ball mastery program in the world
         </h1>
 
         <div className="grid md:grid-cols-2 gap-10 lg:gap-14 items-start">
 
           {/* Left — what it is and why it is easy */}
-          <div>
+          <div className="bg-white rounded-2xl p-7 md:p-8 shadow-[0_8px_24px_rgba(15,49,84,0.08)]">
             <p className="text-[17px] text-navy/70 leading-relaxed mb-6">
               We have taken the ball mastery moves every player wants and made them{' '}
               <strong className="text-navy">100% follow along</strong>. Your player presses play,
