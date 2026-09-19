@@ -2,36 +2,32 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 /**
- * Where the Day 2 email's button lands.
- *
- * The seven-day emails have always pointed at the homepage, which asks a
- * parent who came to do one specific thing to go and find it. This page is
- * that one thing: the video, four lines telling them how to start it, and the
- * way into the app. Nothing else, because anything else is a reason to leave.
+ * Where the Day 2 email's button lands. Same shape as /day-1: what it is on
+ * the left, the video on the right.
  */
 
 const VIDEO_ID = 'tascEETaN8A';
 
-const TIPS = [
-  'Drop the ball from your hands, one touch, catch it. That is rep one.',
-  'Alternate feet every single touch, even while it looks a mess.',
-  'Add a thigh, then the chest, then the head — one touch each, back to the feet.',
-  'Ten minutes is plenty. Count the best run, beat it tomorrow.',
+const POINTS = [
+  'Both feet, not just the good one.',
+  'Thighs, chest and head, once the feet are steady.',
+  'Beginner to advanced, ten minutes a day.',
+  'Any flat patch of ground is enough.',
 ];
 
 export const metadata: Metadata = {
-  title: 'Day 2: Two-Footed Juggle Master — Anytime Soccer Training',
+  title: 'Two-Footed Juggle Master — Anytime Soccer Training',
   description:
-    'Day 2 of the free 7-day plan: both feet, thighs, chest and head. Watch the session and start juggling today.',
+    'Most kids who juggle are only good with one foot. This fixes that — both feet, thighs, chest and head, in short follow-along sessions.',
   openGraph: {
-    title: 'Day 2: Two-Footed Juggle Master',
-    description: 'Both feet, thighs, chest and head. Watch the session and start today.',
+    title: 'Two-Footed Juggle Master',
+    description: 'Both feet, thighs, chest and head. Press play and follow along.',
     url: 'https://www.anytime-soccer.com/day-2',
-    images: [{ url: `https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg`, width: 1280, height: 720, alt: 'Day 2: Two-Footed Juggle Master' }],
+    images: [{ url: `https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg`, width: 1280, height: 720, alt: 'Two-Footed Juggle Master' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Day 2: Two-Footed Juggle Master',
+    title: 'Two-Footed Juggle Master',
     images: [`https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg`],
   },
 };
@@ -39,50 +35,55 @@ export const metadata: Metadata = {
 export default function DayTwoPage() {
   return (
     <section className="bg-background py-12 md:py-16 px-6">
-      <div className="max-w-[820px] mx-auto">
+      <div className="max-w-[1100px] mx-auto">
 
         <p className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-2">Day 2 of 7</p>
-        <h1 className="text-[2rem] md:text-[2.6rem] font-bold text-navy leading-tight mb-3">
-          Two-Footed <span className="text-red">Juggle Master</span>
+        <h1 className="text-[1.75rem] md:text-[2.4rem] font-bold text-navy leading-tight mb-8">
+          Two-Footed Juggle Master
         </h1>
-        <p className="text-[17px] text-navy/70 leading-relaxed mb-8 max-w-[640px]">
-          Most kids who juggle are only good with one foot. Today fixes that — both feet, thighs,
-          chest and head.
-        </p>
 
-        <div className="rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(15,49,84,0.15)] mb-10">
-          <iframe
-            src={`https://www.youtube.com/embed/${VIDEO_ID}`}
-            className="w-full aspect-video block"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            title="Day 2: Two-Footed Juggle Master"
-          />
+        <div className="grid md:grid-cols-2 gap-10 lg:gap-14 items-start">
+
+          {/* Left — what it is and why it is easy */}
+          <div className="bg-white rounded-2xl p-7 md:p-8 shadow-[0_8px_24px_rgba(15,49,84,0.08)]">
+            <p className="text-[17px] text-navy/70 leading-relaxed mb-6">
+              Most kids who juggle are only good with one foot. This fixes that, and it is{' '}
+              <strong className="text-navy">100% follow along</strong> — your player presses play,
+              follows the screen, and builds real technical skill and confidence on the ball.
+            </p>
+
+            <ul className="list-none p-0 m-0 space-y-3 mb-8">
+              {POINTS.map((point) => (
+                <li key={point} className="flex items-start gap-2.5 text-[15px] md:text-[16px] font-bold text-navy leading-snug">
+                  <span className="text-red font-bold flex-shrink-0">&#10003;</span>
+                  {point}
+                </li>
+              ))}
+            </ul>
+
+            <Link
+              href="https://app.anytime-soccer.com"
+              className="inline-block bg-red text-white font-bold text-[16px] px-9 py-4 rounded-xl shadow-[0_8px_20px_rgba(220,55,62,0.3)] hover:opacity-90 transition-opacity"
+            >
+              Start Day 2
+            </Link>
+          </div>
+
+          {/* Right — the session */}
+          <div className="flex flex-col items-center md:items-end">
+            <p className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-3">100% follow-along</p>
+            <div className="w-full rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(15,49,84,0.15)]">
+              <iframe
+                src={`https://www.youtube.com/embed/${VIDEO_ID}`}
+                className="w-full aspect-video block"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="Two-Footed Juggle Master"
+              />
+            </div>
+          </div>
+
         </div>
-
-        <div className="bg-white rounded-2xl p-7 md:p-8 shadow-[0_8px_24px_rgba(15,49,84,0.08)] mb-8">
-          <p className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-4">How to start</p>
-          <ol className="list-none p-0 m-0 space-y-3">
-            {TIPS.map((tip, i) => (
-              <li key={tip} className="flex items-start gap-3 text-[15px] md:text-[16px] text-navy leading-snug">
-                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-red text-white text-[12px] font-bold flex items-center justify-center">
-                  {i + 1}
-                </span>
-                {tip}
-              </li>
-            ))}
-          </ol>
-        </div>
-
-        <div className="text-center">
-          <Link
-            href="https://app.anytime-soccer.com"
-            className="inline-block bg-red text-white font-bold text-[16px] px-9 py-4 rounded-xl shadow-[0_8px_20px_rgba(220,55,62,0.3)] hover:opacity-90 transition-opacity"
-          >
-            Start Day 2 in the app
-          </Link>
-        </div>
-
       </div>
     </section>
   );
