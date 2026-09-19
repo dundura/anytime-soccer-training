@@ -15,18 +15,18 @@ const TIPS = [
 ];
 
 export const metadata: Metadata = {
-  title: 'Day 1: Ball Mastery — Anytime Soccer Training',
+  title: 'Anytime Soccer Training Ball Mastery Program',
   description:
-    'Day 1 of the free 7-day plan: ball mastery, the foundation everything else sits on. Watch the session and start today.',
+    'Over 500 ball mastery drills, beginner to advanced — ball control and manipulation using every part of the foot, in a space the size of a driveway.',
   openGraph: {
-    title: 'Day 1: Ball Mastery',
-    description: 'The foundation of confidence and control. Watch the session and start today.',
+    title: 'Anytime Soccer Training Ball Mastery Program',
+    description: 'Over 500 drills, beginner to advanced. Ball control and manipulation in a tight space.',
     url: 'https://www.anytime-soccer.com/day-1',
     images: [{ url: `https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg`, width: 1280, height: 720, alt: 'Day 1: Ball Mastery' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Day 1: Ball Mastery',
+    title: 'Anytime Soccer Training Ball Mastery Program',
     images: [`https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg`],
   },
 };
@@ -37,13 +37,14 @@ export default function DayOnePage() {
       <div className="max-w-[820px] mx-auto">
 
         <p className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-2">Day 1 of 7</p>
-        <h1 className="text-[2rem] md:text-[2.6rem] font-bold text-navy leading-tight mb-3">
-          Ball <span className="text-red">Mastery</span>
+        <h1 className="text-[1.75rem] md:text-[2.4rem] font-bold text-navy leading-tight mb-3">
+          Anytime Soccer Training <span className="text-red">Ball Mastery Program</span>
         </h1>
         <p className="text-[17px] text-navy/70 leading-relaxed mb-8 max-w-[640px]">
-          Today your player starts doing what most never do — training on their own. Ball mastery is
-          the difference between a player who receives the ball and looks up, and one who receives it
-          and panics.
+          Over 500 ball mastery drills, beginner to advanced, all built around manipulating the ball
+          in a tight space using every part of the foot. It needs a ball and a few square feet, which
+          is why it works in a driveway — and why more touches at home is the difference between a
+          player who receives the ball and looks up, and one who receives it and panics.
         </p>
 
         <div className="rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(15,49,84,0.15)] mb-10">
