@@ -71,8 +71,11 @@ export default function DayFivePage() {
 
           {/* Right — the session */}
           <div className="flex flex-col items-center md:items-end">
-            <p className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-3">100% follow-along</p>
-            <div className="w-full rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(15,49,84,0.15)]">
+            <div className="w-full">
+              <div className="w-full bg-white rounded-xl py-2.5 mb-3 shadow-[0_4px_12px_rgba(15,49,84,0.06)]">
+                <p className="text-[13px] font-bold uppercase tracking-[2px] text-red text-center">100% follow-along</p>
+              </div>
+              <div className="rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(15,49,84,0.15)]">
               <iframe
                 src={`https://www.youtube.com/embed/${VIDEO_ID}`}
                 className="w-full aspect-video block"
@@ -80,6 +83,7 @@ export default function DayFivePage() {
                 allowFullScreen
                 title="Two-Cone Ball Mastery"
               />
+              </div>
             </div>
           </div>
 

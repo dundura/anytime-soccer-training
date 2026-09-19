@@ -54,9 +54,9 @@ export default function DayOnePage() {
           {/* Left — what it is and why it is easy */}
           <div className="bg-white rounded-2xl p-7 md:p-8 shadow-[0_8px_24px_rgba(15,49,84,0.08)]">
             <p className="text-[17px] text-navy/70 leading-relaxed mb-6">
-              We have taken the ball mastery moves every player wants and made them{' '}
-              <strong className="text-navy">100% follow along</strong>. Your player presses play,
-              follows the screen, and builds real technical skill and confidence on the ball.
+              Every move your player wants, made{' '}
+              <strong className="text-navy">100% follow along</strong>. Press play, follow the
+              screen, build real skill and confidence.
             </p>
 
             <ul className="list-none p-0 m-0 space-y-3 mb-8">
@@ -78,8 +78,11 @@ export default function DayOnePage() {
 
           {/* Right — a move, followed along */}
           <div className="flex flex-col items-center md:items-end">
-            <p className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-3">100% follow-along</p>
-            <div className="w-full max-w-[340px] rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(15,49,84,0.15)]">
+            <div className="w-full max-w-[340px]">
+              <div className="w-full bg-white rounded-xl py-2.5 mb-3 shadow-[0_4px_12px_rgba(15,49,84,0.06)]">
+                <p className="text-[13px] font-bold uppercase tracking-[2px] text-red text-center">100% follow-along</p>
+              </div>
+              <div className="rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(15,49,84,0.15)]">
               <iframe
                 src={`https://www.youtube.com/embed/${VIDEO_ID}`}
                 className="w-full aspect-[9/16] block"
@@ -87,6 +90,7 @@ export default function DayOnePage() {
                 allowFullScreen
                 title="Anytime Soccer Training Ball Mastery Program"
               />
+              </div>
             </div>
           </div>
 
