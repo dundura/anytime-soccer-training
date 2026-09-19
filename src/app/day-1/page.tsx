@@ -16,10 +16,10 @@ import Link from 'next/link';
 const VIDEO_ID = 'nFpQqFwrGcY';
 
 const POINTS = [
-  'Every popular move made 100% follow along — step overs, the Cruyff, the elastico, the Maradona, the Matthews.',
-  'Over 500 drills, beginner right through to advanced.',
-  'Many smaller programs rather than one long list, each a short series worked through in order.',
-  'A ball and a few square feet. It works in a driveway.',
+  'Every popular move, 100% follow along — step overs, Cruyff, elastico, Maradona, Matthews.',
+  'Over 500 drills, beginner to advanced.',
+  'Short programs, worked through in order.',
+  'A ball and a driveway is enough.',
 ];
 
 export const metadata: Metadata = {
@@ -49,15 +49,14 @@ export default function DayOnePage() {
           The best ball mastery program in the world
         </h1>
 
-        <div className="grid md:grid-cols-2 gap-10 lg:gap-14 items-start">
+        <div className="grid md:grid-cols-[1fr_340px] gap-10 lg:gap-14 items-start">
 
           {/* Left — what it is and why it is easy */}
           <div className="bg-white rounded-2xl p-7 md:p-8 shadow-[0_8px_24px_rgba(15,49,84,0.08)]">
             <p className="text-[17px] text-navy/70 leading-relaxed mb-6">
               We have taken the ball mastery moves every player wants and made them{' '}
               <strong className="text-navy">100% follow along</strong>. Your player presses play,
-              copies what is on the screen, and comes back tomorrow. Nothing to plan, nothing to
-              work out from a diagram.
+              follows the screen, and builds real technical skill and confidence on the ball.
             </p>
 
             <ul className="list-none p-0 m-0 space-y-3 mb-8">
@@ -73,13 +72,13 @@ export default function DayOnePage() {
               href="https://app.anytime-soccer.com"
               className="inline-block bg-red text-white font-bold text-[16px] px-9 py-4 rounded-xl shadow-[0_8px_20px_rgba(220,55,62,0.3)] hover:opacity-90 transition-opacity"
             >
-              Start Day 1 in the app
+              Start Day 1
             </Link>
           </div>
 
           {/* Right — a move, followed along */}
           <div className="flex justify-center md:justify-end">
-            <div className="w-full max-w-[320px] rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(15,49,84,0.15)]">
+            <div className="w-full max-w-[340px] rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(15,49,84,0.15)]">
               <iframe
                 src={`https://www.youtube.com/embed/${VIDEO_ID}`}
                 className="w-full aspect-[9/16] block"
