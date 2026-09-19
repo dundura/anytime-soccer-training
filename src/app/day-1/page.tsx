@@ -61,7 +61,7 @@ export default function DayOnePage() {
 
             <ul className="list-none p-0 m-0 space-y-3 mb-8">
               {POINTS.map((point) => (
-                <li key={point} className="flex items-start gap-2.5 text-[15px] md:text-[16px] text-navy leading-snug">
+                <li key={point} className="flex items-start gap-2.5 text-[15px] md:text-[16px] font-bold text-navy leading-snug">
                   <span className="text-red font-bold flex-shrink-0">&#10003;</span>
                   {point}
                 </li>
