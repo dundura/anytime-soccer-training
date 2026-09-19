@@ -39,7 +39,7 @@ export default function DayTwoPage() {
 
         <p className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-2">Day 2 of 7</p>
         <h1 className="text-[1.75rem] md:text-[2.4rem] font-bold text-navy leading-tight mb-8">
-          Two-Footed Juggle Master
+          Juggling Made Easy
         </h1>
 
         <div className="grid md:grid-cols-2 gap-10 lg:gap-14 items-start">
