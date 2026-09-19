@@ -11,7 +11,7 @@ const VIDEO_ID = '9f262gP1Bvw';
 const POINTS = [
   'Two cones, two steps apart. A pair of shoes does the job.',
   'A driveway, a hallway or the backyard is enough.',
-  'Beginner to advanced, ten minutes a day.',
+  'Beginner to advanced, 5 to 10 minutes a day.',
   'Short programs, worked through in order.',
 ];
 

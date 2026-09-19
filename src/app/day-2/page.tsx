@@ -11,7 +11,7 @@ const VIDEO_ID = 'tascEETaN8A';
 const POINTS = [
   'Both feet, not just the good one.',
   'Thighs, chest and head, once the feet are steady.',
-  'Beginner to advanced, ten minutes a day.',
+  'Beginner to advanced, 5 to 10 minutes a day.',
   'Any flat patch of ground is enough.',
 ];
 

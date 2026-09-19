@@ -11,7 +11,7 @@ const VIDEO_ID = 'NofobC68onY';
 const POINTS = [
   'Training at home that feels like play, not work.',
   'Siblings, parents, teammates — anyone can be the defender.',
-  'Beginner to advanced, ten minutes a day.',
+  'Beginner to advanced, 5 to 10 minutes a day.',
   'A ball and a driveway is enough.',
 ];
 

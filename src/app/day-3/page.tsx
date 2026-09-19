@@ -10,7 +10,7 @@ const VIDEO_ID = 'iiZhIHvd4Jc';
 
 const POINTS = [
   'Over a thousand short, guided dribbling drills.',
-  'Beginner to advanced, ten minutes a day.',
+  'Beginner to advanced, 5 to 10 minutes a day.',
   'Short programs, worked through in order.',
   'A ball and a driveway is enough.',
 ];
