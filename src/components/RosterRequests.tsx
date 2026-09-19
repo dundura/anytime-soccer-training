@@ -269,11 +269,6 @@ export default function RosterRequests({ token }: { token: string | null }) {
           </table>
         </div>
       )}
-
-      <p className="mt-3 text-[12px] leading-relaxed text-gray-500">
-        Marking a roster in also stops the automatic 48-hour chase &mdash; the same thing the button in
-        Megan&rsquo;s notification email does.
-      </p>
     </div>
   );
 }
