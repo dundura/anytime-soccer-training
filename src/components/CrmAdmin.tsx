@@ -1187,9 +1187,8 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                                   <th className="px-3 py-2 w-[20%]">Name</th>
                                   <th className="px-3 py-2 w-[18%]">Club</th>
                                   <th className="px-2 py-2 w-[5%] text-center">Contact</th>
-                                  <th className="px-3 py-2 w-[14%]">Status</th>
-                                  <th className="px-3 py-2 w-[16%]">Stage</th>
-                                  <th className="px-3 py-2 w-[8%]">Added</th>
+                                  <th className="px-3 py-2 w-[22%]">Status</th>
+                                                                    <th className="px-3 py-2 w-[8%]">Added</th>
                                   <th className="px-3 py-2 w-[4%] text-center">Notes</th>
                                   <th className="px-3 py-2 w-[3%] text-right">&nbsp;</th>
                                 </tr>
@@ -1197,7 +1196,15 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                               <tbody className="divide-y divide-gray-100">
                                 {shown.map((c, i) => (
                                   <Fragment key={`${c.id}-${crmNonce}`}>
-                                  <tr className={`align-middle ${crmSaving === c.id ? 'opacity-60' : ''}`}>
+                                  <tr
+                                    onClick={(ev) => {
+                                      const el = ev.target as HTMLElement;
+                                      if (el.closest('input, button, select, textarea, a')) return;
+                                      openCrmLead(c.id);
+                                    }}
+                                    title="Open this lead"
+                                    className={`align-middle cursor-pointer hover:bg-amber-50/40 ${crmSaving === c.id ? 'opacity-60' : ''}`}
+                                  >
                                     {/* Order is hand-set and saved whole, so what
                                         is stored is always exactly what is on
                                         screen. Arrows rather than drag: a table
@@ -1269,23 +1276,6 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                                       >
                                         {(crmStatuses.length ? crmStatuses : Object.keys(CRM_STATUS_LABEL)).map(st => (
                                           <option key={st} value={st}>{crmLabel(st)}</option>
-                                        ))}
-                                      </select>
-                                    </td>
-                                    {/* Setting a stage here is what moves the row
-                                        into that filtered view — there is no
-                                        separate "move to stage" action. */}
-                                    <td className="px-3 py-2 whitespace-nowrap">
-                                      <select
-                                        value={c.stageId === null ? '' : String(c.stageId)}
-                                        onChange={ev => saveCrmField(c.id, 'stageId', ev.target.value === '' ? null : Number(ev.target.value))}
-                                        className={`text-xs font-bold rounded-full border px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-amber-300 ${
-                                          c.stageId === null ? 'bg-white text-gray-400 border-gray-200' : 'bg-navy/5 text-navy border-navy/30'
-                                        }`}
-                                      >
-                                        <option value="">&mdash;</option>
-                                        {crmStages.map(st => (
-                                          <option key={st.id} value={st.id}>{st.name}</option>
                                         ))}
                                       </select>
                                     </td>
