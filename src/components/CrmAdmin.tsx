@@ -1165,8 +1165,6 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                                   <th className="px-3 py-2 w-[20%]">Name</th>
                                   <th className="px-3 py-2 w-[18%]">Club</th>
                                   <th className="px-2 py-2 w-[5%] text-center">Contact</th>
-                                  <th className="px-3 py-2 w-[22%]">Status</th>
-                                                                    <th className="px-3 py-2 w-[8%]">Added</th>
                                   <th className="px-3 py-2 w-[4%] text-center">Notes</th>
                                   <th className="px-3 py-2 w-[3%] text-right">&nbsp;</th>
                                 </tr>
@@ -1246,22 +1244,6 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                                         Open
                                       </button>
                                     </td>
-                                    <td className="px-3 py-2 whitespace-nowrap">
-                                      <select
-                                        value={c.status}
-                                        onChange={ev => saveCrmField(c.id, 'status', ev.target.value)}
-                                        className={`text-xs font-bold rounded-full border px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-amber-300 ${CRM_STATUS_CLASS[c.status] || 'bg-gray-100 text-gray-600 border-gray-200'}`}
-                                      >
-                                        {(crmStatuses.length ? crmStatuses : Object.keys(CRM_STATUS_LABEL)).map(st => (
-                                          <option key={st} value={st}>{crmLabel(st)}</option>
-                                        ))}
-                                      </select>
-                                    </td>
-                                    <td className="px-3 py-2 whitespace-nowrap text-gray-500 text-xs">
-                                      {c.createdAt
-                                        ? new Date(c.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
-                                        : '\u2014'}
-                                    </td>
                                     {/* The pip, not the notes. A column wide
                                         enough to hold a written-up call would
                                         squeeze every other column flat. This
@@ -1284,16 +1266,6 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
                                       {/* Only shown when the row has an account
                                           behind it. A button that explains it
                                           cannot work is worse than no button. */}
-                                      {(c.coachId || c.email) && (
-                                        <button
-                                          onClick={() => openTheirPortal(c.id, c.name || c.email)}
-                                          disabled={crmSaving === c.id}
-                                          title={`Open ${c.name || c.email}'s portal`}
-                                          className="text-gray-300 hover:text-navy text-sm leading-none px-1 mr-1 transition-colors"
-                                        >
-                                          &#128065;
-                                        </button>
-                                      )}
                                       {crmConfirmDelete === c.id ? (
                                         <span className="inline-flex items-center gap-1">
                                           <button
