@@ -68,6 +68,12 @@ const crmDaysShown = (count: number | null, setAt: string | null) => {
   return count + Math.max(0, elapsed);
 };
 
+// Cold outreach, podcasts, international and referrals have pages of their own,
+// so their stages are left out of the CRM pills. The rows still exist and still
+// show on those pages. Module scope because the effect above the render body
+// reads it too.
+const OWN_PAGE_STAGES = ['cold', 'cold emailed', 'podcast', 'international', 'referral'];
+
 export default function CrmAdmin({ token, stageName }: { token: string | null; stageName?: string }) {
   // Reaching this component at all means an admin session; the panel is only
   // rendered behind the console's own sign-in.
@@ -599,7 +605,6 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
   // contacts, podcast guests and international posters have pages of their own
   // under Cold outreach and Outreach, so their stages are left out here -- the
   // rows still exist and still show on those pages.
-  const OWN_PAGE_STAGES = ['cold', 'cold emailed', 'podcast', 'international', 'referral'];
   const clientStages = crmStages.filter((st) => !OWN_PAGE_STAGES.includes(st.name.toLowerCase()));
   const hiddenStageIds = new Set(crmStages.filter((st) => OWN_PAGE_STAGES.includes(st.name.toLowerCase())).map((st) => st.id));
   const clientCoaches = crmCoaches.filter((c) => !c.stageId || !hiddenStageIds.has(c.stageId));
@@ -611,6 +616,20 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
     if (!stageName || !crmStages.length) return;
     const match = crmStages.find((s) => s.name.toLowerCase() === stageName.toLowerCase());
     if (match) setCrmStageView(match.id);
+  }, [stageName, crmStages]);
+
+  // One stage at a time. This opened on "all", which put every stage’s leads in
+  // one table under pills reading "No Call Yet (1)" and "First Call (1)" -- two
+  // counts of one above a table showing two people, and no pill lit to say
+  // which you were in. It lands on the first stage instead, and only moves
+  // itself while nothing has been picked.
+  useEffect(() => {
+    if (stageName || crmStageView !== 'all' || !crmStages.length) return;
+    const first = crmStages.find((st) => !OWN_PAGE_STAGES.includes(st.name.toLowerCase()));
+    if (first) setCrmStageView(first.id);
+    // crmStageView is deliberately not a dependency: this is a first landing,
+    // not a rule that keeps dragging the view back.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stageName, crmStages]);
 
   const askPanel = askFields && (
