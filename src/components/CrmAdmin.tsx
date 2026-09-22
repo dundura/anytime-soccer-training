@@ -837,28 +837,6 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
             </div>
           </div>
 
-          {/* Stage. Setting one here is what moves the row into that filtered
-              view - there is no separate "move to stage" action. */}
-          {crmStages.length > 0 && (
-            <div>
-              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Stage</div>
-              <div className="flex flex-wrap gap-1.5">
-                {crmStages.map(st => (
-                  <button
-                    key={st.id}
-                    onClick={() => saveCrmField(openLead.id, 'stageId', openLead.stageId === st.id ? null : st.id)}
-                    disabled={crmSaving === openLead.id}
-                    className={`px-2.5 py-1 rounded-full text-[11px] font-bold border disabled:opacity-50 ${
-                      openLead.stageId === st.id ? 'bg-navy text-white border-navy' : 'bg-gray-100 text-gray-600 border-gray-200'
-                    }`}
-                  >
-                    {st.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* The facts, editable in place. Each saves on blur, not on every
               keystroke: a PUT per character races itself and the last response
               back wins rather than the last thing typed. */}
