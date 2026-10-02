@@ -30,27 +30,32 @@ const SECTIONS: { id: string; heading: string; accent: 'red' | 'navy'; steps: St
       {
         title: 'Join for free',
         content: (
-          <>
-            Go to{' '}
-            <a
-              href="https://app.anytime-soccer.com/auth/registerFree"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-red font-semibold no-underline hover:underline"
-            >
-              anytime-soccer.com
-            </a>{' '}
-            and click <span className="text-red font-semibold">Join for Free</span>. See the full{' '}
-            <a
-              href="https://www.anytime-soccer.com/how-to-create-your-anytime-soccer-training-account"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-red font-semibold no-underline hover:underline"
-            >
-              step-by-step guide
-            </a>
-            .
-          </>
+          <ul className="list-disc pl-4 space-y-1">
+            <li>
+              Go to{' '}
+              <a
+                href="https://app.anytime-soccer.com/auth/registerFree"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-red font-semibold underline"
+              >
+                app.anytime-soccer.com
+              </a>{' '}
+              and click <span className="text-red font-semibold">Join for Free</span>.
+            </li>
+            <li>
+              See the full{' '}
+              <a
+                href="https://www.anytime-soccer.com/how-to-create-your-anytime-soccer-training-account"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-red font-semibold underline"
+              >
+                step-by-step guide
+              </a>
+              .
+            </li>
+          </ul>
         ),
       },
       {
@@ -72,18 +77,23 @@ const SECTIONS: { id: string; heading: string; accent: 'red' | 'navy'; steps: St
       {
         title: 'Click Add Profile',
         content: (
-          <>
-            Log in, then click <span className="text-red font-semibold">Add Profile</span> on your dashboard. See the full{' '}
-            <a
-              href="https://www.anytime-soccer.com/adding-an-anytime-soccer-training-player-profile"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-red font-semibold no-underline hover:underline"
-            >
-              step-by-step guide
-            </a>
-            .
-          </>
+          <ul className="list-disc pl-4 space-y-1">
+            <li>
+              Log in, then click <span className="text-red font-semibold">Add Profile</span> on your dashboard.
+            </li>
+            <li>
+              See the full{' '}
+              <a
+                href="https://www.anytime-soccer.com/adding-an-anytime-soccer-training-player-profile"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-red font-semibold underline"
+              >
+                step-by-step guide
+              </a>
+              .
+            </li>
+          </ul>
         ),
       },
       {
@@ -101,19 +111,24 @@ const SECTIONS: { id: string; heading: string; accent: 'red' | 'navy'; steps: St
       {
         title: 'Open My Teams',
         content: (
-          <>
-            Click <span className="text-red font-semibold">Login</span> next to your player, then{' '}
-            <span className="text-red font-semibold">My Teams</span>. See the full{' '}
-            <a
-              href="https://www.anytime-soccer.com/joining-anytime-soccer-training-team"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-red font-semibold no-underline hover:underline"
-            >
-              step-by-step guide
-            </a>
-            .
-          </>
+          <ul className="list-disc pl-4 space-y-1">
+            <li>
+              Click <span className="text-red font-semibold">Login</span> next to your player, then{' '}
+              <span className="text-red font-semibold">My Teams</span>.
+            </li>
+            <li>
+              See the full{' '}
+              <a
+                href="https://www.anytime-soccer.com/joining-anytime-soccer-training-team"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-red font-semibold underline"
+              >
+                step-by-step guide
+              </a>
+              .
+            </li>
+          </ul>
         ),
       },
       {
@@ -188,10 +203,10 @@ export default function GettingStartedPage() {
                       </span>
                     )}
                   </div>
-                  <div className="ml-10 text-[#5a7089] text-sm">
+                  <div className="ml-10 text-[#3d4f61] text-sm leading-relaxed">
                     {step.content}
                     {step.tip && (
-                      <div className="bg-red/[0.08] border-l-[3px] border-red py-2.5 px-3 rounded-r-lg mt-2">
+                      <div className="bg-red/[0.08] border-l-[3px] border-red py-2.5 px-3 rounded-r-lg mt-3">
                         <p className="text-navy text-xs m-0">{step.tip}</p>
                       </div>
                     )}
