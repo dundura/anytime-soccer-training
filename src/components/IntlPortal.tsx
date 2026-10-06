@@ -439,7 +439,9 @@ export default function IntlPortal({ token }: { token: string | null }) {
 
 Thanks for requesting another post. New posts are only $25.
 
-We will attempt to charge the card on file. Once it is paid, we will post it to the group and tag everyone.`,
+We will attempt to charge the card on file. Once it is paid, we will post it to the group and tag everyone.
+
+Reply back if you have any questions.`,
                       })}
                       className="mb-2 px-2.5 py-1 rounded-full bg-gray-100 text-gray-700 text-[10px] font-bold hover:bg-gray-200"
                     >
