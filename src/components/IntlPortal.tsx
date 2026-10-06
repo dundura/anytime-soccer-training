@@ -110,6 +110,8 @@ export default function IntlPortal({ token }: { token: string | null }) {
   // A hand-written email: shown shut until asked for.
   const [writing, setWriting] = useState(false);
   const [mail, setMail] = useState({ subject: '', body: '' });
+  // The whole hand-written email, shown in a popup before it goes.
+  const [manualPreview, setManualPreview] = useState<{ subject: string; body: string } | null>(null);
   const [preview, setPreview] = useState<{ row: SeqEmail; subject: string; html: string } | null>(null);
   const [showSequence, setShowSequence] = useState(false);
   const [adding, setAdding] = useState(false);
@@ -225,10 +227,16 @@ export default function IntlPortal({ token }: { token: string | null }) {
       .then(() => setPreview(null));
   };
 
-  const sendManual = (lead: Lead) => {
+  // The compose box only opens the popup; the popup is what sends.
+  const reviewManual = () => {
     if (!mail.subject.trim() || !mail.body.trim()) { flash('A subject and a message.'); return; }
-    act('manual', `${API}/intl-portal/leads/${lead.id}/manual-email`, { method: 'POST', headers: jsonHeaders(), body: JSON.stringify(mail) }, 'Sent to ' + lead.email)
-      .then((d) => { if (d) { setMail({ subject: '', body: '' }); setWriting(false); } });
+    setManualPreview({ subject: mail.subject, body: mail.body });
+  };
+
+  const sendManual = (lead: Lead) => {
+    if (!manualPreview) return;
+    act('manual', `${API}/intl-portal/leads/${lead.id}/manual-email`, { method: 'POST', headers: jsonHeaders(), body: JSON.stringify(manualPreview) }, 'Sent to ' + lead.email)
+      .then((d) => { if (d) { setMail({ subject: '', body: '' }); setWriting(false); setManualPreview(null); } });
   };
 
   const createLead = async () => {
@@ -455,7 +463,7 @@ export default function IntlPortal({ token }: { token: string | null }) {
                         <span className={`w-4 text-center text-[11px] ${done ? 'text-emerald-600' : 'text-gray-300'}`}>{done ? '✓' : '○'}</span>
                         <span className={`flex-1 text-[11px] ${done ? 'text-gray-400 line-through' : 'text-navy font-semibold'}`}>{emails.length + i + 1}. {m.label}</span>
                         <button
-                          onClick={() => { setMail({ subject: m.subject, body: m.body(current.name) }); setWriting(true); }}
+                          onClick={() => setManualPreview({ subject: m.subject, body: m.body(current.name) })}
                           className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[10px] font-bold hover:bg-gray-200 shrink-0"
                         >
                           {done ? 'Send again' : 'Send'}
@@ -476,7 +484,7 @@ export default function IntlPortal({ token }: { token: string | null }) {
                     <input value={mail.subject} onChange={(e) => setMail({ ...mail, subject: e.target.value })} placeholder="Subject" className="w-full mb-2 px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
                     <textarea value={mail.body} onChange={(e) => setMail({ ...mail, body: e.target.value })} rows={7} placeholder="Message" className="w-full px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
                     <div className="mt-1 flex gap-2">
-                      <button onClick={() => sendManual(current)} disabled={busy === 'manual' || !current.email} className="px-3 py-1.5 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">{busy === 'manual' ? 'Sending…' : 'Send'}</button>
+                      <button onClick={reviewManual} disabled={!current.email} className="px-3 py-1.5 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Send</button>
                       <button onClick={() => setWriting(false)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-[11px] font-bold text-gray-600">Cancel</button>
                     </div>
                     {!current.email && <p className="mt-1 text-[10px] text-gray-500">Add an email address above first.</p>}
@@ -529,6 +537,25 @@ export default function IntlPortal({ token }: { token: string | null }) {
                   <button onClick={() => setConfirmDelete(current.id)} className="text-[11px] font-bold text-gray-400 hover:text-red">Delete request</button>
                 )}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* A hand-written email: the whole thing, before it goes */}
+      {manualPreview && openId && current && (
+        <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" onClick={() => setManualPreview(null)}>
+          <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="px-5 py-4 border-b border-gray-100">
+              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">To {current.email || ''}</div>
+              <div className="mt-1 text-sm font-semibold text-navy">{manualPreview.subject}</div>
+            </div>
+            <div className="px-6 py-5 text-sm text-navy whitespace-pre-wrap break-words">{manualPreview.body}</div>
+            <div className="px-5 py-4 border-t border-gray-100 flex justify-end gap-2">
+              <button onClick={() => setManualPreview(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">Cancel</button>
+              <button onClick={() => sendManual(current)} disabled={busy === 'manual' || !current.email} className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50">
+                {busy === 'manual' ? 'Sending…' : 'Send'}
+              </button>
             </div>
           </div>
         </div>
