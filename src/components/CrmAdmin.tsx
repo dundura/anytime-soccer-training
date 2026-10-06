@@ -25,6 +25,9 @@ type NotificationField = { key: string; label: string; required?: boolean };
 type Notification = { key: string; n: number; subject: string; purpose: string; from: string; auto?: boolean; stage?: string; hidden?: boolean; fields?: NotificationField[] | null };
 
 const CRM_STATUS_LABEL: Record<string, string> = {
+  // The two choices offered now. The rest are old values a row may still carry.
+  no_call_yet: 'No call yet',
+  first_call: 'First call',
   not_started: 'Not started',
   in_process: 'In process',
   won: 'Won',
@@ -32,6 +35,8 @@ const CRM_STATUS_LABEL: Record<string, string> = {
   on_hold: 'On hold',
 };
 const CRM_STATUS_CLASS: Record<string, string> = {
+  no_call_yet: 'bg-gray-100 text-gray-600 border-gray-200',
+  first_call: 'bg-blue-100 text-blue-800 border-blue-300',
   not_started: 'bg-gray-100 text-gray-600 border-gray-200',
   in_process: 'bg-amber-100 text-amber-800 border-amber-300',
   won: 'bg-green-100 text-green-800 border-green-300',
@@ -842,7 +847,7 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
           <div>
             <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Status</div>
             <div className="flex flex-wrap gap-1.5">
-              {(crmStatuses.length ? crmStatuses : Object.keys(CRM_STATUS_LABEL)).map(st => (
+              {(crmStatuses.length ? crmStatuses : ['no_call_yet', 'first_call']).map(st => (
                 <button
                   key={st}
                   onClick={() => saveCrmField(openLead.id, 'status', st)}
