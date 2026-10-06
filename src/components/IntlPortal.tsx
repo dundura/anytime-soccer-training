@@ -79,6 +79,9 @@ export default function IntlPortal({ token }: { token: string | null }) {
   const [busy, setBusy] = useState('');
   const [noteDraft, setNoteDraft] = useState('');
   const [callDraft, setCallDraft] = useState('');
+  // A hand-written email: shown shut until asked for.
+  const [writing, setWriting] = useState(false);
+  const [mail, setMail] = useState({ subject: '', body: '' });
   const [preview, setPreview] = useState<{ row: SeqEmail; subject: string; html: string } | null>(null);
   const [showSequence, setShowSequence] = useState(false);
   const [adding, setAdding] = useState(false);
@@ -124,6 +127,8 @@ export default function IntlPortal({ token }: { token: string | null }) {
     setPreview(null);
     setNoteDraft('');
     setCallDraft('');
+    setWriting(false);
+    setMail({ subject: '', body: '' });
     try {
       const res = await fetch(`${API}/intl-portal/leads/${id}`, { headers: headers() });
       const d = await res.json().catch(() => ({}));
@@ -190,6 +195,12 @@ export default function IntlPortal({ token }: { token: string | null }) {
     if (!preview) return;
     act('send', `${API}/intl-portal/leads/${lead.id}/email`, { method: 'POST', headers: jsonHeaders(), body: JSON.stringify({ emailKey: preview.row.emailKey }) }, 'Sent to ' + lead.email)
       .then(() => setPreview(null));
+  };
+
+  const sendManual = (lead: Lead) => {
+    if (!mail.subject.trim() || !mail.body.trim()) { flash('A subject and a message.'); return; }
+    act('manual', `${API}/intl-portal/leads/${lead.id}/manual-email`, { method: 'POST', headers: jsonHeaders(), body: JSON.stringify(mail) }, 'Sent to ' + lead.email)
+      .then((d) => { if (d) { setMail({ subject: '', body: '' }); setWriting(false); } });
   };
 
   const createLead = async () => {
@@ -410,6 +421,39 @@ export default function IntlPortal({ token }: { token: string | null }) {
                     );
                   })}
                 </div>
+              </div>
+
+              {/* A one-off email, written here */}
+              <div>
+                {!writing ? (
+                  <button onClick={() => setWriting(true)} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold">✍️ Write an email</button>
+                ) : (
+                  <div>
+                    <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Write an email{current.email ? ' to ' + current.email : ''}</div>
+                    {/* A reply that gets sent often: fills the boxes, still editable before it goes. */}
+                    <button
+                      type="button"
+                      onClick={() => setMail({
+                        subject: 'Your next post',
+                        body: `Hi ${String(current.name || '').trim().split(/\s+/)[0] || 'there'},
+
+Thanks for requesting another post. New posts are only $25.
+
+We will attempt to charge the card on file. Once it is paid, we will post it to the group and tag everyone.`,
+                      })}
+                      className="mb-2 px-2.5 py-1 rounded-full bg-gray-100 text-gray-700 text-[10px] font-bold hover:bg-gray-200"
+                    >
+                      Use: Another post, $25
+                    </button>
+                    <input value={mail.subject} onChange={(e) => setMail({ ...mail, subject: e.target.value })} placeholder="Subject" className="w-full mb-2 px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
+                    <textarea value={mail.body} onChange={(e) => setMail({ ...mail, body: e.target.value })} rows={7} placeholder="Message" className="w-full px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
+                    <div className="mt-1 flex gap-2">
+                      <button onClick={() => sendManual(current)} disabled={busy === 'manual' || !current.email} className="px-3 py-1.5 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">{busy === 'manual' ? 'Sending…' : 'Send'}</button>
+                      <button onClick={() => setWriting(false)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-[11px] font-bold text-gray-600">Cancel</button>
+                    </div>
+                    {!current.email && <p className="mt-1 text-[10px] text-gray-500">Add an email address above first.</p>}
+                  </div>
+                )}
               </div>
 
               <div>
