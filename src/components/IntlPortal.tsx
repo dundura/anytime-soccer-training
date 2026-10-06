@@ -447,6 +447,20 @@ Reply back if you have any questions.`,
                     >
                       Use: Another post, $25
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => setMail({
+                        subject: 'You can also pay by Venmo',
+                        body: `Hi ${String(current.name || '').trim().split(/\s+/)[0] || 'there'},
+
+We also accept Venmo: @anytimesoccertraining
+
+Reply back if you have any questions.`,
+                      })}
+                      className="mb-2 ml-2 px-2.5 py-1 rounded-full bg-gray-100 text-gray-700 text-[10px] font-bold hover:bg-gray-200"
+                    >
+                      Use: Venmo
+                    </button>
                     <input value={mail.subject} onChange={(e) => setMail({ ...mail, subject: e.target.value })} placeholder="Subject" className="w-full mb-2 px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
                     <textarea value={mail.body} onChange={(e) => setMail({ ...mail, body: e.target.value })} rows={7} placeholder="Message" className="w-full px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
                     <div className="mt-1 flex gap-2">
