@@ -39,6 +39,34 @@ const STAGE_TINT: Record<string, string> = {
   'Not now': 'bg-gray-400 text-white',
 };
 
+// Written by hand, not in the newsletter sequence: they open the compose box filled in, and can be
+// edited before they go.
+const first = (name: string | null) => String(name || '').trim().split(/\s+/)[0] || 'there';
+const MANUAL_EMAILS: { key: string; label: string; subject: string; body: (name: string | null) => string }[] = [
+  {
+    key: 'another-post',
+    label: 'Another post, $25',
+    subject: 'Your next post',
+    body: (n) => `Hi ${first(n)},
+
+Thanks for requesting another post. New posts are only $25.
+
+We will attempt to charge the card on file. Once it is paid, we will post it to the group and tag everyone.
+
+Reply back if you have any questions.`,
+  },
+  {
+    key: 'venmo',
+    label: 'We also accept Venmo',
+    subject: 'You can also pay by Venmo',
+    body: (n) => `Hi ${first(n)},
+
+We also accept Venmo: @anytimesoccertraining
+
+Reply back if you have any questions.`,
+  },
+];
+
 const ACTIVITY_ICON: Record<string, string> = {
   email_sent: '✉️',
   call: '📞',
@@ -420,6 +448,21 @@ export default function IntlPortal({ token }: { token: string | null }) {
                       </div>
                     );
                   })}
+                  {MANUAL_EMAILS.map((m, i) => {
+                    const done = alreadySent(m.subject);
+                    return (
+                      <div key={m.key} className="flex items-center gap-2">
+                        <span className={`w-4 text-center text-[11px] ${done ? 'text-emerald-600' : 'text-gray-300'}`}>{done ? '✓' : '○'}</span>
+                        <span className={`flex-1 text-[11px] ${done ? 'text-gray-400 line-through' : 'text-navy font-semibold'}`}>{emails.length + i + 1}. {m.label}</span>
+                        <button
+                          onClick={() => { setMail({ subject: m.subject, body: m.body(current.name) }); setWriting(true); }}
+                          className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[10px] font-bold hover:bg-gray-200 shrink-0"
+                        >
+                          {done ? 'Send again' : 'Send'}
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -430,37 +473,6 @@ export default function IntlPortal({ token }: { token: string | null }) {
                 ) : (
                   <div>
                     <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Write an email{current.email ? ' to ' + current.email : ''}</div>
-                    {/* A reply that gets sent often: fills the boxes, still editable before it goes. */}
-                    <button
-                      type="button"
-                      onClick={() => setMail({
-                        subject: 'Your next post',
-                        body: `Hi ${String(current.name || '').trim().split(/\s+/)[0] || 'there'},
-
-Thanks for requesting another post. New posts are only $25.
-
-We will attempt to charge the card on file. Once it is paid, we will post it to the group and tag everyone.
-
-Reply back if you have any questions.`,
-                      })}
-                      className="mb-2 px-2.5 py-1 rounded-full bg-gray-100 text-gray-700 text-[10px] font-bold hover:bg-gray-200"
-                    >
-                      Use: Another post, $25
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setMail({
-                        subject: 'You can also pay by Venmo',
-                        body: `Hi ${String(current.name || '').trim().split(/\s+/)[0] || 'there'},
-
-We also accept Venmo: @anytimesoccertraining
-
-Reply back if you have any questions.`,
-                      })}
-                      className="mb-2 ml-2 px-2.5 py-1 rounded-full bg-gray-100 text-gray-700 text-[10px] font-bold hover:bg-gray-200"
-                    >
-                      Use: Venmo
-                    </button>
                     <input value={mail.subject} onChange={(e) => setMail({ ...mail, subject: e.target.value })} placeholder="Subject" className="w-full mb-2 px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
                     <textarea value={mail.body} onChange={(e) => setMail({ ...mail, body: e.target.value })} rows={7} placeholder="Message" className="w-full px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
                     <div className="mt-1 flex gap-2">
