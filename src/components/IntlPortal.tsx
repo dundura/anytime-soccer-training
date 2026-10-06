@@ -51,9 +51,9 @@ const MANUAL_EMAILS: { key: string; label: string; subject: string; body: (name:
 
 Thanks for requesting another post. New posts are only $25.
 
-We will attempt to charge the card on file. Once it is paid, we will post it to the group and tag everyone.
+Reply back to confirm you are ready and we will charge the card on file. Once it is paid, we will post it to the group and tag everyone.
 
-Reply back if you have any questions.`,
+Questions? Just reply.`,
   },
   {
     key: 'venmo',
