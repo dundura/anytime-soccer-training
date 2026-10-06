@@ -55,7 +55,9 @@ Reply back to confirm you are ready and we will charge the card on file.
 
 Once it is paid, post it to the group and let me know. I will approve it and tag everyone.
 
-Questions? Just reply.`,
+Questions? Just reply.
+
+Megan`,
   },
   {
     key: 'venmo',
@@ -65,7 +67,9 @@ Questions? Just reply.`,
 
 We also accept Venmo: @anytimesoccertraining
 
-Reply back if you have any questions.`,
+Reply back if you have any questions.
+
+Megan`,
   },
 ];
 
@@ -549,6 +553,7 @@ export default function IntlPortal({ token }: { token: string | null }) {
         <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" onClick={() => setManualPreview(null)}>
           <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="px-5 py-4 border-b border-gray-100">
+              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">From Megan Chambers</div>
               <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">To {current.email || ''}</div>
               <div className="mt-1 text-sm font-semibold text-navy">{manualPreview.subject}</div>
             </div>
