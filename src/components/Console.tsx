@@ -6,6 +6,7 @@ import ConsoleLogins from './ConsoleLogins';
 import ConsoleNotes from './ConsoleNotes';
 import CrmAdmin from './CrmAdmin';
 import DemoPortal from './DemoPortal';
+import IntlPortal from './IntlPortal';
 import Referrals from './Referrals';
 import Newsletters from './Newsletters';
 import TriggeredEmails from './TriggeredEmails';
@@ -277,7 +278,7 @@ export default function Console() {
             {view === 'cold-league' && <ColdWorkflow key="cold-league" token={token} lockedSequence="cold-league" title="League officials" />}
             {view === 'cold-snm' && <ColdWorkflow key="cold-snm" token={token} lockedSequence="cold-snm" title="Soccer Near Me clubs" />}
             {view === 'podcast' && <ColdWorkflow token={token} group="Podcast" noun="guest" />}
-            {view === 'intl' && <ColdWorkflow token={token} group="International" noun="requester" />}
+            {view === 'intl' && <IntlPortal token={token} />}
             {view === 'roster' && <RosterRequests token={token} />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
             {view === 'demos' && <DemoPortal token={token} />}
