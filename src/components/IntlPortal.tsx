@@ -51,7 +51,9 @@ const MANUAL_EMAILS: { key: string; label: string; subject: string; body: (name:
 
 Thanks for requesting another post. New posts are only $25.
 
-Reply back to confirm you are ready and we will charge the card on file. Once it is paid, we will post it to the group and tag everyone.
+Reply back to confirm you are ready and we will charge the card on file.
+
+Once it is paid, post it to the group and let me know. I will approve it and tag everyone.
 
 Questions? Just reply.`,
   },
