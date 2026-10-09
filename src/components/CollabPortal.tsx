@@ -449,6 +449,8 @@ Thanks for reaching out.
 
 The way to share your information with our Facebook groups is to first create a listing on www.soccer-near-me.com
 
+Once it is live, I will share the listing and a message in the groups like I normally would.
+
 Neil` }); setWriting(true); }} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold">✍️ Write an email</button>
                 ) : (
                   <div>
