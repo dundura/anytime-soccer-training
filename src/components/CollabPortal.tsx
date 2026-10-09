@@ -56,6 +56,8 @@ Make sure you add nice images and video to your listing.
 
 Once it is live, you can share the listing and a message in the groups like you normally would.
 
+The Soccer Near Me link is the only link that can be in the post.
+
 Neil`,
 });
 const MANUAL_EMAILS: { key: string; label: string; subject: string; body: (name: string | null) => string }[] = [
