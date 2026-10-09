@@ -447,7 +447,9 @@ export default function CollabPortal({ token }: { token: string | null }) {
 
 Thanks for reaching out.
 
-The way to share your information with our Facebook groups is to first create a listing on www.soccer-near-me.com. Make sure you add nice images and video to your listing.
+The way to share your information with our Facebook groups is to first create a listing on www.soccer-near-me.com
+
+Make sure you add nice images and video to your listing.
 
 Once it is live, I will share the listing and a message in the groups like I normally would.
 
