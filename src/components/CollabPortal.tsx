@@ -447,7 +447,7 @@ export default function CollabPortal({ token }: { token: string | null }) {
 
 Thanks for reaching out.
 
-
+The way to share your information with our Facebook groups is to first create a listing on www.soccer-near-me.com
 
 Neil` }); setWriting(true); }} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold">✍️ Write an email</button>
                 ) : (
