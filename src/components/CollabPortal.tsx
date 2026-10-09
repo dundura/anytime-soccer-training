@@ -54,7 +54,7 @@ The way to share your information with our Facebook groups is to first create a 
 
 Make sure you add nice images and video to your listing.
 
-Once it is live, I will share the listing and a message in the groups like I normally would.
+Once it is live, you can share the listing and a message in the groups like you normally would.
 
 Neil`,
 });
