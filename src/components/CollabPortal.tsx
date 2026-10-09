@@ -59,50 +59,7 @@ Once it is live, I will share the listing and a message in the groups like I nor
 Neil`,
 });
 const MANUAL_EMAILS: { key: string; label: string; subject: string; body: (name: string | null) => string }[] = [
-  {
-    key: 'interested',
-    label: 'Interested, send details',
-    subject: 'Thanks for reaching out',
-    body: (n) => `Hi ${first(n)},
-
-Thanks for reaching out. We are open to hearing more.
-
-Could you send a short video or a few details on what you have in mind, the dates, and what you would like from us? Then I can tell you if it fits.
-
-Neil`,
-  },
-  {
-    key: 'post',
-    label: 'One post in the group',
-    subject: 'Sharing a post in the group',
-    body: (n) => `Hi ${first(n)},
-
-Thanks for checking with me first. The group is for guest player opportunities, so I can only allow one short post that fits that.
-
-Send me what you would like to share and I will take a look.
-
-Neil`,
-  },
-  {
-    key: 'not-now',
-    label: 'Not a fit right now',
-    subject: 'Thanks for thinking of us',
-    body: (n) => `Hi ${first(n)},
-
-Thank you for thinking of us. It is not a fit for us right now, but I appreciate you reaching out and wish you the best with it.
-
-Neil`,
-  },
-  {
-    key: 'follow-up',
-    label: 'Following up',
-    subject: 'Following up',
-    body: (n) => `Hi ${first(n)},
-
-Just following up on my note. Let me know if you would like to keep talking.
-
-Neil`,
-  },
+  { key: 'thanks', label: 'Thanks for reaching out', subject: draftReply(null).subject, body: (n) => draftReply(n).body },
 ];
 
 const ACTIVITY_ICON: Record<string, string> = {
@@ -195,11 +152,8 @@ export default function CollabPortal({ token }: { token: string | null }) {
     setPreview(null);
     setNoteDraft('');
     setCallDraft('');
-    // A new request opens with the reply already written, to preview and send.
-    const lead = leads.find((l) => l.id === id);
-    const fresh = !!lead && lead.stage === 'New request' && !!lead.email;
-    setWriting(fresh);
-    setMail(fresh ? draftReply(lead!.name) : { subject: '', body: '' });
+    setWriting(false);
+    setMail({ subject: '', body: '' });
     try {
       const res = await fetch(`${API}/collab-portal/leads/${id}`, { headers: headers() });
       const d = await res.json().catch(() => ({}));
@@ -209,7 +163,7 @@ export default function CollabPortal({ token }: { token: string | null }) {
       flash(e instanceof Error ? e.message : 'Could not load that request.');
       setOpenId(null);
     }
-  }, [headers, leads]);
+  }, [headers]);
 
   // Every change goes through here, so the row and the drawer are both re-read from the server.
   const act = useCallback(async (key: string, url: string, init: RequestInit, ok: string) => {
@@ -457,6 +411,28 @@ export default function CollabPortal({ token }: { token: string | null }) {
                 </label>
               </div>
 
+              {/* The emails: Send opens the preview popup first */}
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Emails</div>
+                <div className="space-y-1">
+                  {MANUAL_EMAILS.map((m, i) => {
+                    const done = alreadySent(m.subject);
+                    return (
+                      <div key={m.key} className="flex items-center gap-2">
+                        <span className={`w-4 text-center text-[11px] ${done ? 'text-emerald-600' : 'text-gray-300'}`}>{done ? '✓' : '○'}</span>
+                        <span className={`flex-1 text-[11px] ${done ? 'text-gray-400 line-through' : 'text-navy font-semibold'}`}>{i + 1}. {m.label}</span>
+                        <button
+                          onClick={() => setManualPreview({ subject: m.subject, body: m.body(current.name) })}
+                          className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[10px] font-bold hover:bg-gray-200 shrink-0"
+                        >
+                          {done ? 'Send again' : 'Send'}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
               {/* A one-off email, written here */}
               <div>
                 {!writing ? (
@@ -530,7 +506,7 @@ export default function CollabPortal({ token }: { token: string | null }) {
         <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" onClick={() => setManualPreview(null)}>
           <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="px-5 py-4 border-b border-gray-100">
-              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">From Megan Chambers</div>
+              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">From Neil Crawford</div>
               <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">To {current.email || ''}</div>
               <div className="mt-1 text-sm font-semibold text-navy">{manualPreview.subject}</div>
             </div>
