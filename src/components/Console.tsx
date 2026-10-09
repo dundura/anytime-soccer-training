@@ -7,6 +7,7 @@ import ConsoleNotes from './ConsoleNotes';
 import CrmAdmin from './CrmAdmin';
 import DemoPortal from './DemoPortal';
 import IntlPortal from './IntlPortal';
+import CollabPortal from './CollabPortal';
 import Referrals from './Referrals';
 import Newsletters from './Newsletters';
 import TriggeredEmails from './TriggeredEmails';
@@ -69,6 +70,7 @@ const GROUPS = [
       { key: 'referrals', label: 'Referrals', icon: '🎁' },
       { key: 'podcast', label: 'Podcast guests', icon: '🎙️' },
       { key: 'intl', label: 'International posts', icon: '🌍' },
+      { key: 'collab', label: 'Collaboration requests', icon: '🤝' },
       { key: 'partners', label: 'Partners', icon: '🤝' },
       { key: 'ad-signups', label: 'Ad signups', icon: '📈' },
     ],
@@ -279,6 +281,7 @@ export default function Console() {
             {view === 'cold-snm' && <ColdWorkflow key="cold-snm" token={token} lockedSequence="cold-snm" title="Soccer Near Me clubs" />}
             {view === 'podcast' && <ColdWorkflow token={token} group="Podcast" noun="guest" />}
             {view === 'intl' && <IntlPortal token={token} />}
+            {view === 'collab' && <CollabPortal token={token} />}
             {view === 'roster' && <RosterRequests token={token} />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
             {view === 'demos' && <DemoPortal token={token} />}
