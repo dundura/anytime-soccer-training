@@ -440,48 +440,16 @@ export default function CollabPortal({ token }: { token: string | null }) {
                 </label>
               </div>
 
-              {/* Reply templates: opened with a click, previewed before it goes */}
-              <div>
-                <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Reply templates</div>
-                <div className="space-y-1">
-                  {emails.map((e, i) => {
-                    const done = alreadySent(e.subject);
-                    return (
-                      <div key={e.id} className="flex items-center gap-2">
-                        <span className={`w-4 text-center text-[11px] ${done ? 'text-emerald-600' : 'text-gray-300'}`}>{done ? '✓' : '○'}</span>
-                        <span className={`flex-1 text-[11px] ${done ? 'text-gray-400 line-through' : 'text-navy font-semibold'}`}>{i + 1}. {e.subject}</span>
-                        <button
-                          onClick={() => openPreview(e)}
-                          disabled={!!busy}
-                          className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[10px] font-bold hover:bg-gray-200 disabled:opacity-50 shrink-0"
-                        >
-                          {busy === 'preview:' + e.id ? '…' : done ? 'Send again' : 'Send'}
-                        </button>
-                      </div>
-                    );
-                  })}
-                  {MANUAL_EMAILS.map((m, i) => {
-                    const done = alreadySent(m.subject);
-                    return (
-                      <div key={m.key} className="flex items-center gap-2">
-                        <span className={`w-4 text-center text-[11px] ${done ? 'text-emerald-600' : 'text-gray-300'}`}>{done ? '✓' : '○'}</span>
-                        <span className={`flex-1 text-[11px] ${done ? 'text-gray-400 line-through' : 'text-navy font-semibold'}`}>{emails.length + i + 1}. {m.label}</span>
-                        <button
-                          onClick={() => setManualPreview({ subject: m.subject, body: m.body(current.name) })}
-                          className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[10px] font-bold hover:bg-gray-200 shrink-0"
-                        >
-                          {done ? 'Send again' : 'Send'}
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
               {/* A one-off email, written here */}
               <div>
                 {!writing ? (
-                  <button onClick={() => setWriting(true)} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold">✍️ Write an email</button>
+                  <button onClick={() => { setMail({ subject: 'Thanks for reaching out', body: `Hi ${first(current.name)},
+
+Thanks for reaching out.
+
+
+
+Neil` }); setWriting(true); }} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold">✍️ Write an email</button>
                 ) : (
                   <div>
                     <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Write an email{current.email ? ' to ' + current.email : ''}</div>
