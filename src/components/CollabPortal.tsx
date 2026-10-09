@@ -44,6 +44,20 @@ const STAGE_TINT: Record<string, string> = {
 // Written by hand, not in the newsletter sequence: they open the compose box filled in, and can be
 // edited before they go.
 const first = (name: string | null) => String(name || '').trim().split(/\s+/)[0] || 'there';
+const draftReply = (name: string | null) => ({
+  subject: 'Thanks for reaching out',
+  body: `Hi ${first(name)},
+
+Thanks for reaching out.
+
+The way to share your information with our Facebook groups is to first create a listing on www.soccer-near-me.com
+
+Make sure you add nice images and video to your listing.
+
+Once it is live, I will share the listing and a message in the groups like I normally would.
+
+Neil`,
+});
 const MANUAL_EMAILS: { key: string; label: string; subject: string; body: (name: string | null) => string }[] = [
   {
     key: 'interested',
@@ -181,8 +195,11 @@ export default function CollabPortal({ token }: { token: string | null }) {
     setPreview(null);
     setNoteDraft('');
     setCallDraft('');
-    setWriting(false);
-    setMail({ subject: '', body: '' });
+    // A new request opens with the reply already written, to preview and send.
+    const lead = leads.find((l) => l.id === id);
+    const fresh = !!lead && lead.stage === 'New request' && !!lead.email;
+    setWriting(fresh);
+    setMail(fresh ? draftReply(lead!.name) : { subject: '', body: '' });
     try {
       const res = await fetch(`${API}/collab-portal/leads/${id}`, { headers: headers() });
       const d = await res.json().catch(() => ({}));
@@ -192,7 +209,7 @@ export default function CollabPortal({ token }: { token: string | null }) {
       flash(e instanceof Error ? e.message : 'Could not load that request.');
       setOpenId(null);
     }
-  }, [headers]);
+  }, [headers, leads]);
 
   // Every change goes through here, so the row and the drawer are both re-read from the server.
   const act = useCallback(async (key: string, url: string, init: RequestInit, ok: string) => {
@@ -443,17 +460,7 @@ export default function CollabPortal({ token }: { token: string | null }) {
               {/* A one-off email, written here */}
               <div>
                 {!writing ? (
-                  <button onClick={() => { setMail({ subject: 'Thanks for reaching out', body: `Hi ${first(current.name)},
-
-Thanks for reaching out.
-
-The way to share your information with our Facebook groups is to first create a listing on www.soccer-near-me.com
-
-Make sure you add nice images and video to your listing.
-
-Once it is live, I will share the listing and a message in the groups like I normally would.
-
-Neil` }); setWriting(true); }} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold">✍️ Write an email</button>
+                  <button onClick={() => { setMail(draftReply(current.name)); setWriting(true); }} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold">✍️ Write an email</button>
                 ) : (
                   <div>
                     <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Write an email{current.email ? ' to ' + current.email : ''}</div>
