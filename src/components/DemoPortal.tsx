@@ -697,7 +697,10 @@ export default function DemoPortal({ token }: { token: string | null }) {
                       if (!g) { g = { name, items: [] }; groups.push(g); }
                       g.items.push({ key: n.key, label: n.subject, step: n.n, auto: !!n.auto, onboarding: true });
                     });
-                    // Yes - Send Roster follows straight on from getting the demo booked.
+                    // Paid Invoice reads in the order things happen: the invoice emails first, then the follow-ups after payment.
+    const paidGroup = groups.find((x) => x.name === 'After the demo');
+    if (paidGroup) paidGroup.items.sort((x, y) => Number(y.onboarding) - Number(x.onboarding));
+    // Yes - Send Roster follows straight on from getting the demo booked.
     const sr = groups.findIndex((x) => x.name === 'Sending Roster Template');
     if (sr > -1) {
       const roster = groups.splice(sr, 1)[0];
