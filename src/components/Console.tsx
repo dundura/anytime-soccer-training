@@ -14,7 +14,6 @@ import TriggeredEmails from './TriggeredEmails';
 import AdSignups from './AdSignups';
 import AllContent from './AllContent';
 import NewsletterPeople from './NewsletterPeople';
-import RosterRequests from './RosterRequests';
 import ParentOnboarding from './ParentOnboarding';
 import PartnerAdmin from './PartnerAdmin';
 
@@ -50,7 +49,6 @@ const GROUPS = [
     rows: [
       { key: 'demos', label: 'Coach Onboarding', icon: '🎬' },
       { key: 'crm', label: 'Coach CRM', icon: '📇' },
-      { key: 'roster', label: 'Roster requests', icon: '📋' },
     ],
   },
   // One page per way a cold contact comes in, each with only its own contacts,
@@ -282,7 +280,6 @@ export default function Console() {
             {view === 'podcast' && <ColdWorkflow token={token} group="Podcast" noun="guest" />}
             {view === 'intl' && <IntlPortal token={token} />}
             {view === 'collab' && <CollabPortal token={token} />}
-            {view === 'roster' && <RosterRequests token={token} />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
             {view === 'demos' && <DemoPortal token={token} />}
             {view === 'referrals' && <Referrals token={token} />}
