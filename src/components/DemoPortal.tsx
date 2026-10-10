@@ -691,7 +691,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
                     // Once a club is in the Coach CRM the onboarding emails are
                     // worked from there, so they drop off this list (Neil,
                     // 2026-09-18).
-                    (current.crmLeadId ? [] : onboardingSeq).forEach((n) => {
+                    onboardingSeq.forEach((n) => {
                       const name = n.stage || 'Other';
                       let g = groups.find((x) => x.name === name);
                       if (!g) { g = { name, items: [] }; groups.push(g); }
