@@ -629,6 +629,9 @@ export default function DemoPortal({ token }: { token: string | null }) {
                       if (!g) { g = { name, items: [] }; groups.push(g); }
                       g.items.push({ key: n.key, label: n.subject, step: n.n, auto: !!n.auto, onboarding: true });
                     });
+                    // The special offers sit at the very bottom, under the onboarding emails too.
+                    const so = groups.findIndex((x) => x.name === 'Special offer');
+                    if (so > -1) groups.push(groups.splice(so, 1)[0]);
                     return groups.map((g) => {
                       const doneCount = g.items.filter((it) => alreadySent(it.label)).length;
                       const open = !!openGroups[g.name];
