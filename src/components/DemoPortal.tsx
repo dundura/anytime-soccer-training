@@ -710,12 +710,11 @@ export default function DemoPortal({ token }: { token: string | null }) {
     else closing = { name: 'No - Closing Out', items: [] };
     const rosterPos = groups.findIndex((x) => x.name === 'Sending Roster Template');
     groups.splice(rosterPos > -1 ? rosterPos : groups.length, 0, closing);
-    // After Demo Follow-up comes straight after the demo emails, ahead of the paid-invoice ones.
+    // After Demo Follow-up is the third section, after Before demo and Chasing to book demo.
     const fu = groups.findIndex((x) => x.name === 'After Demo Follow-up');
     if (fu > -1) {
       const followUp = groups.splice(fu, 1)[0];
-      const paid = groups.findIndex((x) => x.name === 'After the demo');
-      groups.splice(paid > -1 ? paid : groups.length, 0, followUp);
+      groups.splice(Math.min(2, groups.length), 0, followUp);
     }
     // Invoice follows Yes - Send Roster.
     const inv = groups.findIndex((x) => x.name === 'Invoice');
