@@ -697,7 +697,10 @@ export default function DemoPortal({ token }: { token: string | null }) {
                       if (!g) { g = { name, items: [] }; groups.push(g); }
                       g.items.push({ key: n.key, label: n.subject, step: n.n, auto: !!n.auto, onboarding: true });
                     });
-                    // Paid Invoice reads in the order things happen: the invoice emails first, then the follow-ups after payment.
+                    // How to get started opens Yes - Send Roster.
+    const rosterGroup = groups.find((x) => x.name === 'Sending Roster Template');
+    if (rosterGroup) rosterGroup.items.sort((x, y) => Number(y.key === 'afterDemo') - Number(x.key === 'afterDemo'));
+    // Paid Invoice reads in the order things happen: the invoice emails first, then the follow-ups after payment.
     const paidGroup = groups.find((x) => x.name === 'After the demo');
     if (paidGroup) paidGroup.items.sort((x, y) => Number(y.onboarding) - Number(x.onboarding));
     // Yes - Send Roster follows straight on from getting the demo booked.
