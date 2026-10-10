@@ -664,21 +664,17 @@ export default function DemoPortal({ token }: { token: string | null }) {
                   ))}
                 </div>
                 {seqTab === 'others' && (
-                  <div className="border-b border-gray-100">
-                    <div className="w-full flex items-center gap-2 py-2">
-                      <span className="text-[10px] text-gray-400 w-3">&#9656;</span>
-                      <span className="flex-1 text-[11px] font-bold uppercase tracking-wide text-gray-500">Sending information to parents</span>
-                      <span className="text-[10px] font-bold text-gray-400">0/0</span>
-                    </div>
-                    <p className="pb-3 pl-5 text-xs text-gray-400">No emails here yet.</p>
-                  </div>
-                  <div className="border-b border-gray-100 last:border-0">
-                    <div className="w-full flex items-center gap-2 py-2">
-                      <span className="text-[10px] text-gray-400 w-3">&#9656;</span>
-                      <span className="flex-1 text-[11px] font-bold uppercase tracking-wide text-gray-500">Sending information to decision makers</span>
-                      <span className="text-[10px] font-bold text-gray-400">0/0</span>
-                    </div>
-                    <p className="pb-3 pl-5 text-xs text-gray-400">No emails here yet.</p>
+                  <div>
+                    {['Sending information to parents', 'Sending information to decision makers', 'Information for me to consider'].map((name) => (
+                      <div key={name} className="border-b border-gray-100 last:border-0">
+                        <div className="w-full flex items-center gap-2 py-2">
+                          <span className="text-[10px] text-gray-400 w-3">&#9656;</span>
+                          <span className="flex-1 text-[11px] font-bold uppercase tracking-wide text-gray-500">{name}</span>
+                          <span className="text-[10px] font-bold text-gray-400">0/0</span>
+                        </div>
+                        <p className="pb-3 pl-5 text-xs text-gray-400">No emails here yet.</p>
+                      </div>
+                    ))}
                   </div>
                 )}
                 {seqTab === 'forward' && (<>
