@@ -49,7 +49,7 @@ const STAGE_ORDER = [
   'After the demo',
   'Sending Roster Template',
   'Portal & account',
-  'Players & parents',
+  'FAQ',
   'First 3 weeks',
   'Other',
 ];
