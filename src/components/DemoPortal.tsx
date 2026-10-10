@@ -664,7 +664,14 @@ export default function DemoPortal({ token }: { token: string | null }) {
                       if (!g) { g = { name, items: [] }; groups.push(g); }
                       g.items.push({ key: n.key, label: n.subject, step: n.n, auto: !!n.auto, onboarding: true });
                     });
-                    // The special offers sit at the very bottom, under the onboarding emails too.
+                    // Yes - Send Roster follows straight on from getting the demo booked.
+    const sr = groups.findIndex((x) => x.name === 'Sending Roster Template');
+    if (sr > -1) {
+      const roster = groups.splice(sr, 1)[0];
+      const booked = groups.findIndex((x) => x.name === 'Getting the demo booked');
+      groups.splice(booked > -1 ? booked + 1 : groups.length, 0, roster);
+    }
+    // The special offers sit at the very bottom, under the onboarding emails too.
                     const so = groups.findIndex((x) => x.name === 'Special offer');
                     if (so > -1) groups.push(groups.splice(so, 1)[0]);
                     return groups.map((g) => {
