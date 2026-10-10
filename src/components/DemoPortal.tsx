@@ -138,6 +138,11 @@ export default function DemoPortal({ token }: { token: string | null }) {
   const [callDraft, setCallDraft] = useState('');
   const [scheduleAt, setScheduleAt] = useState('');
   // A one-off email, written here: the draft, whether the box is open, and whether the send is being confirmed.
+  // Which sequence the drawer is showing: moving forward with the club, or confirming with others.
+  const [seqTab, setSeqTab] = useState<'forward' | 'others'>(() => {
+    try { return localStorage.getItem('demoSeqTab') === 'others' ? 'others' : 'forward'; } catch { return 'forward'; }
+  });
+  const pickSeq = (v: 'forward' | 'others') => { setSeqTab(v); try { localStorage.setItem('demoSeqTab', v); } catch { /* storage unavailable */ } };
   const [writing, setWriting] = useState(false);
   const [draft, setDraft] = useState({ subject: '', body: '' });
   const [confirmDraft, setConfirmDraft] = useState(false);
@@ -645,6 +650,25 @@ export default function DemoPortal({ token }: { token: string | null }) {
                   onboarding ones a club works through before it is handed to
                   the Coach CRM. Everything shut until it is asked for. */}
               <div>
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {([['forward', 'Moving Forward'], ['others', 'Confirming with others']] as const).map(([key, label]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      aria-pressed={seqTab === key}
+                      onClick={() => pickSeq(key)}
+                      className={`px-3.5 py-1.5 rounded-full text-[12px] font-bold border ${seqTab === key ? 'bg-navy text-white border-navy' : 'bg-white text-navy border-gray-200'}`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                {seqTab === 'others' && (
+                  <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 px-4 py-6 text-center text-xs text-gray-500">
+                    No emails in this sequence yet.
+                  </div>
+                )}
+                {seqTab === 'forward' && (<>
                 <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">The sequence, for this lead</div>
                 <div className="space-y-1">
                   {(() => {
@@ -727,6 +751,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
                     });
                   })()}
                 </div>
+                </>)}
               </div>
 
               {/* Book a demo */}
