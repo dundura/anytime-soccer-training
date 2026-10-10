@@ -51,7 +51,6 @@ const STAGE_ORDER = [
   'Invoice',
   'Portal & account',
   'Players & parents',
-  'Chasing a quiet coach',
   'First 3 weeks',
   'Other',
 ];
