@@ -664,8 +664,13 @@ export default function DemoPortal({ token }: { token: string | null }) {
                   ))}
                 </div>
                 {seqTab === 'others' && (
-                  <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 px-4 py-6 text-center text-xs text-gray-500">
-                    No emails in this sequence yet.
+                  <div className="border-b border-gray-100">
+                    <div className="w-full flex items-center gap-2 py-2">
+                      <span className="text-[10px] text-gray-400 w-3">&#9656;</span>
+                      <span className="flex-1 text-[11px] font-bold uppercase tracking-wide text-gray-500">Sending information to parents</span>
+                      <span className="text-[10px] font-bold text-gray-400">0/0</span>
+                    </div>
+                    <p className="pb-3 pl-5 text-xs text-gray-400">No emails here yet.</p>
                   </div>
                 )}
                 {seqTab === 'forward' && (<>
