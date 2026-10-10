@@ -674,6 +674,9 @@ export default function DemoPortal({ token }: { token: string | null }) {
     // The special offers sit at the very bottom, under the onboarding emails too.
                     const so = groups.findIndex((x) => x.name === 'Special offer');
                     if (so > -1) groups.push(groups.splice(so, 1)[0]);
+                    // Numbered in the order they are shown, top to bottom.
+                    let shownNo = 0;
+                    groups.forEach((g) => g.items.forEach((it) => { it.step = ++shownNo; }));
                     return groups.map((g) => {
                       const doneCount = g.items.filter((it) => alreadySent(it.label)).length;
                       const open = !!openGroups[g.name];
