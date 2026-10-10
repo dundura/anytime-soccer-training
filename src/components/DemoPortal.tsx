@@ -728,7 +728,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
                     // Numbered within each section, starting again at 1 for every section.
                     groups.forEach((g) => g.items.forEach((it, idx) => { it.step = idx + 1; }));
                     // Confirming with others has its own sections; every other section belongs to Moving Forward.
-                    const OTHERS = ['Sending information to parents', 'Sending information to decision makers', 'Information for me to consider', 'Confirming with others FAQ'];
+                    const OTHERS = ['Confirming with others FAQ', 'Sending information to parents', 'Sending information to decision makers', 'Information for me to consider'];
                     const shownGroups = seqTab === 'others'
                       ? OTHERS.map((name) => groups.find((x) => x.name === name) || { name, items: [] })
                       : groups.filter((x) => !OTHERS.includes(x.name));
