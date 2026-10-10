@@ -617,6 +617,30 @@ export default function DemoPortal({ token }: { token: string | null }) {
                 </div>
               ) : null}
 
+              {/* An email of your own, written here and sent to this lead */}
+              <div>
+                {!writing ? (
+                  <button onClick={() => setWriting(true)} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold">✍️ Write an email</button>
+                ) : (
+                  <div>
+                    <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Write an email{current.email ? ' to ' + current.email : ''}</div>
+                    <input value={draft.subject} onChange={(e) => setDraft({ ...draft, subject: e.target.value })} placeholder="Subject" className="w-full mb-2 px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
+                    <textarea value={draft.body} onChange={(e) => setDraft({ ...draft, body: e.target.value })} rows={7} placeholder="Message" className="w-full px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
+                    <div className="mt-1 flex gap-2">
+                      <button
+                        onClick={() => setConfirmDraft(true)}
+                        disabled={!current.email || !draft.subject.trim() || !draft.body.trim()}
+                        className="px-3 py-1.5 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50"
+                      >
+                        Send
+                      </button>
+                      <button onClick={() => setWriting(false)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-[11px] font-bold text-gray-600">Cancel</button>
+                    </div>
+                    {!current.email && <p className="mt-1 text-[10px] text-gray-500">Add an email address above first.</p>}
+                  </div>
+                )}
+              </div>
+
               {/* Email. Two sequences, one list: the demo groups, then the
                   onboarding ones a club works through before it is handed to
                   the Coach CRM. Everything shut until it is asked for. */}
@@ -686,30 +710,6 @@ export default function DemoPortal({ token }: { token: string | null }) {
                     });
                   })()}
                 </div>
-              </div>
-
-              {/* An email of your own, written here and sent to this lead */}
-              <div>
-                {!writing ? (
-                  <button onClick={() => setWriting(true)} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold">✍️ Write an email</button>
-                ) : (
-                  <div>
-                    <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Write an email{current.email ? ' to ' + current.email : ''}</div>
-                    <input value={draft.subject} onChange={(e) => setDraft({ ...draft, subject: e.target.value })} placeholder="Subject" className="w-full mb-2 px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
-                    <textarea value={draft.body} onChange={(e) => setDraft({ ...draft, body: e.target.value })} rows={7} placeholder="Message" className="w-full px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
-                    <div className="mt-1 flex gap-2">
-                      <button
-                        onClick={() => setConfirmDraft(true)}
-                        disabled={!current.email || !draft.subject.trim() || !draft.body.trim()}
-                        className="px-3 py-1.5 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50"
-                      >
-                        Send
-                      </button>
-                      <button onClick={() => setWriting(false)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-[11px] font-bold text-gray-600">Cancel</button>
-                    </div>
-                    {!current.email && <p className="mt-1 text-[10px] text-gray-500">Add an email address above first.</p>}
-                  </div>
-                )}
               </div>
 
               {/* Book a demo */}
