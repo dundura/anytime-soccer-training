@@ -704,6 +704,11 @@ export default function DemoPortal({ token }: { token: string | null }) {
       const booked = groups.findIndex((x) => x.name === 'Getting the demo booked');
       groups.splice(booked > -1 ? booked + 1 : groups.length, 0, roster);
     }
+    // No - Closing Out sits just above Yes - Send Roster; it has no emails of its own yet.
+    if (!groups.some((x) => x.name === 'No - Closing Out')) {
+      const at = groups.findIndex((x) => x.name === 'Sending Roster Template');
+      groups.splice(at > -1 ? at : groups.length, 0, { name: 'No - Closing Out', items: [] });
+    }
     // Invoice follows Yes - Send Roster.
     const inv = groups.findIndex((x) => x.name === 'Invoice');
     const rosterAt = groups.findIndex((x) => x.name === 'Sending Roster Template');
