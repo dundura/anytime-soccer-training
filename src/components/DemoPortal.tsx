@@ -137,6 +137,10 @@ export default function DemoPortal({ token }: { token: string | null }) {
   const [noteDraft, setNoteDraft] = useState('');
   const [callDraft, setCallDraft] = useState('');
   const [scheduleAt, setScheduleAt] = useState('');
+  // A one-off email, written here: the draft, whether the box is open, and whether the send is being confirmed.
+  const [writing, setWriting] = useState(false);
+  const [draft, setDraft] = useState({ subject: '', body: '' });
+  const [confirmDraft, setConfirmDraft] = useState(false);
   const [preview, setPreview] = useState<{ key: string; subject: string; html: string; onboarding?: boolean } | null>(null);
   // The roster, invoice and portal emails. They live in portalOnboarding and
   // happen before a club is handed over, so they belong on this board too
@@ -192,6 +196,9 @@ export default function DemoPortal({ token }: { token: string | null }) {
     setOpenId(id);
     setDetail(null);
     setPreview(null);
+    setWriting(false);
+    setConfirmDraft(false);
+    setDraft({ subject: '', body: '' });
     setNoteDraft('');
     setCallDraft('');
     setScheduleAt('');
@@ -306,6 +313,10 @@ export default function DemoPortal({ token }: { token: string | null }) {
     act('send', url, { method: 'POST', headers: jsonHeaders(), body }, 'Sent to ' + lead.email)
       .then(() => setPreview(null));
   };
+
+  const sendDraft = (lead: Lead) =>
+    act('manual', `${API}/demo-portal/leads/${lead.id}/manual-email`, { method: 'POST', headers: jsonHeaders(), body: JSON.stringify(draft) }, 'Sent to ' + lead.email)
+      .then((d) => { if (d) { setConfirmDraft(false); setWriting(false); setDraft({ subject: '', body: '' }); } });
 
   // Two buttons rather than one with a tick-box. Won is also used to tidy up a
   // club that signed months ago through another route, and welcoming somebody
@@ -677,6 +688,30 @@ export default function DemoPortal({ token }: { token: string | null }) {
                 </div>
               </div>
 
+              {/* An email of your own, written here and sent to this lead */}
+              <div>
+                {!writing ? (
+                  <button onClick={() => setWriting(true)} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold">✍️ Write an email</button>
+                ) : (
+                  <div>
+                    <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Write an email{current.email ? ' to ' + current.email : ''}</div>
+                    <input value={draft.subject} onChange={(e) => setDraft({ ...draft, subject: e.target.value })} placeholder="Subject" className="w-full mb-2 px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
+                    <textarea value={draft.body} onChange={(e) => setDraft({ ...draft, body: e.target.value })} rows={7} placeholder="Message" className="w-full px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
+                    <div className="mt-1 flex gap-2">
+                      <button
+                        onClick={() => setConfirmDraft(true)}
+                        disabled={!current.email || !draft.subject.trim() || !draft.body.trim()}
+                        className="px-3 py-1.5 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50"
+                      >
+                        Send
+                      </button>
+                      <button onClick={() => setWriting(false)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-[11px] font-bold text-gray-600">Cancel</button>
+                    </div>
+                    {!current.email && <p className="mt-1 text-[10px] text-gray-500">Add an email address above first.</p>}
+                  </div>
+                )}
+              </div>
+
               {/* Book a demo */}
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Book the demo</div>
@@ -766,6 +801,26 @@ export default function DemoPortal({ token }: { token: string | null }) {
                   <button onClick={() => setConfirmDelete(current.id)} className="text-[11px] font-bold text-gray-400 hover:text-red">Delete lead</button>
                 )}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* A written email: the whole thing, before it goes */}
+      {confirmDraft && current && (
+        <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" onClick={() => setConfirmDraft(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="px-5 py-4 border-b border-gray-100">
+              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">From Neil Crawford</div>
+              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">To {current.email || ''}</div>
+              <div className="mt-1 text-sm font-semibold text-navy">{draft.subject}</div>
+            </div>
+            <div className="px-6 py-5 text-sm text-navy whitespace-pre-wrap break-words">{draft.body}</div>
+            <div className="px-5 py-4 border-t border-gray-100 flex justify-end gap-2">
+              <button onClick={() => setConfirmDraft(false)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">Cancel</button>
+              <button onClick={() => sendDraft(current)} disabled={busy === 'manual' || !current.email} className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50">
+                {busy === 'manual' ? 'Sending…' : 'Send'}
+              </button>
             </div>
           </div>
         </div>
