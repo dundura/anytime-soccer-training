@@ -671,6 +671,13 @@ export default function DemoPortal({ token }: { token: string | null }) {
       const booked = groups.findIndex((x) => x.name === 'Getting the demo booked');
       groups.splice(booked > -1 ? booked + 1 : groups.length, 0, roster);
     }
+    // Invoice follows Yes - Send Roster.
+    const inv = groups.findIndex((x) => x.name === 'Invoice');
+    const rosterAt = groups.findIndex((x) => x.name === 'Sending Roster Template');
+    if (inv > -1 && rosterAt > -1) {
+      const invoice = groups.splice(inv, 1)[0];
+      groups.splice(groups.findIndex((x) => x.name === 'Sending Roster Template') + 1, 0, invoice);
+    }
     // The special offers sit at the very bottom, under the onboarding emails too.
                     const so = groups.findIndex((x) => x.name === 'Special offer');
                     if (so > -1) groups.push(groups.splice(so, 1)[0]);
