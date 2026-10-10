@@ -663,22 +663,8 @@ export default function DemoPortal({ token }: { token: string | null }) {
                     </button>
                   ))}
                 </div>
-                {seqTab === 'others' && (
-                  <div>
-                    {['Sending information to parents', 'Sending information to decision makers', 'Information for me to consider'].map((name) => (
-                      <div key={name} className="border-b border-gray-100 last:border-0">
-                        <div className="w-full flex items-center gap-2 py-2">
-                          <span className="text-[10px] text-gray-400 w-3">&#9656;</span>
-                          <span className="flex-1 text-[11px] font-bold uppercase tracking-wide text-gray-500">{name}</span>
-                          <span className="text-[10px] font-bold text-gray-400">0/0</span>
-                        </div>
-                        <p className="pb-3 pl-5 text-xs text-gray-400">No emails here yet.</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {seqTab === 'forward' && (<>
-                <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">The sequence, for this lead</div>
+                {(<>
+                <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">{seqTab === 'others' ? 'Confirming with others, for this lead' : 'The sequence, for this lead'}</div>
                 <div className="space-y-1">
                   {(() => {
                     const groups: { name: string; items: { key: string; label: string; step: string | number; auto: boolean; onboarding: boolean }[] }[] = [];
@@ -741,7 +727,12 @@ export default function DemoPortal({ token }: { token: string | null }) {
                     if (so > -1) groups.push(groups.splice(so, 1)[0]);
                     // Numbered within each section, starting again at 1 for every section.
                     groups.forEach((g) => g.items.forEach((it, idx) => { it.step = idx + 1; }));
-                    return groups.map((g) => {
+                    // Confirming with others has its own sections; every other section belongs to Moving Forward.
+                    const OTHERS = ['Sending information to parents', 'Sending information to decision makers', 'Information for me to consider', 'Confirming with others FAQ'];
+                    const shownGroups = seqTab === 'others'
+                      ? OTHERS.map((name) => groups.find((x) => x.name === name) || { name, items: [] })
+                      : groups.filter((x) => !OTHERS.includes(x.name));
+                    return shownGroups.map((g) => {
                       const doneCount = g.items.filter((it) => alreadySent(it.label)).length;
                       const open = !!openGroups[g.name];
                       return (
@@ -751,11 +742,12 @@ export default function DemoPortal({ token }: { token: string | null }) {
                             className="w-full flex items-center gap-2 py-2 text-left"
                           >
                             <span className="text-[10px] text-gray-400 w-3">{open ? '▾' : '▸'}</span>
-                            <span className="flex-1 text-[11px] font-bold uppercase tracking-wide text-gray-500">{g.name === 'After the demo' ? 'Paid Invoice' : g.name === 'Sending Roster Template' ? 'Yes - Send Roster' : g.name === 'Chasing a quiet lead' ? 'Chasing to book demo' : g.name === 'Before anything' ? 'Before demo' : g.name === 'Getting the demo booked' ? 'Demo Request' : g.name}</span>
+                            <span className="flex-1 text-[11px] font-bold uppercase tracking-wide text-gray-500">{g.name === 'After the demo' ? 'Paid Invoice' : g.name === 'Sending Roster Template' ? 'Yes - Send Roster' : g.name === 'Chasing a quiet lead' ? 'Chasing to book demo' : g.name === 'Before anything' ? 'Before demo' : g.name === 'Getting the demo booked' ? 'Demo Request' : g.name === 'Confirming with others FAQ' ? 'FAQ' : g.name}</span>
                             <span className="text-[10px] font-bold text-gray-400">{doneCount}/{g.items.length}</span>
                           </button>
                           {open && (
                             <div className="pb-2 space-y-1">
+                              {g.items.length === 0 && <p className="pl-5 text-xs text-gray-400">No emails here yet.</p>}
                               {g.items.map((it) => {
                                 const done = alreadySent(it.label);
                                 return (
