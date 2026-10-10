@@ -732,7 +732,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
                             className="w-full flex items-center gap-2 py-2 text-left"
                           >
                             <span className="text-[10px] text-gray-400 w-3">{open ? '▾' : '▸'}</span>
-                            <span className="flex-1 text-[11px] font-bold uppercase tracking-wide text-gray-500">{g.name === 'After the demo' ? 'Paid Invoice' : g.name === 'Sending Roster Template' ? 'Yes - Send Roster' : g.name === 'Chasing a quiet lead' ? 'Chasing to book demo' : g.name === 'Before anything' ? 'Before demo' : g.name}</span>
+                            <span className="flex-1 text-[11px] font-bold uppercase tracking-wide text-gray-500">{g.name === 'After the demo' ? 'Paid Invoice' : g.name === 'Sending Roster Template' ? 'Yes - Send Roster' : g.name === 'Chasing a quiet lead' ? 'Chasing to book demo' : g.name === 'Before anything' ? 'Before demo' : g.name === 'Getting the demo booked' ? 'Demo Request' : g.name}</span>
                             <span className="text-[10px] font-bold text-gray-400">{doneCount}/{g.items.length}</span>
                           </button>
                           {open && (
