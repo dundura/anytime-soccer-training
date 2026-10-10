@@ -46,7 +46,7 @@ const CRM_STATUS_CLASS: Record<string, string> = {
 // The order a coach moves through them. Anything a stage does not claim falls
 // to Other, so a new email is never silently invisible.
 const STAGE_ORDER = [
-  'More information',
+  'After the demo',
   'Sending Roster Template',
   'Invoice',
   'Portal & account',
