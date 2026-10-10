@@ -717,6 +717,13 @@ export default function DemoPortal({ token }: { token: string | null }) {
     const rosterPos = groups.findIndex((x) => x.name === 'Sending Roster Template');
     groups.splice(rosterPos > -1 ? rosterPos : groups.length, 0, closing);
     // After Demo Follow-up sits straight below Demo Request.
+    // Demo Request goes above Chasing to book demo.
+    const dr = groups.findIndex((x) => x.name === 'Getting the demo booked');
+    const ch = groups.findIndex((x) => x.name === 'Chasing a quiet lead');
+    if (dr > -1 && ch > -1 && dr > ch) {
+      const demoReq = groups.splice(dr, 1)[0];
+      groups.splice(ch, 0, demoReq);
+    }
     // The section stays even with no emails in it yet.
     const fu = groups.findIndex((x) => x.name === 'After Demo Follow-up');
     const followUp = fu > -1 ? groups.splice(fu, 1)[0] : { name: 'After Demo Follow-up', items: [] };
