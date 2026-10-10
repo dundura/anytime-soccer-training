@@ -724,11 +724,11 @@ export default function DemoPortal({ token }: { token: string | null }) {
       const demoReq = groups.splice(dr, 1)[0];
       groups.splice(ch, 0, demoReq);
     }
-    // The section stays even with no emails in it yet.
+    // The section stays even with no emails in it yet. It sits just below Chasing to book demo.
     const fu = groups.findIndex((x) => x.name === 'After Demo Follow-up');
     const followUp = fu > -1 ? groups.splice(fu, 1)[0] : { name: 'After Demo Follow-up', items: [] };
-    const req = groups.findIndex((x) => x.name === 'Getting the demo booked');
-    groups.splice(req > -1 ? req + 1 : groups.length, 0, followUp);
+    const chasing = groups.findIndex((x) => x.name === 'Chasing a quiet lead');
+    groups.splice(chasing > -1 ? chasing + 1 : groups.length, 0, followUp);
     // Invoice follows Yes - Send Roster.
     const inv = groups.findIndex((x) => x.name === 'Invoice');
     const rosterAt = groups.findIndex((x) => x.name === 'Sending Roster Template');
