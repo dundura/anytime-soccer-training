@@ -467,32 +467,37 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                   <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Email</div>
                   {sentNote && <div className="mb-2 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">{sentNote}</div>}
                   <div className="space-y-2">
+                    {/* The order they go in. First and "I tried to give you a call" are sent by hand; the reminder and "We did not
+                        connect" go by themselves, 12 hours after the one before. */}
                     {([
-                      ['first', 'Thanks for taking our feedback survey', current.firstEmailAt],
-                      ['reminder', 'A quick reminder', current.reminderEmailAt],
-                      ['tried', 'I tried to give you a call', current.triedEmailAt],
-                    ] as const).map(([kind, label, sentAt]) => (
-                      <div key={kind} className="flex flex-wrap items-center gap-2 rounded-xl border border-gray-200 px-3 py-2">
+                      { kind: 'first', label: 'Thanks for taking our feedback survey', at: current.firstEmailAt, auto: false, hint: '' },
+                      {
+                        kind: 'reminder', label: 'A quick reminder', at: current.reminderEmailAt, auto: true,
+                        hint: current.firstEmailAt ? 'Goes out by itself 12 hours after the first email' : 'Goes out by itself 12 hours after you send the first email',
+                      },
+                      { kind: 'tried', label: 'I tried to give you a call', at: current.triedEmailAt, auto: false, hint: '' },
+                      {
+                        kind: 'book', label: 'We did not connect', at: current.bookEmailAt, auto: true,
+                        hint: current.triedEmailAt ? 'Goes out by itself 12 hours after the "tried to call" email' : 'Goes out by itself 12 hours after you send "I tried to give you a call"',
+                      },
+                    ]).map((e) => (
+                      <div key={e.kind} className="flex flex-wrap items-center gap-2 rounded-xl border border-gray-200 px-3 py-2">
                         <div className="min-w-0 flex-1">
-                          <div className="text-xs font-bold text-navy">{label}</div>
-                          <div className="text-[11px] text-gray-500">{sentAt ? 'Sent ' + stamp(sentAt) + ' · ' + ago(sentAt) + ' ago' : 'Not sent yet'}</div>
+                          <div className="text-xs font-bold text-navy">{e.label}</div>
+                          <div className="text-[11px] text-gray-500">
+                            {e.at ? 'Sent ' + stamp(e.at) + ' · ' + ago(e.at) + ' ago' : e.auto ? e.hint : 'Not sent yet'}
+                          </div>
                         </div>
-                        <button onClick={() => openPreview(current, kind)} disabled={!!previewing || !current.childEmail} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">
-                            {previewing === kind ? 'Opening…' : sentAt ? 'Send again' : 'Send'}
+                        {e.auto ? (
+                          <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
+                        ) : (
+                          <button onClick={() => openPreview(current, e.kind)} disabled={!!previewing || !current.childEmail} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">
+                            {previewing === e.kind ? 'Opening…' : e.at ? 'Send again' : 'Send'}
                           </button>
+                        )}
                       </div>
                     ))}
-                    {/* The third goes by itself, 12 hours after the second. */}
-                    <div className="flex flex-wrap items-center gap-2 rounded-xl border border-gray-200 px-3 py-2">
-                      <div className="min-w-0 flex-1">
-                        <div className="text-xs font-bold text-navy">We did not connect</div>
-                        <div className="text-[11px] text-gray-500">
-                          {current.bookEmailAt
-                            ? 'Sent ' + stamp(current.bookEmailAt) + ' · ' + ago(current.bookEmailAt) + ' ago'
-                            : current.triedEmailAt
-                              ? 'Goes out by itself 12 hours after the "tried to call" email'
-                              : 'Goes out by itself 12 hours after you send "I tried to give you a call"'}
-                        </div>
+                  </div>
                       </div>
                       <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
                     </div>
