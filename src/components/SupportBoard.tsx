@@ -41,6 +41,7 @@ type Row = {
   tipsEmailAt?: string | null;
   helpFollowUpAt?: string | null;
   bmFollowUpAt?: string | null;
+  turnsFollowUpAt?: string | null;
 };
 
 const CONFIG: Record<Mode, {
@@ -271,6 +272,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
         { label: 'A few finishing tips', at: r.tipsEmailAt },
         { label: 'If you need help', at: r.helpFollowUpAt },
         { label: 'Where to start with Ball Mastery', at: r.bmFollowUpAt },
+        { label: 'Where to start with Turns & Escapes', at: r.turnsFollowUpAt },
         {
         label: ({
           help: 'What would you like help with?', dribbling: 'Finding Dribbling', turns: 'Finding Turns & Escapes', finishing: 'Finding Finishing', ballMastery: 'Finding Ball Mastery',
