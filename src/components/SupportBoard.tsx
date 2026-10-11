@@ -120,6 +120,8 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
   const [deleting, setDeleting] = useState(false);
   // Tips and suggestions: which group of replies is open. A coach's drawer opens on the coach group, anyone else's on the player group.
   const [openGroup, setOpenGroup] = useState<'players' | 'coaches' | null>(null);
+  // Callbacks: the emails sit under one header, For players or For coaches, whichever this person is.
+  const [callbackGroupOpen, setCallbackGroupOpen] = useState(true);
   const [sending, setSending] = useState(false);
   const [sentNote, setSentNote] = useState('');
 
@@ -468,6 +470,19 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                 <div>
                   <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Email</div>
                   {sentNote && <div className="mb-2 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">{sentNote}</div>}
+                  <div className="rounded-xl border border-gray-200 overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => setCallbackGroupOpen((v) => !v)}
+                      className="w-full flex items-center gap-2 px-3 py-2.5 text-left bg-gray-50 hover:bg-gray-100"
+                      aria-expanded={callbackGroupOpen}
+                    >
+                      <span className="text-[11px] text-gray-400">{callbackGroupOpen ? '▾' : '▸'}</span>
+                      <span className="text-sm font-extrabold text-navy">{current.isCoach ? 'For coaches' : 'For players'}</span>
+                      <span className="text-[11px] font-bold text-gray-400">4</span>
+                    </button>
+                    {callbackGroupOpen && (
+                      <div className="p-2">
                   <div className="space-y-2">
                     {/* The order they go in. First and "I tried to give you a call" are sent by hand; the reminder and "We did not
                         connect" go by themselves, 12 hours after the one before. */}
@@ -499,6 +514,9 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                         )}
                       </div>
                     ))}
+                  </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
