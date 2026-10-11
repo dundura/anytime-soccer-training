@@ -527,7 +527,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                   {sentNote && <div className="mb-2 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">{sentNote}</div>}
                   {(() => {
                     const groups: { key: 'players' | 'coaches'; title: string; emails: [string, string][] }[] = [
-                      { key: 'players', title: 'For players', emails: [['help', 'What would you like help with?'], ['dribbling', 'Finding Dribbling'], ['turns', 'Finding Turns & Escapes'], ['plan', 'Creating a training plan']] },
+                      { key: 'players', title: 'For players', emails: [['help', 'What would you like help with?'], ['dribbling', 'Finding Dribbling'], ['turns', 'Finding Turns & Escapes'], ['plan', 'Creating a training plan'], ['mixed', 'Mixed Drills']] },
                       { key: 'coaches', title: 'For coaches', emails: [['coachHelp', 'What would you like help with?'], ['coachPlan', 'Assigning a training plan'], ['coachFolders', 'Assigning training folders'], ['coachChallenges', 'Creating challenges and contests']] },
                     ];
                     const shownGroup = openGroup !== null ? openGroup : (current.isCoach ? 'coaches' : 'players');
