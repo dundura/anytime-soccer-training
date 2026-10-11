@@ -35,6 +35,8 @@ type Row = {
   firstEmailAt?: string | null;
   triedEmailAt?: string | null;
   bookEmailAt?: string | null;
+  emailKind?: string | null;
+  emailAt?: string | null;
 };
 
 const CONFIG: Record<Mode, {
@@ -106,7 +108,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
   const [error, setError] = useState('');
   const [note, setNote] = useState('');
   // Which callback email is waiting on a yes, and which one is going out.
-  const [confirmEmail, setConfirmEmail] = useState<'first' | 'tried' | null>(null);
+  const [confirmEmail, setConfirmEmail] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
   const [sentNote, setSentNote] = useState('');
 
@@ -158,6 +160,24 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
       if (!res.ok) throw new Error(d.error || 'Could not send that email.');
       const at = new Date().toISOString();
       setRows((list) => list.map((x) => (x.id === row.id ? { ...x, [kind === 'first' ? 'firstEmailAt' : 'triedEmailAt']: at } : x)));
+      setSentNote('Sent to ' + (d.sentTo || row.childEmail));
+      setConfirmEmail(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not send that email.');
+    } finally {
+      setSending(false);
+    }
+  };
+
+  // Tips and suggestions: a reply by hand, one of three.
+  const sendSuggestionEmail = async (row: Row, kind: string) => {
+    setSending(true);
+    setError('');
+    try {
+      const res = await fetch(`${API}/${cfg.path}/${row.id}/email`, { method: 'POST', headers: headers(), body: JSON.stringify({ kind }) });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || 'Could not send that email.');
+      setRows((list) => list.map((x) => (x.id === row.id ? { ...x, emailKind: kind, emailAt: new Date().toISOString() } : x)));
       setSentNote('Sent to ' + (d.sentTo || row.childEmail));
       setConfirmEmail(null);
     } catch (e) {
@@ -339,6 +359,41 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                       </div>
                       <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {mode === 'suggestions' && (
+                <div>
+                  <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Reply by email</div>
+                  {sentNote && <div className="mb-2 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">{sentNote}</div>}
+                  <div className="space-y-2">
+                    {([
+                      ['dribbling', 'Finding Dribbling'],
+                      ['turns', 'Finding Turns & Escapes'],
+                      ['plan', 'Creating a training plan'],
+                    ] as const).map(([kind, label]) => (
+                      <div key={kind} className="flex flex-wrap items-center gap-2 rounded-xl border border-gray-200 px-3 py-2">
+                        <div className="min-w-0 flex-1">
+                          <div className="text-xs font-bold text-navy">{label}</div>
+                          <div className="text-[11px] text-gray-500">
+                            {current.emailKind === kind && current.emailAt ? 'Sent ' + stamp(current.emailAt) + ' · ' + ago(current.emailAt) + ' ago' : 'Not sent'}
+                          </div>
+                        </div>
+                        {confirmEmail === kind ? (
+                          <span className="inline-flex gap-1">
+                            <button onClick={() => sendSuggestionEmail(current, kind)} disabled={sending || !current.childEmail} className="px-3 py-1.5 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">
+                              {sending ? 'Sending…' : 'Send to ' + (current.childEmail || 'no email')}
+                            </button>
+                            <button onClick={() => setConfirmEmail(null)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-[11px] font-bold text-gray-600">Cancel</button>
+                          </span>
+                        ) : (
+                          <button onClick={() => { setConfirmEmail(kind); setSentNote(''); }} disabled={!current.childEmail} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">
+                            {current.emailKind === kind ? 'Send again' : 'Send'}
+                          </button>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
