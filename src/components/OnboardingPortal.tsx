@@ -1084,19 +1084,19 @@ export default function OnboardingPortal() {
         <div className={showRail ? 'grid gap-6 lg:grid-cols-[260px_1fr] lg:items-start' : ''}>
         {showRail && workflowRail}
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div className="bg-navy px-8 py-6">
-            <div className="flex items-center justify-between gap-2 mb-3">
+          <div className="bg-gradient-to-br from-navy to-navy-light border-b-4 border-red px-8 py-6">
+            <div className="flex items-center justify-between gap-2 mb-4">
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => { setShowIntro(false); setShowAdmin(false); setShowFaq(false); setError(''); if (coach) setWizardIndex(firstIncomplete(coach)); setShowIndexInfo(audience !== 'director'); }}
-                  className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
+                  className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3.5 py-1.5 rounded-full shadow-sm hover:bg-red-dark transition-colors"
                 >
                   🏠 Home
                 </button>
                 {coach && isAdmin && !showAdmin && (
                   <button
                     onClick={() => { setShowAdmin(true); setShowIndexInfo(false); setShowFaq(false); setError(''); }}
-                    className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-red-dark transition-colors"
+                    className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold uppercase tracking-wide px-3.5 py-1.5 rounded-full shadow-sm hover:bg-red-dark transition-colors"
                   >
                     Admin
                   </button>
@@ -1104,30 +1104,30 @@ export default function OnboardingPortal() {
                 {coach && doneCount > 0 && (
                   <button
                     onClick={() => setShowResetConfirm(true)}
-                    className="inline-flex items-center gap-1 bg-white/15 border border-white/30 text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full hover:bg-white/25 transition-colors"
+                    className="inline-flex items-center gap-1 bg-white/10 border border-white/25 text-white text-xs font-bold uppercase tracking-wide px-3.5 py-1.5 rounded-full hover:bg-white/20 transition-colors"
                   >
                     Reset
                   </button>
                 )}
               </div>
               {coach && (
-                <button onClick={signOut} className="text-white/60 hover:text-white text-xs font-semibold">
+                <button onClick={signOut} className="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-bold px-3.5 py-1.5 rounded-full transition-colors">
                   Sign out
                 </button>
               )}
             </div>
-            <h1 className="text-white text-2xl font-extrabold">
+            <h1 className="text-white text-2xl sm:text-3xl font-extrabold leading-tight tracking-tight">
               {showFaq ? 'Frequently Asked Questions' : coach && showIntro ? `Welcome, ${coach.name.split(' ')[0]}!` : audience === 'director' ? 'Club Portal' : 'Anytime Soccer Onboarding Portal'}
             </h1>
             {!coach && (
               <p className="text-white/70 text-sm mt-1">Sign in to walk through your team setup step by step.</p>
             )}
             {coach && !showIntro && !showIndexInfo && !showAdmin && !showFaq && (
-              <div className="mt-4">
-                <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+              <div className="mt-5 flex items-center gap-3">
+                <div className="flex-1 h-2.5 bg-white/20 rounded-full overflow-hidden">
                   <div className="h-full bg-red rounded-full transition-all" style={{ width: `${(doneCount / REQUIRED_STEPS.length) * 100}%` }} />
                 </div>
-                <p className="text-white/60 text-xs font-semibold mt-1.5">{Math.round((doneCount / REQUIRED_STEPS.length) * 100)}% complete</p>
+                <span className="flex-shrink-0 bg-white/15 text-white text-xs font-bold rounded-full px-3 py-1">{Math.round((doneCount / REQUIRED_STEPS.length) * 100)}% complete</span>
               </div>
             )}
           </div>
@@ -1490,7 +1490,7 @@ export default function OnboardingPortal() {
               </div>
             ) : (
               <div>
-                <h2 className="text-navy text-xl font-extrabold mb-4">{step.title}</h2>
+                {step.key !== 'roster' && <h2 className="text-navy text-xl font-extrabold mb-4">{step.title}</h2>}
 
                 {stepDone && (
                   <div className={`${stepSkipped ? 'bg-amber-50 border-amber-200' : 'bg-green-50 border-green-200'} border rounded-lg px-4 py-3 mb-6 flex items-center justify-between gap-3 flex-wrap`}>
