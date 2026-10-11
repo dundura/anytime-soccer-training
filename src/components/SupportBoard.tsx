@@ -122,6 +122,8 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
   const [deleting, setDeleting] = useState(false);
   // Tips and suggestions: which group of replies is open. Both start shut: just the two headers until one is opened.
   const [openGroup, setOpenGroup] = useState<'players' | 'coaches' | null>(null);
+  // The Finding Skill areas sub-section inside For players. Shut until opened.
+  const [skillsOpen, setSkillsOpen] = useState(false);
   // Callbacks: the emails sit under one header, For players or For coaches, whichever this person is. Shut until opened.
   const [callbackGroupOpen, setCallbackGroupOpen] = useState(false);
   const [sending, setSending] = useState(false);
@@ -269,7 +271,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
         { label: 'If you need help', at: r.helpFollowUpAt },
         {
         label: ({
-          help: 'What would you like help with?', dribbling: 'Finding Dribbling', turns: 'Finding Turns & Escapes', finishing: 'Finding Finishing',
+          help: 'What would you like help with?', dribbling: 'Finding Dribbling', turns: 'Finding Turns & Escapes', finishing: 'Finding Finishing', ballMastery: 'Finding Ball Mastery',
           plan: 'Creating a training plan', mixed: 'Mixed Drills', coachHelp: 'What would you like help with?', coachCall: 'A quick moment to speak',
           coachPlan: 'Assigning a training plan', coachFolders: 'Assigning training folders', coachChallenges: 'Creating challenges and contests',
         } as Record<string, string>)[r.emailKind || ''] || r.emailKind || '',
@@ -282,6 +284,20 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
     });
     return best;
   };
+
+  const emailRow = (cur: Row, kind: string, label: string) => (
+    <div key={kind} className="flex flex-wrap items-center gap-2 rounded-xl border border-gray-200 px-3 py-2">
+                                      <div className="min-w-0 flex-1">
+                                        <div className="text-xs font-bold text-navy">{label}</div>
+                                        <div className="text-[11px] text-gray-500">
+                                          {cur.emailKind === kind && cur.emailAt ? 'Sent ' + stamp(cur.emailAt) + ' · ' + ago(cur.emailAt) + ' ago' : 'Not sent'}
+                                        </div>
+                                      </div>
+                                      <button onClick={() => openPreview(cur, kind)} disabled={!!previewing || !cur.childEmail} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">
+                                        {previewing === kind ? 'Opening…' : cur.emailKind === kind ? 'Send again' : 'Send'}
+                                      </button>
+                                    </div>
+  );
 
   const nameOf = (r: Row) => r.screenname || r.firstname || 'Unknown';
   const counts: Record<string, number> = {};
@@ -363,7 +379,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                 <tr><td colSpan={5} className="px-3 py-8 text-center text-gray-400 text-xs">{filter === cfg.first || filter === '' ? cfg.empty : 'Nothing here.'}</td></tr>
               )}
               {shown.map((r) => (
-                <tr key={r.id} onClick={() => { setOpenId(r.id); setNote(r.note || ''); setPreview(null); setSentNote(''); setOpenGroup(null); setCallbackGroupOpen(false); }} className="cursor-pointer hover:bg-gray-50">
+                <tr key={r.id} onClick={() => { setOpenId(r.id); setNote(r.note || ''); setPreview(null); setSentNote(''); setOpenGroup(null); setSkillsOpen(false); setCallbackGroupOpen(false); }} className="cursor-pointer hover:bg-gray-50">
                   <td className="px-3 py-2.5">
                     <div className="font-bold text-navy">
                       {nameOf(r)}
@@ -535,8 +551,8 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                   <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Reply by email</div>
                   {sentNote && <div className="mb-2 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">{sentNote}</div>}
                   {(() => {
-                    const groups: { key: 'players' | 'coaches'; title: string; emails: [string, string][] }[] = [
-                      { key: 'players', title: 'For players', emails: [['help', 'What would you like help with?'], ['dribbling', 'Finding Dribbling'], ['turns', 'Finding Turns & Escapes'], ['finishing', 'Finding Finishing'], ['plan', 'Creating a training plan'], ['mixed', 'Mixed Drills']] },
+                    const groups: { key: 'players' | 'coaches'; title: string; emails: [string, string][]; sub?: { title: string; emails: [string, string][] } }[] = [
+                      { key: 'players', title: 'For players', emails: [['help', 'What would you like help with?'], ['plan', 'Creating a training plan']], sub: { title: 'Finding Skill areas', emails: [['dribbling', 'Finding Dribbling'], ['turns', 'Finding Turns & Escapes'], ['finishing', 'Finding Finishing'], ['ballMastery', 'Finding Ball Mastery'], ['mixed', 'Mixed Drills']] } },
                       { key: 'coaches', title: 'For coaches', emails: [['coachHelp', 'What would you like help with?'], ['coachCall', 'A quick moment to speak']] },
                     ];
                     const shownGroup = openGroup;
@@ -554,23 +570,30 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                               >
                                 <span className="text-[11px] text-gray-400">{isOpen ? '▾' : '▸'}</span>
                                 <span className="text-sm font-extrabold text-navy">{g.title}</span>
-                                <span className="text-[11px] font-bold text-gray-400">{g.emails.length}</span>
+                                <span className="text-[11px] font-bold text-gray-400">{g.emails.length + (g.sub ? g.sub.emails.length : 0)}</span>
                               </button>
                               {isOpen && (
                                 <div className="space-y-2 p-2">
-                                  {g.emails.map(([kind, label]) => (
-                                    <div key={kind} className="flex flex-wrap items-center gap-2 rounded-xl border border-gray-200 px-3 py-2">
-                                      <div className="min-w-0 flex-1">
-                                        <div className="text-xs font-bold text-navy">{label}</div>
-                                        <div className="text-[11px] text-gray-500">
-                                          {current.emailKind === kind && current.emailAt ? 'Sent ' + stamp(current.emailAt) + ' · ' + ago(current.emailAt) + ' ago' : 'Not sent'}
-                                        </div>
-                                      </div>
-                                      <button onClick={() => openPreview(current, kind)} disabled={!!previewing || !current.childEmail} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">
-                                        {previewing === kind ? 'Opening…' : current.emailKind === kind ? 'Send again' : 'Send'}
+                                  {g.emails.map(([kind, label]) => emailRow(current, kind, label))}
+                                  {g.sub && (
+                                    <div className="rounded-xl border border-gray-200 overflow-hidden">
+                                      <button
+                                        type="button"
+                                        onClick={() => setSkillsOpen((v) => !v)}
+                                        className="w-full flex items-center gap-2 px-3 py-2 text-left bg-gray-50 hover:bg-gray-100"
+                                        aria-expanded={skillsOpen}
+                                      >
+                                        <span className="text-[11px] text-gray-400">{skillsOpen ? '▾' : '▸'}</span>
+                                        <span className="text-xs font-extrabold text-navy">{g.sub.title}</span>
+                                        <span className="text-[11px] font-bold text-gray-400">{g.sub.emails.length}</span>
                                       </button>
+                                      {skillsOpen && (
+                                        <div className="space-y-2 p-2">
+                                          {g.sub.emails.map(([kind, label]) => emailRow(current, kind, label))}
+                                        </div>
+                                      )}
                                     </div>
-                                  ))}
+                                  )}
                                 </div>
                               )}
                             </div>
