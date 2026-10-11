@@ -72,56 +72,46 @@ export default function CoachStepContent({ step, hideCta }: { step: CoachOnboard
             {groups.map((group, gi) => {
               counter = counterStart[gi];
               return (
-                <div key={gi} className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div key={gi}>
                   {/* A label, not a control. It used to be a toggle that started
                       closed, which hid the steps behind a click nobody knew to
                       make. */}
                   {group.heading ? (
-                    <h2 className="text-sm font-bold uppercase tracking-wide text-red mb-0">
+                    <h2 className="text-[13px] font-extrabold uppercase tracking-wide text-red mb-3">
                       {group.heading}
                     </h2>
                   ) : null}
-                  {(
-                    <ol className={`space-y-5 ${group.heading ? 'mt-3' : ''}`}>
-                      {group.items.map((sub) => {
-                        counter += 1;
-                        return (
-                          <li key={sub.title} className="flex gap-4">
-                            <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-navy text-white font-bold text-sm">
-                              {counter}
-                            </span>
-                            <div>
-                              <p className="font-semibold text-navy mb-1">{sub.title}</p>
-                              {sub.description && (
-                                <p className="text-gray-700 leading-relaxed mb-1">{sub.description}</p>
-                              )}
-                              {sub.bullets && (
-                                <ul className="list-disc pl-5 mb-1 space-y-1 text-gray-700 leading-relaxed">
-                                  {sub.bullets.map((b) => (
-                                    <li key={b}>{b}</li>
-                                  ))}
-                                </ul>
-                              )}
-                              <div className="flex flex-wrap gap-x-4 gap-y-1">
-                                {sub.extraLinkHref && (
-                                  <span className="text-gray-700 text-sm">
-                                    {sub.extraLinkPrefix ? `${sub.extraLinkPrefix} ` : ''}
-                                    <a
-                                      href={sub.extraLinkHref}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="text-red font-semibold hover:underline"
-                                    >
-                                      {sub.extraLinkLabel || 'Learn more →'}
-                                    </a>
-                                  </span>
-                                )}
+                  {/* Each step is a card like the rows on the hub: a number tile, a bold title, the detail
+                      under it, and the links as buttons. */}
+                  <ol className="space-y-3">
+                    {group.items.map((sub) => {
+                      counter += 1;
+                      const hasLinks = !!(sub.extraLinkHref || sub.videoHref || sub.moreInfoHref);
+                      return (
+                        <li key={sub.title} className="flex items-start gap-3.5 bg-white border-2 border-blue-200 rounded-xl px-4 py-3.5 shadow-sm">
+                          <span className="flex-shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-lg bg-blue-50 text-navy font-extrabold text-base">
+                            {counter}
+                          </span>
+                          <div className="min-w-0 flex-1">
+                            <p className="font-bold text-navy leading-snug">{sub.title}</p>
+                            {sub.description && (
+                              <p className="text-gray-600 text-sm leading-relaxed mt-0.5">{sub.description}</p>
+                            )}
+                            {sub.bullets && (
+                              <ul className="list-disc pl-5 mt-1 space-y-1 text-gray-600 text-sm leading-relaxed marker:text-red">
+                                {sub.bullets.map((b) => (
+                                  <li key={b}>{b}</li>
+                                ))}
+                              </ul>
+                            )}
+                            {hasLinks && (
+                              <div className="flex flex-wrap items-center gap-2 mt-2.5">
                                 {sub.videoHref && (
                                   <a
                                     href={sub.videoHref}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1 text-red text-sm font-semibold hover:underline"
+                                    className="inline-flex items-center gap-1 bg-white border-2 border-navy text-navy text-xs font-bold rounded-lg px-3 py-1.5 hover:bg-gray-50 transition-colors"
                                   >
                                     📺 Watch Video
                                   </a>
@@ -131,18 +121,31 @@ export default function CoachStepContent({ step, hideCta }: { step: CoachOnboard
                                     href={sub.moreInfoHref}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1 text-red text-sm font-semibold hover:underline"
+                                    className="inline-flex items-center gap-1 bg-red text-white text-xs font-bold rounded-lg px-3 py-1.5 hover:bg-red-dark transition-colors"
                                   >
                                     How To →
                                   </a>
                                 )}
+                                {sub.extraLinkHref && (
+                                  <span className="text-gray-600 text-sm">
+                                    {sub.extraLinkPrefix ? `${sub.extraLinkPrefix} ` : ''}
+                                    <a
+                                      href={sub.extraLinkHref}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-red font-bold hover:underline"
+                                    >
+                                      {sub.extraLinkLabel || 'Learn more →'}
+                                    </a>
+                                  </span>
+                                )}
                               </div>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ol>
-                  )}
+                            )}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ol>
                 </div>
               );
             })}
