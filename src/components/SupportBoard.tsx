@@ -32,6 +32,8 @@ type Row = {
   status: string;
   note: string | null;
   statusAt: string | null;
+  firstEmailAt?: string | null;
+  triedEmailAt?: string | null;
 };
 
 const CONFIG: Record<Mode, {
@@ -102,6 +104,10 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [note, setNote] = useState('');
+  // Which callback email is waiting on a yes, and which one is going out.
+  const [confirmEmail, setConfirmEmail] = useState<'first' | 'tried' | null>(null);
+  const [sending, setSending] = useState(false);
+  const [sentNote, setSentNote] = useState('');
 
   const headers = useCallback(
     () => ({
@@ -139,6 +145,24 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
     } catch {
       setError('That did not save. Reloading.');
       load();
+    }
+  };
+
+  const sendCallbackEmail = async (row: Row, kind: 'first' | 'tried') => {
+    setSending(true);
+    setError('');
+    try {
+      const res = await fetch(`${API}/${cfg.path}/${row.id}/email`, { method: 'POST', headers: headers(), body: JSON.stringify({ kind }) });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || 'Could not send that email.');
+      const at = new Date().toISOString();
+      setRows((list) => list.map((x) => (x.id === row.id ? { ...x, [kind === 'first' ? 'firstEmailAt' : 'triedEmailAt']: at } : x)));
+      setSentNote('Sent to ' + (d.sentTo || row.childEmail));
+      setConfirmEmail(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not send that email.');
+    } finally {
+      setSending(false);
     }
   };
 
@@ -218,7 +242,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                 <tr><td colSpan={4} className="px-3 py-8 text-center text-gray-400 text-xs">{filter === cfg.first || filter === '' ? cfg.empty : 'Nothing here.'}</td></tr>
               )}
               {shown.map((r) => (
-                <tr key={r.id} onClick={() => { setOpenId(r.id); setNote(r.note || ''); }} className="cursor-pointer hover:bg-gray-50">
+                <tr key={r.id} onClick={() => { setOpenId(r.id); setNote(r.note || ''); setConfirmEmail(null); setSentNote(''); }} className="cursor-pointer hover:bg-gray-50">
                   <td className="px-3 py-2.5">
                     <div className="font-bold text-navy">
                       {nameOf(r)}
@@ -271,6 +295,38 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                   ))}
                 </div>
               </div>
+
+              {mode === 'callbacks' && (
+                <div>
+                  <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Email</div>
+                  {sentNote && <div className="mb-2 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">{sentNote}</div>}
+                  <div className="space-y-2">
+                    {([
+                      ['first', 'Thanks for taking our feedback survey', current.firstEmailAt],
+                      ['tried', 'I tried to give you a call', current.triedEmailAt],
+                    ] as const).map(([kind, label, sentAt]) => (
+                      <div key={kind} className="flex flex-wrap items-center gap-2 rounded-xl border border-gray-200 px-3 py-2">
+                        <div className="min-w-0 flex-1">
+                          <div className="text-xs font-bold text-navy">{label}</div>
+                          <div className="text-[11px] text-gray-500">{sentAt ? 'Sent ' + stamp(sentAt) + ' · ' + ago(sentAt) + ' ago' : 'Not sent yet'}</div>
+                        </div>
+                        {confirmEmail === kind ? (
+                          <span className="inline-flex gap-1">
+                            <button onClick={() => sendCallbackEmail(current, kind)} disabled={sending || !current.childEmail} className="px-3 py-1.5 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">
+                              {sending ? 'Sending…' : 'Send to ' + (current.childEmail || 'no email')}
+                            </button>
+                            <button onClick={() => setConfirmEmail(null)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-[11px] font-bold text-gray-600">Cancel</button>
+                          </span>
+                        ) : (
+                          <button onClick={() => { setConfirmEmail(kind); setSentNote(''); }} disabled={!current.childEmail} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">
+                            {sentAt ? 'Send again' : 'Send'}
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
