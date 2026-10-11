@@ -333,6 +333,8 @@ export default function OnboardingPortal() {
   // reading the page is not asking us for anything, and a coach who clicks
   // straight past lands in the confirm popup with nothing true to confirm.
   const [rosterRequested, setRosterRequested] = useState(false);
+  // The roster step asks whether they have already sent it: Yes confirms, No shows the page to request the template.
+  const [rosterSentAnswer, setRosterSentAnswer] = useState<'no' | null>(null);
   const [rosterClaim, setRosterClaim] = useState('');
   // The number of players, asked for here because it was asked for nowhere
   // else: a coach ticked this step, the email said "I have told you roughly
@@ -1520,11 +1522,38 @@ export default function OnboardingPortal() {
                         yet. Next still asks. What it buys is the gate below:
                         until one of the two options is picked and sent, there
                         is nothing for the confirm popup to be about. */}
-                    <SendRosterForm
-                      embedded
-                      defaults={{ name: coach.name || '', email: coach.email || '', teamName: coach.teamName || '' }}
-                      onDone={() => setRosterRequested(true)}
-                    />
+                    {/* By the time a coach is here they have usually sent the roster already, so the step is a
+                        question first. Yes confirms it; No brings up the page to request the template. */}
+                    {stepDone ? (
+                      <p className="text-gray-700 leading-relaxed">You told us your roster has been sent. Thank you.</p>
+                    ) : rosterSentAnswer === 'no' ? (
+                      <SendRosterForm
+                        embedded
+                        defaults={{ name: coach.name || '', email: coach.email || '', teamName: coach.teamName || '' }}
+                        onDone={() => setRosterRequested(true)}
+                      />
+                    ) : (
+                      <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-6 text-center">
+                        <p className="text-navy text-lg font-extrabold mb-1">Have you sent us your roster?</p>
+                        <p className="text-gray-600 text-sm mb-5">If you have, just confirm below.</p>
+                        <div className="flex flex-col sm:flex-row justify-center gap-3">
+                          <button
+                            onClick={() => setStep('roster', true, true, undefined, true, 'Confirmed they have sent their roster')}
+                            disabled={saving}
+                            className="bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
+                          >
+                            {saving ? 'Saving\u2026' : 'Yes, I sent it'}
+                          </button>
+                          <button
+                            onClick={() => setRosterSentAnswer('no')}
+                            disabled={saving}
+                            className="bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
+                          >
+                            No, not yet
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ) : isSectionStepper && stepSections ? (
                   <div className="mb-6">
@@ -1800,9 +1829,9 @@ export default function OnboardingPortal() {
                         to you; this one cannot, because nothing downstream can
                         happen without it. */}
                     <button
-                      onClick={() => { setRosterClaim(''); setRosterConfirm(true); setError(''); }}
+                      onClick={() => { if (stepDone) { setWizardIndex(wizardIndex + 1); setError(''); return; } setRosterClaim(''); setRosterConfirm(true); setError(''); }}
                       disabled={!stepDone && !rosterRequested}
-                      title={stepDone || rosterRequested ? undefined : 'Choose one of the two options above and send it first'}
+                      title={stepDone || rosterRequested ? undefined : 'Answer the question above first'}
                       className="w-full sm:w-auto bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                       Next &rarr;
