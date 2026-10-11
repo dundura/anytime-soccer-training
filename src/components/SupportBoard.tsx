@@ -33,6 +33,7 @@ type Row = {
   note: string | null;
   statusAt: string | null;
   firstEmailAt?: string | null;
+  reminderEmailAt?: string | null;
   triedEmailAt?: string | null;
   bookEmailAt?: string | null;
   emailKind?: string | null;
@@ -159,7 +160,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
     }
   };
 
-  const sendCallbackEmail = async (row: Row, kind: 'first' | 'tried') => {
+  const sendCallbackEmail = async (row: Row, kind: 'first' | 'reminder' | 'tried') => {
     setSending(true);
     setError('');
     try {
@@ -167,7 +168,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
       const d = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(d.error || 'Could not send that email.');
       const at = new Date().toISOString();
-      setRows((list) => list.map((x) => (x.id === row.id ? { ...x, [kind === 'first' ? 'firstEmailAt' : 'triedEmailAt']: at } : x)));
+      setRows((list) => list.map((x) => (x.id === row.id ? { ...x, [kind === 'first' ? 'firstEmailAt' : kind === 'reminder' ? 'reminderEmailAt' : 'triedEmailAt']: at } : x)));
       setSentNote('Sent to ' + (d.sentTo || row.childEmail));
       setPreview(null);
     } catch (e) {
@@ -396,7 +397,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
             <div className="px-5 py-3 border-t border-gray-100 flex justify-end gap-2">
               <button onClick={() => setPreview(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">Cancel</button>
               <button
-                onClick={() => (mode === 'callbacks' ? sendCallbackEmail(current, preview.kind as 'first' | 'tried') : sendSuggestionEmail(current, preview.kind))}
+                onClick={() => (mode === 'callbacks' ? sendCallbackEmail(current, preview.kind as 'first' | 'reminder' | 'tried') : sendSuggestionEmail(current, preview.kind))}
                 disabled={sending || !preview.to}
                 className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50"
               >
@@ -442,6 +443,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                   <div className="space-y-2">
                     {([
                       ['first', 'Thanks for taking our feedback survey', current.firstEmailAt],
+                      ['reminder', 'A quick reminder', current.reminderEmailAt],
                       ['tried', 'I tried to give you a call', current.triedEmailAt],
                     ] as const).map(([kind, label, sentAt]) => (
                       <div key={kind} className="flex flex-wrap items-center gap-2 rounded-xl border border-gray-200 px-3 py-2">
