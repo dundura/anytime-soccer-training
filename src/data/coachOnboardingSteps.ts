@@ -32,13 +32,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Book a Demo',
     body: `
       <p>If you haven&rsquo;t booked a demo yet, please book a time.</p>
-      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+      <div style="margin:16px 0;">
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">1</span>
           <p style="margin:6px 0 0;"><strong>Already booked?</strong> Great job &mdash; move on to the next step.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">2</span>
           <p style="margin:6px 0 0;"><strong>Renewing member?</strong> No need to rebook &mdash; we&rsquo;ll call to walk through the new features instead.</p>
         </div>
       </div>
@@ -50,13 +50,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Send Us Your Roster',
     body: `
       <p>Email your roster to <strong>Megan Chambers</strong> as an Excel file.</p>
-      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+      <div style="margin:16px 0;">
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">1</span>
           <p style="margin:6px 0 0;"><strong>We contact parents only after you confirm.</strong></p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">2</span>
           <p style="margin:6px 0 0;"><strong>Roster not final?</strong> Send what you have and add the rest later.</p>
         </div>
       </div>
@@ -67,13 +67,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'Pay Your Invoice',
     body: `
-      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+      <div style="margin:16px 0;">
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">1</span>
           <p style="margin:6px 0 0;"><strong>If you submitted a roster:</strong> we&rsquo;ll send your invoice via Stripe. Once paid, confirm below &mdash; that&rsquo;s when onboarding begins.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">2</span>
           <p style="margin:6px 0 0;"><strong>Adding players inside the app instead?</strong> There&rsquo;s no invoice here &mdash; just mark this step complete and move on.</p>
         </div>
       </div>
@@ -227,17 +227,17 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Quick Tip: Accounts & Profiles',
     body: `
       <p>Next you&rsquo;ll create your account and add profiles for <strong>yourself and your child</strong>.</p>
-      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+      <div style="margin:16px 0;">
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">1</span>
           <p style="margin:6px 0 0;"><strong>Remember:</strong> you don&rsquo;t add profiles for your team&rsquo;s players &mdash; each parent has their own account.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">2</span>
           <p style="margin:6px 0 0;">You&rsquo;ll need to apply the <strong>team code</strong> provided to your account.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">3</span>
           <p style="margin:6px 0 0;">Already have an account? Enter the team code in the <strong>Account Management</strong> section. (Optional)</p>
         </div>
       </div>
@@ -256,13 +256,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Quick Tip: If a Parent Hits a Paywall',
     body: `
       <p><strong>A parent hits a paywall.</strong> That means they didn&rsquo;t apply the team code or you have not applied an upgrade slot.</p>
-      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+      <div style="margin:16px 0;">
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">1</span>
           <p style="margin:6px 0 0;">If you were provided a team code, send them the <strong>onboarding link we provide</strong> &mdash; it includes the team code and instructions.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">2</span>
           <p style="margin:6px 0 0;">If you purchased <strong>free access slots</strong>, apply them in the <strong>Upgrade</strong> section within your team.</p>
         </div>
       </div>
@@ -283,20 +283,20 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <p>We&rsquo;ll go over the payment steps for new and renewing teams.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:0 0 16px;">New Teams</p>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">1</span>
           <p style="margin:6px 0 0;"><strong>You send us your roster.</strong> Let us know who&rsquo;s on your team.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">2</span>
           <p style="margin:6px 0 0;"><strong>We invoice you.</strong> One bill to you at <strong>$10 per player, per year</strong> &mdash; <strong>parents pay nothing</strong>.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">3</span>
           <p style="margin:6px 0 0;"><strong>You pay the invoice.</strong> As soon as it&rsquo;s paid, onboarding begins.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">4</span>
           <div style="margin:6px 0 0;">
             <p style="margin:0;">We add <strong>free access slots</strong> to your account.</p>
             <ul style="margin:8px 0 0;padding-left:22px;list-style:disc;">
@@ -305,12 +305,12 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
             </ul>
           </div>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">5</span>
           <p style="margin:6px 0 0;"><strong>Add players anytime.</strong> As your roster grows, add new players to your team and <strong>purchase additional slots</strong> to upgrade them &mdash; all directly in the app.</p>
         </div>
-<div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">6</span>
+<div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">6</span>
           <div style="margin:6px 0 0;">
             <p style="margin:0;"><strong>Club upgrades.</strong></p>
             <ul style="margin:8px 0 0;padding-left:22px;list-style:disc;">
@@ -327,28 +327,28 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <p>Some clubs pay for their teams centrally. If yours does, <strong>you never handle payment</strong>.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <p style="color:#0F3154;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:0 0 16px;">Your Club Pays the Invoice</p>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">1</span>
           <p style="margin:6px 0 0;"><strong>Send Roster</strong> &mdash; club or coach sends the roster.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">2</span>
           <p style="margin:6px 0 0;"><strong>Club pays invoice</strong></p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">3</span>
           <p style="margin:6px 0 0;">We add <strong>free access slots</strong> to <strong>each coach&rsquo;s profile</strong>.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">4</span>
           <p style="margin:6px 0 0;"><strong>Once players join your team, you grant them free 365-day access</strong>.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">5</span>
           <p style="margin:6px 0 0;"><strong>Your club can upgrade existing players once their subscription ends.</strong></p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">6</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">6</span>
           <p style="margin:6px 0 0;">Existing players can be <strong>removed</strong> from the team, but a <strong>subscription must be purchased for new players</strong>.</p>
         </div>
       </div>
@@ -360,24 +360,24 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <p>There are two ways: email us your roster, or invite new players individually.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:0 0 16px;">Option 1 &mdash; Emailing Roster</p>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">1</span>
           <p style="margin:6px 0 0;"><strong>Send Roster</strong> &mdash; send the roster of only the new players.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">2</span>
           <p style="margin:6px 0 0;">We invoice you and add <strong>free access slots</strong> to your account.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">3</span>
           <p style="margin:6px 0 0;"><strong>Once players join your team, you grant them free 365-day access</strong> &mdash; via the <strong>Upgrade Players</strong> in your dashboard.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">4</span>
           <p style="margin:6px 0 0;"><strong>Upgrade existing players once their subscription ends.</strong></p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">5</span>
           <p style="margin:6px 0 0;">Existing players can be <strong>removed</strong> from the team, but a <strong>subscription must be purchased for new players</strong>.</p>
         </div>
       </div>
@@ -389,20 +389,20 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
       <p>You can add players and pay for their access directly inside the app.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
         <p style="color:#DC373E;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;font-size:13px;margin:0 0 16px;">Option 2 &mdash; Paying for New Players inside the App</p>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">1</span>
           <p style="margin:6px 0 0;">Go to your team and open the <strong>Manage &amp; Upgrade</strong> dropdown.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">2</span>
           <p style="margin:6px 0 0;">From your team, click <strong>Manage &amp; Upgrade</strong> and add the players.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">3</span>
           <p style="margin:6px 0 0;">Then click <strong>Upgrade Players</strong> and purchase the additional free access slots.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">4</span>
           <p style="margin:6px 0 0;"><strong>Once the players join your team</strong>, grant them <strong>365-day access</strong> using one of your slots.</p>
         </div>
       </div>
@@ -444,16 +444,16 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     afterSteps: `
       <p>Two options &mdash; you pay online and we add <strong>free access slots</strong> to your account, or you buy them in the app &mdash; you always need to <strong>apply a free slot to each player&rsquo;s account</strong>.</p>
       <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0 24px;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">1</span>
           <p style="margin:4px 0 0;">The player joins your team.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">2</span>
           <p style="margin:4px 0 0;">Go to <strong>Upgrade Players</strong> in your team menu.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">3</span>
           <p style="margin:4px 0 0;">Apply a slot. That player has <strong>365 days of full access</strong> from that moment.</p>
         </div>
       </div>
@@ -485,29 +485,29 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Quick Reminder: Adding Players',
     body: `
       <p style="margin:0 0 12px;">Here are the steps going forward:</p>
-      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+      <div style="margin:16px 0;">
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">1</span>
           <p style="margin:6px 0 0;"><strong>Add them</strong> via the New Player Onboarding page.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">2</span>
           <p style="margin:6px 0 0;">Then click <strong>Invite</strong> next to their email.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">3</span>
           <p style="margin:6px 0 0;"><strong>Purchase a free access slot</strong>.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">4</span>
           <p style="margin:6px 0 0;">When they join your team, click <strong>Upgrade</strong> next to their name.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">5</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">5</span>
           <p style="margin:6px 0 0;">This gives them <strong>365 day access</strong> to all the training content.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">6</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">6</span>
           <p style="margin:6px 0 0;">Megan will send you a <strong>getting-started information link</strong> that you can share with the players.</p>
         </div>
       </div>
@@ -520,13 +520,13 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     title: 'Adding and removing players each season',
     body: `
       <p><strong>You do not start over each season.</strong></p>
-      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+      <div style="margin:16px 0;">
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">1</span>
           <p style="margin:6px 0 0;"><strong>Removing a player</strong> &mdash; click their name on the roster and remove them.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">2</span>
           <p style="margin:6px 0 0;"><strong>Adding players</strong> &mdash; go to your team, open <strong>Onboard &amp; Upgrade</strong>, add their email and send the invite.</p>
         </div>
       </div>
@@ -541,17 +541,17 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'How do I delete a team?',
     body: `
-      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+      <div style="margin:16px 0;">
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">1</span>
           <p style="margin:4px 0 0;">Go to the team.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">2</span>
           <p style="margin:4px 0 0;">Click <strong>&#9999;&#65039; Edit Team</strong>.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">3</span>
           <p style="margin:4px 0 0;">Click <strong>Archive Team</strong>.</p>
         </div>
       </div>
@@ -561,21 +561,21 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
   {
     title: 'How do I invite players to my team?',
     body: `
-      <div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:12px;padding:20px;margin:16px 0;">
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">1</span>
+      <div style="margin:16px 0;">
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">1</span>
           <p style="margin:4px 0 0;">Go to your team.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">2</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">2</span>
           <p style="margin:4px 0 0;">Open the <strong>&#9660; Onboard &amp; Upgrade</strong> dropdown.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">3</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">3</span>
           <p style="margin:4px 0 0;">Click <strong>&#10133; New Player Onboard</strong>.</p>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0F3154;color:#fff;font-weight:700;">4</span>
+        <div style="display:flex;gap:14px;align-items:flex-start;background:#ffffff;border:2px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 10px;box-shadow:0 1px 2px rgba(15,38,66,0.06);">
+          <span style="flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#eff6ff;color:#0F3154;font-weight:800;">4</span>
           <p style="margin:4px 0 0;">Add email and invite.</p>
         </div>
       </div>
