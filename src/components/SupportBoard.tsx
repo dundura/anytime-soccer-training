@@ -73,7 +73,7 @@ const CONFIG: Record<Mode, {
     listKey: 'suggestions',
     statuses: [
       { key: 'new', label: 'New', tint: 'bg-red text-white' },
-      { key: 'reviewed', label: 'Reviewed', tint: 'bg-amber-500 text-white' },
+      { key: 'reviewed', label: 'Email sent', tint: 'bg-amber-500 text-white' },
       { key: 'done', label: 'Done', tint: 'bg-emerald-600 text-white' },
     ],
     first: 'new',
