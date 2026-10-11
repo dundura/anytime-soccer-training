@@ -1533,25 +1533,29 @@ export default function OnboardingPortal() {
                         onDone={() => setRosterRequested(true)}
                       />
                     ) : (
-                      <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-6 text-center">
+                      <div>
                         <p className="text-navy text-lg font-extrabold mb-1">Have you sent us your roster?</p>
-                        <p className="text-gray-600 text-sm mb-5">If you have, just confirm below.</p>
-                        <div className="flex flex-col sm:flex-row justify-center gap-3">
+                        <p className="text-gray-600 text-sm mb-4">Pick the one that fits.</p>
+                        {/* Same look as the rows on the hub: a pale icon tile, a bold title, a line under it, and a red button. */}
+                        {[
+                          { icon: '\u2705', title: 'Yes, I sent it', sub: 'Just confirm and we will take it from here.', cta: saving ? 'Saving\u2026' : 'Confirm', run: () => setStep('roster', true, true, undefined, true, 'Confirmed they have sent their roster') },
+                          { icon: '\uD83D\uDCCB', title: 'No, not yet', sub: 'We will show you how to send it.', cta: 'Show me', run: () => setRosterSentAnswer('no') },
+                        ].map(row => (
                           <button
-                            onClick={() => setStep('roster', true, true, undefined, true, 'Confirmed they have sent their roster')}
+                            key={row.title}
+                            type="button"
+                            onClick={row.run}
                             disabled={saving}
-                            className="bg-red hover:bg-red-dark text-white font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
+                            className="w-full flex items-center gap-3 bg-white border-2 border-blue-200 hover:border-navy rounded-xl px-4 py-3 mb-2.5 text-left transition-colors disabled:opacity-60"
                           >
-                            {saving ? 'Saving\u2026' : 'Yes, I sent it'}
+                            <span className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-xl" aria-hidden="true">{row.icon}</span>
+                            <span className="flex-1 min-w-0">
+                              <span className="block text-navy font-bold leading-tight">{row.title}</span>
+                              <span className="block text-gray-500 text-sm leading-snug mt-0.5">{row.sub}</span>
+                            </span>
+                            <span className="flex-shrink-0 bg-red text-white text-sm font-bold rounded-lg px-4 py-1.5">{row.cta}</span>
                           </button>
-                          <button
-                            onClick={() => setRosterSentAnswer('no')}
-                            disabled={saving}
-                            className="bg-white border-2 border-navy text-navy hover:bg-gray-50 font-bold py-2.5 px-8 rounded-xl transition-colors disabled:opacity-40"
-                          >
-                            No, not yet
-                          </button>
-                        </div>
+                        ))}
                       </div>
                     )}
                   </div>
