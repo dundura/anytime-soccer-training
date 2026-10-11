@@ -110,6 +110,10 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
   // Which callback email is waiting on a yes, and which one is going out.
   const [preview, setPreview] = useState<{ kind: string; subject: string; to: string; html: string } | null>(null);
   const [previewing, setPreviewing] = useState<string | null>(null);
+  // Tips and suggestions: add a person by hand.
+  const [adding, setAdding] = useState(false);
+  const [newPerson, setNewPerson] = useState({ name: '', email: '', lookingFor: '' });
+  const [addBusy, setAddBusy] = useState(false);
   const [sending, setSending] = useState(false);
   const [sentNote, setSentNote] = useState('');
 
@@ -205,6 +209,25 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
     }
   };
 
+  const addPerson = async () => {
+    if (addBusy) return;
+    setAddBusy(true);
+    setError('');
+    try {
+      const res = await fetch(`${API}/${cfg.path}`, { method: 'POST', headers: headers(), body: JSON.stringify(newPerson) });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || 'Could not add them.');
+      setAdding(false);
+      setNewPerson({ name: '', email: '', lookingFor: '' });
+      setFilter(cfg.first);
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not add them.');
+    } finally {
+      setAddBusy(false);
+    }
+  };
+
   const nameOf = (r: Row) => r.screenname || r.firstname || 'Unknown';
   const counts: Record<string, number> = {};
   rows.forEach((r) => { counts[r.status] = (counts[r.status] || 0) + 1; });
@@ -234,7 +257,10 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
     <div className="mb-6 p-4 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
         <h2 className="text-lg font-black text-navy">{cfg.title}</h2>
-        <button onClick={load} className="px-3 py-2 rounded-lg bg-navy text-white text-xs font-bold">Refresh</button>
+        <span className="inline-flex gap-2">
+          {mode === 'suggestions' && <button onClick={() => setAdding(true)} className="px-3 py-2 rounded-lg bg-navy text-white text-xs font-bold">+ Add a person</button>}
+          <button onClick={load} className="px-3 py-2 rounded-lg border border-gray-200 text-gray-700 text-xs font-bold">Refresh</button>
+        </span>
       </div>
       <p className="text-xs text-gray-500 mb-4">{cfg.blurb}</p>
 
@@ -306,6 +332,24 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
           </table>
         </div>
       </div>
+
+      {/* Add a person to Tips and suggestions */}
+      {adding && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setAdding(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-md p-5" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-base font-black text-navy mb-3">Add a person</h3>
+            <input value={newPerson.name} onChange={(e) => setNewPerson({ ...newPerson, name: e.target.value })} placeholder="Name" className="w-full mb-2 px-3 py-2 rounded-lg border border-gray-200 text-sm" />
+            <input value={newPerson.email} onChange={(e) => setNewPerson({ ...newPerson, email: e.target.value })} placeholder="Email" className="w-full mb-2 px-3 py-2 rounded-lg border border-gray-200 text-sm" />
+            <textarea value={newPerson.lookingFor} onChange={(e) => setNewPerson({ ...newPerson, lookingFor: e.target.value })} rows={3} placeholder="What they are looking for" className="w-full mb-2 px-3 py-2 rounded-lg border border-gray-200 text-sm" />
+            <div className="flex justify-end gap-2 mt-3">
+              <button onClick={() => setAdding(false)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">Cancel</button>
+              <button onClick={addPerson} disabled={addBusy || !newPerson.name.trim() || !newPerson.email.trim() || !newPerson.lookingFor.trim()} className="px-4 py-2 rounded-lg bg-navy text-white text-xs font-bold disabled:opacity-50">
+                {addBusy ? 'Adding…' : 'Add'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Email preview: nothing goes until Send is pressed in here */}
       {preview && current && (
@@ -433,6 +477,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                 </div>
               </div>
 
+              {current.childId > 0 && (
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Their check-in</div>
                 <div className="rounded-xl border border-gray-200 divide-y divide-gray-100">
@@ -450,6 +495,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                   </div>
                 </div>
               </div>
+              )}
 
               {current.lookingFor && (
                 <div>
