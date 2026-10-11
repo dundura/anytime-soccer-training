@@ -1636,7 +1636,7 @@ export default function OnboardingPortal() {
                   <CoachStepContent step={stepData} hideCta />
                 ) : step.faqIndex != null ? (
                   <div
-                    className="mb-6 space-y-3 text-gray-700 leading-relaxed text-sm [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1.5 [&_li]:marker:text-red [&_strong]:text-navy [&_strong]:font-semibold"
+                    className="mb-6 space-y-3 text-gray-700 leading-relaxed text-base [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1.5 [&_li]:marker:text-red [&_strong]:text-navy [&_strong]:font-semibold"
                     dangerouslySetInnerHTML={{ __html: ONBOARDING_FAQ[step.faqIndex]?.answer || '' }}
                   />
                 ) : null}
