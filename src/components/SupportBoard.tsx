@@ -42,6 +42,7 @@ type Row = {
   helpFollowUpAt?: string | null;
   bmFollowUpAt?: string | null;
   turnsFollowUpAt?: string | null;
+  jugFollowUpAt?: string | null;
 };
 
 const CONFIG: Record<Mode, {
@@ -273,6 +274,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
         { label: 'If you need help', at: r.helpFollowUpAt },
         { label: 'Where to start with Ball Mastery', at: r.bmFollowUpAt },
         { label: 'Where to start with Turns & Escapes', at: r.turnsFollowUpAt },
+        { label: 'Where to start with Juggling', at: r.jugFollowUpAt },
         {
         label: ({
           help: 'What would you like help with?', dribbling: 'Finding Dribbling', turns: 'Finding Turns & Escapes', finishing: 'Finding Finishing', ballMastery: 'Finding Ball Mastery', juggling: 'Finding Juggling',
