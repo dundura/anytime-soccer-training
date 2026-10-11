@@ -108,7 +108,8 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
   const [error, setError] = useState('');
   const [note, setNote] = useState('');
   // Which callback email is waiting on a yes, and which one is going out.
-  const [confirmEmail, setConfirmEmail] = useState<string | null>(null);
+  const [preview, setPreview] = useState<{ kind: string; subject: string; to: string; html: string } | null>(null);
+  const [previewing, setPreviewing] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
   const [sentNote, setSentNote] = useState('');
 
@@ -161,7 +162,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
       const at = new Date().toISOString();
       setRows((list) => list.map((x) => (x.id === row.id ? { ...x, [kind === 'first' ? 'firstEmailAt' : 'triedEmailAt']: at } : x)));
       setSentNote('Sent to ' + (d.sentTo || row.childEmail));
-      setConfirmEmail(null);
+      setPreview(null);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not send that email.');
     } finally {
@@ -179,11 +180,28 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
       if (!res.ok) throw new Error(d.error || 'Could not send that email.');
       setRows((list) => list.map((x) => (x.id === row.id ? { ...x, emailKind: kind, emailAt: new Date().toISOString() } : x)));
       setSentNote('Sent to ' + (d.sentTo || row.childEmail));
-      setConfirmEmail(null);
+      setPreview(null);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not send that email.');
     } finally {
       setSending(false);
+    }
+  };
+
+  // Every email is looked at before it goes: this fetches it as it would be sent, shows it, and the Send is in the preview.
+  const openPreview = async (row: Row, kind: string) => {
+    setPreviewing(kind);
+    setError('');
+    setSentNote('');
+    try {
+      const res = await fetch(`${API}/${cfg.path}/${row.id}/preview`, { method: 'POST', headers: headers(), body: JSON.stringify({ kind }) });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || 'Could not build the preview.');
+      setPreview({ kind, subject: d.subject, to: d.to, html: d.html });
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not build the preview.');
+    } finally {
+      setPreviewing(null);
     }
   };
 
@@ -263,7 +281,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                 <tr><td colSpan={4} className="px-3 py-8 text-center text-gray-400 text-xs">{filter === cfg.first || filter === '' ? cfg.empty : 'Nothing here.'}</td></tr>
               )}
               {shown.map((r) => (
-                <tr key={r.id} onClick={() => { setOpenId(r.id); setNote(r.note || ''); setConfirmEmail(null); setSentNote(''); }} className="cursor-pointer hover:bg-gray-50">
+                <tr key={r.id} onClick={() => { setOpenId(r.id); setNote(r.note || ''); setPreview(null); setSentNote(''); }} className="cursor-pointer hover:bg-gray-50">
                   <td className="px-3 py-2.5">
                     <div className="font-bold text-navy">
                       {nameOf(r)}
@@ -288,6 +306,30 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
           </table>
         </div>
       </div>
+
+      {/* Email preview: nothing goes until Send is pressed in here */}
+      {preview && current && (
+        <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" onClick={() => setPreview(null)}>
+          <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[92vh] flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <div className="px-5 py-3 border-b border-gray-100">
+              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">From Neil Crawford</div>
+              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">To {preview.to || 'no email address'}</div>
+              <div className="mt-1 text-sm font-semibold text-navy">{preview.subject}</div>
+            </div>
+            <iframe title="Email preview" srcDoc={preview.html} className="w-full flex-1 min-h-[360px] border-0 bg-gray-50" />
+            <div className="px-5 py-3 border-t border-gray-100 flex justify-end gap-2">
+              <button onClick={() => setPreview(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">Cancel</button>
+              <button
+                onClick={() => (mode === 'callbacks' ? sendCallbackEmail(current, preview.kind as 'first' | 'tried') : sendSuggestionEmail(current, preview.kind))}
+                disabled={sending || !preview.to}
+                className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50"
+              >
+                {sending ? 'Sending…' : 'Send'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Drawer */}
       {openId && current && (
@@ -331,18 +373,9 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                           <div className="text-xs font-bold text-navy">{label}</div>
                           <div className="text-[11px] text-gray-500">{sentAt ? 'Sent ' + stamp(sentAt) + ' · ' + ago(sentAt) + ' ago' : 'Not sent yet'}</div>
                         </div>
-                        {confirmEmail === kind ? (
-                          <span className="inline-flex gap-1">
-                            <button onClick={() => sendCallbackEmail(current, kind)} disabled={sending || !current.childEmail} className="px-3 py-1.5 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">
-                              {sending ? 'Sending…' : 'Send to ' + (current.childEmail || 'no email')}
-                            </button>
-                            <button onClick={() => setConfirmEmail(null)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-[11px] font-bold text-gray-600">Cancel</button>
-                          </span>
-                        ) : (
-                          <button onClick={() => { setConfirmEmail(kind); setSentNote(''); }} disabled={!current.childEmail} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">
-                            {sentAt ? 'Send again' : 'Send'}
+                        <button onClick={() => openPreview(current, kind)} disabled={!!previewing || !current.childEmail} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">
+                            {previewing === kind ? 'Opening…' : sentAt ? 'Send again' : 'Send'}
                           </button>
-                        )}
                       </div>
                     ))}
                     {/* The third goes by itself, 12 hours after the second. */}
@@ -380,18 +413,9 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                             {current.emailKind === kind && current.emailAt ? 'Sent ' + stamp(current.emailAt) + ' · ' + ago(current.emailAt) + ' ago' : 'Not sent'}
                           </div>
                         </div>
-                        {confirmEmail === kind ? (
-                          <span className="inline-flex gap-1">
-                            <button onClick={() => sendSuggestionEmail(current, kind)} disabled={sending || !current.childEmail} className="px-3 py-1.5 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">
-                              {sending ? 'Sending…' : 'Send to ' + (current.childEmail || 'no email')}
-                            </button>
-                            <button onClick={() => setConfirmEmail(null)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-[11px] font-bold text-gray-600">Cancel</button>
-                          </span>
-                        ) : (
-                          <button onClick={() => { setConfirmEmail(kind); setSentNote(''); }} disabled={!current.childEmail} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">
-                            {current.emailKind === kind ? 'Send again' : 'Send'}
+                        <button onClick={() => openPreview(current, kind)} disabled={!!previewing || !current.childEmail} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">
+                            {previewing === kind ? 'Opening…' : current.emailKind === kind ? 'Send again' : 'Send'}
                           </button>
-                        )}
                       </div>
                     ))}
                   </div>
