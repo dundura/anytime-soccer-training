@@ -528,7 +528,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                   {(() => {
                     const groups: { key: 'players' | 'coaches'; title: string; emails: [string, string][] }[] = [
                       { key: 'players', title: 'For players', emails: [['help', 'What would you like help with?'], ['dribbling', 'Finding Dribbling'], ['turns', 'Finding Turns & Escapes'], ['plan', 'Creating a training plan'], ['mixed', 'Mixed Drills']] },
-                      { key: 'coaches', title: 'For coaches', emails: [['coachHelp', 'What would you like help with?']] },
+                      { key: 'coaches', title: 'For coaches', emails: [['coachHelp', 'What would you like help with?'], ['coachCall', 'A quick moment to speak']] },
                     ];
                     const shownGroup = openGroup;
                     return (
