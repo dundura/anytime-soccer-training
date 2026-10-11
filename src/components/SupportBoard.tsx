@@ -276,7 +276,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
         {
         label: ({
           help: 'What would you like help with?', dribbling: 'Finding Dribbling', turns: 'Finding Turns & Escapes', finishing: 'Finding Finishing', ballMastery: 'Finding Ball Mastery', juggling: 'Finding Juggling',
-          plan: 'Creating a training plan', mixed: 'Mixed Drills', coachHelp: 'What would you like help with?', coachCall: 'A quick moment to speak',
+          plan: 'Creating a training plan', planMostly: 'Mostly understand training plans', mixed: 'Mixed Drills', coachHelp: 'What would you like help with?', coachCall: 'A quick moment to speak',
           coachPlan: 'Assigning a training plan', coachFolders: 'Assigning training folders', coachChallenges: 'Creating challenges and contests',
         } as Record<string, string>)[r.emailKind || ''] || r.emailKind || '',
         at: r.emailAt,
@@ -556,7 +556,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                   {sentNote && <div className="mb-2 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">{sentNote}</div>}
                   {(() => {
                     const groups: { key: 'players' | 'coaches'; title: string; emails: [string, string][]; sub?: { title: string; emails: [string, string][] } }[] = [
-                      { key: 'players', title: 'For players', emails: [['help', 'What would you like help with?'], ['plan', 'Creating a training plan']], sub: { title: 'Finding Skill areas', emails: [['dribbling', 'Finding Dribbling'], ['turns', 'Finding Turns & Escapes'], ['finishing', 'Finding Finishing'], ['ballMastery', 'Finding Ball Mastery'], ['juggling', 'Finding Juggling'], ['mixed', 'Mixed Drills']] } },
+                      { key: 'players', title: 'For players', emails: [['help', 'What would you like help with?'], ['plan', 'Creating a training plan'], ['planMostly', 'Mostly understand training plans']], sub: { title: 'Finding Skill areas', emails: [['dribbling', 'Finding Dribbling'], ['turns', 'Finding Turns & Escapes'], ['finishing', 'Finding Finishing'], ['ballMastery', 'Finding Ball Mastery'], ['juggling', 'Finding Juggling'], ['mixed', 'Mixed Drills']] } },
                       { key: 'coaches', title: 'For coaches', emails: [['coachHelp', 'What would you like help with?'], ['coachCall', 'A quick moment to speak']] },
                     ];
                     const shownGroup = openGroup;
