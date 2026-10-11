@@ -34,6 +34,7 @@ type Row = {
   statusAt: string | null;
   firstEmailAt?: string | null;
   triedEmailAt?: string | null;
+  bookEmailAt?: string | null;
 };
 
 const CONFIG: Record<Mode, {
@@ -324,6 +325,20 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                         )}
                       </div>
                     ))}
+                    {/* The third goes by itself, 12 hours after the second. */}
+                    <div className="flex flex-wrap items-center gap-2 rounded-xl border border-gray-200 px-3 py-2">
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs font-bold text-navy">We did not connect</div>
+                        <div className="text-[11px] text-gray-500">
+                          {current.bookEmailAt
+                            ? 'Sent ' + stamp(current.bookEmailAt) + ' · ' + ago(current.bookEmailAt) + ' ago'
+                            : current.triedEmailAt
+                              ? 'Goes out by itself 12 hours after the "tried to call" email'
+                              : 'Goes out by itself 12 hours after you send "I tried to give you a call"'}
+                        </div>
+                      </div>
+                      <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Automatic</span>
+                    </div>
                   </div>
                 </div>
               )}
