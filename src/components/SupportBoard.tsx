@@ -232,7 +232,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
             <thead>
               <tr className="bg-gray-50 text-[10px] font-bold uppercase tracking-wide text-gray-500">
                 <th className="text-left px-3 py-2">Person</th>
-                <th className="text-left px-3 py-2 hidden sm:table-cell">{mode === 'suggestions' ? 'Looking for' : 'Check-in'}</th>
+                <th className="text-left px-3 py-2 hidden sm:table-cell">{mode === 'suggestions' ? 'Looking for / check-in' : 'Check-in'}</th>
                 <th className="text-left px-3 py-2">Status</th>
                 <th className="text-left px-3 py-2 hidden md:table-cell">Asked</th>
               </tr>
@@ -252,8 +252,8 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                     <div className="text-[11px] text-gray-500">{r.childEmail || ''}</div>
                   </td>
                   <td className="px-3 py-2.5 hidden sm:table-cell text-gray-600 text-xs">
-                    {mode === 'suggestions'
-                      ? (r.lookingFor || '—')
+                    {mode === 'suggestions' && r.lookingFor
+                      ? r.lookingFor
                       : answers(r).map(([k, v]) => `${k}: ${v}`).join(' · ')}
                   </td>
                   <td className="px-3 py-2.5">
