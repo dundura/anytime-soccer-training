@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import ColdWorkflow from './ColdWorkflow';
+import CustomerCallbacks from './CustomerCallbacks';
 import ConsoleLogins from './ConsoleLogins';
 import ConsoleNotes from './ConsoleNotes';
 import CrmAdmin from './CrmAdmin';
@@ -50,6 +51,12 @@ const GROUPS = [
       { key: 'demos', label: 'Coach Onboarding', icon: '🎬' },
       { key: 'crm', label: 'Coach CRM', icon: '📇' },
     ],
+  },
+  // People who asked for help. The monthly check-in asks "would you like to speak to a member of the team", and a Yes
+  // becomes a callback to make.
+  {
+    group: 'User support',
+    rows: [{ key: 'callbacks', label: 'CRM customer callbacks', icon: '📞' }],
   },
   // One page per way a cold contact comes in, each with only its own contacts,
   // workflow and sequence. One page for all four was too busy to work from.
@@ -273,6 +280,7 @@ export default function Console() {
             {view === 'triggered' && <TriggeredEmails token={token} />}
             {view === 'people' && <NewsletterPeople token={token} />}
             {view === 'crm' && <CrmAdmin token={token} />}
+            {view === 'callbacks' && <CustomerCallbacks token={token} />}
             {view === 'cold-fb' && <ColdWorkflow key="cold-fb" token={token} lockedSequence="cold-coach" title="Facebook group coaches" crmWorkflow={false} />}
             {view === 'cold-referral' && <ColdWorkflow key="cold-referral" token={token} lockedSequence="referral-coach" title="Referred by a player" crmWorkflow={false} />}
             {view === 'cold-league' && <ColdWorkflow key="cold-league" token={token} lockedSequence="cold-league" title="League officials" />}
