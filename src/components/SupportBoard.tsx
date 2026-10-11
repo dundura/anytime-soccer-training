@@ -118,10 +118,10 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
   // Deleting a row: the row asks, in place, before anything goes.
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
-  // Tips and suggestions: which group of replies is open. A coach's drawer opens on the coach group, anyone else's on the player group.
+  // Tips and suggestions: which group of replies is open. Both start shut: just the two headers until one is opened.
   const [openGroup, setOpenGroup] = useState<'players' | 'coaches' | null>(null);
-  // Callbacks: the emails sit under one header, For players or For coaches, whichever this person is.
-  const [callbackGroupOpen, setCallbackGroupOpen] = useState(true);
+  // Callbacks: the emails sit under one header, For players or For coaches, whichever this person is. Shut until opened.
+  const [callbackGroupOpen, setCallbackGroupOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [sentNote, setSentNote] = useState('');
 
@@ -354,7 +354,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                 <tr><td colSpan={5} className="px-3 py-8 text-center text-gray-400 text-xs">{filter === cfg.first || filter === '' ? cfg.empty : 'Nothing here.'}</td></tr>
               )}
               {shown.map((r) => (
-                <tr key={r.id} onClick={() => { setOpenId(r.id); setNote(r.note || ''); setPreview(null); setSentNote(''); setOpenGroup(null); }} className="cursor-pointer hover:bg-gray-50">
+                <tr key={r.id} onClick={() => { setOpenId(r.id); setNote(r.note || ''); setPreview(null); setSentNote(''); setOpenGroup(null); setCallbackGroupOpen(false); }} className="cursor-pointer hover:bg-gray-50">
                   <td className="px-3 py-2.5">
                     <div className="font-bold text-navy">
                       {nameOf(r)}
@@ -528,9 +528,9 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                   {(() => {
                     const groups: { key: 'players' | 'coaches'; title: string; emails: [string, string][] }[] = [
                       { key: 'players', title: 'For players', emails: [['help', 'What would you like help with?'], ['dribbling', 'Finding Dribbling'], ['turns', 'Finding Turns & Escapes'], ['plan', 'Creating a training plan'], ['mixed', 'Mixed Drills']] },
-                      { key: 'coaches', title: 'For coaches', emails: [['coachHelp', 'What would you like help with?'], ['coachPlan', 'Assigning a training plan'], ['coachFolders', 'Assigning training folders'], ['coachChallenges', 'Creating challenges and contests']] },
+                      { key: 'coaches', title: 'For coaches', emails: [['coachHelp', 'What would you like help with?']] },
                     ];
-                    const shownGroup = openGroup !== null ? openGroup : (current.isCoach ? 'coaches' : 'players');
+                    const shownGroup = openGroup;
                     return (
                       <div className="space-y-2">
                         {groups.map((g) => {
@@ -539,7 +539,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                             <div key={g.key} className="rounded-xl border border-gray-200 overflow-hidden">
                               <button
                                 type="button"
-                                onClick={() => setOpenGroup(isOpen ? (g.key === 'players' ? 'coaches' : 'players') : g.key)}
+                                onClick={() => setOpenGroup(isOpen ? null : g.key)}
                                 className="w-full flex items-center gap-2 px-3 py-2.5 text-left bg-gray-50 hover:bg-gray-100"
                                 aria-expanded={isOpen}
                               >
