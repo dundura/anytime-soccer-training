@@ -38,6 +38,8 @@ type Row = {
   bookEmailAt?: string | null;
   emailKind?: string | null;
   emailAt?: string | null;
+  tipsEmailAt?: string | null;
+  helpFollowUpAt?: string | null;
 };
 
 const CONFIG: Record<Mode, {
@@ -262,8 +264,15 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
         { label: 'I tried to give you a call', at: r.triedEmailAt },
         { label: 'We did not connect', at: r.bookEmailAt },
       ]
-      : [{
-        label: ({ dribbling: 'Finding Dribbling', turns: 'Finding Turns & Escapes', plan: 'Creating a training plan' } as Record<string, string>)[r.emailKind || ''] || '',
+      : [
+        { label: 'A few finishing tips', at: r.tipsEmailAt },
+        { label: 'If you need help', at: r.helpFollowUpAt },
+        {
+        label: ({
+          help: 'What would you like help with?', dribbling: 'Finding Dribbling', turns: 'Finding Turns & Escapes', finishing: 'Finding Finishing',
+          plan: 'Creating a training plan', mixed: 'Mixed Drills', coachHelp: 'What would you like help with?', coachCall: 'A quick moment to speak',
+          coachPlan: 'Assigning a training plan', coachFolders: 'Assigning training folders', coachChallenges: 'Creating challenges and contests',
+        } as Record<string, string>)[r.emailKind || ''] || r.emailKind || '',
         at: r.emailAt,
       }];
     let best: { label: string; at: string } | null = null;
