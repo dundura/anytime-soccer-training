@@ -118,6 +118,8 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
   // Deleting a row: the row asks, in place, before anything goes.
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
+  // Tips and suggestions: which group of replies is open. A coach's drawer opens on the coach group, anyone else's on the player group.
+  const [openGroup, setOpenGroup] = useState<'players' | 'coaches' | null>(null);
   const [sending, setSending] = useState(false);
   const [sentNote, setSentNote] = useState('');
 
@@ -350,7 +352,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                 <tr><td colSpan={5} className="px-3 py-8 text-center text-gray-400 text-xs">{filter === cfg.first || filter === '' ? cfg.empty : 'Nothing here.'}</td></tr>
               )}
               {shown.map((r) => (
-                <tr key={r.id} onClick={() => { setOpenId(r.id); setNote(r.note || ''); setPreview(null); setSentNote(''); }} className="cursor-pointer hover:bg-gray-50">
+                <tr key={r.id} onClick={() => { setOpenId(r.id); setNote(r.note || ''); setPreview(null); setSentNote(''); setOpenGroup(null); }} className="cursor-pointer hover:bg-gray-50">
                   <td className="px-3 py-2.5">
                     <div className="font-bold text-navy">
                       {nameOf(r)}
@@ -505,25 +507,51 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                 <div>
                   <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Reply by email</div>
                   {sentNote && <div className="mb-2 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">{sentNote}</div>}
-                  <div className="space-y-2">
-                    {([
-                      ['dribbling', 'Finding Dribbling'],
-                      ['turns', 'Finding Turns & Escapes'],
-                      ['plan', 'Creating a training plan'],
-                    ] as const).map(([kind, label]) => (
-                      <div key={kind} className="flex flex-wrap items-center gap-2 rounded-xl border border-gray-200 px-3 py-2">
-                        <div className="min-w-0 flex-1">
-                          <div className="text-xs font-bold text-navy">{label}</div>
-                          <div className="text-[11px] text-gray-500">
-                            {current.emailKind === kind && current.emailAt ? 'Sent ' + stamp(current.emailAt) + ' · ' + ago(current.emailAt) + ' ago' : 'Not sent'}
-                          </div>
-                        </div>
-                        <button onClick={() => openPreview(current, kind)} disabled={!!previewing || !current.childEmail} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">
-                            {previewing === kind ? 'Opening…' : current.emailKind === kind ? 'Send again' : 'Send'}
-                          </button>
+                  {(() => {
+                    const groups: { key: 'players' | 'coaches'; title: string; emails: [string, string][] }[] = [
+                      { key: 'players', title: 'For players', emails: [['help', 'What would you like help with?'], ['dribbling', 'Finding Dribbling'], ['turns', 'Finding Turns & Escapes'], ['plan', 'Creating a training plan']] },
+                      { key: 'coaches', title: 'For coaches', emails: [['coachHelp', 'What would you like help with?'], ['coachPlan', 'Assigning a training plan'], ['coachFolders', 'Assigning training folders'], ['coachChallenges', 'Creating challenges and contests']] },
+                    ];
+                    const shownGroup = openGroup !== null ? openGroup : (current.isCoach ? 'coaches' : 'players');
+                    return (
+                      <div className="space-y-2">
+                        {groups.map((g) => {
+                          const isOpen = shownGroup === g.key;
+                          return (
+                            <div key={g.key} className="rounded-xl border border-gray-200 overflow-hidden">
+                              <button
+                                type="button"
+                                onClick={() => setOpenGroup(isOpen ? (g.key === 'players' ? 'coaches' : 'players') : g.key)}
+                                className="w-full flex items-center gap-2 px-3 py-2.5 text-left bg-gray-50 hover:bg-gray-100"
+                                aria-expanded={isOpen}
+                              >
+                                <span className="text-[11px] text-gray-400">{isOpen ? '▾' : '▸'}</span>
+                                <span className="text-sm font-extrabold text-navy">{g.title}</span>
+                                <span className="text-[11px] font-bold text-gray-400">{g.emails.length}</span>
+                              </button>
+                              {isOpen && (
+                                <div className="space-y-2 p-2">
+                                  {g.emails.map(([kind, label]) => (
+                                    <div key={kind} className="flex flex-wrap items-center gap-2 rounded-xl border border-gray-200 px-3 py-2">
+                                      <div className="min-w-0 flex-1">
+                                        <div className="text-xs font-bold text-navy">{label}</div>
+                                        <div className="text-[11px] text-gray-500">
+                                          {current.emailKind === kind && current.emailAt ? 'Sent ' + stamp(current.emailAt) + ' · ' + ago(current.emailAt) + ' ago' : 'Not sent'}
+                                        </div>
+                                      </div>
+                                      <button onClick={() => openPreview(current, kind)} disabled={!!previewing || !current.childEmail} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">
+                                        {previewing === kind ? 'Opening…' : current.emailKind === kind ? 'Send again' : 'Send'}
+                                      </button>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
-                    ))}
-                  </div>
+                    );
+                  })()}
                 </div>
               )}
 
