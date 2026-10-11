@@ -114,6 +114,9 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
   const [adding, setAdding] = useState(false);
   const [newPerson, setNewPerson] = useState({ name: '', email: '', lookingFor: '' });
   const [addBusy, setAddBusy] = useState(false);
+  // Deleting a row: the row asks, in place, before anything goes.
+  const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState(false);
   const [sending, setSending] = useState(false);
   const [sentNote, setSentNote] = useState('');
 
@@ -228,6 +231,23 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
     }
   };
 
+  const removeRow = async (id: number) => {
+    setDeleting(true);
+    setError('');
+    try {
+      const res = await fetch(`${API}/${cfg.path}/${id}`, { method: 'DELETE', headers: headers() });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || 'Could not delete that.');
+      setRows((list) => list.filter((x) => x.id !== id));
+      setConfirmDelete(null);
+      if (openId === id) setOpenId(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not delete that.');
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   const nameOf = (r: Row) => r.screenname || r.firstname || 'Unknown';
   const counts: Record<string, number> = {};
   rows.forEach((r) => { counts[r.status] = (counts[r.status] || 0) + 1; });
@@ -299,12 +319,13 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                 <th className="text-left px-3 py-2 hidden sm:table-cell">{mode === 'suggestions' ? 'Looking for / check-in' : 'Check-in'}</th>
                 <th className="text-left px-3 py-2">Status</th>
                 <th className="text-left px-3 py-2 hidden md:table-cell">Asked</th>
+                <th className="px-3 py-2 w-10"><span className="sr-only">Delete</span></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {loading && <tr><td colSpan={4} className="px-3 py-6 text-center text-gray-400 text-xs">Loading…</td></tr>}
+              {loading && <tr><td colSpan={5} className="px-3 py-6 text-center text-gray-400 text-xs">Loading…</td></tr>}
               {!loading && shown.length === 0 && (
-                <tr><td colSpan={4} className="px-3 py-8 text-center text-gray-400 text-xs">{filter === cfg.first || filter === '' ? cfg.empty : 'Nothing here.'}</td></tr>
+                <tr><td colSpan={5} className="px-3 py-8 text-center text-gray-400 text-xs">{filter === cfg.first || filter === '' ? cfg.empty : 'Nothing here.'}</td></tr>
               )}
               {shown.map((r) => (
                 <tr key={r.id} onClick={() => { setOpenId(r.id); setNote(r.note || ''); setPreview(null); setSentNote(''); }} className="cursor-pointer hover:bg-gray-50">
@@ -325,6 +346,17 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                   </td>
                   <td className="px-3 py-2.5 hidden md:table-cell text-xs text-gray-600">
                     {stamp(r.createdAt)}<span className="text-[10px] text-gray-400"> · {ago(r.createdAt)}</span>
+                  </td>
+                  {/* Confirms in the row: the row IS the thing being deleted. stopPropagation, or the click opens the drawer. */}
+                  <td className="px-3 py-2.5 text-right whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                    {confirmDelete === r.id ? (
+                      <span className="inline-flex gap-1">
+                        <button onClick={() => removeRow(r.id)} disabled={deleting} className="px-2 py-1 rounded-lg bg-red text-white text-[10px] font-bold disabled:opacity-50">Delete</button>
+                        <button onClick={() => setConfirmDelete(null)} className="px-2 py-1 rounded-lg border border-gray-200 text-[10px] font-bold text-gray-500">Keep</button>
+                      </span>
+                    ) : (
+                      <button onClick={() => setConfirmDelete(r.id)} title="Delete this record" className="text-gray-300 hover:text-red text-base leading-none px-1">&times;</button>
+                    )}
                   </td>
                 </tr>
               ))}
