@@ -249,6 +249,27 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
     }
   };
 
+  // The last email that went to this person, and when. The name of the email is the half worth reading in the table.
+  const lastEmail = (r: Row): { label: string; at: string } | null => {
+    const sent: { label: string; at: string | null | undefined }[] = mode === 'callbacks'
+      ? [
+        { label: 'Thanks for taking our feedback survey', at: r.firstEmailAt },
+        { label: 'A quick reminder', at: r.reminderEmailAt },
+        { label: 'I tried to give you a call', at: r.triedEmailAt },
+        { label: 'We did not connect', at: r.bookEmailAt },
+      ]
+      : [{
+        label: ({ dribbling: 'Finding Dribbling', turns: 'Finding Turns & Escapes', plan: 'Creating a training plan' } as Record<string, string>)[r.emailKind || ''] || '',
+        at: r.emailAt,
+      }];
+    let best: { label: string; at: string } | null = null;
+    sent.forEach((e) => {
+      if (!e.at || !e.label) return;
+      if (!best || new Date(e.at).getTime() > new Date(best.at).getTime()) best = { label: e.label, at: e.at };
+    });
+    return best;
+  };
+
   const nameOf = (r: Row) => r.screenname || r.firstname || 'Unknown';
   const counts: Record<string, number> = {};
   rows.forEach((r) => { counts[r.status] = (counts[r.status] || 0) + 1; });
@@ -319,7 +340,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                 <th className="text-left px-3 py-2">Person</th>
                 <th className="text-left px-3 py-2 hidden sm:table-cell">{mode === 'suggestions' ? 'Looking for / check-in' : 'Check-in'}</th>
                 <th className="text-left px-3 py-2">Status</th>
-                <th className="text-left px-3 py-2 hidden md:table-cell">Asked</th>
+                <th className="text-left px-3 py-2 hidden md:table-cell">Last email</th>
                 <th className="px-3 py-2 w-10"><span className="sr-only">Delete</span></th>
               </tr>
             </thead>
@@ -346,7 +367,12 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                     <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold ${tintOf(r.status)}`}>{labelOf(r.status)}</span>
                   </td>
                   <td className="px-3 py-2.5 hidden md:table-cell text-xs text-gray-600">
-                    {stamp(r.createdAt)}<span className="text-[10px] text-gray-400"> · {ago(r.createdAt)}</span>
+                    {(() => {
+                      const le = lastEmail(r);
+                      return le
+                        ? <>{le.label}<span className="text-[10px] text-gray-400"> · {ago(le.at)}</span></>
+                        : <span className="text-gray-300">&mdash;</span>;
+                    })()}
                   </td>
                   {/* Confirms in the row: the row IS the thing being deleted. stopPropagation, or the click opens the drawer. */}
                   <td className="px-3 py-2.5 text-right whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
