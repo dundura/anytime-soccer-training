@@ -277,7 +277,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
         { label: 'Where to start with Juggling', at: r.jugFollowUpAt },
         {
         label: ({
-          help: 'What would you like help with?', who: 'Player or parent?', dribbling: 'Finding Dribbling', turns: 'Finding Turns & Escapes', finishing: 'Finding Finishing', ballMastery: 'Finding Ball Mastery', juggling: 'Finding Juggling', moves: 'Finding 1v1 Moves',
+          help: 'What would you like help with?', who: 'Player or parent?', dribbling: 'Finding Dribbling', turns: 'Finding Turns & Escapes', finishing: 'Finding Finishing', ballMastery: 'Finding Ball Mastery', juggling: 'Finding Juggling', moves: 'Finding 1v1 Moves', fitness: 'Finding Fitness & Agility',
           plan: 'Creating a training plan', planMostly: 'Mostly understand training plans', mixed: 'Mixed Drills', coachHelp: 'What would you like help with?', coachMostly: 'Some things you may not know', coachCall: 'A quick moment to speak',
           coachPlan: 'Assigning a training plan', coachFolders: 'Assigning training folders', coachChallenges: 'Creating challenges and contests',
         } as Record<string, string>)[r.emailKind || ''] || r.emailKind || '',
@@ -558,7 +558,7 @@ export default function SupportBoard({ token, mode }: { token: string | null; mo
                   {sentNote && <div className="mb-2 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">{sentNote}</div>}
                   {(() => {
                     const groups: { key: 'players' | 'coaches'; title: string; emails: [string, string][]; subs?: { title: string; emails: [string, string][] }[] }[] = [
-                      { key: 'players', title: 'For players', emails: [], subs: [{ title: 'Completely lost', emails: [['help', 'What would you like help with?'], ['who', 'Player or parent?']] }, { title: 'Finding training plans', emails: [['plan', 'Creating a training plan'], ['planMostly', 'Mostly understand training plans']] }, { title: 'Finding Skill areas', emails: [['dribbling', 'Finding Dribbling'], ['turns', 'Finding Turns & Escapes'], ['finishing', 'Finding Finishing'], ['ballMastery', 'Finding Ball Mastery'], ['juggling', 'Finding Juggling'], ['moves', 'Finding 1v1 Moves'], ['mixed', 'Mixed Drills']] }] },
+                      { key: 'players', title: 'For players', emails: [], subs: [{ title: 'Completely lost', emails: [['help', 'What would you like help with?'], ['who', 'Player or parent?']] }, { title: 'Finding training plans', emails: [['plan', 'Creating a training plan'], ['planMostly', 'Mostly understand training plans']] }, { title: 'Finding Skill areas', emails: [['dribbling', 'Finding Dribbling'], ['turns', 'Finding Turns & Escapes'], ['finishing', 'Finding Finishing'], ['ballMastery', 'Finding Ball Mastery'], ['juggling', 'Finding Juggling'], ['moves', 'Finding 1v1 Moves'], ['fitness', 'Finding Fitness & Agility'], ['mixed', 'Mixed Drills']] }] },
                       { key: 'coaches', title: 'For coaches', emails: [['coachHelp', 'What would you like help with?'], ['coachMostly', 'Some things you may not know'], ['coachCall', 'A quick moment to speak']] },
                     ];
                     const shownGroup = openGroup;
