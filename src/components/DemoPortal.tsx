@@ -725,6 +725,13 @@ export default function DemoPortal({ token }: { token: string | null }) {
     // The special offers sit at the very bottom, under the onboarding emails too.
                     const so = groups.findIndex((x) => x.name === 'Special offer');
                     if (so > -1) groups.push(groups.splice(so, 1)[0]);
+                    // Renewal sits just above the special offers.
+                    const rn = groups.findIndex((x) => x.name === 'Renewal');
+                    if (rn > -1) {
+                      const renewal = groups.splice(rn, 1)[0];
+                      const so2 = groups.findIndex((x) => x.name === 'Special offer');
+                      groups.splice(so2 > -1 ? so2 : groups.length, 0, renewal);
+                    }
                     // Numbered within each section, starting again at 1 for every section.
                     groups.forEach((g) => g.items.forEach((it, idx) => { it.step = idx + 1; }));
                     // Confirming with others has its own sections; every other section belongs to Moving Forward.
