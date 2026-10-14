@@ -5,12 +5,12 @@ import { useCallback, useEffect, useState } from 'react';
 /**
  * International requests: the same board as the demo requests (stage pills, a list, a drawer with a
  * timeline) with its own stages and its own email sequence. Somebody abroad asked to post a trip;
- * they move New request -> Contacted -> Post live, or Not now.
+ * they move New request -> Contacted -> Invoice sent -> Post live, or Not now.
  */
 
 const API = 'https://api.anytime-soccer.com';
 
-type Stage = 'New request' | 'Contacted' | 'Post live' | 'Not now';
+type Stage = 'New request' | 'Contacted' | 'Invoice sent' | 'Post live' | 'Not now';
 
 type Lead = {
   id: number;
@@ -35,6 +35,7 @@ type SeqEmail = { id: number; emailKey: string; sequence: string; position: numb
 const STAGE_TINT: Record<string, string> = {
   'New request': 'bg-amber-500 text-white',
   Contacted: 'bg-blue-600 text-white',
+  'Invoice sent': 'bg-violet-600 text-white',
   'Post live': 'bg-emerald-600 text-white',
   'Not now': 'bg-gray-400 text-white',
 };
