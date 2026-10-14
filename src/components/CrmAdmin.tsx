@@ -404,6 +404,17 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
     }
   };
 
+  // Setting a lead's status to First Call (or back to No Call Yet) also moves it to the stage pill of that name, so it
+  // leaves the old list and shows up in the new one at once instead of sitting in No Call Yet.
+  const setStatusAndStage = async (id: number, status: string) => {
+    await saveCrmField(id, 'status', status);
+    const want = status === 'first_call' ? 'first call' : status === 'no_call_yet' ? 'no call yet' : null;
+    if (!want) return;
+    const stage = crmStages.find(s => s.name.trim().toLowerCase().startsWith(want));
+    const row = crmCoaches.find(c => c.id === id);
+    if (stage && (!row || row.stageId !== stage.id)) await saveCrmField(id, 'stageId', stage.id);
+  };
+
   const addCrmStage = async () => {
     const name = crmNewStage.trim();
     if (!name || !token || crmAddingStage) return;
@@ -849,7 +860,7 @@ export default function CrmAdmin({ token, stageName }: { token: string | null; s
               {(crmStatuses.length ? crmStatuses : ['no_call_yet', 'first_call']).map(st => (
                 <button
                   key={st}
-                  onClick={() => saveCrmField(openLead.id, 'status', st)}
+                  onClick={() => setStatusAndStage(openLead.id, st)}
                   disabled={crmSaving === openLead.id}
                   className={`px-2.5 py-1 rounded-full text-[11px] font-bold border disabled:opacity-50 ${
                     openLead.status === st ? CRM_STATUS_CLASS[st] || 'bg-navy text-white border-navy' : 'bg-gray-100 text-gray-600 border-gray-200'
