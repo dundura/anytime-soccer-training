@@ -397,7 +397,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
         </button>
         {/* Onboarding's pill sits after Invoice paid (Neil, 2026-10-14). Only the pill row is reordered, so the stages themselves still move forward in the same order. */}
         {(() => {
-          const rest = stages.filter((st) => st !== 'Lead' && st !== 'Onboarding');
+          const rest: Stage[] = stages.filter((st) => st !== 'Lead' && st !== 'Onboarding');
           if (stages.includes('Onboarding')) {
             const at = rest.indexOf('Invoice paid');
             if (at >= 0) rest.splice(at + 1, 0, 'Onboarding'); else rest.push('Onboarding');
