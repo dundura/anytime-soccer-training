@@ -740,6 +740,9 @@ export default function DemoPortal({ token }: { token: string | null }) {
                       const so2 = groups.findIndex((x) => x.name === 'Special offer');
                       groups.splice(so2 > -1 ? so2 : groups.length, 0, renewal);
                     }
+                    // FAQ closes the list, below the special offers.
+                    const faqAt = groups.findIndex((x) => x.name === 'FAQ');
+                    if (faqAt > -1) groups.push(groups.splice(faqAt, 1)[0]);
                     // Numbered within each section, starting again at 1 for every section.
                     groups.forEach((g) => g.items.forEach((it, idx) => { it.step = idx + 1; }));
                     // Confirming with others has its own sections; every other section belongs to Moving Forward.
