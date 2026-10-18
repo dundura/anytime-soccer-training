@@ -9,11 +9,6 @@ const howItWorksDropdown = [
   { href: '/faq', label: 'FAQ' },
 ];
 
-const trainingDropdown = [
-  { href: 'https://www.anytimecamps.com/', label: '⛺ Summer Camp', external: true },
-  { href: 'https://grupup.app/for-parents', label: '⚽ Group Sessions', external: true },
-];
-
 const resourcesDropdown: { href: string; label: string; external?: boolean }[] = [
   { href: '/free-resource-hub', label: 'Free Resources' },
   { href: '/blog', label: 'Blog' },
@@ -21,21 +16,17 @@ const resourcesDropdown: { href: string; label: string; external?: boolean }[] =
   { href: '/follow-us', label: 'Follow Us' },
   { href: '/our-picks', label: 'Our Picks' },
   { href: '/merch', label: 'Merch' },
-  { href: 'https://app.anytime-soccer.com/leaderboard', label: 'Leaderboard' },
 ];
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
-  const [trainingOpen, setTrainingOpen] = useState(false);
   const [mobileHowOpen, setMobileHowOpen] = useState(false);
   const [mobileResOpen, setMobileResOpen] = useState(false);
-  const [mobileTrainingOpen, setMobileTrainingOpen] = useState(false);
   const [installOpen, setInstallOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const resourcesRef = useRef<HTMLDivElement>(null);
-  const trainingRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -44,9 +35,6 @@ export default function Header() {
       }
       if (resourcesRef.current && !resourcesRef.current.contains(e.target as Node)) {
         setResourcesOpen(false);
-      }
-      if (trainingRef.current && !trainingRef.current.contains(e.target as Node)) {
-        setTrainingOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -86,35 +74,6 @@ export default function Header() {
                     >
                       {item.label}
                     </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Training dropdown (Summer Camp + Group Sessions) */}
-            <div className="relative" ref={trainingRef}>
-              <button
-                onClick={() => setTrainingOpen(!trainingOpen)}
-                className="text-white/90 hover:text-white text-sm font-medium transition-colors flex items-center gap-1"
-              >
-                In-Person
-                <svg className={`w-3.5 h-3.5 transition-transform ${trainingOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {trainingOpen && (
-                <div className="absolute top-full left-0 mt-2 w-52 bg-white rounded-lg shadow-xl py-2 z-50">
-                  {trainingDropdown.map((item) => (
-                    <a
-                      key={item.href}
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block px-4 py-2.5 text-sm text-navy hover:bg-background hover:text-red transition-colors font-medium"
-                      onClick={() => setTrainingOpen(false)}
-                    >
-                      {item.label}
-                    </a>
                   ))}
                 </div>
               )}
@@ -252,28 +211,6 @@ export default function Header() {
                 >
                   {link.label}
                 </Link>
-              ))}
-              <div className="border-t border-white/10 my-1" />
-              <button
-                onClick={() => setMobileTrainingOpen(!mobileTrainingOpen)}
-                className="px-3 py-1 text-xs text-white/50 uppercase tracking-wider flex items-center justify-between"
-              >
-                In-Person
-                <svg className={`w-3.5 h-3.5 transition-transform ${mobileTrainingOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {mobileTrainingOpen && trainingDropdown.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white/90 hover:text-white px-6 py-2 text-sm font-medium"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {item.label}
-                </a>
               ))}
               <div className="border-t border-white/10 my-1" />
               <button
