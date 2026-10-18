@@ -747,11 +747,14 @@ export default function DemoPortal({ token }: { token: string | null }) {
                     const shownGroups = seqTab === 'others'
                       ? OTHERS.map((name) => groups.find((x) => x.name === name) || { name, items: [] })
                       : groups.filter((x) => !OTHERS.includes(x.name));
-                    return shownGroups.map((g) => {
-                      const doneCount = g.items.filter((it) => alreadySent(it.label)).length;
+                    const chaseGroup = groups.find((x) => x.name === 'Chasing a quiet lead');
+                    // eslint-disable-next-line prefer-const
+                    let renderGroup: (g: any, nested?: boolean) => any;
+                    renderGroup = (g: any, nested = false) => {
+                      const doneCount = g.items.filter((it: any) => alreadySent(it.label)).length;
                       const open = !!openGroups[g.name];
                       return (
-                        <div key={g.name} className="border-b border-gray-100 last:border-0">
+                        <div key={g.name} className={nested ? 'ml-3 border-l-2 border-gray-100 pl-2' : 'border-b border-gray-100 last:border-0'}>
                           <button
                             onClick={() => toggleGroup(g.name)}
                             className="w-full flex items-center gap-2 py-2 text-left"
@@ -762,8 +765,8 @@ export default function DemoPortal({ token }: { token: string | null }) {
                           </button>
                           {open && (
                             <div className="pb-2 space-y-1">
-                              {g.items.length === 0 && <p className="pl-5 text-xs text-gray-400">No emails here yet.</p>}
-                              {g.items.map((it) => {
+                              {g.items.length === 0 && !(g.name === 'Before anything' && chaseGroup) && <p className="pl-5 text-xs text-gray-400">No emails here yet.</p>}
+                              {g.items.map((it: any) => {
                                 const done = alreadySent(it.label);
                                 return (
                                   <div key={it.key} className="flex items-center gap-2">
@@ -784,11 +787,13 @@ export default function DemoPortal({ token }: { token: string | null }) {
                                   </div>
                                 );
                               })}
+                              {g.name === 'Before anything' && !nested && seqTab !== 'others' && chaseGroup && renderGroup(chaseGroup, true)}
                             </div>
                           )}
                         </div>
                       );
-                    });
+                    };
+                    return shownGroups.filter((g) => !(g.name === 'Chasing a quiet lead' && seqTab !== 'others' && groups.some((x) => x.name === 'Before anything'))).map((g) => renderGroup(g));
                   })()}
                 </div>
                 </>)}
