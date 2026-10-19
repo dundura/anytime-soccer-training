@@ -142,12 +142,9 @@ export default function GettingStartedPage() {
           <div className="bg-navy rounded-3xl px-6 py-10 md:px-10 md:py-12 relative overflow-hidden text-center">
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
             <div className="relative z-10">
-              <h1 className="text-[clamp(28px,5vw,44px)] font-extrabold leading-[1.1] text-white mb-4">
+              <h1 className="text-[clamp(28px,5vw,44px)] font-extrabold leading-[1.1] text-white mb-0">
                 Getting Started
               </h1>
-              <p className="text-lg text-white/80 max-w-2xl mx-auto">
-                Three steps, about five minutes. Account, profile, team.
-              </p>
             </div>
           </div>
         </div>
