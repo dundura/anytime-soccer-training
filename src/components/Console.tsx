@@ -52,6 +52,10 @@ const GROUPS = [
       { key: 'crm', label: 'Coach CRM', icon: '📇' },
     ],
   },
+  {
+    group: 'Getting them started',
+    rows: [{ key: 'parent-onboarding', label: 'Parent onboarding', icon: '👪' }],
+  },
   // People who asked for help. The monthly check-in asks "would you like to speak to a member of the team", and a Yes
   // becomes a callback to make.
   {
@@ -82,10 +86,6 @@ const GROUPS = [
       { key: 'partners', label: 'Partners', icon: '🤝' },
       { key: 'ad-signups', label: 'Ad signups', icon: '📈' },
     ],
-  },
-  {
-    group: 'Getting them started',
-    rows: [{ key: 'parent-onboarding', label: 'Parent onboarding', icon: '👪' }],
   },
   {
     group: 'What we send',
