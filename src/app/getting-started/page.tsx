@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Getting Started with Anytime Soccer Training',
-  description: 'Create your account, add a player profile, and join your team — the whole setup on one page.',
+  description: 'Create your account, add your player as you sign up, and join your team — the whole setup on one page.',
   openGraph: {
     title: 'Getting Started with Anytime Soccer Training',
-    description: 'Create your free account, add your player, join your team, and start training today.',
+    description: 'Create your free account with your player, join your team, and start training today.',
     images: [{ url: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1774959685241-1scke0.png', width: 1200, height: 630 }],
   },
 };
@@ -13,8 +13,10 @@ export const metadata: Metadata = {
 /**
  * The whole setup, on one page.
  *
- * This replaces three separate guides — create an account, add a player
- * profile, join a team — that were each a page of their own. They are one
+
+ * Adding a player profile is now part of creating an account, so this is two
+ * steps: account (with the player) and team. It replaces separate guides that
+ * were each a page of their own. They are one
  * sitting for a parent, and splitting them meant somebody could finish the
  * first, close the tab, and never learn the other two existed.
  */
@@ -59,6 +61,11 @@ const SECTIONS: { id: string; heading: string; accent: 'red' | 'navy'; steps: St
         ),
       },
       {
+        title: 'Add your player',
+        content: <>Signing up asks who is playing: their name, age, and the rest. Up to four players on one account, all on the same email.</>,
+        tip: 'Add only your own children — coaches included. You can add another player later with Add Profile on your dashboard.',
+      },
+      {
         title: 'Verify your email',
         content: (
           <>
@@ -66,40 +73,6 @@ const SECTIONS: { id: string; heading: string; accent: 'red' | 'navy'; steps: St
           </>
         ),
         tip: 'Not there? Check spam or promotions.',
-      },
-    ],
-  },
-  {
-    id: 'add-player',
-    heading: 'Add your player',
-    accent: 'navy',
-    steps: [
-      {
-        title: 'Click Add Profile',
-        content: (
-          <ul className="list-disc pl-4 space-y-1">
-            <li>
-              Log in, then click <span className="text-red font-semibold">Add Profile</span> on your dashboard.
-            </li>
-            <li>
-              See the full{' '}
-              <a
-                href="https://www.anytime-soccer.com/adding-an-anytime-soccer-training-player-profile"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-red font-semibold underline"
-              >
-                step-by-step guide
-              </a>
-              .
-            </li>
-          </ul>
-        ),
-      },
-      {
-        title: 'Fill in their details',
-        content: <>Name, age, and the rest. Up to four players on one account, all on the same email.</>,
-        tip: 'Add only your own children — coaches included.',
       },
     ],
   },
@@ -160,7 +133,7 @@ export default function GettingStartedPage() {
                 Getting Started
               </h1>
               <p className="text-lg text-white/80 max-w-2xl mx-auto">
-                Three steps, about five minutes. Account, player, team.
+                Two steps, about five minutes. Account, team.
               </p>
             </div>
           </div>
