@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Getting Started with Anytime Soccer Training',
-  description: 'Create your account, add a profile, and join your team — the whole setup on one page.',
+  description: 'Create your account and join your team — the whole setup on one page.',
   openGraph: {
     title: 'Getting Started with Anytime Soccer Training',
     description: 'Create your free account with your player, join your team, and start training today.',
@@ -14,8 +14,8 @@ export const metadata: Metadata = {
  * The whole setup, on one page.
  *
 
- * Account, profile, team. It replaces separate guides that were each a page of
- * their own. They are one
+ * Account, team. Adding a profile is part of creating the account. It replaces
+ * separate guides that were each a page of their own. They are one
  * sitting for a parent, and splitting them meant somebody could finish the
  * first, close the tab, and never learn the other two existed.
  */
@@ -67,25 +67,6 @@ const SECTIONS: { id: string; heading: string; accent: 'red' | 'navy'; steps: St
           </>
         ),
         tip: 'Not there? Check spam or promotions.',
-      },
-    ],
-  },
-  {
-    id: 'add-profile',
-    heading: 'Add profile',
-    accent: 'navy',
-    steps: [
-      {
-        title: 'Add your player',
-        content: (
-          <ul className="list-disc pl-4 space-y-1">
-            <li>Signing up asks who is playing: their name, age, and the rest.</li>
-            <li>
-              Need another player later? Log in, then click <span className="text-red font-semibold">Add Profile</span> on your dashboard. Up to four players on one account, all on the same email.
-            </li>
-          </ul>
-        ),
-        tip: 'Add only your own children — coaches included.',
       },
     ],
   },
