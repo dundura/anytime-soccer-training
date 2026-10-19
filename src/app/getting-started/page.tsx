@@ -45,6 +45,7 @@ const SECTIONS: { id: string; heading: string; accent: 'red' | 'navy'; steps: St
               </a>{' '}
               and click <span className="text-red font-semibold">Join for Free</span>.
             </li>
+            <li>Sign-up includes adding your player: their name, age, and the rest. Up to four players on one account, all on the same email. Add only your own children — coaches included.</li>
             <li>
               See the full{' '}
               <a
@@ -59,11 +60,6 @@ const SECTIONS: { id: string; heading: string; accent: 'red' | 'navy'; steps: St
             </li>
           </ul>
         ),
-      },
-      {
-        title: 'Add your player',
-        content: <>Signing up asks who is playing: their name, age, and the rest. Up to four players on one account, all on the same email.</>,
-        tip: 'Add only your own children — coaches included. You can add another player later with Add Profile on your dashboard.',
       },
       {
         title: 'Verify your email',
