@@ -58,7 +58,7 @@ export default function HowItWorksPage() {
                   <span className="text-white">Two Hours a Week Won&apos;t Get Them There.</span>
                 </h1>
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
-                  The players pulling ahead train every day — not just at practice. AST gives your player a structured home system that builds real skill daily. No soccer background required.
+                  The players pulling ahead train every day, not just at practice. AST gives your player a simple home system that builds real skill. No soccer background needed.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
@@ -102,18 +102,17 @@ export default function HowItWorksPage() {
               {/* LEFT: 3 STEPS */}
               <div>
                 {[
-                  { step: '1', title: 'Set Your Goal', desc: 'Choose what you want to improve—ball mastery, juggling, dribbling, or all of it.' },
-                  { step: '2', title: 'Pin Your Plan', desc: 'Add training sessions to your calendar. The system tells you exactly what to do each day.' },
-                  { step: '3', title: 'Press Play', desc: 'Every video includes demonstrations, instructions, music, and timers. Just follow along.' },
+                  { step: '1', title: 'Set Your Goal' },
+                  { step: '2', title: 'Pin Your Plan' },
+                  { step: '3', title: 'Press Play' },
                 ].map((item) => (
                   <div key={item.step} className="mb-6">
-                    <h3 className="text-xl font-bold text-navy flex items-center gap-3 mb-2">
+                    <h3 className="text-xl font-bold text-navy flex items-center gap-3">
                       <span className="inline-flex w-9 h-9 min-w-[36px] bg-red rounded-full items-center justify-center text-lg font-extrabold text-white flex-shrink-0">
                         {item.step}
                       </span>
                       {item.title}
                     </h3>
-                    <p className="text-[15px] text-navy ml-12">{item.desc}</p>
                   </div>
                 ))}
 
