@@ -180,46 +180,6 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* FEATURED TRAINING */}
-      <section className="pt-4 pb-16 md:pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="text-[13px] font-bold uppercase tracking-[2px] text-red mb-4 block">Featured Training</span>
-            <h2 className="text-[clamp(28px,4vw,42px)] font-bold text-navy">Training Session of the Month</h2>
-          </div>
-
-          <div className="max-w-[800px] mx-auto">
-            <div className="rounded-[20px] overflow-hidden shadow-[0_25px_80px_rgba(15,49,84,0.15)] mb-6">
-              <iframe
-                src="https://www.youtube.com/embed/zULXabRsxco"
-                className="w-full aspect-video block border-none"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                title="Training Session of the Month"
-              />
-            </div>
-
-            <div className="bg-white rounded-2xl p-6 md:p-8 shadow-[0_4px_20px_rgba(15,49,84,0.08)]">
-              <h3 className="text-[clamp(20px,3vw,28px)] font-bold text-navy mb-4">What&apos;s Included:</h3>
-              <ul className="space-y-3 list-none p-0 mb-6">
-                {['100% Follow-along', 'Slow motion demo for every move', 'Autocompletion tracking', 'Every skill area'].map((item) => (
-                  <li key={item} className="pl-8 relative text-[15px] text-navy">
-                    <span className="absolute left-0 w-5 h-5 bg-emerald-500/15 text-emerald-500 rounded-full flex items-center justify-center text-xs font-bold">✓</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href="/pricing"
-                className="block w-full text-center font-bold text-base px-8 py-4 rounded-full bg-red text-white! no-underline shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:bg-red-dark hover:-translate-y-0.5 transition-all mt-6"
-              >
-                Start Training Today →
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
     </>
   );
 }
