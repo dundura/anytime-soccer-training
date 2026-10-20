@@ -2,7 +2,6 @@ import Link from 'next/link';
 import HeroVideo from '@/components/HeroVideo';
 import HeroHeadline from '@/components/HeroHeadline';
 import TabbedVideoSection from '@/components/TabbedVideoSection';
-import CoachTabbedSection from '@/components/CoachTabbedSection';
 import PopupManager from '@/components/PopupManager';
 import CoachBar from '@/components/CoachBar';
 import HomeBlogSection from '@/components/HomeBlogSection';
@@ -64,7 +63,6 @@ export default function HomePage() {
       <TabbedVideoSection />
 
       {/* ===== COACHES TABBED SECTION ===== */}
-      <CoachTabbedSection />
 
       {/* ===== REVIEWS ===== */}
       <section className="pt-0 pb-20 bg-background">
