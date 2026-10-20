@@ -58,7 +58,7 @@ export default function HowItWorksPage() {
                   <span className="text-white">Two Hours a Week Won&apos;t Get Them There.</span>
                 </h1>
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
-                  The players pulling ahead train every day, not just at practice. AST gives your player a simple home system that builds real skill. No soccer background needed.
+                  AST gives your player a simple home system that builds real skill. No soccer background needed.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link href="/pricing" className="bg-red hover:bg-red-dark text-white px-8 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:shadow-[0_6px_25px_rgba(220,55,62,0.45)] inline-flex items-center justify-center gap-2 w-full sm:w-auto text-center">
