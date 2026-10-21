@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 
 /**
  * International requests: the same board as the demo requests (stage pills, a list, a drawer with a
@@ -90,7 +90,7 @@ Megan`,
 
 // The preview shows [word](https://link) as the word, a real link, the way the email will read.
 const renderBody = (text: string) => {
-  const out: (string | JSX.Element)[] = [];
+  const out: ReactNode[] = [];
   const re = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
   let last = 0;
   let m: RegExpExecArray | null;
