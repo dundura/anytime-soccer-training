@@ -98,21 +98,24 @@ Thank you for deciding to post again.
 
 Renewal posts are only $25, and we will tag everyone in the group.
 
-Reply back and we will send you an invoice. If you would like, we can charge the card on file instead.
+Reply back and we will send you an invoice.
+
+**If you would like, we can charge the card on file instead.**
 
 Megan`,
   },
 ];
 
-// The preview shows [word](https://link) as the word, a real link, the way the email will read.
+// The preview shows [word](https://link) as the word, a real link, and **words** in bold, the way the email will read.
 const renderBody = (text: string) => {
   const out: ReactNode[] = [];
-  const re = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+  const re = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|\*\*([^*]+)\*\*/g;
   let last = 0;
   let m: RegExpExecArray | null;
   while ((m = re.exec(text)) !== null) {
     if (m.index > last) out.push(text.slice(last, m.index));
-    out.push(<a key={m.index} href={m[2]} target="_blank" rel="noreferrer" className="text-red font-bold underline">{m[1]}</a>);
+    if (m[3] !== undefined) out.push(<strong key={m.index}>{m[3]}</strong>);
+    else out.push(<a key={m.index} href={m[2]} target="_blank" rel="noreferrer" className="text-red font-bold underline">{m[1]}</a>);
     last = m.index + m[0].length;
   }
   if (last < text.length) out.push(text.slice(last));
