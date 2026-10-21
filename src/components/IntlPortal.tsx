@@ -88,6 +88,21 @@ Megan`,
   },
 ];
 
+// The preview shows [word](https://link) as the word, a real link, the way the email will read.
+const renderBody = (text: string) => {
+  const out: (string | JSX.Element)[] = [];
+  const re = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) out.push(text.slice(last, m.index));
+    out.push(<a key={m.index} href={m[2]} target="_blank" rel="noreferrer" className="text-red font-bold underline">{m[1]}</a>);
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) out.push(text.slice(last));
+  return out;
+};
+
 const ACTIVITY_ICON: Record<string, string> = {
   email_sent: '✉️',
   call: '📞',
@@ -572,7 +587,7 @@ export default function IntlPortal({ token }: { token: string | null }) {
               <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">To {current.email || ''}</div>
               <div className="mt-1 text-sm font-semibold text-navy">{manualPreview.subject}</div>
             </div>
-            <div className="px-6 py-5 text-sm text-navy whitespace-pre-wrap break-words">{manualPreview.body}</div>
+            <div className="px-6 py-5 text-sm text-navy whitespace-pre-wrap break-words">{renderBody(manualPreview.body)}</div>
             <div className="px-5 py-4 border-t border-gray-100 flex justify-end gap-2">
               <button onClick={() => setManualPreview(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">Cancel</button>
               <button onClick={() => sendManual(current)} disabled={busy === 'manual' || !current.email} className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50">
