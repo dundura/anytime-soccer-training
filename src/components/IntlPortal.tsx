@@ -141,7 +141,7 @@ export default function IntlPortal({ token }: { token: string | null }) {
   const [stageFilter, setStageFilter] = useState<Stage>('New request');
   const [search, setSearch] = useState('');
   const [openId, setOpenId] = useState<number | null>(null);
-  const [detail, setDetail] = useState<{ lead: Lead; activities: Activity[] } | null>(null);
+  const [detail, setDetail] = useState<{ lead: Lead; activities: Activity[]; autoSent?: { subject: string | null }[] } | null>(null);
   const [busy, setBusy] = useState('');
   const [noteDraft, setNoteDraft] = useState('');
   const [callDraft, setCallDraft] = useState('');
@@ -295,7 +295,9 @@ export default function IntlPortal({ token }: { token: string | null }) {
   const sentSubjects = new Set(
     (detail?.activities || []).filter((a) => a.type === 'email_sent').map((a) => String(a.summary || '').split(' → ')[0].toLowerCase())
   );
-  const alreadySent = (subject: string) => sentSubjects.has(subject.toLowerCase());
+  // ... and what the sequence sent by itself (the second email follows the first on a timer).
+  const autoSubjects = new Set((detail?.autoSent || []).map((a) => String(a.subject || '').toLowerCase()));
+  const alreadySent = (subject: string) => sentSubjects.has(subject.toLowerCase()) || autoSubjects.has(subject.toLowerCase());
 
   return (
     <div className="mb-6">
