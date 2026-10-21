@@ -22,13 +22,6 @@ const TRAINING_PLANS = [
     cta: 'Get Free Plan',
   },
   {
-    title: '30-Day Training Plan',
-    description: 'A personalized training schedule based on your player\'s skill level. Step-by-step videos delivered daily.',
-    image: 'https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1779488251663-ogh4p5.png',
-    href: '/free-30-day-training-plan',
-    cta: 'Get Free Plan',
-  },
-  {
     title: '100+ YouTube Video Library',
     description: 'Curated YouTube drills organized by age group (U6–Advanced). Just click and train!',
     gradient: true,
@@ -216,23 +209,8 @@ export default function FreeResourceHubPage() {
             </Link>
           </div>
 
-          {/* Remaining plans — 3-column grid with plan builder first */}
+          {/* Remaining plans — 3-column grid */}
           <div className="grid md:grid-cols-3 gap-6">
-            {/* Free Training Plan Builder */}
-            <Link
-              href="/free-training-plan"
-              className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all flex flex-col text-center"
-            >
-              <div className="w-full aspect-[16/10] rounded-xl overflow-hidden mb-5 bg-background">
-                <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1778974402995-sa4a36.png" alt="Free Plan Builder" className="w-full h-full object-cover" />
-              </div>
-              <h3 className="text-xl font-bold text-navy mb-3">Free Training Plan</h3>
-              <p className="text-gray text-[15px] mb-5 flex-1">Pick your skill areas, set your schedule, and get a custom PDF plan emailed to you in 60 seconds.</p>
-              <span className="bg-red hover:bg-red-dark text-white font-bold py-4 px-8 rounded-full text-base shadow-[0_4px_20px_rgba(220,55,62,0.35)] transition-all w-full text-center">
-                Build Free Plan &rarr;
-              </span>
-            </Link>
-
             {TRAINING_PLANS.slice(1).map((plan) => (
               <Link
                 key={plan.title}
