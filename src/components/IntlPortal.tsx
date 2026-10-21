@@ -80,7 +80,7 @@ Megan`,
 
 I will close this out for now so that we do not keep emailing you. No problem at all.
 
-If you would like to post a trip in the group later, just reply to this email and we will pick it up from there.
+If you would like to post a trip in the group later, just reply to this email and we will pick it up from there. See the flyer for the price of a new post. All posts after that are $25.
 
 Thank you for your interest, and best of luck with your trip.
 
