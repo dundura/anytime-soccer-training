@@ -88,6 +88,20 @@ Thank you for your interest, and best of luck with your trip.
 
 Megan`,
   },
+  {
+    key: 'renewal-post',
+    label: 'Thanks for posting again',
+    subject: 'Thanks for deciding to post again',
+    body: (n) => `Hi ${first(n)},
+
+Thank you for deciding to post again.
+
+Renewal posts are only $25, and we will tag everyone in the group.
+
+Reply back and we will send you an invoice. If you would like, we can charge the card on file instead.
+
+Megan`,
+  },
 ];
 
 // The preview shows [word](https://link) as the word, a real link, the way the email will read.
