@@ -12,7 +12,9 @@ const howItWorksDropdown = [
 const resourcesDropdown: { href: string; label: string; external?: boolean }[] = [
   { href: '/free-resource-hub', label: 'Free Resources' },
   { href: '/blog', label: 'Blog' },
-  { href: '/podcast', label: 'Podcast' },
+  { href: 'https://www.soccer-near-me.com/podcasts/the-inside-scoop-podcast', label: 'Podcast', external: true },
+  { href: '/our-picks', label: 'Our Picks' },
+  { href: '/merch', label: 'Merch' },
 ];
 
 export default function Header() {

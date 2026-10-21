@@ -201,7 +201,7 @@ export default function FreeResourceHubPage() {
               </div>
               <div className="p-8 flex flex-col flex-1 justify-center">
                 <h3 className="text-2xl font-bold text-navy mb-3">How Does Your Child Compare to the World&rsquo;s Elite?</h3>
-                <p className="text-gray text-base mb-6 flex-1">Take our free 2-minute survey and get a personalized PDF showing how your child&rsquo;s training compares to top academy players their age.</p>
+                <p className="text-gray text-base mb-6 flex-1">Take the free 2-minute survey and get a personal PDF comparing your child to top academy players.</p>
                 <span className="bg-red hover:bg-red-dark text-white font-bold py-4 px-8 rounded-full text-base shadow-[0_4px_20px_rgba(220,55,62,0.35)] transition-all self-start">
                   Take the Survey &rarr;
                 </span>
@@ -238,6 +238,21 @@ export default function FreeResourceHubPage() {
                 </span>
               </Link>
             ))}
+            {/* The newest offering, to the right of the video library while it is new. */}
+            <Link
+              href="/soccer-development-scorecard"
+              className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all flex flex-col"
+            >
+              <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden mb-5 bg-background">
+                <img src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1789415806547-qjc8h3.png" alt="Soccer Development Scorecard" className="w-full h-full object-cover" />
+                <span className="absolute top-3 left-3 bg-red text-white text-[11px] font-bold uppercase tracking-[2px] rounded-full px-3 py-1">New</span>
+              </div>
+              <h3 className="text-xl font-bold text-navy mb-3">Soccer Development Scorecard</h3>
+              <p className="text-gray text-[15px] mb-5 flex-1">Is your child really developing? A free scorecard that shows parents what to watch and count in games, and how to see real progress over time.</p>
+              <span className="bg-red hover:bg-red-dark text-white font-bold py-4 px-8 rounded-full text-base shadow-[0_4px_20px_rgba(220,55,62,0.35)] transition-all w-full text-center">
+                Get the Free Scorecard &rarr;
+              </span>
+            </Link>
           </div>
         </div>
       </section>
@@ -245,33 +260,6 @@ export default function FreeResourceHubPage() {
       {/* ===== EBOOKS ===== */}
       <section id="ebooks" className={`pt-0 pb-20 bg-background ${ANCHOR}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* The newest offering, featured above the ebooks while it is new. */}
-          <Link
-            href="/soccer-development-scorecard"
-            className="grid md:grid-cols-2 bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(15,49,84,0.08)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,49,84,0.12)] transition-all mb-16"
-          >
-            <div className="w-full aspect-[16/9] md:aspect-auto md:h-full overflow-hidden">
-              <img
-                src="https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1789415806547-qjc8h3.png"
-                alt="Soccer Development Scorecard"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="p-8 md:p-10 flex flex-col justify-center">
-              <span className="self-start bg-red text-white text-[11px] font-bold uppercase tracking-[2px] rounded-full px-3 py-1 mb-4">
-                New
-              </span>
-              <h3 className="text-2xl md:text-3xl font-bold text-navy mb-3">Soccer Development Scorecard</h3>
-              <p className="text-gray text-base mb-6">
-                Is your child really developing? A free scorecard that shows parents what to watch and count in games,
-                and how to see real progress over time.
-              </p>
-              <span className="bg-red hover:bg-red-dark text-white font-bold py-4 px-8 rounded-full text-base shadow-[0_4px_20px_rgba(220,55,62,0.35)] transition-all self-start">
-                Get the Free Scorecard &rarr;
-              </span>
-            </div>
-          </Link>
-
           <div className="text-center mb-14">
             <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-4 block">EBOOKS &amp; GUIDES</span>
             <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">Free Ebooks for Parents &amp; Coaches</h2>
