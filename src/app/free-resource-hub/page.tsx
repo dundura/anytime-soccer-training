@@ -210,7 +210,7 @@ export default function FreeResourceHubPage() {
           </div>
 
           {/* Remaining plans — 3-column grid */}
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {TRAINING_PLANS.slice(1).map((plan) => (
               <Link
                 key={plan.title}
@@ -300,7 +300,7 @@ export default function FreeResourceHubPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {COMMUNITIES.map((group) => (
               <a
                 key={group.title}
