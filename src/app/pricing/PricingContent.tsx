@@ -148,53 +148,6 @@ export default function PricingContent() {
           </div>
         </div>
 
-        {/* Reviews */}
-        <div className="ast-reviews">
-          <h3>Real Results</h3>
-          <div className="ast-reviews-grid">
-
-            <div className="ast-review">
-              <p className="ast-review-text">
-                &ldquo;My sons train every day. The improvement is obvious.&rdquo;
-              </p>
-              <div className="ast-review-author">
-                <div className="ast-review-avatar">AS</div>
-                <div>
-                  <div className="ast-review-name">Alex Stuart</div>
-                  <div className="ast-review-role">Parent, Dallas</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="ast-review">
-              <p className="ast-review-text">
-                &ldquo;She trained after school every day. Made the ECNL team.&rdquo;
-              </p>
-              <div className="ast-review-author">
-                <div className="ast-review-avatar">CB</div>
-                <div>
-                  <div className="ast-review-name">Cathy Blount</div>
-                  <div className="ast-review-role">Parent, Oakridge</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="ast-review">
-              <p className="ast-review-text">
-                &ldquo;One coach recommended it. Now our entire club uses it.&rdquo;
-              </p>
-              <div className="ast-review-author">
-                <div className="ast-review-avatar">SG</div>
-                <div>
-                  <div className="ast-review-name">Sammy Gilford</div>
-                  <div className="ast-review-role">Coach, Triangle FC</div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
       </div>
     </div>
   );
