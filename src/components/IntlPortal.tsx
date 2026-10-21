@@ -72,6 +72,20 @@ Reply back if you have any questions.
 
 Megan`,
   },
+  {
+    key: 'closing-out',
+    label: 'Closing this out',
+    subject: 'Closing this out',
+    body: (n) => `Hi ${first(n)},
+
+I have not heard back, so I will close this out for now. No problem at all.
+
+If you would like to post a trip in the group later, just reply to this email and we will pick it up from there. New posts are only $25.
+
+Thank you for your interest, and best of luck with your trip.
+
+Megan`,
+  },
 ];
 
 const ACTIVITY_ICON: Record<string, string> = {
