@@ -34,25 +34,25 @@ const TRAINING_PLANS = [
 const EBOOKS = [
   {
     title: 'The Most Important Skill Never Taught',
-    description: 'This powerful (yet simple) tip will change your child\'s game forever.',
+    description: 'A simple tip that will change your child\'s game.',
     image: 'https://media.anytime-soccer.com/wp-content/uploads/2021/01/ast_facebook_image_3.jpg',
     href: '/the-most-important-skill-in-youth-soccer',
   },
   {
     title: 'Must-Have Guide to In-Home Training',
-    description: 'Everything you need to know to start training at home effectively.',
+    description: 'Everything you need to train at home.',
     image: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/home/bg-1.png',
     href: '/must-have-guide-for-serious-soccer-parents',
   },
   {
     title: '20 Questions for Every Club',
-    description: 'Essential questions to ask before joining any youth soccer club.',
+    description: 'Questions to ask before joining a club.',
     image: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-1.png',
     href: '/20-questions-every-parent-should-ask',
   },
   {
     title: 'Become a Rec Coach SuperHero',
-    description: 'Transform your rec coaching with practical tips and strategies.',
+    description: 'Practical tips to transform your coaching.',
     image: 'https://media.anytime-soccer.com/wp-content/themes/anytime/images/ebook/ebook-2.png',
     href: '/become-a-rec-coach-superhero',
     cta: 'Get Guide',
@@ -65,19 +65,19 @@ const EBOOKS = [
   },
   {
     title: 'Monopoly: Issues Facing US Youth Soccer',
-    description: 'A candid look at what\'s holding back American soccer from one parent\'s perspective.',
+    description: 'A parent\'s candid look at what holds back US soccer.',
     image: 'https://media.anytime-soccer.com/wp-content/uploads/2024/07/us_soccer-768x596.png',
     href: '/monopoly-addressing-issues-facing-youth-soccer-ebook',
   },
   {
     title: 'The Parent Trainer\'s Playbook',
-    description: '20 unconventional tips for raising a competitive soccer player from one soccer dad\'s journey.',
+    description: '20 unconventional tips for raising a competitive player, from one soccer dad.',
     image: 'https://media.anytime-soccer.com/wp-content/uploads/2024/08/the-playbook-20-unconventional-tips-for-raising-a-compeitive-soccer-player-thus-far-1024x789.png',
     href: '/the-parent-trainers-playbook',
   },
   {
     title: 'Player Cards Guide',
-    description: 'Stay informed about eligibility requirements and avoid missed tournament opportunities.',
+    description: 'Know the eligibility rules and never miss a tournament.',
     image: 'https://media.anytime-soccer.com/wp-content/uploads/2024/11/pro-tips-for-college-showcases-1.png',
     href: '/everything-you-need-to-know-about-player-cards',
   },
@@ -123,9 +123,6 @@ export default function FreeResourceHubPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-4 block">FREE RESOURCES</span>
           <h1 className="text-3xl md:text-4xl font-bold text-navy mb-3">Free Resources for Players, Parents &amp; Coaches</h1>
-          <p className="text-lg text-navy max-w-xl mx-auto">
-            Training plans, ebooks and communities — all free.
-          </p>
         </div>
       </section>
 
@@ -263,9 +260,6 @@ export default function FreeResourceHubPage() {
           <div className="text-center mb-14">
             <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-4 block">EBOOKS &amp; GUIDES</span>
             <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">Free Ebooks for Parents &amp; Coaches</h2>
-            <p className="text-lg text-navy max-w-xl mx-auto">
-              Practical guides packed with tips from a passionate soccer parent and coach.
-            </p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -295,9 +289,6 @@ export default function FreeResourceHubPage() {
           <div className="text-center mb-14">
             <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-4 block">COMMUNITY</span>
             <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">Join Our Free Communities</h2>
-            <p className="text-lg text-navy max-w-xl mx-auto">
-              Connect with thousands of parents and coaches navigating the youth soccer journey.
-            </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
