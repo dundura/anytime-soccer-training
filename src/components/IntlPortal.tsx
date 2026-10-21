@@ -78,7 +78,7 @@ Megan`,
     subject: 'Closing this out',
     body: (n) => `Hi ${first(n)},
 
-I will close this out for now. No problem at all.
+I will close this out for now so that we do not keep emailing you. No problem at all.
 
 If you would like to post a trip in the group later, just reply to this email and we will pick it up from there. New posts are only $25.
 
