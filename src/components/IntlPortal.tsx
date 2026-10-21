@@ -80,7 +80,9 @@ Megan`,
 
 I will close this out for now so that we do not keep emailing you. No problem at all.
 
-If you would like to post a trip in the group later, just reply to this email and we will pick it up from there. See the [flyer](https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1788118125422-08oe4h.pdf) for the price of a new post. All posts after that are $25.
+If you would like to post a trip in the group later, just reply to this email and we will pick it up from there.
+
+See the [flyer](https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1788118125422-08oe4h.pdf) for the price of a new post. All posts after that are $25.
 
 Thank you for your interest, and best of luck with your trip.
 
