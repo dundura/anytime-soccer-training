@@ -86,7 +86,7 @@ const EBOOKS = [
 const COMMUNITIES = [
   {
     title: 'Anytime Soccer Training Group',
-    description: 'A safe space for soccer parents to ask questions, share wins, and support each other.',
+    description: 'Ask questions, share wins, support each other.',
     image: 'https://media.anytime-soccer.com/wp-content/uploads/2021/04/anytime_facebook_group_770_445.jpg',
     href: 'https://www.facebook.com/groups/anytimesoccerparents',
   },
@@ -285,7 +285,7 @@ export default function FreeResourceHubPage() {
       <section id="community" className={`py-20 bg-white ${ANCHOR}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">Join Our Free Communities</h2>
+            <h2 className="hidden md:block text-3xl md:text-4xl font-bold text-navy mb-3">Join Our Free Communities</h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
