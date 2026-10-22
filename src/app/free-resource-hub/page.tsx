@@ -282,7 +282,7 @@ export default function FreeResourceHubPage() {
       </section>
 
       {/* ===== COMMUNITY ===== */}
-      <section id="community" className={`py-20 bg-white ${ANCHOR}`}>
+      <section id="community" className={`pt-8 md:pt-20 pb-20 bg-white ${ANCHOR}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
             <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3"><span className="hidden md:inline">Join Our </span>Free Communities</h2>
