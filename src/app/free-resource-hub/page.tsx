@@ -119,7 +119,7 @@ export default function FreeResourceHubPage() {
   return (
     <>
       {/* ===== PAGE INTRO ===== */}
-      <section id="top" className="pt-10 pb-8 bg-background scroll-mt-20">
+      <section id="top" className="pt-10 pb-2 bg-background scroll-mt-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-3xl md:text-4xl font-bold text-navy mb-3">Free Resources<span className="hidden md:inline"> for Players, Parents &amp; Coaches</span></h1>
         </div>
