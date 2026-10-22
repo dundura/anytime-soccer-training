@@ -21,7 +21,8 @@ export default function PopupManager() {
 
   useEffect(() => {
     if (sessionStorage.getItem('ast-popup-dismissed')) return;
-    setVariant(Math.random() < 0.5 ? '7day' : 'plan-builder');
+    // Only the 7-day plan now; the plan builder variant is no longer shown.
+    setVariant('7day');
     const timer = setTimeout(() => setShow(true), 3000);
     return () => clearTimeout(timer);
   }, []);
