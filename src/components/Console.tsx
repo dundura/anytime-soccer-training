@@ -65,17 +65,6 @@ const GROUPS = [
       { key: 'suggestions', label: 'Tips and suggestions', icon: '💡' },
     ],
   },
-  // One page per way a cold contact comes in, each with only its own contacts,
-  // workflow and sequence. One page for all four was too busy to work from.
-  {
-    group: 'Cold outreach',
-    rows: [
-      { key: 'cold-fb', label: 'Facebook group coaches', icon: '👥' },
-      { key: 'cold-referral', label: 'Referred by a player', icon: '🙋' },
-      { key: 'cold-league', label: 'League officials', icon: '🏟️' },
-      { key: 'cold-snm', label: 'Soccer Near Me clubs', icon: '📍' },
-    ],
-  },
   {
     group: 'Outreach',
     rows: [
