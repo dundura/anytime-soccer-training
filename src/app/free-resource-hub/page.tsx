@@ -108,7 +108,7 @@ const COMMUNITIES = [
 const SECTIONS = [
   { id: 'plans', label: 'Training Plans' },
   { id: 'ebooks', label: 'Ebooks & Guides' },
-  { id: 'community', label: 'Community' },
+  { id: 'community', label: 'Facebook' },
 ];
 
 // Header is h-16 (64px) and sticky, and the jump bar sits under it. Anchored
@@ -257,7 +257,6 @@ export default function FreeResourceHubPage() {
       <section id="ebooks" className={`pt-0 pb-20 bg-background ${ANCHOR}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-4 block">EBOOKS &amp; GUIDES</span>
             <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">Free Ebooks for Parents &amp; Coaches</h2>
           </div>
 
@@ -286,7 +285,7 @@ export default function FreeResourceHubPage() {
       <section id="community" className={`py-20 bg-white ${ANCHOR}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-4 block">COMMUNITY</span>
+            <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-4 block">FACEBOOK</span>
             <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">Join Our Free Communities</h2>
           </div>
 
