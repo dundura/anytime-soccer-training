@@ -119,9 +119,9 @@ export default function FreeResourceHubPage() {
   return (
     <>
       {/* ===== PAGE INTRO ===== */}
-      <section id="top" className="hidden md:block pt-10 pb-8 bg-background scroll-mt-20">
+      <section id="top" className="pt-10 pb-8 bg-background scroll-mt-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-navy mb-3">Free Resources for Players, Parents &amp; Coaches</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-navy mb-3">Free Resources<span className="hidden md:inline"> for Players, Parents &amp; Coaches</span></h1>
         </div>
       </section>
 
@@ -257,7 +257,7 @@ export default function FreeResourceHubPage() {
       <section id="ebooks" className={`pt-0 pb-20 bg-background ${ANCHOR}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <h2 className="hidden md:block text-3xl md:text-4xl font-bold text-navy mb-3">Free Ebooks for Parents &amp; Coaches</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">Free Ebooks<span className="hidden md:inline"> for Parents &amp; Coaches</span></h2>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -285,7 +285,7 @@ export default function FreeResourceHubPage() {
       <section id="community" className={`py-20 bg-white ${ANCHOR}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <h2 className="hidden md:block text-3xl md:text-4xl font-bold text-navy mb-3">Join Our Free Communities</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3"><span className="hidden md:inline">Join Our </span>Free Communities</h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
