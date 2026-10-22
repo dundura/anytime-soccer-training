@@ -41,7 +41,6 @@ export default function FreeTrainingPlanPage() {
           {/* Section header above both columns */}
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-black text-navy mb-3">Don&apos;t Wait. Start Training Today.</h2>
-            <p className="text-gray-500 text-lg">Every session in your plan is a real follow-along video. Just press play.</p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-start">
