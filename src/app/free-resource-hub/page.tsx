@@ -107,7 +107,7 @@ const COMMUNITIES = [
 // The jump menu — one list, so a new section only has to be named once.
 const SECTIONS = [
   { id: 'plans', label: 'Training Plans' },
-  { id: 'ebooks', label: 'Ebooks & Guides' },
+  { id: 'ebooks', label: 'Ebooks & Guides', short: 'Ebooks' },
   { id: 'community', label: 'Facebook' },
 ];
 
@@ -157,7 +157,7 @@ export default function FreeResourceHubPage() {
                       href={`#${s.id}`}
                       className="block rounded-full bg-background hover:bg-red hover:text-white px-4 py-1.5 text-[13px] font-bold text-navy whitespace-nowrap transition-colors"
                     >
-                      {s.label}
+                      {'short' in s && s.short ? (<><span className="md:hidden">{s.short}</span><span className="hidden md:inline">{s.label}</span></>) : s.label}
                     </a>
                   </li>
                 ))}
