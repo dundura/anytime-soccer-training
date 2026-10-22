@@ -119,9 +119,8 @@ export default function FreeResourceHubPage() {
   return (
     <>
       {/* ===== PAGE INTRO ===== */}
-      <section id="top" className="pt-10 pb-8 bg-background scroll-mt-20">
+      <section id="top" className="hidden md:block pt-10 pb-8 bg-background scroll-mt-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="text-xs font-bold uppercase tracking-[2px] text-red mb-4 block">FREE RESOURCES</span>
           <h1 className="text-3xl md:text-4xl font-bold text-navy mb-3">Free Resources for Players, Parents &amp; Coaches</h1>
         </div>
       </section>
@@ -146,7 +145,7 @@ export default function FreeResourceHubPage() {
               {/* Anchor, not a scroll script — keeps the page a server component. */}
               <a
                 href="#top"
-                className="shrink-0 rounded-full border border-navy/15 hover:border-red hover:text-red px-3 py-1.5 text-[13px] font-bold text-navy/70 transition-colors"
+                className="hidden md:block shrink-0 rounded-full border border-navy/15 hover:border-red hover:text-red px-3 py-1.5 text-[13px] font-bold text-navy/70 transition-colors"
                 aria-label="Back to top"
               >
                 ↑ Top
