@@ -231,7 +231,7 @@ export function SevenDayFormCard() {
     <div className="ast-7day-card">
       <style>{CARD_CSS}</style>
       <h2 className="text-3xl md:text-4xl font-black text-navy mb-2">Get Your Free <span className="text-red">7-Day Plan</span></h2>
-      <p className="text-gray-500 mb-6">7 daily emails with follow-along video training. Just 10 minutes a day. No credit card required.</p>
+      <p className="text-gray-500 mb-6">7 daily emails with follow-along video training. No credit card required.</p>
       <Form />
       <p className="text-gray-400 text-sm text-center mt-4">We respect your privacy. Unsubscribe anytime.</p>
     </div>
