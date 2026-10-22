@@ -125,3 +125,115 @@ export default function SevenDayForm() {
   if (!slot) return null;
   return createPortal(<Form />, slot);
 }
+
+// Same form on a page that has no portal slot (/free-training-plan). The page
+// above carries its own copy of this CSS inside its static HTML, so the styles
+// are scoped to a wrapper here and take their colours from the site tokens.
+const CARD_CSS = `.ast-7day-card{--ast-navy:#0F3154;--ast-red:#DC373E;font-family:inherit}
+.ast-7day-card .ast-7day-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ast-7day-card .ast-7day-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 520px) {
+  .ast-7day-card .ast-7day-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ast-7day-card .ast-7day-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ast-7day-card .ast-7day-form-field span {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--ast-navy);
+}
+
+.ast-7day-card .ast-7day-form-field input {
+  width: 100%;
+  padding: 13px 14px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--ast-navy);
+  background: #fff;
+  border: 1px solid #d6dbe3;
+  border-radius: 8px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ast-7day-card .ast-7day-form-field input:focus {
+  outline: none;
+  border-color: var(--ast-navy);
+  box-shadow: 0 0 0 3px rgba(15, 49, 84, 0.12);
+}
+
+.ast-7day-card .ast-7day-form-button {
+  width: 100%;
+  padding: 16px 24px;
+  margin-top: 4px;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  font-family: inherit;
+  color: #fff;
+  background: var(--ast-red);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.ast-7day-card .ast-7day-form-button:hover:not(:disabled) {
+  background: #c22e35;
+  transform: translateY(-1px);
+}
+
+.ast-7day-card .ast-7day-form-button:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.ast-7day-card .ast-7day-form-error {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--ast-red);
+}
+
+.ast-7day-card .ast-7day-form-done {
+  padding: 28px 24px;
+  text-align: center;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  color: #166534;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.ast-7day-card .ast-7day-form-done-title {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+  font-weight: 700;
+}`;
+
+export function SevenDayFormCard() {
+  return (
+    <div className="ast-7day-card">
+      <style>{CARD_CSS}</style>
+      <h2 className="text-3xl md:text-4xl font-black text-navy mb-2">Get Your Free <span className="text-red">7-Day Plan</span></h2>
+      <p className="text-gray-500 mb-6">7 daily emails with follow-along video training. Just 10 minutes a day. No credit card required.</p>
+      <Form />
+      <p className="text-gray-400 text-sm text-center mt-4">We respect your privacy. Unsubscribe anytime.</p>
+    </div>
+  );
+}

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import TrainingPlanBuilder from '@/components/TrainingPlanBuilder';
+import { SevenDayFormCard } from '@/components/SevenDayForm';
 import TabbedVideoSection from '@/components/TabbedVideoSection';
 import CoachHeadline from '@/components/CoachHeadline';
 import { AutoplayYouTube } from '@/components/AutoplayYouTube';
@@ -48,7 +48,7 @@ export default function FreeTrainingPlanPage() {
 
             {/* Form card */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-              <TrainingPlanBuilder />
+              <SevenDayFormCard />
             </div>
 
             {/* Right: tabbed video section */}
