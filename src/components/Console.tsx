@@ -274,10 +274,6 @@ export default function Console() {
             {view === 'crm' && <CrmAdmin token={token} />}
             {view === 'callbacks' && <SupportBoard key="callbacks" token={token} mode="callbacks" />}
             {view === 'suggestions' && <SupportBoard key="suggestions" token={token} mode="suggestions" />}
-            {view === 'cold-fb' && <ColdWorkflow key="cold-fb" token={token} lockedSequence="cold-coach" title="Facebook group coaches" crmWorkflow={false} />}
-            {view === 'cold-referral' && <ColdWorkflow key="cold-referral" token={token} lockedSequence="referral-coach" title="Referred by a player" crmWorkflow={false} />}
-            {view === 'cold-league' && <ColdWorkflow key="cold-league" token={token} lockedSequence="cold-league" title="League officials" />}
-            {view === 'cold-snm' && <ColdWorkflow key="cold-snm" token={token} lockedSequence="cold-snm" title="Soccer Near Me clubs" />}
             {view === 'podcast' && <ColdWorkflow token={token} group="Podcast" noun="guest" />}
             {view === 'intl' && <IntlPortal token={token} />}
             {view === 'collab' && <CollabPortal token={token} />}
