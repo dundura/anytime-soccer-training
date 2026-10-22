@@ -76,7 +76,7 @@ export default function FreeTrainingPlanPage() {
               <div className="relative z-10">
 <CoachHeadline />
                 <p className="text-xl text-white/80 mb-8 max-w-[480px]">
-                  Assign structured homework, track every session, and give your players a system to improve at home — so your team shows up to practice ready to work.
+                  Assign homework, track every session, and have your team show up ready to work.
                 </p>
                 <div className="flex flex-wrap gap-4 mb-10">
                   <a
