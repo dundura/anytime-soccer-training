@@ -44,15 +44,23 @@ const STAGE_TINT: Record<string, string> = {
 // edited before they go.
 const first = (name: string | null) => String(name || '').trim().split(/\s+/)[0] || 'there';
 const draftReply = (name: string | null) => ({
-  subject: 'Thanks for reaching out',
+  subject: 'Sharing in our Facebook groups',
   body: `Hi ${first(name)},
 
-Thanks for reaching out to Soccer Near Me.
+Thanks for reaching out.
+
+The way to share your information with our Facebook groups is to first create a listing on www.soccer-near-me.com
+
+Make sure you add nice images and video (if you have one) to your listing.
+
+Once it is live, you can share the listing and a message in the groups like you normally would.
+
+The Soccer Near Me link is the only link that can be in the post.
 
 Neil`,
 });
 const MANUAL_EMAILS: { key: string; label: string; subject: string; body: (name: string | null) => string }[] = [
-  { key: 'thanks', label: 'Thanks for reaching out', subject: draftReply(null).subject, body: (n) => draftReply(n).body },
+  { key: 'listing-then-share', label: 'Create a listing, then share it', subject: draftReply(null).subject, body: (n) => draftReply(n).body },
 ];
 
 const ACTIVITY_ICON: Record<string, string> = {
