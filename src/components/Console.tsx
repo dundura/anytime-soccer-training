@@ -7,6 +7,7 @@ import ConsoleLogins from './ConsoleLogins';
 import ConsoleNotes from './ConsoleNotes';
 import CrmAdmin from './CrmAdmin';
 import DemoPortal from './DemoPortal';
+import PodcastPortal from './PodcastPortal';
 import IntlPortal from './IntlPortal';
 import CollabPortal from './CollabPortal';
 import SnmContactPortal from './SnmContactPortal';
@@ -275,7 +276,7 @@ export default function Console() {
             {view === 'crm' && <CrmAdmin token={token} />}
             {view === 'callbacks' && <SupportBoard key="callbacks" token={token} mode="callbacks" />}
             {view === 'suggestions' && <SupportBoard key="suggestions" token={token} mode="suggestions" />}
-            {view === 'podcast' && <ColdWorkflow token={token} group="Podcast" noun="guest" />}
+            {view === 'podcast' && <PodcastPortal token={token} />}
             {view === 'intl' && <IntlPortal token={token} />}
             {view === 'collab' && <CollabPortal token={token} />}
             {view === 'snm-contact' && <SnmContactPortal token={token} />}
