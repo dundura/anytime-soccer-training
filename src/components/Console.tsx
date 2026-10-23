@@ -9,6 +9,7 @@ import CrmAdmin from './CrmAdmin';
 import DemoPortal from './DemoPortal';
 import IntlPortal from './IntlPortal';
 import CollabPortal from './CollabPortal';
+import SnmContactPortal from './SnmContactPortal';
 import Referrals from './Referrals';
 import Newsletters from './Newsletters';
 import TriggeredEmails from './TriggeredEmails';
@@ -73,8 +74,7 @@ const GROUPS = [
       { key: 'intl', label: 'International posts', icon: '🌍' },
       { key: 'collab', label: 'Collaboration requests', icon: '🤝' },
       { key: 'partners', label: 'Partners', icon: '🤝' },
-      // Not a panel: opens the Soccer Near Me contact page in a new tab.
-      { key: 'snm-contact', label: 'Soccer Near Me contact', icon: '📍', href: 'https://www.soccer-near-me.com/contact' },
+      { key: 'snm-contact', label: 'Soccer Near Me contact', icon: '📍' },
       { key: 'ad-signups', label: 'Ad signups', icon: '📈' },
     ],
   },
@@ -100,7 +100,7 @@ const GROUPS = [
 const OPEN_BY_DEFAULT = 'Turning them into teams';
 
 // The headings carry no key, so the view type is only the rows you can open.
-type ViewKey = Exclude<(typeof GROUPS)[number]['rows'][number]['key'], 'snm-contact'>;
+type ViewKey = (typeof GROUPS)[number]['rows'][number]['key'];
 
 // Which heading a view sits under -- so a ?view= link opens its group rather
 // than landing on a panel whose row is folded out of sight.
@@ -249,19 +249,7 @@ export default function Console() {
                       {g.group}
                     </button>
                     {open &&
-                      g.rows.map((v) => 'href' in v ? (
-                        <a
-                          key={v.key}
-                          href={v.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-full text-left px-4 py-2.5 text-sm font-semibold flex items-center gap-3 transition-colors text-navy hover:bg-gray-50"
-                        >
-                          <span className="w-5 text-center">{v.icon}</span>
-                          {v.label}
-                        </a>
-                      ) : (
-                        <button
+                      g.rows.map((v) => (                        <button
                           key={v.key}
                           onClick={() => go(v.key)}
                           className={`w-full text-left px-4 py-2.5 text-sm font-semibold flex items-center gap-3 transition-colors ${
@@ -290,6 +278,7 @@ export default function Console() {
             {view === 'podcast' && <ColdWorkflow token={token} group="Podcast" noun="guest" />}
             {view === 'intl' && <IntlPortal token={token} />}
             {view === 'collab' && <CollabPortal token={token} />}
+            {view === 'snm-contact' && <SnmContactPortal token={token} />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
             {view === 'demos' && <DemoPortal token={token} />}
             {view === 'referrals' && <Referrals token={token} />}
