@@ -54,7 +54,10 @@ export default function Referrals({ token }: { token: string | null }) {
     setError('');
     try {
       const res = await fetch(`${API}/coach-referral/list`, {
-        headers: { Authorization: token || '' },
+        headers: {
+          Authorization: token || '',
+          'X-Admin-Token': (typeof window !== 'undefined' && localStorage.getItem('astPortalAdminToken')) || '',
+        },
       });
       const d = await res.json().catch(() => ({}));
       if (!res.ok) {
