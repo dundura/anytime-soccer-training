@@ -718,6 +718,13 @@ export default function DemoPortal({ token }: { token: string | null }) {
       const demoReq = groups.splice(dr, 1)[0];
       groups.splice(ch, 0, demoReq);
     }
+    // Demo booked sits straight below Demo Request.
+    const dbAt = groups.findIndex((x) => x.name === 'Demo booked');
+    if (dbAt > -1) {
+      const demoBooked = groups.splice(dbAt, 1)[0];
+      const drAt = groups.findIndex((x) => x.name === 'Getting the demo booked');
+      groups.splice(drAt > -1 ? drAt + 1 : groups.length, 0, demoBooked);
+    }
     // The section stays even with no emails in it yet. It sits just below Chasing to book demo.
     const fu = groups.findIndex((x) => x.name === 'After Demo Follow-up');
     const followUp = fu > -1 ? groups.splice(fu, 1)[0] : { name: 'After Demo Follow-up', items: [] };
