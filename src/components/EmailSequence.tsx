@@ -379,7 +379,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
                         Place in stage
                       </button>
                     </div>
-                    {g.items.map((e) => (
+                    {/* Someone not in the sequence yet is placed in a stage first; the emails show once they are in one. */}
+                    {(at >= 0 || waitingOf(lead)) && g.items.map((e) => (
                       <div key={e.key} className={`flex items-center gap-2 pr-3 ${row++ % 2 ? 'bg-white' : 'bg-blue-100'}`}>
                         <div className="flex-1 min-w-0 px-5 py-2.5 text-[13px] font-normal text-navy">
                           {e.label}
