@@ -150,6 +150,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
     return at;
   }, [flat, alreadySent]);
 
+  // View expands one stage on the page and hides the rest.
+  const focus = stagePop && groups.some((g) => g.name === stagePop) ? stagePop : null;
   const visible = leads.filter((l) => !l.seqHiddenAt);
   const hidden = leads.filter((l) => l.seqHiddenAt);
   const notStarted = visible.filter((l) => positionOf(l) < 0);
@@ -467,24 +469,6 @@ export default function EmailSequence({ token }: { token: string | null }) {
           </div>
         </div>
       )}
-      {stagePop && (() => {
-        const g = groups.find((x) => x.name === stagePop);
-        if (!g) return null;
-        return (
-          <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setStagePop(null)}>
-            <div className="bg-white rounded-2xl w-full max-w-lg max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => { ev.stopPropagation(); setMenu(null); }}>
-              <div className="px-5 py-4 bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] text-white flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <div className="text-base font-black">{shown(g.name)}</div>
-                  <div className="text-[11px] text-blue-100">{g.items.length} emails</div>
-                </div>
-                <button onClick={() => setStagePop(null)} className="text-white/70 text-xl leading-none">×</button>
-              </div>
-              <div className="overflow-y-auto">{rows(g)}</div>
-            </div>
-          </div>
-        );
-      })()}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
         <div>
           <h2 className="text-lg font-black text-navy">Email sequence</h2>
@@ -530,7 +514,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
       )}
 
       <div className="border border-gray-200 rounded-xl overflow-visible">
-        <button
+        {!focus && <button
           type="button"
           onClick={() => setPop({ lead: null, search: '', only: true })}
           className="w-full flex items-center gap-2 px-4 py-2.5 text-left bg-blue-100 border-b border-gray-100 rounded-t-xl"
@@ -538,9 +522,9 @@ export default function EmailSequence({ token }: { token: string | null }) {
           <span className="text-[10px] text-gray-400 w-3">▸</span>
           <span className="flex-1 text-[13px] font-bold text-red">Not started</span>
           <span className="text-[11px] font-normal text-gray-400">{notStarted.length} contacts</span>
-        </button>
-        {groups.map((g, gi) => {
-          const isOpen = openGroups[g.name] === true;
+        </button>}
+        {groups.filter((g) => !focus || g.name === focus).map((g, gi) => {
+          const isOpen = focus === g.name || openGroups[g.name] === true;
           return (
           <div key={g.name} className="border-b border-gray-100 last:border-0">
             <div className={`flex items-center gap-2 pr-3 ${gi % 2 ? 'bg-blue-100' : 'bg-white'}`}>
@@ -555,10 +539,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
               </button>
               <button
                 type="button"
-                onClick={() => setStagePop(g.name)}
+                onClick={() => setStagePop(focus === g.name ? null : g.name)}
                 className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold"
               >
-                View
+                {focus === g.name ? 'Show all' : 'View'}
               </button>
             </div>
             {isOpen && (
