@@ -52,6 +52,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
   // An email waiting for a yes before it really goes out.
   const [sendAsk, setSendAsk] = useState<{ lead: Lead; email: Email; subject: string; html: string; loading: boolean } | null>(null);
   // What is open is remembered on this device, so a refresh puts the page back as it was.
+  // In the Move popup, which stage is open. undefined = the one the person is in; the rest start collapsed.
+  const [popOpen, setPopOpen] = useState<string | null | undefined>(undefined);
   const [stagePop, setStagePopState] = useState<string | null>(() => {
     try { return localStorage.getItem('seqStagePop') || null; } catch { return null; }
   });
@@ -145,6 +147,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
   }, [flat]);
 
   // Where this contact is: the email of their latest move on this page, or -1 for none yet. One place only.
+  useEffect(() => { setPopOpen(undefined); }, [pop?.lead?.id]);
   const stageMark = (name: string) => 'Stage: ' + name + ' (stage)';
   const placeOf = useCallback((l: Lead) => {
     let at = -1;
@@ -321,6 +324,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
     const list = (pop.only ? notStarted : visible).filter((l) => !q || (contactName(l) + ' ' + (l.name || '') + ' ' + (l.email || '')).toLowerCase().includes(q));
     const lead = pop.lead;
     const at = lead ? positionOf(lead) : -1;
+    const curStage = lead ? (waitingOf(lead) || (at >= 0 ? (groups.find((g) => g.items.some((e) => flat.indexOf(e) === at)) || { name: null }).name : null)) : null;
+    const openStage = popOpen === undefined ? curStage : popOpen;
     const place = lead ? (at >= 0 ? flat[at].label : (waitingOf(lead) ? shown(waitingOf(lead) as string) + ' (waiting)' : 'Not started')) : '';
     let row = 0;
     return (
@@ -369,21 +374,21 @@ export default function EmailSequence({ token }: { token: string | null }) {
                 {groups.filter((g) => g.items.length).map((g) => (
                   <div key={g.name}>
                     <div
-                      className={`flex items-center gap-2 pr-3 ${at < 0 && !waitingOf(lead) ? 'py-1.5 bg-blue-100 cursor-pointer' : 'bg-gray-100'}`}
-                      onClick={at < 0 && !waitingOf(lead) && !busy ? async () => { const ok = await call(`/leads/${lead.id}/mark-sent`, { labels: [stageMark(g.name)] }, 'Placed in ' + shown(g.name)); if (ok) { setStagePop(g.name); close(); } } : undefined}
+                      className={`flex items-center gap-2 pr-3 ${at < 0 && !waitingOf(lead) ? 'py-1.5 bg-blue-100 cursor-pointer' : 'bg-gray-100 cursor-pointer'}`}
+                      onClick={at >= 0 || waitingOf(lead) ? () => setPopOpen(openStage === g.name ? null : g.name) : (!busy ? async () => { const ok = await call(`/leads/${lead.id}/mark-sent`, { labels: [stageMark(g.name)] }, 'Placed in ' + shown(g.name)); if (ok) { setStagePop(g.name); close(); } } : undefined)}
                     >
-                      <div className={`flex-1 min-w-0 px-5 ${at < 0 && !waitingOf(lead) ? 'py-1.5 text-[13px] font-bold text-navy' : 'py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-gray-500'}`}>{shown(g.name)}</div>
+                      <div className={`flex-1 min-w-0 px-5 ${at < 0 && !waitingOf(lead) ? 'py-1.5 text-[13px] font-bold text-navy' : 'py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-gray-500'}`}>{at >= 0 || waitingOf(lead) ? (openStage === g.name ? '▾ ' : '▸ ') : ''}{shown(g.name)}</div>
                       <button
                         type="button"
                         disabled={busy}
-                        onClick={async () => { const ok = await call(`/leads/${lead.id}/mark-sent`, { labels: [stageMark(g.name)] }, 'Placed in ' + shown(g.name)); if (ok) { setStagePop(g.name); close(); } }}
+                        onClick={async (ev) => { ev.stopPropagation(); const ok = await call(`/leads/${lead.id}/mark-sent`, { labels: [stageMark(g.name)] }, 'Placed in ' + shown(g.name)); if (ok) { setStagePop(g.name); close(); } }}
                         className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold normal-case tracking-normal disabled:opacity-50"
                       >
                         Place in stage
                       </button>
                     </div>
                     {/* Someone not in the sequence yet is placed in a stage first; the emails show once they are in one. */}
-                    {(at >= 0 || waitingOf(lead)) && g.items.map((e) => (
+                    {(at >= 0 || waitingOf(lead)) && openStage === g.name && g.items.map((e) => (
                       <div key={e.key} className={`flex items-center gap-2 pr-3 ${row++ % 2 ? 'bg-white' : 'bg-blue-100'}`}>
                         <div className="flex-1 min-w-0 px-5 py-2.5 text-[13px] font-normal text-navy">
                           {e.label}
