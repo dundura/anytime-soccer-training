@@ -145,14 +145,22 @@ export default function EmailSequence({ token }: { token: string | null }) {
   }, [flat]);
 
   // Where this contact is: the email of their latest move on this page, or -1 for none yet. One place only.
-  const positionOf = useCallback((l: Lead) => {
+  const stageMark = (name: string) => 'Stage: ' + name + ' (stage)';
+  const placeOf = useCallback((l: Lead) => {
     let at = -1;
+    let stage = null as string | null;
     l.sent.forEach((summary) => {
       const i = flat.findIndex((e) => alreadySent(e, [summary]));
-      if (i >= 0) at = i;
+      if (i >= 0) { at = i; stage = null; return; }
+      const g = groups.find((x) => summary === stageMark(x.name) + MARK);
+      if (g) { at = -1; stage = g.name; }
     });
-    return at;
-  }, [flat, alreadySent]);
+    return { at, stage };
+  }, [flat, groups, alreadySent]);
+  const positionOf = useCallback((l: Lead) => placeOf(l).at, [placeOf]);
+  // In a stage but not on an email yet: they wait above the first email.
+  const waitingOf = useCallback((l: Lead) => placeOf(l).stage, [placeOf]);
+  const inStage = (l: Lead, g: { name: string; items: Email[] }) => waitingOf(l) === g.name || g.items.some((e) => flat.indexOf(e) === positionOf(l));
 
   // View expands one stage on the page and hides the rest.
   const NOT_STARTED = '__not_started';
@@ -160,7 +168,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const focus = stagePop === NOT_STARTED || stagePop === PEOPLE ? stagePop : (stagePop && groups.some((g) => g.name === stagePop) ? stagePop : null);
   const visible = leads.filter((l) => !l.seqHiddenAt);
   const hidden = leads.filter((l) => l.seqHiddenAt);
-  const notStarted = visible.filter((l) => positionOf(l) < 0);
+  const notStarted = visible.filter((l) => positionOf(l) < 0 && !waitingOf(l));
 
   const call = async (path: string, body: object, ok: string) => {
     if (busy) return false;
@@ -313,7 +321,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
     const list = (pop.only ? notStarted : visible).filter((l) => !q || (contactName(l) + ' ' + (l.name || '') + ' ' + (l.email || '')).toLowerCase().includes(q));
     const lead = pop.lead;
     const at = lead ? positionOf(lead) : -1;
-    const place = lead ? (at >= 0 ? flat[at].label : 'Not started') : '';
+    const place = lead ? (at >= 0 ? flat[at].label : (waitingOf(lead) ? shown(waitingOf(lead) as string) + ' (waiting)' : 'Not started')) : '';
     let row = 0;
     return (
       <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={close}>
@@ -346,7 +354,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                     className={`block w-full text-left px-5 py-2.5 text-[13px] font-semibold text-navy ${row++ % 2 ? 'bg-white' : 'bg-blue-100'}`}
                   >
                     {contactName(l)}
-                    <span className="block text-[10px] font-normal text-gray-500">{positionOf(l) >= 0 ? 'At: ' + flat[positionOf(l)].label : 'Not started'}</span>
+                    <span className="block text-[10px] font-normal text-gray-500">{positionOf(l) >= 0 ? 'At: ' + flat[positionOf(l)].label : (waitingOf(l) ? 'Waiting in ' + shown(waitingOf(l) as string) : 'Not started')}</span>
                   </button>
                 ))}
               </div>
@@ -365,7 +373,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                       <button
                         type="button"
                         disabled={busy}
-                        onClick={async () => { const ok = await moveContactTo(lead, g.items[0]); if (ok) close(); }}
+                        onClick={async () => { const ok = await call(`/leads/${lead.id}/mark-sent`, { labels: [stageMark(g.name)] }, 'Placed in ' + shown(g.name)); if (ok) { setStagePop(g.name); close(); } }}
                         className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold normal-case tracking-normal disabled:opacity-50"
                       >
                         Place in stage
@@ -408,6 +416,13 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const rows = (g: { name: string; items: Email[] }) => (
           <div className="divide-y divide-gray-100 border-t border-gray-100">
             {g.items.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No emails here.</p>}
+            {visible.filter((l) => waitingOf(l) === g.name).map((l) => (
+              <div key={l.id} className="flex items-center gap-2 px-4 py-2 bg-red/10">
+                <span className="flex-1 min-w-0 truncate text-[13px] font-semibold text-navy">{contactName(l)}</span>
+                <span className="shrink-0 text-[10px] font-bold uppercase tracking-wide text-red">Waiting for placement</span>
+                <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="shrink-0 px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
+              </div>
+            ))}
             {g.items.map((e, i) => {
               const at = flat.indexOf(e);
               const people = visible.filter((l) => positionOf(l) === at);
@@ -468,7 +483,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
               {(() => {
                 let row = 0;
                 const stages = groups
-                  .map((g) => ({ name: shown(g.name), people: visible.filter((l) => g.items.some((e) => flat.indexOf(e) === positionOf(l))) }))
+                  .map((g) => ({ name: shown(g.name), people: visible.filter((l) => inStage(l, g)) }))
                   .filter((st) => st.people.length > 0);
                 return (
                   <>
@@ -633,7 +648,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
           People ({visible.length}) · Not started ({notStarted.length})
         </button>
         {groups.map((g, i) => {
-          const n = visible.filter((l) => g.items.some((e) => flat.indexOf(e) === positionOf(l))).length;
+          const n = visible.filter((l) => inStage(l, g)).length;
           return (
             <button
               key={g.name}
@@ -665,7 +680,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
               <button type="button" onClick={() => setStagePop(null)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold">Show all</button>
             </div>
             {visible.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No contacts.</p>}
-            {[...notStarted, ...visible.filter((l) => positionOf(l) >= 0)].map((l, i) => {
+            {[...notStarted, ...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].map((l, i) => {
               const at = positionOf(l);
               const stage = at >= 0 ? groups.find((g) => g.items.some((e) => e.key === flat[at].key)) : null;
               return (
@@ -677,7 +692,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                 >
                   <span className="flex-1 min-w-0 truncate">{contactName(l)}</span>
                   <span className={`shrink-0 max-w-[55%] text-right text-[11px] font-semibold ${at >= 0 ? 'text-red' : 'text-gray-500'}`}>
-                    {at >= 0 && stage ? shown(stage.name) + ' · ' + flat[at].label : 'Waiting for placement'}
+                    {at >= 0 && stage ? shown(stage.name) + ' · ' + flat[at].label : (waitingOf(l) ? shown(waitingOf(l) as string) + ' · waiting' : 'Waiting for placement')}
                   </span>
                 </button>
               );
@@ -722,7 +737,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
               <button
                 type="button"
                 onClick={() => setStagePop(focus === g.name ? null : g.name)}
-                className={`shrink-0 px-2.5 py-1 rounded-lg text-white text-[11px] font-bold ${visible.some((l) => g.items.some((e) => flat.indexOf(e) === positionOf(l))) ? 'bg-red' : 'bg-blue-600'}`}
+                className={`shrink-0 px-2.5 py-1 rounded-lg text-white text-[11px] font-bold ${visible.some((l) => inStage(l, g)) ? 'bg-red' : 'bg-blue-600'}`}
               >
                 {focus === g.name ? 'Show all' : 'View'}
               </button>
