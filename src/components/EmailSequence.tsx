@@ -566,6 +566,30 @@ export default function EmailSequence({ token }: { token: string | null }) {
         </div>
       )}
 
+      {/* The whole sequence at a glance, in order. Tap one to see just that stage. Red means someone is in it. */}
+      <div className="flex flex-wrap gap-1 mb-3">
+        <button
+          type="button"
+          onClick={() => setStagePop(null)}
+          className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold ${!focus ? 'bg-navy text-white' : 'bg-gray-100 text-gray-600'}`}
+        >
+          All
+        </button>
+        {groups.map((g, i) => {
+          const n = visible.filter((l) => g.items.some((e) => flat.indexOf(e) === positionOf(l))).length;
+          return (
+            <button
+              key={g.name}
+              type="button"
+              onClick={() => setStagePop(focus === g.name ? null : g.name)}
+              className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white ${n ? 'bg-red' : 'bg-blue-600'} ${focus === g.name ? 'ring-2 ring-navy ring-offset-1' : ''}`}
+            >
+              {i + 1}. {shown(g.name)}{n ? ' (' + n + ')' : ''}
+            </button>
+          );
+        })}
+      </div>
+
       <div className="border border-gray-200 rounded-xl overflow-visible">
         {!focus && <button
           type="button"
