@@ -360,7 +360,17 @@ export default function EmailSequence({ token }: { token: string | null }) {
               <div className="overflow-y-auto">
                 {groups.filter((g) => g.items.length).map((g) => (
                   <div key={g.name}>
-                    <div className="px-5 py-1.5 bg-gray-100 text-[10px] font-extrabold uppercase tracking-wide text-gray-500">{shown(g.name)}</div>
+                    <div className="flex items-center gap-2 pr-3 bg-gray-100">
+                      <div className="flex-1 min-w-0 px-5 py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-gray-500">{shown(g.name)}</div>
+                      <button
+                        type="button"
+                        disabled={busy}
+                        onClick={async () => { const ok = await moveContactTo(lead, g.items[0]); if (ok) close(); }}
+                        className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold normal-case tracking-normal disabled:opacity-50"
+                      >
+                        Place in stage
+                      </button>
+                    </div>
                     {g.items.map((e) => (
                       <div key={e.key} className={`flex items-center gap-2 pr-3 ${row++ % 2 ? 'bg-white' : 'bg-blue-100'}`}>
                         <div className="flex-1 min-w-0 px-5 py-2.5 text-[13px] font-normal text-navy">
@@ -620,14 +630,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
           onClick={() => setStagePop(focus === PEOPLE ? null : PEOPLE)}
           className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white bg-blue-600 ${focus === PEOPLE ? 'ring-2 ring-navy ring-offset-1' : ''}`}
         >
-          People ({visible.length})
-        </button>
-        <button
-          type="button"
-          onClick={() => setStagePop(focus === NOT_STARTED ? null : NOT_STARTED)}
-          className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white ${notStarted.length ? 'bg-red' : 'bg-blue-600'} ${focus === NOT_STARTED ? 'ring-2 ring-navy ring-offset-1' : ''}`}
-        >
-          Not started ({notStarted.length})
+          People ({visible.length}) · Not started ({notStarted.length})
         </button>
         {groups.map((g, i) => {
           const n = visible.filter((l) => g.items.some((e) => flat.indexOf(e) === positionOf(l))).length;
