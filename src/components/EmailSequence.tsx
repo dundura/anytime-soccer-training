@@ -412,7 +412,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                     <button
                       type="button"
                       onClick={(ev) => { ev.stopPropagation(); setOpenEmail(openEmail && openEmail.key === e.key ? null : e); }}
-                      className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold"
+                      className={`shrink-0 px-2.5 py-1 rounded-lg text-white text-[11px] font-bold ${people.length ? 'bg-red' : 'bg-blue-600'}`}
                     >
                       Open ({people.length}) {openEmail && openEmail.key === e.key ? '▴' : '▾'}
                     </button>
@@ -593,7 +593,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
               <button
                 type="button"
                 onClick={() => setStagePop(focus === g.name ? null : g.name)}
-                className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold"
+                className={`shrink-0 px-2.5 py-1 rounded-lg text-white text-[11px] font-bold ${visible.some((l) => g.items.some((e) => flat.indexOf(e) === positionOf(l))) ? 'bg-red' : 'bg-blue-600'}`}
               >
                 {focus === g.name ? 'Show all' : 'View'}
               </button>
