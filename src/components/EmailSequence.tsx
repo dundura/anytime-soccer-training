@@ -19,6 +19,7 @@ type LayoutRow = { emailKey: string; groupName: string | null; sortOrder: number
 const SHOWN: Record<string, string> = {
   'Before anything': 'Before demo',
   'Chasing a quiet lead': 'Chasing to book demo',
+  'After Demo Follow-up': 'After demo thank you and one pager',
   'Getting the demo booked': 'Client Contacts Us',
   'Sending Roster Template': 'Roster template sent',
   'After the demo': 'Paid Invoice',
