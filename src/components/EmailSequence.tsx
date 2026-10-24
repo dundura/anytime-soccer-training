@@ -493,17 +493,17 @@ export default function EmailSequence({ token }: { token: string | null }) {
         <button
           type="button"
           onClick={() => setPop({ lead: null, search: '', only: true })}
-          className="w-full flex items-center gap-2 px-4 py-2.5 text-left bg-white hover:bg-gray-50 border-b border-gray-100 rounded-t-xl"
+          className="w-full flex items-center gap-2 px-4 py-2.5 text-left bg-blue-100 border-b border-gray-100 rounded-t-xl"
         >
           <span className="text-[10px] text-gray-400 w-3">▸</span>
           <span className="flex-1 text-[13px] font-normal text-red">Not started</span>
           <span className="text-[11px] font-normal text-gray-400">{notStarted.length} contacts</span>
         </button>
-        {groups.map((g) => {
+        {groups.map((g, gi) => {
           const isOpen = openGroups[g.name] === true;
           return (
           <div key={g.name} className="border-b border-gray-100 last:border-0">
-            <div className="flex items-center gap-2 pr-3 hover:bg-gray-50">
+            <div className={`flex items-center gap-2 pr-3 ${gi % 2 ? 'bg-blue-100' : 'bg-white'}`}>
               <button
                 type="button"
                 onClick={() => setOpenGroups((o) => ({ ...o, [g.name]: !isOpen }))}
@@ -511,7 +511,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
               >
                 <span className="text-[10px] text-gray-400 w-3">{isOpen ? '▾' : '▸'}</span>
                 <span className="flex-1 text-[13px] font-normal text-navy">{shown(g.name)}</span>
-                <span className="text-[11px] font-normal text-gray-400">{g.items.length} emails</span>
+                <span className="text-[11px] font-normal text-gray-400">{g.items.length} {g.items.length === 1 ? 'email' : 'emails'}</span>
               </button>
               <button
                 type="button"
