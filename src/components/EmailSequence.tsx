@@ -431,8 +431,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
           className="w-full flex items-center gap-2 px-4 py-2.5 text-left bg-white hover:bg-gray-50 border-b border-gray-100 rounded-t-xl"
         >
           <span className="text-[10px] text-gray-400 w-3">▸</span>
-          <span className="flex-1 text-[12px] font-extrabold uppercase tracking-wide text-red">Not started</span>
-          <span className="text-[10px] font-bold text-gray-400">{notStarted.length} contacts</span>
+          <span className="flex-1 text-[13px] font-normal text-red">Not started</span>
+          <span className="text-[11px] font-normal text-gray-400">{notStarted.length} contacts</span>
         </button>
         {groups.map((g) => {
           const isOpen = openGroups[g.name] === true;
@@ -445,8 +445,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
                 className="flex-1 min-w-0 flex items-center gap-2 px-4 py-2.5 text-left"
               >
                 <span className="text-[10px] text-gray-400 w-3">{isOpen ? '▾' : '▸'}</span>
-                <span className="flex-1 text-[12px] font-extrabold uppercase tracking-wide text-navy">{shown(g.name)}</span>
-                <span className="text-[10px] font-bold text-gray-400">{g.items.length} emails</span>
+                <span className="flex-1 text-[13px] font-normal text-navy">{shown(g.name)}</span>
+                <span className="text-[11px] font-normal text-gray-400">{g.items.length} emails</span>
               </button>
               <button
                 type="button"
