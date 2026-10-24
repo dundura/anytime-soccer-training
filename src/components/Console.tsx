@@ -7,6 +7,7 @@ import ConsoleLogins from './ConsoleLogins';
 import ConsoleNotes from './ConsoleNotes';
 import CrmAdmin from './CrmAdmin';
 import DemoPortal from './DemoPortal';
+import EmailSequence from './EmailSequence';
 import PodcastPortal from './PodcastPortal';
 import IntlPortal from './IntlPortal';
 import CollabPortal from './CollabPortal';
@@ -51,6 +52,7 @@ const GROUPS = [
     group: 'Turning them into teams',
     rows: [
       { key: 'demos', label: 'Coach Onboarding', icon: '🎬' },
+      { key: 'sequence', label: 'Email sequence', icon: '📬' },
       { key: 'crm', label: 'Coach CRM', icon: '📇' },
     ],
   },
@@ -282,6 +284,7 @@ export default function Console() {
             {view === 'snm-contact' && <SnmContactPortal token={token} />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
             {view === 'demos' && <DemoPortal token={token} />}
+            {view === 'sequence' && <EmailSequence token={token} />}
             {view === 'referrals' && <Referrals token={token} />}
             {view === 'partners' && <PartnerAdmin token={token} />}
             {view === 'ad-signups' && <AdSignups token={token} />}
