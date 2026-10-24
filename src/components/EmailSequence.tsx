@@ -51,8 +51,23 @@ export default function EmailSequence({ token }: { token: string | null }) {
   // The stage showing on its own in a popup.
   // An email waiting for a yes before it really goes out.
   const [sendAsk, setSendAsk] = useState<{ lead: Lead; email: Email } | null>(null);
-  const [stagePop, setStagePop] = useState<string | null>(null);
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+  // What is open is remembered on this device, so a refresh puts the page back as it was.
+  const [stagePop, setStagePopState] = useState<string | null>(() => {
+    try { return localStorage.getItem('seqStagePop') || null; } catch { return null; }
+  });
+  const setStagePop = (v: string | null) => {
+    setStagePopState(v);
+    try { if (v) localStorage.setItem('seqStagePop', v); else localStorage.removeItem('seqStagePop'); } catch { /* storage unavailable */ }
+  };
+  const [openGroups, setOpenGroupsState] = useState<Record<string, boolean>>(() => {
+    try { return JSON.parse(localStorage.getItem('seqOpenGroups') || '{}') || {}; } catch { return {}; }
+  });
+  const setOpenGroups = (fn: (o: Record<string, boolean>) => Record<string, boolean>) =>
+    setOpenGroupsState((o) => {
+      const next = fn(o);
+      try { localStorage.setItem('seqOpenGroups', JSON.stringify(next)); } catch { /* storage unavailable */ }
+      return next;
+    });
   // The email whose contacts are showing in the Open popup.
   const [openEmail, setOpenEmail] = useState<Email | null>(null);
   // The move popup: first pick the person, then pick where to put them.
