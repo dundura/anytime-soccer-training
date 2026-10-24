@@ -30,13 +30,13 @@ const ALIAS: Record<string, string> = { 'Confirming with others FAQ': 'FAQ' };
 const groupOf = (g: string) => ALIAS[g] || g;
 const RUN_ORDER = [
   'Before anything', 'Chasing a quiet lead', 'Getting the demo booked', 'Demo booked', 'After Demo Follow-up',
-  'Sending Roster Template', 'Not the coach', 'Invoice', 'After the demo', 'First 3 weeks',
+  'Sending Roster Template', 'Invoice', 'After the demo', 'First 3 weeks',
 ];
-const END_ORDER = ['Renewal', 'Special offer', 'No - Closing Out'];
+const END_ORDER = ['Renewal', 'Special offer', 'Not the coach', 'No - Closing Out'];
 
 // Big stages that hold smaller ones as sub-steps (group names as the server has them). Anything not listed stands alone.
 const PARENTS: { name: string; subs: string[] }[] = [
-  { name: 'Booking the demo', subs: ['Before anything', 'Chasing a quiet lead', 'Getting the demo booked', 'Demo booked'] },
+  { name: 'Demo Before Roster', subs: ['Before anything', 'Chasing a quiet lead', 'Getting the demo booked', 'Demo booked', 'After Demo Follow-up'] },
   { name: 'Sending information', subs: ['FAQ', 'Sending information to decision makers', 'Sending information to parents'] },
 ];
 
