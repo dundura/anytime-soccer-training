@@ -518,7 +518,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                 className="flex-1 min-w-0 flex items-center gap-2 px-4 py-2.5 text-left"
               >
                 <span className="text-[10px] text-gray-400 w-3">{isOpen ? '▾' : '▸'}</span>
-                <span className="flex-1 text-[13px] font-bold text-navy">{shown(g.name)}</span>
+                <span className="flex-1 text-[13px] font-bold text-navy">{shown(g.name)}{g.name === 'Getting the demo booked' ? ' (Auto)' : ''}</span>
                 <span className="text-[11px] font-normal text-gray-400">{g.items.length} {g.items.length === 1 ? 'email' : 'emails'}</span>
               </button>
               <button
