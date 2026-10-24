@@ -68,6 +68,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
       try { localStorage.setItem('seqOpenGroups', JSON.stringify(next)); } catch { /* storage unavailable */ }
       return next;
     });
+  // Find a person: type a name and see which stage they are in.
+  const [find, setFind] = useState('');
   // The overview popup: every stage and the people in it.
   const [whoPop, setWhoPop] = useState(false);
   // The email whose contacts are showing in the Open popup.
@@ -535,6 +537,41 @@ export default function EmailSequence({ token }: { token: string | null }) {
             Deleted emails ({deleted.length})
           </button>
         </div>
+      </div>
+
+      <div className="mb-3 relative">
+        <input
+          value={find}
+          onChange={(ev) => setFind(ev.target.value)}
+          placeholder="Find a person to see their stage"
+          className="w-full sm:w-80 px-3 py-2 rounded-lg border border-gray-200 text-sm"
+        />
+        {find.trim() && (() => {
+          const q = find.trim().toLowerCase();
+          const hits = leads.filter((l) => (contactName(l) + ' ' + (l.name || '') + ' ' + (l.email || '')).toLowerCase().includes(q)).slice(0, 8);
+          return (
+            <div className="mt-1 rounded-xl border border-gray-200 bg-white overflow-hidden sm:w-80">
+              {hits.length === 0 && <p className="px-3 py-2 text-xs text-gray-400">No one found.</p>}
+              {hits.map((l, i) => {
+                const at = positionOf(l);
+                const stage = at >= 0 ? groups.find((g) => g.items.some((e) => e.key === flat[at].key)) : null;
+                return (
+                  <button
+                    key={l.id}
+                    type="button"
+                    onClick={() => { setFind(''); setPop({ lead: l, search: '' }); }}
+                    className={`block w-full text-left px-3 py-2 text-[13px] text-navy ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}
+                  >
+                    {contactName(l)}{l.seqHiddenAt ? ' (hidden)' : ''}
+                    <span className={`block text-[11px] font-bold ${at >= 0 ? 'text-red' : 'text-gray-500'}`}>
+                      {at >= 0 && stage ? shown(stage.name) + ' · ' + flat[at].label : 'Not started'}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          );
+        })()}
       </div>
 
       {note && <div className="mb-3 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">{note}</div>}
