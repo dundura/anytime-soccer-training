@@ -858,7 +858,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
           onClick={() => setStagePop(focus === NOT_STARTED ? null : NOT_STARTED)}
           className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-navy bg-white border border-gray-300 ${focus === NOT_STARTED ? 'ring-2 ring-navy ring-offset-1' : ''}`}
         >
-          Not started ({notStarted.length})
+          Clients Not started ({notStarted.length})
         </button>
         <button
           type="button"
