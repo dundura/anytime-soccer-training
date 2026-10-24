@@ -306,37 +306,6 @@ export default function EmailSequence({ token }: { token: string | null }) {
   return (
     <div className="p-4 sm:p-6" onClick={() => setMenu(null)}>
       {popup()}
-      {openEmail && (() => {
-        const at = flat.findIndex((x) => x.key === openEmail.key);
-        const people = visible.filter((l) => positionOf(l) === at);
-        return (
-          <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setOpenEmail(null)}>
-            <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
-              <div className="px-5 py-4 bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] text-white flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <div className="text-base font-black">{openEmail.label}</div>
-                  <div className="text-[11px] text-blue-100">{people.length} {people.length === 1 ? 'contact is' : 'contacts are'} here</div>
-                </div>
-                <button onClick={() => setOpenEmail(null)} className="text-white/70 text-xl leading-none">×</button>
-              </div>
-              <div className="overflow-y-auto">
-                {people.length === 0 && <p className="px-5 py-4 text-sm text-gray-400">No one is at this email yet.</p>}
-                {people.map((l, i) => (
-                  <button
-                    key={l.id}
-                    type="button"
-                    onClick={() => { setOpenEmail(null); setPop({ lead: l, search: '' }); }}
-                    className={`block w-full text-left px-5 py-2.5 text-[13px] font-semibold text-navy ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}
-                  >
-                    {contactName(l)}
-                    <span className="block text-[10px] font-normal text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-      })()}
       {catOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setCatOpen(false)}>
           <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
@@ -444,12 +413,28 @@ export default function EmailSequence({ token }: { token: string | null }) {
                     </Menu>
                     <button
                       type="button"
-                      onClick={() => setOpenEmail(e)}
+                      onClick={(ev) => { ev.stopPropagation(); setOpenEmail(openEmail && openEmail.key === e.key ? null : e); }}
                       className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold"
                     >
-                      Open ({people.length})
+                      Open ({people.length}) {openEmail && openEmail.key === e.key ? '▴' : '▾'}
                     </button>
                   </div>
+                  {openEmail && openEmail.key === e.key && (
+                    <div className="mt-2 ml-8 rounded-lg border border-blue-200 bg-white overflow-hidden">
+                      {people.length === 0 && <p className="px-3 py-2 text-xs text-gray-400">No one is at this email yet.</p>}
+                      {people.map((l, n) => (
+                        <button
+                          key={l.id}
+                          type="button"
+                          onClick={() => setPop({ lead: l, search: '' })}
+                          className={`block w-full text-left px-3 py-2 text-[12px] font-semibold text-navy ${n % 2 ? 'bg-white' : 'bg-blue-100'}`}
+                        >
+                          {contactName(l)}
+                          <span className="block text-[10px] font-normal text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               );
             })}
