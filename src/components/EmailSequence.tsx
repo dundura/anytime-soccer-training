@@ -85,6 +85,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [find, setFind] = useState('');
   // The overview popup: every stage and the people in it.
   const [whoPop, setWhoPop] = useState(false);
+  // A big stage's pill asks which of its sections to show: all of them or one.
+  const [pillPop, setPillPop] = useState<string | null>(null);
   // The email whose contacts are showing in the Open popup.
   const [openEmail, setOpenEmail] = useState<Email | null>(null);
   // The move popup: first pick the person, then pick where to put them.
@@ -551,6 +553,36 @@ export default function EmailSequence({ token }: { token: string | null }) {
   return (
     <div className="p-4 sm:p-6" onClick={() => setMenu(null)}>
       {popup()}
+      {pillPop && (() => {
+        const st = stages.find((x) => x.name === pillPop);
+        if (!st) return null;
+        const pick = (name: string | null) => { setStagePop(name); setPillPop(null); };
+        return (
+          <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setPillPop(null)}>
+            <div className="bg-white rounded-2xl w-full max-w-sm max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
+              <div className="px-5 py-4 bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] text-white flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="text-base font-black">{shown(st.name)}</div>
+                  <div className="text-[11px] text-blue-100">Show all of it, or just one section</div>
+                </div>
+                <button onClick={() => setPillPop(null)} className="text-white/70 text-xl leading-none">×</button>
+              </div>
+              <div className="overflow-y-auto">
+                <button type="button" onClick={() => pick(st.name)} className="block w-full text-left px-5 py-3 text-[13px] font-bold text-white bg-red">All sections</button>
+                {st.subs.map((g, i) => {
+                  const n = visible.filter((l) => inStage(l, g)).length;
+                  return (
+                    <button key={g.name} type="button" onClick={() => pick(g.name)} className={`flex w-full items-center gap-2 text-left px-5 py-2.5 text-[13px] font-normal text-navy ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
+                      <span className="flex-1 min-w-0">{shown(g.name)}</span>
+                      <span className={`shrink-0 text-[11px] font-bold ${n ? 'text-red' : 'text-gray-400'}`}>{n} {n === 1 ? 'person' : 'people'}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
       {whoPop && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setWhoPop(false)}>
           <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
@@ -725,8 +757,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
             <button
               key={st.name}
               type="button"
-              onClick={() => setStagePop(focus === st.name ? null : st.name)}
-              className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white ${n ? 'bg-red' : 'bg-blue-600'} ${focus === st.name ? 'ring-2 ring-navy ring-offset-1' : ''}`}
+              onClick={() => (st.big ? setPillPop(st.name) : setStagePop(focus === st.name ? null : st.name))}
+              className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white ${n ? 'bg-red' : 'bg-blue-600'} ${focus === st.name || (st.big && st.subs.some((g) => g.name === focus)) ? 'ring-2 ring-navy ring-offset-1' : ''}`}
             >
               {i + 1}. {shown(st.name)}{n ? ' (' + n + ')' : ''}
             </button>
