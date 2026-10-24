@@ -433,6 +433,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                 </span>
                 <span className="shrink-0 text-[10px] font-bold uppercase tracking-wide text-red">Waiting for placement</span>
                 <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="shrink-0 px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
+                <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
               </div>
             ))}
             {g.items.map((e, i) => {
@@ -689,11 +690,11 @@ export default function EmailSequence({ token }: { token: string | null }) {
               const at = positionOf(l);
               const stage = at >= 0 ? groups.find((g) => g.items.some((e) => e.key === flat[at].key)) : null;
               return (
+                <div key={l.id} className={`flex items-center ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
                 <button
-                  key={l.id}
                   type="button"
                   onClick={() => setPop({ lead: l, search: '' })}
-                  className={`flex w-full items-center gap-3 text-left px-4 py-2.5 text-[13px] font-normal text-navy ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}
+                  className="flex flex-1 min-w-0 items-center gap-3 text-left px-4 py-2.5 text-[13px] font-normal text-navy"
                 >
                   <span className="flex-1 min-w-0">
                     <span className="block truncate">{contactName(l)}</span>
@@ -703,6 +704,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
                     {at >= 0 && stage ? shown(stage.name) + ' · ' + flat[at].label : (waitingOf(l) ? shown(waitingOf(l) as string) + ' · waiting' : 'Waiting for placement')}
                   </span>
                 </button>
+                <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="shrink-0 mr-3 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
+                </div>
               );
             })}
           </div>
@@ -716,15 +719,17 @@ export default function EmailSequence({ token }: { token: string | null }) {
             </div>
             {notStarted.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">Everyone has been moved into the sequence.</p>}
             {notStarted.map((l, i) => (
-              <button
-                key={l.id}
-                type="button"
-                onClick={() => setPop({ lead: l, search: '' })}
-                className={`block w-full text-left px-4 py-2.5 text-[13px] font-normal text-navy ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}
-              >
-                {contactName(l)}
-                <span className="block text-[10px] text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
-              </button>
+              <div key={l.id} className={`flex items-center ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
+                <button
+                  type="button"
+                  onClick={() => setPop({ lead: l, search: '' })}
+                  className="flex-1 min-w-0 block text-left px-4 py-2.5 text-[13px] font-normal text-navy"
+                >
+                  {contactName(l)}
+                  <span className="block truncate text-[10px] text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
+                </button>
+                <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="shrink-0 mr-3 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
+              </div>
             ))}
           </div>
         )}
