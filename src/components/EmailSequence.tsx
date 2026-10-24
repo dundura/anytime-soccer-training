@@ -651,7 +651,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
             {sendAsk.loading ? (
               <div className="px-6 py-8 text-sm text-gray-400">Loading the email…</div>
             ) : (
-              <div className="px-6 py-5 text-sm" dangerouslySetInnerHTML={{ __html: sendAsk.html }} />
+              <iframe title="Email preview" srcDoc={sendAsk.html} sandbox="" className="block w-full border-0 bg-white" style={{ height: '65vh' }} />
             )}
             <div className="px-5 py-4 border-t border-gray-100 flex justify-end gap-2">
               <button onClick={() => setSendAsk(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">{sendAsk.preview ? 'Close' : 'Cancel'}</button>
