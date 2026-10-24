@@ -47,9 +47,9 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [showHidden, setShowHidden] = useState(false);
   const [showDeleted, setShowDeleted] = useState(false);
   // Which category is showing. Only the picked one is drawn, so the page stays short.
-  const [sel, setSel] = useState('Not started');
+  const [sel, setSel] = useState('');
   // The move popup: first pick the person, then pick where to put them.
-  const [pop, setPop] = useState<{ lead: Lead | null; search: string } | null>(null);
+  const [pop, setPop] = useState<{ lead: Lead | null; search: string; only?: boolean } | null>(null);
 
   const headers = useCallback(
     () => ({
@@ -117,6 +117,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
     return at;
   }, [flat]);
 
+  const shownGroup = sel || (groups[0] ? groups[0].name : '');
   const visible = leads.filter((l) => !l.seqHiddenAt);
   const hidden = leads.filter((l) => l.seqHiddenAt);
   const notStarted = visible.filter((l) => positionOf(l) < 0);
@@ -224,7 +225,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
     if (!pop) return null;
     const close = () => setPop(null);
     const q = pop.search.trim().toLowerCase();
-    const list = visible.filter((l) => !q || (contactName(l) + ' ' + (l.name || '') + ' ' + (l.email || '')).toLowerCase().includes(q));
+    const list = (pop.only ? notStarted : visible).filter((l) => !q || (contactName(l) + ' ' + (l.name || '') + ' ' + (l.email || '')).toLowerCase().includes(q));
     const lead = pop.lead;
     const at = lead ? positionOf(lead) : -1;
     const place = lead ? (at >= 0 ? flat[at].label : 'Not started') : '';
@@ -244,7 +245,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
               <div className="px-4 py-3 border-b border-gray-100">
                 <input
                   value={pop.search}
-                  onChange={(ev) => setPop({ lead: null, search: ev.target.value })}
+                  onChange={(ev) => setPop({ lead: null, search: ev.target.value, only: pop.only })}
                   placeholder="Search name, club, email"
                   className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm"
                   autoFocus
@@ -268,7 +269,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
           ) : (
             <>
               <div className="px-4 py-2 border-b border-gray-100 flex items-center justify-between">
-                <button onClick={() => setPop({ lead: null, search: '' })} className="text-[12px] font-bold text-navy">← Pick someone else</button>
+                <button onClick={() => setPop({ lead: null, search: '', only: pop.only })} className="text-[12px] font-bold text-navy">← Pick someone else</button>
                 <button onClick={() => { hideContact(lead, true); close(); }} disabled={busy} className="text-[12px] font-bold text-red disabled:opacity-50">Hide from this page</button>
               </div>
               <div className="overflow-y-auto">
@@ -348,28 +349,27 @@ export default function EmailSequence({ token }: { token: string | null }) {
       )}
 
       <div className="flex flex-wrap gap-2 mb-3">
-        {[{ name: 'Not started', count: notStarted.length }, ...groups.map((g) => ({ name: g.name, count: g.items.length }))].map((p) => (
+        <button
+          type="button"
+          onClick={() => setPop({ lead: null, search: '', only: true })}
+          className="px-3 py-1.5 rounded-full text-xs font-bold bg-red text-white"
+        >
+          Not started ({notStarted.length})
+        </button>
+        {groups.map((g) => (
           <button
-            key={p.name}
+            key={g.name}
             type="button"
-            onClick={() => setSel(p.name)}
-            className={`px-3 py-1.5 rounded-full text-xs font-bold ${sel === p.name ? 'bg-navy text-white' : 'bg-gray-100 text-gray-600'}`}
+            onClick={() => setSel(g.name)}
+            className={`px-3 py-1.5 rounded-full text-xs font-bold ${shownGroup === g.name ? 'bg-navy text-white' : 'bg-gray-100 text-gray-600'}`}
           >
-            {shown(p.name)} ({p.count})
+            {shown(g.name)} ({g.items.length})
           </button>
         ))}
       </div>
 
       <div className="border border-gray-200 rounded-xl overflow-visible">
-        {sel === 'Not started' && (
-          <div className="px-4 py-3">
-            <div className="flex flex-wrap gap-1.5">
-              {notStarted.length === 0 && <span className="text-xs text-gray-400">Everyone has been moved into the sequence.</span>}
-              {notStarted.map(contactChip)}
-            </div>
-          </div>
-        )}
-        {groups.filter((g) => g.name === sel).map((g) => (
+        {groups.filter((g) => g.name === shownGroup).map((g) => (
           <div key={g.name} className="divide-y divide-gray-100">
             {g.items.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No emails here.</p>}
             {g.items.map((e, i) => {
