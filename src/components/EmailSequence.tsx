@@ -368,8 +368,11 @@ export default function EmailSequence({ token }: { token: string | null }) {
               <div className="overflow-y-auto">
                 {groups.filter((g) => g.items.length).map((g) => (
                   <div key={g.name}>
-                    <div className="flex items-center gap-2 pr-3 bg-gray-100">
-                      <div className="flex-1 min-w-0 px-5 py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-gray-500">{shown(g.name)}</div>
+                    <div
+                      className={`flex items-center gap-2 pr-3 ${at < 0 && !waitingOf(lead) ? 'py-1.5 bg-blue-100 cursor-pointer' : 'bg-gray-100'}`}
+                      onClick={at < 0 && !waitingOf(lead) && !busy ? async () => { const ok = await call(`/leads/${lead.id}/mark-sent`, { labels: [stageMark(g.name)] }, 'Placed in ' + shown(g.name)); if (ok) { setStagePop(g.name); close(); } } : undefined}
+                    >
+                      <div className={`flex-1 min-w-0 px-5 ${at < 0 && !waitingOf(lead) ? 'py-1.5 text-[13px] font-bold text-navy' : 'py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-gray-500'}`}>{shown(g.name)}</div>
                       <button
                         type="button"
                         disabled={busy}
