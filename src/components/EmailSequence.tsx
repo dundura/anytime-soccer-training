@@ -59,7 +59,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
   // Every stage is on the page and shut until it is opened.
   // The stage showing on its own in a popup.
   // An email waiting for a yes before it really goes out.
-  const [sendAsk, setSendAsk] = useState<{ lead: Lead; email: Email; subject: string; html: string; loading: boolean } | null>(null);
+  const [sendAsk, setSendAsk] = useState<{ lead: Lead; email: Email; subject: string; html: string; loading: boolean; preview?: boolean } | null>(null);
   // What is open is remembered on this device, so a refresh puts the page back as it was.
   // In the Move popup, which stage is open. undefined = the one the person is in; the rest start collapsed.
   const [popOpen, setPopOpen] = useState<string | null | undefined>(undefined);
@@ -257,8 +257,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
   };
 
   // The email as the club will get it, shown before anything is sent. The subject can be edited, same as on the lead card.
-  const openSend = async (l: Lead, e: Email) => {
-    setSendAsk({ lead: l, email: e, subject: '', html: '', loading: true });
+  const openSend = async (l: Lead, e: Email, preview = false) => {
+    setSendAsk({ lead: l, email: e, subject: '', html: '', loading: true, preview });
     try {
       const url = e.onboarding
         ? `/leads/${l.id}/onboarding-preview?key=${encodeURIComponent(e.key)}`
@@ -266,7 +266,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
       const res = await fetch(`${API}/demo-portal${url}`, { headers: headers() });
       const d = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(d.error || 'Could not build that email.');
-      setSendAsk({ lead: l, email: e, subject: d.subject || '', html: d.html || '', loading: false });
+      setSendAsk({ lead: l, email: e, subject: d.subject || '', html: d.html || '', loading: false, preview });
     } catch (err) {
       flash(err instanceof Error ? err.message : 'Could not build that email.');
       setSendAsk(null);
@@ -471,6 +471,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                       {e.auto && <span className="ml-1.5 text-[9px] font-bold uppercase tracking-wide text-emerald-600">auto</span>}
                     </span>
                     <Menu id={'e' + e.key}>
+                      <Item onClick={() => { const l = visible[0] || leads[0]; if (!l) { flash('Add a contact first, the preview is filled in with one.'); return; } openSend(l, e, true); }}>Preview</Item>
                       <Item onClick={() => moveEmail(g.name, i, -1)}>Move up</Item>
                       <Item onClick={() => moveEmail(g.name, i, 1)}>Move down</Item>
                       <Item danger onClick={() => deleteEmail(e)}>Delete</Item>
@@ -592,8 +593,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
         <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" onClick={() => setSendAsk(null)}>
           <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[92vh] overflow-y-auto" onClick={(ev) => ev.stopPropagation()}>
             <div className="px-5 py-4 border-b border-gray-100">
-              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">To {sendAsk.lead.email}</div>
-              {sendAsk.email.onboarding ? (
+              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">{sendAsk.preview ? 'Preview, filled in for ' + contactName(sendAsk.lead) + '. Nothing is sent.' : 'To ' + sendAsk.lead.email}</div>
+              {sendAsk.email.onboarding || sendAsk.preview ? (
                 <div className="mt-1 px-2 py-1.5 text-sm font-semibold text-navy">{sendAsk.subject || sendAsk.email.label}</div>
               ) : (
                 <input
@@ -609,10 +610,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
               <div className="px-6 py-5 text-sm" dangerouslySetInnerHTML={{ __html: sendAsk.html }} />
             )}
             <div className="px-5 py-4 border-t border-gray-100 flex justify-end gap-2">
-              <button onClick={() => setSendAsk(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">Cancel</button>
-              <button onClick={() => sendNow(sendAsk.lead, sendAsk.email, sendAsk.subject)} disabled={busy || sendAsk.loading} className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50">
+              <button onClick={() => setSendAsk(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">{sendAsk.preview ? 'Close' : 'Cancel'}</button>
+              {!sendAsk.preview && <button onClick={() => sendNow(sendAsk.lead, sendAsk.email, sendAsk.subject)} disabled={busy || sendAsk.loading} className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50">
                 {busy ? 'Sending…' : 'Send'}
-              </button>
+              </button>}
             </div>
           </div>
         </div>
