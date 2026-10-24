@@ -50,7 +50,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
   // Every stage is on the page and shut until it is opened.
   // The stage showing on its own in a popup.
   // An email waiting for a yes before it really goes out.
-  const [sendAsk, setSendAsk] = useState<{ lead: Lead; email: Email } | null>(null);
+  const [sendAsk, setSendAsk] = useState<{ lead: Lead; email: Email; subject: string; html: string; loading: boolean } | null>(null);
   // What is open is remembered on this device, so a refresh puts the page back as it was.
   const [stagePop, setStagePopState] = useState<string | null>(() => {
     try { return localStorage.getItem('seqStagePop') || null; } catch { return null; }
@@ -206,13 +206,30 @@ export default function EmailSequence({ token }: { token: string | null }) {
     call(`/leads/${l.id}/mark-sent`, { labels: [next.label] }, 'Moved down to ' + next.label);
   };
 
+  // The email as the club will get it, shown before anything is sent. The subject can be edited, same as on the lead card.
+  const openSend = async (l: Lead, e: Email) => {
+    setSendAsk({ lead: l, email: e, subject: '', html: '', loading: true });
+    try {
+      const url = e.onboarding
+        ? `/leads/${l.id}/onboarding-preview?key=${encodeURIComponent(e.key)}`
+        : `/template/${encodeURIComponent(e.key)}?leadId=${l.id}`;
+      const res = await fetch(`${API}/demo-portal${url}`, { headers: headers() });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || 'Could not build that email.');
+      setSendAsk({ lead: l, email: e, subject: d.subject || '', html: d.html || '', loading: false });
+    } catch (err) {
+      flash(err instanceof Error ? err.message : 'Could not build that email.');
+      setSendAsk(null);
+    }
+  };
+
   // The one place an email really goes out. It runs only from the confirm box; moving a contact never gets here.
-  const sendNow = async (l: Lead, e: Email) => {
+  const sendNow = async (l: Lead, e: Email, subject: string) => {
     if (busy) return;
     setBusy(true);
     try {
       const url = e.onboarding ? `/leads/${l.id}/onboarding-email` : `/leads/${l.id}/email`;
-      const body = e.onboarding ? { key: e.key } : { template: e.key };
+      const body = e.onboarding ? { key: e.key } : { template: e.key, subject };
       const res = await fetch(`${API}/demo-portal${url}`, { method: 'POST', headers: headers(), body: JSON.stringify(body) });
       const d = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(d.error || 'Could not send that email.');
@@ -345,7 +362,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                         <button
                           type="button"
                           disabled={busy || !lead.email}
-                          onClick={() => setSendAsk({ lead, email: e })}
+                          onClick={() => openSend(lead, e)}
                           className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-40"
                         >
                           Send
@@ -416,15 +433,28 @@ export default function EmailSequence({ token }: { token: string | null }) {
       {popup()}
       {sendAsk && (
         <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" onClick={() => setSendAsk(null)}>
-          <div className="bg-white rounded-2xl w-full max-w-sm p-5" onClick={(ev) => ev.stopPropagation()}>
-            <div className="text-base font-black text-navy mb-1">Send this email?</div>
-            <p className="text-sm text-gray-600 mb-4">
-              <strong>{sendAsk.email.label}</strong> goes to {contactName(sendAsk.lead)} at {sendAsk.lead.email} right now. This sends a real email.
-            </p>
-            <div className="flex justify-end gap-2">
+          <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[92vh] overflow-y-auto" onClick={(ev) => ev.stopPropagation()}>
+            <div className="px-5 py-4 border-b border-gray-100">
+              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400">To {sendAsk.lead.email}</div>
+              {sendAsk.email.onboarding ? (
+                <div className="mt-1 px-2 py-1.5 text-sm font-semibold text-navy">{sendAsk.subject || sendAsk.email.label}</div>
+              ) : (
+                <input
+                  value={sendAsk.subject}
+                  onChange={(ev) => setSendAsk({ ...sendAsk, subject: ev.target.value })}
+                  className="w-full mt-1 px-2 py-1.5 rounded-lg border border-gray-200 text-sm font-semibold"
+                />
+              )}
+            </div>
+            {sendAsk.loading ? (
+              <div className="px-6 py-8 text-sm text-gray-400">Loading the email…</div>
+            ) : (
+              <div className="px-6 py-5 text-sm" dangerouslySetInnerHTML={{ __html: sendAsk.html }} />
+            )}
+            <div className="px-5 py-4 border-t border-gray-100 flex justify-end gap-2">
               <button onClick={() => setSendAsk(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">Cancel</button>
-              <button onClick={() => sendNow(sendAsk.lead, sendAsk.email)} disabled={busy} className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50">
-                {busy ? 'Sending…' : 'Send it'}
+              <button onClick={() => sendNow(sendAsk.lead, sendAsk.email, sendAsk.subject)} disabled={busy || sendAsk.loading} className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50">
+                {busy ? 'Sending…' : 'Send'}
               </button>
             </div>
           </div>
