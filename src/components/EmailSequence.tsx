@@ -46,7 +46,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [menu, setMenu] = useState<string | null>(null);
   const [showHidden, setShowHidden] = useState(false);
   const [showDeleted, setShowDeleted] = useState(false);
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+  // Which category is showing. Only the picked one is drawn, so the page stays short.
+  const [sel, setSel] = useState('Not started');
   // The move popup: first pick the person, then pick where to put them.
   const [pop, setPop] = useState<{ lead: Lead | null; search: string } | null>(null);
 
@@ -346,58 +347,54 @@ export default function EmailSequence({ token }: { token: string | null }) {
         </div>
       )}
 
-      <div className="border border-gray-200 rounded-xl overflow-visible">
-        <div className="px-4 py-3 border-b border-gray-100 bg-gray-50 rounded-t-xl">
-          <div className="text-[11px] font-extrabold uppercase tracking-wide text-gray-500">Not started <span className="text-gray-400">({notStarted.length})</span></div>
-          <div className="flex flex-wrap gap-1.5 mt-2">
-            {notStarted.length === 0 && <span className="text-xs text-gray-400">Everyone has had at least one email.</span>}
-            {notStarted.map(contactChip)}
-          </div>
-        </div>
+      <div className="flex flex-wrap gap-2 mb-3">
+        {[{ name: 'Not started', count: notStarted.length }, ...groups.map((g) => ({ name: g.name, count: g.items.length }))].map((p) => (
+          <button
+            key={p.name}
+            type="button"
+            onClick={() => setSel(p.name)}
+            className={`px-3 py-1.5 rounded-full text-xs font-bold ${sel === p.name ? 'bg-navy text-white' : 'bg-gray-100 text-gray-600'}`}
+          >
+            {shown(p.name)} ({p.count})
+          </button>
+        ))}
+      </div>
 
-        {groups.map((g) => {
-          const open = openGroups[g.name] === true;
-          const here = visible.filter((l) => g.items.some((e) => flat.indexOf(e) === positionOf(l)));
-          return (
-            <div key={g.name} className="border-b border-gray-100 last:border-0">
-              <button
-                type="button"
-                onClick={() => setOpenGroups((o) => ({ ...o, [g.name]: !open }))}
-                className="w-full flex items-center gap-2 px-4 py-2.5 text-left hover:bg-gray-50"
-              >
-                <span className="text-[10px] text-gray-400 w-3">{open ? '▾' : '▸'}</span>
-                <span className="flex-1 text-[12px] font-extrabold uppercase tracking-wide text-navy">{shown(g.name)}</span>
-                <span className="text-[10px] font-bold text-gray-400">{here.length ? here.length + ' here · ' : ''}{g.items.length} emails</span>
-              </button>
-              {open && (
-                <div className="divide-y divide-gray-100 border-t border-gray-100">
-                  {g.items.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No emails here.</p>}
-                  {g.items.map((e, i) => {
-                    const at = flat.indexOf(e);
-                    const people = visible.filter((l) => positionOf(l) === at);
-                    return (
-                      <div key={e.key} className={`px-4 py-2.5 ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
-                        <div className="flex items-center gap-2">
-                          <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{i + 1}</span>
-                          <span className="flex-1 min-w-0 text-[13px] font-bold text-navy">
-                            {e.label}
-                            {e.auto && <span className="ml-1.5 text-[9px] font-bold uppercase tracking-wide text-emerald-600">auto</span>}
-                          </span>
-                          <Menu id={'e' + e.key}>
-                            <Item onClick={() => moveEmail(g.name, i, -1)}>Move up</Item>
-                            <Item onClick={() => moveEmail(g.name, i, 1)}>Move down</Item>
-                            <Item danger onClick={() => deleteEmail(e)}>Delete</Item>
-                          </Menu>
-                        </div>
-                        {people.length > 0 && <div className="flex flex-wrap gap-1.5 mt-2 pl-8">{people.map(contactChip)}</div>}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+      <div className="border border-gray-200 rounded-xl overflow-visible">
+        {sel === 'Not started' && (
+          <div className="px-4 py-3">
+            <div className="flex flex-wrap gap-1.5">
+              {notStarted.length === 0 && <span className="text-xs text-gray-400">Everyone has been moved into the sequence.</span>}
+              {notStarted.map(contactChip)}
             </div>
-          );
-        })}
+          </div>
+        )}
+        {groups.filter((g) => g.name === sel).map((g) => (
+          <div key={g.name} className="divide-y divide-gray-100">
+            {g.items.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No emails here.</p>}
+            {g.items.map((e, i) => {
+              const at = flat.indexOf(e);
+              const people = visible.filter((l) => positionOf(l) === at);
+              return (
+                <div key={e.key} className={`px-4 py-2.5 ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
+                  <div className="flex items-center gap-2">
+                    <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{i + 1}</span>
+                    <span className="flex-1 min-w-0 text-[13px] font-bold text-navy">
+                      {e.label}
+                      {e.auto && <span className="ml-1.5 text-[9px] font-bold uppercase tracking-wide text-emerald-600">auto</span>}
+                    </span>
+                    <Menu id={'e' + e.key}>
+                      <Item onClick={() => moveEmail(g.name, i, -1)}>Move up</Item>
+                      <Item onClick={() => moveEmail(g.name, i, 1)}>Move down</Item>
+                      <Item danger onClick={() => deleteEmail(e)}>Delete</Item>
+                    </Menu>
+                  </div>
+                  {people.length > 0 && <div className="flex flex-wrap gap-1.5 mt-2 pl-8">{people.map(contactChip)}</div>}
+                </div>
+              );
+            })}
+          </div>
+        ))}
       </div>
     </div>
   );
