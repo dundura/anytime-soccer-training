@@ -218,7 +218,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
   );
 
   const contactChip = (l: Lead) => (
-    <div key={l.id} className="flex items-center gap-1.5 rounded-full bg-blue-50 border border-blue-100 pl-3 pr-1 py-0.5">
+    <div key={l.id} className="flex items-center gap-1.5 rounded-full bg-white border border-blue-300 pl-3 pr-1 py-0.5">
       <span className="text-[11px] font-bold text-navy truncate max-w-[180px]">{contactName(l)}</span>
       <Menu id={'c' + l.id}>
         <Item onClick={() => moveContactDown(l)}>Move down one email</Item>
@@ -320,7 +320,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                     const at = flat.indexOf(e);
                     const people = visible.filter((l) => positionOf(l) === at);
                     return (
-                      <div key={e.key} className={`px-4 py-2.5 ${i % 2 ? 'bg-blue-50/40' : 'bg-white'}`}>
+                      <div key={e.key} className={`px-4 py-2.5 ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
                         <div className="flex items-center gap-2">
                           <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{i + 1}</span>
                           <span className="flex-1 min-w-0 text-[13px] font-bold text-navy">
