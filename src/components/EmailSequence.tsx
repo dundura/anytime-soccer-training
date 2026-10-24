@@ -347,7 +347,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                     <div className="px-5 py-1.5 bg-gray-100 text-[10px] font-extrabold uppercase tracking-wide text-gray-500">{shown(g.name)}</div>
                     {g.items.map((e) => (
                       <div key={e.key} className={`flex items-center gap-2 pr-3 ${row++ % 2 ? 'bg-white' : 'bg-blue-100'}`}>
-                        <div className="flex-1 min-w-0 px-5 py-2.5 text-[13px] font-semibold text-navy">
+                        <div className="flex-1 min-w-0 px-5 py-2.5 text-[13px] font-normal text-navy">
                           {e.label}
                           {alreadySent(e.label, lead.sent) && <span className="ml-2 text-[10px] font-bold text-emerald-600">done</span>}
                         </div>
@@ -389,7 +389,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                 <div key={e.key} className={`px-4 py-2.5 ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
                   <div className="flex items-center gap-2">
                     <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{i + 1}</span>
-                    <span className="flex-1 min-w-0 text-[13px] font-bold text-navy">
+                    <span className="flex-1 min-w-0 text-[13px] font-normal text-navy">
                       {e.label}
                       {e.auto && <span className="ml-1.5 text-[9px] font-bold uppercase tracking-wide text-emerald-600">auto</span>}
                     </span>
@@ -529,7 +529,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
           className="w-full flex items-center gap-2 px-4 py-2.5 text-left bg-blue-100 border-b border-gray-100 rounded-t-xl"
         >
           <span className="text-[10px] text-gray-400 w-3">▸</span>
-          <span className="flex-1 text-[13px] font-normal text-red">Not started</span>
+          <span className="flex-1 text-[13px] font-bold text-red">Not started</span>
           <span className="text-[11px] font-normal text-gray-400">{notStarted.length} contacts</span>
         </button>
         {groups.map((g, gi) => {
@@ -543,7 +543,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                 className="flex-1 min-w-0 flex items-center gap-2 px-4 py-2.5 text-left"
               >
                 <span className="text-[10px] text-gray-400 w-3">{isOpen ? '▾' : '▸'}</span>
-                <span className="flex-1 text-[13px] font-normal text-navy">{shown(g.name)}</span>
+                <span className="flex-1 text-[13px] font-bold text-navy">{shown(g.name)}</span>
                 <span className="text-[11px] font-normal text-gray-400">{g.items.length} {g.items.length === 1 ? 'email' : 'emails'}</span>
               </button>
               <button
