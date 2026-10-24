@@ -29,7 +29,7 @@ const shown = (g: string) => SHOWN[g] || g;
 // Two server groups that are the same stage here.
 const ALIAS: Record<string, string> = { 'Confirming with others FAQ': 'FAQ' };
 // The three chasers after the demo get a sub-section of their own on this page (the server still files them under After Demo Follow-up).
-const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked', any_questions: 'Final push', your_timing: 'Final push', tried_calling: 'Final push', which_are_you: 'Getting the demo booked', demo_today: 'Chasing a quiet lead', demo_today_tomorrow: 'Chasing a quiet lead', coachReachOut: 'Not the coach', wanted_demo: 'Chasing a quiet lead', cant_make_it: 'Chasing a quiet lead', rebook_later: 'Chasing a quiet lead', sevenToTenDays: 'Follow-up - not received roster yet', rosterNudge: 'Follow-up - not received roster yet' };
+const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked', any_questions: 'Final push', your_timing: 'Final push', tried_calling: 'Final push', which_are_you: 'Getting the demo booked', demo_today: 'Chasing a quiet lead', demo_today_tomorrow: 'Chasing a quiet lead', coachReachOut: 'Not the coach', wanted_demo: 'Chasing a quiet lead', cant_make_it: 'Chasing a quiet lead', rebook_later: 'Chasing a quiet lead', sevenToTenDays: 'Follow-up - not received roster yet', rosterNudge: 'Follow-up - not received roster yet', rosterResend: 'Follow-up - not received roster yet' };
 // Names on this page that differ from the email's own title.
 const LABEL: Record<string, string> = { book_a_demo: 'Book a demo - emailed us' };
 const groupOf = (g: string, key?: string) => (key && KEY_GROUP[key]) || ALIAS[g] || g;
@@ -153,6 +153,11 @@ export default function EmailSequence({ token }: { token: string | null }) {
         if (sa && sb) return sa.sortOrder - sb.sortOrder;
         return def.indexOf(a.key) - def.indexOf(b.key);
       });
+      // The roster resend is number 2 in the roster follow-up.
+      if (g === 'Follow-up - not received roster yet' && !saved.has('rosterResend')) {
+        const at = list.findIndex((x) => x.key === 'rosterResend');
+        if (at >= 0) { const [m] = list.splice(at, 1); list.splice(Math.min(1, list.length), 0, m); }
+      }
       // Did you want a quick demo? opens Chasing to book demo.
       if (g === 'Chasing a quiet lead' && !saved.has('wanted_demo')) list.sort((x, y) => Number(y.key === 'wanted_demo') - Number(x.key === 'wanted_demo'));
       // I tried calling you opens Final push.
