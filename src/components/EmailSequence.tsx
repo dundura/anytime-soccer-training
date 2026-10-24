@@ -52,6 +52,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [showHidden, setShowHidden] = useState(false);
   const [showDeleted, setShowDeleted] = useState(false);
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+  // The move popup: first pick the person, then pick where to put them.
+  const [pop, setPop] = useState<{ lead: Lead | null; search: string } | null>(null);
 
   const headers = useCallback(
     () => ({
@@ -172,17 +174,11 @@ export default function EmailSequence({ token }: { token: string | null }) {
   // Moving to an email marks that one, and the ones before it in the same group, as done. Nothing is sent.
   const moveContactTo = (l: Lead, target: Email) => {
     const g = groups.find((x) => x.items.some((i) => i.key === target.key));
-    if (!g) return;
+    if (!g) return false;
     const upTo = g.items.slice(0, g.items.findIndex((i) => i.key === target.key) + 1);
     const labels = upTo.filter((e) => !alreadySent(e.label, l.sent)).map((e) => e.label);
-    if (!labels.length) { flash('They are already past that email.'); setMenu(null); return; }
-    call(`/leads/${l.id}/mark-sent`, { labels }, 'Moved to ' + target.label);
-  };
-
-  const moveContactDown = (l: Lead) => {
-    const next = flat[positionOf(l) + 1];
-    if (!next) { flash('They are at the last email.'); setMenu(null); return; }
-    call(`/leads/${l.id}/mark-sent`, { labels: [next.label] }, 'Moved to ' + next.label);
+    if (!labels.length) { flash('They are already past that email.'); setMenu(null); return false; }
+    return call(`/leads/${l.id}/mark-sent`, { labels }, 'Moved to ' + target.label);
   };
 
   const hideContact = (l: Lead, hide: boolean) =>
@@ -218,40 +214,105 @@ export default function EmailSequence({ token }: { token: string | null }) {
   );
 
   const contactChip = (l: Lead) => (
-    <div key={l.id} className="flex items-center gap-1.5 rounded-full bg-white border border-blue-300 pl-3 pr-1 py-0.5">
-      <span className="text-[11px] font-bold text-navy truncate max-w-[180px]">{contactName(l)}</span>
-      <Menu id={'c' + l.id}>
-        <Item onClick={() => moveContactDown(l)}>Move down one email</Item>
-        <div className="px-3 py-2 border-t border-gray-100">
-          <label className="block text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-1">Move to…</label>
-          <select
-            defaultValue=""
-            onChange={(ev) => { const e = flat.find((x) => x.key === ev.target.value); if (e) moveContactTo(l, e); }}
-            className="w-full px-2 py-1.5 rounded-lg border border-gray-200 text-[11px]"
-          >
-            <option value="" disabled>Pick an email</option>
-            {groups.filter((g) => g.items.length).map((g) => (
-              <optgroup key={g.name} label={shown(g.name)}>
-                {g.items.map((e) => <option key={e.key} value={e.key}>{e.label}</option>)}
-              </optgroup>
-            ))}
-          </select>
-        </div>
-        <Item onClick={() => hideContact(l, true)}>Hide from this page</Item>
-      </Menu>
-    </div>
+    <button
+      key={l.id}
+      type="button"
+      onClick={(ev) => { ev.stopPropagation(); setPop({ lead: l, search: '' }); }}
+      className="rounded-full bg-white border border-blue-300 px-3 py-1 text-[11px] font-bold text-navy truncate max-w-[220px] hover:bg-blue-50"
+    >
+      {contactName(l)}
+    </button>
   );
+
+  const popup = () => {
+    if (!pop) return null;
+    const close = () => setPop(null);
+    const q = pop.search.trim().toLowerCase();
+    const list = visible.filter((l) => !q || (contactName(l) + ' ' + (l.name || '') + ' ' + (l.email || '')).toLowerCase().includes(q));
+    const lead = pop.lead;
+    const at = lead ? positionOf(lead) : -1;
+    const place = lead ? (at >= 0 ? flat[at].label : 'Not started') : '';
+    let row = 0;
+    return (
+      <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={close}>
+        <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
+          <div className="px-5 py-4 bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] text-white flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <div className="text-base font-black">{lead ? 'Where should they go?' : 'Move a contact'}</div>
+              <div className="text-[11px] text-blue-100 truncate">{lead ? contactName(lead) + ' · now at: ' + place : 'Pick the person first'}</div>
+            </div>
+            <button onClick={close} className="text-white/70 text-xl leading-none">×</button>
+          </div>
+          {!lead ? (
+            <>
+              <div className="px-4 py-3 border-b border-gray-100">
+                <input
+                  value={pop.search}
+                  onChange={(ev) => setPop({ lead: null, search: ev.target.value })}
+                  placeholder="Search name, club, email"
+                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm"
+                  autoFocus
+                />
+              </div>
+              <div className="overflow-y-auto">
+                {list.length === 0 && <p className="px-5 py-4 text-sm text-gray-400">No one found.</p>}
+                {list.map((l) => (
+                  <button
+                    key={l.id}
+                    type="button"
+                    onClick={() => setPop({ lead: l, search: '' })}
+                    className={`block w-full text-left px-5 py-2.5 text-[13px] font-semibold text-navy ${row++ % 2 ? 'bg-white' : 'bg-blue-100'}`}
+                  >
+                    {contactName(l)}
+                    <span className="block text-[10px] font-normal text-gray-500">{positionOf(l) >= 0 ? 'At: ' + flat[positionOf(l)].label : 'Not started'}</span>
+                  </button>
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="px-4 py-2 border-b border-gray-100 flex items-center justify-between">
+                <button onClick={() => setPop({ lead: null, search: '' })} className="text-[12px] font-bold text-navy">← Pick someone else</button>
+                <button onClick={() => { hideContact(lead, true); close(); }} disabled={busy} className="text-[12px] font-bold text-red disabled:opacity-50">Hide from this page</button>
+              </div>
+              <div className="overflow-y-auto">
+                {groups.filter((g) => g.items.length).map((g) => (
+                  <div key={g.name}>
+                    <div className="px-5 py-1.5 bg-gray-100 text-[10px] font-extrabold uppercase tracking-wide text-gray-500">{shown(g.name)}</div>
+                    {g.items.map((e) => (
+                      <button
+                        key={e.key}
+                        type="button"
+                        disabled={busy}
+                        onClick={async () => { const ok = await moveContactTo(lead, e); if (ok) close(); }}
+                        className={`block w-full text-left px-5 py-2.5 text-[13px] font-semibold text-navy disabled:opacity-50 ${row++ % 2 ? 'bg-white' : 'bg-blue-100'}`}
+                      >
+                        {e.label}
+                        {alreadySent(e.label, lead.sent) && <span className="ml-2 text-[10px] font-bold text-emerald-600">done</span>}
+                      </button>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   if (loading) return <div className="p-6 text-sm text-gray-500">Loading…</div>;
 
   return (
     <div className="p-4 sm:p-6" onClick={() => setMenu(null)}>
+      {popup()}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
         <div>
           <h2 className="text-lg font-black text-navy">Email sequence</h2>
           <p className="text-[11px] text-gray-500">Moving a contact marks emails as done. It never sends anything.</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          <button onClick={() => setPop({ lead: null, search: '' })} className="px-3 py-2 rounded-lg bg-red text-white text-xs font-bold">Move a contact</button>
           <button onClick={() => setShowHidden((v) => !v)} className="px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-xs font-bold">
             Hidden contacts ({hidden.length})
           </button>
@@ -300,7 +361,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
         </div>
 
         {groups.map((g) => {
-          const open = openGroups[g.name] !== false;
+          const open = openGroups[g.name] === true;
           const here = visible.filter((l) => g.items.some((e) => flat.indexOf(e) === positionOf(l)));
           return (
             <div key={g.name} className="border-b border-gray-100 last:border-0">
