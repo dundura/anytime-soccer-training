@@ -49,6 +49,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
   // Which category is showing. Only the picked one is drawn, so the page stays short.
   // Every stage is on the page and shut until it is opened.
   // The stage showing on its own in a popup.
+  // An email waiting for a yes before it really goes out.
+  const [sendAsk, setSendAsk] = useState<{ lead: Lead; email: Email } | null>(null);
   const [stagePop, setStagePop] = useState<string | null>(null);
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
   // The email whose contacts are showing in the Open popup.
@@ -189,6 +191,30 @@ export default function EmailSequence({ token }: { token: string | null }) {
     call(`/leads/${l.id}/mark-sent`, { labels: [next.label] }, 'Moved down to ' + next.label);
   };
 
+  // The one place an email really goes out. It runs only from the confirm box; moving a contact never gets here.
+  const sendNow = async (l: Lead, e: Email) => {
+    if (busy) return;
+    setBusy(true);
+    try {
+      const url = e.onboarding ? `/leads/${l.id}/onboarding-email` : `/leads/${l.id}/email`;
+      const body = e.onboarding ? { key: e.key } : { template: e.key };
+      const res = await fetch(`${API}/demo-portal${url}`, { method: 'POST', headers: headers(), body: JSON.stringify(body) });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || 'Could not send that email.');
+      if (!alreadySent(e.label, l.sent)) {
+        await fetch(`${API}/demo-portal/leads/${l.id}/mark-sent`, { method: 'POST', headers: headers(), body: JSON.stringify({ labels: [e.label] }) });
+      }
+      flash('Sent to ' + (l.email || contactName(l)));
+      setSendAsk(null);
+      setPop(null);
+      await load();
+    } catch (err) {
+      flash(err instanceof Error ? err.message : 'Could not send that email.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const hideContact = (l: Lead, hide: boolean) =>
     call(`/leads/${l.id}/seq-hide`, { hidden: hide }, hide ? 'Hidden from this page' : 'Added back');
 
@@ -288,16 +314,25 @@ export default function EmailSequence({ token }: { token: string | null }) {
                   <div key={g.name}>
                     <div className="px-5 py-1.5 bg-gray-100 text-[10px] font-extrabold uppercase tracking-wide text-gray-500">{shown(g.name)}</div>
                     {g.items.map((e) => (
-                      <button
-                        key={e.key}
-                        type="button"
-                        disabled={busy}
-                        onClick={async () => { const ok = await moveContactTo(lead, e); if (ok) close(); }}
-                        className={`block w-full text-left px-5 py-2.5 text-[13px] font-semibold text-navy disabled:opacity-50 ${row++ % 2 ? 'bg-white' : 'bg-blue-100'}`}
-                      >
-                        {e.label}
-                        {alreadySent(e.label, lead.sent) && <span className="ml-2 text-[10px] font-bold text-emerald-600">done</span>}
-                      </button>
+                      <div key={e.key} className={`flex items-center gap-2 pr-3 ${row++ % 2 ? 'bg-white' : 'bg-blue-100'}`}>
+                        <button
+                          type="button"
+                          disabled={busy}
+                          onClick={async () => { const ok = await moveContactTo(lead, e); if (ok) close(); }}
+                          className="flex-1 min-w-0 text-left px-5 py-2.5 text-[13px] font-semibold text-navy disabled:opacity-50"
+                        >
+                          {e.label}
+                          {alreadySent(e.label, lead.sent) && <span className="ml-2 text-[10px] font-bold text-emerald-600">done</span>}
+                        </button>
+                        <button
+                          type="button"
+                          disabled={busy || !lead.email}
+                          onClick={() => setSendAsk({ lead, email: e })}
+                          className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-40"
+                        >
+                          Send
+                        </button>
+                      </div>
                     ))}
                   </div>
                 ))}
@@ -361,6 +396,22 @@ export default function EmailSequence({ token }: { token: string | null }) {
   return (
     <div className="p-4 sm:p-6" onClick={() => setMenu(null)}>
       {popup()}
+      {sendAsk && (
+        <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" onClick={() => setSendAsk(null)}>
+          <div className="bg-white rounded-2xl w-full max-w-sm p-5" onClick={(ev) => ev.stopPropagation()}>
+            <div className="text-base font-black text-navy mb-1">Send this email?</div>
+            <p className="text-sm text-gray-600 mb-4">
+              <strong>{sendAsk.email.label}</strong> goes to {contactName(sendAsk.lead)} at {sendAsk.lead.email} right now. This sends a real email.
+            </p>
+            <div className="flex justify-end gap-2">
+              <button onClick={() => setSendAsk(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">Cancel</button>
+              <button onClick={() => sendNow(sendAsk.lead, sendAsk.email)} disabled={busy} className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50">
+                {busy ? 'Sending…' : 'Send it'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {stagePop && (() => {
         const g = groups.find((x) => x.name === stagePop);
         if (!g) return null;
