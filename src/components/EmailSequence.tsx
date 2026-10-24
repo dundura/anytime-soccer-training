@@ -31,14 +31,9 @@ const RUN_ORDER = [
 ];
 const END_ORDER = ['Renewal', 'Special offer', 'Confirming with others FAQ'];
 
-const alreadySent = (label: string, sent: string[]) => {
-  const l = label.toLowerCase();
-  for (const raw of sent) {
-    const s = raw.toLowerCase();
-    if (s.includes(l) || l.includes(s.split(' →')[0].split(' sent')[0])) return true;
-  }
-  return false;
-};
+// Only what was marked on this page counts. Emails that were really sent do not place anyone in the sequence yet.
+const alreadySent = (label: string, sent: string[]) =>
+  sent.some((raw) => raw === label + ' → marked as done, not sent');
 
 export default function EmailSequence({ token }: { token: string | null }) {
   const [emails, setEmails] = useState<Email[]>([]);
