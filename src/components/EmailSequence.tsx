@@ -41,7 +41,7 @@ const END_ORDER = ['Renewal', 'Special offer', 'Not the coach', 'No - Closing Ou
 
 // Big stages that hold smaller ones as sub-steps (group names as the server has them). Anything not listed stands alone.
 const PARENTS: { name: string; subs: string[] }[] = [
-  { name: 'Sending invoice', subs: ['Invoice sent', 'Waiting on invoice payment'] },
+  { name: 'Sent Invoice', subs: ['Invoice sent', 'Waiting on invoice payment'] },
   { name: 'Yes - Send Roster', subs: ['Sending Roster Template', 'Follow-up - not received roster yet'] },
   { name: 'Demo Before Roster', subs: ['Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'After Demo Follow-up', 'Chasing after demo', 'Final push'] },
   { name: 'Sending information', subs: ['FAQ', 'Sending information to decision makers', 'Sending information to parents'] },
