@@ -112,6 +112,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [bigOpen, setBigOpen] = useState<Record<string, boolean>>(() => {
     try { return JSON.parse(localStorage.getItem('seqBigOpen') || '{}') || {}; } catch { return {}; }
   });
+  const toggleAllBig = () => {
+    setBigOpen({});
+    try { localStorage.setItem('seqBigOpen', '{}'); } catch { /* the page works without it */ }
+  };
   const toggleBig = (name: string, open: boolean) => setBigOpen((o) => {
     const next = { ...o, [name]: open };
     try { localStorage.setItem('seqBigOpen', JSON.stringify(next)); } catch { /* the page works without it */ }
@@ -858,6 +862,13 @@ export default function EmailSequence({ token }: { token: string | null }) {
           className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-navy bg-white border border-gray-300 ${focus && focus !== NOT_STARTED && focus !== PEOPLE ? 'ring-2 ring-navy ring-offset-1' : ''}`}
         >
           Stages{focus && focus !== NOT_STARTED && focus !== PEOPLE ? ': ' + shown(focus) : ''} ▾
+        </button>
+        <button
+          type="button"
+          onClick={() => { setStagePop(null); setOpenGroups(() => ({})); toggleAllBig(); setOpenEmail(null); setMenu(null); }}
+          className="px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-navy bg-white border border-gray-300"
+        >
+          Collapse all
         </button>
       </div>
 
