@@ -68,6 +68,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
       try { localStorage.setItem('seqOpenGroups', JSON.stringify(next)); } catch { /* storage unavailable */ }
       return next;
     });
+  // The overview popup: every stage and the people in it.
+  const [whoPop, setWhoPop] = useState(false);
   // The email whose contacts are showing in the Open popup.
   const [openEmail, setOpenEmail] = useState<Email | null>(null);
   // The move popup: first pick the person, then pick where to put them.
@@ -440,6 +442,56 @@ export default function EmailSequence({ token }: { token: string | null }) {
   return (
     <div className="p-4 sm:p-6" onClick={() => setMenu(null)}>
       {popup()}
+      {whoPop && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setWhoPop(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
+            <div className="px-5 py-4 bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] text-white flex items-start justify-between gap-3">
+              <div className="text-base font-black">Who is where</div>
+              <button onClick={() => setWhoPop(false)} className="text-white/70 text-xl leading-none">×</button>
+            </div>
+            <div className="overflow-y-auto">
+              {(() => {
+                let row = 0;
+                const stages = groups
+                  .map((g) => ({ name: shown(g.name), people: visible.filter((l) => g.items.some((e) => flat.indexOf(e) === positionOf(l))) }))
+                  .filter((st) => st.people.length > 0);
+                return (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => { setWhoPop(false); setPop({ lead: null, search: '', only: true }); }}
+                      className={`flex w-full items-center justify-between px-5 py-2.5 text-left text-[13px] ${row++ % 2 ? 'bg-white' : 'bg-blue-100'}`}
+                    >
+                      <span className="font-bold text-red">Not started</span>
+                      <span className="text-[11px] text-gray-500">{notStarted.length} people</span>
+                    </button>
+                    {stages.length === 0 && <p className="px-5 py-4 text-sm text-gray-400">No one has been moved into a stage yet.</p>}
+                    {stages.map((st) => (
+                      <div key={st.name}>
+                        <div className={`flex items-center justify-between px-5 py-2.5 ${row++ % 2 ? 'bg-white' : 'bg-blue-100'}`}>
+                          <span className="text-[13px] font-bold text-navy">{st.name}</span>
+                          <span className="text-[11px] text-gray-500">{st.people.length} {st.people.length === 1 ? 'person' : 'people'}</span>
+                        </div>
+                        {st.people.map((l) => (
+                          <button
+                            key={l.id}
+                            type="button"
+                            onClick={() => { setWhoPop(false); setPop({ lead: l, search: '' }); }}
+                            className={`block w-full text-left pl-9 pr-5 py-2 text-[13px] font-normal text-navy ${row++ % 2 ? 'bg-white' : 'bg-blue-100'}`}
+                          >
+                            {contactName(l)}
+                            <span className="block text-[10px] text-gray-500">At: {flat[positionOf(l)].label}</span>
+                          </button>
+                        ))}
+                      </div>
+                    ))}
+                  </>
+                );
+              })()}
+            </div>
+          </div>
+        </div>
+      )}
       {sendAsk && (
         <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" onClick={() => setSendAsk(null)}>
           <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[92vh] overflow-y-auto" onClick={(ev) => ev.stopPropagation()}>
@@ -474,6 +526,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
           <h2 className="text-lg font-black text-navy">Email sequence</h2>
         </div>
         <div className="flex flex-wrap gap-2">
+          <button onClick={() => setWhoPop(true)} className="px-3 py-2 rounded-lg bg-navy text-white text-xs font-bold">Who is where</button>
           <button onClick={() => setPop({ lead: null, search: '', only: true })} className="px-3 py-2 rounded-lg bg-red text-white text-xs font-bold">Move a contact</button>
           <button onClick={() => setShowHidden((v) => !v)} className="px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-xs font-bold">
             Hidden contacts ({hidden.length})
