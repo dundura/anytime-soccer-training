@@ -330,14 +330,17 @@ export default function EmailSequence({ token }: { token: string | null }) {
                     <div className="px-5 py-1.5 bg-gray-100 text-[10px] font-extrabold uppercase tracking-wide text-gray-500">{shown(g.name)}</div>
                     {g.items.map((e) => (
                       <div key={e.key} className={`flex items-center gap-2 pr-3 ${row++ % 2 ? 'bg-white' : 'bg-blue-100'}`}>
+                        <div className="flex-1 min-w-0 px-5 py-2.5 text-[13px] font-semibold text-navy">
+                          {e.label}
+                          {alreadySent(e.label, lead.sent) && <span className="ml-2 text-[10px] font-bold text-emerald-600">done</span>}
+                        </div>
                         <button
                           type="button"
                           disabled={busy}
                           onClick={async () => { const ok = await moveContactTo(lead, e); if (ok) close(); }}
-                          className="flex-1 min-w-0 text-left px-5 py-2.5 text-[13px] font-semibold text-navy disabled:opacity-50"
+                          className="shrink-0 px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50"
                         >
-                          {e.label}
-                          {alreadySent(e.label, lead.sent) && <span className="ml-2 text-[10px] font-bold text-emerald-600">done</span>}
+                          Move
                         </button>
                         <button
                           type="button"
