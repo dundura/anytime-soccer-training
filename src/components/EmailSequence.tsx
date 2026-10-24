@@ -49,6 +49,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
   // Which category is showing. Only the picked one is drawn, so the page stays short.
   const [sel, setSel] = useState('');
   const [catOpen, setCatOpen] = useState(false);
+  // The email whose contacts are showing in the Open popup.
+  const [openEmail, setOpenEmail] = useState<Email | null>(null);
   // The move popup: first pick the person, then pick where to put them.
   const [pop, setPop] = useState<{ lead: Lead | null; search: string; only?: boolean } | null>(null);
 
@@ -304,6 +306,37 @@ export default function EmailSequence({ token }: { token: string | null }) {
   return (
     <div className="p-4 sm:p-6" onClick={() => setMenu(null)}>
       {popup()}
+      {openEmail && (() => {
+        const at = flat.findIndex((x) => x.key === openEmail.key);
+        const people = visible.filter((l) => positionOf(l) === at);
+        return (
+          <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setOpenEmail(null)}>
+            <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
+              <div className="px-5 py-4 bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] text-white flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="text-base font-black">{openEmail.label}</div>
+                  <div className="text-[11px] text-blue-100">{people.length} {people.length === 1 ? 'contact is' : 'contacts are'} here</div>
+                </div>
+                <button onClick={() => setOpenEmail(null)} className="text-white/70 text-xl leading-none">×</button>
+              </div>
+              <div className="overflow-y-auto">
+                {people.length === 0 && <p className="px-5 py-4 text-sm text-gray-400">No one is at this email yet.</p>}
+                {people.map((l, i) => (
+                  <button
+                    key={l.id}
+                    type="button"
+                    onClick={() => { setOpenEmail(null); setPop({ lead: l, search: '' }); }}
+                    className={`block w-full text-left px-5 py-2.5 text-[13px] font-semibold text-navy ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}
+                  >
+                    {contactName(l)}
+                    <span className="block text-[10px] font-normal text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
       {catOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setCatOpen(false)}>
           <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
@@ -409,8 +442,14 @@ export default function EmailSequence({ token }: { token: string | null }) {
                       <Item onClick={() => moveEmail(g.name, i, 1)}>Move down</Item>
                       <Item danger onClick={() => deleteEmail(e)}>Delete</Item>
                     </Menu>
+                    <button
+                      type="button"
+                      onClick={() => setOpenEmail(e)}
+                      className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold"
+                    >
+                      Open ({people.length})
+                    </button>
                   </div>
-                  {people.length > 0 && <div className="flex flex-wrap gap-1.5 mt-2 pl-8">{people.map(contactChip)}</div>}
                 </div>
               );
             })}
