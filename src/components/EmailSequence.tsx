@@ -156,7 +156,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
 
   // View expands one stage on the page and hides the rest.
   const NOT_STARTED = '__not_started';
-  const focus = stagePop === NOT_STARTED ? NOT_STARTED : (stagePop && groups.some((g) => g.name === stagePop) ? stagePop : null);
+  const PEOPLE = '__people';
+  const focus = stagePop === NOT_STARTED || stagePop === PEOPLE ? stagePop : (stagePop && groups.some((g) => g.name === stagePop) ? stagePop : null);
   const visible = leads.filter((l) => !l.seqHiddenAt);
   const hidden = leads.filter((l) => l.seqHiddenAt);
   const notStarted = visible.filter((l) => positionOf(l) < 0);
@@ -210,7 +211,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
   // Moving puts the contact on that one email, up or down. Nothing is sent.
   const moveContactTo = (l: Lead, target: Email) => {
     if (positionOf(l) === flat.indexOf(target)) { flash('They are already there.'); setMenu(null); return Promise.resolve(false); }
-    return call(`/leads/${l.id}/mark-sent`, { labels: [markText(target)] }, 'Moved to ' + target.label);
+    // Once moved, the page shows only that stage.
+    return call(`/leads/${l.id}/mark-sent`, { labels: [markText(target)] }, 'Moved to ' + target.label).then((ok) => { if (ok) setStagePop((groups.find((g) => g.items.some((x) => x.key === target.key)) || { name: target.group }).name); return ok; });
   };
 
   // One step down the list: the next email in the sequence is marked done. Nothing is sent.
@@ -615,6 +617,13 @@ export default function EmailSequence({ token }: { token: string | null }) {
         </button>
         <button
           type="button"
+          onClick={() => setStagePop(focus === PEOPLE ? null : PEOPLE)}
+          className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white bg-blue-600 ${focus === PEOPLE ? 'ring-2 ring-navy ring-offset-1' : ''}`}
+        >
+          People ({visible.length})
+        </button>
+        <button
+          type="button"
           onClick={() => setStagePop(focus === NOT_STARTED ? null : NOT_STARTED)}
           className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white ${notStarted.length ? 'bg-red' : 'bg-blue-600'} ${focus === NOT_STARTED ? 'ring-2 ring-navy ring-offset-1' : ''}`}
         >
@@ -645,6 +654,33 @@ export default function EmailSequence({ token }: { token: string | null }) {
           <span className="flex-1 text-[13px] font-bold text-red">Not started</span>
           <span className="text-[11px] font-normal text-gray-400">{notStarted.length} contacts</span>
         </button>}
+        {focus === PEOPLE && (
+          <div>
+            <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">
+              <span className="flex-1 text-[13px] font-bold text-navy">People</span>
+              <span className="text-[11px] font-normal text-gray-400">{visible.length} contacts</span>
+              <button type="button" onClick={() => setStagePop(null)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold">Show all</button>
+            </div>
+            {visible.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No contacts.</p>}
+            {[...notStarted, ...visible.filter((l) => positionOf(l) >= 0)].map((l, i) => {
+              const at = positionOf(l);
+              const stage = at >= 0 ? groups.find((g) => g.items.some((e) => e.key === flat[at].key)) : null;
+              return (
+                <button
+                  key={l.id}
+                  type="button"
+                  onClick={() => setPop({ lead: l, search: '' })}
+                  className={`flex w-full items-center gap-3 text-left px-4 py-2.5 text-[13px] font-normal text-navy ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}
+                >
+                  <span className="flex-1 min-w-0 truncate">{contactName(l)}</span>
+                  <span className={`shrink-0 max-w-[55%] text-right text-[11px] font-semibold ${at >= 0 ? 'text-red' : 'text-gray-500'}`}>
+                    {at >= 0 && stage ? shown(stage.name) + ' · ' + flat[at].label : 'Waiting for placement'}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        )}
         {focus === NOT_STARTED && (
           <div>
             <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">
@@ -666,7 +702,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
             ))}
           </div>
         )}
-        {groups.filter((g) => focus !== NOT_STARTED && (!focus || g.name === focus)).map((g, gi) => {
+        {groups.filter((g) => focus !== NOT_STARTED && focus !== PEOPLE && (!focus || g.name === focus)).map((g, gi) => {
           const isOpen = focus === g.name || openGroups[g.name] === true;
           return (
           <div key={g.name} className="border-b border-gray-100 last:border-0">
