@@ -87,6 +87,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [whoPop, setWhoPop] = useState(false);
   // A big stage's pill asks which of its sections to show: all of them or one.
   const [pillPop, setPillPop] = useState<string | null>(null);
+  // One Stages pill holds every stage; it opens a list to pick from.
+  const [stagesPop, setStagesPop] = useState(false);
   // The email whose contacts are showing in the Open popup.
   const [openEmail, setOpenEmail] = useState<Email | null>(null);
   // The move popup: first pick the person, then pick where to put them.
@@ -555,6 +557,36 @@ export default function EmailSequence({ token }: { token: string | null }) {
   return (
     <div className="p-4 sm:p-6" onClick={() => setMenu(null)}>
       {popup()}
+      {stagesPop && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setStagesPop(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-sm max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
+            <div className="px-5 py-4 bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] text-white flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="text-base font-black">Stages</div>
+                <div className="text-[11px] text-blue-100">Pick one to see just that stage</div>
+              </div>
+              <button onClick={() => setStagesPop(false)} className="text-white/70 text-xl leading-none">×</button>
+            </div>
+            <div className="overflow-y-auto">
+              <button type="button" onClick={() => { setStagePop(null); setStagesPop(false); }} className="block w-full text-left px-5 py-3 text-[13px] font-bold text-white bg-red">All stages</button>
+              {stages.map((st, i) => {
+                const n = visible.filter((l) => st.subs.some((g) => inStage(l, g))).length;
+                return (
+                  <button
+                    key={st.name}
+                    type="button"
+                    onClick={() => { setStagesPop(false); if (st.big) setPillPop(st.name); else setStagePop(st.name); }}
+                    className={`flex w-full items-center gap-2 text-left px-5 py-2.5 text-[13px] font-normal text-navy ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}
+                  >
+                    <span className="flex-1 min-w-0">{i + 1}. {shown(st.name)}{st.big ? ' ▸' : ''}</span>
+                    <span className={`shrink-0 text-[11px] font-bold ${n ? 'text-red' : 'text-gray-400'}`}>{n} {n === 1 ? 'person' : 'people'}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
       {pillPop && (() => {
         const st = stages.find((x) => x.name === pillPop);
         if (!st) return null;
@@ -753,19 +785,13 @@ export default function EmailSequence({ token }: { token: string | null }) {
         >
           Not started ({notStarted.length})
         </button>
-        {stages.map((st, i) => {
-          const n = visible.filter((l) => st.subs.some((g) => inStage(l, g))).length;
-          return (
-            <button
-              key={st.name}
-              type="button"
-              onClick={() => (st.big ? setPillPop(st.name) : setStagePop(focus === st.name ? null : st.name))}
-              className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white ${n ? 'bg-red' : 'bg-blue-600'} ${focus === st.name || (st.big && st.subs.some((g) => g.name === focus)) ? 'ring-2 ring-navy ring-offset-1' : ''}`}
-            >
-              {i + 1}. {shown(st.name)}{n ? ' (' + n + ')' : ''}
-            </button>
-          );
-        })}
+        <button
+          type="button"
+          onClick={() => setStagesPop(true)}
+          className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white ${visible.length - notStarted.length ? 'bg-red' : 'bg-blue-600'} ${focus && focus !== NOT_STARTED && focus !== PEOPLE ? 'ring-2 ring-navy ring-offset-1' : ''}`}
+        >
+          Stages{focus && focus !== NOT_STARTED && focus !== PEOPLE ? ': ' + shown(focus) : ''} ▾
+        </button>
       </div>
 
       <div className="border border-gray-200 rounded-xl overflow-visible">
