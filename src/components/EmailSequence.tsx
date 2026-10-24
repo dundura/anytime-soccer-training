@@ -48,6 +48,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [showDeleted, setShowDeleted] = useState(false);
   // Which category is showing. Only the picked one is drawn, so the page stays short.
   const [sel, setSel] = useState('');
+  const [catOpen, setCatOpen] = useState(false);
   // The move popup: first pick the person, then pick where to put them.
   const [pop, setPop] = useState<{ lead: Lead | null; search: string; only?: boolean } | null>(null);
 
@@ -303,6 +304,36 @@ export default function EmailSequence({ token }: { token: string | null }) {
   return (
     <div className="p-4 sm:p-6" onClick={() => setMenu(null)}>
       {popup()}
+      {catOpen && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setCatOpen(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
+            <div className="px-5 py-4 bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] text-white flex items-start justify-between gap-3">
+              <div className="text-base font-black">Pick a category</div>
+              <button onClick={() => setCatOpen(false)} className="text-white/70 text-xl leading-none">×</button>
+            </div>
+            <div className="overflow-y-auto">
+              <button
+                type="button"
+                onClick={() => { setCatOpen(false); setPop({ lead: null, search: '', only: true }); }}
+                className="block w-full text-left px-5 py-2.5 text-[13px] font-extrabold text-red bg-blue-100"
+              >
+                Not started ({notStarted.length})
+              </button>
+              {groups.map((g, i) => (
+                <button
+                  key={g.name}
+                  type="button"
+                  onClick={() => { setSel(g.name); setCatOpen(false); }}
+                  className={`flex w-full items-center justify-between px-5 py-2.5 text-left text-[13px] font-semibold text-navy ${i % 2 ? 'bg-blue-100' : 'bg-white'}`}
+                >
+                  <span>{shown(g.name)}{shownGroup === g.name && <span className="ml-2 text-[10px] font-bold text-emerald-600">showing</span>}</span>
+                  <span className="text-[11px] text-gray-500">{g.items.length}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
         <div>
           <h2 className="text-lg font-black text-navy">Email sequence</h2>
@@ -348,24 +379,14 @@ export default function EmailSequence({ token }: { token: string | null }) {
         </div>
       )}
 
-      <div className="flex flex-wrap gap-2 mb-3">
+      <div className="mb-3">
         <button
           type="button"
-          onClick={() => setPop({ lead: null, search: '', only: true })}
-          className="px-3 py-1.5 rounded-full text-xs font-bold bg-red text-white"
+          onClick={() => setCatOpen(true)}
+          className="px-4 py-2 rounded-lg bg-navy text-white text-xs font-bold"
         >
-          Not started ({notStarted.length})
+          {shown(shownGroup) || 'Pick a category'} ▾
         </button>
-        {groups.map((g) => (
-          <button
-            key={g.name}
-            type="button"
-            onClick={() => setSel(g.name)}
-            className={`px-3 py-1.5 rounded-full text-xs font-bold ${shownGroup === g.name ? 'bg-navy text-white' : 'bg-gray-100 text-gray-600'}`}
-          >
-            {shown(g.name)} ({g.items.length})
-          </button>
-        ))}
       </div>
 
       <div className="border border-gray-200 rounded-xl overflow-visible">
