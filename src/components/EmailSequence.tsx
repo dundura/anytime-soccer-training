@@ -427,7 +427,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
             {g.items.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No emails here.</p>}
             {visible.filter((l) => waitingOf(l) === g.name).map((l) => (
               <div key={l.id} className="flex items-center gap-2 px-4 py-2 bg-red/10">
-                <span className="flex-1 min-w-0 truncate text-[13px] font-semibold text-navy">{contactName(l)}</span>
+                <span className="flex-1 min-w-0 text-[13px] font-semibold text-navy">
+                  <span className="block truncate">{contactName(l)}</span>
+                  <span className="block truncate text-[10px] font-normal text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
+                </span>
                 <span className="shrink-0 text-[10px] font-bold uppercase tracking-wide text-red">Waiting for placement</span>
                 <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="shrink-0 px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
               </div>
@@ -692,7 +695,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
                   onClick={() => setPop({ lead: l, search: '' })}
                   className={`flex w-full items-center gap-3 text-left px-4 py-2.5 text-[13px] font-normal text-navy ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}
                 >
-                  <span className="flex-1 min-w-0 truncate">{contactName(l)}</span>
+                  <span className="flex-1 min-w-0">
+                    <span className="block truncate">{contactName(l)}</span>
+                    <span className="block truncate text-[10px] text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
+                  </span>
                   <span className={`shrink-0 max-w-[55%] text-right text-[11px] font-semibold ${at >= 0 ? 'text-red' : 'text-gray-500'}`}>
                     {at >= 0 && stage ? shown(stage.name) + ' · ' + flat[at].label : (waitingOf(l) ? shown(waitingOf(l) as string) + ' · waiting' : 'Waiting for placement')}
                   </span>
