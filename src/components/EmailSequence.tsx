@@ -28,12 +28,12 @@ const shown = (g: string) => SHOWN[g] || g;
 // Two server groups that are the same stage here.
 const ALIAS: Record<string, string> = { 'Confirming with others FAQ': 'FAQ' };
 // The three chasers after the demo get a sub-section of their own on this page (the server still files them under After Demo Follow-up).
-const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked', any_questions: 'Final push', your_timing: 'Final push', tried_calling: 'Final push', which_are_you: 'Getting the demo booked', demo_today: 'Chasing a quiet lead', demo_today_tomorrow: 'Chasing a quiet lead', coachReachOut: 'Not the coach', wanted_demo: 'Chasing a quiet lead', cant_make_it: 'Reschedule', rebook_later: 'Reschedule', sevenToTenDays: 'Follow-up - not received roster yet', rosterNudge: 'Follow-up - not received roster yet' };
+const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked', any_questions: 'Final push', your_timing: 'Final push', tried_calling: 'Final push', which_are_you: 'Getting the demo booked', demo_today: 'Chasing a quiet lead', demo_today_tomorrow: 'Chasing a quiet lead', coachReachOut: 'Not the coach', wanted_demo: 'Chasing a quiet lead', cant_make_it: 'Chasing a quiet lead', rebook_later: 'Chasing a quiet lead', sevenToTenDays: 'Follow-up - not received roster yet', rosterNudge: 'Follow-up - not received roster yet' };
 // Names on this page that differ from the email's own title.
 const LABEL: Record<string, string> = { book_a_demo: 'Book a demo - emailed us' };
 const groupOf = (g: string, key?: string) => (key && KEY_GROUP[key]) || ALIAS[g] || g;
 const RUN_ORDER = [
-  'Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'Reschedule', 'After Demo Follow-up', 'Chasing after demo', 'Final push',
+  'Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'After Demo Follow-up', 'Chasing after demo', 'Final push',
   'Sending Roster Template', 'Follow-up - not received roster yet', 'Invoice', 'After the demo', 'First 3 weeks',
 ];
 const END_ORDER = ['Renewal', 'Special offer', 'Not the coach', 'No - Closing Out'];
@@ -41,7 +41,7 @@ const END_ORDER = ['Renewal', 'Special offer', 'Not the coach', 'No - Closing Ou
 // Big stages that hold smaller ones as sub-steps (group names as the server has them). Anything not listed stands alone.
 const PARENTS: { name: string; subs: string[] }[] = [
   { name: 'Yes - Send Roster', subs: ['Sending Roster Template', 'Follow-up - not received roster yet'] },
-  { name: 'Demo Before Roster', subs: ['Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'Reschedule', 'After Demo Follow-up', 'Chasing after demo', 'Final push'] },
+  { name: 'Demo Before Roster', subs: ['Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'After Demo Follow-up', 'Chasing after demo', 'Final push'] },
   { name: 'Sending information', subs: ['FAQ', 'Sending information to decision makers', 'Sending information to parents'] },
 ];
 
