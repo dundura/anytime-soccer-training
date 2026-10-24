@@ -47,8 +47,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [showHidden, setShowHidden] = useState(false);
   const [showDeleted, setShowDeleted] = useState(false);
   // Which category is showing. Only the picked one is drawn, so the page stays short.
-  const [sel, setSel] = useState('');
-  const [catOpen, setCatOpen] = useState(false);
+  // Every stage is on the page and shut until it is opened.
+  // The stage showing on its own in a popup.
+  const [stagePop, setStagePop] = useState<string | null>(null);
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
   // The email whose contacts are showing in the Open popup.
   const [openEmail, setOpenEmail] = useState<Email | null>(null);
   // The move popup: first pick the person, then pick where to put them.
@@ -120,7 +122,6 @@ export default function EmailSequence({ token }: { token: string | null }) {
     return at;
   }, [flat]);
 
-  const shownGroup = sel || (groups[0] ? groups[0].name : '');
   const visible = leads.filter((l) => !l.seqHiddenAt);
   const hidden = leads.filter((l) => l.seqHiddenAt);
   const notStarted = visible.filter((l) => positionOf(l) < 0);
@@ -179,6 +180,13 @@ export default function EmailSequence({ token }: { token: string | null }) {
     const labels = upTo.filter((e) => !alreadySent(e.label, l.sent)).map((e) => e.label);
     if (!labels.length) { flash('They are already past that email.'); setMenu(null); return false; }
     return call(`/leads/${l.id}/mark-sent`, { labels }, 'Moved to ' + target.label);
+  };
+
+  // One step down the list: the next email in the sequence is marked done. Nothing is sent.
+  const moveContactDown = (l: Lead) => {
+    const next = flat[positionOf(l) + 1];
+    if (!next) { flash('They are at the last email.'); return; }
+    call(`/leads/${l.id}/mark-sent`, { labels: [next.label] }, 'Moved down to ' + next.label);
   };
 
   const hideContact = (l: Lead, hide: boolean) =>
@@ -301,41 +309,76 @@ export default function EmailSequence({ token }: { token: string | null }) {
     );
   };
 
+  const rows = (g: { name: string; items: Email[] }) => (
+          <div className="divide-y divide-gray-100 border-t border-gray-100">
+            {g.items.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No emails here.</p>}
+            {g.items.map((e, i) => {
+              const at = flat.indexOf(e);
+              const people = visible.filter((l) => positionOf(l) === at);
+              return (
+                <div key={e.key} className={`px-4 py-2.5 ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
+                  <div className="flex items-center gap-2">
+                    <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{i + 1}</span>
+                    <span className="flex-1 min-w-0 text-[13px] font-bold text-navy">
+                      {e.label}
+                      {e.auto && <span className="ml-1.5 text-[9px] font-bold uppercase tracking-wide text-emerald-600">auto</span>}
+                    </span>
+                    <Menu id={'e' + e.key}>
+                      <Item onClick={() => moveEmail(g.name, i, -1)}>Move up</Item>
+                      <Item onClick={() => moveEmail(g.name, i, 1)}>Move down</Item>
+                      <Item danger onClick={() => deleteEmail(e)}>Delete</Item>
+                    </Menu>
+                    <button
+                      type="button"
+                      onClick={(ev) => { ev.stopPropagation(); setOpenEmail(openEmail && openEmail.key === e.key ? null : e); }}
+                      className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold"
+                    >
+                      Open ({people.length}) {openEmail && openEmail.key === e.key ? '▴' : '▾'}
+                    </button>
+                  </div>
+                  {openEmail && openEmail.key === e.key && (
+                    <div className="mt-2 ml-8 rounded-lg border border-blue-200 bg-white overflow-hidden">
+                      {people.length === 0 && <p className="px-3 py-2 text-xs text-gray-400">No one is at this email yet.</p>}
+                      {people.map((l, n) => (
+                        <div key={l.id} className={`flex items-center gap-2 px-3 py-2 ${n % 2 ? 'bg-white' : 'bg-blue-100'}`}>
+                          <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="flex-1 min-w-0 text-left text-[12px] font-semibold text-navy">
+                            {contactName(l)}
+                            <span className="block text-[10px] font-normal text-gray-500 truncate">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
+                          </button>
+                          <button type="button" onClick={() => moveContactDown(l)} disabled={busy} className="shrink-0 px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">Move down ↓</button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+  );
+
   if (loading) return <div className="p-6 text-sm text-gray-500">Loading…</div>;
 
   return (
     <div className="p-4 sm:p-6" onClick={() => setMenu(null)}>
       {popup()}
-      {catOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setCatOpen(false)}>
-          <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
-            <div className="px-5 py-4 bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] text-white flex items-start justify-between gap-3">
-              <div className="text-base font-black">Pick a category</div>
-              <button onClick={() => setCatOpen(false)} className="text-white/70 text-xl leading-none">×</button>
-            </div>
-            <div className="overflow-y-auto">
-              <button
-                type="button"
-                onClick={() => { setCatOpen(false); setPop({ lead: null, search: '', only: true }); }}
-                className="block w-full text-left px-5 py-2.5 text-[13px] font-extrabold text-red bg-blue-100"
-              >
-                Not started ({notStarted.length})
-              </button>
-              {groups.map((g, i) => (
-                <button
-                  key={g.name}
-                  type="button"
-                  onClick={() => { setSel(g.name); setCatOpen(false); }}
-                  className={`flex w-full items-center justify-between px-5 py-2.5 text-left text-[13px] font-semibold text-navy ${i % 2 ? 'bg-blue-100' : 'bg-white'}`}
-                >
-                  <span>{shown(g.name)}{shownGroup === g.name && <span className="ml-2 text-[10px] font-bold text-emerald-600">showing</span>}</span>
-                  <span className="text-[11px] text-gray-500">{g.items.length}</span>
-                </button>
-              ))}
+      {stagePop && (() => {
+        const g = groups.find((x) => x.name === stagePop);
+        if (!g) return null;
+        return (
+          <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setStagePop(null)}>
+            <div className="bg-white rounded-2xl w-full max-w-lg max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => { ev.stopPropagation(); setMenu(null); }}>
+              <div className="px-5 py-4 bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] text-white flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="text-base font-black">{shown(g.name)}</div>
+                  <div className="text-[11px] text-blue-100">{g.items.length} emails</div>
+                </div>
+                <button onClick={() => setStagePop(null)} className="text-white/70 text-xl leading-none">×</button>
+              </div>
+              <div className="overflow-y-auto">{rows(g)}</div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
         <div>
           <h2 className="text-lg font-black text-navy">Email sequence</h2>
@@ -381,65 +424,44 @@ export default function EmailSequence({ token }: { token: string | null }) {
         </div>
       )}
 
-      <div className="mb-3">
+      <div className="border border-gray-200 rounded-xl overflow-visible">
         <button
           type="button"
-          onClick={() => setCatOpen(true)}
-          className="px-4 py-2 rounded-lg bg-navy text-white text-xs font-bold"
+          onClick={() => setPop({ lead: null, search: '', only: true })}
+          className="w-full flex items-center gap-2 px-4 py-2.5 text-left bg-white hover:bg-gray-50 border-b border-gray-100 rounded-t-xl"
         >
-          {shown(shownGroup) || 'Pick a category'} ▾
+          <span className="text-[10px] text-gray-400 w-3">▸</span>
+          <span className="flex-1 text-[12px] font-extrabold uppercase tracking-wide text-red">Not started</span>
+          <span className="text-[10px] font-bold text-gray-400">{notStarted.length} contacts</span>
         </button>
-      </div>
-
-      <div className="border border-gray-200 rounded-xl overflow-visible">
-        {groups.filter((g) => g.name === shownGroup).map((g) => (
-          <div key={g.name} className="divide-y divide-gray-100">
-            {g.items.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No emails here.</p>}
-            {g.items.map((e, i) => {
-              const at = flat.indexOf(e);
-              const people = visible.filter((l) => positionOf(l) === at);
-              return (
-                <div key={e.key} className={`px-4 py-2.5 ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
-                  <div className="flex items-center gap-2">
-                    <span className="w-6 h-6 shrink-0 rounded-full bg-navy text-white text-[11px] font-black flex items-center justify-center">{i + 1}</span>
-                    <span className="flex-1 min-w-0 text-[13px] font-bold text-navy">
-                      {e.label}
-                      {e.auto && <span className="ml-1.5 text-[9px] font-bold uppercase tracking-wide text-emerald-600">auto</span>}
-                    </span>
-                    <Menu id={'e' + e.key}>
-                      <Item onClick={() => moveEmail(g.name, i, -1)}>Move up</Item>
-                      <Item onClick={() => moveEmail(g.name, i, 1)}>Move down</Item>
-                      <Item danger onClick={() => deleteEmail(e)}>Delete</Item>
-                    </Menu>
-                    <button
-                      type="button"
-                      onClick={(ev) => { ev.stopPropagation(); setOpenEmail(openEmail && openEmail.key === e.key ? null : e); }}
-                      className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold"
-                    >
-                      Open ({people.length}) {openEmail && openEmail.key === e.key ? '▴' : '▾'}
-                    </button>
-                  </div>
-                  {openEmail && openEmail.key === e.key && (
-                    <div className="mt-2 ml-8 rounded-lg border border-blue-200 bg-white overflow-hidden">
-                      {people.length === 0 && <p className="px-3 py-2 text-xs text-gray-400">No one is at this email yet.</p>}
-                      {people.map((l, n) => (
-                        <button
-                          key={l.id}
-                          type="button"
-                          onClick={() => setPop({ lead: l, search: '' })}
-                          className={`block w-full text-left px-3 py-2 text-[12px] font-semibold text-navy ${n % 2 ? 'bg-white' : 'bg-blue-100'}`}
-                        >
-                          {contactName(l)}
-                          <span className="block text-[10px] font-normal text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+        {groups.map((g) => {
+          const isOpen = openGroups[g.name] === true;
+          return (
+          <div key={g.name} className="border-b border-gray-100 last:border-0">
+            <div className="flex items-center gap-2 pr-3 hover:bg-gray-50">
+              <button
+                type="button"
+                onClick={() => setOpenGroups((o) => ({ ...o, [g.name]: !isOpen }))}
+                className="flex-1 min-w-0 flex items-center gap-2 px-4 py-2.5 text-left"
+              >
+                <span className="text-[10px] text-gray-400 w-3">{isOpen ? '▾' : '▸'}</span>
+                <span className="flex-1 text-[12px] font-extrabold uppercase tracking-wide text-navy">{shown(g.name)}</span>
+                <span className="text-[10px] font-bold text-gray-400">{g.items.length} emails</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setStagePop(g.name)}
+                className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold"
+              >
+                View
+              </button>
+            </div>
+            {isOpen && (
+            rows(g)
+            )}
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
