@@ -382,7 +382,6 @@ export default function EmailSequence({ token }: { token: string | null }) {
       <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
         <div>
           <h2 className="text-lg font-black text-navy">Email sequence</h2>
-          <p className="text-[11px] text-gray-500">Moving a contact marks emails as done. It never sends anything.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <button onClick={() => setPop({ lead: null, search: '' })} className="px-3 py-2 rounded-lg bg-red text-white text-xs font-bold">Move a contact</button>
