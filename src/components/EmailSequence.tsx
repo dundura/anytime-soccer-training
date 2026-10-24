@@ -29,6 +29,8 @@ const shown = (g: string) => SHOWN[g] || g;
 const ALIAS: Record<string, string> = { 'Confirming with others FAQ': 'FAQ' };
 // The three chasers after the demo get a sub-section of their own on this page (the server still files them under After Demo Follow-up).
 const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked', any_questions: 'Final push', your_timing: 'Final push', tried_calling: 'Final push', which_are_you: 'Getting the demo booked', demo_today: 'Chasing a quiet lead', demo_today_tomorrow: 'Chasing a quiet lead', coachReachOut: 'Not the coach', wanted_demo: 'Chasing a quiet lead', cant_make_it: 'Reschedule', rebook_later: 'Reschedule', sevenToTenDays: 'Follow-up - not received roster yet', rosterNudge: 'Follow-up - not received roster yet' };
+// Names on this page that differ from the email's own title.
+const LABEL: Record<string, string> = { book_a_demo: 'Book a demo - emailed us' };
 const groupOf = (g: string, key?: string) => (key && KEY_GROUP[key]) || ALIAS[g] || g;
 const RUN_ORDER = [
   'Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'Reschedule', 'After Demo Follow-up', 'Chasing after demo', 'Final push',
@@ -120,7 +122,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
       const res = await fetch(`${API}/demo-portal/sequence-board`, { headers: headers() });
       const d = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(d.error || 'Could not load the sequence.');
-      setEmails(d.emails || []);
+      setEmails(((d.emails || []) as Email[]).map((e) => (LABEL[e.key] ? { ...e, label: LABEL[e.key] } : e)));
       setLeads(d.leads || []);
       setLayout(d.layout || []);
     } catch (e) {
