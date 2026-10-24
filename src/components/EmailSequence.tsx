@@ -43,6 +43,15 @@ const PARENTS: { name: string; subs: string[] }[] = [
   { name: 'Sending information', subs: ['FAQ', 'Sending information to decision makers', 'Sending information to parents'] },
 ];
 
+// A finished email already draws its own 600px card. A plain one is just paragraphs, so the preview sets it in the same kind of card
+// instead of leaving it loose on the page.
+const previewDoc = (html: string) => {
+  if (/max-width:s*600px|width="600"|<html/i.test(html)) return html;
+  return '<!doctype html><html><body style="margin:0;background:#f1f5f9;font-family:Arial,Helvetica,sans-serif">'
+    + '<div style="padding:24px 12px"><div style="max-width:560px;margin:0 auto;background:#fff;border-top:5px solid #F97316;border-radius:12px;padding:28px 32px;font-size:16px;line-height:1.6;color:#334155">'
+    + html + '</div></div></body></html>';
+};
+
 const MARK = ' → marked as done, not sent';
 // What is written when a contact is moved: the title and the key, because some emails share a title.
 const markText = (e: Email) => e.label + ' (' + e.key + ')';
@@ -686,7 +695,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
             {sendAsk.loading ? (
               <div className="px-6 py-8 text-sm text-gray-400">Loading the email…</div>
             ) : (
-              <iframe title="Email preview" srcDoc={sendAsk.html} sandbox="" className="block w-full border-0 bg-white" style={{ height: '65vh' }} />
+              <iframe title="Email preview" srcDoc={previewDoc(sendAsk.html)} sandbox="" className="block w-full border-0 bg-white" style={{ height: '65vh' }} />
             )}
             <div className="px-5 py-4 border-t border-gray-100 flex justify-end gap-2">
               <button onClick={() => setSendAsk(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">{sendAsk.preview ? 'Close' : 'Cancel'}</button>
