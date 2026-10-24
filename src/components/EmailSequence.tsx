@@ -455,10 +455,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
                 <button onClick={() => { hideContact(lead, true); close(); }} disabled={busy} className="text-[12px] font-bold text-red disabled:opacity-50">Hide from this page</button>
               </div>
               <div className="overflow-y-auto">
-                {groups.filter((g) => g.items.length).map((g) => (
+                {groups.filter((g) => g.items.length).map((g, gi) => (
                   <div key={g.name}>
                     <div
-                      className={`flex items-center gap-2 pr-3 ${at < 0 && !waitingOf(lead) ? 'py-1.5 bg-blue-100 cursor-pointer' : 'bg-gray-100 cursor-pointer'}`}
+                      className={`flex items-center gap-2 pr-3 ${at < 0 && !waitingOf(lead) ? (gi % 2 ? 'py-1.5 bg-white cursor-pointer' : 'py-1.5 bg-blue-100 cursor-pointer') : 'bg-gray-100 cursor-pointer'}`}
                       onClick={at >= 0 || waitingOf(lead) ? () => setPopOpen(openStage === g.name ? null : g.name) : (!busy ? async () => { const ok = await call(`/leads/${lead.id}/mark-sent`, { labels: [stageMark(g.name)] }, 'Placed in ' + shown(g.name)); if (ok) { setStagePop(g.name); close(); } } : undefined)}
                     >
                       <div className={`flex-1 min-w-0 px-5 ${at < 0 && !waitingOf(lead) ? 'py-1.5 text-[13px] font-bold text-navy' : 'py-1.5 text-[10px] font-extrabold uppercase tracking-wide text-gray-500'}`}>{at >= 0 || waitingOf(lead) ? (openStage === g.name ? '▾ ' : '▸ ') : ''}{shown(g.name)}</div>
