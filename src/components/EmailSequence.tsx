@@ -155,7 +155,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
   }, [flat, alreadySent]);
 
   // View expands one stage on the page and hides the rest.
-  const focus = stagePop && groups.some((g) => g.name === stagePop) ? stagePop : null;
+  const NOT_STARTED = '__not_started';
+  const focus = stagePop === NOT_STARTED ? NOT_STARTED : (stagePop && groups.some((g) => g.name === stagePop) ? stagePop : null);
   const visible = leads.filter((l) => !l.seqHiddenAt);
   const hidden = leads.filter((l) => l.seqHiddenAt);
   const notStarted = visible.filter((l) => positionOf(l) < 0);
@@ -612,6 +613,13 @@ export default function EmailSequence({ token }: { token: string | null }) {
         >
           All
         </button>
+        <button
+          type="button"
+          onClick={() => setStagePop(focus === NOT_STARTED ? null : NOT_STARTED)}
+          className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white ${notStarted.length ? 'bg-red' : 'bg-blue-600'} ${focus === NOT_STARTED ? 'ring-2 ring-navy ring-offset-1' : ''}`}
+        >
+          Not started ({notStarted.length})
+        </button>
         {groups.map((g, i) => {
           const n = visible.filter((l) => g.items.some((e) => flat.indexOf(e) === positionOf(l))).length;
           return (
@@ -630,14 +638,35 @@ export default function EmailSequence({ token }: { token: string | null }) {
       <div className="border border-gray-200 rounded-xl overflow-visible">
         {!focus && <button
           type="button"
-          onClick={() => setPop({ lead: null, search: '', only: true })}
+          onClick={() => setStagePop(NOT_STARTED)}
           className="w-full flex items-center gap-2 px-4 py-2.5 text-left bg-blue-100 border-b border-gray-100 rounded-t-xl"
         >
           <span className="text-[10px] text-gray-400 w-3">▸</span>
           <span className="flex-1 text-[13px] font-bold text-red">Not started</span>
           <span className="text-[11px] font-normal text-gray-400">{notStarted.length} contacts</span>
         </button>}
-        {groups.filter((g) => !focus || g.name === focus).map((g, gi) => {
+        {focus === NOT_STARTED && (
+          <div>
+            <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">
+              <span className="flex-1 text-[13px] font-bold text-red">Not started</span>
+              <span className="text-[11px] font-normal text-gray-400">{notStarted.length} contacts</span>
+              <button type="button" onClick={() => setStagePop(null)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold">Show all</button>
+            </div>
+            {notStarted.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">Everyone has been moved into the sequence.</p>}
+            {notStarted.map((l, i) => (
+              <button
+                key={l.id}
+                type="button"
+                onClick={() => setPop({ lead: l, search: '' })}
+                className={`block w-full text-left px-4 py-2.5 text-[13px] font-normal text-navy ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}
+              >
+                {contactName(l)}
+                <span className="block text-[10px] text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
+              </button>
+            ))}
+          </div>
+        )}
+        {groups.filter((g) => focus !== NOT_STARTED && (!focus || g.name === focus)).map((g, gi) => {
           const isOpen = focus === g.name || openGroups[g.name] === true;
           return (
           <div key={g.name} className="border-b border-gray-100 last:border-0">
