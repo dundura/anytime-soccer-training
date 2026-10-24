@@ -45,7 +45,7 @@ const PARENTS: { name: string; subs: string[] }[] = [
   { name: 'Sent Invoice', subs: ['Invoice sent', 'Waiting on invoice payment'] },
   { name: 'Yes - Send Roster', subs: ['Sending Roster Template', 'Follow-up - not received roster yet'] },
   { name: 'Demo Before Roster', subs: ['Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'After Demo Follow-up', 'Chasing after demo', 'Final push'] },
-  { name: 'Sending information', subs: ['FAQ', 'Sending information to decision makers', 'Sending information to parents'] },
+  { name: 'Other', subs: ['FAQ', 'Sending information to decision makers', 'Sending information to parents'] },
 ];
 
 // A finished email already draws its own 600px card. A plain one is just paragraphs, so the preview sets it in the same kind of card
