@@ -369,6 +369,20 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const hideContact = (l: Lead, hide: boolean) =>
     call(`/leads/${l.id}/seq-hide`, { hidden: hide }, hide ? 'Hidden from this page' : 'Added back');
 
+  // Deleting is for good, so the first tap only asks; the second one does it.
+  const [delAsk, setDelAsk] = useState<number | null>(null);
+  const deleteContact = (l: Lead) => { setPop(null); return call(`/leads/${l.id}/seq-delete`, {}, 'Deleted'); };
+  const deleteBtn = (l: Lead, cls = '') => (
+    <button
+      type="button"
+      disabled={busy}
+      onClick={(ev) => { ev.stopPropagation(); if (delAsk === l.id) { setDelAsk(null); deleteContact(l); } else setDelAsk(l.id); }}
+      className={`shrink-0 px-2.5 py-1 rounded-lg border border-red text-[11px] font-bold disabled:opacity-50 ${delAsk === l.id ? 'bg-red text-white' : 'bg-white text-red'} ${cls}`}
+    >
+      {delAsk === l.id ? 'Delete for good?' : 'Delete'}
+    </button>
+  );
+
   const contactName = (l: Lead) => l.organization || l.name || l.email || 'Lead ' + l.id;
 
   const Menu = ({ id, children }: { id: string; children: ReactNode }) => (
@@ -466,7 +480,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
             <>
               <div className="px-4 py-2 border-b border-gray-100 flex items-center justify-between">
                 <button onClick={() => setPop({ lead: null, search: '', only: pop.only })} className="text-[12px] font-bold text-navy">← Pick someone else</button>
-                <button onClick={() => { hideContact(lead, true); close(); }} disabled={busy} className="text-[12px] font-bold text-red disabled:opacity-50">Hide from this page</button>
+                <span className="flex items-center gap-3">
+                  <button onClick={() => { hideContact(lead, true); close(); }} disabled={busy} className="text-[12px] font-bold text-red disabled:opacity-50">Hide from this page</button>
+                  {deleteBtn(lead)}
+                </span>
               </div>
               <div className="overflow-y-auto">
                 {groups.filter((g) => g.items.length).map((g, gi) => (
@@ -590,6 +607,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                 <span className="shrink-0 text-[10px] font-bold uppercase tracking-wide text-red">Waiting for placement</span>
                 <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="shrink-0 px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
                 <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
+                {deleteBtn(l)}
               </div>
             ))}
             {emailRows(main)}
@@ -866,7 +884,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
           {hidden.map((l) => (
             <div key={l.id} className="flex items-center justify-between py-1">
               <span className="text-xs font-semibold text-navy">{contactName(l)}</span>
-              <button onClick={() => hideContact(l, false)} disabled={busy} className="px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">Add back</button>
+              <span className="flex gap-1.5">
+                <button onClick={() => hideContact(l, false)} disabled={busy} className="px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-50">Add back</button>
+                {deleteBtn(l)}
+              </span>
             </div>
           ))}
         </div>
@@ -946,7 +967,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
                     {at >= 0 && stage ? shown(stage.name) + ' · ' + flat[at].label : (waitingOf(l) ? shown(waitingOf(l) as string) + ' · waiting' : 'Waiting for placement')}
                   </span>
                 </button>
-                <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="shrink-0 mr-3 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
+                <span className="shrink-0 mr-3 flex gap-1.5">
+                  <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
+                  {deleteBtn(l)}
+                </span>
                 </div>
               );
             })}
@@ -970,7 +994,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
                   {contactName(l)}
                   <span className="block truncate text-[10px] text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
                 </button>
-                <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="shrink-0 mr-3 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
+                <span className="shrink-0 mr-3 flex gap-1.5">
+                  <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
+                  {deleteBtn(l)}
+                </span>
               </div>
             ))}
           </div>
