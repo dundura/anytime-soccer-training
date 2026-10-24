@@ -60,7 +60,7 @@ const previewDoc = (html: string) => {
 // Sections that sit inside another section: group name -> their title and the emails they hold.
 const NESTED: Record<string, { title: string; keys: string[] }[]> = {
   'Chasing a quiet lead': [{ title: 'Reschedule', keys: ['cant_make_it', 'rebook_later'] }],
-  'Onboarding': [{ title: 'Chasing to finish onboarding', keys: ['welcome_received_check', 'onboarding_check_in'] }],
+  'Onboarding': [{ title: 'Chasing to finish onboarding', keys: ['welcome_received_check', 'onboarding_check_in', 'doItTogether'] }],
 };
 
 const MARK = ' → marked as done, not sent';
