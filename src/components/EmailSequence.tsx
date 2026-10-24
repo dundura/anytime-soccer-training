@@ -781,14 +781,14 @@ export default function EmailSequence({ token }: { token: string | null }) {
         <button
           type="button"
           onClick={() => setStagePop(focus === NOT_STARTED ? null : NOT_STARTED)}
-          className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white bg-blue-600 ${focus === NOT_STARTED ? 'ring-2 ring-navy ring-offset-1' : ''}`}
+          className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-navy bg-white border border-gray-300 ${focus === NOT_STARTED ? 'ring-2 ring-navy ring-offset-1' : ''}`}
         >
           Not started ({notStarted.length})
         </button>
         <button
           type="button"
           onClick={() => setStagesPop(true)}
-          className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white bg-blue-600 ${focus && focus !== NOT_STARTED && focus !== PEOPLE ? 'ring-2 ring-navy ring-offset-1' : ''}`}
+          className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-navy bg-white border border-gray-300 ${focus && focus !== NOT_STARTED && focus !== PEOPLE ? 'ring-2 ring-navy ring-offset-1' : ''}`}
         >
           Stages{focus && focus !== NOT_STARTED && focus !== PEOPLE ? ': ' + shown(focus) : ''} ▾
         </button>
