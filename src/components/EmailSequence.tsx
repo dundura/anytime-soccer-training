@@ -28,17 +28,17 @@ const shown = (g: string) => SHOWN[g] || g;
 // Two server groups that are the same stage here.
 const ALIAS: Record<string, string> = { 'Confirming with others FAQ': 'FAQ' };
 // The three chasers after the demo get a sub-section of their own on this page (the server still files them under After Demo Follow-up).
-const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked', demo_today_tomorrow: 'Before anything' };
+const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked', demo_today_tomorrow: 'Before anything', any_questions: 'Final push', your_timing: 'Final push' };
 const groupOf = (g: string, key?: string) => (key && KEY_GROUP[key]) || ALIAS[g] || g;
 const RUN_ORDER = [
-  'Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'After Demo Follow-up', 'Chasing after demo',
+  'Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'After Demo Follow-up', 'Chasing after demo', 'Final push',
   'Sending Roster Template', 'Invoice', 'After the demo', 'First 3 weeks',
 ];
 const END_ORDER = ['Renewal', 'Special offer', 'Not the coach', 'No - Closing Out'];
 
 // Big stages that hold smaller ones as sub-steps (group names as the server has them). Anything not listed stands alone.
 const PARENTS: { name: string; subs: string[] }[] = [
-  { name: 'Demo Before Roster', subs: ['Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'After Demo Follow-up', 'Chasing after demo'] },
+  { name: 'Demo Before Roster', subs: ['Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'After Demo Follow-up', 'Chasing after demo', 'Final push'] },
   { name: 'Sending information', subs: ['FAQ', 'Sending information to decision makers', 'Sending information to parents'] },
 ];
 
