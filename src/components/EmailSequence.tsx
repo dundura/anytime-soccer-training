@@ -31,9 +31,9 @@ const RUN_ORDER = [
 ];
 const END_ORDER = ['Renewal', 'Special offer', 'Confirming with others FAQ'];
 
-// Only what was marked on this page counts. Emails that were really sent do not place anyone in the sequence yet.
-const alreadySent = (label: string, sent: string[]) =>
-  sent.some((raw) => raw === label + ' → marked as done, not sent');
+const MARK = ' → marked as done, not sent';
+// What is written when a contact is moved: the title and the key, because some emails share a title.
+const markText = (e: Email) => e.label + ' (' + e.key + ')';
 
 export default function EmailSequence({ token }: { token: string | null }) {
   const [emails, setEmails] = useState<Email[]>([]);
@@ -132,12 +132,23 @@ export default function EmailSequence({ token }: { token: string | null }) {
 
   const flat = useMemo(() => groups.flatMap((g) => g.items), [groups]);
 
-  // The furthest email in the sequence this contact has had, or -1 for none yet.
+  // Only what was marked on this page counts. Emails that were really sent do not place anyone in the sequence yet.
+  // A marker from before the key was added matches the first email with that title, never a later one.
+  const alreadySent = useCallback((e: Email, sent: string[]) => {
+    if (sent.includes(markText(e) + MARK)) return true;
+    const firstWithTitle = flat.findIndex((x) => x.label === e.label) === flat.indexOf(e);
+    return firstWithTitle && sent.includes(e.label + MARK);
+  }, [flat]);
+
+  // Where this contact is: the email of their latest move on this page, or -1 for none yet. One place only.
   const positionOf = useCallback((l: Lead) => {
     let at = -1;
-    flat.forEach((e, i) => { if (alreadySent(e.label, l.sent)) at = i; });
+    l.sent.forEach((summary) => {
+      const i = flat.findIndex((e) => alreadySent(e, [summary]));
+      if (i >= 0) at = i;
+    });
     return at;
-  }, [flat]);
+  }, [flat, alreadySent]);
 
   const visible = leads.filter((l) => !l.seqHiddenAt);
   const hidden = leads.filter((l) => l.seqHiddenAt);
@@ -189,21 +200,17 @@ export default function EmailSequence({ token }: { token: string | null }) {
     saveLayout(next, deleted.filter((x) => x.key !== e.key), 'Restored');
   };
 
-  // Moving to an email marks that one, and the ones before it in the same group, as done. Nothing is sent.
+  // Moving puts the contact on that one email, up or down. Nothing is sent.
   const moveContactTo = (l: Lead, target: Email) => {
-    const g = groups.find((x) => x.items.some((i) => i.key === target.key));
-    if (!g) return false;
-    const upTo = g.items.slice(0, g.items.findIndex((i) => i.key === target.key) + 1);
-    const labels = upTo.filter((e) => !alreadySent(e.label, l.sent)).map((e) => e.label);
-    if (!labels.length) { flash('They are already past that email.'); setMenu(null); return false; }
-    return call(`/leads/${l.id}/mark-sent`, { labels }, 'Moved to ' + target.label);
+    if (positionOf(l) === flat.indexOf(target)) { flash('They are already there.'); setMenu(null); return Promise.resolve(false); }
+    return call(`/leads/${l.id}/mark-sent`, { labels: [markText(target)] }, 'Moved to ' + target.label);
   };
 
   // One step down the list: the next email in the sequence is marked done. Nothing is sent.
   const moveContactDown = (l: Lead) => {
     const next = flat[positionOf(l) + 1];
     if (!next) { flash('They are at the last email.'); return; }
-    call(`/leads/${l.id}/mark-sent`, { labels: [next.label] }, 'Moved down to ' + next.label);
+    call(`/leads/${l.id}/mark-sent`, { labels: [markText(next)] }, 'Moved down to ' + next.label);
   };
 
   // The email as the club will get it, shown before anything is sent. The subject can be edited, same as on the lead card.
@@ -233,8 +240,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
       const res = await fetch(`${API}/demo-portal${url}`, { method: 'POST', headers: headers(), body: JSON.stringify(body) });
       const d = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(d.error || 'Could not send that email.');
-      if (!alreadySent(e.label, l.sent)) {
-        await fetch(`${API}/demo-portal/leads/${l.id}/mark-sent`, { method: 'POST', headers: headers(), body: JSON.stringify({ labels: [e.label] }) });
+      if (positionOf(l) !== flat.indexOf(e)) {
+        await fetch(`${API}/demo-portal/leads/${l.id}/mark-sent`, { method: 'POST', headers: headers(), body: JSON.stringify({ labels: [markText(e)] }) });
       }
       flash('Sent to ' + (l.email || contactName(l)));
       setSendAsk(null);
@@ -349,7 +356,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                       <div key={e.key} className={`flex items-center gap-2 pr-3 ${row++ % 2 ? 'bg-white' : 'bg-blue-100'}`}>
                         <div className="flex-1 min-w-0 px-5 py-2.5 text-[13px] font-normal text-navy">
                           {e.label}
-                          {alreadySent(e.label, lead.sent) && <span className="ml-2 text-[10px] font-bold text-emerald-600">done</span>}
+                          {positionOf(lead) === flat.indexOf(e) && <span className="ml-2 text-[10px] font-bold text-emerald-600">here now</span>}
                         </div>
                         <button
                           type="button"
