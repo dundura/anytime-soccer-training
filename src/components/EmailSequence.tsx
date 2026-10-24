@@ -25,11 +25,20 @@ const SHOWN: Record<string, string> = {
   'Confirming with others FAQ': 'FAQ',
 };
 const shown = (g: string) => SHOWN[g] || g;
+// Two server groups that are the same stage here.
+const ALIAS: Record<string, string> = { 'Confirming with others FAQ': 'FAQ' };
+const groupOf = (g: string) => ALIAS[g] || g;
 const RUN_ORDER = [
-  'Before anything', 'Chasing a quiet lead', 'Getting the demo booked', 'Demo booked', 'After Demo Follow-up', 'No - Closing Out',
+  'Before anything', 'Chasing a quiet lead', 'Getting the demo booked', 'Demo booked', 'After Demo Follow-up',
   'Sending Roster Template', 'Not the coach', 'Invoice', 'After the demo', 'First 3 weeks',
 ];
-const END_ORDER = ['Renewal', 'Special offer', 'Confirming with others FAQ'];
+const END_ORDER = ['Renewal', 'Special offer', 'No - Closing Out'];
+
+// Big stages that hold smaller ones as sub-steps (group names as the server has them). Anything not listed stands alone.
+const PARENTS: { name: string; subs: string[] }[] = [
+  { name: 'Booking the demo', subs: ['Before anything', 'Chasing a quiet lead', 'Getting the demo booked', 'Demo booked'] },
+  { name: 'Sending information', subs: ['FAQ', 'Sending information to decision makers', 'Sending information to parents'] },
+];
 
 const MARK = ' → marked as done, not sent';
 // What is written when a contact is moved: the title and the key, because some emails share a title.
@@ -114,7 +123,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
     emails.forEach((e) => {
       const s = saved.get(e.key);
       if (s && s.deleted) { gone.push(e); return; }
-      const g = (s && s.groupName) || e.group;
+      const g = groupOf((s && s.groupName) || e.group);
       byGroup.set(g, [...(byGroup.get(g) || []), e]);
     });
     byGroup.forEach((list, g) => {
@@ -168,7 +177,21 @@ export default function EmailSequence({ token }: { token: string | null }) {
   // View expands one stage on the page and hides the rest.
   const NOT_STARTED = '__not_started';
   const PEOPLE = '__people';
-  const focus = stagePop === NOT_STARTED || stagePop === PEOPLE ? stagePop : (stagePop && groups.some((g) => g.name === stagePop) ? stagePop : null);
+  // The stages in order: a big stage sits where its first sub-step was, with its sub-steps gathered under it.
+  const stages = useMemo(() => {
+    const out: { name: string; big: boolean; subs: typeof groups }[] = [];
+    const used = new Set<string>();
+    groups.forEach((g) => {
+      if (used.has(g.name)) return;
+      const p = PARENTS.find((x) => x.subs.includes(g.name));
+      if (!p) { out.push({ name: g.name, big: false, subs: [g] }); used.add(g.name); return; }
+      const subs = p.subs.map((n) => groups.find((x) => x.name === n)).filter((x): x is (typeof groups)[number] => !!x);
+      subs.forEach((x) => used.add(x.name));
+      out.push({ name: p.name, big: true, subs });
+    });
+    return out;
+  }, [groups]);
+  const focus = stagePop === NOT_STARTED || stagePop === PEOPLE ? stagePop : (stagePop && (groups.some((g) => g.name === stagePop) || stages.some((st) => st.name === stagePop)) ? stagePop : null);
   const visible = leads.filter((l) => !l.seqHiddenAt);
   const hidden = leads.filter((l) => l.seqHiddenAt);
   const notStarted = visible.filter((l) => positionOf(l) < 0 && !waitingOf(l));
@@ -215,7 +238,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
   };
 
   const restoreEmail = (e: Email) => {
-    const next = groups.map((g) => ({ name: g.name, items: g.name === e.group ? [...g.items, e] : g.items }));
+    const next = groups.map((g) => ({ name: g.name, items: g.name === groupOf(e.group) ? [...g.items, e] : g.items }));
     saveLayout(next, deleted.filter((x) => x.key !== e.key), 'Restored');
   };
 
@@ -480,6 +503,36 @@ export default function EmailSequence({ token }: { token: string | null }) {
           </div>
   );
 
+
+  const groupBlock = (g: (typeof groups)[number], gi: number, sub: boolean) => {
+          const isOpen = focus === g.name || openGroups[g.name] === true;
+          return (
+          <div key={g.name} className="border-b border-gray-100 last:border-0">
+            <div className={`flex items-center gap-2 pr-3 ${gi % 2 ? 'bg-blue-100' : 'bg-white'}`}>
+              <button
+                type="button"
+                onClick={() => setOpenGroups((o) => ({ ...o, [g.name]: !isOpen }))}
+                className="flex-1 min-w-0 flex items-center gap-2 px-4 py-2.5 text-left"
+              >
+                <span className="text-[10px] text-gray-400 w-3">{isOpen ? '▾' : '▸'}</span>
+                <span className="flex-1 text-[13px] font-bold text-navy">{shown(g.name)}</span>
+                <span className="text-[11px] font-normal text-gray-400">{g.items.length} {g.items.length === 1 ? 'email' : 'emails'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setStagePop(focus === g.name ? null : g.name)}
+                className={`shrink-0 px-2.5 py-1 rounded-lg text-white text-[11px] font-bold ${visible.some((l) => inStage(l, g)) ? 'bg-red' : 'bg-blue-600'}`}
+              >
+                {focus === g.name ? 'Show all' : 'View'}
+              </button>
+            </div>
+            {isOpen && (
+            rows(g)
+            )}
+          </div>
+          );
+  };
+
   if (loading) return <div className="p-6 text-sm text-gray-500">Loading…</div>;
 
   return (
@@ -653,16 +706,16 @@ export default function EmailSequence({ token }: { token: string | null }) {
         >
           Not started ({notStarted.length})
         </button>
-        {groups.map((g, i) => {
-          const n = visible.filter((l) => inStage(l, g)).length;
+        {stages.map((st, i) => {
+          const n = visible.filter((l) => st.subs.some((g) => inStage(l, g))).length;
           return (
             <button
-              key={g.name}
+              key={st.name}
               type="button"
-              onClick={() => setStagePop(focus === g.name ? null : g.name)}
-              className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white ${n ? 'bg-red' : 'bg-blue-600'} ${focus === g.name ? 'ring-2 ring-navy ring-offset-1' : ''}`}
+              onClick={() => setStagePop(focus === st.name ? null : st.name)}
+              className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white ${n ? 'bg-red' : 'bg-blue-600'} ${focus === st.name ? 'ring-2 ring-navy ring-offset-1' : ''}`}
             >
-              {i + 1}. {shown(g.name)}{n ? ' (' + n + ')' : ''}
+              {i + 1}. {shown(st.name)}{n ? ' (' + n + ')' : ''}
             </button>
           );
         })}
@@ -733,34 +786,33 @@ export default function EmailSequence({ token }: { token: string | null }) {
             ))}
           </div>
         )}
-        {groups.filter((g) => focus !== NOT_STARTED && focus !== PEOPLE && (!focus || g.name === focus)).map((g, gi) => {
-          const isOpen = focus === g.name || openGroups[g.name] === true;
-          return (
-          <div key={g.name} className="border-b border-gray-100 last:border-0">
-            <div className={`flex items-center gap-2 pr-3 ${gi % 2 ? 'bg-blue-100' : 'bg-white'}`}>
-              <button
-                type="button"
-                onClick={() => setOpenGroups((o) => ({ ...o, [g.name]: !isOpen }))}
-                className="flex-1 min-w-0 flex items-center gap-2 px-4 py-2.5 text-left"
-              >
-                <span className="text-[10px] text-gray-400 w-3">{isOpen ? '▾' : '▸'}</span>
-                <span className="flex-1 text-[13px] font-bold text-navy">{shown(g.name)}</span>
-                <span className="text-[11px] font-normal text-gray-400">{g.items.length} {g.items.length === 1 ? 'email' : 'emails'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setStagePop(focus === g.name ? null : g.name)}
-                className={`shrink-0 px-2.5 py-1 rounded-lg text-white text-[11px] font-bold ${visible.some((l) => inStage(l, g)) ? 'bg-red' : 'bg-blue-600'}`}
-              >
-                {focus === g.name ? 'Show all' : 'View'}
-              </button>
-            </div>
-            {isOpen && (
-            rows(g)
-            )}
-          </div>
-          );
-        })}
+        {focus !== NOT_STARTED && focus !== PEOPLE && stages
+          .filter((st) => !focus || st.name === focus || st.subs.some((g) => g.name === focus))
+          .map((st, si) => {
+            if (!st.big) return groupBlock(st.subs[0], si, false);
+            const only = st.name !== focus && st.subs.some((g) => g.name === focus);
+            const people = visible.filter((l) => st.subs.some((g) => inStage(l, g))).length;
+            return (
+              <div key={st.name} className="border-b border-gray-100 last:border-0">
+                {!only && (
+                  <div className={`flex items-center gap-2 px-4 py-2.5 ${si % 2 ? 'bg-blue-100' : 'bg-white'}`}>
+                    <span className="flex-1 text-[13px] font-bold text-navy">{shown(st.name)}</span>
+                    <span className="text-[11px] font-normal text-gray-400">{st.subs.length} steps</span>
+                    <button
+                      type="button"
+                      onClick={() => setStagePop(focus === st.name ? null : st.name)}
+                      className={`shrink-0 px-2.5 py-1 rounded-lg text-white text-[11px] font-bold ${people ? 'bg-red' : 'bg-blue-600'}`}
+                    >
+                      {focus === st.name ? 'Show all' : 'View'}
+                    </button>
+                  </div>
+                )}
+                <div className={only ? '' : 'ml-4 border-l-2 border-blue-200'}>
+                  {st.subs.filter((g) => !only || g.name === focus).map((g, gi) => groupBlock(g, gi, true))}
+                </div>
+              </div>
+            );
+          })}
       </div>
     </div>
   );
