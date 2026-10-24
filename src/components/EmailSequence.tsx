@@ -29,7 +29,7 @@ const shown = (g: string) => SHOWN[g] || g;
 // Two server groups that are the same stage here.
 const ALIAS: Record<string, string> = { 'Confirming with others FAQ': 'FAQ' };
 // The three chasers after the demo get a sub-section of their own on this page (the server still files them under After Demo Follow-up).
-const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked', any_questions: 'Final push', your_timing: 'Final push', tried_calling: 'Final push', which_are_you: 'Getting the demo booked', demo_today: 'Chasing a quiet lead', demo_today_tomorrow: 'Chasing a quiet lead', coachReachOut: 'Not the coach', wanted_demo: 'Chasing a quiet lead', cant_make_it: 'Chasing a quiet lead', rebook_later: 'Chasing a quiet lead', sevenToTenDays: 'Follow-up - not received roster yet', rosterNudge: 'Follow-up - not received roster yet', rosterResend: 'Follow-up - not received roster yet', rosterReceived: 'Invoice sent', invoiceReminder: 'Waiting on invoice payment', welcome_received_check: 'Onboarding', onboarding_check_in: 'Onboarding' };
+const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked', any_questions: 'Final push', your_timing: 'Final push', tried_calling: 'Final push', which_are_you: 'Getting the demo booked', demo_today: 'Chasing a quiet lead', demo_today_tomorrow: 'Chasing a quiet lead', coachReachOut: 'Not the coach', wanted_demo: 'Chasing a quiet lead', cant_make_it: 'Chasing a quiet lead', rebook_later: 'Chasing a quiet lead', sevenToTenDays: 'Follow-up - not received roster yet', rosterNudge: 'Follow-up - not received roster yet', rosterResend: 'Follow-up - not received roster yet', rosterReceived: 'Invoice sent', invoiceReminder: 'Waiting on invoice payment', welcome_received_check: 'Onboarding', onboarding_check_in: 'Onboarding', onboardingComplete: 'Onboarding', doItTogether: 'Onboarding' };
 // Names on this page that differ from the email's own title.
 const LABEL: Record<string, string> = { book_a_demo: 'Book a demo - emailed us', rosterReceived: 'Thanks for sending your roster - invoice sent' };
 const groupOf = (g: string, key?: string) => (key && KEY_GROUP[key]) || ALIAS[g] || g;
@@ -54,6 +54,11 @@ const previewDoc = (html: string) => {
   return '<!doctype html><html><body style="margin:0;background:#f1f5f9;font-family:Arial,Helvetica,sans-serif">'
     + '<div style="padding:24px 12px"><div style="max-width:560px;margin:0 auto;background:#fff;border-top:5px solid #F97316;border-radius:12px;padding:28px 32px;font-size:16px;line-height:1.6;color:#334155">'
     + html + '</div></div></body></html>';
+};
+
+// Sections that sit inside another section: group name -> their title and the emails they hold.
+const NESTED: Record<string, { title: string; keys: string[] }[]> = {
+  'Chasing a quiet lead': [{ title: 'Reschedule', keys: ['cant_make_it', 'rebook_later'] }],
 };
 
 const MARK = ' → marked as done, not sent';
@@ -491,21 +496,23 @@ export default function EmailSequence({ token }: { token: string | null }) {
     );
   };
 
-  const rows = (g: { name: string; items: Email[] }) => (
-          <div className="divide-y divide-gray-100 border-t border-gray-100">
-            {g.items.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No emails here.</p>}
-            {visible.filter((l) => waitingOf(l) === g.name).map((l) => (
-              <div key={l.id} className="flex items-center gap-2 px-4 py-2 bg-red/10">
-                <span className="flex-1 min-w-0 text-[13px] font-semibold text-navy">
-                  <span className="block truncate">{contactName(l)}</span>
-                  <span className="block truncate text-[10px] font-normal text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
-                </span>
-                <span className="shrink-0 text-[10px] font-bold uppercase tracking-wide text-red">Waiting for placement</span>
-                <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="shrink-0 px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
-                <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
-              </div>
-            ))}
-            {g.items.map((e, i) => {
+  const rows = (g: { name: string; items: Email[] }) => {
+    const nested = NESTED[g.name] || [];
+    const nestedKeys = new Set(nested.flatMap((n) => n.keys));
+    const main = g.items.filter((e) => !nestedKeys.has(e.key));
+    // Up and down move an email past its neighbour in the list it is drawn in.
+    const swapIn = (list: Email[], i: number, dir: -1 | 1) => {
+      const other = list[i + dir];
+      if (!other) return;
+      const next = groups.map((x) => ({ name: x.name, items: [...x.items] }));
+      const t = next.find((x) => x.name === g.name);
+      if (!t) return;
+      const a = t.items.findIndex((x) => x.key === list[i].key);
+      const b = t.items.findIndex((x) => x.key === other.key);
+      [t.items[a], t.items[b]] = [t.items[b], t.items[a]];
+      saveLayout(next, deleted, 'Moved');
+    };
+    const emailRows = (list: Email[]) => list.map((e, i) => {
               const at = flat.indexOf(e);
               const people = visible.filter((l) => positionOf(l) === at);
               return (
@@ -518,8 +525,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
                     </span>
                     <Menu id={'e' + e.key}>
                       <Item onClick={() => { const l = visible[0] || leads[0]; if (!l) { flash('Add a contact first, the preview is filled in with one.'); return; } openSend(l, e, true); }}>Preview</Item>
-                      <Item onClick={() => moveEmail(g.name, i, -1)}>Move up</Item>
-                      <Item onClick={() => moveEmail(g.name, i, 1)}>Move down</Item>
+                      <Item onClick={() => swapIn(list, i, -1)}>Move up</Item>
+                      <Item onClick={() => swapIn(list, i, 1)}>Move down</Item>
                       <Item danger onClick={() => deleteEmail(e)}>Delete</Item>
                     </Menu>
                     <button
@@ -546,9 +553,41 @@ export default function EmailSequence({ token }: { token: string | null }) {
                   )}
                 </div>
               );
+    });
+    return (
+          <div className="divide-y divide-gray-100 border-t border-gray-100">
+            {g.items.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No emails here.</p>}
+            {visible.filter((l) => waitingOf(l) === g.name).map((l) => (
+              <div key={l.id} className="flex items-center gap-2 px-4 py-2 bg-red/10">
+                <span className="flex-1 min-w-0 text-[13px] font-semibold text-navy">
+                  <span className="block truncate">{contactName(l)}</span>
+                  <span className="block truncate text-[10px] font-normal text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
+                </span>
+                <span className="shrink-0 text-[10px] font-bold uppercase tracking-wide text-red">Waiting for placement</span>
+                <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="shrink-0 px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
+                <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
+              </div>
+            ))}
+            {emailRows(main)}
+            {nested.map((n) => {
+              const list = g.items.filter((e) => n.keys.includes(e.key));
+              if (!list.length) return null;
+              const k = 'nested:' + g.name + ':' + n.title;
+              const open = openGroups[k] === true;
+              return (
+                <div key={k}>
+                  <button type="button" onClick={() => setOpenGroups((o) => ({ ...o, [k]: !open }))} className="flex w-full items-center gap-2 pl-8 pr-4 py-2.5 text-left bg-gray-50">
+                    <span className="text-[10px] text-gray-400 w-3">{open ? '▾' : '▸'}</span>
+                    <span className="flex-1 text-[13px] font-bold text-navy">{n.title}</span>
+                    <span className="text-[11px] font-normal text-gray-400">{list.length} {list.length === 1 ? 'email' : 'emails'}</span>
+                  </button>
+                  {open && <div className="ml-4 border-l-2 border-blue-200 divide-y divide-gray-100">{emailRows(list)}</div>}
+                </div>
+              );
             })}
           </div>
-  );
+    );
+  };
 
 
   const groupBlock = (g: (typeof groups)[number], gi: number, sub: boolean) => {
