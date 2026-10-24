@@ -76,6 +76,14 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [note, setNote] = useState('');
   const [busy, setBusy] = useState(false);
   const [menu, setMenu] = useState<string | null>(null);
+  const [menuAt, setMenuAt] = useState<{ right: number; top?: number; bottom?: number } | null>(null);
+  // A fixed menu would float off its button on scroll, so it closes instead.
+  useEffect(() => {
+    if (!menu) return;
+    const close = () => setMenu(null);
+    window.addEventListener('scroll', close, true);
+    return () => window.removeEventListener('scroll', close, true);
+  }, [menu]);
   const [showHidden, setShowHidden] = useState(false);
   const [showDeleted, setShowDeleted] = useState(false);
   // Which category is showing. Only the picked one is drawn, so the page stays short.
@@ -367,13 +375,19 @@ export default function EmailSequence({ token }: { token: string | null }) {
     <div className="relative shrink-0">
       <button
         type="button"
-        onClick={(ev) => { ev.stopPropagation(); setMenu(menu === id ? null : id); }}
+        onClick={(ev) => {
+          ev.stopPropagation();
+          const r = ev.currentTarget.getBoundingClientRect();
+          // Fixed so no parent can clip it; opens upward when the page ends below the button.
+          setMenuAt(window.innerHeight - r.bottom < 220 ? { right: window.innerWidth - r.right, bottom: window.innerHeight - r.top + 4 } : { right: window.innerWidth - r.right, top: r.bottom + 4 });
+          setMenu(menu === id ? null : id);
+        }}
         className="px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200"
       >
         Actions ▾
       </button>
       {menu === id && (
-        <div className="absolute right-0 z-30 mt-1 min-w-[190px] rounded-xl border border-gray-200 bg-white shadow-lg py-1" onClick={(ev) => ev.stopPropagation()}>
+        <div style={menuAt || undefined} className="fixed z-50 min-w-[190px] rounded-xl border border-gray-200 bg-white shadow-lg py-1" onClick={(ev) => ev.stopPropagation()}>
           {children}
         </div>
       )}
