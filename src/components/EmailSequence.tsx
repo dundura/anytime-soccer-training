@@ -28,7 +28,7 @@ const shown = (g: string) => SHOWN[g] || g;
 // Two server groups that are the same stage here.
 const ALIAS: Record<string, string> = { 'Confirming with others FAQ': 'FAQ' };
 // The three chasers after the demo get a sub-section of their own on this page (the server still files them under After Demo Follow-up).
-const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked' };
+const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked', demo_today_tomorrow: 'Before anything' };
 const groupOf = (g: string, key?: string) => (key && KEY_GROUP[key]) || ALIAS[g] || g;
 const RUN_ORDER = [
   'Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'After Demo Follow-up', 'Chasing after demo',
@@ -136,6 +136,11 @@ export default function EmailSequence({ token }: { token: string | null }) {
         if (sa && sb) return sa.sortOrder - sb.sortOrder;
         return def.indexOf(a.key) - def.indexOf(b.key);
       });
+      // Today or tomorrow is number 4 in Before demo.
+      if (g === 'Before anything' && !saved.has('demo_today_tomorrow')) {
+        const at = list.findIndex((x) => x.key === 'demo_today_tomorrow');
+        if (at >= 0) { const [m] = list.splice(at, 1); list.splice(Math.min(3, list.length), 0, m); }
+      }
       // Pricing details (auto) closes Client Contacts Us.
       if (g === 'Getting the demo booked' && !saved.has('pricing')) list.sort((x, y) => Number(x.key === 'pricing') - Number(y.key === 'pricing'));
       if (g === 'Sending Roster Template') list.sort((x, y) => Number(y.key === 'afterDemo') - Number(x.key === 'afterDemo'));
