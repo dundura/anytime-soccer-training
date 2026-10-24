@@ -110,6 +110,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [pillPop, setPillPop] = useState<string | null>(null);
   // One Stages pill holds every stage; it opens a list to pick from.
   const [stagesPop, setStagesPop] = useState(false);
+  // The Clients pill asks which list: started in the sequence or not started.
+  const [clientsPop, setClientsPop] = useState(false);
   // Big stages start shut so only the stages show; the arrow opens the sections inside.
   const [bigOpen, setBigOpen] = useState<Record<string, boolean>>(() => {
     try { return JSON.parse(localStorage.getItem('seqBigOpen') || '{}') || {}; } catch { return {}; }
@@ -632,6 +634,24 @@ export default function EmailSequence({ token }: { token: string | null }) {
   return (
     <div className="p-4 sm:p-6" onClick={() => setMenu(null)}>
       {popup()}
+      {clientsPop && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setClientsPop(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-sm overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
+            <div className="px-5 py-4 bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] text-white flex items-start justify-between gap-3">
+              <div className="text-base font-black">Clients</div>
+              <button onClick={() => setClientsPop(false)} className="text-white/70 text-xl leading-none">×</button>
+            </div>
+            <button type="button" onClick={() => { setStagePop(NOT_STARTED); setClientsPop(false); }} className="flex w-full items-center gap-2 text-left px-5 py-3 text-[13px] font-bold text-navy bg-blue-100">
+              <span className="flex-1">Not started</span>
+              <span className="text-[11px] font-bold text-gray-500">{notStarted.length}</span>
+            </button>
+            <button type="button" onClick={() => { setStagePop(PEOPLE); setClientsPop(false); }} className="flex w-full items-center gap-2 text-left px-5 py-3 text-[13px] font-bold text-navy bg-white">
+              <span className="flex-1">Started</span>
+              <span className="text-[11px] font-bold text-gray-500">{visible.length - notStarted.length}</span>
+            </button>
+          </div>
+        </div>
+      )}
       {stagesPop && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setStagesPop(false)}>
           <div className="bg-white rounded-2xl w-full max-w-sm max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
@@ -855,10 +875,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
       <div className="flex flex-wrap gap-1 mb-3">
         <button
           type="button"
-          onClick={() => setStagePop(focus === NOT_STARTED ? null : NOT_STARTED)}
-          className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-navy bg-white border border-gray-300 ${focus === NOT_STARTED ? 'ring-2 ring-navy ring-offset-1' : ''}`}
+          onClick={() => setClientsPop(true)}
+          className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-navy bg-white border border-gray-300 ${focus === NOT_STARTED || focus === PEOPLE ? 'ring-2 ring-navy ring-offset-1' : ''}`}
         >
-          Clients Not started ({notStarted.length})
+          Clients Not started ({notStarted.length}) ▾
         </button>
         <button
           type="button"
@@ -889,12 +909,12 @@ export default function EmailSequence({ token }: { token: string | null }) {
         {focus === PEOPLE && (
           <div>
             <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">
-              <span className="flex-1 text-[13px] font-bold text-navy">People</span>
-              <span className="text-[11px] font-normal text-gray-400">{visible.length} contacts</span>
+              <span className="flex-1 text-[13px] font-bold text-navy">Started</span>
+              <span className="text-[11px] font-normal text-gray-400">{visible.length - notStarted.length} contacts</span>
               <button type="button" onClick={() => setStagePop(null)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold">Show all</button>
             </div>
-            {visible.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No contacts.</p>}
-            {[...notStarted, ...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].map((l, i) => {
+            {visible.length - notStarted.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No one has been moved into the sequence yet.</p>}
+            {[...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].map((l, i) => {
               const at = positionOf(l);
               const stage = at >= 0 ? groups.find((g) => g.items.some((e) => e.key === flat[at].key)) : null;
               return (
