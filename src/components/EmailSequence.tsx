@@ -103,6 +103,15 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [pillPop, setPillPop] = useState<string | null>(null);
   // One Stages pill holds every stage; it opens a list to pick from.
   const [stagesPop, setStagesPop] = useState(false);
+  // Big stages start shut so only the stages show; the arrow opens the sections inside.
+  const [bigOpen, setBigOpen] = useState<Record<string, boolean>>(() => {
+    try { return JSON.parse(localStorage.getItem('seqBigOpen') || '{}') || {}; } catch { return {}; }
+  });
+  const toggleBig = (name: string, open: boolean) => setBigOpen((o) => {
+    const next = { ...o, [name]: open };
+    try { localStorage.setItem('seqBigOpen', JSON.stringify(next)); } catch { /* the page works without it */ }
+    return next;
+  });
   // The email whose contacts are showing in the Open popup.
   const [openEmail, setOpenEmail] = useState<Email | null>(null);
   // The move popup: first pick the person, then pick where to put them.
@@ -884,11 +893,19 @@ export default function EmailSequence({ token }: { token: string | null }) {
             if (!st.big) return groupBlock(st.subs[0], si, false);
             const only = st.name !== focus && st.subs.some((g) => g.name === focus);
             const people = visible.filter((l) => st.subs.some((g) => inStage(l, g))).length;
+            const bigShown = focus === st.name || only || bigOpen[st.name] === true;
             return (
               <div key={st.name} className="border-b border-gray-100 last:border-0">
                 {!only && (
                   <div className={`flex items-center gap-2 px-4 py-2.5 ${si % 2 ? 'bg-blue-100' : 'bg-white'}`}>
-                    <span className="flex-1 text-[13px] font-bold text-navy">{shown(st.name)}</span>
+                    <button
+                      type="button"
+                      onClick={() => toggleBig(st.name, !bigShown)}
+                      className="flex-1 min-w-0 flex items-center gap-2 text-left"
+                    >
+                      <span className="text-[10px] text-gray-400 w-3">{bigShown ? '▾' : '▸'}</span>
+                      <span className="flex-1 text-[13px] font-bold text-navy">{shown(st.name)}</span>
+                    </button>
                     <span className="text-[11px] font-normal text-gray-400">{st.subs.length} steps</span>
                     <button
                       type="button"
@@ -899,9 +916,11 @@ export default function EmailSequence({ token }: { token: string | null }) {
                     </button>
                   </div>
                 )}
-                <div className={only ? '' : 'ml-4 border-l-2 border-blue-200'}>
-                  {st.subs.filter((g) => !only || g.name === focus).map((g, gi) => groupBlock(g, gi, true))}
-                </div>
+                {bigShown && (
+                  <div className={only ? '' : 'ml-4 border-l-2 border-blue-200'}>
+                    {st.subs.filter((g) => !only || g.name === focus).map((g, gi) => groupBlock(g, gi, true))}
+                  </div>
+                )}
               </div>
             );
           })}
