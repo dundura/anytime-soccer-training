@@ -635,10 +635,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
       <div className="flex flex-wrap gap-1 mb-3">
         <button
           type="button"
-          onClick={() => setStagePop(focus === PEOPLE ? null : PEOPLE)}
-          className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white bg-blue-600 ${focus === PEOPLE ? 'ring-2 ring-navy ring-offset-1' : ''}`}
+          onClick={() => setStagePop(focus === NOT_STARTED ? null : NOT_STARTED)}
+          className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-white ${notStarted.length ? 'bg-red' : 'bg-blue-600'} ${focus === NOT_STARTED ? 'ring-2 ring-navy ring-offset-1' : ''}`}
         >
-          People ({visible.length}) · Not started ({notStarted.length})
+          Not started ({notStarted.length})
         </button>
         {groups.map((g, i) => {
           const n = visible.filter((l) => inStage(l, g)).length;
