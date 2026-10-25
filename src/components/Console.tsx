@@ -163,6 +163,12 @@ export default function Console() {
   const setSeqShut = (f: (l: string[]) => string[]) => setSeqShutState((l) => { const n = f(l); keep('consoleNavShut', n); return n; });
   const setSubsOpen = (f: (l: string[]) => string[]) => setSubsOpenState((l) => { const n = f(l); keep('consoleNavSubs', n); return n; });
   const flip = (list: string[], v: string) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
+  // No - Closing Out sits under Leads: the same page, opened at that stage, without touching the Coach Onboarding tree.
+  const openClosing = () => {
+    try { sessionStorage.setItem('seqNav', JSON.stringify({ seq: 'No - Closing Out', stage: 'No - Closing Out' })); } catch { /* storage unavailable */ }
+    go('sequence');
+    if (typeof window !== 'undefined') window.dispatchEvent(new Event('seqnav'));
+  };
   const pick = (seq: string, stage?: string, big?: boolean) => {
     setNavSeq(seq);
     try { sessionStorage.setItem('seqNav', JSON.stringify({ seq, stage, big })); } catch { /* storage unavailable */ }
@@ -301,9 +307,18 @@ export default function Console() {
                           {v.label}
                         </button>
                       ))}
+                    {open && g.group === 'Leads' && (
+                      <button
+                        onClick={openClosing}
+                        className="w-full text-left px-4 py-2.5 text-sm font-semibold flex items-center gap-3 text-navy hover:bg-gray-50"
+                      >
+                        <span className="w-5 text-center">🚪</span>
+                        No - Closing Out
+                      </button>
+                    )}
                     {open && g.group === 'Coach Onboarding' && (
                       <div className="pb-2">
-                        {SEQ_TREE.map((q) => (
+                        {SEQ_TREE.filter((q) => q.name !== 'No - Closing Out').map((q) => (
                           <div key={q.name}>
                             <button
                               onClick={() => { if (navSeq === q.name) setSeqShut((l) => flip(l, q.name)); else { setSeqShut((l) => l.filter((x) => x !== q.name)); pick(q.name); } }}
