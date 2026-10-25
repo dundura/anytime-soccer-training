@@ -128,6 +128,8 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   // The Started list can be narrowed to one stage; the table follows.
   // A person's name opens every field on them (the old Leads page drawer); Move is its own button.
   const [detailId, setDetailId] = useState<number | null>(null);
+  // Which stages have their table of leads showing.
+  const [leadsOpen, setLeadsOpen] = useState<Record<string, boolean>>({});
   const [startedStage, setStartedStage] = useState('');
   const topOf = (groupName: string) => { const p = PARENTS.find((x) => x.subs.includes(groupName)); return p ? p.name : groupName; };
   const stageOfPerson = (l: Lead) => {
@@ -490,6 +492,62 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
     </button>
   );
 
+  // Above a stage: the leads who are in it, as a table that opens and shuts. A name opens every field on them.
+  const leadTable = (key: string, people: Lead[]) => {
+    const open = leadsOpen[key] === true;
+    return (
+      <div className="border-b border-gray-100">
+        <button
+          type="button"
+          onClick={() => setLeadsOpen((o) => ({ ...o, [key]: !open }))}
+          className="w-full flex items-center gap-2 px-4 py-2 text-left bg-white"
+        >
+          <span className="text-[10px] text-gray-400 w-3">{open ? '▾' : '▸'}</span>
+          <span className="flex-1 text-[12px] font-bold text-navy">Leads</span>
+          <span className={`text-[11px] font-bold ${people.length ? 'text-red' : 'text-gray-400'}`}>{people.length}</span>
+        </button>
+        {open && (
+          <div>
+            {people.length === 0 && <p className="px-4 py-2 text-xs text-gray-400">No one is in this stage.</p>}
+            {people.map((l, i) => {
+              const at = positionOf(l);
+              return (
+                <div key={l.id} className={`flex items-center gap-2 px-4 py-2 ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
+                  <button type="button" onClick={() => setDetailId(l.id)} className="flex-1 min-w-0 text-left">
+                    <span className="block truncate text-[13px] font-semibold text-navy">{contactName(l)}</span>
+                    <span className="block truncate text-[10px] text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
+                  </button>
+                  <span className="shrink-0 max-w-[40%] truncate text-right text-[11px] font-semibold text-red">{at >= 0 ? flat[at].label : 'waiting'}</span>
+                  <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="shrink-0 px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // Under a stage, next to its Leads table: the Sequence table, the emails in the order they go. Open until shut.
+  const [seqShutKeys, setSeqShutKeys] = useState<Record<string, boolean>>({});
+  const sequenceTable = (key: string, count: number, body: ReactNode) => {
+    const open = seqShutKeys[key] !== true;
+    return (
+      <div>
+        <button
+          type="button"
+          onClick={() => setSeqShutKeys((o) => ({ ...o, [key]: open }))}
+          className="w-full flex items-center gap-2 px-4 py-2 text-left bg-white border-b border-gray-100"
+        >
+          <span className="text-[10px] text-gray-400 w-3">{open ? '▾' : '▸'}</span>
+          <span className="flex-1 text-[12px] font-bold text-navy">Sequence</span>
+          <span className="text-[11px] font-normal text-gray-400">{count} {count === 1 ? 'email' : 'emails'}</span>
+        </button>
+        {open && body}
+      </div>
+    );
+  };
+
   const popup = () => {
     if (!pop) return null;
     const close = () => setPop(null);
@@ -716,7 +774,10 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
               </button>
             </div>
             {isOpen && (
-            rows(g)
+            <>
+              {leadTable('g:' + g.name, visible.filter((l) => inStage(l, g)))}
+              {sequenceTable('g:' + g.name, g.items.length, rows(g))}
+            </>
             )}
           </div>
           );
@@ -1079,6 +1140,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                 )}
                 {bigShown && (
                   <div className={only ? '' : 'ml-4 border-l-2 border-blue-200'}>
+                    {!only && leadTable('b:' + st.name, visible.filter((l) => st.subs.some((g) => inStage(l, g))))}
                     {st.subs.filter((g) => !only || g.name === focus).map((g, gi) => groupBlock(g, gi, true))}
                   </div>
                 )}
