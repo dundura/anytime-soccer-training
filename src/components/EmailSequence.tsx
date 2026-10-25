@@ -77,10 +77,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [busy, setBusy] = useState(false);
   const [menu, setMenu] = useState<string | null>(null);
   // Sequences share this page: the demo, everything from the roster on, and the first three weeks of a team.
-  const SEQUENCES = ['Demo', 'Roster & Invoicing', 'Everything else', 'First 3 weeks'];
+  const SEQUENCES = ['Demo', 'Roster & Invoicing', 'Onboarding', 'Everything else', 'First 3 weeks'];
   const [sequence, setSequence] = useState('Demo');
   const [seqPop, setSeqPop] = useState(false);
-  const seqOf = (name: string) => (name === 'Demo Before Roster' ? 'Demo' : name === 'First 3 weeks' ? 'First 3 weeks' : (name === 'Yes - Send Roster' || name === 'Sent Invoice') ? 'Roster & Invoicing' : 'Everything else');
+  const seqOf = (name: string) => (name === 'Demo Before Roster' ? 'Demo' : name === 'First 3 weeks' ? 'First 3 weeks' : (name === 'Yes - Send Roster' || name === 'Sent Invoice') ? 'Roster & Invoicing' : (name === 'Onboarding' || name === 'Onboarding complete') ? 'Onboarding' : 'Everything else');
   const inSeq = (name: string) => seqOf(name) === sequence;
   const [menuAt, setMenuAt] = useState<{ right: number; top?: number; bottom?: number } | null>(null);
   // A fixed menu would float off its button on scroll, so it closes instead.
