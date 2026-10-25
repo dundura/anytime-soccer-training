@@ -59,7 +59,7 @@ const GROUPS = [
     ],
   },
   {
-    group: 'Getting them started',
+    group: 'Parent Onboarding',
     rows: [{ key: 'parent-onboarding', label: 'Parent onboarding', icon: '👪' }],
   },
   // People who asked for help. The monthly check-in asks "would you like to speak to a member of the team", and a Yes
