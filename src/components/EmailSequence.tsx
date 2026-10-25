@@ -537,7 +537,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
               <div key={l.id} className={`flex items-center gap-2 px-4 py-2 ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
                 <button type="button" onClick={() => setDetailId(l.id)} className="flex-1 min-w-0 text-left">
                   <span className="block truncate text-[13px] font-semibold text-navy">{contactName(l)}</span>
-                  <span className="block truncate text-[10px] text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
+                  <span className="block truncate text-[10px] text-gray-500">{l.name}</span>
                 </button>
                 <span className="shrink-0 max-w-[45%] truncate text-right text-[11px] font-semibold text-red">{shown(g)}{at >= 0 ? ' · ' + flat[at].label : ' · waiting'}</span>
                 <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="shrink-0 px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
@@ -1053,7 +1053,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                 >
                   <span className="flex-1 min-w-0">
                     <span className="block truncate">{contactName(l)}</span>
-                    <span className="block truncate text-[10px] text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
+                    <span className="block truncate text-[10px] text-gray-500">{l.name}</span>
                   </span>
                   <span
                     role="link"
@@ -1089,7 +1089,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                   className="flex-1 min-w-0 block text-left px-4 py-2.5 text-[13px] font-normal text-navy"
                 >
                   {contactName(l)}
-                  <span className="block truncate text-[10px] text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
+                  <span className="block truncate text-[10px] text-gray-500">{l.name}</span>
                 </button>
                 <span className="shrink-0 mr-3 flex gap-1.5">
                   <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
