@@ -913,8 +913,6 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
           <h2 className="text-lg font-black text-navy">{mode === 'leads' ? '👥 Leads' : '📬 Coach Onboarding: ' + sequence}</h2>
         </div>
         <div className="flex flex-wrap gap-2">
-          <button onClick={() => setWhoPop(true)} className="px-3 py-2 rounded-lg bg-navy text-white text-xs font-bold">Who is where</button>
-          <button onClick={() => setPop({ lead: null, search: '', only: true })} className="px-3 py-2 rounded-lg bg-red text-white text-xs font-bold">Move a contact</button>
           <button onClick={() => setShowHidden((v) => !v)} className="px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-xs font-bold">
             Hidden contacts ({hidden.length})
           </button>
