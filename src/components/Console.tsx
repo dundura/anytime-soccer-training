@@ -205,7 +205,7 @@ export default function Console() {
   };
 
   // The menu's two sub groups: Not Started (still getting going) and Started.
-  const group = (name: string) => (name === 'Demo & Invoicing' ? 'Not Started' : name === 'Onboarding' || name === 'First 3 weeks' || name === 'First Follow-up' ? 'Started' : null);
+  const group = (name: string) => (name === 'Demo & Invoicing' || name === 'Onboarding' ? 'Not Started' : name === 'First 3 weeks' || name === 'First Follow-up' ? 'Started' : null);
 
   const signIn = async (ev: React.FormEvent) => {
     ev.preventDefault();
@@ -347,7 +347,7 @@ export default function Console() {
                               Not Started
                             </button>
                           )}
-                          {q.name === 'Onboarding' && (
+                          {q.name === 'First 3 weeks' && (
                             <button
                               onClick={() => setSeqShut((l) => flip(l, 'Started'))}
                               className="w-full flex items-center gap-1.5 text-left pl-9 pr-4 py-1.5 text-[13px] font-black text-navy hover:bg-gray-50"
