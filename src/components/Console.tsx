@@ -48,15 +48,15 @@ const GROUPS = [
   // pipeline is on top and open, because it is why the console is open; the
   // rest are folded away until you go looking for them.
   {
+    group: 'Leads',
+    rows: [{ key: 'leads', label: 'Leads', icon: '👥' }],
+  },
+  {
     group: 'Coach Onboarding',
     rows: [
       { key: 'sequence', label: 'Coach Onboarding', icon: '🎬' },
       { key: 'crm', label: 'Coach CRM', icon: '📇' },
     ],
-  },
-  {
-    group: 'Leads',
-    rows: [{ key: 'leads', label: 'Leads', icon: '👥' }],
   },
   {
     group: 'Getting them started',
