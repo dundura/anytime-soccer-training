@@ -1,5 +1,6 @@
 'use client';
 
+import DemoPortal from './DemoPortal';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
@@ -77,7 +78,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [busy, setBusy] = useState(false);
   const [menu, setMenu] = useState<string | null>(null);
   // Sequences share this page: the demo, everything from the roster on, and the first three weeks of a team.
-  const SEQUENCES = ['Demo', 'Roster & Invoicing', 'Onboarding', 'First 3 weeks', 'Other', 'No - Closing Out'];
+  const SEQUENCES = ['Leads', 'Demo', 'Roster & Invoicing', 'Onboarding', 'First 3 weeks', 'Other', 'No - Closing Out'];
   const [sequence, setSequence] = useState('Demo');
   const [seqPop, setSeqPop] = useState(false);
   const seqOf = (name: string) => (name === 'Demo Before Roster' ? 'Demo' : name === 'No - Closing Out' ? 'No - Closing Out' : name === 'First 3 weeks' ? 'First 3 weeks' : (name === 'Yes - Send Roster' || name === 'Sent Invoice') ? 'Roster & Invoicing' : (name === 'Onboarding' || name === 'Onboarding complete') ? 'Onboarding' : 'Other');
@@ -836,7 +837,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
             onClick={(ev) => { ev.stopPropagation(); setSeqPop((v) => !v); }}
             className="text-lg font-black text-navy"
           >
-            📬 Email sequence: {sequence} ▾
+            📬 Coach Onboarding: {sequence} ▾
           </button>
           {seqPop && (
             <div className="absolute left-0 z-40 mt-1 w-[280px] max-w-[calc(100vw-2rem)] max-h-[70vh] overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-lg py-1" onClick={(ev) => ev.stopPropagation()}>
@@ -887,6 +888,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
         </div>
       </div>
 
+      {sequence === 'Leads' ? <DemoPortal token={token} /> : (<>
       <div className="mb-3 relative">
         <input
           value={find}
@@ -1089,6 +1091,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
             );
           })}
       </div>
+      </>)}
     </div>
   );
 }
