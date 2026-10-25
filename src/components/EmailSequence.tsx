@@ -76,6 +76,12 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [note, setNote] = useState('');
   const [busy, setBusy] = useState(false);
   const [menu, setMenu] = useState<string | null>(null);
+  // Sequences share this page: the demo, everything from the roster on, and the first three weeks of a team.
+  const SEQUENCES = ['Demo', 'Roster and onboarding', 'First 3 weeks'];
+  const [sequence, setSequence] = useState('Demo');
+  const [seqPop, setSeqPop] = useState(false);
+  const seqOf = (name: string) => (name === 'Demo Before Roster' ? 'Demo' : name === 'First 3 weeks' ? 'First 3 weeks' : 'Roster and onboarding');
+  const inSeq = (name: string) => seqOf(name) === sequence;
   const [menuAt, setMenuAt] = useState<{ right: number; top?: number; bottom?: number } | null>(null);
   // A fixed menu would float off its button on scroll, so it closes instead.
   useEffect(() => {
@@ -664,7 +670,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
   if (loading) return <div className="p-6 text-sm text-gray-500">Loading…</div>;
 
   return (
-    <div className="p-4 sm:p-6" onClick={() => setMenu(null)}>
+    <div className="p-4 sm:p-6" onClick={() => { setMenu(null); setSeqPop(false); }}>
       {popup()}
       {clientsPop && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setClientsPop(false)}>
@@ -696,7 +702,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
             </div>
             <div className="overflow-y-auto">
               <button type="button" onClick={() => { setStagePop(null); setStagesPop(false); }} className="block w-full text-left px-5 py-3 text-[13px] font-bold text-white bg-red">All stages</button>
-              {stages.map((st, i) => {
+              {stages.filter((st) => inSeq(st.name)).map((st, i) => {
                 const n = visible.filter((l) => st.subs.some((g) => inStage(l, g))).length;
                 return (
                   <button
@@ -824,8 +830,28 @@ export default function EmailSequence({ token }: { token: string | null }) {
         </div>
       )}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-        <div>
-          <h2 className="text-lg font-black text-navy">Email sequence</h2>
+        <div className="relative">
+          <button
+            type="button"
+            onClick={(ev) => { ev.stopPropagation(); setSeqPop((v) => !v); }}
+            className="text-lg font-black text-navy"
+          >
+            📬 Email sequence: {sequence} ▾
+          </button>
+          {seqPop && (
+            <div className="absolute left-0 z-40 mt-1 min-w-[200px] rounded-xl border border-gray-200 bg-white shadow-lg py-1" onClick={(ev) => ev.stopPropagation()}>
+              {SEQUENCES.map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  onClick={() => { setSequence(n); setStagePop(null); setSeqPop(false); }}
+                  className={`block w-full text-left px-3 py-2 text-[13px] font-semibold hover:bg-gray-50 ${n === sequence ? 'text-red' : 'text-navy'}`}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         <div className="flex flex-wrap gap-2">
           <button onClick={() => setWhoPop(true)} className="px-3 py-2 rounded-lg bg-navy text-white text-xs font-bold">Who is where</button>
@@ -1003,6 +1029,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
           </div>
         )}
         {focus !== NOT_STARTED && focus !== PEOPLE && stages
+          .filter((st) => inSeq(st.name))
           .filter((st) => !focus || st.name === focus || st.subs.some((g) => g.name === focus))
           .map((st, si) => {
             if (!st.big) return groupBlock(st.subs[0], si, false);
