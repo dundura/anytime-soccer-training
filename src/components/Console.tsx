@@ -48,7 +48,7 @@ const GROUPS = [
   // pipeline is on top and open, because it is why the console is open; the
   // rest are folded away until you go looking for them.
   {
-    group: 'Turning them into teams',
+    group: 'Coach Onboarding',
     rows: [
       { key: 'sequence', label: 'Coach Onboarding', icon: '🎬' },
       { key: 'crm', label: 'Coach CRM', icon: '📇' },
@@ -98,7 +98,10 @@ const GROUPS = [
 ] as const;
 
 // The one that starts open. Everything else is a click away.
-const OPEN_BY_DEFAULT = 'Turning them into teams';
+const OPEN_BY_DEFAULT = 'Coach Onboarding';
+
+// Their pages still open, but the nested menu under the Coach Onboarding heading replaces the rows.
+const HIDDEN_ROWS = ['sequence', 'crm'];
 
 // The headings carry no key, so the view type is only the rows you can open.
 type ViewKey = (typeof GROUPS)[number]['rows'][number]['key'];
@@ -271,7 +274,7 @@ export default function Console() {
                       {g.group}
                     </button>
                     {open &&
-                      g.rows.map((v) => (                        <button
+                      g.rows.filter((v) => !HIDDEN_ROWS.includes(v.key)).map((v) => (                        <button
                           key={v.key}
                           onClick={() => go(v.key)}
                           className={`w-full text-left px-4 py-2.5 text-sm font-semibold flex items-center gap-3 transition-colors ${
@@ -282,7 +285,7 @@ export default function Console() {
                           {v.label}
                         </button>
                       ))}
-                    {open && g.group === 'Turning them into teams' && view === 'sequence' && (
+                    {open && g.group === 'Coach Onboarding' && (
                       <div className="pb-2">
                         {SEQ_TREE.map((q) => (
                           <div key={q.name}>
