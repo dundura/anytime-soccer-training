@@ -301,7 +301,8 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
     l.sent.forEach((summary) => {
       const i = flat.findIndex((e) => alreadySent(e, [summary]));
       if (i >= 0) { at = i; stage = null; return; }
-      const g = groups.find((x) => summary === stageMark(x.name) + MARK);
+      // Marks made when this stage was one section still count: First 3 weeks is now its first section, Thank you.
+      const g = groups.find((x) => summary === stageMark(x.name) + MARK || (x.name === 'Thank you' && summary === stageMark('First 3 weeks') + MARK));
       if (g) { at = -1; stage = g.name; }
     });
     return { at, stage };
