@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import ColdWorkflow from './ColdWorkflow';
 import SupportBoard from './SupportBoard';
 import ConsoleLogins from './ConsoleLogins';
@@ -332,7 +332,18 @@ export default function Console() {
                     {open && g.group === 'Coach Onboarding' && (
                       <div className="pb-2">
                         {SEQ_TREE.filter((q) => q.name !== 'No - Closing Out').map((q) => (
-                          <div key={q.name}>
+                          <Fragment key={q.name}>
+                          {q.name === 'Demo & Invoicing' && (
+                            <button
+                              onClick={() => setSeqShut((l) => flip(l, 'Not Started'))}
+                              className="w-full flex items-center gap-1.5 text-left pl-9 pr-4 py-1.5 text-[13px] font-black text-navy hover:bg-gray-50"
+                            >
+                              <span className="w-2 text-[8px] leading-none">{seqShut.includes('Not Started') ? '▶' : '▼'}</span>
+                              Not Started
+                            </button>
+                          )}
+                          {!(q.name === 'Demo & Invoicing' && seqShut.includes('Not Started')) && (
+                          <div className={q.name === 'Demo & Invoicing' ? 'pl-3' : ''}>
                             <button
                               onClick={() => { if (navSeq === q.name) setSeqShut((l) => flip(l, q.name)); else { setSeqShut((l) => l.filter((x) => x !== q.name)); pick(q.name, q.stages[0] ? q.stages[0].name : undefined); } }}
                               className={`w-full flex items-center gap-1.5 text-left pl-9 pr-4 py-1.5 text-[13px] font-bold ${navSeq === q.name ? 'text-red' : 'text-navy'} hover:bg-gray-50`}
@@ -379,6 +390,8 @@ export default function Console() {
                               </div>
                             ))}
                           </div>
+                          )}
+                          </Fragment>
                         ))}
                       </div>
                     )}
