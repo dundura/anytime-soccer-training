@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 /**
  * Demo Portal — the stage before the CRM.
@@ -112,7 +112,8 @@ const ago = (v: string | null) => {
   return Math.floor(hrs / 24) + 'd';
 };
 
-export default function DemoPortal({ token }: { token: string | null }) {
+// openOnly: show just one lead's drawer (every field), for the sequence page; onClose fires when it is shut.
+export default function DemoPortal({ token, openOnly = null, onClose }: { token: string | null; openOnly?: number | null; onClose?: () => void }) {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [kpi, setKpi] = useState<Record<string, number>>({});
@@ -196,6 +197,14 @@ export default function DemoPortal({ token }: { token: string | null }) {
   }, [headers, stageFilter, search]);
 
   useEffect(() => { load(); }, [load]);
+
+  const drawerWasOpen = useRef(false);
+  useEffect(() => { if (openOnly) openLead(openOnly); }, [openOnly]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!openOnly) return;
+    if (openId) drawerWasOpen.current = true;
+    else if (drawerWasOpen.current) { drawerWasOpen.current = false; if (onClose) onClose(); }
+  }, [openId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const openLead = useCallback(async (id: number) => {
     setOpenId(id);
@@ -375,7 +384,7 @@ export default function DemoPortal({ token }: { token: string | null }) {
   const previewLead = current || leads[0] || null;
 
   return (
-    <div className="mb-6">
+    <div className={openOnly ? '[&>*:not(.fixed)]:hidden' : 'mb-6'}>
       <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
         <div>
           <h2 className="text-lg font-black text-navy">Demo requests</h2>

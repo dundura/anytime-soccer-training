@@ -1,5 +1,6 @@
 'use client';
 
+import DemoPortal from './DemoPortal';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
@@ -120,6 +121,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   // The Started list can be narrowed to one stage; the table follows.
+  // A person's name opens every field on them (the old Leads page drawer); Move is its own button.
+  const [detailId, setDetailId] = useState<number | null>(null);
   const [startedStage, setStartedStage] = useState('');
   const topOf = (groupName: string) => { const p = PARENTS.find((x) => x.subs.includes(groupName)); return p ? p.name : groupName; };
   const stageOfPerson = (l: Lead) => {
@@ -717,6 +720,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
 
   return (
     <div className="p-4 sm:p-6" onClick={() => setMenu(null)}>
+      {detailId !== null && <DemoPortal token={token} openOnly={detailId} onClose={() => { setDetailId(null); load(); }} />}
       {popup()}
       {clientsPop && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setClientsPop(false)}>
@@ -1019,7 +1023,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                 <div key={l.id} className={`flex items-center ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
                 <button
                   type="button"
-                  onClick={() => setPop({ lead: l, search: '' })}
+                  onClick={() => setDetailId(l.id)}
                   className="flex flex-1 min-w-0 items-center gap-3 text-left px-4 py-2.5 text-[13px] font-normal text-navy"
                 >
                   <span className="flex-1 min-w-0">
@@ -1035,6 +1039,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
                   </span>
                 </button>
                 <span className="shrink-0 mr-3 flex gap-1.5">
+                  <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
                   <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
                   {deleteBtn(l)}
                 </span>
@@ -1055,13 +1060,14 @@ export default function EmailSequence({ token }: { token: string | null }) {
               <div key={l.id} className={`flex items-center ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
                 <button
                   type="button"
-                  onClick={() => setPop({ lead: l, search: '' })}
+                  onClick={() => setDetailId(l.id)}
                   className="flex-1 min-w-0 block text-left px-4 py-2.5 text-[13px] font-normal text-navy"
                 >
                   {contactName(l)}
                   <span className="block truncate text-[10px] text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
                 </button>
                 <span className="shrink-0 mr-3 flex gap-1.5">
+                  <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
                   <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
                   {deleteBtn(l)}
                 </span>
