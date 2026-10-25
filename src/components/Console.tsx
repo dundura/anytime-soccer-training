@@ -205,7 +205,7 @@ export default function Console() {
   };
 
   // The menu's two sub groups: Not Started (still getting going) and Started.
-  const group = (name: string) => (name === 'Demo & Invoicing' ? 'Not Started' : name === 'Onboarding' || name === 'First 3 weeks' ? 'Started' : null);
+  const group = (name: string) => (name === 'Demo & Invoicing' ? 'Not Started' : name === 'Onboarding' || name === 'First 3 weeks' || name === 'First Follow-up' ? 'Started' : null);
 
   const signIn = async (ev: React.FormEvent) => {
     ev.preventDefault();

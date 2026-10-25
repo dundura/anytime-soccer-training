@@ -31,13 +31,13 @@ export const shown = (g: string) => SHOWN[g] || g;
 // Two server groups that are the same stage here.
 const ALIAS: Record<string, string> = { 'Confirming with others FAQ': 'FAQ' };
 // The three chasers after the demo get a sub-section of their own on this page (the server still files them under After Demo Follow-up).
-const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked', any_questions: 'Final push', your_timing: 'Final push', tried_calling: 'Final push', which_are_you: 'Getting the demo booked', demo_today: 'Chasing a quiet lead', demo_today_tomorrow: 'Chasing a quiet lead', coachReachOut: 'Not the coach', wanted_demo: 'Chasing a quiet lead', cant_make_it: 'Reschedule demo', rebook_later: 'Reschedule demo', sevenToTenDays: 'Follow-up - not received roster yet', rosterNudge: 'Follow-up - not received roster yet', rosterResend: 'Follow-up - not received roster yet', rosterReceived: 'Invoice sent', invoiceReminder: 'Waiting on invoice payment', welcome_received_check: 'Onboarding', onboarding_check_in: 'Onboarding', onboardingComplete: 'Onboarding complete', doItTogether: 'Onboarding', waitingOnCoach: 'Onboarding', paymentReceived: 'Onboarding', won_thank_you: 'Thank you' };
+const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked', any_questions: 'Final push', your_timing: 'Final push', tried_calling: 'Final push', which_are_you: 'Getting the demo booked', demo_today: 'Chasing a quiet lead', demo_today_tomorrow: 'Chasing a quiet lead', coachReachOut: 'Not the coach', wanted_demo: 'Chasing a quiet lead', cant_make_it: 'Reschedule demo', rebook_later: 'Reschedule demo', sevenToTenDays: 'Follow-up - not received roster yet', rosterNudge: 'Follow-up - not received roster yet', rosterResend: 'Follow-up - not received roster yet', rosterReceived: 'Invoice sent', invoiceReminder: 'Waiting on invoice payment', welcome_received_check: 'Onboarding', onboarding_check_in: 'Onboarding', onboardingComplete: 'Onboarding complete', doItTogether: 'Onboarding', waitingOnCoach: 'Onboarding', paymentReceived: 'Onboarding' };
 // Names on this page that differ from the email's own title.
 const LABEL: Record<string, string> = { book_a_demo: 'Book a demo - emailed us', rosterReceived: 'Thanks for sending your roster - invoice sent' };
 const groupOf = (g: string, key?: string) => (key && KEY_GROUP[key]) || ALIAS[g] || g;
 const RUN_ORDER = [
   'Getting the demo booked', 'Chasing a quiet lead', 'Demo booked', 'Reschedule demo', 'After Demo Follow-up', 'Chasing after demo', 'Final push',
-  'Sending Roster Template', 'Follow-up - not received roster yet', 'Invoice sent', 'Waiting on invoice payment', 'Invoice', 'After the demo', 'Onboarding', 'Onboarding complete', 'Thank you', 'First Follow-up',
+  'Sending Roster Template', 'Follow-up - not received roster yet', 'Invoice sent', 'Waiting on invoice payment', 'Invoice', 'After the demo', 'Onboarding', 'Onboarding complete', 'First 3 weeks', 'First Follow-up',
 ];
 const END_ORDER = ['Renewal', 'Special offer', 'Not the coach', 'No - Closing Out'];
 
@@ -46,14 +46,13 @@ const PARENTS: { name: string; subs: string[] }[] = [
   { name: 'Sent Invoice', subs: ['Invoice sent', 'Waiting on invoice payment'] },
   { name: 'Yes - Send Roster', subs: ['Sending Roster Template', 'Follow-up - not received roster yet'] },
   { name: 'Demo Before Roster', subs: ['Getting the demo booked', 'Chasing a quiet lead', 'Demo booked', 'Reschedule demo', 'After Demo Follow-up', 'Chasing after demo', 'Final push'] },
-  { name: 'First 3 weeks', subs: ['Thank you', 'First Follow-up'] },
   { name: 'Other', subs: ['FAQ', 'Sending information to decision makers', 'Sending information to parents', 'Renewal', 'Special offer', 'Not the coach'] },
 ];
 
 // The sequences, and which one each stage belongs to. The console's left menu is built from this.
-export const SEQUENCES = ['Demo & Invoicing', 'Onboarding', 'First 3 weeks', 'Other', 'No - Closing Out'];
-export const seqOf = (name: string) => (name === 'Demo Before Roster' || name === 'Yes - Send Roster' || name === 'Sent Invoice' ? 'Demo & Invoicing' : name === 'No - Closing Out' ? 'No - Closing Out' : name === 'First 3 weeks' ? 'First 3 weeks' : (name === 'Onboarding' || name === 'Onboarding complete') ? 'Onboarding' : 'Other');
-const TOP_STAGES = ['Demo Before Roster', 'Yes - Send Roster', 'Sent Invoice', 'Onboarding', 'Onboarding complete', 'First 3 weeks', 'Other', 'No - Closing Out'];
+export const SEQUENCES = ['Demo & Invoicing', 'Onboarding', 'First 3 weeks', 'First Follow-up', 'Other', 'No - Closing Out'];
+export const seqOf = (name: string) => (name === 'Demo Before Roster' || name === 'Yes - Send Roster' || name === 'Sent Invoice' ? 'Demo & Invoicing' : name === 'No - Closing Out' ? 'No - Closing Out' : name === 'First 3 weeks' ? 'First 3 weeks' : name === 'First Follow-up' ? 'First Follow-up' : (name === 'Onboarding' || name === 'Onboarding complete') ? 'Onboarding' : 'Other');
+const TOP_STAGES = ['Demo Before Roster', 'Yes - Send Roster', 'Sent Invoice', 'Onboarding', 'Onboarding complete', 'First 3 weeks', 'First Follow-up', 'Other', 'No - Closing Out'];
 export const SEQ_TREE = SEQUENCES.map((name) => ({
   name,
   stages: TOP_STAGES.filter((st) => seqOf(st) === name).map((st) => {
@@ -301,8 +300,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
     l.sent.forEach((summary) => {
       const i = flat.findIndex((e) => alreadySent(e, [summary]));
       if (i >= 0) { at = i; stage = null; return; }
-      // Marks made when this stage was one section still count: First 3 weeks is now its first section, Thank you.
-      const g = groups.find((x) => summary === stageMark(x.name) + MARK || (x.name === 'Thank you' && summary === stageMark('First 3 weeks') + MARK));
+      const g = groups.find((x) => summary === stageMark(x.name) + MARK);
       if (g) { at = -1; stage = g.name; }
     });
     return { at, stage };
