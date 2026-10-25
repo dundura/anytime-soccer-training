@@ -101,12 +101,15 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   // The left menu picks a sequence, a stage or a section. It leaves the pick in sessionStorage so a page that was not open yet still gets it.
   useEffect(() => {
     const apply = () => {
-      let pick: { seq: string; stage?: string; big?: boolean } | null = null;
+      let pick: { seq?: string; stage?: string; big?: boolean; panel?: string } | null = null;
       try { pick = JSON.parse(sessionStorage.getItem('seqNav') || 'null'); sessionStorage.removeItem('seqNav'); } catch { /* storage unavailable */ }
       if (!pick) return;
+      // The left menu's Hidden contacts and Deleted emails open their panels.
+      if (pick.panel === 'hidden') setShowHidden(true);
+      if (pick.panel === 'deleted') setShowDeleted(true);
+      if (!pick.seq) return;
       setSequence(pick.seq);
-      if (pick.stage && pick.big) { setStagePop(null); setPillPop(pick.stage); }
-      else setStagePop(pick.stage || null);
+      setStagePop(pick.stage || null);
     };
     apply();
     window.addEventListener('seqnav', apply);
@@ -326,6 +329,10 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   const focus = mode === 'leads' ? (rawFocus === PEOPLE ? PEOPLE : NOT_STARTED) : (rawFocus === NOT_STARTED || rawFocus === PEOPLE ? null : rawFocus);
   const visible = leads.filter((l) => !l.seqHiddenAt);
   const hidden = leads.filter((l) => l.seqHiddenAt);
+  // The left menu shows these two counts.
+  useEffect(() => {
+    try { window.dispatchEvent(new CustomEvent('seqcounts', { detail: { hidden: leads.filter((l) => l.seqHiddenAt).length, deleted: deleted.length } })); } catch { /* no window */ }
+  }, [leads, deleted]);
   const notStarted = visible.filter((l) => positionOf(l) < 0 && !waitingOf(l));
 
   const call = async (path: string, body: object, ok: string) => {
@@ -493,7 +500,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   );
 
   // The page has two sections: Leads (who is in these stages) and Sequence (the stages and their emails).
-  const [pageOpen, setPageOpen] = useState<{ leads: boolean; sequence: boolean }>({ leads: true, sequence: true });
+  const [pageOpen, setPageOpen] = useState<{ leads: boolean; sequence: boolean }>({ leads: false, sequence: false });
   const sectionHead = (label: string, note: string, key: 'leads' | 'sequence') => (
     <button
       type="button"
@@ -958,14 +965,6 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
         <div>
           <h2 className="text-lg font-black text-navy">{mode === 'leads' ? '👥 Leads' : '📬 Coach Onboarding: ' + sequence}</h2>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <button onClick={() => setShowHidden((v) => !v)} className="px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-xs font-bold">
-            Hidden contacts ({hidden.length})
-          </button>
-          <button onClick={() => setShowDeleted((v) => !v)} className="px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-xs font-bold">
-            Deleted emails ({deleted.length})
-          </button>
-        </div>
       </div>
 
 
@@ -1014,9 +1013,9 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
         )}
       </div>
 
-      {mode === 'sequence' && leadsSection()}
-      {mode === 'sequence' && sectionHead('Sequence', 'the stages and their emails', 'sequence')}
-      <div className={mode === 'sequence' ? (pageOpen.sequence ? 'border border-t-0 border-gray-200 rounded-b-xl overflow-visible' : 'hidden') : 'border border-gray-200 rounded-xl overflow-visible'}>
+      {mode === 'sequence' && focus && leadsSection()}
+      {mode === 'sequence' && focus && sectionHead('Sequence', 'the emails in this stage', 'sequence')}
+      <div className={mode === 'sequence' && focus ? (pageOpen.sequence ? 'border border-t-0 border-gray-200 rounded-b-xl overflow-visible' : 'hidden') : 'border border-gray-200 rounded-xl overflow-visible'}>
         {focus === PEOPLE && (
           <div>
             <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">

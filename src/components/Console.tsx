@@ -189,6 +189,19 @@ export default function Console() {
     return () => window.removeEventListener('seqsync', sync);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Hidden contacts and Deleted emails live at the bottom of the menu; the counts come from the sequence page.
+  const [seqCounts, setSeqCounts] = useState<{ hidden: number; deleted: number } | null>(null);
+  useEffect(() => {
+    const on = (ev: Event) => setSeqCounts((ev as CustomEvent<{ hidden: number; deleted: number }>).detail);
+    window.addEventListener('seqcounts', on);
+    return () => window.removeEventListener('seqcounts', on);
+  }, []);
+  const openPanel = (panel: 'hidden' | 'deleted') => {
+    try { sessionStorage.setItem('seqNav', JSON.stringify({ panel })); } catch { /* storage unavailable */ }
+    go('sequence');
+    window.setTimeout(() => window.dispatchEvent(new Event('seqnav')), 50);
+  };
+
   const signIn = async (ev: React.FormEvent) => {
     ev.preventDefault();
     if (busy) return;
@@ -372,6 +385,16 @@ export default function Console() {
                   </div>
                 );
               })}
+              <div className="border-t border-gray-100 py-2">
+                <button onClick={() => openPanel('hidden')} className="w-full text-left px-4 py-2 text-sm font-semibold text-navy hover:bg-gray-50 flex items-center gap-3">
+                  <span className="w-5 text-center">🙈</span>
+                  Hidden contacts{seqCounts ? ` (${seqCounts.hidden})` : ''}
+                </button>
+                <button onClick={() => openPanel('deleted')} className="w-full text-left px-4 py-2 text-sm font-semibold text-navy hover:bg-gray-50 flex items-center gap-3">
+                  <span className="w-5 text-center">🗑️</span>
+                  Deleted emails{seqCounts ? ` (${seqCounts.deleted})` : ''}
+                </button>
+              </div>
             </div>
           </nav>
 
