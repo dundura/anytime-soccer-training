@@ -36,7 +36,7 @@ const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after
 const LABEL: Record<string, string> = { book_a_demo: 'Book a demo - emailed us', rosterReceived: 'Thanks for sending your roster - invoice sent' };
 const groupOf = (g: string, key?: string) => (key && KEY_GROUP[key]) || ALIAS[g] || g;
 const RUN_ORDER = [
-  'Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'Reschedule demo', 'After Demo Follow-up', 'Chasing after demo', 'Final push',
+  'Getting the demo booked', 'Chasing a quiet lead', 'Demo booked', 'Reschedule demo', 'After Demo Follow-up', 'Chasing after demo', 'Final push',
   'Sending Roster Template', 'Follow-up - not received roster yet', 'Invoice sent', 'Waiting on invoice payment', 'Invoice', 'After the demo', 'Onboarding', 'Onboarding complete', 'First 3 weeks',
 ];
 const END_ORDER = ['Renewal', 'Special offer', 'Not the coach', 'No - Closing Out'];
@@ -45,7 +45,7 @@ const END_ORDER = ['Renewal', 'Special offer', 'Not the coach', 'No - Closing Ou
 const PARENTS: { name: string; subs: string[] }[] = [
   { name: 'Sent Invoice', subs: ['Invoice sent', 'Waiting on invoice payment'] },
   { name: 'Yes - Send Roster', subs: ['Sending Roster Template', 'Follow-up - not received roster yet'] },
-  { name: 'Demo Before Roster', subs: ['Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'Reschedule demo', 'After Demo Follow-up', 'Chasing after demo', 'Final push'] },
+  { name: 'Demo Before Roster', subs: ['Getting the demo booked', 'Chasing a quiet lead', 'Demo booked', 'Reschedule demo', 'After Demo Follow-up', 'Chasing after demo', 'Final push'] },
   { name: 'Other', subs: ['FAQ', 'Sending information to decision makers', 'Sending information to parents', 'Renewal', 'Special offer', 'Not the coach'] },
 ];
 
