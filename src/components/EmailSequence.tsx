@@ -850,14 +850,25 @@ export default function EmailSequence({ token }: { token: string | null }) {
                     {n}
                   </button>
                   {stages.filter((st) => seqOf(st.name) === n).map((st) => (
-                    <button
-                      key={st.name}
-                      type="button"
-                      onClick={() => { setSequence(n); setSeqPop(false); if (st.big) { setStagePop(null); setPillPop(st.name); } else setStagePop(st.name); }}
-                      className="block w-full text-left pl-7 pr-3 py-1.5 text-[12px] font-normal text-gray-600 hover:bg-gray-50"
-                    >
-                      {shown(st.name)}{st.big ? ' ▸' : ''}
-                    </button>
+                    <div key={st.name}>
+                      <button
+                        type="button"
+                        onClick={() => { setSequence(n); setSeqPop(false); if (st.big) { setStagePop(null); setPillPop(st.name); } else setStagePop(st.name); }}
+                        className="block w-full text-left pl-6 pr-3 py-1.5 text-[12px] font-bold text-navy hover:bg-gray-50"
+                      >
+                        {shown(st.name)}
+                      </button>
+                      {st.big && st.subs.map((g) => (
+                        <button
+                          key={g.name}
+                          type="button"
+                          onClick={() => { setSequence(n); setSeqPop(false); setStagePop(g.name); }}
+                          className="block w-full text-left pl-10 pr-3 py-1 text-[11px] font-normal text-gray-600 hover:bg-gray-50"
+                        >
+                          {shown(g.name)}
+                        </button>
+                      ))}
+                    </div>
                   ))}
                 </div>
               ))}
