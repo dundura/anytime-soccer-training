@@ -726,7 +726,30 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
 
   return (
     <div className="p-4 sm:p-6" onClick={() => setMenu(null)}>
-      {detailId !== null && <DemoPortal token={token} openOnly={detailId} onClose={() => { setDetailId(null); load(); }} />}
+      {detailId !== null && (() => {
+        const dl = leads.find((x) => x.id === detailId);
+        const at = dl ? positionOf(dl) : -1;
+        const gname = dl ? (at >= 0 ? (groups.find((g) => g.items.some((e) => e.key === flat[at].key)) || { name: '' }).name : (waitingOf(dl) || '')) : '';
+        return (
+          <DemoPortal
+            token={token}
+            openOnly={detailId}
+            onClose={() => { setDetailId(null); load(); }}
+            extra={dl ? (
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">The sequence, for this lead</div>
+                <div className="rounded-xl border border-gray-200 px-3 py-2.5 text-[13px] text-navy">
+                  {gname ? (<><span className="font-bold">{shown(gname)}</span>{at >= 0 ? ' · ' + flat[at].label : ' · waiting'}</>) : 'Not started'}
+                </div>
+                <div className="mt-2 flex gap-2">
+                  <button type="button" onClick={() => { setDetailId(null); setPop({ lead: dl, search: '' }); }} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
+                  {gname && <button type="button" onClick={() => { setDetailId(null); jumpTo(gname); }} className="px-3 py-1.5 rounded-lg border border-gray-200 text-[11px] font-bold text-navy">See this stage</button>}
+                </div>
+              </div>
+            ) : null}
+          />
+        );
+      })()}
       {popup()}
       {clientsPop && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setClientsPop(false)}>

@@ -113,7 +113,7 @@ const ago = (v: string | null) => {
 };
 
 // openOnly: show just one lead's drawer (every field), for the sequence page; onClose fires when it is shut.
-export default function DemoPortal({ token, openOnly = null, onClose }: { token: string | null; openOnly?: number | null; onClose?: () => void }) {
+export default function DemoPortal({ token, openOnly = null, onClose, extra = null }: { token: string | null; openOnly?: number | null; onClose?: () => void; extra?: React.ReactNode }) {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [kpi, setKpi] = useState<Record<string, number>>({});
@@ -613,6 +613,7 @@ export default function DemoPortal({ token, openOnly = null, onClose }: { token:
                 </div>
               ) : null}
 
+              {openOnly ? extra : (<>
               {/* Email. Two sequences, one list: the demo groups, then the
                   onboarding ones a club works through before it is handed to
                   the Coach CRM. Everything shut until it is asked for. */}
@@ -768,6 +769,9 @@ export default function DemoPortal({ token, openOnly = null, onClose }: { token:
                 </>)}
               </div>
 
+              </>)}
+
+              {!openOnly && (<>
               {/* Book a demo */}
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Book the demo</div>
@@ -788,6 +792,8 @@ export default function DemoPortal({ token, openOnly = null, onClose }: { token:
                 </div>
               </div>
 
+              </>)}
+
               {/* Note */}
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Add a note</div>
@@ -795,6 +801,7 @@ export default function DemoPortal({ token, openOnly = null, onClose }: { token:
                 <button onClick={() => addNote(current)} disabled={!noteDraft.trim() || busy === 'note'} className="mt-1 px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold disabled:opacity-40">Save note</button>
               </div>
 
+              {!openOnly && (<>
               {/* Hand over */}
               <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-3">
                 {current.crmLeadId ? (
@@ -826,6 +833,8 @@ export default function DemoPortal({ token, openOnly = null, onClose }: { token:
                   </>
                 )}
               </div>
+
+              </>)}
 
               {/* Timeline */}
               <div>
