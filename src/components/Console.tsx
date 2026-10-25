@@ -55,6 +55,10 @@ const GROUPS = [
     ],
   },
   {
+    group: 'Leads',
+    rows: [{ key: 'leads', label: 'Leads', icon: '👥' }],
+  },
+  {
     group: 'Getting them started',
     rows: [{ key: 'parent-onboarding', label: 'Parent onboarding', icon: '👪' }],
   },
@@ -167,6 +171,12 @@ export default function Console() {
   };
 
   // The sequence page jumped somewhere (a person's stage link): keep the menu in step.
+  // A stage link on the Leads page: go to Coach Onboarding, then let it pick up the stage.
+  useEffect(() => {
+    const go2 = () => { go('sequence'); window.setTimeout(() => window.dispatchEvent(new Event('seqnav')), 50); };
+    window.addEventListener('seqgo', go2);
+    return () => window.removeEventListener('seqgo', go2);
+  }, [go]);
   useEffect(() => {
     const sync = (ev: Event) => { const seq = (ev as CustomEvent<string>).detail; if (seq) { setNavSeq(seq); setSeqShut((l) => l.filter((x) => x !== seq)); } };
     window.addEventListener('seqsync', sync);
@@ -364,7 +374,8 @@ export default function Console() {
             {view === 'collab' && <CollabPortal token={token} />}
             {view === 'snm-contact' && <SnmContactPortal token={token} />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
-                        {view === 'sequence' && <EmailSequence token={token} />}
+                        {view === 'sequence' && <EmailSequence key="seq" token={token} />}
+            {view === 'leads' && <EmailSequence key="leads" token={token} mode="leads" />}
             {view === 'referrals' && <Referrals token={token} />}
             {view === 'partners' && <PartnerAdmin token={token} />}
             {view === 'ad-signups' && <AdSignups token={token} />}

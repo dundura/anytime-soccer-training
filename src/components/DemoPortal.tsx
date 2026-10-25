@@ -585,23 +585,6 @@ export default function DemoPortal({ token, openOnly = null, onClose }: { token:
             </div>
 
             <div className="px-5 py-4 space-y-5">
-              {/* Stage */}
-              <div>
-                <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Stage</div>
-                <div className="flex flex-wrap gap-1.5">
-                  {stages.map((s) => (
-                    <button
-                      key={s}
-                      onClick={() => setStage(current, s)}
-                      disabled={busy === 'stage'}
-                      className={`px-2.5 py-1 rounded-full text-[11px] font-bold disabled:opacity-50 ${current.stage === s ? STAGE_TINT[s] : 'bg-gray-100 text-gray-600'}`}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               {/* Facts, editable in place */}
               <div className="grid grid-cols-2 gap-2">
                 {([['organization', 'Club'], ['name', 'Contact'], ['email', 'Email'], ['phone', 'Phone'], ['location', 'Location'], ['ageGroups', 'Age groups']] as const).map(([f, label]) => (
@@ -622,15 +605,6 @@ export default function DemoPortal({ token, openOnly = null, onClose }: { token:
                     className="w-full mt-0.5 px-2 py-1.5 rounded-lg border border-gray-200 text-xs"
                   />
                 </label>
-                <label className="block">
-                  <span className="text-[10px] font-bold uppercase tracking-wide text-gray-400">Follow up</span>
-                  <input
-                    type="date"
-                    defaultValue={current.nextFollowUpAt ? new Date(current.nextFollowUpAt).toISOString().slice(0, 10) : ''}
-                    onBlur={(e) => saveField(current, 'nextFollowUpAt', e.target.value)}
-                    className="w-full mt-0.5 px-2 py-1.5 rounded-lg border border-gray-200 text-xs"
-                  />
-                </label>
               </div>
 
               {current.playerCount ? (
@@ -638,30 +612,6 @@ export default function DemoPortal({ token, openOnly = null, onClose }: { token:
                   <strong>{current.playerCount} players</strong> at $10 per player, per year — about <strong>{money(current.estimatedValueCents)} a year</strong>.
                 </div>
               ) : null}
-
-              {/* An email of your own, written here and sent to this lead */}
-              <div>
-                {!writing ? (
-                  <button onClick={() => setWriting(true)} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold">✍️ Write an email</button>
-                ) : (
-                  <div>
-                    <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Write an email{current.email ? ' to ' + current.email : ''}</div>
-                    <input value={draft.subject} onChange={(e) => setDraft({ ...draft, subject: e.target.value })} placeholder="Subject" className="w-full mb-2 px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
-                    <textarea value={draft.body} onChange={(e) => setDraft({ ...draft, body: e.target.value })} rows={7} placeholder="Message" className="w-full px-2 py-1.5 rounded-lg border border-gray-200 text-xs" />
-                    <div className="mt-1 flex gap-2">
-                      <button
-                        onClick={() => setConfirmDraft(true)}
-                        disabled={!current.email || !draft.subject.trim() || !draft.body.trim()}
-                        className="px-3 py-1.5 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50"
-                      >
-                        Send
-                      </button>
-                      <button onClick={() => setWriting(false)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-[11px] font-bold text-gray-600">Cancel</button>
-                    </div>
-                    {!current.email && <p className="mt-1 text-[10px] text-gray-500">Add an email address above first.</p>}
-                  </div>
-                )}
-              </div>
 
               {/* Email. Two sequences, one list: the demo groups, then the
                   onboarding ones a club works through before it is handed to

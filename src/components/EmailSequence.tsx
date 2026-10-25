@@ -79,7 +79,8 @@ const MARK = ' → marked as done, not sent';
 // What is written when a contact is moved: the title and the key, because some emails share a title.
 const markText = (e: Email) => e.label + ' (' + e.key + ')';
 
-export default function EmailSequence({ token }: { token: string | null }) {
+// mode 'leads' is the Leads page: everyone, Not started or Started. 'sequence' is the Coach Onboarding stages.
+export default function EmailSequence({ token, mode = 'sequence' }: { token: string | null; mode?: 'sequence' | 'leads' }) {
   const [emails, setEmails] = useState<Email[]>([]);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [layout, setLayout] = useState<LayoutRow[]>([]);
@@ -115,6 +116,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const jumpTo = (groupName: string) => {
     const top = PARENTS.find((x) => x.subs.includes(groupName));
     const seq = seqOf(top ? top.name : groupName);
+    if (mode === 'leads') {
+      try { sessionStorage.setItem('seqNav', JSON.stringify({ seq, stage: groupName })); window.dispatchEvent(new CustomEvent('seqgo')); } catch { /* storage unavailable */ }
+      return;
+    }
     setSequence(seq);
     setStagePop(groupName);
     try { window.dispatchEvent(new CustomEvent('seqsync', { detail: seq })); } catch { /* no window */ }
@@ -315,7 +320,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
     });
     return out;
   }, [groups]);
-  const focus = stagePop === NOT_STARTED || stagePop === PEOPLE ? stagePop : (stagePop && (groups.some((g) => g.name === stagePop) || stages.some((st) => st.name === stagePop)) ? stagePop : null);
+  const rawFocus = stagePop === NOT_STARTED || stagePop === PEOPLE ? stagePop : (stagePop && (groups.some((g) => g.name === stagePop) || stages.some((st) => st.name === stagePop)) ? stagePop : null);
+  const focus = mode === 'leads' ? (rawFocus === PEOPLE ? PEOPLE : NOT_STARTED) : (rawFocus === NOT_STARTED || rawFocus === PEOPLE ? null : rawFocus);
   const visible = leads.filter((l) => !l.seqHiddenAt);
   const hidden = leads.filter((l) => l.seqHiddenAt);
   const notStarted = visible.filter((l) => positionOf(l) < 0 && !waitingOf(l));
@@ -881,7 +887,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
       )}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
         <div>
-          <h2 className="text-lg font-black text-navy">📬 Coach Onboarding: {sequence}</h2>
+          <h2 className="text-lg font-black text-navy">{mode === 'leads' ? '👥 Leads' : '📬 Coach Onboarding: ' + sequence}</h2>
         </div>
         <div className="flex flex-wrap gap-2">
           <button onClick={() => setWhoPop(true)} className="px-3 py-2 rounded-lg bg-navy text-white text-xs font-bold">Who is where</button>
@@ -964,6 +970,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
 
       {/* The whole sequence at a glance, in order. Tap one to see just that stage. Red means someone is in it. */}
       <div className="flex flex-wrap gap-1 mb-3">
+        {mode === 'leads' && (
         <button
           type="button"
           onClick={() => setClientsPop(true)}
@@ -971,13 +978,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
         >
           Clients Not started ({notStarted.length}) ▾
         </button>
-        <button
-          type="button"
-          onClick={() => setStagesPop(true)}
-          className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-navy bg-white border border-gray-300 ${focus && focus !== NOT_STARTED && focus !== PEOPLE ? 'ring-2 ring-navy ring-offset-1' : ''}`}
-        >
-          Stages{focus && focus !== NOT_STARTED && focus !== PEOPLE ? ': ' + shown(focus) : ''} ▾
-        </button>
+        )}
+        {mode === 'sequence' && (
         <button
           type="button"
           onClick={() => { setStagePop(null); setOpenGroups(() => ({})); toggleAllBig(); setOpenEmail(null); setMenu(null); }}
@@ -985,18 +987,10 @@ export default function EmailSequence({ token }: { token: string | null }) {
         >
           Collapse all
         </button>
+        )}
       </div>
 
       <div className="border border-gray-200 rounded-xl overflow-visible">
-        {!focus && <button
-          type="button"
-          onClick={() => setStagePop(NOT_STARTED)}
-          className="w-full flex items-center gap-2 px-4 py-2.5 text-left bg-blue-100 border-b border-gray-100 rounded-t-xl"
-        >
-          <span className="text-[10px] text-gray-400 w-3">▸</span>
-          <span className="flex-1 text-[13px] font-bold text-red">Not started</span>
-          <span className="text-[11px] font-normal text-gray-400">{notStarted.length} contacts</span>
-        </button>}
         {focus === PEOPLE && (
           <div>
             <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">
