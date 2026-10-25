@@ -286,7 +286,17 @@ export default function Console() {
                               <span className="w-2 text-[8px] leading-none">{q.stages.length === 0 ? '' : navSeq === q.name && !seqShut.includes(q.name) ? '▼' : '▶'}</span>
                               {q.name}
                             </button>
-                            {navSeq === q.name && !seqShut.includes(q.name) && q.stages.map((st) => (
+                            {/* One stage in the sequence: the sequence is the stage, so its sections sit straight under it. */}
+                            {navSeq === q.name && !seqShut.includes(q.name) && q.stages.length === 1 && q.stages[0].subs.map((sub) => (
+                              <button
+                                key={sub.name}
+                                onClick={() => pick(q.name, sub.name)}
+                                className="w-full text-left pl-16 pr-4 py-1 text-[12px] font-semibold text-gray-700 hover:bg-gray-50"
+                              >
+                                {sub.label}
+                              </button>
+                            ))}
+                            {navSeq === q.name && !seqShut.includes(q.name) && q.stages.length !== 1 && q.stages.map((st) => (
                               <div key={st.name}>
                                 <div className="flex items-center hover:bg-gray-50">
                                   <button
