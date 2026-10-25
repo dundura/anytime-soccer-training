@@ -196,11 +196,16 @@ export default function Console() {
     window.addEventListener('seqcounts', on);
     return () => window.removeEventListener('seqcounts', on);
   }, []);
+  // Hidden contacts and Deleted emails sit in a group that starts shut.
+  const [keptOpen, setKeptOpen] = useState(false);
   const openPanel = (panel: 'hidden' | 'deleted') => {
     try { sessionStorage.setItem('seqNav', JSON.stringify({ panel })); } catch { /* storage unavailable */ }
     go('sequence');
     window.setTimeout(() => window.dispatchEvent(new Event('seqnav')), 50);
   };
+
+  // The menu's two sub groups: Not Started (still getting going) and Started.
+  const group = (name: string) => (name === 'Demo & Invoicing' ? 'Not Started' : name === 'Onboarding' || name === 'First 3 weeks' ? 'Started' : null);
 
   const signIn = async (ev: React.FormEvent) => {
     ev.preventDefault();
@@ -342,8 +347,17 @@ export default function Console() {
                               Not Started
                             </button>
                           )}
-                          {!(q.name === 'Demo & Invoicing' && seqShut.includes('Not Started')) && (
-                          <div className={q.name === 'Demo & Invoicing' ? 'pl-3' : ''}>
+                          {q.name === 'Onboarding' && (
+                            <button
+                              onClick={() => setSeqShut((l) => flip(l, 'Started'))}
+                              className="w-full flex items-center gap-1.5 text-left pl-9 pr-4 py-1.5 text-[13px] font-black text-navy hover:bg-gray-50"
+                            >
+                              <span className="w-2 text-[8px] leading-none">{seqShut.includes('Started') ? '▶' : '▼'}</span>
+                              Started
+                            </button>
+                          )}
+                          {!(group(q.name) && seqShut.includes(group(q.name) as string)) && (
+                          <div className={group(q.name) ? 'pl-3' : ''}>
                             <button
                               onClick={() => { if (navSeq === q.name) setSeqShut((l) => flip(l, q.name)); else { setSeqShut((l) => l.filter((x) => x !== q.name)); pick(q.name, q.stages[0] ? q.stages[0].name : undefined); } }}
                               className={`w-full flex items-center gap-1.5 text-left pl-9 pr-4 py-1.5 text-[13px] font-bold ${navSeq === q.name ? 'text-red' : 'text-navy'} hover:bg-gray-50`}
@@ -399,6 +413,14 @@ export default function Console() {
                 );
               })}
               <div className="border-t border-gray-100 py-2">
+                <button
+                  onClick={() => setKeptOpen((v) => !v)}
+                  className="w-full text-left px-4 py-2 text-sm font-bold text-navy hover:bg-gray-50 flex items-center gap-3"
+                >
+                  <span className="w-5 text-center text-[8px] leading-none">{keptOpen ? '▼' : '▶'}</span>
+                  Hidden &amp; Deleted
+                </button>
+                {keptOpen && (<>
                 <button onClick={() => openPanel('hidden')} className="w-full text-left px-4 py-2 text-sm font-semibold text-navy hover:bg-gray-50 flex items-center gap-3">
                   <span className="w-5 text-center">🙈</span>
                   Hidden contacts{seqCounts ? ` (${seqCounts.hidden})` : ''}
@@ -407,6 +429,7 @@ export default function Console() {
                   <span className="w-5 text-center">🗑️</span>
                   Deleted emails{seqCounts ? ` (${seqCounts.deleted})` : ''}
                 </button>
+                </>)}
               </div>
             </div>
           </nav>
