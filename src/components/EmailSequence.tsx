@@ -89,7 +89,14 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [busy, setBusy] = useState(false);
   const [menu, setMenu] = useState<string | null>(null);
   // Which sequence is showing; the console's left menu picks it.
-  const [sequence, setSequence] = useState('Demo');
+  const [sequence, setSequenceState] = useState(() => {
+    try { return localStorage.getItem('seqSequence') || 'Demo'; } catch { return 'Demo'; }
+  });
+  // A refresh keeps the sequence that was open.
+  const setSequence = (v: string) => {
+    setSequenceState(v);
+    try { localStorage.setItem('seqSequence', v); } catch { /* storage unavailable */ }
+  };
   // The left menu picks a sequence, a stage or a section. It leaves the pick in sessionStorage so a page that was not open yet still gets it.
   useEffect(() => {
     const apply = () => {

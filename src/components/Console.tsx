@@ -145,10 +145,17 @@ export default function Console() {
   }, []);
 
   // The Coach Onboarding rows in the left menu: a sequence, a stage in it, or a section of a big stage.
-  const [navSeq, setNavSeq] = useState<string>('Demo');
+  // Remembered on this device, so a refresh puts the menu back as it was.
+  const saved = (k: string, d: string) => { try { return localStorage.getItem(k) || d; } catch { return d; } };
+  const [navSeq, setNavSeqState] = useState<string>(() => (typeof window === 'undefined' ? 'Demo' : saved('consoleNavSeq', 'Demo')));
+  const setNavSeq = (v: string) => { setNavSeqState(v); try { localStorage.setItem('consoleNavSeq', v); } catch { /* storage unavailable */ } };
   // Folded rows: a sequence the person shut, and the big stages whose sections are showing (they start shut).
-  const [seqShut, setSeqShut] = useState<string[]>([]);
-  const [subsOpen, setSubsOpen] = useState<string[]>([]);
+  const list = (k: string): string[] => { try { return JSON.parse(localStorage.getItem(k) || '[]') || []; } catch { return []; } };
+  const [seqShut, setSeqShutState] = useState<string[]>(() => (typeof window === 'undefined' ? [] : list('consoleNavShut')));
+  const [subsOpen, setSubsOpenState] = useState<string[]>(() => (typeof window === 'undefined' ? [] : list('consoleNavSubs')));
+  const keep = (k: string, v: string[]) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage unavailable */ } };
+  const setSeqShut = (f: (l: string[]) => string[]) => setSeqShutState((l) => { const n = f(l); keep('consoleNavShut', n); return n; });
+  const setSubsOpen = (f: (l: string[]) => string[]) => setSubsOpenState((l) => { const n = f(l); keep('consoleNavSubs', n); return n; });
   const flip = (list: string[], v: string) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
   const pick = (seq: string, stage?: string, big?: boolean) => {
     setNavSeq(seq);
