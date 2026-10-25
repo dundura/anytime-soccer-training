@@ -146,6 +146,10 @@ export default function Console() {
 
   // The Coach Onboarding rows in the left menu: a sequence, a stage in it, or a section of a big stage.
   const [navSeq, setNavSeq] = useState<string>('Demo');
+  // Folded rows: a sequence the person shut, and the big stages whose sections are showing (they start shut).
+  const [seqShut, setSeqShut] = useState<string[]>([]);
+  const [subsOpen, setSubsOpen] = useState<string[]>([]);
+  const flip = (list: string[], v: string) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
   const pick = (seq: string, stage?: string, big?: boolean) => {
     setNavSeq(seq);
     try { sessionStorage.setItem('seqNav', JSON.stringify({ seq, stage, big })); } catch { /* storage unavailable */ }
@@ -276,20 +280,30 @@ export default function Console() {
                         {SEQ_TREE.map((q) => (
                           <div key={q.name}>
                             <button
-                              onClick={() => pick(q.name)}
-                              className={`w-full text-left pl-12 pr-4 py-1.5 text-[13px] font-bold ${navSeq === q.name ? 'text-red' : 'text-navy'} hover:bg-gray-50`}
+                              onClick={() => { if (navSeq === q.name) setSeqShut((l) => flip(l, q.name)); else { setSeqShut((l) => l.filter((x) => x !== q.name)); pick(q.name); } }}
+                              className={`w-full flex items-center gap-1.5 text-left pl-9 pr-4 py-1.5 text-[13px] font-bold ${navSeq === q.name ? 'text-red' : 'text-navy'} hover:bg-gray-50`}
                             >
+                              <span className="w-2 text-[8px] leading-none">{q.stages.length === 0 ? '' : navSeq === q.name && !seqShut.includes(q.name) ? '▼' : '▶'}</span>
                               {q.name}
                             </button>
-                            {navSeq === q.name && q.stages.map((st) => (
+                            {navSeq === q.name && !seqShut.includes(q.name) && q.stages.map((st) => (
                               <div key={st.name}>
-                                <button
-                                  onClick={() => pick(q.name, st.name, st.big)}
-                                  className="w-full text-left pl-16 pr-4 py-1 text-[12px] font-semibold text-gray-700 hover:bg-gray-50"
-                                >
-                                  {st.label}
-                                </button>
-                                {st.subs.map((sub) => (
+                                <div className="flex items-center hover:bg-gray-50">
+                                  <button
+                                    onClick={() => setSubsOpen((l) => flip(l, st.name))}
+                                    aria-label={subsOpen.includes(st.name) ? 'Fold sections' : 'Show sections'}
+                                    className="w-12 shrink-0 pl-12 text-left text-[8px] leading-none text-gray-400"
+                                  >
+                                    {st.subs.length ? (subsOpen.includes(st.name) ? '▼' : '▶') : ''}
+                                  </button>
+                                  <button
+                                    onClick={() => pick(q.name, st.name, st.big)}
+                                    className="flex-1 min-w-0 text-left pr-4 py-1 text-[12px] font-semibold text-gray-700"
+                                  >
+                                    {st.label}
+                                  </button>
+                                </div>
+                                {subsOpen.includes(st.name) && st.subs.map((sub) => (
                                   <button
                                     key={sub.name}
                                     onClick={() => pick(q.name, sub.name)}
