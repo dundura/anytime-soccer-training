@@ -27,7 +27,7 @@ const SHOWN: Record<string, string> = {
   'Onboarding': 'Invoice Paid - Onboarding Started',
   'Confirming with others FAQ': 'FAQ',
 };
-const shown = (g: string) => SHOWN[g] || g;
+export const shown = (g: string) => SHOWN[g] || g;
 // Two server groups that are the same stage here.
 const ALIAS: Record<string, string> = { 'Confirming with others FAQ': 'FAQ' };
 // The three chasers after the demo get a sub-section of their own on this page (the server still files them under After Demo Follow-up).
@@ -48,6 +48,18 @@ const PARENTS: { name: string; subs: string[] }[] = [
   { name: 'Demo Before Roster', subs: ['Getting the demo booked', 'Before anything', 'Chasing a quiet lead', 'Demo booked', 'After Demo Follow-up', 'Chasing after demo', 'Final push'] },
   { name: 'Other', subs: ['FAQ', 'Sending information to decision makers', 'Sending information to parents', 'Renewal', 'Special offer', 'Not the coach'] },
 ];
+
+// The sequences, and which one each stage belongs to. The console's left menu is built from this.
+export const SEQUENCES = ['Leads', 'Demo', 'Roster & Invoicing', 'Onboarding', 'First 3 weeks', 'Other', 'No - Closing Out'];
+export const seqOf = (name: string) => (name === 'Demo Before Roster' ? 'Demo' : name === 'No - Closing Out' ? 'No - Closing Out' : name === 'First 3 weeks' ? 'First 3 weeks' : (name === 'Yes - Send Roster' || name === 'Sent Invoice') ? 'Roster & Invoicing' : (name === 'Onboarding' || name === 'Onboarding complete') ? 'Onboarding' : 'Other');
+const TOP_STAGES = ['Demo Before Roster', 'Yes - Send Roster', 'Sent Invoice', 'Onboarding', 'Onboarding complete', 'First 3 weeks', 'Other', 'No - Closing Out'];
+export const SEQ_TREE = SEQUENCES.map((name) => ({
+  name,
+  stages: TOP_STAGES.filter((st) => seqOf(st) === name).map((st) => {
+    const p = PARENTS.find((x) => x.name === st);
+    return { name: st, label: shown(st), big: !!p, subs: p ? p.subs.map((g) => ({ name: g, label: shown(g) })) : [] };
+  }),
+}));
 
 // A finished email already draws its own 600px card. A plain one is just paragraphs, so the preview sets it in the same kind of card
 // instead of leaving it loose on the page.
@@ -77,11 +89,22 @@ export default function EmailSequence({ token }: { token: string | null }) {
   const [note, setNote] = useState('');
   const [busy, setBusy] = useState(false);
   const [menu, setMenu] = useState<string | null>(null);
-  // Sequences share this page: the demo, everything from the roster on, and the first three weeks of a team.
-  const SEQUENCES = ['Leads', 'Demo', 'Roster & Invoicing', 'Onboarding', 'First 3 weeks', 'Other', 'No - Closing Out'];
+  // Which sequence is showing; the console's left menu picks it.
   const [sequence, setSequence] = useState('Demo');
-  const [seqPop, setSeqPop] = useState(false);
-  const seqOf = (name: string) => (name === 'Demo Before Roster' ? 'Demo' : name === 'No - Closing Out' ? 'No - Closing Out' : name === 'First 3 weeks' ? 'First 3 weeks' : (name === 'Yes - Send Roster' || name === 'Sent Invoice') ? 'Roster & Invoicing' : (name === 'Onboarding' || name === 'Onboarding complete') ? 'Onboarding' : 'Other');
+  // The left menu picks a sequence, a stage or a section. It leaves the pick in sessionStorage so a page that was not open yet still gets it.
+  useEffect(() => {
+    const apply = () => {
+      let pick: { seq: string; stage?: string; big?: boolean } | null = null;
+      try { pick = JSON.parse(sessionStorage.getItem('seqNav') || 'null'); sessionStorage.removeItem('seqNav'); } catch { /* storage unavailable */ }
+      if (!pick) return;
+      setSequence(pick.seq);
+      if (pick.stage && pick.big) { setStagePop(null); setPillPop(pick.stage); }
+      else setStagePop(pick.stage || null);
+    };
+    apply();
+    window.addEventListener('seqnav', apply);
+    return () => window.removeEventListener('seqnav', apply);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const inSeq = (name: string) => seqOf(name) === sequence;
   const [menuAt, setMenuAt] = useState<{ right: number; top?: number; bottom?: number } | null>(null);
   // A fixed menu would float off its button on scroll, so it closes instead.
@@ -671,7 +694,7 @@ export default function EmailSequence({ token }: { token: string | null }) {
   if (loading) return <div className="p-6 text-sm text-gray-500">Loading…</div>;
 
   return (
-    <div className="p-4 sm:p-6" onClick={() => { setMenu(null); setSeqPop(false); }}>
+    <div className="p-4 sm:p-6" onClick={() => setMenu(null)}>
       {popup()}
       {clientsPop && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setClientsPop(false)}>
@@ -831,50 +854,8 @@ export default function EmailSequence({ token }: { token: string | null }) {
         </div>
       )}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-        <div className="relative">
-          <button
-            type="button"
-            onClick={(ev) => { ev.stopPropagation(); setSeqPop((v) => !v); }}
-            className="text-lg font-black text-navy"
-          >
-            📬 Coach Onboarding: {sequence} ▾
-          </button>
-          {seqPop && (
-            <div className="absolute left-0 z-40 mt-1 w-[280px] max-w-[calc(100vw-2rem)] max-h-[70vh] overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-lg py-1" onClick={(ev) => ev.stopPropagation()}>
-              {SEQUENCES.map((n) => (
-                <div key={n}>
-                  <button
-                    type="button"
-                    onClick={() => { setSequence(n); setStagePop(null); setSeqPop(false); }}
-                    className={`block w-full text-left px-3 py-2 text-[13px] font-black hover:bg-gray-50 ${n === sequence ? 'text-red' : 'text-navy'}`}
-                  >
-                    {n}
-                  </button>
-                  {stages.filter((st) => seqOf(st.name) === n).map((st) => (
-                    <div key={st.name}>
-                      <button
-                        type="button"
-                        onClick={() => { setSequence(n); setSeqPop(false); if (st.big) { setStagePop(null); setPillPop(st.name); } else setStagePop(st.name); }}
-                        className="block w-full text-left pl-6 pr-3 py-1.5 text-[12px] font-bold text-navy hover:bg-gray-50"
-                      >
-                        {shown(st.name)}
-                      </button>
-                      {st.big && st.subs.map((g) => (
-                        <button
-                          key={g.name}
-                          type="button"
-                          onClick={() => { setSequence(n); setSeqPop(false); setStagePop(g.name); }}
-                          className="block w-full text-left pl-10 pr-3 py-1 text-[11px] font-normal text-gray-600 hover:bg-gray-50"
-                        >
-                          {shown(g.name)}
-                        </button>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          )}
+        <div>
+          <h2 className="text-lg font-black text-navy">📬 Coach Onboarding: {sequence}</h2>
         </div>
         <div className="flex flex-wrap gap-2">
           <button onClick={() => setWhoPop(true)} className="px-3 py-2 rounded-lg bg-navy text-white text-xs font-bold">Who is where</button>

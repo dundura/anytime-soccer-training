@@ -6,8 +6,7 @@ import SupportBoard from './SupportBoard';
 import ConsoleLogins from './ConsoleLogins';
 import ConsoleNotes from './ConsoleNotes';
 import CrmAdmin from './CrmAdmin';
-import DemoPortal from './DemoPortal';
-import EmailSequence from './EmailSequence';
+import EmailSequence, { SEQ_TREE } from './EmailSequence';
 import PodcastPortal from './PodcastPortal';
 import IntlPortal from './IntlPortal';
 import CollabPortal from './CollabPortal';
@@ -51,8 +50,7 @@ const GROUPS = [
   {
     group: 'Turning them into teams',
     rows: [
-      { key: 'demos', label: 'Coach Onboarding', icon: '🎬' },
-      { key: 'sequence', label: 'Email sequence', icon: '📬' },
+      { key: 'sequence', label: 'Coach Onboarding', icon: '🎬' },
       { key: 'crm', label: 'Coach CRM', icon: '📇' },
     ],
   },
@@ -130,7 +128,8 @@ export default function Console() {
     if (stored && admin) setToken(stored);
     const asked = new URLSearchParams(window.location.search).get('view');
     // Cold was one page before it split into four; old links open the first.
-    const wanted = asked === 'cold' ? 'cold-fb' : asked;
+    const wanted = asked === 'cold' ? 'cold-fb' : asked === 'demos' ? 'sequence' : asked;
+    if (asked === 'demos') { try { sessionStorage.setItem('seqNav', JSON.stringify({ seq: 'Leads' })); } catch { /* storage unavailable */ } }
     if (wanted && GROUPS.some((g) => g.rows.some((r) => r.key === wanted))) {
       setView(wanted as ViewKey);
       setOpenGroups((open) => (open.includes(groupOf(wanted)) ? open : [...open, groupOf(wanted)]));
@@ -144,6 +143,15 @@ export default function Console() {
       window.history.replaceState(null, '', `/console?view=${next}`);
     }
   }, []);
+
+  // The Coach Onboarding rows in the left menu: a sequence, a stage in it, or a section of a big stage.
+  const [navSeq, setNavSeq] = useState<string>('Demo');
+  const pick = (seq: string, stage?: string, big?: boolean) => {
+    setNavSeq(seq);
+    try { sessionStorage.setItem('seqNav', JSON.stringify({ seq, stage, big })); } catch { /* storage unavailable */ }
+    go('sequence');
+    if (typeof window !== 'undefined') window.dispatchEvent(new Event('seqnav'));
+  };
 
   const signIn = async (ev: React.FormEvent) => {
     ev.preventDefault();
@@ -263,6 +271,39 @@ export default function Console() {
                           {v.label}
                         </button>
                       ))}
+                    {open && g.group === 'Turning them into teams' && view === 'sequence' && (
+                      <div className="pb-2">
+                        {SEQ_TREE.map((q) => (
+                          <div key={q.name}>
+                            <button
+                              onClick={() => pick(q.name)}
+                              className={`w-full text-left pl-12 pr-4 py-1.5 text-[13px] font-bold ${navSeq === q.name ? 'text-red' : 'text-navy'} hover:bg-gray-50`}
+                            >
+                              {q.name}
+                            </button>
+                            {navSeq === q.name && q.stages.map((st) => (
+                              <div key={st.name}>
+                                <button
+                                  onClick={() => pick(q.name, st.name, st.big)}
+                                  className="w-full text-left pl-16 pr-4 py-1 text-[12px] font-semibold text-gray-700 hover:bg-gray-50"
+                                >
+                                  {st.label}
+                                </button>
+                                {st.subs.map((sub) => (
+                                  <button
+                                    key={sub.name}
+                                    onClick={() => pick(q.name, sub.name)}
+                                    className="w-full text-left pl-20 pr-4 py-0.5 text-[11px] font-normal text-gray-500 hover:bg-gray-50"
+                                  >
+                                    {sub.label}
+                                  </button>
+                                ))}
+                              </div>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -283,8 +324,7 @@ export default function Console() {
             {view === 'collab' && <CollabPortal token={token} />}
             {view === 'snm-contact' && <SnmContactPortal token={token} />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
-            {view === 'demos' && <DemoPortal token={token} />}
-            {view === 'sequence' && <EmailSequence token={token} />}
+                        {view === 'sequence' && <EmailSequence token={token} />}
             {view === 'referrals' && <Referrals token={token} />}
             {view === 'partners' && <PartnerAdmin token={token} />}
             {view === 'ad-signups' && <AdSignups token={token} />}
