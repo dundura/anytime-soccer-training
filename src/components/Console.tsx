@@ -167,6 +167,13 @@ export default function Console() {
     if (typeof window !== 'undefined') window.dispatchEvent(new Event('seqnav'));
   };
 
+  // The sequence page jumped somewhere (a person's stage link): keep the menu in step.
+  useEffect(() => {
+    const sync = (ev: Event) => { const seq = (ev as CustomEvent<string>).detail; if (seq) { setNavSeq(seq); setSeqShut((l) => l.filter((x) => x !== seq)); } };
+    window.addEventListener('seqsync', sync);
+    return () => window.removeEventListener('seqsync', sync);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const signIn = async (ev: React.FormEvent) => {
     ev.preventDefault();
     if (busy) return;

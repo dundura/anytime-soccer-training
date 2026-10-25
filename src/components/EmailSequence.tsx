@@ -111,6 +111,23 @@ export default function EmailSequence({ token }: { token: string | null }) {
     window.addEventListener('seqnav', apply);
     return () => window.removeEventListener('seqnav', apply);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // Opens a stage (a group name) in the sequence it belongs to, and tells the left menu which sequence that is.
+  const jumpTo = (groupName: string) => {
+    const top = PARENTS.find((x) => x.subs.includes(groupName));
+    const seq = seqOf(top ? top.name : groupName);
+    setSequence(seq);
+    setStagePop(groupName);
+    try { window.dispatchEvent(new CustomEvent('seqsync', { detail: seq })); } catch { /* no window */ }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  // The Started list can be narrowed to one stage; the table follows.
+  const [startedStage, setStartedStage] = useState('');
+  const topOf = (groupName: string) => { const p = PARENTS.find((x) => x.subs.includes(groupName)); return p ? p.name : groupName; };
+  const stageOfPerson = (l: Lead) => {
+    const at = positionOf(l);
+    if (at >= 0) { const g = groups.find((x) => x.items.some((e) => e.key === flat[at].key)); return g ? g.name : null; }
+    return waitingOf(l);
+  };
   const inSeq = (name: string) => seqOf(name) === sequence;
   const [menuAt, setMenuAt] = useState<{ right: number; top?: number; bottom?: number } | null>(null);
   // A fixed menu would float off its button on scroll, so it closes instead.
@@ -982,11 +999,22 @@ export default function EmailSequence({ token }: { token: string | null }) {
           <div>
             <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">
               <span className="flex-1 text-[13px] font-bold text-navy">Started</span>
-              <span className="text-[11px] font-normal text-gray-400">{visible.length - notStarted.length} contacts</span>
+              <select
+                value={startedStage}
+                onChange={(ev) => setStartedStage(ev.target.value)}
+                className="shrink-0 max-w-[45%] px-2 py-1 rounded-lg border border-gray-300 bg-white text-[11px] font-semibold text-navy"
+              >
+                <option value="">All stages</option>
+                {stages.map((st) => {
+                  const n = visible.filter((l) => { const g = stageOfPerson(l); return g && topOf(g) === st.name; }).length;
+                  return <option key={st.name} value={st.name}>{shown(st.name)} ({n})</option>;
+                })}
+              </select>
+              <span className="text-[11px] font-normal text-gray-400">{[...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).length} contacts</span>
               <button type="button" onClick={() => setStagePop(null)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold">Show all</button>
             </div>
             {visible.length - notStarted.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No one has been moved into the sequence yet.</p>}
-            {[...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].map((l, i) => {
+            {[...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).map((l, i) => {
               const at = positionOf(l);
               const stage = at >= 0 ? groups.find((g) => g.items.some((e) => e.key === flat[at].key)) : null;
               return (
@@ -1000,7 +1028,11 @@ export default function EmailSequence({ token }: { token: string | null }) {
                     <span className="block truncate">{contactName(l)}</span>
                     <span className="block truncate text-[10px] text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
                   </span>
-                  <span className={`shrink-0 max-w-[55%] text-right text-[11px] font-semibold ${at >= 0 ? 'text-red' : 'text-gray-500'}`}>
+                  <span
+                    role="link"
+                    onClick={(ev) => { const target = at >= 0 && stage ? stage.name : waitingOf(l); if (target) { ev.stopPropagation(); jumpTo(target); } }}
+                    className={`shrink-0 max-w-[55%] text-right text-[11px] font-semibold underline decoration-dotted underline-offset-2 ${at >= 0 ? 'text-red' : 'text-gray-500'}`}
+                  >
                     {at >= 0 && stage ? shown(stage.name) + ' · ' + flat[at].label : (waitingOf(l) ? shown(waitingOf(l) as string) + ' · waiting' : 'Waiting for placement')}
                   </span>
                 </button>
