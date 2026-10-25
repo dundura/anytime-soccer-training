@@ -292,7 +292,7 @@ export default function Console() {
                                   <button
                                     onClick={() => setSubsOpen((l) => flip(l, st.name))}
                                     aria-label={subsOpen.includes(st.name) ? 'Fold sections' : 'Show sections'}
-                                    className="w-12 shrink-0 pl-12 text-left text-[8px] leading-none text-gray-400"
+                                    className="w-[4.5rem] shrink-0 pl-12 text-left text-[8px] leading-none text-gray-400"
                                   >
                                     {st.subs.length ? (subsOpen.includes(st.name) ? '▼' : '▶') : ''}
                                   </button>
