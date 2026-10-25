@@ -1002,15 +1002,6 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
           Clients Not started ({notStarted.length}) ▾
         </button>
         )}
-        {mode === 'sequence' && (
-        <button
-          type="button"
-          onClick={() => { setStagePop(null); setOpenGroups(() => ({})); toggleAllBig(); setOpenEmail(null); setMenu(null); }}
-          className="px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-navy bg-white border border-gray-300"
-        >
-          Collapse all
-        </button>
-        )}
       </div>
 
       <div className="border border-gray-200 rounded-xl overflow-visible">
