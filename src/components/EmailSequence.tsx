@@ -839,16 +839,27 @@ export default function EmailSequence({ token }: { token: string | null }) {
             📬 Email sequence: {sequence} ▾
           </button>
           {seqPop && (
-            <div className="absolute left-0 z-40 mt-1 min-w-[200px] rounded-xl border border-gray-200 bg-white shadow-lg py-1" onClick={(ev) => ev.stopPropagation()}>
+            <div className="absolute left-0 z-40 mt-1 w-[280px] max-w-[calc(100vw-2rem)] max-h-[70vh] overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-lg py-1" onClick={(ev) => ev.stopPropagation()}>
               {SEQUENCES.map((n) => (
-                <button
-                  key={n}
-                  type="button"
-                  onClick={() => { setSequence(n); setStagePop(null); setSeqPop(false); }}
-                  className={`block w-full text-left px-3 py-2 text-[13px] font-semibold hover:bg-gray-50 ${n === sequence ? 'text-red' : 'text-navy'}`}
-                >
-                  {n}
-                </button>
+                <div key={n}>
+                  <button
+                    type="button"
+                    onClick={() => { setSequence(n); setStagePop(null); setSeqPop(false); }}
+                    className={`block w-full text-left px-3 py-2 text-[13px] font-black hover:bg-gray-50 ${n === sequence ? 'text-red' : 'text-navy'}`}
+                  >
+                    {n}
+                  </button>
+                  {stages.filter((st) => seqOf(st.name) === n).map((st) => (
+                    <button
+                      key={st.name}
+                      type="button"
+                      onClick={() => { setSequence(n); setSeqPop(false); if (st.big) { setStagePop(null); setPillPop(st.name); } else setStagePop(st.name); }}
+                      className="block w-full text-left pl-7 pr-3 py-1.5 text-[12px] font-normal text-gray-600 hover:bg-gray-50"
+                    >
+                      {shown(st.name)}{st.big ? ' ▸' : ''}
+                    </button>
+                  ))}
+                </div>
               ))}
             </div>
           )}
