@@ -334,7 +334,7 @@ export default function Console() {
                         {SEQ_TREE.filter((q) => q.name !== 'No - Closing Out').map((q) => (
                           <div key={q.name}>
                             <button
-                              onClick={() => { if (navSeq === q.name) setSeqShut((l) => flip(l, q.name)); else { setSeqShut((l) => l.filter((x) => x !== q.name)); pick(q.name); } }}
+                              onClick={() => { if (navSeq === q.name) setSeqShut((l) => flip(l, q.name)); else { setSeqShut((l) => l.filter((x) => x !== q.name)); pick(q.name, q.stages[0] ? q.stages[0].name : undefined); } }}
                               className={`w-full flex items-center gap-1.5 text-left pl-9 pr-4 py-1.5 text-[13px] font-bold ${navSeq === q.name ? 'text-red' : 'text-navy'} hover:bg-gray-50`}
                             >
                               <span className="w-2 text-[8px] leading-none">{q.stages.length === 0 ? '' : navSeq === q.name && !seqShut.includes(q.name) ? '▼' : '▶'}</span>

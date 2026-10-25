@@ -327,6 +327,12 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   }, [groups]);
   const rawFocus = stagePop === NOT_STARTED || stagePop === PEOPLE ? stagePop : (stagePop && (groups.some((g) => g.name === stagePop) || stages.some((st) => st.name === stagePop)) ? stagePop : null);
   const focus = mode === 'leads' ? (rawFocus === PEOPLE ? PEOPLE : NOT_STARTED) : (rawFocus === NOT_STARTED || rawFocus === PEOPLE ? null : rawFocus);
+  // One stage at a time keeps the page quiet: a sequence opens on its first stage, the menu picks the others.
+  useEffect(() => {
+    if (mode !== 'sequence' || focus || !stages.length) return;
+    const first = SEQ_TREE.find((q) => q.name === sequence)?.stages[0];
+    if (first && stages.some((st) => st.name === first.name)) setStagePop(first.name);
+  }, [mode, focus, stages, sequence]); // eslint-disable-line react-hooks/exhaustive-deps
   const visible = leads.filter((l) => !l.seqHiddenAt);
   const hidden = leads.filter((l) => l.seqHiddenAt);
   // The left menu shows these two counts.
