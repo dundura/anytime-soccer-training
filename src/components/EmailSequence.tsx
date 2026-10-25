@@ -50,8 +50,8 @@ const PARENTS: { name: string; subs: string[] }[] = [
 ];
 
 // The sequences, and which one each stage belongs to. The console's left menu is built from this.
-export const SEQUENCES = ['Demo', 'Roster & Invoicing', 'Onboarding', 'First 3 weeks', 'Other', 'No - Closing Out'];
-export const seqOf = (name: string) => (name === 'Demo Before Roster' ? 'Demo' : name === 'No - Closing Out' ? 'No - Closing Out' : name === 'First 3 weeks' ? 'First 3 weeks' : (name === 'Yes - Send Roster' || name === 'Sent Invoice') ? 'Roster & Invoicing' : (name === 'Onboarding' || name === 'Onboarding complete') ? 'Onboarding' : 'Other');
+export const SEQUENCES = ['Demo & Invoicing', 'Onboarding', 'First 3 weeks', 'Other', 'No - Closing Out'];
+export const seqOf = (name: string) => (name === 'Demo Before Roster' || name === 'Yes - Send Roster' || name === 'Sent Invoice' ? 'Demo & Invoicing' : name === 'No - Closing Out' ? 'No - Closing Out' : name === 'First 3 weeks' ? 'First 3 weeks' : (name === 'Onboarding' || name === 'Onboarding complete') ? 'Onboarding' : 'Other');
 const TOP_STAGES = ['Demo Before Roster', 'Yes - Send Roster', 'Sent Invoice', 'Onboarding', 'Onboarding complete', 'First 3 weeks', 'Other', 'No - Closing Out'];
 export const SEQ_TREE = SEQUENCES.map((name) => ({
   name,
@@ -91,7 +91,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   const [menu, setMenu] = useState<string | null>(null);
   // Which sequence is showing; the console's left menu picks it.
   const [sequence, setSequenceState] = useState(() => {
-    try { const v = localStorage.getItem('seqSequence'); return v && v !== 'Leads' ? v : 'Demo'; } catch { return 'Demo'; }
+    try { const v = localStorage.getItem('seqSequence'); return v && SEQUENCES.includes(v) ? v : 'Demo & Invoicing'; } catch { return 'Demo & Invoicing'; }
   });
   // A refresh keeps the sequence that was open.
   const setSequence = (v: string) => {

@@ -153,7 +153,7 @@ export default function Console() {
   // The Coach Onboarding rows in the left menu: a sequence, a stage in it, or a section of a big stage.
   // Remembered on this device, so a refresh puts the menu back as it was.
   const saved = (k: string, d: string) => { try { return localStorage.getItem(k) || d; } catch { return d; } };
-  const [navSeq, setNavSeqState] = useState<string>(() => (typeof window === 'undefined' ? 'Demo' : saved('consoleNavSeq', 'Demo') === 'Leads' ? 'Demo' : saved('consoleNavSeq', 'Demo')));
+  const [navSeq, setNavSeqState] = useState<string>(() => (typeof window === 'undefined' ? 'Demo & Invoicing' : SEQ_TREE.some((q) => q.name === saved('consoleNavSeq', '')) ? saved('consoleNavSeq', '') : 'Demo & Invoicing'));
   const setNavSeq = (v: string) => { setNavSeqState(v); try { localStorage.setItem('consoleNavSeq', v); } catch { /* storage unavailable */ } };
   // Folded rows: a sequence the person shut, and the big stages whose sections are showing (they start shut).
   const list = (k: string): string[] => { try { return JSON.parse(localStorage.getItem(k) || '[]') || []; } catch { return []; } };
