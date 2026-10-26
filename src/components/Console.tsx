@@ -8,6 +8,7 @@ import ConsoleNotes from './ConsoleNotes';
 import CrmAdmin from './CrmAdmin';
 import EmailSequence, { SEQ_TREE } from './EmailSequence';
 import PodcastPortal from './PodcastPortal';
+import PodcastEpisodes from './PodcastEpisodes';
 import IntlPortal from './IntlPortal';
 import CollabPortal from './CollabPortal';
 import SnmContactPortal from './SnmContactPortal';
@@ -76,6 +77,7 @@ const GROUPS = [
     rows: [
       { key: 'referrals', label: 'Referrals', icon: '🎁' },
       { key: 'podcast', label: 'Podcast guests', icon: '🎙️' },
+      { key: 'podcast-episodes', label: 'Podcast episodes', icon: '🎧' },
       { key: 'intl', label: 'International posts', icon: '🌍' },
       { key: 'collab', label: 'Collaboration requests', icon: '🤝' },
       { key: 'partners', label: 'Partners', icon: '🤝' },
@@ -444,6 +446,7 @@ export default function Console() {
             {view === 'callbacks' && <SupportBoard key="callbacks" token={token} mode="callbacks" />}
             {view === 'suggestions' && <SupportBoard key="suggestions" token={token} mode="suggestions" />}
             {view === 'podcast' && <PodcastPortal token={token} />}
+            {view === 'podcast-episodes' && <PodcastEpisodes token={token} />}
             {view === 'intl' && <IntlPortal token={token} />}
             {view === 'collab' && <CollabPortal token={token} />}
             {view === 'snm-contact' && <SnmContactPortal token={token} />}
