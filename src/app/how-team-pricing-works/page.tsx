@@ -56,7 +56,7 @@ export default function HowTeamPricingWorksPage() {
             </summary>
             <div className={callout + ' m-4'}>
               <ol className="list-decimal space-y-1 pl-5">
-                <li>We send you an invoice.</li>
+                <li>We send you an invoice.*</li>
                 <li>You pay it once, in advance, for the year.</li>
                 <li>We add the slots to your team.</li>
                 <li>Once you pay the first invoice, we send you a link that you can share with families.</li>
@@ -64,20 +64,28 @@ export default function HowTeamPricingWorksPage() {
               <p className="mt-3">
                 The minimum purchase is 10 slots. <strong>Add more only as players join.</strong>
               </p>
+              <p className="mt-3 text-sm">
+                *Initial slots can also be purchased inside the app, skipping the invoice.
+              </p>
             </div>
           </details>
-          <div id="apply" className={callout + ' scroll-mt-4'}>
-            <strong>To apply a slot to a player</strong>
-            <p className="mt-1">
-              Apply a slot to each player who joins. It gives them <strong>365 days of access</strong>.
-            </p>
-            <ol className="mt-2 list-decimal space-y-1 pl-5">
-              <li>Go to your team.</li>
-              <li>Click Coach Tools.</li>
-              <li>Click Upgrade Players.</li>
-              <li>Find the player and click Upgrade.</li>
-            </ol>
-          </div>
+          <details id="apply" className="group rounded-lg border border-[#bfdbfe] scroll-mt-4">
+            <summary className="flex cursor-pointer list-none items-center justify-between rounded-lg bg-[#1e3a8a] px-5 py-3 text-lg font-extrabold text-white [&::-webkit-details-marker]:hidden">
+              To apply a slot to a player
+              <span className="text-sm transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div className={callout + ' m-4'}>
+              <p>
+                Apply a slot to each player who joins. It gives them <strong>365 days of access</strong>.
+              </p>
+              <ol className="mt-2 list-decimal space-y-1 pl-5">
+                <li>Go to your team.</li>
+                <li>Click Coach Tools.</li>
+                <li>Click Upgrade Players.</li>
+                <li>Find the player and click Upgrade.</li>
+              </ol>
+            </div>
+          </details>
           <p>
             Questions? Email <a href="mailto:megan@anytime-soccer.com" className="font-bold text-[#DC373E] no-underline">megan@anytime-soccer.com</a>
           </p>
