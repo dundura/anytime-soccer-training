@@ -47,6 +47,9 @@ export default function HowTeamPricingWorksPage() {
           <p>
             When a player joins your team, you apply a slot to their account. That gives them <strong>365 days of free access</strong>.
           </p>
+          <p>
+            Questions? Email <a href="mailto:megan@anytime-soccer.com" className="font-bold text-[#DC373E] no-underline">megan@anytime-soccer.com</a>
+          </p>
         </div>
       </div>
     </section>
