@@ -155,6 +155,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   // Every stage is on the page and shut until it is opened.
   // The stage showing on its own in a popup.
   // An email waiting for a yes before it really goes out.
+  const [pickKey, setPickKey] = useState('');
   const [sendAsk, setSendAsk] = useState<{ lead: Lead; email: Email; subject: string; html: string; loading: boolean; preview?: boolean } | null>(null);
   // What is open is remembered on this device, so a refresh puts the page back as it was.
   // In the Move popup, which stage is open. undefined = the one the person is in; the rest start collapsed.
@@ -826,6 +827,18 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                 <div className="mt-2 flex gap-2">
                   <button type="button" onClick={() => { setDetailId(null); setPop({ lead: dl, search: '' }); }} className="px-3 py-1.5 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
                   {gname && <button type="button" onClick={() => { setDetailId(null); jumpTo(gname); }} className="px-3 py-1.5 rounded-lg border border-gray-200 text-[11px] font-bold text-navy">See this stage</button>}
+                </div>
+                <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mt-4 mb-2">Send an email</div>
+                <div className="flex gap-2">
+                  <select value={pickKey} onChange={(ev) => setPickKey(ev.target.value)} className="min-w-0 flex-1 px-2 py-1.5 rounded-lg border border-gray-200 text-[12px] text-navy bg-white">
+                    <option value="">Pick an email…</option>
+                    {groups.map((g) => (
+                      <optgroup key={g.name} label={shown(g.name)}>
+                        {g.items.map((e) => <option key={e.key} value={e.key}>{e.label}</option>)}
+                      </optgroup>
+                    ))}
+                  </select>
+                  <button type="button" disabled={!pickKey || !dl.email} onClick={() => { const em = flat.find((x) => x.key === pickKey); if (em) openSend(dl, em); }} className="shrink-0 px-3 py-1.5 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Preview and send</button>
                 </div>
               </div>
             ) : null}
