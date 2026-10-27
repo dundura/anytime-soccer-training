@@ -57,7 +57,6 @@ export default function HowTeamPricingWorksPage() {
               <li>Click Coach Tools.</li>
               <li>Click Upgrade Players.</li>
               <li>Find the player and click Upgrade.</li>
-              <li>Click Yes, upgrade.</li>
             </ol>
           </div>
           <p>
