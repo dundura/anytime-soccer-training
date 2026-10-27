@@ -26,21 +26,29 @@ export default function HowTeamPricingWorksPage() {
           <p>
             The minimum purchase is 10 slots. If the minimum was waived, pay the invoice you received and purchase additional slots inside the app when players join your team.
           </p>
-          <div id="price" className={callout + ' scroll-mt-4'}>
-            <strong>$10 per player, per year</strong>
-            <br />
-            Full access for 365 days.
-          </div>
-          <div id="coaches" className={callout + ' scroll-mt-4'}>
-            <strong>Coaches are free</strong>
-            <br />
-            One free coach account per team.
-          </div>
-          <div id="club" className={callout + ' scroll-mt-4'}>
-            <strong>Club discount: $8 per player, per year</strong>
-            <br />
-            Clubs and associations with 75 or more players.
-          </div>
+          <details className="group rounded-lg border border-[#bfdbfe]">
+            <summary className="flex cursor-pointer list-none items-center justify-between rounded-lg bg-[#1e3a8a] px-5 py-3 text-lg font-extrabold text-white [&::-webkit-details-marker]:hidden">
+              Team Pricing
+              <span className="text-sm transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div className="flex flex-col gap-4 p-4">
+            <div id="price" className={callout + ' scroll-mt-4'}>
+              <strong>$10 per player, per year</strong>
+              <br />
+              Full access for 365 days.
+            </div>
+            <div id="coaches" className={callout + ' scroll-mt-4'}>
+              <strong>Coaches are free</strong>
+              <br />
+              One free coach account per team.
+            </div>
+            <div id="club" className={callout + ' scroll-mt-4'}>
+              <strong>Club discount: $8 per player, per year</strong>
+              <br />
+              Clubs and associations with 75 or more players.
+            </div>
+            </div>
+          </details>
           <div id="how" className={callout + ' scroll-mt-4'}>
             <strong>How it works</strong>
             <ol className="mt-2 list-decimal space-y-1 pl-5">
