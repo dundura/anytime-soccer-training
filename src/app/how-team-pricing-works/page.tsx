@@ -6,11 +6,6 @@ export const metadata: Metadata = {
 };
 
 // Same palette as the pricing email: blue header, orange rule, blue callouts on a slate page.
-const pill = 'rounded-full border border-[#bfdbfe] bg-[#eff6ff] px-3.5 py-1.5 text-sm font-bold text-[#1e40af] no-underline hover:bg-[#dbeafe]';
-const PILLS = [
-  ['how', 'How it works'],
-  ['apply', 'Upgrading players'],
-];
 const callout = 'rounded-lg border border-[#bfdbfe] border-l-4 border-l-[#1e40af] bg-[#eff6ff] px-5 py-4 text-[#0f2642]';
 
 export default function HowTeamPricingWorksPage() {
@@ -22,11 +17,6 @@ export default function HowTeamPricingWorksPage() {
           <h1 className="text-[26px] font-extrabold leading-tight text-white">How Team Pricing Works</h1>
         </div>
         <div className="flex flex-col gap-4 rounded-b-2xl border-t-[5px] border-[#F97316] bg-white px-9 py-7 text-base leading-relaxed text-[#334155]">
-          <div className="flex flex-wrap justify-center gap-2">
-            {PILLS.map(([id, label]) => (
-              <a key={id} href={'#' + id} className={pill}>{label}</a>
-            ))}
-          </div>
           <p>
             Welcome to Anytime Soccer Training. Once your invoice is paid, we add the slots to your account, and you grant each player 365 days of access as they join your team.
           </p>
