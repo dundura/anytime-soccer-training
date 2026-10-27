@@ -35,9 +35,15 @@ export default function HowTeamPricingWorksPage() {
           <p>
             The minimum purchase is 10 slots, and you pay for the rest as you go, so <strong>you only pay for the players who actually use the program.</strong>
           </p>
-          <p>
-            <strong>How it works:</strong> we send you an invoice, you pay it once, in advance, for the year, and then we add the slots to your team. Once you pay the first invoice, we send you a link that you can share with families.
-          </p>
+          <div className={callout}>
+            <strong>How it works</strong>
+            <ul className="mt-2 list-disc space-y-1 pl-5">
+              <li>We send you an invoice.</li>
+              <li>You pay it once, in advance, for the year.</li>
+              <li>We add the slots to your team.</li>
+              <li>Once you pay the first invoice, we send you a link that you can share with families.</li>
+            </ul>
+          </div>
           <p>
             When a player joins your team, you apply a slot to their account. That gives them <strong>365 days of free access</strong>.
           </p>
