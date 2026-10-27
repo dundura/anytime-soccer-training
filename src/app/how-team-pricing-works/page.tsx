@@ -6,6 +6,14 @@ export const metadata: Metadata = {
 };
 
 // Same palette as the pricing email: blue header, orange rule, blue callouts on a slate page.
+const pill = 'rounded-full border border-[#bfdbfe] bg-[#eff6ff] px-3.5 py-1.5 text-sm font-bold text-[#1e40af] no-underline hover:bg-[#dbeafe]';
+const PILLS = [
+  ['price', '$10 per player'],
+  ['club', 'Club discount'],
+  ['coaches', 'Coaches free'],
+  ['how', 'How it works'],
+  ['apply', 'Apply a slot'],
+];
 const callout = 'rounded-lg border border-[#bfdbfe] border-l-4 border-l-[#1e40af] bg-[#eff6ff] px-5 py-4 text-[#0f2642]';
 
 export default function HowTeamPricingWorksPage() {
@@ -17,17 +25,22 @@ export default function HowTeamPricingWorksPage() {
           <h1 className="text-[26px] font-extrabold leading-tight text-white">How Team Pricing Works</h1>
         </div>
         <div className="flex flex-col gap-4 rounded-b-2xl border-t-[5px] border-[#F97316] bg-white px-9 py-7 text-base leading-relaxed text-[#334155]">
-          <div className={callout}>
+          <div className="flex flex-wrap justify-center gap-2">
+            {PILLS.map(([id, label]) => (
+              <a key={id} href={'#' + id} className={pill}>{label}</a>
+            ))}
+          </div>
+          <div id="price" className={callout + ' scroll-mt-4'}>
             <strong>$10 per player, per year</strong>
             <br />
             Every player gets full access to the app, on any device.
           </div>
-          <div className={callout}>
+          <div id="club" className={callout + ' scroll-mt-4'}>
             <strong>Club discount: $8 per player, per year</strong>
             <br />
             Clubs and associations with 75 or more players get the lower price.
           </div>
-          <div className={callout}>
+          <div id="coaches" className={callout + ' scroll-mt-4'}>
             <strong>Coaches are free</strong>
             <br />
             Each team gets one coach account at no charge.
@@ -35,7 +48,7 @@ export default function HowTeamPricingWorksPage() {
           <p>
             The minimum purchase is 10 slots, and you pay for the rest as you go, so <strong>you only pay for the players who actually use the program.</strong>
           </p>
-          <div className={callout}>
+          <div id="how" className={callout + ' scroll-mt-4'}>
             <strong>How it works</strong>
             <ol className="mt-2 list-decimal space-y-1 pl-5">
               <li>We send you an invoice.</li>
@@ -47,7 +60,7 @@ export default function HowTeamPricingWorksPage() {
           <p>
             When a player joins your team, you apply a slot to their account. That gives them <strong>365 days of free access</strong>.
           </p>
-          <div className={callout}>
+          <div id="apply" className={callout + ' scroll-mt-4'}>
             <strong>To apply a slot to a player</strong>
             <ol className="mt-2 list-decimal space-y-1 pl-5">
               <li>Go to your team.</li>
