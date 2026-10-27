@@ -49,18 +49,23 @@ export default function HowTeamPricingWorksPage() {
             </div>
             </div>
           </details>
-          <div id="how" className={callout + ' scroll-mt-4'}>
-            <strong>How it works</strong>
-            <ol className="mt-2 list-decimal space-y-1 pl-5">
-              <li>We send you an invoice.</li>
-              <li>You pay it once, in advance, for the year.</li>
-              <li>We add the slots to your team.</li>
-              <li>Once you pay the first invoice, we send you a link that you can share with families.</li>
-            </ol>
-            <p className="mt-3">
-              The minimum purchase is 10 slots. <strong>Add more only as players join.</strong>
-            </p>
-          </div>
+          <details id="how" className="group rounded-lg border border-[#bfdbfe] scroll-mt-4">
+            <summary className="flex cursor-pointer list-none items-center justify-between rounded-lg bg-[#1e3a8a] px-5 py-3 text-lg font-extrabold text-white [&::-webkit-details-marker]:hidden">
+              How invoicing works
+              <span className="text-sm transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div className={callout + ' m-4'}>
+              <ol className="list-decimal space-y-1 pl-5">
+                <li>We send you an invoice.</li>
+                <li>You pay it once, in advance, for the year.</li>
+                <li>We add the slots to your team.</li>
+                <li>Once you pay the first invoice, we send you a link that you can share with families.</li>
+              </ol>
+              <p className="mt-3">
+                The minimum purchase is 10 slots. <strong>Add more only as players join.</strong>
+              </p>
+            </div>
+          </details>
           <div id="apply" className={callout + ' scroll-mt-4'}>
             <strong>To apply a slot to a player</strong>
             <p className="mt-1">
