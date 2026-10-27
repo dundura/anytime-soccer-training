@@ -35,15 +35,15 @@ export default function HowTeamPricingWorksPage() {
             <br />
             Full access for 365 days.
           </div>
-          <div id="club" className={callout + ' scroll-mt-4'}>
-            <strong>Club discount: $8 per player, per year</strong>
-            <br />
-            Clubs and associations with 75 or more players get the lower price.
-          </div>
           <div id="coaches" className={callout + ' scroll-mt-4'}>
             <strong>Coaches are free</strong>
             <br />
             Each team gets one coach account at no charge.
+          </div>
+          <div id="club" className={callout + ' scroll-mt-4'}>
+            <strong>Club discount: $8 per player, per year</strong>
+            <br />
+            Clubs and associations with 75 or more players.
           </div>
           <p>
             The minimum purchase is 10 slots, and you pay for the rest as you go, so <strong>you only pay for the players who actually use the program.</strong>
