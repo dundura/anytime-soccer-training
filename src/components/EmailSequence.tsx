@@ -31,7 +31,7 @@ export const shown = (g: string) => SHOWN[g] || g;
 // Two server groups that are the same stage here.
 const ALIAS: Record<string, string> = { 'Confirming with others FAQ': 'FAQ' };
 // The three chasers after the demo get a sub-section of their own on this page (the server still files them under After Demo Follow-up).
-const KEY_GROUP: Record<string, string> = { demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked', any_questions: 'Final push', your_timing: 'Final push', tried_calling: 'Final push', which_are_you: 'Getting the demo booked', demo_today: 'Chasing a quiet lead', demo_today_tomorrow: 'Chasing a quiet lead', coachReachOut: 'Not the coach', wanted_demo: 'Chasing a quiet lead', cant_make_it: 'Reschedule demo', rebook_later: 'Reschedule demo', sevenToTenDays: 'Follow-up - not received roster yet', rosterNudge: 'Follow-up - not received roster yet', rosterResend: 'Follow-up - not received roster yet', rosterReceived: 'Invoice sent', invoiceReminder: 'Waiting on invoice payment', welcome_received_check: 'Onboarding', onboarding_check_in: 'Onboarding', onboardingComplete: 'Onboarding complete', doItTogether: 'Onboarding', waitingOnCoach: 'Onboarding', paymentReceived: 'Onboarding', first_follow_up: 'First Follow-up' };
+const KEY_GROUP: Record<string, string> = { account_team_check: 'Onboarding', demo_questions_check: 'Chasing after demo', demo_tried_calling: 'Chasing after demo', demo_still_interested: 'Chasing after demo', pricing: 'Getting the demo booked', any_questions: 'Final push', your_timing: 'Final push', tried_calling: 'Final push', which_are_you: 'Getting the demo booked', demo_today: 'Chasing a quiet lead', demo_today_tomorrow: 'Chasing a quiet lead', coachReachOut: 'Not the coach', wanted_demo: 'Chasing a quiet lead', cant_make_it: 'Reschedule demo', rebook_later: 'Reschedule demo', sevenToTenDays: 'Follow-up - not received roster yet', rosterNudge: 'Follow-up - not received roster yet', rosterResend: 'Follow-up - not received roster yet', rosterReceived: 'Invoice sent', invoiceReminder: 'Waiting on invoice payment', welcome_received_check: 'Onboarding', onboarding_check_in: 'Onboarding', onboardingComplete: 'Onboarding complete', doItTogether: 'Onboarding', waitingOnCoach: 'Onboarding', paymentReceived: 'Onboarding', first_follow_up: 'First Follow-up' };
 // Names on this page that differ from the email's own title.
 const LABEL: Record<string, string> = { book_a_demo: 'Book a demo - emailed us', rosterReceived: 'Thanks for sending your roster - invoice sent' };
 const groupOf = (g: string, key?: string) => (key && KEY_GROUP[key]) || ALIAS[g] || g;
@@ -251,6 +251,11 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
       });
       // Payment received opens Invoice Paid - Onboarding Started.
       if (g === 'Onboarding' && !saved.has('paymentReceived')) list.sort((x, y) => Number(y.key === 'paymentReceived') - Number(x.key === 'paymentReceived'));
+      // We don't see your account or team yet sits right after Would it help if we did it together?
+      if (g === 'Onboarding' && !saved.has('account_team_check')) {
+        const at = list.findIndex((x) => x.key === 'account_team_check');
+        if (at >= 0) { const [m] = list.splice(at, 1); const after = list.findIndex((x) => x.key === 'doItTogether'); list.splice(after >= 0 ? after + 1 : list.length, 0, m); }
+      }
       // The roster resend is number 2 in the roster follow-up.
       if (g === 'Follow-up - not received roster yet' && !saved.has('rosterResend')) {
         const at = list.findIndex((x) => x.key === 'rosterResend');
