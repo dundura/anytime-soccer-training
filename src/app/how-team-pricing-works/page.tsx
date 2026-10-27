@@ -8,11 +8,9 @@ export const metadata: Metadata = {
 // Same palette as the pricing email: blue header, orange rule, blue callouts on a slate page.
 const pill = 'rounded-full border border-[#bfdbfe] bg-[#eff6ff] px-3.5 py-1.5 text-sm font-bold text-[#1e40af] no-underline hover:bg-[#dbeafe]';
 const PILLS = [
-  ['price', '$10 per player'],
-  ['club', 'Club discount'],
-  ['coaches', 'Coaches free'],
+  ['price', '$10 per player, per year'],
   ['how', 'How it works'],
-  ['apply', 'Apply a slot'],
+  ['apply', 'Upgrading players'],
 ];
 const callout = 'rounded-lg border border-[#bfdbfe] border-l-4 border-l-[#1e40af] bg-[#eff6ff] px-5 py-4 text-[#0f2642]';
 
