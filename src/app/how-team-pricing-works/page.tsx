@@ -57,11 +57,11 @@ export default function HowTeamPricingWorksPage() {
               The minimum purchase is 10 slots. <strong>Add more only as players join.</strong>
             </p>
           </div>
-          <p>
-            When a player joins your team, you apply a slot to their account. That gives them <strong>365 days of free access</strong>.
-          </p>
           <div id="apply" className={callout + ' scroll-mt-4'}>
             <strong>To apply a slot to a player</strong>
+            <p className="mt-1">
+              When a player joins your team, you apply a slot to their account. That gives them <strong>365 days of free access</strong>.
+            </p>
             <ol className="mt-2 list-decimal space-y-1 pl-5">
               <li>Go to your team.</li>
               <li>Click Coach Tools.</li>
