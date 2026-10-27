@@ -33,7 +33,7 @@ export default function HowTeamPricingWorksPage() {
           <div id="price" className={callout + ' scroll-mt-4'}>
             <strong>$10 per player, per year</strong>
             <br />
-            Full access for 365 days, on any device.
+            Full access for 365 days.
           </div>
           <div id="club" className={callout + ' scroll-mt-4'}>
             <strong>Club discount: $8 per player, per year</strong>
