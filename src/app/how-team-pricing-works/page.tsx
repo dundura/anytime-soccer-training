@@ -38,7 +38,7 @@ export default function HowTeamPricingWorksPage() {
           <div id="coaches" className={callout + ' scroll-mt-4'}>
             <strong>Coaches are free</strong>
             <br />
-            Each team gets one coach account at no charge.
+            One coach account per team.
           </div>
           <div id="club" className={callout + ' scroll-mt-4'}>
             <strong>Club discount: $8 per player, per year</strong>
