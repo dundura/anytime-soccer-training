@@ -425,6 +425,22 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
     }
   };
 
+  // Sends this email, filled in for the lead, to Neil only. Nothing is logged and nobody moves.
+  const sendPreview = async (l: Lead, e: Email) => {
+    if (busy) return;
+    setBusy(true);
+    try {
+      const res = await fetch(`${API}/demo-portal/leads/${l.id}/send-preview`, { method: 'POST', headers: headers(), body: JSON.stringify({ key: e.key, onboarding: !!e.onboarding }) });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || 'Could not send the preview.');
+      flash('Preview sent to neil@anytime-soccer.com');
+    } catch (err) {
+      flash(err instanceof Error ? err.message : 'Could not send the preview.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
   // The one place an email really goes out. It runs only from the confirm box; moving a contact never gets here.
   const sendNow = async (l: Lead, e: Email, subject: string) => {
     if (busy) return;
@@ -967,6 +983,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
             )}
             <div className="px-5 py-4 border-t border-gray-100 flex justify-end gap-2">
               <button onClick={() => setSendAsk(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">{sendAsk.preview ? 'Close' : 'Cancel'}</button>
+              <button onClick={() => sendPreview(sendAsk.lead, sendAsk.email)} disabled={busy || sendAsk.loading} className="px-3 py-2 rounded-lg border border-red text-red text-xs font-bold disabled:opacity-50">Send preview to Neil</button>
               {!sendAsk.preview && <button onClick={() => sendNow(sendAsk.lead, sendAsk.email, sendAsk.subject)} disabled={busy || sendAsk.loading} className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50">
                 {busy ? 'Sending…' : 'Send'}
               </button>}
