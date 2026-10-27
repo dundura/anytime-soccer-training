@@ -33,7 +33,7 @@ export default function HowTeamPricingWorksPage() {
             Each team gets one coach account at no charge.
           </div>
           <p>
-            The minimum purchase is 10 slots, and you pay for the rest as you go, so you only pay for the players who actually use the program.
+            The minimum purchase is 10 slots, and you pay for the rest as you go, so <strong>you only pay for the players who actually use the program.</strong>
           </p>
           <p>
             <strong>How it works:</strong> we send you an invoice, you pay it once, in advance, for the year, and then we add the slots to your team. Once you pay the first invoice, we send you a link that you can share with families.
