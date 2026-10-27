@@ -28,6 +28,9 @@ export default function HowTeamPricingWorksPage() {
               <a key={id} href={'#' + id} className={pill}>{label}</a>
             ))}
           </div>
+          <p>
+            The coach or club pays once, in advance, for the year, and parents never provide payment information. Here is how it works.
+          </p>
           <div id="price" className={callout + ' scroll-mt-4'}>
             <strong>$10 per player, per year</strong>
             <br />
