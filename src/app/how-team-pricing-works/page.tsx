@@ -5,57 +5,46 @@ export const metadata: Metadata = {
   description: 'How a team gets started: pay one invoice, we add the slots, you share the link with families, and each player you add gets 365 days of free access.',
 };
 
+// Same palette as the pricing email: blue header, orange rule, blue callouts on a slate page.
+const callout = 'rounded-lg border border-[#bfdbfe] border-l-4 border-l-[#1e40af] bg-[#eff6ff] px-5 py-4 text-[#0f2642]';
+
 export default function HowTeamPricingWorksPage() {
   return (
-    <>
-      {/* HERO */}
-      <section className="pt-6 pb-4 md:pt-8 md:pb-6 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-3xl px-6 py-16 md:px-12 md:py-20 relative overflow-hidden text-center shadow-[0_2px_12px_rgba(15,49,84,0.08)]">
-            <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.08)_0%,transparent_70%)] pointer-events-none" />
-            <div className="relative z-10">
-              <h1 className="text-[clamp(32px,5vw,48px)] font-extrabold leading-[1.1] text-navy mb-4">
-                How Team Pricing <span className="text-red">Works</span>
-              </h1>
-              <p className="text-xl text-navy/70">Not sure how many players will join? No problem.</p>
-            </div>
-          </div>
+    <section className="bg-[#f1f5f9] px-3 py-7">
+      <div className="mx-auto w-full max-w-[600px]">
+        <div className="rounded-t-2xl bg-gradient-to-br from-[#1e3a8a] to-[#2563eb] px-9 py-8 text-center">
+          <div className="mb-2.5 text-[11px] font-bold tracking-[3px] text-[#bfdbfe]">ANYTIME SOCCER TRAINING</div>
+          <h1 className="text-[26px] font-extrabold leading-tight text-white">How Team Pricing Works</h1>
         </div>
-      </section>
-
-      {/* STEPS */}
-      <section className="pb-12 md:pb-16 bg-background">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-4">
-          <div className="bg-white rounded-2xl px-6 py-6 shadow-[0_2px_12px_rgba(15,49,84,0.08)]">
-            <h2 className="text-xl font-extrabold text-navy mb-1">$10 per player, per year</h2>
-            <p className="text-lg text-navy/80 leading-relaxed">Every player gets full access to the app, on any device.</p>
+        <div className="flex flex-col gap-4 rounded-b-2xl border-t-[5px] border-[#F97316] bg-white px-9 py-7 text-base leading-relaxed text-[#334155]">
+          <div className={callout}>
+            <strong>$10 per player, per year</strong>
+            <br />
+            Every player gets full access to the app, on any device.
           </div>
-          <div className="bg-white rounded-2xl px-6 py-6 shadow-[0_2px_12px_rgba(15,49,84,0.08)]">
-            <h2 className="text-xl font-extrabold text-navy mb-1">Club discount: $8 per player, per year</h2>
-            <p className="text-lg text-navy/80 leading-relaxed">Clubs and associations with 75 or more players get the lower price.</p>
+          <div className={callout}>
+            <strong>Club discount: $8 per player, per year</strong>
+            <br />
+            Clubs and associations with 75 or more players get the lower price.
           </div>
-          <div className="bg-white rounded-2xl px-6 py-6 shadow-[0_2px_12px_rgba(15,49,84,0.08)]">
-            <h2 className="text-xl font-extrabold text-navy mb-1">Coaches are free</h2>
-            <p className="text-lg text-navy/80 leading-relaxed">Each team gets one coach account at no charge.</p>
+          <div className={callout}>
+            <strong>Coaches are free</strong>
+            <br />
+            Each team gets one coach account at no charge.
           </div>
-          <div className="bg-white rounded-2xl px-6 py-6 shadow-[0_2px_12px_rgba(15,49,84,0.08)] border-l-4 border-red">
-            <p className="text-lg text-navy leading-relaxed">
-              The minimum purchase is <strong>10 slots</strong>, and you pay for the rest as you go, so you only pay for the players who actually use the program.
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl px-6 py-6 shadow-[0_2px_12px_rgba(15,49,84,0.08)]">
-            <h2 className="text-xl font-extrabold text-navy mb-2">How it works</h2>
-            <p className="text-lg text-navy/80 leading-relaxed">
-              We send you an invoice, you pay it once, in advance, for the year, and then we add the slots to your team. Once you pay the first invoice, we send you a link that you can share with families.
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl px-6 py-6 shadow-[0_2px_12px_rgba(15,49,84,0.08)]">
-            <p className="text-lg text-navy/80 leading-relaxed">
-              When a player joins your team, you apply a slot to their account. That gives them <strong>365 days of free access</strong>.
-            </p>
-          </div>
+          <p>
+            <strong>Not sure how many players will join? No problem.</strong>
+            <br />
+            The minimum purchase is 10 slots, and you pay for the rest as you go, so you only pay for the players who actually use the program.
+          </p>
+          <p>
+            <strong>How it works:</strong> we send you an invoice, you pay it once, in advance, for the year, and then we add the slots to your team. Once you pay the first invoice, we send you a link that you can share with families.
+          </p>
+          <p>
+            When a player joins your team, you apply a slot to their account. That gives them <strong>365 days of free access</strong>.
+          </p>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
