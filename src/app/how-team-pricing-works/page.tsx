@@ -45,9 +45,6 @@ export default function HowTeamPricingWorksPage() {
             <br />
             Clubs and associations with 75 or more players.
           </div>
-          <p>
-            The minimum purchase is 10 slots, and you pay for the rest as you go, so <strong>you only pay for the players who actually use the program.</strong>
-          </p>
           <div id="how" className={callout + ' scroll-mt-4'}>
             <strong>How it works</strong>
             <ol className="mt-2 list-decimal space-y-1 pl-5">
@@ -56,6 +53,9 @@ export default function HowTeamPricingWorksPage() {
               <li>We add the slots to your team.</li>
               <li>Once you pay the first invoice, we send you a link that you can share with families.</li>
             </ol>
+            <p className="mt-3">
+              The minimum purchase is 10 slots, and you pay for the rest as you go, so <strong>you only pay for the players who actually use the program.</strong>
+            </p>
           </div>
           <p>
             When a player joins your team, you apply a slot to their account. That gives them <strong>365 days of free access</strong>.
