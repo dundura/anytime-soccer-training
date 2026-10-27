@@ -54,7 +54,7 @@ export default function HowTeamPricingWorksPage() {
               <li>Once you pay the first invoice, we send you a link that you can share with families.</li>
             </ol>
             <p className="mt-3">
-              The minimum purchase is 10 slots, and you pay for the rest as you go, so <strong>you only pay for the players who actually use the program.</strong>
+              The minimum purchase is 10 slots. <strong>Add more only as players join.</strong>
             </p>
           </div>
           <p>
