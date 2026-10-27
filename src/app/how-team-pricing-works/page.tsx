@@ -29,7 +29,7 @@ export default function HowTeamPricingWorksPage() {
             ))}
           </div>
           <p>
-            The coach or club pays once, in advance, for the year, and parents never provide payment information. Here is how it works.
+            You pay the invoice, we apply the slots to your account, and you grant 365 days of access to your players as they join your team. Parents never provide payment information.
           </p>
           <div id="price" className={callout + ' scroll-mt-4'}>
             <strong>$10 per player, per year</strong>
