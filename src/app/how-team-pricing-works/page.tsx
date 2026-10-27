@@ -47,6 +47,16 @@ export default function HowTeamPricingWorksPage() {
           <p>
             When a player joins your team, you apply a slot to their account. That gives them <strong>365 days of free access</strong>.
           </p>
+          <div className={callout}>
+            <strong>To apply a slot to a player</strong>
+            <ol className="mt-2 list-decimal space-y-1 pl-5">
+              <li>Go to your team.</li>
+              <li>Click Coach Tools.</li>
+              <li>Click Upgrade Players.</li>
+              <li>Find the player and click Upgrade.</li>
+              <li>Click Yes, upgrade.</li>
+            </ol>
+          </div>
           <p>
             Questions? Email <a href="mailto:megan@anytime-soccer.com" className="font-bold text-[#DC373E] no-underline">megan@anytime-soccer.com</a>
           </p>
