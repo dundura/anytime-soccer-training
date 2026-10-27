@@ -28,7 +28,7 @@ export default function HowTeamPricingWorksPage() {
             ))}
           </div>
           <p>
-            You pay the invoice, we apply the slots to your account, and you grant 365 days of access to your players as they join your team. Parents never provide payment information.
+            Welcome to Anytime Soccer Training. This is how our pricing and onboarding works. You pay the invoice, we apply the slots to your account, and you grant 365 days of access to your players as they join your team. Parents never provide payment information.
           </p>
           <div id="price" className={callout + ' scroll-mt-4'}>
             <strong>$10 per player, per year</strong>
