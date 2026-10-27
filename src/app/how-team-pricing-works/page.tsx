@@ -18,7 +18,7 @@ export default function HowTeamPricingWorksPage() {
         </div>
         <div className="flex flex-col gap-4 rounded-b-2xl border-t-[5px] border-[#F97316] bg-white px-9 py-7 text-base leading-relaxed text-[#334155]">
           <p>
-            Welcome to Anytime Soccer Training. Once your invoice is paid, we add the slots to your account, and you grant each player 365 days of access as they join your team.
+            Welcome to Anytime Soccer Training. The minimum purchase is 10 slots. If the minimum was waived, pay the invoice you received. Once your invoice is paid, we add the slots to your account, and you grant each player 365 days of access as they join your team.
           </p>
           <div id="price" className={callout + ' scroll-mt-4'}>
             <strong>$10 per player, per year</strong>
