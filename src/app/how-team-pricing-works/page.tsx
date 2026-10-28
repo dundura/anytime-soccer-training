@@ -60,7 +60,7 @@ export default function HowTeamPricingWorksPage() {
                 <li>After paying, we send you a link that you can share with families to join your team.</li>
                 <li>Share the link so your players join your team.</li>
                 <li>We add the slots to your team.</li>
-                <li>You apply the free slots to your players when they join your team.</li>
+                <li>You apply the slots to your players when they join your team.</li>
               </ol>
               <p className="mt-3">
                 The minimum purchase is 10 slots. <strong>Add more only as players join.</strong>
