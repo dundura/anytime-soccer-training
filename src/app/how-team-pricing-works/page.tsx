@@ -57,8 +57,9 @@ export default function HowTeamPricingWorksPage() {
             <div className={callout + ' m-4'}>
               <ol className="list-decimal space-y-1 pl-5">
                 <li>We send you an invoice.*</li>
+                <li>Once you pay the invoice, we send you a link that you can share with families.</li>
                 <li>We add the slots to your team.</li>
-                <li>Once you pay the first invoice, we send you a link that you can share with families.</li>
+                <li>Share the link so your players join your team.</li>
               </ol>
               <p className="mt-3">
                 The minimum purchase is 10 slots. <strong>Add more only as players join.</strong>
