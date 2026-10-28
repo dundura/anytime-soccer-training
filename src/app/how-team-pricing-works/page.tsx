@@ -57,7 +57,6 @@ export default function HowTeamPricingWorksPage() {
             <div className={callout + ' m-4'}>
               <ol className="list-decimal space-y-1 pl-5">
                 <li>We send you an invoice.*</li>
-                <li>You pay it once, in advance, for the year.</li>
                 <li>We add the slots to your team.</li>
                 <li>Once you pay the first invoice, we send you a link that you can share with families.</li>
               </ol>
