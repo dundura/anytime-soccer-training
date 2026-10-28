@@ -134,6 +134,8 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   // Which stages have their table of leads showing.
   const [leadsOpen, setLeadsOpen] = useState<Record<string, boolean>>({});
   const [startedStage, setStartedStage] = useState('');
+  // The Started list shows grouped under its stages, or as one flat list.
+  const [startedView, setStartedView] = useState<'stage' | 'flat'>('stage');
   const topOf = (groupName: string) => { const p = PARENTS.find((x) => x.subs.includes(groupName)); return p ? p.name : groupName; };
   const stageOfPerson = (l: Lead) => {
     const at = positionOf(l);
@@ -1077,40 +1079,63 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                   return <option key={st.name} value={st.name}>{shown(st.name)} ({n})</option>;
                 })}
               </select>
+              <span className="shrink-0 flex gap-1">
+                {([['stage', 'By stage'], ['flat', 'Flat']] as const).map(([k, label]) => (
+                  <button key={k} type="button" onClick={() => setStartedView(k)} className={`px-2.5 py-1 rounded-full text-[11px] font-bold border ${startedView === k ? 'bg-navy text-white border-navy' : 'bg-white text-navy border-gray-300'}`}>{label}</button>
+                ))}
+              </span>
               <span className="text-[11px] font-normal text-gray-400">{[...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).length} contacts</span>
               <button type="button" onClick={() => setStagePop(null)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold">Show all</button>
             </div>
             {visible.length - notStarted.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No one has been moved into the sequence yet.</p>}
-            {[...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).map((l, i) => {
-              const at = positionOf(l);
-              const stage = at >= 0 ? groups.find((g) => g.items.some((e) => e.key === flat[at].key)) : null;
-              return (
-                <div key={l.id} className={`flex items-center ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
-                <button
-                  type="button"
-                  onClick={() => setDetailId(l.id)}
-                  className="flex flex-1 min-w-0 items-center gap-3 text-left px-4 py-2.5 text-[13px] font-normal text-navy"
-                >
-                  <span className="flex-1 min-w-0">
-                    <span className="block truncate">{contactName(l)}</span>
-                    <span className="block truncate text-[10px] text-gray-500">{l.name}</span>
-                  </span>
-                  <span
-                    role="link"
-                    onClick={(ev) => { const target = at >= 0 && stage ? stage.name : waitingOf(l); if (target) { ev.stopPropagation(); jumpTo(target); } }}
-                    className={`shrink-0 max-w-[55%] text-right text-[11px] font-semibold underline decoration-dotted underline-offset-2 ${at >= 0 ? 'text-red' : 'text-gray-500'}`}
+            {(() => {
+              const people = [...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage);
+              const renderPerson = (l: Lead, i: number) => {
+                const at = positionOf(l);
+                const stage = at >= 0 ? groups.find((g) => g.items.some((e) => e.key === flat[at].key)) : null;
+                return (
+                  <div key={l.id} className={`flex items-center ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
+                  <button
+                    type="button"
+                    onClick={() => setDetailId(l.id)}
+                    className="flex flex-1 min-w-0 items-center gap-3 text-left px-4 py-2.5 text-[13px] font-normal text-navy"
                   >
-                    {at >= 0 && stage ? shown(stage.name) + ' · ' + flat[at].label : (waitingOf(l) ? shown(waitingOf(l) as string) + ' · waiting' : 'Waiting for placement')}
+                    <span className="flex-1 min-w-0">
+                      <span className="block truncate">{contactName(l)}</span>
+                      <span className="block truncate text-[10px] text-gray-500">{l.name}</span>
+                    </span>
+                    <span
+                      role="link"
+                      onClick={(ev) => { const target = at >= 0 && stage ? stage.name : waitingOf(l); if (target) { ev.stopPropagation(); jumpTo(target); } }}
+                      className={`shrink-0 max-w-[55%] text-right text-[11px] font-semibold underline decoration-dotted underline-offset-2 ${at >= 0 ? 'text-red' : 'text-gray-500'}`}
+                    >
+                      {at >= 0 && stage ? shown(stage.name) + ' · ' + flat[at].label : (waitingOf(l) ? shown(waitingOf(l) as string) + ' · waiting' : 'Waiting for placement')}
+                    </span>
+                  </button>
+                  <span className="shrink-0 mr-3 flex gap-1.5">
+                    <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
+                    <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
+                    {deleteBtn(l)}
                   </span>
-                </button>
-                <span className="shrink-0 mr-3 flex gap-1.5">
-                  <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
-                  <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
-                  {deleteBtn(l)}
-                </span>
-                </div>
-              );
-            })}
+                  </div>
+                );
+              };
+              if (startedView === 'flat') return people.map(renderPerson);
+              const order = [...stages.map((st) => st.name), ''];
+              return order.map((name) => {
+                const here = people.filter((l) => topOf(stageOfPerson(l) || '') === name);
+                if (!here.length) return null;
+                return (
+                  <div key={name || 'none'}>
+                    <div className="flex items-center gap-2 px-4 py-1.5 bg-navy text-white text-[11px] font-bold uppercase tracking-wide">
+                      <span className="flex-1">{name ? shown(name) : 'Waiting for placement'}</span>
+                      <span className="font-normal opacity-80">{here.length}</span>
+                    </div>
+                    {here.map(renderPerson)}
+                  </div>
+                );
+              });
+            })()}
           </div>
         )}
         {focus === NOT_STARTED && (
