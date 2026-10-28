@@ -66,7 +66,7 @@ export default function HowTeamPricingWorksPage() {
                 The minimum purchase is 10 slots. <strong>Add more only as players join.</strong>
               </p>
               <p className="mt-3 text-sm">
-                *Initial slots can also be purchased inside the app, skipping the invoice.
+                *Initial slots can also be purchased inside the app, skipping the invoice. (Minimum team slots 10 players).
               </p>
             </div>
           </details>
