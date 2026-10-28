@@ -274,6 +274,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
       // Pricing details (auto) is next to last in Client Contacts Us, and Demo, or info for your child? closes it.
       if (g === 'Getting the demo booked' && !saved.has('pricing')) list.sort((x, y) => Number(x.key === 'pricing') - Number(y.key === 'pricing'));
       if (g === 'Getting the demo booked' && !saved.has('which_are_you')) list.sort((x, y) => Number(x.key === 'which_are_you') - Number(y.key === 'which_are_you'));
+      if (g === 'Getting the demo booked' && !saved.has('still_interested_demo')) list.sort((x, y) => Number(x.key === 'still_interested_demo') - Number(y.key === 'still_interested_demo'));
       if (g === 'Sending Roster Template') list.sort((x, y) => Number(y.key === 'afterDemo') - Number(x.key === 'afterDemo'));
     });
     // First Follow-up has no emails yet, but it still shows so one can be moved into it.
