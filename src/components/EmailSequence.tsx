@@ -163,7 +163,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   // In the Move popup, which stage is open. undefined = the one the person is in; the rest start collapsed.
   const [popOpen, setPopOpen] = useState<string | null | undefined>(undefined);
   const [stagePop, setStagePopState] = useState<string | null>(() => {
-    try { return localStorage.getItem('seqStagePop') || null; } catch { return null; }
+    try { const v = localStorage.getItem('seqStagePop') || null; return mode === 'leads' && v === '__not_started' ? null : v; } catch { return null; }
   });
   const setStagePop = (v: string | null) => {
     setStagePopState(v);
@@ -339,7 +339,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
     return out;
   }, [groups]);
   const rawFocus = stagePop === NOT_STARTED || stagePop === PEOPLE ? stagePop : (stagePop && (groups.some((g) => g.name === stagePop) || stages.some((st) => st.name === stagePop)) ? stagePop : null);
-  const focus = mode === 'leads' ? (rawFocus === PEOPLE ? PEOPLE : NOT_STARTED) : (rawFocus === NOT_STARTED || rawFocus === PEOPLE ? null : rawFocus);
+  const focus = mode === 'leads' ? (rawFocus === NOT_STARTED ? NOT_STARTED : PEOPLE) : (rawFocus === NOT_STARTED || rawFocus === PEOPLE ? null : rawFocus);
   // One stage at a time keeps the page quiet: a sequence opens on its first stage, the menu picks the others.
   useEffect(() => {
     if (mode !== 'sequence' || focus || !stages.length) return;
