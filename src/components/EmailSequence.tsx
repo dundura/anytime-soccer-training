@@ -136,6 +136,15 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   const [startedStage, setStartedStage] = useState('');
   // The Started list shows grouped under its stages, or as one flat list.
   const [startedView, setStartedView] = useState<'stage' | 'flat'>('stage');
+  // Stage headings in the By stage list fold shut; the folded ones are remembered.
+  const [foldedStages, setFoldedStagesState] = useState<Record<string, boolean>>(() => {
+    try { return JSON.parse(localStorage.getItem('seqFoldedStages') || '{}') || {}; } catch { return {}; }
+  });
+  const toggleStageFold = (k: string) => setFoldedStagesState((o) => {
+    const n = { ...o, [k]: !o[k] };
+    try { localStorage.setItem('seqFoldedStages', JSON.stringify(n)); } catch { /* storage unavailable */ }
+    return n;
+  });
   const topOf = (groupName: string) => { const p = PARENTS.find((x) => x.subs.includes(groupName)); return p ? p.name : groupName; };
   const stageOfPerson = (l: Lead) => {
     const at = positionOf(l);
@@ -1127,11 +1136,12 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                 if (!here.length) return null;
                 return (
                   <div key={name || 'none'}>
-                    <div className="flex items-center gap-2 px-4 py-1.5 bg-navy text-white text-[11px] font-bold uppercase tracking-wide">
+                    <button type="button" onClick={() => toggleStageFold(name || 'none')} className="flex w-full items-center gap-2 px-4 py-1.5 bg-navy text-white text-[11px] font-bold uppercase tracking-wide text-left">
                       <span className="flex-1">{name ? shown(name) : 'Waiting for placement'}</span>
                       <span className="font-normal opacity-80">{here.length}</span>
-                    </div>
-                    {here.map(renderPerson)}
+                      <span aria-hidden="true">{foldedStages[name || 'none'] ? '▸' : '▾'}</span>
+                    </button>
+                    {!foldedStages[name || 'none'] && here.map(renderPerson)}
                   </div>
                 );
               });
