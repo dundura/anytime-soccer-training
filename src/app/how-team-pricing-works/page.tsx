@@ -58,8 +58,8 @@ export default function HowTeamPricingWorksPage() {
               <ol className="list-decimal space-y-1 pl-5">
                 <li>We send you an invoice.*</li>
                 <li>After paying, we send you a link that you can share with families to join your team.</li>
-                <li>Share the link so your players join your team.</li>
                 <li>We add the slots to your team.</li>
+                <li>Share the link so your players join your team.</li>
                 <li>You apply the slots to your players when they join your team.</li>
               </ol>
               <p className="mt-3 text-sm">
