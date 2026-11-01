@@ -13,7 +13,7 @@ import type { ReactNode } from 'react';
 const API = 'https://api.anytime-soccer.com';
 
 type Email = { key: string; label: string; group: string; auto: boolean; onboarding: boolean };
-type Lead = { id: number; name: string | null; email: string | null; organization: string | null; stage: string; seqHiddenAt: string | null; sent: string[] };
+type Lead = { id: number; name: string | null; email: string | null; organization: string | null; stage: string; seqHiddenAt: string | null; notes?: string | null; sent: string[] };
 type LayoutRow = { emailKey: string; groupName: string | null; sortOrder: number; deleted: number };
 
 // The group names the server uses, shown the way the lead drawer shows them, in the order the sequence runs.
@@ -213,6 +213,11 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   // The email whose contacts are showing in the Open popup.
   const [openEmail, setOpenEmail] = useState<Email | null>(null);
   // The move popup: first pick the person, then pick where to put them.
+  const [notesFor, setNotesFor] = useState<Lead | null>(null);
+  // A small note symbol next to the name of a contact who has notes; it opens them in a popup.
+  const noteIcon = (l: Lead) => (l.notes && l.notes.trim() ? (
+    <span role="button" tabIndex={0} title="Notes" aria-label="Notes" onClick={(ev) => { ev.stopPropagation(); setNotesFor(l); }} onKeyDown={(ev) => { if (ev.key === 'Enter') { ev.stopPropagation(); setNotesFor(l); } }} className="ml-1.5 cursor-pointer text-[12px] align-middle">{'📝'}</span>
+  ) : null);
   const [pop, setPop] = useState<{ lead: Lead | null; search: string; only?: boolean } | null>(null);
 
   const headers = useCallback(
@@ -576,7 +581,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
             return (
               <div key={l.id} className={`flex items-center gap-2 px-4 py-2 ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
                 <button type="button" onClick={() => setDetailId(l.id)} className="flex-1 min-w-0 text-left">
-                  <span className="block truncate text-[13px] font-semibold text-navy">{contactName(l)}</span>
+                  <span className="block truncate text-[13px] font-semibold text-navy">{contactName(l)}{noteIcon(l)}</span>
                   <span className="block truncate text-[10px] text-gray-500">{l.name}</span>
                 </button>
                 <span className="shrink-0 max-w-[45%] truncate text-right text-[11px] font-semibold text-red">{shown(g)}{at >= 0 ? ' · ' + flat[at].label : ' · waiting'}</span>
@@ -761,7 +766,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
             {visible.filter((l) => waitingOf(l) === g.name).map((l) => (
               <div key={l.id} className="flex items-center gap-2 px-4 py-2 bg-red/10">
                 <span className="flex-1 min-w-0 text-[13px] font-semibold text-navy">
-                  <span className="block truncate">{contactName(l)}</span>
+                  <span className="block truncate">{contactName(l)}{noteIcon(l)}</span>
                   <span className="block truncate text-[10px] font-normal text-gray-500">{[l.name, l.email].filter(Boolean).join(' · ')}</span>
                 </span>
                 <span className="shrink-0 text-[10px] font-bold uppercase tracking-wide text-red">Waiting for placement</span>
@@ -1027,6 +1032,15 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
       </div>
 
 
+      {notesFor && (
+        <div onClick={() => setNotesFor(null)} className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+          <div onClick={(ev) => ev.stopPropagation()} className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl">
+            <div className="text-sm font-bold text-navy mb-2">{contactName(notesFor)}</div>
+            <p className="whitespace-pre-wrap break-words text-[13px] text-gray-700 max-h-[50vh] overflow-y-auto">{notesFor.notes}</p>
+            <button type="button" onClick={() => setNotesFor(null)} className="mt-4 w-full px-3 py-2 rounded-lg bg-navy text-white text-xs font-bold">Close</button>
+          </div>
+        </div>
+      )}
       {note && <div className="mb-3 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">{note}</div>}
       {error && <div className="mb-3 px-3 py-2 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-semibold">{error}</div>}
 
@@ -1112,7 +1126,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                     className="flex flex-1 min-w-0 items-center gap-3 text-left px-4 py-2.5 text-[13px] font-normal text-navy"
                   >
                     <span className="flex-1 min-w-0">
-                      <span className="block truncate">{contactName(l)}</span>
+                      <span className="block truncate">{contactName(l)}{noteIcon(l)}</span>
                       <span className="block truncate text-[10px] text-gray-500">{l.name}</span>
                     </span>
                     <span
@@ -1165,7 +1179,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                   onClick={() => setDetailId(l.id)}
                   className="flex-1 min-w-0 block text-left px-4 py-2.5 text-[13px] font-normal text-navy"
                 >
-                  {contactName(l)}
+                  {contactName(l)}{noteIcon(l)}
                   <span className="block truncate text-[10px] text-gray-500">{l.name}</span>
                 </button>
                 <span className="shrink-0 mr-3 flex gap-1.5">
