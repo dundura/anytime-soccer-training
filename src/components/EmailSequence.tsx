@@ -491,16 +491,16 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
     call(`/leads/${l.id}/seq-hide`, { hidden: hide }, hide ? 'Hidden from this page' : 'Added back');
 
   // Deleting is for good, so the first tap only asks; the second one does it.
-  const [delAsk, setDelAsk] = useState<number | null>(null);
+  const [delAsk, setDelAsk] = useState<Lead | null>(null);
   const deleteContact = (l: Lead) => { setPop(null); return call(`/leads/${l.id}/seq-delete`, {}, 'Deleted'); };
   const deleteBtn = (l: Lead, cls = '') => (
     <button
       type="button"
       disabled={busy}
-      onClick={(ev) => { ev.stopPropagation(); if (delAsk === l.id) { setDelAsk(null); deleteContact(l); } else setDelAsk(l.id); }}
-      className={`shrink-0 px-2.5 py-1 rounded-lg border border-red text-[11px] font-bold disabled:opacity-50 ${delAsk === l.id ? 'bg-red text-white' : 'bg-white text-red'} ${cls}`}
+      onClick={(ev) => { ev.stopPropagation(); setDelAsk(l); }}
+      className={`shrink-0 px-2.5 py-1 rounded-lg border border-red text-[11px] font-bold disabled:opacity-50 bg-white text-red ${cls}`}
     >
-      {delAsk === l.id ? 'Delete for good?' : 'Delete'}
+      Delete
     </button>
   );
 
@@ -1032,6 +1032,18 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
       </div>
 
 
+      {delAsk && (
+        <div onClick={() => setDelAsk(null)} className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+          <div onClick={(ev) => ev.stopPropagation()} className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl">
+            <div className="text-sm font-bold text-navy mb-1">Delete {contactName(delAsk)}?</div>
+            <p className="text-[13px] text-gray-600 mb-4">This removes the contact and their history for good. It cannot be undone.</p>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setDelAsk(null)} className="flex-1 px-3 py-2 rounded-lg border border-gray-300 bg-white text-navy text-xs font-bold">Cancel</button>
+              <button type="button" disabled={busy} onClick={() => { const l = delAsk; setDelAsk(null); deleteContact(l); }} className="flex-1 px-3 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50">Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
       {notesFor && (
         <div onClick={() => setNotesFor(null)} className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
           <div onClick={(ev) => ev.stopPropagation()} className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl">
