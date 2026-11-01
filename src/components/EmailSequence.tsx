@@ -136,12 +136,12 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   const [startedStage, setStartedStage] = useState('');
   // The Started list shows grouped under its stages, or as one flat list.
   const [startedView, setStartedView] = useState<'stage' | 'flat'>('stage');
-  // Stage headings in the By stage list fold shut; the folded ones are remembered.
+  // Stage headings in the By stage list start folded shut; only a heading opened on purpose (false) is remembered as open.
   const [foldedStages, setFoldedStagesState] = useState<Record<string, boolean>>(() => {
     try { return JSON.parse(localStorage.getItem('seqFoldedStages') || '{}') || {}; } catch { return {}; }
   });
   const toggleStageFold = (k: string) => setFoldedStagesState((o) => {
-    const n = { ...o, [k]: !o[k] };
+    const n = { ...o, [k]: o[k] === false };
     try { localStorage.setItem('seqFoldedStages', JSON.stringify(n)); } catch { /* storage unavailable */ }
     return n;
   });
@@ -1155,9 +1155,9 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                     <button type="button" onClick={() => toggleStageFold(name || 'none')} className="flex w-full items-center gap-2 px-4 py-1.5 bg-navy text-white text-[11px] font-bold uppercase tracking-wide text-left">
                       <span className="flex-1">{name ? shown(name) : 'Waiting for placement'}</span>
                       <span className="font-normal opacity-80">{here.length}</span>
-                      <span aria-hidden="true">{foldedStages[name || 'none'] ? '▸' : '▾'}</span>
+                      <span aria-hidden="true">{foldedStages[name || 'none'] !== false ? '▸' : '▾'}</span>
                     </button>
-                    {!foldedStages[name || 'none'] && here.map(renderPerson)}
+                    {foldedStages[name || 'none'] === false && here.map(renderPerson)}
                   </div>
                 );
               });
