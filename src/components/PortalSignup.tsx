@@ -235,7 +235,6 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
       {mode === 'existing' && (
         <div>
           <p className="text-navy text-lg font-extrabold mb-1">Add your team</p>
-          <p className="text-gray-600 text-sm mb-3">Use the email and password you sign in to the app with.</p>
           <label className={label}>Email</label>
           <input className={input} type="email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" />
           <div className="mt-3"><label className={label}>App password</label><input className={input} type="password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password" /></div>
