@@ -175,7 +175,6 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
 
       {mode === 'new' && (
         <div>
-          <p className="text-navy text-lg font-extrabold mb-3">Create your account</p>
           <div className="grid sm:grid-cols-2 gap-3">
             <div><label className={label}>First name</label><input className={input} value={first} onChange={e => setFirst(e.target.value)} autoComplete="given-name" /></div>
             <div><label className={label}>Last name</label><input className={input} value={last} onChange={e => setLast(e.target.value)} autoComplete="family-name" /></div>
