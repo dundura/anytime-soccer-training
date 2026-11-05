@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useRef, useState } from 'react';
 import SendRosterForm from '@/components/SendRosterForm';
+import PortalSignup from '@/components/PortalSignup';
 import { COACH_ONBOARDING_STEPS } from '@/data/coachOnboardingSteps';
 import { DIRECTOR_ONBOARDING_STEPS } from '@/data/directorOnboardingSteps';
 import CoachStepContent from '@/components/CoachStepContent';
@@ -1508,6 +1509,9 @@ export default function OnboardingPortal() {
 
                 {/* Full step instructions */}
                 <div ref={contentRef}>
+                {step.key === 'account' && !stepDone && (
+                  <PortalSignup defaults={{ name: coach?.name || '', email: coach?.email || '', teamName: coach?.teamName || '' }} />
+                )}
                 {/* The roster step IS the roster form. It used to describe the
                     form and link out to it, which meant leaving the portal --
                     and the rail with it -- for the one step everything else
