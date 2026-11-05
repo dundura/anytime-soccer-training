@@ -16,22 +16,15 @@ function saveState(step: number, form: Record<string, string>, selected: string[
   try { sessionStorage.setItem(SESSION_KEY, JSON.stringify({ step, form, selected })); } catch {}
 }
 
-// Ten actions, ten points each. It was eleven, with Assign Homework and Team
-// Bingo splitting ten between them; Team Bingo is not something we run any
-// more, so its points went back where they came from. The even split is worth
-// keeping — an action worth half of another needs explaining, and the page
-// never explained it.
+// Four actions, 25 points each, so the score still tops out at 100. It was ten at ten points each; the
+// player goals, team level goal, recognition and MVP items were dropped, and the coach's challenge,
+// personal challenge and team contest became one. The even split is worth keeping -- an action worth
+// half of another needs explaining, and the page never explained it.
 const TASKS = [
-  { id: 'assign-homework', label: 'Assign Homework', desc: 'Assign homework folders and/or assign a recurring training plan', points: 10 },
-  { id: 'send-email', label: 'Send Email Reminder', desc: 'Send emails from the new player dashboard', points: 10 },
-  { id: 'demo-app', label: 'Demo App In-Person', desc: 'Walk through the app with your team at practice', points: 10 },
-  { id: 'set-goals', label: 'Set Player Goals', desc: 'Give each player a personal training target', points: 10 },
-  { id: 'coach-challenge', label: "Create Coach's Challenge", desc: 'Set a team-wide challenge for extra motivation', points: 10 },
-  { id: 'personal-challenge', label: 'Create a Personal Challenge', desc: 'Set individual challenges for specific players', points: 10 },
-  { id: 'team-contest', label: 'Create a Team Contest', desc: 'Run a leaderboard-based competition', points: 10 },
-  { id: 'team-goal', label: 'Set Team Level Goal', desc: 'Set a collective goal for the whole squad', points: 10 },
-  { id: 'recognition', label: 'Give Player Recognition in Practice', desc: 'Highlight player achievements on the field', points: 10 },
-  { id: 'mvp', label: 'Nominate an MVP', desc: 'Recognize your most improved or dedicated player inside the app', points: 10 },
+  { id: 'assign-homework', label: 'Assign Homework', desc: 'Assign homework folders and/or assign a recurring training plan', points: 25 },
+  { id: 'send-email', label: 'Send Email Reminder', desc: 'Send emails from the new player dashboard', points: 25 },
+  { id: 'demo-app', label: 'Demo App In-Person', desc: 'Walk through the app with your team at practice', points: 25 },
+  { id: 'challenge-or-contest', label: 'Create a Challenge or Team Contest', desc: 'Set a team-wide or personal challenge, or run a leaderboard-based competition', points: 25 },
 ];
 
 const TOTAL_TASKS = TASKS.length;
@@ -111,7 +104,7 @@ export default function EngagementPredictor({ embedded = false, prefill, onCompl
     };
   });
   const [selected, setSelected] = useState<Set<string>>(() => {
-    const s = loadState(); return new Set(s?.selected || []);
+    const s = loadState(); return new Set((s?.selected || []).filter((id: string) => TASKS.some(t => t.id === id)));
   });
   const [step, setStep] = useState(() => {
     const s = loadState(); return s?.step || 1;
@@ -248,7 +241,7 @@ export default function EngagementPredictor({ embedded = false, prefill, onCompl
               <div style={{ background: '#dbeafe', borderRadius: 16, padding: 24, marginBottom: 16 }}>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: '#1d4ed8', marginBottom: 8 }}>Why This Matters</div>
                 <p style={{ margin: '0 0 12px', fontSize: 14, color: '#1e3a5f', lineHeight: 1.7 }}>
-                  We've studied what actually drives participation and distilled it down to these 10 tasks.
+                  We've studied what actually drives participation and distilled it down to these 4 tasks.
                 </p>
                 <p style={{ margin: 0, fontSize: 14, color: '#1e3a5f', lineHeight: 1.7 }}>
                   Our goal is to understand your expectations going in, and then make sure you're fully equipped to execute on each one.
