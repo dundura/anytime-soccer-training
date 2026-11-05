@@ -939,6 +939,34 @@ export default function OnboardingPortal() {
       const hasNext = rows.some(r => r.st.key === nextKey);
       const open = shownOpen === group.title;
 
+      // A stage with one step is just that step: a plain row that goes straight to it, not a dropdown holding one item.
+      if (!group.reference && rows.length === 1) {
+        const only = rows[0];
+        const lockedOne = isLocked(only.st.key);
+        const hereOne = !lockedOne && wizardIndex === only.i && !showIntro && !showAdmin && !showFaq && !showIndexInfo;
+        const inner = (
+          <>
+            <span className={`flex-1 text-[13px] font-extrabold leading-snug ${lockedOne ? 'text-gray-400' : hereOne ? 'text-red' : 'text-navy'}`}>{group.title}</span>
+            {complete && <span className="flex-shrink-0 text-xs font-bold text-green-600">&#10003;</span>}
+            {!complete && lockedOne && <span className="flex-shrink-0 text-[11px]">🔒</span>}
+            {!complete && !lockedOne && hasNext && (
+              <span className="flex-shrink-0 rounded-full bg-red px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wide text-white">
+                Now
+              </span>
+            )}
+          </>
+        );
+        return (
+          <div key={group.title} className="border-b border-blue-100 last:border-0">
+            {lockedOne ? (
+              <span title="Finish the step above first" className="flex w-full cursor-not-allowed items-center gap-2 bg-blue-50 px-3 py-2.5 text-left">{inner}</span>
+            ) : (
+              <a href={WORKFLOW_LINKS[only.st.key] || `/onboarding-portal?step=${only.i + 1}`} className="flex w-full items-center gap-2 bg-blue-50 px-3 py-2.5 text-left transition-colors hover:bg-blue-100">{inner}</a>
+            )}
+          </div>
+        );
+      }
+
       return (
         <div key={group.title} className="border-b border-blue-100 last:border-0">
           <button
