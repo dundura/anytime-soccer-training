@@ -157,7 +157,7 @@ export const COACH_ONBOARDING_STEPS: CoachOnboardingStep[] = [
     // something that happens to them for pressing Next.
     title: 'Notify Parents',
     body: `
-      <p>Send yourself the welcome note to pass on to your parents &mdash; in <strong>English and Spanish</strong>, as Word files you can edit before sending.</p>
+      <p>Send yourself the welcome note to pass on to your parents &mdash; in <strong>English and Spanish</strong>.</p>
     `,
   },
   {
