@@ -48,10 +48,6 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   // have actually done, so "ready to start" is something the portal records
   // rather than a reply sitting in Megan's inbox.
   { key: 'ready_check', title: 'Confirm what you have done', dataIndex: -1, section: 'FAQs',
-    checks: { prompt: 'Tick each one you have completed:', items: [
-      'I created my account and team',
-      'I notified the parents',
-    ] },
     // The choice is a radio, not a fourth checkbox: "ready now" and "ready
     // later" are mutually exclusive, and this answer is what tells us whether
     // to start inviting parents.
