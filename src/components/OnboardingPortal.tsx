@@ -38,7 +38,6 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   // the roster, so it is step 1 in the wizard as well as on the rail.
   { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
   { key: 'invoice', title: 'Pay your invoice', dataIndex: -1, section: 'Pre-Onboarding', quiz: { prompt: '', options: ['I paid the invoice', 'I will purchase slots inside the app (after onboarding steps complete)', 'My club paid the invoice'] } },
-  { key: 'onboarding_begins', title: 'Onboarding begins!', dataIndex: 11, section: 'Onboarding', info: true },
   // Phase two. It asks how a coach will run their season, which is not a
   // question for somebody who has not yet paid for one.
   { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Onboarding', info: true, quiz: { prompt: 'Which best describes your expectations for your team?', options: ['Training outside practice is an expectation I’ve set — I’m aiming for 75%+ engagement, and if it’s slow I’ll use the competition features to boost it.', 'My team is motivated. It’s optional, but I’m excited to see how they respond, and I’ll do some of the competition features.', 'Optional — if they train, great; if not, no pressure.'] } },
@@ -118,7 +117,7 @@ const isOptional = (s: PortalStep) => !!s.bonus || REFERENCE_KEYS.includes(s.key
 const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean; sub?: { title: string; keys: string[] }[] }[] = [
   { title: 'Send us your roster', keys: ['roster'] },
   { title: 'Pay your invoice', keys: ['invoice'] },
-  { title: 'Set your team up', keys: ['onboarding_begins', 'expectations', 'survey', 'account', 'add_profiles', 'team', 'seasons'] },
+  { title: 'Set your team up', keys: ['expectations', 'survey', 'account', 'add_profiles', 'team', 'seasons'] },
   { title: 'Tell the parents', keys: ['intro_email'] },
   { title: 'Get them training', keys: ['commit_contest', 'commit_goals', 'commit_demo'] },
   { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
