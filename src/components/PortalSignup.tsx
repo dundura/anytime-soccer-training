@@ -42,7 +42,7 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
   const [email, setEmail] = useState(defaults?.email || '');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
-  const [teamName, setTeamName] = useState(defaults?.teamName || '');
+  const [teamName, setTeamName] = useState('');
   const [kids, setKids] = useState<Kid[]>([{ screenName: '', gender: 'male' }]);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -222,7 +222,8 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
         <div>
           <p className="text-navy text-lg font-extrabold mb-3">Name your team</p>
           <label className={label}>Team name</label>
-          <input className={input} maxLength={25} value={teamName} onChange={e => setTeamName(e.target.value)} />
+          <input className={input} maxLength={25} placeholder="Enter team name" value={teamName} onChange={e => setTeamName(e.target.value)} />
+          <p className="text-gray-500 text-sm mt-1.5">You can change this later.</p>
           <div ref={widgetRef} className="mt-4" />
           {err}
           <div className="flex gap-3 mt-4">
@@ -239,7 +240,7 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
           <label className={label}>Email</label>
           <input className={input} type="email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" />
           <div className="mt-3"><label className={label}>App password</label><input className={input} type="password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password" /></div>
-          <div className="mt-3"><label className={label}>Team name</label><input className={input} maxLength={25} value={teamName} onChange={e => setTeamName(e.target.value)} /></div>
+          <div className="mt-3"><label className={label}>Team name</label><input className={input} maxLength={25} placeholder="Enter team name" value={teamName} onChange={e => setTeamName(e.target.value)} /></div>
           {err}
           <div className="flex gap-3 mt-4">
             <button type="button" className={grayBtn} onClick={() => { setError(''); setMode('choose'); }}>Back</button>
