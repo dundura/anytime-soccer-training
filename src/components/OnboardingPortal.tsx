@@ -44,9 +44,6 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'survey', title: 'Take the Coaching Engagement Survey', dataIndex: 3, section: 'Onboarding' },
   { key: 'account', title: 'Create account & team', dataIndex: 4, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my account and team'] } },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
-  { key: 'commit_contest', title: '1. Start a team contest', dataIndex: -1, faqIndex: 25, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to start a team contest.', options: ['Yes', 'No'] } },
-  { key: 'commit_goals', title: '2. Set personal player challenges', dataIndex: -1, faqIndex: 26, section: 'FAQs', tip: true, quiz: { prompt: 'I plan set personal challenges.', options: ['Yes', 'No'] } },
-  { key: 'commit_demo', title: '3. Show the app at training', dataIndex: -1, faqIndex: 27, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to discuss the app at training.', options: ['Yes', 'No'] } },
   // Sits immediately before Confirm & Finish: the coach ticks off what they
   // have actually done, so "ready to start" is something the portal records
   // rather than a reply sitting in Megan's inbox.
@@ -115,7 +112,6 @@ const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean; sub
   { title: 'Pay your invoice', keys: ['invoice'] },
   { title: 'Set your team up', keys: ['expectations', 'survey', 'account'] },
   { title: 'Tell the parents', keys: ['intro_email'] },
-  { title: 'Get them training', keys: ['commit_contest', 'commit_goals', 'commit_demo'] },
   { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
   // Reading, not steps. Nothing waits on these and nothing is locked behind
   // them, so they sit at the bottom out of the run.
