@@ -15,7 +15,7 @@ import { useEffect, useRef, useState } from 'react';
  */
 
 const API = 'https://api.anytime-soccer.com';
-const TURNSTILE_SITE_KEY = '0x4AAAAACWJIblAcovDErSK';
+const TURNSTILE_SITE_KEY = '0x4AAAAAACWJIblAcovDErSK';
 
 declare global {
   interface Window {
