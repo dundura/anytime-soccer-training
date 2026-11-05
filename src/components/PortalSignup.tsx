@@ -163,10 +163,8 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
     <div className="mb-6 bg-blue-50 border border-blue-100 rounded-xl px-5 py-5">
       {mode === 'choose' && (
         <div>
-          <p className="text-navy text-lg font-extrabold mb-1">Do you have an Anytime Soccer account?</p>
-          <p className="text-gray-600 text-sm mb-4">Pick the one that fits.</p>
           <div className="flex flex-col sm:flex-row gap-3">
-            <button type="button" className={redBtn} onClick={() => { setError(''); setMode('new'); }}>No, create my account</button>
+            <button type="button" className={redBtn} onClick={() => { setError(''); setMode('new'); }}>Create Account</button>
             <button type="button" className={grayBtn} onClick={() => { setError(''); setMode('existing'); }}>I have an account</button>
           </div>
         </div>
