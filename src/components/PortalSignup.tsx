@@ -220,7 +220,6 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
       {mode === 'team' && (
         <div>
           <p className="text-navy text-lg font-extrabold mb-3">Name your team</p>
-          <label className={label}>Team name</label>
           <input className={input} maxLength={25} placeholder="Enter team name" value={teamName} onChange={e => setTeamName(e.target.value)} />
           <p className="text-gray-500 text-sm mt-1.5">You can change this later.</p>
           <div ref={widgetRef} className="mt-4" />
