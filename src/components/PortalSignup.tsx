@@ -26,7 +26,9 @@ declare global {
   }
 }
 
-type Mode = 'choose' | 'new' | 'team' | 'existing' | 'sent' | 'added';
+type Mode = 'choose' | 'new' | 'kids' | 'team' | 'existing' | 'sent' | 'added';
+type Kid = { screenName: string; gender: 'male' | 'female' };
+const MAX_KIDS = 3; // four profiles per account, and the coach's own is one of them
 
 const input = 'w-full border-2 border-blue-200 focus:border-navy outline-none rounded-lg px-3 py-2.5 text-navy bg-white';
 const label = 'block text-sm font-semibold text-navy mb-1';
@@ -41,6 +43,7 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [teamName, setTeamName] = useState(defaults?.teamName || '');
+  const [kids, setKids] = useState<Kid[]>([{ screenName: '', gender: 'male' }]);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [token, setToken] = useState('');
@@ -89,7 +92,7 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
     if (!/^\S+@\S+\.\S+$/.test(email.trim())) return setError('Enter a valid email address.');
     if (password.length < 6) return setError('Pick a password of at least 6 characters.');
     if (password !== confirm) return setError('The two passwords do not match.');
-    setMode('team');
+    setMode('kids');
   };
 
   const createNew = async () => {
@@ -106,7 +109,7 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: email.trim(), password, parentFirstName: first.trim(), parentLastName: last.trim(),
-          role: 'coach', coachGender: 'male', players: [], teamName: name, turnstileToken: token, fromPortal: true,
+          role: 'coach', coachGender: 'male', players: kids.filter(k => k.screenName.trim()).map(k => ({ screenName: k.screenName.trim(), gender: k.gender })), teamName: name, promoName: '', turnstileToken: token, fromPortal: true,
         }),
       });
       if (r.ok) {
@@ -190,6 +193,31 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
         </div>
       )}
 
+      {mode === 'kids' && (
+        <div>
+          <p className="text-navy text-lg font-extrabold mb-1">Add a profile for your child</p>
+          <p className="text-gray-600 text-sm mb-3">Each child gets their own profile and screen name. You can add more later.</p>
+          {kids.map((k, i) => (
+            <div key={i} className="flex flex-col sm:flex-row gap-2 mb-3">
+              <input className={input} maxLength={30} placeholder="Screen name" value={k.screenName} onChange={e => setKids(ks => ks.map((x, j) => j === i ? { ...x, screenName: e.target.value } : x))} />
+              <div className="flex gap-2 flex-shrink-0">
+                {(['male', 'female'] as const).map(g => (
+                  <button key={g} type="button" onClick={() => setKids(ks => ks.map((x, j) => j === i ? { ...x, gender: g } : x))}
+                    className={`rounded-lg px-4 py-2.5 font-bold border-2 ${k.gender === g ? 'bg-navy text-white border-navy' : 'bg-white text-navy border-blue-200'}`}>{g === 'male' ? 'Boy' : 'Girl'}</button>
+                ))}
+                {kids.length > 1 && <button type="button" className="text-sm font-semibold text-gray-500 px-2" onClick={() => setKids(ks => ks.filter((_, j) => j !== i))}>Remove</button>}
+              </div>
+            </div>
+          ))}
+          {kids.length < MAX_KIDS && <button type="button" className="text-sm font-bold text-navy underline" onClick={() => setKids(ks => [...ks, { screenName: '', gender: 'male' }])}>Add another child</button>}
+          {err}
+          <div className="flex gap-3 mt-4">
+            <button type="button" className={grayBtn} onClick={() => { setError(''); setMode('new'); }}>Back</button>
+            <button type="button" className={redBtn} onClick={() => { setError(''); setMode('team'); }}>{kids.some(k => k.screenName.trim()) ? 'Next' : 'Skip'}</button>
+          </div>
+        </div>
+      )}
+
       {mode === 'team' && (
         <div>
           <p className="text-navy text-lg font-extrabold mb-3">Name your team</p>
@@ -198,7 +226,7 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
           <div ref={widgetRef} className="mt-4" />
           {err}
           <div className="flex gap-3 mt-4">
-            <button type="button" className={grayBtn} onClick={() => { setError(''); setMode('new'); }}>Back</button>
+            <button type="button" className={grayBtn} onClick={() => { setError(''); setMode('kids'); }}>Back</button>
             <button type="button" className={redBtn} disabled={busy} onClick={createNew}>{busy ? 'Creating…' : 'Create my account and team'}</button>
           </div>
         </div>
@@ -223,7 +251,7 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
       {mode === 'sent' && (
         <div>
           <p className="text-navy text-lg font-extrabold mb-1">Check your email</p>
-          <p className="text-gray-700 leading-relaxed">We sent a link to <strong>{email.trim()}</strong>. Open it and click <strong>Verify My Email</strong>. That creates your account and your team <strong>{teamName.trim()}</strong>, then takes you to the app to sign in.</p>
+          <p className="text-gray-700 leading-relaxed">We sent a link to <strong>{email.trim()}</strong>. Open it and click <strong>Verify My Email</strong>. That creates your account, your team <strong>{teamName.trim()}</strong>{kids.some(k => k.screenName.trim()) ? ' and your child\u2019s profile' : ''}, then takes you to the app to sign in.</p>
           <p className="text-gray-600 text-sm mt-2">Nothing yet? Check your spam folder.</p>
           {confirmToken && (resent
             ? <p className="text-sm text-green-700 font-semibold mt-3">Sent again.</p>
