@@ -42,9 +42,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   // question for somebody who has not yet paid for one.
   { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Onboarding', info: true, quiz: { prompt: 'Which best describes your expectations for your team?', options: ['Training outside practice is an expectation I’ve set — I’m aiming for 75%+ engagement, and if it’s slow I’ll use the competition features to boost it.', 'My team is motivated. It’s optional, but I’m excited to see how they respond, and I’ll do some of the competition features.', 'Optional — if they train, great; if not, no pressure.'] } },
   { key: 'survey', title: 'Take the Coaching Engagement Survey', dataIndex: 3, section: 'Onboarding' },
-  { key: 'account', title: 'Create your account', dataIndex: 4, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my account'] } },
-  { key: 'add_profiles', title: 'Add profiles', dataIndex: 21, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I added a profile for myself and my children'] } },
-  { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my team(s) inside the app'] } },
+  { key: 'account', title: 'Create account & team', dataIndex: 4, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my account and team'] } },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
   { key: 'commit_contest', title: '1. Start a team contest', dataIndex: -1, faqIndex: 25, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to start a team contest.', options: ['Yes', 'No'] } },
   { key: 'commit_goals', title: '2. Set personal player challenges', dataIndex: -1, faqIndex: 26, section: 'FAQs', tip: true, quiz: { prompt: 'I plan set personal challenges.', options: ['Yes', 'No'] } },
@@ -54,8 +52,7 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   // rather than a reply sitting in Megan's inbox.
   { key: 'ready_check', title: 'Confirm what you have done', dataIndex: -1, section: 'FAQs',
     checks: { prompt: 'Tick each one you have completed:', items: [
-      'I created my account',
-      'I created my team inside the app',
+      'I created my account and team',
       'I notified the parents',
     ] },
     // The choice is a radio, not a fourth checkbox: "ready now" and "ready
@@ -116,7 +113,7 @@ const isOptional = (s: PortalStep) => !!s.bonus || REFERENCE_KEYS.includes(s.key
 const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean; sub?: { title: string; keys: string[] }[] }[] = [
   { title: 'Send us your roster', keys: ['roster'] },
   { title: 'Pay your invoice', keys: ['invoice'] },
-  { title: 'Set your team up', keys: ['expectations', 'survey', 'account', 'add_profiles', 'team'] },
+  { title: 'Set your team up', keys: ['expectations', 'survey', 'account'] },
   { title: 'Tell the parents', keys: ['intro_email'] },
   { title: 'Get them training', keys: ['commit_contest', 'commit_goals', 'commit_demo'] },
   { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
