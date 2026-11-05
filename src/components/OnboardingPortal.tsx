@@ -1635,7 +1635,7 @@ export default function OnboardingPortal() {
                     })}
                     <p className="text-center text-xs text-gray-500 font-semibold">Step {rosterSection + 1} of {stepSections.length}</p>
                   </div>
-                ) : stepData ? (
+                ) : step.key === 'account' ? null /* the sign-up form above replaces the how-to steps */ : stepData ? (
                   <CoachStepContent step={stepData} hideCta />
                 ) : step.faqIndex != null ? (
                   <div
