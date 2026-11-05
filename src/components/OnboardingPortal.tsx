@@ -45,7 +45,6 @@ const COACH_PORTAL_STEPS: PortalStep[] = [
   { key: 'account', title: 'Create your account', dataIndex: 4, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my account'] } },
   { key: 'add_profiles', title: 'Add profiles', dataIndex: 21, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I added a profile for myself and my children'] } },
   { key: 'team', title: 'Create your team inside the app', dataIndex: 5, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my team(s) inside the app'] } },
-  { key: 'seasons', title: 'Adding and removing players each season', dataIndex: 25, section: 'Onboarding', info: true, ack: { label: 'I understand' } },
   { key: 'intro_email', title: 'Send parents the introduction email', dataIndex: 7, section: 'Onboarding' },
   { key: 'commit_contest', title: '1. Start a team contest', dataIndex: -1, faqIndex: 25, section: 'FAQs', tip: true, quiz: { prompt: 'I plan to start a team contest.', options: ['Yes', 'No'] } },
   { key: 'commit_goals', title: '2. Set personal player challenges', dataIndex: -1, faqIndex: 26, section: 'FAQs', tip: true, quiz: { prompt: 'I plan set personal challenges.', options: ['Yes', 'No'] } },
@@ -117,7 +116,7 @@ const isOptional = (s: PortalStep) => !!s.bonus || REFERENCE_KEYS.includes(s.key
 const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean; sub?: { title: string; keys: string[] }[] }[] = [
   { title: 'Send us your roster', keys: ['roster'] },
   { title: 'Pay your invoice', keys: ['invoice'] },
-  { title: 'Set your team up', keys: ['expectations', 'survey', 'account', 'add_profiles', 'team', 'seasons'] },
+  { title: 'Set your team up', keys: ['expectations', 'survey', 'account', 'add_profiles', 'team'] },
   { title: 'Tell the parents', keys: ['intro_email'] },
   { title: 'Get them training', keys: ['commit_contest', 'commit_goals', 'commit_demo'] },
   { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
