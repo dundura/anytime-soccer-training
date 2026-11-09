@@ -45,15 +45,39 @@ const STAGE_TINT: Record<string, string> = {
 // edited before they go.
 const first = (name: string | null) => String(name || '').trim().split(/\s+/)[0] || 'there';
 const draftReply = (name: string | null) => ({
-  subject: 'Thanks for reaching out',
+  subject: 'Backlink exchange with Anytime Soccer Training',
   body: `Hi ${first(name)},
 
-Thanks for reaching out.
+I'm Megan Chambers, Content Marketing Specialist at Anytime Soccer Training. I noticed your site and thought about a potential backlink exchange.
 
-Neil`,
+Anytime Soccer Training offers 5,000+ training sessions, enabling coaches to assign homework and track each player. With 15k+ monthly visitors, we aim to continue boosting traffic and engagement with relevant content. I believe we're a good fit for a backlink exchange.
+
+Here are a couple of options:
+
+- We can contribute a few sentences and links to an existing post on each other's blogs
+- Write a unique post featured on each other's respective sites, with us writing the post and sending it to you, and vice versa.
+
+Check examples from our blog:
+
+https://www.anytime-soccer.com/blog/4-best-european-youth-soccer-tournaments
+https://www.anytime-soccer.com/blog/7-best-soccer-coaching-apps
+
+Also, in addition to sharing in our newsletter, we also share within our various social media groups, which combine to nearly 100K members.
+
+Our Social Media Assets: [ADD LINK BEFORE SENDING]
+
+Let me know if you are interested. Backlinks can drive traffic and enhance the credibility of our websites.
+
+If you're open to exploring other collaborations, feel free to reply or schedule a call, and we'll get in touch.
+
+Schedule A Call: [ADD LINK BEFORE SENDING]
+
+Best regards,
+Megan Chambers
+Content Marketing Specialist, Anytime Soccer Training`,
 });
 const MANUAL_EMAILS: { key: string; label: string; subject: string; body: (name: string | null) => string }[] = [
-  { key: 'thanks', label: 'Thanks for reaching out', subject: draftReply(null).subject, body: (n) => draftReply(n).body },
+  { key: 'first', label: 'First email: backlink exchange', subject: draftReply(null).subject, body: (n) => draftReply(n).body },
 ];
 
 const ACTIVITY_ICON: Record<string, string> = {
@@ -507,7 +531,7 @@ export default function BacklinkPortal({ token }: { token: string | null }) {
             <div className="px-6 py-5 text-sm text-navy whitespace-pre-wrap break-words">{manualPreview.body}</div>
             <div className="px-5 py-4 border-t border-gray-100 flex justify-end gap-2">
               <button onClick={() => setManualPreview(null)} className="px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">Cancel</button>
-              <button onClick={() => sendManual(current)} disabled={busy === 'manual' || !current.email} className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50">
+              <button onClick={() => sendManual(current)} disabled={busy === 'manual' || !current.email || manualPreview.body.includes('[ADD LINK')} title={manualPreview.body.includes('[ADD LINK') ? 'Replace the [ADD LINK] placeholders first' : ''} className="px-4 py-2 rounded-lg bg-red text-white text-xs font-bold disabled:opacity-50">
                 {busy === 'manual' ? 'Sending…' : 'Send'}
               </button>
             </div>
