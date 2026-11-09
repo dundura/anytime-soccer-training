@@ -20,6 +20,16 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: '/best-youth-soccer-tournaments',
+        destination: '/blog/4-best-european-youth-soccer-tournaments',
+        permanent: true,
+      },
+      {
+        source: '/blog/best-youth-soccer-tournaments',
+        destination: '/blog/4-best-european-youth-soccer-tournaments',
+        permanent: true,
+      },
+      {
         source: '/blog/15-minute-daily-soccer-routine',
         destination: '/blog/the-15-minute-daily-soccer-routine-i-used-to-train-my-sons-rec-to-academy',
         permanent: true,
