@@ -62,14 +62,14 @@ Our blog: https://www.anytime-soccer.com/blog/7-best-soccer-coaching-apps
 And here are our Facebook groups that we share all of our articles with:
 https://www.anytime-soccer.com/social-media-assets
 
-If either of those sounds good to you, just reply and we can pick one and get started. I'm happy to answer any questions along the way.
+Let me know if you are interested, and we can pick one and get started. I'm happy to answer any questions along the way.
 
 Warmly,
 Megan Chambers
 Content Marketing Specialist, Anytime Soccer Training`;
 const draftReply = (name: string | null) => ({
   subject: 'Backlink exchange with Anytime Soccer Training',
-  body: emailBody(name, "Thanks so much for reaching out. I'm Megan Chambers, Content Marketing Specialist at Anytime Soccer Training, and a backlink exchange sounds like a great fit for both of us."),
+  body: emailBody(name, "Thanks for reaching out." + String.fromCharCode(10, 10) + "I'm Megan Chambers, Content Marketing Specialist at Anytime Soccer Training, and a backlink exchange sounds like a great fit for both of us."),
 });
 // When we write to them first: no thanks, and the line about having noticed their site.
 const outreachDraft = (name: string | null) => ({
