@@ -67,8 +67,14 @@ Interested?
 Megan Chambers
 Content Marketing Specialist, Anytime Soccer Training`,
 });
+// When we write to them first: no thanks, and the line about having noticed their site.
+const outreachDraft = (name: string | null) => ({
+  subject: draftReply(null).subject,
+  body: draftReply(name).body.replace('Thanks for reaching out.'+String.fromCharCode(10)+String.fromCharCode(10), '').replace('A backlink exchange sounds good to us.', 'I noticed your site and thought about a potential backlink exchange.'),
+});
 const MANUAL_EMAILS: { key: string; label: string; subject: string; body: (name: string | null) => string }[] = [
-  { key: 'first', label: 'First email: backlink exchange', subject: draftReply(null).subject, body: (n) => draftReply(n).body },
+  { key: 'reply', label: 'They reached out to us: thanks for reaching out', subject: draftReply(null).subject, body: (n) => draftReply(n).body },
+  { key: 'outreach', label: 'We reach out to them: first email', subject: outreachDraft(null).subject, body: (n) => outreachDraft(n).body },
 ];
 
 const ACTIVITY_ICON: Record<string, string> = {
