@@ -48,27 +48,20 @@ const draftReply = (name: string | null) => ({
   subject: 'Backlink exchange with Anytime Soccer Training',
   body: `Hi ${first(name)},
 
-I'm Megan Chambers, Content Marketing Specialist at Anytime Soccer Training. I noticed your site and thought about a potential backlink exchange.
+I'm Megan Chambers, Content Marketing Specialist at Anytime Soccer Training. We'd like to do a backlink exchange with your site.
 
-Anytime Soccer Training offers 5,000+ training sessions, enabling coaches to assign homework and track each player. With 15k+ monthly visitors, we aim to continue boosting traffic and engagement with relevant content. I believe we're a good fit for a backlink exchange.
+We help coaches assign homework and track every player, with 15k+ monthly visitors and groups that reach nearly 100K members.
 
-Here are a couple of options:
+Two easy ways to do it:
 
-- We can contribute a few sentences and links to an existing post on each other's blogs
-- Write a unique post featured on each other's respective sites, with us writing the post and sending it to you, and vice versa.
+- Add a few sentences and a link to an existing post on each other's blogs
+- Write a unique post for each other's site
 
-Check examples from our blog:
+Our blog: https://www.anytime-soccer.com/blog/7-best-soccer-coaching-apps
+Our communities: https://www.anytime-soccer.com/social-media-assets
 
-https://www.anytime-soccer.com/blog/4-best-european-youth-soccer-tournaments
-https://www.anytime-soccer.com/blog/7-best-soccer-coaching-apps
+Interested?
 
-Also, in addition to sharing in our newsletter, we also share within our various social media groups, which combine to nearly 100K members.
-
-Our Social Media Assets: https://www.anytime-soccer.com/social-media-assets
-
-Let me know if you are interested. Backlinks can drive traffic and enhance the credibility of our websites.
-
-Best regards,
 Megan Chambers
 Content Marketing Specialist, Anytime Soccer Training`,
 });
