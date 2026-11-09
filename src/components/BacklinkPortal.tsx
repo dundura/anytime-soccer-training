@@ -64,13 +64,9 @@ https://www.anytime-soccer.com/blog/7-best-soccer-coaching-apps
 
 Also, in addition to sharing in our newsletter, we also share within our various social media groups, which combine to nearly 100K members.
 
-Our Social Media Assets: [ADD LINK BEFORE SENDING]
+Our Social Media Assets: https://www.anytime-soccer.com/social-media-assets
 
 Let me know if you are interested. Backlinks can drive traffic and enhance the credibility of our websites.
-
-If you're open to exploring other collaborations, feel free to reply or schedule a call, and we'll get in touch.
-
-Schedule A Call: [ADD LINK BEFORE SENDING]
 
 Best regards,
 Megan Chambers
