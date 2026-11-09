@@ -433,16 +433,16 @@ export default function BacklinkPortal({ token }: { token: string | null }) {
               {/* The emails: Send opens the preview popup first */}
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">Emails</div>
-                <div className="space-y-1">
-                  {MANUAL_EMAILS.map((m, i) => {
+                <div className="space-y-2">
+                  {MANUAL_EMAILS.map((m) => {
                     const done = alreadySent(m.subject);
                     return (
-                      <div key={m.key} className="flex items-center gap-2">
-                        <span className={`w-4 text-center text-[11px] ${done ? 'text-emerald-600' : 'text-gray-300'}`}>{done ? '✓' : '○'}</span>
-                        <span className={`flex-1 text-[11px] ${done ? 'text-gray-400 line-through' : 'text-navy font-semibold'}`}>{i + 1}. {m.label}</span>
+                      <div key={m.key} className={`flex items-center gap-3 rounded-xl border px-3 py-2.5 transition-colors ${done ? 'border-emerald-200 bg-emerald-50/60' : 'border-gray-200 bg-white hover:border-navy/30 hover:bg-gray-50'}`}>
+                        <span aria-hidden="true" className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 text-[10px] font-black leading-none ${done ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-gray-300 bg-white text-transparent'}`}>✓</span>
+                        <span className={`flex-1 text-xs leading-snug ${done ? 'text-gray-400 line-through' : 'text-navy font-semibold'}`}>{m.label}</span>
                         <button
                           onClick={() => setManualPreview({ subject: m.subject, body: m.body(current.name) })}
-                          className="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-[10px] font-bold hover:bg-gray-200 shrink-0"
+                          className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-bold transition-colors ${done ? 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-100' : 'bg-navy text-white hover:bg-navy/90'}`}
                         >
                           {done ? 'Send again' : 'Send'}
                         </button>
