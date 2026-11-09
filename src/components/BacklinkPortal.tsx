@@ -48,7 +48,9 @@ const draftReply = (name: string | null) => ({
   subject: 'Backlink exchange with Anytime Soccer Training',
   body: `Hi ${first(name)},
 
-I'm Megan Chambers, Content Marketing Specialist at Anytime Soccer Training. We'd like to do a backlink exchange with your site.
+Thanks for reaching out.
+
+I'm Megan Chambers, Content Marketing Specialist at Anytime Soccer Training. A backlink exchange sounds good to us.
 
 We help coaches assign homework and track every player, with 15k+ monthly visitors and groups that reach nearly 100K members.
 
