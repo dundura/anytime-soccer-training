@@ -48,7 +48,7 @@ const emailBody = (name: string | null, opener: string) => `Hi ${first(name)},
 
 ${opener}
 
-We help youth coaches assign homework and track every player, and our newsletter and social media groups reach nearly 100K members, with 15k+ visitors to our site each month. We would love to find a way to help each other's readers.
+We help youth coaches assign homework and track every player, and our newsletter and social media groups reach nearly 100K members.
 
 There are two easy ways we could do it:
 
