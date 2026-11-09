@@ -44,33 +44,37 @@ const STAGE_TINT: Record<string, string> = {
 // Written by hand, not in the newsletter sequence: they open the compose box filled in, and can be
 // edited before they go.
 const first = (name: string | null) => String(name || '').trim().split(/\s+/)[0] || 'there';
-const draftReply = (name: string | null) => ({
-  subject: 'Backlink exchange with Anytime Soccer Training',
-  body: `Hi ${first(name)},
+const emailBody = (name: string | null, opener: string) => `Hi ${first(name)},
 
-Thanks for reaching out.
+${opener}
 
-I'm Megan Chambers, Content Marketing Specialist at Anytime Soccer Training. A backlink exchange sounds good to us.
+We help youth coaches assign homework and track every player, and our newsletter and social media groups reach nearly 100K members, with 15k+ visitors to our site each month. We would love to find a way to help each other's readers.
 
-We help coaches assign homework and track every player, with 15k+ monthly visitors and groups that reach nearly 100K members.
-
-Two easy ways to do it:
+There are two easy ways we could do it:
 
 - Add a few sentences and a link to an existing post on each other's blogs
 - Write a unique post for each other's site
 
+Here is an example collaboration:
+
 Our blog: https://www.anytime-soccer.com/blog/7-best-soccer-coaching-apps
-Our communities: https://www.anytime-soccer.com/social-media-assets
 
-Interested?
+And here are our Facebook groups that we share all of our articles with:
+https://www.anytime-soccer.com/social-media-assets
 
+If either of those sounds good to you, just reply and we can pick one and get started. I'm happy to answer any questions along the way.
+
+Warmly,
 Megan Chambers
-Content Marketing Specialist, Anytime Soccer Training`,
+Content Marketing Specialist, Anytime Soccer Training`;
+const draftReply = (name: string | null) => ({
+  subject: 'Backlink exchange with Anytime Soccer Training',
+  body: emailBody(name, "Thanks so much for reaching out. I'm Megan Chambers, Content Marketing Specialist at Anytime Soccer Training, and a backlink exchange sounds like a great fit for both of us."),
 });
 // When we write to them first: no thanks, and the line about having noticed their site.
 const outreachDraft = (name: string | null) => ({
   subject: draftReply(null).subject,
-  body: draftReply(name).body.replace('Thanks for reaching out.'+String.fromCharCode(10)+String.fromCharCode(10), '').replace('A backlink exchange sounds good to us.', 'I noticed your site and thought about a potential backlink exchange.'),
+  body: emailBody(name, "I'm Megan Chambers, Content Marketing Specialist at Anytime Soccer Training. I noticed your site and thought a backlink exchange could be a great fit for both of us."),
 });
 const MANUAL_EMAILS: { key: string; label: string; subject: string; body: (name: string | null) => string }[] = [
   { key: 'reply', label: 'They reached out to us: thanks for reaching out', subject: draftReply(null).subject, body: (n) => draftReply(n).body },
