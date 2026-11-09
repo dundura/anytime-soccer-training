@@ -13,6 +13,7 @@ const resourcesDropdown: { href: string; label: string; external?: boolean }[] =
   { href: '/free-resource-hub', label: 'Free Resources' },
   { href: '/blog', label: 'Blog' },
   { href: 'https://www.soccer-near-me.com/podcasts/the-inside-scoop-podcast', label: 'Podcast', external: true },
+  { href: '/social-media-assets', label: 'Social Media' },
   { href: '/our-picks', label: 'Our Picks' },
   { href: '/merch', label: 'Merch' },
 ];
