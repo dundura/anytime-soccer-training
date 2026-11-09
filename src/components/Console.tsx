@@ -11,6 +11,7 @@ import PodcastPortal from './PodcastPortal';
 import PodcastEpisodes from './PodcastEpisodes';
 import IntlPortal from './IntlPortal';
 import CollabPortal from './CollabPortal';
+import BacklinkPortal from './BacklinkPortal';
 import SnmContactPortal from './SnmContactPortal';
 import Referrals from './Referrals';
 import Newsletters from './Newsletters';
@@ -80,6 +81,7 @@ const GROUPS = [
       { key: 'podcast-episodes', label: 'Podcast episodes', icon: '🎧' },
       { key: 'intl', label: 'International posts', icon: '🌍' },
       { key: 'collab', label: 'Collaboration requests', icon: '🤝' },
+      { key: 'backlinks', label: 'Backlink requests', icon: '🔗' },
       { key: 'partners', label: 'Partners', icon: '🤝' },
       { key: 'snm-contact', label: 'Soccer Near Me contact', icon: '📍' },
       { key: 'ad-signups', label: 'Ad signups', icon: '📈' },
@@ -449,6 +451,7 @@ export default function Console() {
             {view === 'podcast-episodes' && <PodcastEpisodes token={token} />}
             {view === 'intl' && <IntlPortal token={token} />}
             {view === 'collab' && <CollabPortal token={token} />}
+            {view === 'backlinks' && <BacklinkPortal token={token} />}
             {view === 'snm-contact' && <SnmContactPortal token={token} />}
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
                         {view === 'sequence' && <EmailSequence key="seq" token={token} />}
