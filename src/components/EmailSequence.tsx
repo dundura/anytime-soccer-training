@@ -26,6 +26,7 @@ const SHOWN: Record<string, string> = {
   'After the demo': 'Paid Invoice',
   'Onboarding': 'Invoice Paid - Onboarding Started',
   'Confirming with others FAQ': 'FAQ',
+  'Demo Booked': 'Demo booked',
 };
 export const shown = (g: string) => SHOWN[g] || g;
 // Two server groups that are the same stage here.
@@ -45,14 +46,16 @@ const END_ORDER = ['Renewal', 'Special offer', 'Not the coach', 'No - Closing Ou
 const PARENTS: { name: string; subs: string[] }[] = [
   { name: 'Sent Invoice', subs: ['Invoice sent', 'Waiting on invoice payment'] },
   { name: 'Yes - Send Roster', subs: ['Sending Roster Template', 'Follow-up - not received roster yet'] },
-  { name: 'Demo Before Roster', subs: ['Getting the demo booked', 'Chasing a quiet lead', 'Demo booked', 'Reschedule demo', 'After Demo Follow-up', 'Chasing after demo', 'Final push'] },
+  { name: 'No demo booked', subs: ['Getting the demo booked', 'Chasing a quiet lead'] },
+  { name: 'Demo Booked', subs: ['Demo booked', 'Reschedule demo'] },
+  { name: 'Demo conducted before the roster', subs: ['After Demo Follow-up', 'Chasing after demo', 'Final push'] },
   { name: 'Other', subs: ['FAQ: Players and slots', 'FAQ: Parents', 'FAQ: Teams', 'FAQ: Pricing and questions', 'FAQ', 'Sending information to decision makers', 'Sending information to parents', 'Renewal', 'Special offer', 'Not the coach'] },
 ];
 
 // The sequences, and which one each stage belongs to. The console's left menu is built from this.
 export const SEQUENCES = ['Demo & Invoicing', 'Onboarding', 'First 3 weeks', 'First Follow-up', 'Other', 'No - Closing Out'];
-export const seqOf = (name: string) => (name === 'Demo Before Roster' || name === 'Yes - Send Roster' || name === 'Sent Invoice' ? 'Demo & Invoicing' : name === 'No - Closing Out' ? 'No - Closing Out' : name === 'First 3 weeks' ? 'First 3 weeks' : name === 'First Follow-up' ? 'First Follow-up' : (name === 'Onboarding' || name === 'Onboarding complete') ? 'Onboarding' : 'Other');
-const TOP_STAGES = ['Demo Before Roster', 'Yes - Send Roster', 'Sent Invoice', 'Onboarding', 'Onboarding complete', 'First 3 weeks', 'First Follow-up', 'Other', 'No - Closing Out'];
+export const seqOf = (name: string) => (name === 'No demo booked' || name === 'Demo Booked' || name === 'Demo conducted before the roster' || name === 'Yes - Send Roster' || name === 'Sent Invoice' ? 'Demo & Invoicing' : name === 'No - Closing Out' ? 'No - Closing Out' : name === 'First 3 weeks' ? 'First 3 weeks' : name === 'First Follow-up' ? 'First Follow-up' : (name === 'Onboarding' || name === 'Onboarding complete') ? 'Onboarding' : 'Other');
+const TOP_STAGES = ['No demo booked', 'Demo Booked', 'Demo conducted before the roster', 'Yes - Send Roster', 'Sent Invoice', 'Onboarding', 'Onboarding complete', 'First 3 weeks', 'First Follow-up', 'Other', 'No - Closing Out'];
 export const SEQ_TREE = SEQUENCES.map((name) => ({
   name,
   stages: TOP_STAGES.filter((st) => seqOf(st) === name).map((st) => {
