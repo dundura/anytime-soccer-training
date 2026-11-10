@@ -192,6 +192,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
     });
   // Find a person: type a name and see which stage they are in.
   const [find, setFind] = useState('');
+  const matchFind = (l: Lead) => { const q = find.trim().toLowerCase(); return !q || [contactName(l), l.name, l.email, l.organization].some((x) => (x || '').toLowerCase().indexOf(q) >= 0); };
   // The overview popup: every stage and the people in it.
   const [whoPop, setWhoPop] = useState(false);
   // A big stage's pill asks which of its sections to show: all of them or one.
@@ -1107,7 +1108,8 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
         {focus === PEOPLE && (
           <div>
             <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">
-              <span className="flex-1 text-[13px] font-bold text-navy">Started</span>
+              <span className="text-[13px] font-bold text-navy">Started</span>
+              <input type="search" value={find} onChange={(ev) => setFind(ev.target.value)} placeholder="Search name, club, email" aria-label="Search contacts" className="flex-1 min-w-0 px-2.5 py-1 rounded-lg border border-gray-300 bg-white text-[12px] font-normal text-navy" />
               <select
                 value={startedStage}
                 onChange={(ev) => setStartedStage(ev.target.value)}
@@ -1124,12 +1126,12 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                   <button key={k} type="button" onClick={() => setStartedView(k)} className={`px-2.5 py-1 rounded-full text-[11px] font-bold border ${startedView === k ? 'bg-navy text-white border-navy' : 'bg-white text-navy border-gray-300'}`}>{label}</button>
                 ))}
               </span>
-              <span className="text-[11px] font-normal text-gray-400">{[...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).length} contacts</span>
+              <span className="text-[11px] font-normal text-gray-400">{[...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).filter(matchFind).length} contacts</span>
               <button type="button" onClick={() => setStagePop(null)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold">Show all</button>
             </div>
             {visible.length - notStarted.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No one has been moved into the sequence yet.</p>}
             {(() => {
-              const people = [...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage);
+              const people = [...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).filter(matchFind);
               const renderPerson = (l: Lead, i: number) => {
                 const at = positionOf(l);
                 const stage = at >= 0 ? groups.find((g) => g.items.some((e) => e.key === flat[at].key)) : null;
@@ -1170,9 +1172,9 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                     <button type="button" onClick={() => toggleStageFold(name || 'none')} className="flex w-full items-center gap-2 px-4 py-1.5 bg-navy text-white text-[11px] font-bold uppercase tracking-wide text-left">
                       <span className="flex-1">{name ? shown(name) : 'Waiting for placement'}</span>
                       <span className="font-normal opacity-80">{here.length}</span>
-                      <span aria-hidden="true">{foldedStages[name || 'none'] !== false ? '▸' : '▾'}</span>
+                      <span aria-hidden="true">{foldedStages[name || 'none'] !== false && !find.trim() ? '▸' : '▾'}</span>
                     </button>
-                    {foldedStages[name || 'none'] === false && here.map(renderPerson)}
+                    {(foldedStages[name || 'none'] === false || find.trim()) && here.map(renderPerson)}
                   </div>
                 );
               });
