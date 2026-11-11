@@ -1162,7 +1162,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                   </div>
                 );
               };
-              if (startedView === 'flat') return people.map(renderPerson);
+              if (startedView === 'flat' || startedStage) return people.map(renderPerson);
               const order = [...stages.map((st) => st.name), ''];
               return order.map((name) => {
                 const here = people.filter((l) => topOf(stageOfPerson(l) || '') === name);
