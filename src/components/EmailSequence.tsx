@@ -1184,12 +1184,13 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
         {focus === NOT_STARTED && (
           <div>
             <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">
-              <span className="flex-1 text-[13px] font-bold text-red">Not started</span>
-              <span className="text-[11px] font-normal text-gray-400">{notStarted.length} contacts</span>
+              <span className="text-[13px] font-bold text-red">Not started</span>
+              <input type="search" value={find} onChange={(ev) => setFind(ev.target.value)} placeholder="Search name, club, email" aria-label="Search contacts" className="flex-1 min-w-0 px-2.5 py-1 rounded-lg border border-gray-300 bg-white text-[12px] font-normal text-navy" />
+              <span className="text-[11px] font-normal text-gray-400">{notStarted.filter(matchFind).length} contacts</span>
               <button type="button" onClick={() => setStagePop(null)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold">Show all</button>
             </div>
             {notStarted.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">Everyone has been moved into the sequence.</p>}
-            {notStarted.map((l, i) => (
+            {notStarted.filter(matchFind).map((l, i) => (
               <div key={l.id} className={`flex items-center ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
                 <button
                   type="button"
