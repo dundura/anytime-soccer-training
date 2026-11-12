@@ -29,6 +29,7 @@ declare global {
 type Mode = 'choose' | 'new' | 'kids' | 'team' | 'existing' | 'sent' | 'added';
 type Kid = { screenName: string; gender: 'male' | 'female' };
 const MAX_KIDS = 3; // four profiles per account, and the coach's own is one of them
+const MAX_EXTRA_TEAMS = 4; // five teams in all at sign-up; more can be added later with "I have an account"
 
 const input = 'w-full border-2 border-blue-200 focus:border-navy outline-none rounded-lg px-3 py-2.5 text-navy bg-white';
 const label = 'block text-sm font-semibold text-navy mb-1';
@@ -43,6 +44,7 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [teamName, setTeamName] = useState('');
+  const [extraTeams, setExtraTeams] = useState<string[]>([]);
   const [kids, setKids] = useState<Kid[]>([{ screenName: '', gender: 'male' }]);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -100,16 +102,22 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
     const name = teamName.trim();
     if (!name) return setError('Enter your team name.');
     if (name.length > 25) return setError('Team names are 25 characters or fewer.');
+    const extras = extraTeams.map(t => t.trim()).filter(Boolean);
+    if (extras.some(t => t.length > 25)) return setError('Team names are 25 characters or fewer.');
+    const all = [name, ...extras].map(t => t.toLowerCase());
+    if (new Set(all).size !== all.length) return setError('Each team needs a different name.');
     if (!token) return setError('Please complete the check below first.');
     setBusy(true);
     try {
-      if (!(await nameIsFree(name))) { setBusy(false); return setError('That team name is already being used. Please pick another name.'); }
+      for (const n of [name, ...extras]) {
+        if (!(await nameIsFree(n))) { setBusy(false); return setError(`The team name "${n}" is already being used. Please pick another name.`); }
+      }
       const r = await fetch(`${API}/stepsregistration/confirmemail`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: email.trim(), password, parentFirstName: first.trim(), parentLastName: last.trim(),
-          role: 'coach', coachGender: 'male', players: kids.filter(k => k.screenName.trim()).map(k => ({ screenName: k.screenName.trim(), gender: k.gender })), teamName: name, promoName: '', turnstileToken: token, fromPortal: true,
+          role: 'coach', coachGender: 'male', players: kids.filter(k => k.screenName.trim()).map(k => ({ screenName: k.screenName.trim(), gender: k.gender })), teamName: name, extraTeams: extras, promoName: '', turnstileToken: token, fromPortal: true,
         }),
       });
       if (r.ok) {
@@ -219,14 +227,24 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
 
       {mode === 'team' && (
         <div>
-          <p className="text-navy text-lg font-extrabold mb-3">Name your team</p>
+          <p className="text-navy text-lg font-extrabold mb-1">{extraTeams.length ? 'Name your teams' : 'Name your team'}</p>
+          <p className="text-gray-600 text-sm mb-3">Coach more than one team? Add each one here and they all go on your account.</p>
           <input className={input} maxLength={25} placeholder="Enter team name" value={teamName} onChange={e => setTeamName(e.target.value)} />
-          <p className="text-gray-500 text-sm mt-1.5">You can change this later.</p>
+          {extraTeams.map((t, i) => (
+            <div key={i} className="flex gap-2 mt-2">
+              <input className={input} maxLength={25} placeholder={`Team ${i + 2} name`} value={t} onChange={e => setExtraTeams(ts => ts.map((x, j) => j === i ? e.target.value : x))} />
+              <button type="button" className="text-sm font-semibold text-gray-500 px-2 flex-shrink-0" onClick={() => setExtraTeams(ts => ts.filter((_, j) => j !== i))}>Remove</button>
+            </div>
+          ))}
+          {extraTeams.length < MAX_EXTRA_TEAMS && (
+            <button type="button" className="mt-3 border-2 border-navy text-navy font-bold rounded-lg px-4 py-2 text-sm" onClick={() => setExtraTeams(ts => [...ts, ''])}>+ Add another team</button>
+          )}
+          <p className="text-gray-500 text-sm mt-2">You can change team names later.</p>
           <div ref={widgetRef} className="mt-4" />
           {err}
           <div className="flex gap-3 mt-4">
             <button type="button" className={grayBtn} onClick={() => { setError(''); setMode('kids'); }}>Back</button>
-            <button type="button" className={redBtn} disabled={busy} onClick={createNew}>{busy ? 'Creating…' : 'Create my account and team'}</button>
+            <button type="button" className={redBtn} disabled={busy} onClick={createNew}>{busy ? 'Creating…' : extraTeams.some(t => t.trim()) ? 'Create my account and teams' : 'Create my account and team'}</button>
           </div>
         </div>
       )}
@@ -249,7 +267,7 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
       {mode === 'sent' && (
         <div>
           <p className="text-navy text-lg font-extrabold mb-1">Check your email</p>
-          <p className="text-gray-700 leading-relaxed">We sent a link to <strong>{email.trim()}</strong>. Open it and click <strong>Verify My Email</strong>. That creates your account, your team <strong>{teamName.trim()}</strong>{kids.some(k => k.screenName.trim()) ? ' and your child\u2019s profile' : ''}, then takes you to the app to sign in.</p>
+          <p className="text-gray-700 leading-relaxed">We sent a link to <strong>{email.trim()}</strong>. Open it and click <strong>Verify My Email</strong>. That creates your account, your {extraTeams.some(t => t.trim()) ? 'teams' : 'team'} <strong>{[teamName, ...extraTeams].map(t => t.trim()).filter(Boolean).join(', ')}</strong>{kids.some(k => k.screenName.trim()) ? ' and your child\u2019s profile' : ''}, then takes you to the app to sign in.</p>
           <p className="text-gray-600 text-sm mt-2">Nothing yet? Check your spam folder.</p>
           {confirmToken && (resent
             ? <p className="text-sm text-green-700 font-semibold mt-3">Sent again.</p>
