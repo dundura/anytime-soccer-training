@@ -178,6 +178,7 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
             <button type="button" className={redBtn} onClick={() => { setError(''); setMode('new'); }}>Create Account</button>
             <button type="button" className={grayBtn} onClick={() => { setError(''); setMode('existing'); }}>I have an account</button>
           </div>
+          <p className="text-gray-600 text-sm mt-3">Coach more than one team? You can add every team, now or any time later.</p>
         </div>
       )}
 
@@ -269,6 +270,7 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
           <p className="text-navy text-lg font-extrabold mb-1">Check your email</p>
           <p className="text-gray-700 leading-relaxed">We sent a link to <strong>{email.trim()}</strong>. Open it and click <strong>Verify My Email</strong>. That creates your account, your {extraTeams.some(t => t.trim()) ? 'teams' : 'team'} <strong>{[teamName, ...extraTeams].map(t => t.trim()).filter(Boolean).join(', ')}</strong>{kids.some(k => k.screenName.trim()) ? ' and your child\u2019s profile' : ''}, then takes you to the app to sign in.</p>
           <p className="text-gray-600 text-sm mt-2">Nothing yet? Check your spam folder.</p>
+          <p className="text-gray-600 text-sm mt-2">Forgot a team? After you verify, come back here, choose <strong>I have an account</strong> and add it.</p>
           {confirmToken && (resent
             ? <p className="text-sm text-green-700 font-semibold mt-3">Sent again.</p>
             : <button type="button" className={`${grayBtn} mt-3`} onClick={resend}>Resend the email</button>)}
@@ -280,6 +282,8 @@ export default function PortalSignup({ defaults }: { defaults?: { name?: string;
         <div>
           <p className="text-navy text-lg font-extrabold mb-1">Your team is created</p>
           <p className="text-gray-700 leading-relaxed"><strong>{teamName.trim()}</strong> is now on your account. You will see it under MY TEAMS when you sign in to the app.</p>
+          <p className="text-gray-600 text-sm mt-3">Coach another team?</p>
+          <button type="button" className={`${grayBtn} mt-2`} onClick={() => { setTeamName(''); setError(''); setMode('existing'); }}>+ Add another team</button>
         </div>
       )}
     </div>
