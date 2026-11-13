@@ -34,12 +34,10 @@ type PortalStep = { key: string; title: string; dataIndex: number; section: stri
 
 // Portal steps map onto the full instruction pages (COACH_ONBOARDING_STEPS indices)
 const COACH_PORTAL_STEPS: PortalStep[] = [
-  // First, and first for a reason: everything else in the portal waits on
-  // the roster, so it is step 1 in the wizard as well as on the rail.
-  { key: 'roster', title: 'Send us your roster', dataIndex: 1, section: 'Pre-Onboarding' },
-  { key: 'invoice', title: 'Pay your invoice', dataIndex: -1, section: 'Pre-Onboarding', quiz: { prompt: '', options: ['I paid the invoice', 'I will purchase slots inside the app (after onboarding steps complete)', 'My club paid the invoice'] } },
-  // Phase two. It asks how a coach will run their season, which is not a
-  // question for somebody who has not yet paid for one.
+  // The roster and invoice steps are gone (Neil, 2026-11-13): a coach cannot
+  // reach this portal without having sent the roster and paid, so asking again
+  // was a step with nothing to do.
+  // It asks how a coach will run their season.
   { key: 'expectations', title: 'What are your expectations?', dataIndex: -1, faqIndex: 28, section: 'Onboarding', info: true, quiz: { prompt: 'Which best describes your expectations for your team?', options: ['Training outside practice is an expectation I’ve set — I’m aiming for 75%+ engagement, and if it’s slow I’ll use the competition features to boost it.', 'My team is motivated. It’s optional, but I’m excited to see how they respond, and I’ll do some of the competition features.', 'Optional — if they train, great; if not, no pressure.'] } },
   { key: 'survey', title: 'Take the Coaching Engagement Survey', dataIndex: 3, section: 'Onboarding' },
   { key: 'account', title: 'Create account & team', dataIndex: 4, section: 'Onboarding', quiz: { prompt: 'Confirm before continuing:', options: ['I created my account and team'] } },
@@ -104,8 +102,6 @@ const REFERENCE_KEYS = COACH_PORTAL_STEPS
 const isOptional = (s: PortalStep) => !!s.bonus || REFERENCE_KEYS.includes(s.key);
 
 const WORKFLOW_GROUPS: { title: string; keys: string[]; reference?: boolean; sub?: { title: string; keys: string[] }[] }[] = [
-  { title: 'Send us your roster', keys: ['roster'] },
-  { title: 'Pay your invoice', keys: ['invoice'] },
   { title: 'Set your team up', keys: ['expectations', 'survey', 'account'] },
   { title: 'Tell the parents', keys: ['intro_email'] },
   { title: 'Tell us you are ready', keys: ['ready_check', 'final_confirm'] },
@@ -1445,7 +1441,7 @@ export default function OnboardingPortal() {
                   </p>
                 )}
                 <p className="text-gray-700 leading-relaxed mb-3">
-                  {audience === 'director' ? 'This covers three things:' : 'Getting set up has three parts:'}
+                  {audience === 'director' ? 'This covers three things:' : 'Getting set up has two parts:'}
                 </p>
                 <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-5 mb-4">
                   <ol className="space-y-4">
@@ -1454,7 +1450,6 @@ export default function OnboardingPortal() {
                       <><strong className="text-navy font-semibold">Team onboarding</strong> — how teams are created and rosters submitted.</>,
                       <><strong className="text-navy font-semibold">Getting set up</strong> — getting your coaches and parents going.</>,
                     ] : [
-                      <><strong className="text-navy font-semibold">Pre-Onboarding</strong> — a few quick steps before we begin.</>,
                       <><strong className="text-navy font-semibold">Onboarding</strong> — the steps that get your team live in the app.</>,
                       <><strong className="text-navy font-semibold">FAQs</strong> — answering common questions.</>,
                     ]).map((item, i) => (
