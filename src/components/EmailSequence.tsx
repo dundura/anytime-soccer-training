@@ -836,6 +836,48 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
           );
   };
 
+  // Every email for one person, under its stage heading: a navy bar per stage with the count and a fold arrow, then
+  // alternating rows with a line under each name and a Send button that opens the preview. Used inline on the Send an
+  // email page (headings open) and in the "See all emails" popup on a lead card (headings folded until searched).
+  const emailTable = (lead: Lead, afterPick: () => void, openByDefault: boolean) => {
+    const q = emailFind.trim().toLowerCase();
+    const sentKeys = (leads.find((x) => x.id === lead.id) || lead).sent || [];
+    const blocks = groups
+      .map((g) => ({ g, items: g.items.filter((e) => !q || e.label.toLowerCase().includes(q) || shown(g.name).toLowerCase().includes(q)) }))
+      .filter((b) => b.items.length);
+    if (!blocks.length) return <p className="px-5 py-4 text-sm text-gray-400">No emails match.</p>;
+    return blocks.map(({ g, items }) => {
+      const open = !!q || (emailOpen[g.name] ?? openByDefault);
+      return (
+        <div key={g.name}>
+          <button type="button" onClick={() => setEmailOpen((m) => ({ ...m, [g.name]: !open }))} className="flex w-full items-center gap-2 px-4 py-1.5 bg-navy text-white text-[11px] font-bold uppercase tracking-wide text-left">
+            <span className="flex-1">{shown(g.name)}</span>
+            <span className="font-normal opacity-80">{items.length}</span>
+            <span aria-hidden="true">{open ? '▾' : '▸'}</span>
+          </button>
+          {open && items.map((e, i) => (
+            <div key={e.key} className={`flex items-center ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
+              <span className="flex-1 min-w-0 px-4 py-2.5 text-[13px] font-normal text-navy">
+                <span className="block truncate">{e.label}</span>
+                <span className="block truncate text-[10px] text-gray-500">{shown(g.name)}{sentKeys.includes(e.key) ? ' · Already sent' : ''}</span>
+              </span>
+              <span className="shrink-0 mr-3">
+                <button
+                  type="button"
+                  disabled={!lead.email}
+                  onClick={() => { afterPick(); openSend(lead, e); }}
+                  className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50"
+                >
+                  Send
+                </button>
+              </span>
+            </div>
+          ))}
+        </div>
+      );
+    });
+  };
+
   if (loading) return <div className="p-6 text-sm text-gray-500">Loading…</div>;
 
   return (
@@ -880,8 +922,6 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
       {popup()}
       {allEmailsFor && (() => {
         const lead = allEmailsFor;
-        const q = emailFind.trim().toLowerCase();
-        const sentKeys = (leads.find((x) => x.id === lead.id) || lead).sent || [];
         return (
           <div className="fixed inset-0 z-[80] bg-black/40 flex items-center justify-center p-4" onClick={() => setAllEmailsFor(null)}>
             <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
@@ -896,44 +936,7 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
                 <input type="search" value={emailFind} onChange={(ev) => setEmailFind(ev.target.value)} placeholder="Search emails" aria-label="Search emails" className="w-full px-2.5 py-1.5 rounded-lg border border-gray-300 bg-white text-[12px] font-normal text-navy" />
               </div>
               <div className="overflow-y-auto">
-                {(() => {
-                  // Same table as the Leads list: a navy bar per stage with the count and a fold arrow, then alternating rows
-                  // with a line under each name and a button on the right. Folded until searched.
-                  const blocks = groups
-                    .map((g) => ({ g, items: g.items.filter((e) => !q || e.label.toLowerCase().includes(q) || shown(g.name).toLowerCase().includes(q)) }))
-                    .filter((b) => b.items.length);
-                  if (!blocks.length) return <p className="px-5 py-4 text-sm text-gray-400">No emails match.</p>;
-                  return blocks.map(({ g, items }) => {
-                    const open = !!q || emailOpen[g.name] === true;
-                    return (
-                      <div key={g.name}>
-                        <button type="button" onClick={() => setEmailOpen((m) => ({ ...m, [g.name]: !open }))} className="flex w-full items-center gap-2 px-4 py-1.5 bg-navy text-white text-[11px] font-bold uppercase tracking-wide text-left">
-                          <span className="flex-1">{shown(g.name)}</span>
-                          <span className="font-normal opacity-80">{items.length}</span>
-                          <span aria-hidden="true">{open ? '▾' : '▸'}</span>
-                        </button>
-                        {open && items.map((e, i) => (
-                          <div key={e.key} className={`flex items-center ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
-                            <span className="flex-1 min-w-0 px-4 py-2.5 text-[13px] font-normal text-navy">
-                              <span className="block truncate">{e.label}</span>
-                              <span className="block truncate text-[10px] text-gray-500">{shown(g.name)}{sentKeys.includes(e.key) ? ' · Already sent' : ''}</span>
-                            </span>
-                            <span className="shrink-0 mr-3">
-                              <button
-                                type="button"
-                                disabled={!lead.email}
-                                onClick={() => { setAllEmailsFor(null); openSend(lead, e); }}
-                                className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50"
-                              >
-                                Send
-                              </button>
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    );
-                  });
-                })()}
+                {emailTable(lead, () => setAllEmailsFor(null), false)}
               </div>
             </div>
           </div>
@@ -1157,7 +1160,7 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
       <div className={mode === 'sequence' && focus ? (pageOpen.sequence ? 'border border-t-0 border-gray-200 rounded-b-xl overflow-visible' : 'hidden') : 'border border-gray-200 rounded-xl overflow-visible'}>
         {focus === PEOPLE && (
           <div>
-            <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">
+            <div className={`${sendTab && sendPerson ? 'hidden' : 'flex'} items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100`}>
               <span className="text-[13px] font-bold text-navy">{sendTab ? 'Pick a person' : 'Clients'}</span>
               <input type="search" value={find} onChange={(ev) => setFind(ev.target.value)} placeholder="Search name, club, email" aria-label="Search contacts" className="flex-1 min-w-0 px-2.5 py-1 rounded-lg border border-gray-300 bg-white text-[12px] font-normal text-navy" />
               {!sendTab && <select
@@ -1179,27 +1182,19 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
               <span className="text-[11px] font-normal text-gray-400">{visible.filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).filter(matchFind).length} contacts</span>
               {!sendTab && <button type="button" onClick={() => setStagePop(null)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold">Show all</button>}
             </div>
-            {sendTab && (
-              <div className="px-4 py-3 border-b border-gray-100 bg-white">
-                <div className="text-[12px] font-semibold text-navy mb-2">
-                  {sendPerson ? <>To <span className="font-black">{contactName(sendPerson)}</span> <span className="font-normal text-gray-500">{sendPerson.email || 'no email address'}</span></> : 'Pick a person below, then pick the email.'}
+            {sendTab && sendPerson && (
+              <div>
+                <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">
+                  <span className="min-w-0 truncate text-[13px] font-bold text-navy">To {contactName(sendPerson)} <span className="font-normal text-gray-500">{sendPerson.email || 'no email address'}</span></span>
+                  <input type="search" value={emailFind} onChange={(ev) => setEmailFind(ev.target.value)} placeholder="Search emails" aria-label="Search emails" className="flex-1 min-w-0 px-2.5 py-1 rounded-lg border border-gray-300 bg-white text-[12px] font-normal text-navy" />
+                  <button type="button" onClick={() => { setSendPerson(null); setEmailFind(''); }} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold">Change person</button>
                 </div>
-                <div className="flex gap-2">
-                  <select value={pickKey} onChange={(ev) => setPickKey(ev.target.value)} className="min-w-0 flex-1 px-2 py-1.5 rounded-lg border border-gray-300 text-[12px] text-navy bg-white">
-                    <option value="">Pick an email…</option>
-                    {groups.map((g) => (
-                      <optgroup key={g.name} label={shown(g.name)}>
-                        {g.items.map((e) => <option key={e.key} value={e.key}>{e.label}</option>)}
-                      </optgroup>
-                    ))}
-                  </select>
-                  <button type="button" disabled={!sendPerson?.email || !pickKey} onClick={() => { const em = flat.find((x) => x.key === pickKey); if (em && sendPerson) openSend(sendPerson, em); }} className="shrink-0 px-3 py-1.5 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Send email</button>
-                </div>
-                <button type="button" disabled={!sendPerson?.email} onClick={() => { if (sendPerson) { setEmailFind(''); setAllEmailsFor(sendPerson); } }} className="mt-2 px-3 py-1.5 rounded-lg border border-gray-300 bg-white text-[11px] font-bold text-navy disabled:opacity-50">See all emails ({flat.length})</button>
+                {emailTable(sendPerson, () => {}, true)}
               </div>
             )}
             {visible.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No clients yet.</p>}
             {(() => {
+              if (sendTab && sendPerson) return null;
               const people = visible.filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).filter(matchFind);
               const renderPerson = (l: Lead, i: number) => {
                 const at = positionOf(l);
