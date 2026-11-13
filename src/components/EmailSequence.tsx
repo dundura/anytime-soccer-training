@@ -839,9 +839,9 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
   // Every email for one person, under its stage heading: a navy bar per stage with the count and a fold arrow, then
   // alternating rows with a line under each name and a Send button that opens the preview. Used inline on the Send an
   // email page (headings open) and in the "See all emails" popup on a lead card (headings folded until searched).
-  const emailTable = (lead: Lead, afterPick: () => void, openByDefault: boolean) => {
+  const emailTable = (lead: Lead | null, afterPick: () => void, openByDefault: boolean) => {
     const q = emailFind.trim().toLowerCase();
-    const sentKeys = (leads.find((x) => x.id === lead.id) || lead).sent || [];
+    const sentKeys = lead ? (leads.find((x) => x.id === lead.id) || lead).sent || [] : [];
     const blocks = groups
       .map((g) => ({ g, items: g.items.filter((e) => !q || e.label.toLowerCase().includes(q) || shown(g.name).toLowerCase().includes(q)) }))
       .filter((b) => b.items.length);
@@ -864,8 +864,8 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
               <span className="shrink-0 mr-3">
                 <button
                   type="button"
-                  disabled={!lead.email}
-                  onClick={() => { afterPick(); openSend(lead, e); }}
+                  disabled={!lead || !lead.email}
+                  onClick={() => { if (!lead) return; afterPick(); openSend(lead, e); }}
                   className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50"
                 >
                   Send
@@ -1160,7 +1160,7 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
       <div className={mode === 'sequence' && focus ? (pageOpen.sequence ? 'border border-t-0 border-gray-200 rounded-b-xl overflow-visible' : 'hidden') : 'border border-gray-200 rounded-xl overflow-visible'}>
         {focus === PEOPLE && (
           <div>
-            <div className={`${sendTab && sendPerson ? 'hidden' : 'flex'} items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100`}>
+            <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">
               <span className="text-[13px] font-bold text-navy">{sendTab ? 'Pick a person' : 'Clients'}</span>
               <input type="search" value={find} onChange={(ev) => setFind(ev.target.value)} placeholder="Search name, club, email" aria-label="Search contacts" className="flex-1 min-w-0 px-2.5 py-1 rounded-lg border border-gray-300 bg-white text-[12px] font-normal text-navy" />
               {!sendTab && <select
@@ -1182,19 +1182,9 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
               <span className="text-[11px] font-normal text-gray-400">{visible.filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).filter(matchFind).length} contacts</span>
               {!sendTab && <button type="button" onClick={() => setStagePop(null)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold">Show all</button>}
             </div>
-            {sendTab && sendPerson && (
-              <div>
-                <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">
-                  <span className="min-w-0 truncate text-[13px] font-bold text-navy">To {contactName(sendPerson)} <span className="font-normal text-gray-500">{sendPerson.email || 'no email address'}</span></span>
-                  <input type="search" value={emailFind} onChange={(ev) => setEmailFind(ev.target.value)} placeholder="Search emails" aria-label="Search emails" className="flex-1 min-w-0 px-2.5 py-1 rounded-lg border border-gray-300 bg-white text-[12px] font-normal text-navy" />
-                  <button type="button" onClick={() => { setSendPerson(null); setEmailFind(''); }} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold">Change person</button>
-                </div>
-                {emailTable(sendPerson, () => {}, true)}
-              </div>
-            )}
             {visible.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No clients yet.</p>}
+            <div className={sendTab ? 'max-h-72 overflow-y-auto' : ''}>
             {(() => {
-              if (sendTab && sendPerson) return null;
               const people = visible.filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).filter(matchFind);
               const renderPerson = (l: Lead, i: number) => {
                 const at = positionOf(l);
@@ -1249,6 +1239,19 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
                 );
               });
             })()}
+            </div>
+            {/* Send an email page: the emails by stage sit under the leads. Pick a lead above, then Send on the email. */}
+            {sendTab && (
+              <div>
+                <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-y border-gray-200">
+                  <span className="min-w-0 truncate text-[13px] font-bold text-navy">
+                    {sendPerson ? <>To {contactName(sendPerson)} <span className="font-normal text-gray-500">{sendPerson.email || 'no email address'}</span></> : 'Pick a lead above, then click Send on an email'}
+                  </span>
+                  <input type="search" value={emailFind} onChange={(ev) => setEmailFind(ev.target.value)} placeholder="Search emails" aria-label="Search emails" className="flex-1 min-w-0 px-2.5 py-1 rounded-lg border border-gray-300 bg-white text-[12px] font-normal text-navy" />
+                </div>
+                {emailTable(sendPerson, () => {}, true)}
+              </div>
+            )}
           </div>
         )}
         {focus === NOT_STARTED && (
