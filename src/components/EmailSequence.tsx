@@ -175,6 +175,8 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
   const [allEmailsFor, setAllEmailsFor] = useState<Lead | null>(null);
   const [emailFind, setEmailFind] = useState('');
   const [emailOpen, setEmailOpen] = useState<Record<string, boolean>>({});
+  // The stage picked in the email table's dropdown on the Send an email page ('' = every stage).
+  const [emailStage, setEmailStage] = useState('');
   // The Send an email page: the person picked in the list. The email comes from the dropdown above it (pickKey).
   const [sendPerson, setSendPerson] = useState<Lead | null>(null);
   const [sendAsk, setSendAsk] = useState<{ lead: Lead; email: Email; subject: string; html: string; loading: boolean; preview?: boolean } | null>(null);
@@ -843,14 +845,16 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
     const q = emailFind.trim().toLowerCase();
     const sentKeys = lead ? (leads.find((x) => x.id === lead.id) || lead).sent || [] : [];
     const blocks = groups
+      .filter((g) => !emailStage || g.name === emailStage)
       .map((g) => ({ g, items: g.items.filter((e) => !q || e.label.toLowerCase().includes(q) || shown(g.name).toLowerCase().includes(q)) }))
       .filter((b) => b.items.length);
     if (!blocks.length) return <p className="px-5 py-4 text-sm text-gray-400">No emails match.</p>;
     return blocks.map(({ g, items }) => {
-      const open = !!q || (emailOpen[g.name] ?? openByDefault);
+      // Collapsed unless searched, or one stage is picked in the dropdown. A collapsed heading is light, an open one navy.
+      const open = !!q || !!emailStage || (emailOpen[g.name] ?? openByDefault);
       return (
         <div key={g.name}>
-          <button type="button" onClick={() => setEmailOpen((m) => ({ ...m, [g.name]: !open }))} className="flex w-full items-center gap-2 px-4 py-1.5 bg-navy text-white text-[11px] font-bold uppercase tracking-wide text-left">
+          <button type="button" onClick={() => setEmailOpen((m) => ({ ...m, [g.name]: !open }))} className={`flex w-full items-center gap-2 px-4 py-1.5 text-[11px] font-bold uppercase tracking-wide text-left ${open ? 'bg-navy text-white' : 'bg-blue-100 text-navy border-b border-white'}`}>
             <span className="flex-1">{shown(g.name)}</span>
             <span className="font-normal opacity-80">{items.length}</span>
             <span aria-hidden="true">{open ? '▾' : '▸'}</span>
@@ -1163,7 +1167,7 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
             <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">
               <span className="text-[13px] font-bold text-navy">{sendTab ? 'Pick a person' : 'Clients'}</span>
               <input type="search" value={find} onChange={(ev) => setFind(ev.target.value)} placeholder="Search name, club, email" aria-label="Search contacts" className="flex-1 min-w-0 px-2.5 py-1 rounded-lg border border-gray-300 bg-white text-[12px] font-normal text-navy" />
-              {!sendTab && <select
+              <select
                 value={startedStage}
                 onChange={(ev) => setStartedStage(ev.target.value)}
                 className="shrink-0 max-w-[45%] px-2 py-1 rounded-lg border border-gray-300 bg-white text-[11px] font-semibold text-navy"
@@ -1173,12 +1177,12 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
                   const n = visible.filter((l) => { const g = stageOfPerson(l); return g && topOf(g) === st.name; }).length;
                   return <option key={st.name} value={st.name}>{shown(st.name)} ({n})</option>;
                 })}
-              </select>}
-              {!sendTab && <span className="shrink-0 flex gap-1">
+              </select>
+              <span className="shrink-0 flex gap-1">
                 {([['stage', 'By stage'], ['flat', 'Flat']] as const).map(([k, label]) => (
                   <button key={k} type="button" onClick={() => setStartedView(k)} className={`px-2.5 py-1 rounded-full text-[11px] font-bold border ${startedView === k ? 'bg-navy text-white border-navy' : 'bg-white text-navy border-gray-300'}`}>{label}</button>
                 ))}
-              </span>}
+              </span>
               <span className="text-[11px] font-normal text-gray-400">{visible.filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).filter(matchFind).length} contacts</span>
               {!sendTab && <button type="button" onClick={() => setStagePop(null)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold">Show all</button>}
             </div>
@@ -1222,7 +1226,7 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
                   </div>
                 );
               };
-              if (startedView === 'flat' || startedStage || sendTab) return people.map(renderPerson);
+              if (startedView === 'flat' || startedStage) return people.map(renderPerson);
               const order = [...stages.map((st) => st.name), ''];
               return order.map((name) => {
                 const here = people.filter((l) => topOf(stageOfPerson(l) || '') === name);
@@ -1248,8 +1252,12 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
                     {sendPerson ? <>To {contactName(sendPerson)} <span className="font-normal text-gray-500">{sendPerson.email || 'no email address'}</span></> : 'Pick a lead above, then click Send on an email'}
                   </span>
                   <input type="search" value={emailFind} onChange={(ev) => setEmailFind(ev.target.value)} placeholder="Search emails" aria-label="Search emails" className="flex-1 min-w-0 px-2.5 py-1 rounded-lg border border-gray-300 bg-white text-[12px] font-normal text-navy" />
+                  <select value={emailStage} onChange={(ev) => setEmailStage(ev.target.value)} aria-label="Filter emails by stage" className="shrink-0 max-w-[40%] px-2 py-1 rounded-lg border border-gray-300 bg-white text-[11px] font-semibold text-navy">
+                    <option value="">All stages</option>
+                    {groups.map((g) => <option key={g.name} value={g.name}>{shown(g.name)} ({g.items.length})</option>)}
+                  </select>
                 </div>
-                {emailTable(sendPerson, () => {}, true)}
+                {emailTable(sendPerson, () => {}, false)}
               </div>
             )}
           </div>
