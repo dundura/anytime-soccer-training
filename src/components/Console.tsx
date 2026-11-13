@@ -51,7 +51,11 @@ const GROUPS = [
   // rest are folded away until you go looking for them.
   {
     group: 'Leads',
-    rows: [{ key: 'leads', label: 'Leads', icon: '👥' }],
+    rows: [
+      { key: 'leads', label: 'Leads', icon: '👥' },
+      // Pick the person, then pick the email, from one page.
+      { key: 'send-email', label: 'Send an email', icon: '✉️' },
+    ],
   },
   {
     group: 'Coach Onboarding',
@@ -456,6 +460,7 @@ export default function Console() {
             {view === 'parent-onboarding' && <ParentOnboarding token={token} />}
                         {view === 'sequence' && <EmailSequence key="seq" token={token} />}
             {view === 'leads' && <EmailSequence key="leads" token={token} mode="leads" />}
+            {view === 'send-email' && <EmailSequence key="send-email" token={token} mode="leads" sendTab />}
             {view === 'referrals' && <Referrals token={token} />}
             {view === 'partners' && <PartnerAdmin token={token} />}
             {view === 'ad-signups' && <AdSignups token={token} />}

@@ -83,7 +83,7 @@ const MARK = ' → marked as done, not sent';
 const markText = (e: Email) => e.label + ' (' + e.key + ')';
 
 // mode 'leads' is the Leads page: everyone, Not started or Started. 'sequence' is the Coach Onboarding stages.
-export default function EmailSequence({ token, mode = 'sequence' }: { token: string | null; mode?: 'sequence' | 'leads' }) {
+export default function EmailSequence({ token, mode = 'sequence', sendTab = false }: { token: string | null; mode?: 'sequence' | 'leads'; sendTab?: boolean }) {
   const [emails, setEmails] = useState<Email[]>([]);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [layout, setLayout] = useState<LayoutRow[]>([]);
@@ -152,7 +152,8 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   const stageOfPerson = (l: Lead) => {
     const at = positionOf(l);
     if (at >= 0) { const g = groups.find((x) => x.items.some((e) => e.key === flat[at].key)); return g ? g.name : null; }
-    return waitingOf(l);
+    // On the Leads page nobody is "not started": a contact not placed anywhere yet is in the first stage, trying to book the demo.
+    return waitingOf(l) || (mode === 'leads' ? 'Getting the demo booked' : null);
   };
   const inSeq = (name: string) => seqOf(name) === sequence;
   const [menuAt, setMenuAt] = useState<{ right: number; top?: number; bottom?: number } | null>(null);
@@ -170,6 +171,10 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   // The stage showing on its own in a popup.
   // An email waiting for a yes before it really goes out.
   const [pickKey, setPickKey] = useState('');
+  // The "See all emails" list beside the dropdown: every email by stage, with a Send button on each.
+  const [allEmailsFor, setAllEmailsFor] = useState<Lead | null>(null);
+  const [emailFind, setEmailFind] = useState('');
+  const [emailOpen, setEmailOpen] = useState<Record<string, boolean>>({});
   const [sendAsk, setSendAsk] = useState<{ lead: Lead; email: Email; subject: string; html: string; loading: boolean; preview?: boolean } | null>(null);
   // What is open is remembered on this device, so a refresh puts the page back as it was.
   // In the Move popup, which stage is open. undefined = the one the person is in; the rest start collapsed.
@@ -200,7 +205,6 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
   // One Stages pill holds every stage; it opens a list to pick from.
   const [stagesPop, setStagesPop] = useState(false);
   // The Clients pill asks which list: started in the sequence or not started.
-  const [clientsPop, setClientsPop] = useState(false);
   // Big stages start shut so only the stages show; the arrow opens the sections inside.
   const [bigOpen, setBigOpen] = useState<Record<string, boolean>>(() => {
     try { return JSON.parse(localStorage.getItem('seqBigOpen') || '{}') || {}; } catch { return {}; }
@@ -865,30 +869,74 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                   </select>
                   <button type="button" disabled={!pickKey || !dl.email} onClick={() => { const em = flat.find((x) => x.key === pickKey); if (em) openSend(dl, em); }} className="shrink-0 px-3 py-1.5 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Preview and send</button>
                 </div>
+                <button type="button" onClick={() => { setEmailFind(''); setAllEmailsFor(dl); }} className="mt-2 px-3 py-1.5 rounded-lg border border-gray-300 bg-white text-[11px] font-bold text-navy">See all emails ({flat.length})</button>
               </div>
             ) : null}
           />
         );
       })()}
       {popup()}
-      {clientsPop && (
-        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setClientsPop(false)}>
-          <div className="bg-white rounded-2xl w-full max-w-sm overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
-            <div className="px-5 py-4 bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] text-white flex items-start justify-between gap-3">
-              <div className="text-base font-black">Clients</div>
-              <button onClick={() => setClientsPop(false)} className="text-white/70 text-xl leading-none">×</button>
+      {allEmailsFor && (() => {
+        const lead = allEmailsFor;
+        const q = emailFind.trim().toLowerCase();
+        const sentKeys = (leads.find((x) => x.id === lead.id) || lead).sent || [];
+        return (
+          <div className="fixed inset-0 z-[80] bg-black/40 flex items-center justify-center p-4" onClick={() => setAllEmailsFor(null)}>
+            <div className="bg-white rounded-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
+              <div className="px-5 py-4 bg-gradient-to-br from-[#0f2642] to-[#1e3a5f] text-white flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="text-base font-black">Send an email</div>
+                  <div className="text-[11px] text-blue-100 truncate">To {lead.name || lead.email || 'this contact'}{lead.email ? ' · ' + lead.email : ''}</div>
+                </div>
+                <button onClick={() => setAllEmailsFor(null)} className="text-white/70 text-xl leading-none">×</button>
+              </div>
+              <div className="px-4 py-2.5 border-b border-gray-100">
+                <input type="search" value={emailFind} onChange={(ev) => setEmailFind(ev.target.value)} placeholder="Search emails" aria-label="Search emails" className="w-full px-2.5 py-1.5 rounded-lg border border-gray-300 bg-white text-[12px] font-normal text-navy" />
+              </div>
+              <div className="overflow-y-auto">
+                {(() => {
+                  // Same table as the Leads list: a navy bar per stage with the count and a fold arrow, then alternating rows
+                  // with a line under each name and a button on the right. Folded until searched.
+                  const blocks = groups
+                    .map((g) => ({ g, items: g.items.filter((e) => !q || e.label.toLowerCase().includes(q) || shown(g.name).toLowerCase().includes(q)) }))
+                    .filter((b) => b.items.length);
+                  if (!blocks.length) return <p className="px-5 py-4 text-sm text-gray-400">No emails match.</p>;
+                  return blocks.map(({ g, items }) => {
+                    const open = !!q || emailOpen[g.name] === true;
+                    return (
+                      <div key={g.name}>
+                        <button type="button" onClick={() => setEmailOpen((m) => ({ ...m, [g.name]: !open }))} className="flex w-full items-center gap-2 px-4 py-1.5 bg-navy text-white text-[11px] font-bold uppercase tracking-wide text-left">
+                          <span className="flex-1">{shown(g.name)}</span>
+                          <span className="font-normal opacity-80">{items.length}</span>
+                          <span aria-hidden="true">{open ? '▾' : '▸'}</span>
+                        </button>
+                        {open && items.map((e, i) => (
+                          <div key={e.key} className={`flex items-center ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
+                            <span className="flex-1 min-w-0 px-4 py-2.5 text-[13px] font-normal text-navy">
+                              <span className="block truncate">{e.label}</span>
+                              <span className="block truncate text-[10px] text-gray-500">{shown(g.name)}{sentKeys.includes(e.key) ? ' · Already sent' : ''}</span>
+                            </span>
+                            <span className="shrink-0 mr-3">
+                              <button
+                                type="button"
+                                disabled={!lead.email}
+                                onClick={() => { setAllEmailsFor(null); openSend(lead, e); }}
+                                className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50"
+                              >
+                                Send
+                              </button>
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  });
+                })()}
+              </div>
             </div>
-            <button type="button" onClick={() => { setStagePop(NOT_STARTED); setClientsPop(false); }} className="flex w-full items-center gap-2 text-left px-5 py-3 text-[13px] font-bold text-navy bg-blue-100">
-              <span className="flex-1">Not started</span>
-              <span className="text-[11px] font-bold text-gray-500">{notStarted.length}</span>
-            </button>
-            <button type="button" onClick={() => { setStagePop(PEOPLE); setClientsPop(false); }} className="flex w-full items-center gap-2 text-left px-5 py-3 text-[13px] font-bold text-navy bg-white">
-              <span className="flex-1">Started</span>
-              <span className="text-[11px] font-bold text-gray-500">{visible.length - notStarted.length}</span>
-            </button>
           </div>
-        </div>
-      )}
+        );
+      })()}
       {stagesPop && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={() => setStagesPop(false)}>
           <div className="bg-white rounded-2xl w-full max-w-sm max-h-[85vh] flex flex-col overflow-hidden" onClick={(ev) => ev.stopPropagation()}>
@@ -1091,13 +1139,13 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
 
       {/* The whole sequence at a glance, in order. Tap one to see just that stage. Red means someone is in it. */}
       <div className="flex flex-wrap gap-1 mb-3">
-        {mode === 'leads' && (
+        {mode === 'leads' && !sendTab && (
         <button
           type="button"
-          onClick={() => setClientsPop(true)}
+          onClick={() => setStagePop(PEOPLE)}
           className={`px-2 py-0.5 rounded-full text-[10px] leading-4 font-semibold text-navy bg-white border border-gray-300 ${focus === NOT_STARTED || focus === PEOPLE ? 'ring-2 ring-navy ring-offset-1' : ''}`}
         >
-          Clients Not started ({notStarted.length}) ▾
+          Clients ({visible.length})
         </button>
         )}
       </div>
@@ -1108,7 +1156,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
         {focus === PEOPLE && (
           <div>
             <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-gray-100">
-              <span className="text-[13px] font-bold text-navy">Started</span>
+              <span className="text-[13px] font-bold text-navy">{sendTab ? 'Pick a person' : 'Clients'}</span>
               <input type="search" value={find} onChange={(ev) => setFind(ev.target.value)} placeholder="Search name, club, email" aria-label="Search contacts" className="flex-1 min-w-0 px-2.5 py-1 rounded-lg border border-gray-300 bg-white text-[12px] font-normal text-navy" />
               <select
                 value={startedStage}
@@ -1126,12 +1174,12 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                   <button key={k} type="button" onClick={() => setStartedView(k)} className={`px-2.5 py-1 rounded-full text-[11px] font-bold border ${startedView === k ? 'bg-navy text-white border-navy' : 'bg-white text-navy border-gray-300'}`}>{label}</button>
                 ))}
               </span>
-              <span className="text-[11px] font-normal text-gray-400">{[...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).filter(matchFind).length} contacts</span>
+              <span className="text-[11px] font-normal text-gray-400">{visible.filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).filter(matchFind).length} contacts</span>
               <button type="button" onClick={() => setStagePop(null)} className="shrink-0 px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold">Show all</button>
             </div>
-            {visible.length - notStarted.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No one has been moved into the sequence yet.</p>}
+            {visible.length === 0 && <p className="px-4 py-3 text-xs text-gray-400">No clients yet.</p>}
             {(() => {
-              const people = [...visible.filter((l) => positionOf(l) < 0 && waitingOf(l)), ...visible.filter((l) => positionOf(l) >= 0)].filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).filter(matchFind);
+              const people = visible.filter((l) => !startedStage || topOf(stageOfPerson(l) || '') === startedStage).filter(matchFind);
               const renderPerson = (l: Lead, i: number) => {
                 const at = positionOf(l);
                 const stage = at >= 0 ? groups.find((g) => g.items.some((e) => e.key === flat[at].key)) : null;
@@ -1139,7 +1187,7 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                   <div key={l.id} className={`flex items-center ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
                   <button
                     type="button"
-                    onClick={() => setDetailId(l.id)}
+                    onClick={() => { if (sendTab) { if (l.email) { setEmailFind(''); setAllEmailsFor(l); } } else setDetailId(l.id); }}
                     className="flex flex-1 min-w-0 items-center gap-3 text-left px-4 py-2.5 text-[13px] font-normal text-navy"
                   >
                     <span className="flex-1 min-w-0">
@@ -1151,13 +1199,19 @@ export default function EmailSequence({ token, mode = 'sequence' }: { token: str
                       onClick={(ev) => { const target = at >= 0 && stage ? stage.name : waitingOf(l); if (target) { ev.stopPropagation(); jumpTo(target); } }}
                       className={`shrink-0 max-w-[55%] text-right text-[11px] font-semibold underline decoration-dotted underline-offset-2 ${at >= 0 ? 'text-red' : 'text-gray-500'}`}
                     >
-                      {at >= 0 && stage ? shown(stage.name) + ' · ' + flat[at].label : (waitingOf(l) ? shown(waitingOf(l) as string) + ' · waiting' : 'Waiting for placement')}
+                      {at >= 0 && stage ? shown(stage.name) + ' · ' + flat[at].label : (waitingOf(l) ? shown(waitingOf(l) as string) + ' · waiting' : shown(topOf('Getting the demo booked')))}
                     </span>
                   </button>
                   <span className="shrink-0 mr-3 flex gap-1.5">
-                    <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
-                    <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
-                    {deleteBtn(l)}
+                    {sendTab ? (
+                      <button type="button" disabled={!l.email} onClick={() => { setEmailFind(''); setAllEmailsFor(l); }} className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">{l.email ? 'Pick email' : 'No email'}</button>
+                    ) : (
+                      <>
+                        <button type="button" onClick={() => setPop({ lead: l, search: '' })} className="px-2.5 py-1 rounded-lg bg-navy text-white text-[11px] font-bold">Move</button>
+                        <button type="button" disabled={busy} onClick={() => hideContact(l, true)} className="px-2.5 py-1 rounded-lg bg-red text-white text-[11px] font-bold disabled:opacity-50">Hide</button>
+                        {deleteBtn(l)}
+                      </>
+                    )}
                   </span>
                   </div>
                 );
