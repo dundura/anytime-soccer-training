@@ -1228,20 +1228,23 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
               };
               if (startedView === 'flat' || startedStage) return people.map(renderPerson);
               const order = [...stages.map((st) => st.name), ''];
-              return order.map((name) => {
-                const here = people.filter((l) => topOf(stageOfPerson(l) || '') === name);
-                if (!here.length) return null;
-                return (
-                  <div key={name || 'none'}>
-                    <button type="button" onClick={() => toggleStageFold(name || 'none')} className="flex w-full items-center gap-2 px-4 py-1.5 bg-navy text-white text-[11px] font-bold uppercase tracking-wide text-left">
-                      <span className="flex-1">{name ? shown(name) : 'Waiting for placement'}</span>
-                      <span className="font-normal opacity-80">{here.length}</span>
-                      <span aria-hidden="true">{foldedStages[name || 'none'] !== false && !find.trim() ? '▸' : '▾'}</span>
-                    </button>
-                    {(foldedStages[name || 'none'] === false || find.trim()) && here.map(renderPerson)}
-                  </div>
-                );
-              });
+              // Collapsed stage headings stripe light blue / white with navy text; an open one is navy.
+              return order
+                .map((name) => ({ name, here: people.filter((l) => topOf(stageOfPerson(l) || '') === name) }))
+                .filter(({ here }) => here.length)
+                .map(({ name, here }, si) => {
+                  const open = foldedStages[name || 'none'] === false || !!find.trim();
+                  return (
+                    <div key={name || 'none'}>
+                      <button type="button" onClick={() => toggleStageFold(name || 'none')} className={`flex w-full items-center gap-2 px-4 py-1.5 text-[11px] font-bold uppercase tracking-wide text-left ${open ? 'bg-navy text-white' : si % 2 ? 'bg-white text-navy' : 'bg-blue-100 text-navy'}`}>
+                        <span className="flex-1">{name ? shown(name) : 'Waiting for placement'}</span>
+                        <span className="font-normal opacity-80">{here.length}</span>
+                        <span aria-hidden="true">{open ? '▾' : '▸'}</span>
+                      </button>
+                      {open && here.map(renderPerson)}
+                    </div>
+                  );
+                });
             })()}
             </div>
             {/* Send an email page: the emails by stage sit under the leads. Pick a lead above, then Send on the email. */}
