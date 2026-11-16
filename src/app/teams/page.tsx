@@ -19,6 +19,7 @@ const GENERAL_GUIDES = [
 const TEAM_PAGES = [
   { title: 'Elite Soccer Academy 24', slug: 'elite-soccer-academy-24-getting-started' },
   { title: 'Winter Futsal Skills', slug: 'winter-futsal-skills-getting-started' },
+  { title: 'Rochester Boys Soccer', slug: 'rochester-boys-soccer-getting-started' },
   { title: 'Snipers', slug: 'snipers-getting-started' },
   { title: 'SB Lowen', slug: 'sb-lowen-getting-started', aliases: ['SB Lowen Colts', 'SB Lowen Hurricanes'] },
   { title: 'MPSC U10 Boys Blue', slug: 'mpsc-u10-boys-blue-getting-started' },
