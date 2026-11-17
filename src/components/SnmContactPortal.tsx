@@ -61,6 +61,29 @@ Neil`,
 });
 const MANUAL_EMAILS: { key: string; label: string; subject: string; body: (name: string | null) => string }[] = [
   { key: 'listing-then-share', label: 'Create a listing, then share it', subject: draftReply(null).subject, body: (n) => draftReply(n).body },
+  // For someone whose listings are already live: share one in the groups now, then write a post and
+  // share that later (Neil, 2026-11-17).
+  {
+    key: 'share-listing-then-post',
+    label: 'Share a listing now, write a post to share later',
+    subject: 'Getting your listings in front of soccer families',
+    body: (n) => `Hi ${first(n)},
+
+Thanks for reaching out, and thanks for listing your camps on Soccer Near Me.
+
+The best way to get them in front of soccer families is to share them in our Facebook groups yourself:
+- Anytime Soccer Training Group: https://www.facebook.com/groups/anytimesoccerparents
+- Youth Soccer Coach Group: https://www.facebook.com/groups/youthsoccercoach
+- Guest Player Opportunities: https://www.facebook.com/groups/guestplayers
+
+Start by sharing one of your listings in the groups with a short message about it. The Soccer Near Me link is the only link that can be in the post.
+
+Then, write a post on Soccer Near Me (for example, what a day at your camp looks like or what players will learn): https://www.soccer-near-me.com/posts/new-post
+
+A week or two later, share that post in the groups too. That way families see you more than once, with something new each time.
+
+Neil`,
+  },
 ];
 
 const ACTIVITY_ICON: Record<string, string> = {
