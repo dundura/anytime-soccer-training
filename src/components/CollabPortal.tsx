@@ -62,6 +62,30 @@ Neil`,
 });
 const MANUAL_EMAILS: { key: string; label: string; subject: string; body: (name: string | null) => string }[] = [
   { key: 'thanks', label: 'Thanks for reaching out', subject: draftReply(null).subject, body: (n) => draftReply(n).body },
+  // The answers to "is it free, which groups, any approval?" (Neil, 2026-11-17).
+  {
+    key: 'listing-faq',
+    label: 'Free, the groups, and you have total control',
+    subject: 'Re: Soccer Near Me listing and our Facebook groups',
+    body: (n) => `Hi ${first(n)},
+
+Great questions.
+
+It's free. Creating a listing on Soccer Near Me and sharing it in our Facebook groups doesn't cost anything.
+
+You have total control. You create your listing at www.soccer-near-me.com, and once it's live you share it in the groups yourself.
+
+These are the groups you can post in:
+- Anytime Soccer Training Group: https://www.facebook.com/groups/anytimesoccerparents
+- Youth Soccer Coach Group: https://www.facebook.com/groups/youthsoccercoach
+- Guest Player Opportunities: https://www.facebook.com/groups/guestplayers
+
+You can see all of them here: https://www.anytime-soccer.com/social-media-assets
+
+The only rule is that the Soccer Near Me listing is the only link in the post.
+
+Neil`,
+  },
 ];
 
 const ACTIVITY_ICON: Record<string, string> = {
