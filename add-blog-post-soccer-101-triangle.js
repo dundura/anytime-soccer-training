@@ -18,7 +18,7 @@ const newPost = {
   excerpt: "Rec, Challenge, Classic, ECNL, MLS NEXT, futsal, ligas, school teams: a parent's guide to every type of youth soccer in the Triangle, with ages, 2026–27 costs, where to play in Raleigh, Durham, Cary and Chapel Hill, and how to pick the right level for your child.",
   categories: ["Blog", "Parent Guide", "Youth Soccer"],
   tags: ["Raleigh youth soccer", "Durham youth soccer", "Cary soccer", "Chapel Hill soccer", "Triangle soccer", "North Carolina youth soccer", "NCYSA", "NCFC Youth", "Triangle United", "rec soccer", "challenge soccer", "club soccer", "futsal", "parent guide"],
-  featuredImage: "",
+  featuredImage: "https://d2vm0l3c6tu9qp.cloudfront.net/soccer-directory/uploads/1795367213111-44iaxx.png",
   thumbnailId: ""
 }
 
