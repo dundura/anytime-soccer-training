@@ -22,6 +22,21 @@
 .tri101 .ladder ol { margin:0 0 12px; }
 .tri101 .ladder li { color:#1F2937; }
 .tri101 .ladder strong { color:#0F3154; }
+.tri101 ul:not(.small) { list-style:none; padding-left:0; }
+.tri101 ul:not(.small) > li { position:relative; padding-left:30px; }
+.tri101 ul:not(.small) > li::before { content:"⚽"; position:absolute; left:0; top:1px; font-size:0.95em; }
+.tri101 .ladder ol { list-style:none; padding-left:0; counter-reset:step; }
+.tri101 .ladder ol > li { position:relative; padding-left:42px; margin-bottom:12px; counter-increment:step; }
+.tri101 .ladder ol > li::before { content:counter(step); position:absolute; left:0; top:1px; width:28px; height:28px; border-radius:50%; background:#DC373E; color:#fff; font-weight:800; font-size:0.9em; display:flex; align-items:center; justify-content:center; }
+.tri101 .levels { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin:20px 0 24px; }
+.tri101 .lvl { border-radius:14px; padding:16px 18px; border-top:6px solid; background:#F9FAFB; }
+.tri101 .lvl .ic { font-size:1.8em; line-height:1; margin-bottom:8px; }
+.tri101 .lvl .nm { font-weight:800; font-size:1.1em; color:#0F3154; margin:0 0 4px; }
+.tri101 .lvl .tg { display:inline-block; font-size:0.75em; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; padding:2px 10px; border-radius:20px; margin-bottom:10px; }
+.tri101 .lvl p { margin:0; font-size:0.95em; line-height:1.6; }
+.tri101 .lvl.rec { border-color:#16A34A; background:#F0FDF4; } .tri101 .lvl.rec .tg { background:#DCFCE7; color:#166534; }
+.tri101 .lvl.chal { border-color:#F59E0B; background:#FFFBEB; } .tri101 .lvl.chal .tg { background:#FEF3C7; color:#92400E; }
+.tri101 .lvl.cls { border-color:#DC373E; background:#FFF1F2; } .tri101 .lvl.cls .tg { background:#FFE4E6; color:#9F1239; }
 .tri101 .small { font-size:0.9em; color:#6B7280; }
 </style>
 
@@ -45,11 +60,11 @@
 
 <p>Most leagues in the state play under the <a href="https://www.ncsoccer.org/who-we-are/" target="_blank" rel="noopener">North Carolina Youth Soccer Association (NCYSA)</a>, the state's US Youth Soccer member since 1976. More than 75,000 kids play with NCYSA clubs. NCYSA defines the three main levels you'll hear about:</p>
 
-<ul>
-<li><strong>Recreation:</strong> community programs for all skill levels, with no tryouts and a rule that every player plays in every game</li>
-<li><strong>Challenge:</strong> "competitive opportunities between recreation and classic," run by regional scheduling leagues</li>
-<li><strong>Classic:</strong> "the highest level of competitive play offered within NCYSA," a statewide league</li>
-</ul>
+<div class="levels">
+<div class="lvl rec"><div class="ic">&#x1F331;</div><p class="nm">Recreation</p><span class="tg">Level 1 &middot; No tryouts</span><p>Community programs for all skill levels, with no tryouts and a rule that every player plays in every game.</p></div>
+<div class="lvl chal"><div class="ic">&#x1F525;</div><p class="nm">Challenge</p><span class="tg">Level 2 &middot; Regional</span><p>&ldquo;Competitive opportunities between recreation and classic,&rdquo; run by regional scheduling leagues.</p></div>
+<div class="lvl cls"><div class="ic">&#x1F3C6;</div><p class="nm">Classic</p><span class="tg">Level 3 &middot; Statewide</span><p>&ldquo;The highest level of competitive play offered within NCYSA,&rdquo; a statewide league.</p></div>
+</div>
 
 <p>NCYSA also runs the State Cup championships, the Olympic Development Program (ODP) for high-potential players, and <a href="https://www.ncsoccer.org/topsoccer-overview/" target="_blank" rel="noopener">TOPSoccer</a>, which brings soccer to players ages 5 to 21 with physical or intellectual disabilities. Some clubs, like NCFC Youth's rec program, play under US Club Soccer instead, but the levels work much the same way.</p>
 
