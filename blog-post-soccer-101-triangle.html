@@ -48,6 +48,14 @@
 .tri101 .summary { background:#EFF6FF; border:2px solid #0F3154; border-radius:16px; padding:20px 24px 6px; margin:26px 0 10px; }
 .tri101 .summary h3 { margin:0 0 12px; }
 .tri101 .summary p { color:#1F2937; }
+.tri101 .refcards { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin:20px 0 24px; }
+.tri101 .refcard { display:flex; gap:16px; align-items:flex-start; border-radius:14px; padding:18px; background:#F9FAFB; border:1px solid #E5E7EB; }
+.tri101 .refcard .card { flex:0 0 auto; width:46px; height:64px; border-radius:6px; box-shadow:0 3px 8px rgba(0,0,0,0.25); transform:rotate(-8deg); margin-top:4px; }
+.tri101 .refcard.yel { background:#FEFCE8; border-color:#FDE047; } .tri101 .refcard.yel .card { background:#FACC15; }
+.tri101 .refcard.red { background:#FEF2F2; border-color:#FCA5A5; } .tri101 .refcard.red .card { background:#DC2626; }
+.tri101 .refcard .nm { font-weight:800; font-size:1.1em; color:#0F3154; margin:0 0 4px; }
+.tri101 .refcard .tg { display:inline-block; font-size:0.75em; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; padding:2px 10px; border-radius:20px; margin-bottom:8px; background:#fff; color:#374151; }
+.tri101 .refcard p { margin:0; font-size:0.95em; line-height:1.6; }
 .tri101 .small { font-size:0.9em; color:#6B7280; }
 </style>
 
@@ -242,10 +250,10 @@
 
 <p>New soccer parents often ask about the cards. Referees use them to discipline players:</p>
 
-<ul>
-<li><strong>Yellow card:</strong> a caution for things like a reckless foul, arguing with the referee or delaying the game</li>
-<li><strong>Red card:</strong> an ejection. The player leaves the game, the team plays a player short, and the player usually sits out the next game too. Two yellows in one game equal a red.</li>
-</ul>
+<div class="refcards">
+<div class="refcard yel"><div class="card" aria-hidden="true"></div><div><p class="nm">Yellow card</p><span class="tg">Caution</span><p>A warning for things like a reckless foul, arguing with the referee or delaying the game.</p></div></div>
+<div class="refcard red"><div class="card" aria-hidden="true"></div><div><p class="nm">Red card</p><span class="tg">Ejection</span><p>The player leaves the game, the team plays a player short, and the player usually sits out the next game too. Two yellows in one game equal a red.</p></div></div>
+</div>
 
 <p>You won't see many cards in youth rec. Referees at young ages focus on teaching, not punishing.</p>
 
