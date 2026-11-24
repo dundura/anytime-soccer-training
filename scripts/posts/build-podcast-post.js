@@ -117,7 +117,8 @@ const tocHtml = toc.length ? `<div data-custom-toc="1" style="background:#F0F9FF
 const video = meta.youtube ? `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:14px;margin:28px 0;"><iframe src="https://www.youtube.com/embed/${meta.youtube}" title="The Inside Scoop Episode ${meta.episode}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>` : '';
 // Lead quote, then table of contents, then the episode video, then the body.
 const firstQuote = out.findIndex((h) => h.includes('linear-gradient(135deg,#FFF1F2'));
-const body = firstQuote === 0 ? [out[0], tocHtml, video, ...out.slice(1)] : [tocHtml, video, ...out];
+// The blog page draws its own "In this article" list from the H2s, so no in-post list here (Neil, 2026-11-24).
+const body = firstQuote === 0 ? [out[0], video, ...out.slice(1)] : [video, ...out];
 const content = `<div class="post-content">\n\n${[...head, ...body].filter(Boolean).join('\n\n')}${usedGear ? '\n\n' + DISCLOSURE : ''}\n\n</div>`;
 
 const postsPath = path.join(ROOT, 'src/data/posts.json');
