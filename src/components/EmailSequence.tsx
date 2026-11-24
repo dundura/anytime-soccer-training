@@ -49,13 +49,16 @@ const PARENTS: { name: string; subs: string[] }[] = [
   { name: 'No demo booked', subs: ['Getting the demo booked', 'Chasing a quiet lead'] },
   { name: 'Demo Booked', subs: ['Demo booked', 'Reschedule demo'] },
   { name: 'Demo conducted before the roster', subs: ['After Demo Follow-up', 'Chasing after demo', 'Final push'] },
-  { name: 'Other', subs: ['FAQ: Players and slots', 'FAQ: Parents', 'FAQ: Teams', 'FAQ: Pricing and questions', 'FAQ', 'Sending information to decision makers', 'Sending information to parents', 'Renewal', 'Special offer', 'Not the coach'] },
+  { name: 'FAQs', subs: ['FAQ: Tried calling you', 'FAQ: Players and slots', 'FAQ: Parents', 'FAQ: Teams', 'FAQ: Pricing and questions', 'FAQ'] },
+  { name: 'Other', subs: ['Sending information to decision makers', 'Sending information to parents', 'Renewal', 'Special offer', 'Not the coach'] },
 ];
+// Every FAQ group sits under one FAQ heading (Neil, 2026-11-24).
+const isFaq = (g: string) => g === 'FAQ' || g.startsWith('FAQ:');
 
 // The sequences, and which one each stage belongs to. The console's left menu is built from this.
 export const SEQUENCES = ['Demo & Invoicing', 'Onboarding', 'First 3 weeks', 'First Follow-up', 'Other', 'No - Closing Out'];
 export const seqOf = (name: string) => (name === 'No demo booked' || name === 'Demo Booked' || name === 'Demo conducted before the roster' || name === 'Yes - Send Roster' || name === 'Sent Invoice' ? 'Demo & Invoicing' : name === 'No - Closing Out' ? 'No - Closing Out' : name === 'First 3 weeks' ? 'First 3 weeks' : name === 'First Follow-up' ? 'First Follow-up' : (name === 'Onboarding' || name === 'Onboarding complete') ? 'Onboarding' : 'Other');
-const TOP_STAGES = ['No demo booked', 'Demo Booked', 'Demo conducted before the roster', 'Yes - Send Roster', 'Sent Invoice', 'Onboarding', 'Onboarding complete', 'First 3 weeks', 'First Follow-up', 'Other', 'No - Closing Out'];
+const TOP_STAGES = ['No demo booked', 'Demo Booked', 'Demo conducted before the roster', 'Yes - Send Roster', 'Sent Invoice', 'Onboarding', 'Onboarding complete', 'First 3 weeks', 'First Follow-up', 'FAQs', 'Other', 'No - Closing Out'];
 export const SEQ_TREE = SEQUENCES.map((name) => ({
   name,
   stages: TOP_STAGES.filter((st) => seqOf(st) === name).map((st) => {
@@ -849,7 +852,33 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
       .map((g) => ({ g, items: g.items.filter((e) => !q || e.label.toLowerCase().includes(q) || shown(g.name).toLowerCase().includes(q)) }))
       .filter((b) => b.items.length);
     if (!blocks.length) return <p className="px-5 py-4 text-sm text-gray-400">No emails match.</p>;
-    return blocks.map(({ g, items }) => {
+    // All FAQ groups go under one FAQ heading, each as a subheading, where the first of them would have been.
+    const faq = blocks.filter((b) => isFaq(b.g.name));
+    const faqOrder = (n: string) => { const i = (PARENTS.find((p) => p.name === 'FAQs') || { subs: [] as string[] }).subs.indexOf(n); return i < 0 ? 99 : i; };
+    faq.sort((a, b) => faqOrder(a.g.name) - faqOrder(b.g.name));
+    const firstFaq = blocks.findIndex((b) => isFaq(b.g.name));
+    const rows: ({ kind: 'group'; b: (typeof blocks)[number] } | { kind: 'faq' })[] = [];
+    blocks.forEach((b, i) => { if (!isFaq(b.g.name)) rows.push({ kind: 'group', b }); else if (i === firstFaq) rows.push({ kind: 'faq' }); });
+    return rows.map((r) => {
+      if (r.kind === 'faq') {
+        const open = !!q || !!emailStage || (emailOpen['__FAQ'] ?? openByDefault);
+        return (
+          <div key="__FAQ">
+            <button type="button" onClick={() => setEmailOpen((m) => ({ ...m, __FAQ: !open }))} className={`flex w-full items-center gap-2 px-4 py-1.5 text-[11px] font-bold uppercase tracking-wide text-left ${open ? 'bg-navy text-white' : 'bg-blue-100 text-navy border-b border-white'}`}>
+              <span className="flex-1">FAQ</span>
+              <span className="font-normal opacity-80">{faq.reduce((n, b) => n + b.items.length, 0)}</span>
+              <span aria-hidden="true">{open ? '▾' : '▸'}</span>
+            </button>
+            {open && faq.map((b) => (
+              <div key={b.g.name}>
+                <div className="px-6 py-1 text-[11px] font-bold text-navy bg-orange-100 border-l-4 border-orange-400">{shown(b.g.name).replace(/^FAQ:\s*/, '') || 'General'} <span className="font-normal opacity-70">· {b.items.length}</span></div>
+                {emailRows(b.g, b.items, lead, afterPick, sentKeys)}
+              </div>
+            ))}
+          </div>
+        );
+      }
+      const { g, items } = r.b;
       // Collapsed unless searched, or one stage is picked in the dropdown. A collapsed heading is light, an open one navy.
       const open = !!q || !!emailStage || (emailOpen[g.name] ?? openByDefault);
       return (
@@ -859,7 +888,16 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
             <span className="font-normal opacity-80">{items.length}</span>
             <span aria-hidden="true">{open ? '▾' : '▸'}</span>
           </button>
-          {open && items.map((e, i) => (
+          {open && emailRows(g, items, lead, afterPick, sentKeys)}
+        </div>
+      );
+    });
+  };
+
+  // The rows under one heading: the email name, its stage, and a Send button that opens the preview.
+  const emailRows = (g: { name: string }, items: Email[], lead: Lead | null, afterPick: () => void, sentKeys: string[]) => (
+    <>
+          {items.map((e, i) => (
             <div key={e.key} className={`flex items-center ${i % 2 ? 'bg-white' : 'bg-blue-100'}`}>
               <span className="flex-1 min-w-0 px-4 py-2.5 text-[13px] font-normal text-navy">
                 <span className="block truncate">{e.label}</span>
@@ -877,10 +915,8 @@ export default function EmailSequence({ token, mode = 'sequence', sendTab = fals
               </span>
             </div>
           ))}
-        </div>
-      );
-    });
-  };
+    </>
+  );
 
   if (loading) return <div className="p-6 text-sm text-gray-500">Loading…</div>;
 
