@@ -72,21 +72,38 @@ if (!m) throw new Error('missing front matter');
 const meta = Object.fromEntries(m[1].split('\n').filter(Boolean).map((l) => { const i = l.indexOf(':'); return [l.slice(0, i).trim(), l.slice(i + 1).trim()]; }));
 for (const k of ['title', 'slug', 'episode', 'date', 'excerpt']) if (!meta[k]) throw new Error(`front matter needs ${k}`);
 
-const out = []; const toc = []; let usedGear = false;
+// Readability: each "## " section is a card (alternating backgrounds), its first paragraph (the answer-first
+// sentence) is a highlighted key-point callout, "**Label.** text" paragraphs become small callout cards, and
+// lists sit in a tinted box.
+const SECTION_OPEN = (n) => `<section style="background:${n % 2 ? '#F8FAFC' : '#FFFFFF'};border:1px solid #E5E7EB;border-radius:20px;padding:4px 22px 18px;margin:36px 0;box-shadow:0 1px 8px rgba(15,49,84,0.05);">`;
+const KEY = (s) => `<div style="background:#EFF6FF;border-left:5px solid #1D4ED8;border-radius:12px;padding:16px 20px;margin:4px 0 20px;"><p style="font-size:0.72em;font-weight:800;color:#1D4ED8;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 6px;">Key point</p><p style="font-size:1.08em;font-weight:700;color:#0F3154;line-height:1.6;margin:0;">${md(s)}</p></div>`;
+const LABEL = (s) => `<div style="background:#FFFBEB;border:1px solid #FDE68A;border-left:5px solid #F59E0B;border-radius:12px;padding:14px 18px;margin:16px 0;"><p style="font-size:1em;line-height:1.8;color:#374151;margin:0;">${md(s)}</p></div>`;
+const LISTBOX = (html) => `<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:14px;padding:14px 18px 2px;margin:18px 0;">${html}</div>`;
+
+const out = []; const toc = []; let usedGear = false; let inSection = false; let afterH2 = false;
 const lines = m[2].split('\n');
 for (let i = 0; i < lines.length;) {
   const l = lines[i].trim();
   if (!l) { i++; continue; }
-  if (l.startsWith('## ')) { toc.push(l.slice(3)); out.push(H2(l.slice(3))); i++; continue; }
+  if (l.startsWith('## ')) {
+    if (inSection) out.push('</section>');
+    out.push(SECTION_OPEN(toc.length) + H2(l.slice(3)).replace('margin:44px 0 14px', 'margin:22px 0 14px'));
+    toc.push(l.slice(3)); inSection = true; afterH2 = true; i++; continue;
+  }
+  const first = afterH2; afterH2 = false;
   if (l.startsWith('### ')) { out.push(H3(l.slice(4))); i++; continue; }
   if (l.startsWith('> ')) { out.push(QUOTE(l.slice(2))); i++; continue; }
   if (l === '[[cta]]') { out.push(CTA); i++; continue; }
   const g = l.match(/^\[\[gear:(\w+)\]\]$/); if (g) { out.push(GEARBOX(g[1])); usedGear = true; i++; continue; }
-  if (/^[-•] /.test(l)) { const a = []; while (i < lines.length && /^[-•] /.test(lines[i].trim())) a.push(lines[i++].trim().slice(2)); out.push(UL(a)); continue; }
-  if (/^\d+\.\s/.test(l)) { const a = []; while (i < lines.length && /^\d+\.\s/.test(lines[i].trim())) a.push(lines[i++].trim().replace(/^\d+\.\s+/, '')); out.push(OL(a)); continue; }
+  if (/^[-•] /.test(l)) { const a = []; while (i < lines.length && /^[-•] /.test(lines[i].trim())) a.push(lines[i++].trim().slice(2)); out.push(LISTBOX(UL(a))); continue; }
+  if (/^\d+\.\s/.test(l)) { const a = []; while (i < lines.length && /^\d+\.\s/.test(lines[i].trim())) a.push(lines[i++].trim().replace(/^\d+\.\s+/, '')); out.push(LISTBOX(OL(a))); continue; }
   if (l.startsWith('|')) { const rows = []; while (i < lines.length && lines[i].trim().startsWith('|')) { const r = lines[i++].trim().replace(/^\||\|$/g, '').split('|').map((c) => c.trim()); if (!r.every((c) => /^:?-+:?$/.test(c))) rows.push(r); } out.push(TABLE(rows)); continue; }
-  out.push(P(l)); i++;
+  if (first) out.push(KEY(l));
+  else if (/^\*\*[^*]{2,60}\*\*/.test(l)) out.push(LABEL(l));
+  else out.push(P(l));
+  i++;
 }
+if (inSection) out.push('</section>');
 if (/amzn\.to|amazon\.com/.test(m[2])) usedGear = true;
 
 const day = new Date(meta.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
