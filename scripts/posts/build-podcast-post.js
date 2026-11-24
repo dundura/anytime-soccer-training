@@ -23,6 +23,7 @@
 //   | Col | Col | Col |           (table; first row is the header)
 //   [[gear:cones]]                (affiliate product box; keys in GEAR below)
 //   [[cta]]                       (7-day free trial box)
+//   [[img:/images/blog/x.jpg|alt text]]  (full-width in-post image)
 const fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, '..', '..');
 
@@ -94,6 +95,7 @@ for (let i = 0; i < lines.length;) {
   if (l.startsWith('### ')) { out.push(H3(l.slice(4))); i++; continue; }
   if (l.startsWith('> ')) { out.push(QUOTE(l.slice(2))); i++; continue; }
   if (l === '[[cta]]') { out.push(CTA); i++; continue; }
+  const im = l.match(/^\[\[img:([^|\]]+)\|([^\]]*)\]\]$/); if (im) { out.push(`<figure style="margin:26px 0;"><img src="${im[1]}" alt="${esc(im[2])}" loading="lazy" style="width:100%;height:auto;display:block;border-radius:16px;box-shadow:0 4px 18px rgba(15,49,84,0.12);" /></figure>`); i++; continue; }
   const g = l.match(/^\[\[gear:(\w+)\]\]$/); if (g) { out.push(GEARBOX(g[1])); usedGear = true; i++; continue; }
   if (/^[-•] /.test(l)) { const a = []; while (i < lines.length && /^[-•] /.test(lines[i].trim())) a.push(lines[i++].trim().slice(2)); out.push(LISTBOX(UL(a))); continue; }
   if (/^\d+\.\s/.test(l)) { const a = []; while (i < lines.length && /^\d+\.\s/.test(lines[i].trim())) a.push(lines[i++].trim().replace(/^\d+\.\s+/, '')); out.push(LISTBOX(OL(a))); continue; }
