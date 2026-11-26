@@ -46,7 +46,7 @@ export default function DayFivePage() {
           {/* Left — what it is and why it is easy */}
           <div className="bg-white rounded-2xl p-7 md:p-8 shadow-[0_8px_24px_rgba(15,49,84,0.08)]">
             <p className="text-[17px] text-navy/70 leading-relaxed mb-6">
-              <strong className="text-navy">100% follow along.</strong> Press play and copy the screen.
+              <strong className="text-navy">100% follow along.</strong> Your player presses play, follows the screen, and builds real skill and confidence on the ball.
             </p>
 
             <ul className="list-none p-0 m-0 space-y-3 mb-8">
