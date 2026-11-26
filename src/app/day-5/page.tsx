@@ -9,10 +9,9 @@ import Link from 'next/link';
 const VIDEO_ID = '9f262gP1Bvw';
 
 const POINTS = [
-  'Two cones, two steps apart. A pair of shoes does the job.',
-  'A driveway, a hallway or the backyard is enough.',
-  'Beginner to advanced, 5 to 10 minutes a day.',
-  'Short programs, worked through in order.',
+  'Two cones (or shoes), two steps apart.',
+  'A driveway, hallway or backyard.',
+  '5 to 10 minutes a day.',
 ];
 
 export const metadata: Metadata = {
@@ -47,9 +46,7 @@ export default function DayFivePage() {
           {/* Left — what it is and why it is easy */}
           <div className="bg-white rounded-2xl p-7 md:p-8 shadow-[0_8px_24px_rgba(15,49,84,0.08)]">
             <p className="text-[17px] text-navy/70 leading-relaxed mb-6">
-              No big yard needed, and nothing to plan. It is{' '}
-              <strong className="text-navy">100% follow along</strong> — your player presses play,
-              follows the screen, and builds real technical skill and confidence on the ball.
+              <strong className="text-navy">100% follow along.</strong> Press play and copy the screen.
             </p>
 
             <ul className="list-none p-0 m-0 space-y-3 mb-8">
