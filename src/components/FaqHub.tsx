@@ -58,7 +58,7 @@ function VideoEmbed({ id, title }: { id: string; title: string }) {
 function FaqItem({ e, showAudience }: { e: FaqEntry; showAudience?: boolean }) {
   return (
     <details className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] group">
-      <summary className="flex items-center justify-between gap-4 p-5 md:p-6 cursor-pointer font-bold text-navy text-base md:text-lg list-none [&::-webkit-details-marker]:hidden">
+      <summary className="flex items-center justify-between gap-4 px-4 py-3.5 md:px-5 md:py-4 cursor-pointer font-bold text-navy text-[15px] md:text-base list-none [&::-webkit-details-marker]:hidden">
         <span>
           {showAudience && (
             <span className="block text-[11px] font-bold uppercase tracking-[1.5px] text-red mb-1">
@@ -76,7 +76,7 @@ function FaqItem({ e, showAudience }: { e: FaqEntry; showAudience?: boolean }) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </summary>
-      <div className="px-5 md:px-6 pb-6 -mt-1 text-[15px] text-[#475569] leading-relaxed">
+      <div className="px-4 md:px-5 pb-5 -mt-1 text-[15px] text-[#475569] leading-relaxed">
         <div className="faq-answer [&_p]:mb-3 [&_a]:text-red [&_a]:font-semibold" dangerouslySetInnerHTML={{ __html: e.answer }} />
         {e.video && <VideoEmbed id={e.video} title={e.question} />}
         {e.article && (
@@ -125,16 +125,27 @@ export default function FaqHub() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
+  // Topic sections start collapsed; clicking a heading (or the side menu) opens it.
+  const [openTopics, setOpenTopics] = useState<Set<string>>(new Set());
+  const toggleTopic = (t: string) =>
+    setOpenTopics((prev) => {
+      const next = new Set(prev);
+      if (next.has(t)) next.delete(t);
+      else next.add(t);
+      return next;
+    });
+
   const goTopic = (t: string) => {
     setQuery('');
     setActiveTopic(t);
-    document.getElementById(`topic-${slug(t)}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setOpenTopics((prev) => new Set(prev).add(t));
+    setTimeout(() => document.getElementById(`topic-${slug(t)}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
   };
 
   return (
     <div>
       {/* Pills */}
-      <div className="flex justify-center gap-2 md:gap-3 mb-8 flex-wrap" role="tablist" aria-label="Who is asking">
+      <div className="flex justify-center gap-2 md:gap-3 mb-5 flex-wrap" role="tablist" aria-label="Who is asking">
         {FAQ_AUDIENCES.map((a) => (
           <button
             key={a.key}
@@ -153,7 +164,7 @@ export default function FaqHub() {
         ))}
       </div>
 
-      <div className="grid gap-6 md:grid-cols-[260px_1fr] items-start">
+      <div className="grid gap-5 md:grid-cols-[260px_1fr] items-start">
         {/* Side menu */}
         <aside className="md:sticky md:top-24 bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] p-4">
           <div className="relative">
@@ -204,7 +215,7 @@ export default function FaqHub() {
                   No questions match. Try a different word, or <a href="mailto:neil@anytime-soccer.com" className="text-red font-semibold">email us</a>.
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-2.5">
                   {results.map((e, i) => (
                     <FaqItem key={`${e.audience}-${e.question}-${i}`} e={e} showAudience />
                   ))}
@@ -212,18 +223,38 @@ export default function FaqHub() {
               )}
             </>
           ) : (
-            topics.map((t) => (
-              <section key={t} id={`topic-${slug(t)}`} className="mb-10 scroll-mt-24">
-                <h2 className="text-xl md:text-2xl font-extrabold text-navy mb-4">{t}</h2>
-                <div className="space-y-4">
-                  {entries
-                    .filter((e) => e.topic === t)
-                    .map((e, i) => (
-                      <FaqItem key={`${e.question}-${i}`} e={e} />
-                    ))}
-                </div>
-              </section>
-            ))
+            topics.map((t) => {
+              const open = openTopics.has(t);
+              const n = entries.filter((e) => e.topic === t).length;
+              return (
+                <section key={t} id={`topic-${slug(t)}`} className="mb-3 scroll-mt-24">
+                  <h2>
+                    <button
+                      type="button"
+                      onClick={() => toggleTopic(t)}
+                      aria-expanded={open}
+                      className="w-full flex items-center justify-between gap-3 bg-navy text-white rounded-xl px-4 py-3 md:px-5 text-left text-base md:text-lg font-extrabold hover:bg-[#16406b] transition-colors"
+                    >
+                      <span>
+                        {t} <span className="text-sm font-semibold text-white/60 ml-1">{n}</span>
+                      </span>
+                      <svg className={`w-5 h-5 flex-shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                  </h2>
+                  {open && (
+                    <div className="space-y-2.5 mt-2.5">
+                      {entries
+                        .filter((e) => e.topic === t)
+                        .map((e, i) => (
+                          <FaqItem key={`${e.question}-${i}`} e={e} />
+                        ))}
+                    </div>
+                  )}
+                </section>
+              );
+            })
           )}
         </div>
       </div>

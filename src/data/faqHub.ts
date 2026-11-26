@@ -28,11 +28,12 @@ function fromOnboarding(question: string, audience: FaqAudience, topic: string, 
   return { audience, topic, question: item.question, answer: item.answer };
 }
 
+// Players: walkthroughs of each app feature, one section per feature (Neil 2026-11-26). First: Quick Start.
 const PLAYERS: FaqEntry[] = [
   {
     audience: 'players',
-    topic: 'Getting Started',
-    question: 'How do I get started?',
+    topic: 'Quick Start',
+    question: 'How do I get started using Quick Start?',
     answer:
       '<p>Start with the <strong>Quick Start</strong> section, the fastest way to learn how the program works. From the Player Dashboard, click <strong>My Training</strong>, then click <strong>Start</strong> next to Quick Start.</p><p>Quick Start is made up of ball mastery videos. Every one has a slow-motion demonstration, a timer, and is 100% follow-along. We recommend completing at least 3 or 4 of them, then deciding what to do next.</p>',
     video: '1cSvyAa8C8I',
@@ -43,63 +44,11 @@ const PLAYERS: FaqEntry[] = [
   },
   {
     audience: 'players',
-    topic: 'Getting Started',
-    question: 'What age is this for?',
-    answer: '<p>Our training sessions are designed for players ages 6-19, from complete beginners to advanced players.</p>',
-  },
-  {
-    audience: 'players',
-    topic: 'Getting Started',
-    question: 'Do I need soccer experience to help my child?',
-    answer: '<p>Not at all. Every video is 100% follow-along. Your child just presses play and trains. No coaching experience required.</p>',
-  },
-  {
-    audience: 'players',
-    topic: 'Getting Started',
-    question: 'What equipment do I need?',
-    answer: '<p>Just a soccer ball, a wall, and a small space. Some sessions use cones, goals, and agility equipment, but they are optional.</p>',
-  },
-  {
-    audience: 'players',
-    topic: 'Getting Started',
-    question: 'How long are the training sessions?',
+    topic: 'Quick Start',
+    question: 'How do I add and remove skills in Quick Start?',
     answer:
-      '<p>The average session is just 5 minutes, short enough to fit into any schedule and easy to stay consistent. Your player can train every day without it feeling like a chore.</p>',
+      '<p>From the Player Dashboard, click <strong>My Training</strong>, then click <strong>Start</strong> next to Quick Start. Quick Start comes filled with ball mastery videos.</p><p><strong>To add skills:</strong> click <strong>Add Skills</strong>, pick the skills you want (we recommend starting with the core skills, like Dribbling, 1v1 and Wall Passing), and click <strong>Save</strong>. Those videos are added to your Quick Start right away.</p><p><strong>To remove a skill:</strong> follow the same steps. Click <strong>Add Skills</strong>, choose the skill you want to remove, and click <strong>Save</strong>.</p>',
   },
-  {
-    audience: 'players',
-    topic: 'Training & Progress',
-    question: "I finished a video but it doesn't show as done. What should I do?",
-    answer:
-      '<p>Sometimes it takes a moment for a video to show as done, so give it a minute before doing it again. If it still isn\'t marked done, send us a message on the <strong>Help Line</strong> in the app and tell us which video it was. We\'ll fix it and give you credit.</p>',
-  },
-  {
-    audience: 'players',
-    topic: 'Training & Progress',
-    question: 'If I reset a plan, will the videos I already did stay green?',
-    answer:
-      '<p>Yes. Green shows the videos your player has already watched, and resetting a plan keeps them green. To clear one video, use the <strong>Reset</strong> button on that video.</p>',
-  },
-  {
-    audience: 'players',
-    topic: 'Training & Progress',
-    question: 'How do I ask a question?',
-    answer:
-      '<p>Use the <strong>Help Line</strong> in the app. Your question comes straight to our team, and we answer you there.</p>',
-  },
-  {
-    audience: 'players',
-    topic: 'Accounts & Pricing',
-    question: 'Is Anytime Soccer Training really free?',
-    answer:
-      '<p>Yes! You can join for free and access free training sessions forever. Premium plans start at just $59.98/year for individuals and $10/player/year for teams.</p>',
-  },
-  fromOnboarding('What if I have more than one child using the program?', 'players', 'Accounts & Pricing'),
-  fromOnboarding(
-    "What's the difference between the login email and the contact email, and how do I update them?",
-    'players',
-    'Accounts & Pricing',
-  ),
 ];
 
 const TEAMS: FaqEntry[] = [

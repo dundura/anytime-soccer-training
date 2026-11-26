@@ -24,16 +24,16 @@ export default function FAQPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       {/* HERO */}
-      <section className="pt-6 pb-16 md:pt-8 md:pb-20 bg-background">
+      <section className="pt-4 pb-6 md:pt-6 md:pb-8 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-navy rounded-3xl px-6 py-16 md:px-12 md:py-20 relative overflow-hidden text-center">
+          <div className="bg-navy rounded-3xl px-6 py-8 md:px-12 md:py-10 relative overflow-hidden text-center">
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
             <div className="relative z-10">
-              <span className="text-[13px] font-bold uppercase tracking-[2px] text-white/80 mb-4 block">FAQ</span>
-              <h1 className="text-[clamp(32px,5vw,48px)] font-extrabold leading-[1.1] text-white mb-5">
+              <span className="text-[13px] font-bold uppercase tracking-[2px] text-white/80 mb-2 block">FAQ</span>
+              <h1 className="text-[clamp(32px,5vw,48px)] font-extrabold leading-[1.1] text-white mb-3">
                 Frequently Asked <span className="text-red">Questions</span>
               </h1>
-              <p className="text-xl text-white/80 max-w-[600px] mx-auto">
+              <p className="text-lg text-white/80 max-w-[600px] mx-auto">
                 Answers for players, teams and coaches, with how-to videos.
               </p>
             </div>
@@ -42,7 +42,7 @@ export default function FAQPage() {
       </section>
 
       {/* FAQ: pills (Players, Teams, Coaches), side menu with search and topics */}
-      <section className="bg-background pb-16 md:pb-20">
+      <section className="bg-background pb-8 md:pb-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <FaqHub />
         </div>
