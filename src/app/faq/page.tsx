@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import type { Metadata } from 'next';
 import FaqHub from '@/components/FaqHub';
 import { FAQ_ENTRIES } from '@/data/faqHub';
@@ -57,12 +56,6 @@ export default function FAQPage() {
               >
                 Email Us
               </a>
-              <Link
-                href="/pricing"
-                className="inline-block font-bold text-sm px-5 py-2.5 rounded-full bg-navy text-white! no-underline hover:bg-navy-light transition-colors"
-              >
-                Start Training Free &rarr;
-              </Link>
             </div>
           </div>
         </div>
