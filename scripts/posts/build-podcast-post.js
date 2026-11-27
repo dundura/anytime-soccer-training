@@ -13,6 +13,7 @@
 //   categories: Blog, Podcast, Parent Guide
 //   tags: the inside scoop, podcast, germany
 //   youtube: VIDEO_ID            (optional; embeds the episode near the top)
+//   spotify: EPISODE_ID          (optional; Spotify player under the video)
 //   ---
 //   > Lead answer (shown as the big pull quote)
 //   Plain paragraphs. **bold**, [text](url).
@@ -118,7 +119,10 @@ const video = meta.youtube ? `<div style="position:relative;padding-bottom:56.25
 // Lead quote, then table of contents, then the episode video, then the body.
 const firstQuote = out.findIndex((h) => h.includes('linear-gradient(135deg,#FFF1F2'));
 // The blog page draws its own "In this article" list from the H2s, so no in-post list here (Neil, 2026-11-24).
-const body = firstQuote === 0 ? [out[0], video, ...out.slice(1)] : [video, ...out];
+// The Spotify episode player, under the video (Neil, 2026-11-27).
+const spotify = meta.spotify ? `<iframe data-testid="embed-iframe" style="border-radius:12px;margin:0 0 28px;" src="https://open.spotify.com/embed/episode/${meta.spotify}?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="The Inside Scoop Episode ${meta.episode} on Spotify"></iframe>` : '';
+const media = [video, spotify].filter(Boolean).join(String.fromCharCode(10, 10));
+const body = firstQuote === 0 ? [out[0], media, ...out.slice(1)] : [media, ...out];
 const content = `<div class="post-content">\n\n${[...head, ...body].filter(Boolean).join('\n\n')}${usedGear ? '\n\n' + DISCLOSURE : ''}\n\n</div>`;
 
 const postsPath = path.join(ROOT, 'src/data/posts.json');
