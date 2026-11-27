@@ -127,6 +127,8 @@ export default function FaqHub() {
 
   // Topic sections start collapsed; clicking a heading (or the side menu) opens it.
   const [openTopics, setOpenTopics] = useState<Set<string>>(new Set());
+  // Side menu "Using the Program" list starts collapsed (Neil 2026-11-26).
+  const [menuOpen, setMenuOpen] = useState(false);
   const toggleTopic = (t: string) =>
     setOpenTopics((prev) => {
       const next = new Set(prev);
@@ -144,24 +146,25 @@ export default function FaqHub() {
 
   return (
     <div>
-      {/* Pills */}
-      <div className="flex justify-center gap-2 md:gap-3 mb-5 flex-wrap" role="tablist" aria-label="Who is asking">
-        {FAQ_AUDIENCES.map((a) => (
-          <button
-            key={a.key}
-            type="button"
-            role="tab"
-            aria-selected={audience === a.key}
-            onClick={() => pickAudience(a.key)}
-            className={`px-6 md:px-8 py-2.5 rounded-full font-bold text-sm md:text-base transition-all ${
-              audience === a.key
-                ? 'bg-red text-white shadow-[0_4px_20px_rgba(220,55,62,0.35)]'
-                : 'bg-white text-navy shadow-[0_2px_10px_rgba(15,49,84,0.08)] hover:bg-[#ECF1F7]'
-            }`}
-          >
-            {a.label}
-          </button>
-        ))}
+      {/* Simple table heading: title left, Players / Teams / Coaches pills right (Neil 2026-11-26) */}
+      <div className="bg-white border border-[#dbe6f3] rounded-xl px-4 py-3 md:px-5 mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <h1 className="text-lg md:text-xl font-bold text-navy">Frequently Asked Questions</h1>
+        <div className="flex gap-1.5 flex-wrap" role="tablist" aria-label="Who is asking">
+          {FAQ_AUDIENCES.map((a) => (
+            <button
+              key={a.key}
+              type="button"
+              role="tab"
+              aria-selected={audience === a.key}
+              onClick={() => pickAudience(a.key)}
+              className={`px-4 py-1.5 rounded-full font-semibold text-sm transition-colors ${
+                audience === a.key ? 'bg-navy text-white' : 'bg-[#eff6ff] text-navy hover:bg-[#e3eefc]'
+              }`}
+            >
+              {a.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="grid gap-5 md:grid-cols-[260px_1fr] items-start">
@@ -181,8 +184,18 @@ export default function FaqHub() {
               <path d="M20 20l-3.5-3.5" strokeWidth={2} strokeLinecap="round" />
             </svg>
           </div>
-          <p className="text-[11px] font-bold uppercase tracking-[1.5px] text-gray-400 mt-5 mb-2 px-2">Using the Program</p>
-          <nav className="flex md:flex-col gap-1 overflow-x-auto md:overflow-visible -mx-1 px-1 pb-1 md:pb-0">
+          <button
+            type="button"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-expanded={menuOpen}
+            className="w-full flex items-center justify-between text-[11px] font-bold uppercase tracking-[1.5px] text-gray-400 hover:text-navy mt-5 mb-2 px-2"
+          >
+            Using the Program
+            <svg className={`w-3.5 h-3.5 transition-transform ${menuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <nav className={`${menuOpen ? 'flex' : 'hidden'} md:flex-col gap-1 overflow-x-auto md:overflow-visible -mx-1 px-1 pb-1 md:pb-0`}>
             {topics.map((t) => {
               const n = entries.filter((e) => e.topic === t).length;
               const on = activeTopic === t && !words.length;
