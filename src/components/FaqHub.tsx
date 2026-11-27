@@ -181,7 +181,7 @@ export default function FaqHub() {
               <path d="M20 20l-3.5-3.5" strokeWidth={2} strokeLinecap="round" />
             </svg>
           </div>
-          <p className="text-[11px] font-bold uppercase tracking-[1.5px] text-gray-400 mt-5 mb-2 px-2">Topics</p>
+          <p className="text-[11px] font-bold uppercase tracking-[1.5px] text-gray-400 mt-5 mb-2 px-2">Using the Program</p>
           <nav className="flex md:flex-col gap-1 overflow-x-auto md:overflow-visible -mx-1 px-1 pb-1 md:pb-0">
             {topics.map((t) => {
               const n = entries.filter((e) => e.topic === t).length;
