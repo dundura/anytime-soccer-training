@@ -146,27 +146,6 @@ export default function FaqHub() {
 
   return (
     <div>
-      {/* Simple table heading: title left, Players / Teams / Coaches pills right (Neil 2026-11-26) */}
-      <div className="bg-white border border-[#dbe6f3] rounded-xl px-4 py-3 md:px-5 mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <h2 className="text-lg md:text-xl font-bold text-navy">Menu</h2>
-        <div className="flex gap-1.5 flex-wrap" role="tablist" aria-label="Who is asking">
-          {FAQ_AUDIENCES.map((a) => (
-            <button
-              key={a.key}
-              type="button"
-              role="tab"
-              aria-selected={audience === a.key}
-              onClick={() => pickAudience(a.key)}
-              className={`px-4 py-1.5 rounded-full font-semibold text-sm transition-colors ${
-                audience === a.key ? 'bg-navy text-white' : 'bg-[#eff6ff] text-navy hover:bg-[#e3eefc]'
-              }`}
-            >
-              {a.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
       <div className="grid gap-5 md:grid-cols-[260px_1fr] items-start">
         {/* Side menu */}
         <aside className="md:sticky md:top-24 bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] p-4">
@@ -218,27 +197,42 @@ export default function FaqHub() {
 
         {/* Questions */}
         <div className="min-w-0">
-          {words.length ? (
-            <>
-              <p className="text-sm text-[#64748b] mb-4">
-                {results.length} {results.length === 1 ? 'result' : 'results'} for &ldquo;{query.trim()}&rdquo;
-              </p>
-              {results.length === 0 ? (
-                <div className="bg-white rounded-2xl p-6 text-[15px] text-[#64748b]">
-                  No questions match. Try a different word, or <a href="mailto:neil@anytime-soccer.com" className="text-red font-semibold">email us</a>.
-                </div>
-              ) : (
-                <div className="bg-white rounded-xl border border-[#dbe6f3] overflow-hidden">
-                  {results.map((e, i) => (
-                    <FaqItem key={`${e.audience}-${e.question}-${i}`} e={e} showAudience shade={i} />
-                  ))}
-                </div>
-              )}
-            </>
-          ) : (
-            // One simple table: a light-blue row per topic, its questions in white / pale-blue rows (Neil 2026-11-26).
-            <div className="bg-white rounded-xl border border-[#dbe6f3] overflow-hidden">
-              {topics.map((t) => {
+          <div className="bg-white rounded-xl border border-[#dbe6f3] overflow-hidden">
+            {/* Table heading row: Menu left, Players / Teams / Coaches pills right, same table as the questions (Neil 2026-11-26) */}
+            <div className="bg-white border-b border-[#dbe6f3] px-4 py-3 md:px-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <h2 className="text-lg md:text-xl font-bold text-navy">Menu</h2>
+              <div className="flex gap-1.5 flex-wrap" role="tablist" aria-label="Who is asking">
+                {FAQ_AUDIENCES.map((a) => (
+                  <button
+                    key={a.key}
+                    type="button"
+                    role="tab"
+                    aria-selected={audience === a.key}
+                    onClick={() => pickAudience(a.key)}
+                    className={`px-4 py-1.5 rounded-full font-semibold text-sm transition-colors ${
+                      audience === a.key ? 'bg-navy text-white' : 'bg-[#eff6ff] text-navy hover:bg-[#e3eefc]'
+                    }`}
+                  >
+                    {a.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            {words.length ? (
+              <>
+                <p className="text-sm text-[#64748b] px-4 py-2.5 md:px-5 border-b border-[#dbe6f3]">
+                  {results.length} {results.length === 1 ? 'result' : 'results'} for &ldquo;{query.trim()}&rdquo;
+                </p>
+                {results.length === 0 ? (
+                  <div className="p-5 text-[15px] text-[#64748b]">
+                    No questions match. Try a different word, or <a href="mailto:neil@anytime-soccer.com" className="text-red font-semibold">email us</a>.
+                  </div>
+                ) : (
+                  results.map((e, i) => <FaqItem key={`${e.audience}-${e.question}-${i}`} e={e} showAudience shade={i} />)
+                )}
+              </>
+            ) : (
+              topics.map((t) => {
                 const open = openTopics.has(t);
                 const n = entries.filter((e) => e.topic === t).length;
                 return (
@@ -269,9 +263,9 @@ export default function FaqHub() {
                     )}
                   </section>
                 );
-              })}
-            </div>
-          )}
+              })
+            )}
+          </div>
         </div>
       </div>
     </div>
