@@ -55,9 +55,9 @@ function VideoEmbed({ id, title }: { id: string; title: string }) {
   );
 }
 
-function FaqItem({ e, showAudience, shade = 0 }: { e: FaqEntry; showAudience?: boolean; shade?: number }) {
+function FaqItem({ e, showAudience, open, onEmail }: { e: FaqEntry; showAudience?: boolean; shade?: number; open?: boolean; onEmail: (e: FaqEntry) => void }) {
   return (
-    <details className={`group border-b border-[#e3ecf6] last:border-b-0 bg-white`}>
+    <details id={`q-${slug(e.question)}`} open={open || undefined} className="group border-b border-[#e3ecf6] last:border-b-0 bg-white scroll-mt-24">
       <summary className="flex items-center justify-between gap-4 px-4 py-3 md:px-5 cursor-pointer font-semibold text-navy text-[15px] md:text-base list-none [&::-webkit-details-marker]:hidden">
         <span>
           {showAudience && (
@@ -71,21 +71,23 @@ function FaqItem({ e, showAudience, shade = 0 }: { e: FaqEntry; showAudience?: b
               ▶ Video
             </span>
           )}
-          {/* Email this answer to someone (Neil 2026-11-26) */}
-          <a
-            href={`mailto:?subject=${encodeURIComponent(e.question)}&body=${encodeURIComponent(
-              `${e.question}\n\n${e.video ? `Watch the video: https://youtu.be/${e.video}\n\n` : ''}More answers: https://www.anytime-soccer.com/faq?for=${e.audience}`
-            )}`}
-            onClick={(ev) => ev.stopPropagation()}
+          {/* Email this answer: opens a popup asking for an email address (Neil 2026-11-26) */}
+          <button
+            type="button"
+            onClick={(ev) => {
+              ev.preventDefault();
+              ev.stopPropagation();
+              onEmail(e);
+            }}
             title="Email this"
             aria-label={`Email this: ${e.question}`}
-            className="ml-1.5 inline-flex items-center justify-center align-middle w-6 h-6 rounded-full bg-[#eff6ff] text-navy hover:bg-[#e3eefc] no-underline"
+            className="ml-1.5 inline-flex items-center justify-center align-middle w-6 h-6 rounded-full bg-[#eff6ff] text-navy hover:bg-[#e3eefc]"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <rect x="3" y="5" width="18" height="14" rx="2" strokeWidth={2} />
               <path d="M3 7l9 6 9-6" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </a>
+          </button>
         </span>
         <svg className="w-5 h-5 text-red flex-shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -107,15 +109,88 @@ function FaqItem({ e, showAudience, shade = 0 }: { e: FaqEntry; showAudience?: b
   );
 }
 
+function EmailPopup({ e, onClose }: { e: FaqEntry; onClose: () => void }) {
+  const [email, setEmail] = useState('');
+  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [msg, setMsg] = useState('');
+  const link = `https://www.anytime-soccer.com/faq?for=${e.audience}&q=${slug(e.question)}`;
+  const send = async (ev: React.FormEvent) => {
+    ev.preventDefault();
+    setState('sending');
+    try {
+      const r = await fetch('https://api.anytime-soccer.com/api/public/faq-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), question: e.question, link }),
+      });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(d.message || 'Could not send. Please try again.');
+      setState('sent');
+    } catch (err) {
+      setMsg(err instanceof Error ? err.message : 'Could not send. Please try again.');
+      setState('error');
+    }
+  };
+  return (
+    <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4" onClick={onClose} role="dialog" aria-modal="true" aria-label="Email this question">
+      <div className="bg-white rounded-xl w-full max-w-sm p-5 shadow-xl" onClick={(ev) => ev.stopPropagation()}>
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <p className="font-bold text-navy text-[15px] leading-snug">{e.question}</p>
+          <button type="button" onClick={onClose} aria-label="Close" className="text-gray-400 hover:text-navy text-xl leading-none">&times;</button>
+        </div>
+        {state === 'sent' ? (
+          <div className="text-[15px] text-[#475569]">
+            <p className="mb-4">Sent to <strong>{email.trim()}</strong>.</p>
+            <button type="button" onClick={onClose} className="w-full font-bold text-sm px-5 py-2.5 rounded-full bg-navy text-white">Done</button>
+          </div>
+        ) : (
+          <form onSubmit={send}>
+            <label className="block text-sm text-[#64748b] mb-1.5" htmlFor="faq-email">Send this answer to:</label>
+            <input
+              id="faq-email"
+              type="email"
+              required
+              autoFocus
+              value={email}
+              onChange={(ev) => setEmail(ev.target.value)}
+              placeholder="name@example.com"
+              className="w-full border border-[#dbe6f3] rounded-lg px-3 py-2.5 text-[15px] text-navy outline-none focus:border-navy mb-3"
+            />
+            {state === 'error' && <p className="text-sm text-red mb-3">{msg}</p>}
+            <button type="submit" disabled={state === 'sending'} className="w-full font-bold text-sm px-5 py-2.5 rounded-full bg-red text-white disabled:opacity-60">
+              {state === 'sending' ? 'Sending...' : 'Send email'}
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function FaqHub() {
   const [audience, setAudience] = useState<FaqAudience>('players');
   const [query, setQuery] = useState('');
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
 
-  // Allow linking straight to a tab: /faq?for=coaches
+  // Topic sections start collapsed; clicking a heading (or the side menu) opens it.
+  const [openTopics, setOpenTopics] = useState<Set<string>>(new Set());
+  const [emailing, setEmailing] = useState<FaqEntry | null>(null);
+  // A question linked from an email (?q=<slug>) opens on load
+  const [openQ, setOpenQ] = useState<string | null>(null);
+
+  // Allow linking straight to a tab: /faq?for=coaches, and to one question: &q=<question-slug>
   useEffect(() => {
-    const p = new URLSearchParams(window.location.search).get('for');
+    const sp = new URLSearchParams(window.location.search);
+    const p = sp.get('for');
     if (p === 'players' || p === 'teams' || p === 'coaches') setAudience(p);
+    const q = sp.get('q');
+    const hit = q ? FAQ_ENTRIES.find((x) => slug(x.question) === q && (!p || x.audience === p)) : undefined;
+    if (hit) {
+      setAudience(hit.audience);
+      setOpenQ(q);
+      setOpenTopics(new Set([hit.topic]));
+      setTimeout(() => document.getElementById(`q-${q}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+    }
   }, []);
 
   const pickAudience = (a: FaqAudience) => {
@@ -140,8 +215,6 @@ export default function FaqHub() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
-  // Topic sections start collapsed; clicking a heading (or the side menu) opens it.
-  const [openTopics, setOpenTopics] = useState<Set<string>>(new Set());
   // Side menu "Using the Program" list starts collapsed (Neil 2026-11-26).
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleTopic = (t: string) =>
@@ -161,6 +234,7 @@ export default function FaqHub() {
 
   return (
     <div>
+      {emailing && <EmailPopup e={emailing} onClose={() => setEmailing(null)} />}
       <div className="grid gap-5 md:grid-cols-[260px_1fr] items-start">
         {/* Side menu */}
         <aside className="md:sticky md:top-24 bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] p-4">
@@ -243,7 +317,7 @@ export default function FaqHub() {
                     No questions match. Try a different word, or <a href="mailto:neil@anytime-soccer.com" className="text-red font-semibold">email us</a>.
                   </div>
                 ) : (
-                  results.map((e, i) => <FaqItem key={`${e.audience}-${e.question}-${i}`} e={e} showAudience shade={i} />)
+                  results.map((e, i) => <FaqItem key={`${e.audience}-${e.question}-${i}`} e={e} showAudience onEmail={setEmailing} />)
                 )}
               </>
             ) : (
@@ -272,7 +346,7 @@ export default function FaqHub() {
                         {entries
                           .filter((e) => e.topic === t)
                           .map((e, i) => (
-                            <FaqItem key={`${e.question}-${i}`} e={e} shade={i} />
+                            <FaqItem key={`${e.question}-${i}`} e={e} open={openQ === slug(e.question)} onEmail={setEmailing} />
                           ))}
                       </div>
                     )}
