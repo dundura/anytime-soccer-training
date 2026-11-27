@@ -148,7 +148,7 @@ export default function FaqHub() {
     <div>
       {/* Simple table heading: title left, Players / Teams / Coaches pills right (Neil 2026-11-26) */}
       <div className="bg-white border border-[#dbe6f3] rounded-xl px-4 py-3 md:px-5 mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <h2 className="text-lg md:text-xl font-bold text-navy">Frequently Asked Questions</h2>
+        <h2 className="text-lg md:text-xl font-bold text-navy">Menu</h2>
         <div className="flex gap-1.5 flex-wrap" role="tablist" aria-label="Who is asking">
           {FAQ_AUDIENCES.map((a) => (
             <button
