@@ -48,26 +48,26 @@ export default function FAQPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-gradient-to-b from-background to-white py-8 md:py-10 text-center">
-        <div className="max-w-[700px] mx-auto px-5">
-          <h2 className="text-[clamp(28px,4vw,42px)] font-bold text-navy mb-5">Still Have Questions?</h2>
-          <p className="text-xl text-[#64748b] mb-8">
-            We&apos;re here to help. Reach out anytime.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <a
-              href="mailto:neil@anytime-soccer.com"
-              className="inline-block font-bold text-base px-8 py-4 rounded-full bg-red text-white! no-underline shadow-[0_4px_20px_rgba(220,55,62,0.35)] hover:bg-red-dark hover:-translate-y-0.5 transition-all"
-            >
-              Email Us
-            </a>
-            <Link
-              href="/pricing"
-              className="inline-block font-bold text-base px-8 py-4 rounded-full bg-navy text-white! no-underline shadow-[0_4px_20px_rgba(15,49,84,0.35)] hover:bg-navy-light hover:-translate-y-0.5 transition-all"
-            >
-              Start Training Free &rarr;
-            </Link>
+      {/* CTA: small and centered (Neil 2026-11-26) */}
+      <section className="pb-10 md:pb-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-xl bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] px-5 py-5 flex flex-col items-center text-center">
+            <h2 className="text-lg md:text-xl font-bold text-navy mb-1 text-center">Still Have Questions?</h2>
+            <p className="text-sm text-[#64748b] mb-4 text-center">We&apos;re here to help. Reach out anytime.</p>
+            <div className="flex flex-wrap gap-2.5 justify-center">
+              <a
+                href="mailto:neil@anytime-soccer.com"
+                className="inline-block font-bold text-sm px-5 py-2.5 rounded-full bg-red text-white! no-underline hover:bg-red-dark transition-colors"
+              >
+                Email Us
+              </a>
+              <Link
+                href="/pricing"
+                className="inline-block font-bold text-sm px-5 py-2.5 rounded-full bg-navy text-white! no-underline hover:bg-navy-light transition-colors"
+              >
+                Start Training Free &rarr;
+              </Link>
+            </div>
           </div>
         </div>
       </section>
