@@ -71,6 +71,21 @@ function FaqItem({ e, showAudience, shade = 0 }: { e: FaqEntry; showAudience?: b
               ▶ Video
             </span>
           )}
+          {/* Email this answer to someone (Neil 2026-11-26) */}
+          <a
+            href={`mailto:?subject=${encodeURIComponent(e.question)}&body=${encodeURIComponent(
+              `${e.question}\n\n${e.video ? `Watch the video: https://youtu.be/${e.video}\n\n` : ''}More answers: https://www.anytime-soccer.com/faq?for=${e.audience}`
+            )}`}
+            onClick={(ev) => ev.stopPropagation()}
+            title="Email this"
+            aria-label={`Email this: ${e.question}`}
+            className="ml-1.5 inline-flex items-center justify-center align-middle w-6 h-6 rounded-full bg-[#eff6ff] text-navy hover:bg-[#e3eefc] no-underline"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2" strokeWidth={2} />
+              <path d="M3 7l9 6 9-6" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
         </span>
         <svg className="w-5 h-5 text-red flex-shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
