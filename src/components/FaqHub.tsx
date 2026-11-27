@@ -199,7 +199,7 @@ export default function FaqHub() {
         <div className="min-w-0">
           <div className="bg-white rounded-xl border border-[#dbe6f3] overflow-hidden">
             {/* Table heading row: Menu left, Players / Teams / Coaches pills right, same table as the questions (Neil 2026-11-26) */}
-            <div className="bg-white border-b border-[#dbe6f3] px-4 py-3 md:px-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="bg-white border-b border-[#dbe6f3] px-4 py-3 md:px-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
               <h2 className="text-lg md:text-xl font-bold text-navy">Menu</h2>
               <div className="flex gap-1.5 flex-wrap" role="tablist" aria-label="Who is asking">
                 {FAQ_AUDIENCES.map((a) => (
