@@ -43,10 +43,12 @@ export default function FAQPage() {
         </div>
       </section>
 
-      {/* CTA: small and centered (Neil 2026-11-26) */}
+      {/* CTA: small, centered under the questions table (Neil 2026-11-26) */}
       <section className="pb-10 md:pb-12">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-xl bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] px-5 py-5 flex flex-col items-center text-center">
+        {/* Same grid as the FAQ above, so the box sits centered under the questions table, not the whole page */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-5 md:grid-cols-[260px_1fr]">
+          <div className="hidden md:block" aria-hidden="true" />
+          <div className="w-full mx-auto max-w-xl bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] px-5 py-5 flex flex-col items-center text-center">
             <h2 className="text-lg md:text-xl font-bold text-navy mb-1 text-center">Still Have Questions?</h2>
             <p className="text-sm text-[#64748b] mb-4 text-center">We&apos;re here to help. Reach out anytime.</p>
             <div className="flex flex-wrap gap-2.5 justify-center">
