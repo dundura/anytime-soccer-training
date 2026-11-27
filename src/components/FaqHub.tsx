@@ -57,7 +57,7 @@ function VideoEmbed({ id, title }: { id: string; title: string }) {
 
 function FaqItem({ e, showAudience, shade = 0 }: { e: FaqEntry; showAudience?: boolean; shade?: number }) {
   return (
-    <details className={`group border-b border-[#e3ecf6] last:border-b-0 ${shade % 2 ? 'bg-[#f5f9ff]' : 'bg-white'}`}>
+    <details className={`group border-b border-[#e3ecf6] last:border-b-0 bg-white`}>
       <summary className="flex items-center justify-between gap-4 px-4 py-3 md:px-5 cursor-pointer font-semibold text-navy text-[15px] md:text-base list-none [&::-webkit-details-marker]:hidden">
         <span>
           {showAudience && (
