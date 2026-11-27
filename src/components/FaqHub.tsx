@@ -215,7 +215,7 @@ export default function FaqHub() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
-  // Side menu "Using the Program" list starts collapsed (Neil 2026-11-26).
+  // Side menu "Program Features" list starts collapsed (Neil 2026-11-26).
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleTopic = (t: string) =>
     setOpenTopics((prev) => {
@@ -258,7 +258,7 @@ export default function FaqHub() {
             aria-expanded={menuOpen}
             className="w-full flex items-center justify-between text-[11px] font-bold uppercase tracking-[1.5px] text-gray-400 hover:text-navy mt-5 mb-2 px-2"
           >
-            Using the Program
+            Program Features
             <svg className={`w-3.5 h-3.5 transition-transform ${menuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
