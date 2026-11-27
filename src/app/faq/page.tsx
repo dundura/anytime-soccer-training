@@ -29,7 +29,6 @@ export default function FAQPage() {
           <div className="bg-navy rounded-3xl px-6 py-8 md:px-12 md:py-10 relative overflow-hidden text-center">
             <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
             <div className="relative z-10">
-              <span className="text-[13px] font-bold uppercase tracking-[2px] text-white/80 mb-2 block">FAQ</span>
               <h1 className="text-[clamp(32px,5vw,48px)] font-extrabold leading-[1.1] text-white">
                 Frequently Asked <span className="text-red">Questions</span>
               </h1>
