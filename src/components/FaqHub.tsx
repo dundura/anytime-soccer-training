@@ -248,12 +248,12 @@ export default function FaqHub() {
                         type="button"
                         onClick={() => toggleTopic(t)}
                         aria-expanded={open}
-                        className="w-full flex items-center justify-between gap-3 bg-[#eff6ff] text-navy px-4 py-3 md:px-5 text-left text-[15px] md:text-base font-bold hover:bg-[#e3eefc] transition-colors"
+                        className="w-full flex items-center justify-between gap-3 bg-white text-navy px-4 py-3 md:px-5 text-left text-[15px] md:text-base font-bold hover:bg-[#f5f9ff] transition-colors"
                       >
                         <span>
                           {t} <span className="text-sm font-semibold text-[#64748b] ml-1">{n}</span>
                         </span>
-                        <svg className={`w-4 h-4 flex-shrink-0 text-navy/60 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <svg className={`w-4 h-4 flex-shrink-0 text-red transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </button>
