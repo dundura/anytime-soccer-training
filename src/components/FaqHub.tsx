@@ -55,10 +55,10 @@ function VideoEmbed({ id, title }: { id: string; title: string }) {
   );
 }
 
-function FaqItem({ e, showAudience }: { e: FaqEntry; showAudience?: boolean }) {
+function FaqItem({ e, showAudience, shade = 0 }: { e: FaqEntry; showAudience?: boolean; shade?: number }) {
   return (
-    <details className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(15,49,84,0.08)] group">
-      <summary className="flex items-center justify-between gap-4 px-4 py-3.5 md:px-5 md:py-4 cursor-pointer font-bold text-navy text-[15px] md:text-base list-none [&::-webkit-details-marker]:hidden">
+    <details className={`group border-b border-[#e3ecf6] last:border-b-0 ${shade % 2 ? 'bg-[#f5f9ff]' : 'bg-white'}`}>
+      <summary className="flex items-center justify-between gap-4 px-4 py-3 md:px-5 cursor-pointer font-semibold text-navy text-[15px] md:text-base list-none [&::-webkit-details-marker]:hidden">
         <span>
           {showAudience && (
             <span className="block text-[11px] font-bold uppercase tracking-[1.5px] text-red mb-1">
@@ -215,46 +215,49 @@ export default function FaqHub() {
                   No questions match. Try a different word, or <a href="mailto:neil@anytime-soccer.com" className="text-red font-semibold">email us</a>.
                 </div>
               ) : (
-                <div className="space-y-2.5">
+                <div className="bg-white rounded-xl border border-[#dbe6f3] overflow-hidden">
                   {results.map((e, i) => (
-                    <FaqItem key={`${e.audience}-${e.question}-${i}`} e={e} showAudience />
+                    <FaqItem key={`${e.audience}-${e.question}-${i}`} e={e} showAudience shade={i} />
                   ))}
                 </div>
               )}
             </>
           ) : (
-            topics.map((t) => {
-              const open = openTopics.has(t);
-              const n = entries.filter((e) => e.topic === t).length;
-              return (
-                <section key={t} id={`topic-${slug(t)}`} className="mb-3 scroll-mt-24">
-                  <h2>
-                    <button
-                      type="button"
-                      onClick={() => toggleTopic(t)}
-                      aria-expanded={open}
-                      className="w-full flex items-center justify-between gap-3 bg-navy text-white rounded-xl px-4 py-3 md:px-5 text-left text-base md:text-lg font-extrabold hover:bg-[#16406b] transition-colors"
-                    >
-                      <span>
-                        {t} <span className="text-sm font-semibold text-white/60 ml-1">{n}</span>
-                      </span>
-                      <svg className={`w-5 h-5 flex-shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                  </h2>
-                  {open && (
-                    <div className="space-y-2.5 mt-2.5">
-                      {entries
-                        .filter((e) => e.topic === t)
-                        .map((e, i) => (
-                          <FaqItem key={`${e.question}-${i}`} e={e} />
-                        ))}
-                    </div>
-                  )}
-                </section>
-              );
-            })
+            // One simple table: a light-blue row per topic, its questions in white / pale-blue rows (Neil 2026-11-26).
+            <div className="bg-white rounded-xl border border-[#dbe6f3] overflow-hidden">
+              {topics.map((t) => {
+                const open = openTopics.has(t);
+                const n = entries.filter((e) => e.topic === t).length;
+                return (
+                  <section key={t} id={`topic-${slug(t)}`} className="scroll-mt-24 border-b border-[#dbe6f3] last:border-b-0">
+                    <h2>
+                      <button
+                        type="button"
+                        onClick={() => toggleTopic(t)}
+                        aria-expanded={open}
+                        className="w-full flex items-center justify-between gap-3 bg-[#eff6ff] text-navy px-4 py-3 md:px-5 text-left text-[15px] md:text-base font-bold hover:bg-[#e3eefc] transition-colors"
+                      >
+                        <span>
+                          {t} <span className="text-sm font-semibold text-[#64748b] ml-1">{n}</span>
+                        </span>
+                        <svg className={`w-4 h-4 flex-shrink-0 text-navy/60 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                    </h2>
+                    {open && (
+                      <div className="border-t border-[#dbe6f3]">
+                        {entries
+                          .filter((e) => e.topic === t)
+                          .map((e, i) => (
+                            <FaqItem key={`${e.question}-${i}`} e={e} shade={i} />
+                          ))}
+                      </div>
+                    )}
+                  </section>
+                );
+              })}
+            </div>
           )}
         </div>
       </div>
