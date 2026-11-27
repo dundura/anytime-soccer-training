@@ -47,7 +47,8 @@ const PLAYERS: FaqEntry[] = [
     topic: 'Quick Start',
     question: 'How do I add and remove skills in Quick Start?',
     answer:
-      '<p>From the Player Dashboard, click <strong>My Training</strong>, then click <strong>Start</strong> next to Quick Start. Quick Start comes filled with ball mastery videos.</p><p><strong>To add skills:</strong> click <strong>Add Skills</strong>, pick the skills you want (we recommend starting with the core skills, like Dribbling, 1v1 and Wall Passing), and click <strong>Save</strong>. Those videos are added to your Quick Start right away.</p><p><strong>To remove a skill:</strong> follow the same steps. Click <strong>Add Skills</strong>, choose the skill you want to remove, and click <strong>Save</strong>.</p>',
+      '<p>Quick Start comes filled with ball mastery videos. You can add or remove skills any time.</p><ul><li>Open the <strong>Player Dashboard</strong> and click <strong>My Training</strong>.</li><li>Click <strong>Start</strong> next to Quick Start.</li><li>Click <strong>Add Skills</strong>.</li><li>Tick a skill to add it (start with Dribbling, 1v1 and Wall Passing) or untick it to remove it.</li><li>Click <strong>Save</strong>.</li></ul>',
+    video: 'DktHxodyANE',
   },
 ];
 
