@@ -23,8 +23,22 @@ export default function FAQPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      {/* HERO */}
+      <section className="pt-4 pb-6 md:pt-6 md:pb-8 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-navy rounded-3xl px-6 py-8 md:px-12 md:py-10 relative overflow-hidden text-center">
+            <div className="absolute -top-1/2 -right-1/5 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(220,55,62,0.12)_0%,transparent_70%)] pointer-events-none" />
+            <div className="relative z-10">
+              <h1 className="text-[clamp(32px,5vw,48px)] font-extrabold leading-[1.1] text-white">
+                Frequently Asked <span className="text-red">Questions</span>
+              </h1>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ: pills (Players, Teams, Coaches), side menu with search and topics */}
-      <section className="bg-background pt-5 md:pt-7 pb-8 md:pb-10">
+      <section className="bg-background pb-8 md:pb-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <FaqHub />
         </div>
