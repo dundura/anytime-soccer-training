@@ -35,7 +35,7 @@ const PLAYERS: FaqEntry[] = [
     topic: 'Quick Start',
     question: 'How do I get started using Quick Start?',
     answer:
-      '<p>Start with the <strong>Quick Start</strong> section, the fastest way to learn how the program works. From the Player Dashboard, click <strong>My Training</strong>, then click <strong>Start</strong> next to Quick Start.</p><p>Quick Start is made up of ball mastery videos. Every one has a slow-motion demonstration, a timer, and is 100% follow-along. We recommend completing at least 3 or 4 of them, then deciding what to do next.</p>',
+      '<p>Quick Start is the fastest way to learn the program: short ball mastery videos with a slow-motion demo and a timer. Just follow along.</p><ul><li>Open the <strong>Player Dashboard</strong>.</li><li>Click <strong>My Training</strong>.</li><li>Click <strong>Start</strong> next to Quick Start.</li><li>Do 3 or 4 videos, then pick what to do next.</li></ul>',
     video: '1cSvyAa8C8I',
     article: {
       label: 'Quick Start Guide for Parents',

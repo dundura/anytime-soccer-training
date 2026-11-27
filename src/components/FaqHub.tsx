@@ -77,7 +77,7 @@ function FaqItem({ e, showAudience, shade = 0 }: { e: FaqEntry; showAudience?: b
         </svg>
       </summary>
       <div className="px-4 md:px-5 pb-5 -mt-1 text-[15px] text-[#475569] leading-relaxed">
-        <div className="faq-answer [&_p]:mb-3 [&_a]:text-red [&_a]:font-semibold" dangerouslySetInnerHTML={{ __html: e.answer }} />
+        <div className="faq-answer [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-3 [&_li]:mb-1 [&_li]:marker:text-red [&_a]:text-red [&_a]:font-semibold" dangerouslySetInnerHTML={{ __html: e.answer }} />
         {e.video && <VideoEmbed id={e.video} title={e.question} />}
         {e.article && (
           <a
